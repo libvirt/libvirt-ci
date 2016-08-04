@@ -1,0 +1,34 @@
+    Libvirt Jenkins CI
+    ==================
+
+This package contains the libvirt Jenkins CI configuration tasks.
+
+This uses the jenkins job builder tool which can be installed
+
+  $ pip install --user jenkins-job-builder
+
+The jobs/ directory contains general templates for defining
+jobs for the different build systems (autotools, python distutils,
+perl ExtUtils::MakeMaker, etc)
+
+The projects/ directory contains the per-project config which
+activates the desired jobs and configures them if needed.
+
+It is possible to see the raw jenkins configuration using
+
+  $ jenkins-jobs test -r . libvirt-glib-build
+
+Before updating the jobs on the server a file is needed to provide
+the login details
+
+  $ cat jenkins_jobs.ini
+  [jenkins]
+  user=XXX
+  password=XXX
+  url=https://ci.centos.org
+
+
+To update the jenkins server with all jobs
+
+  $ jenkins-jobs --conf jenkins_jobs.ini update -r .
+
