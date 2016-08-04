@@ -1,0 +1,16 @@
+
+- project:
+    name: libvirt-tck
+    machines:
+      - libvirt-fedora-21
+      - libvirt-fedora-22
+      - libvirt-fedora-23
+      - libvirt-fedora-rawhide
+    title: Libvirt TCK
+    jobs:
+      - perl-modulebuild-build-job:
+          parent_jobs: 'libvirt-perl-master-build'
+      - perl-modulebuild-test-job:
+          parent_jobs: 'libvirt-tck-master-build'
+      - perl-modulebuild-rpm-job:
+          parent_jobs: 'libvirt-tck-master-test'
