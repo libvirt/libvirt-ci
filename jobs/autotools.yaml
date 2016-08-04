@@ -1,0 +1,198 @@
+
+- job-template:
+    id: autotools-build-job
+    name: '{name}-{branch}-build'
+    project-type: matrix
+    description: '{title} Build'
+    autogen_args: ''
+    workspace: '{name}-{branch}'
+    block-downstream: true
+    block-upstream: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 1000
+    scm:
+      - git:
+          url: git://n64.pufty.ci.centos.org/{name}.git
+          branches:
+            - origin/{branch}
+          clean: true
+    triggers:
+      - reverse:
+          jobs: '{obj:parent_jobs}'
+      - pollscm:
+          cron: "H/20 * * * *"
+    axes:
+      - axis:
+          name: systems
+          type: slave
+          values: '{obj:machines}'
+    builders:
+      - shell: |
+          {make_env}
+          mkdir build
+          cd build
+          ../autogen.sh --prefix=$VIRT_PREFIX {autogen_args}
+          $MAKE -j{smp}
+          $MAKE -j{smp} install
+    publishers:
+      - email:
+          recipients: '{obj:spam}'
+          notify-every-unstable-build: true
+          send-to-individuals: false
+
+- job-template:
+    id: autotools-syntax-check-job
+    name: '{name}-{branch}-syntax-check'
+    project-type: matrix
+    description: '{title} Syntax Check'
+    workspace: '{name}-{branch}'
+    block-downstream: true
+    block-upstream: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 1000
+    triggers:
+      - reverse:
+          jobs: '{obj:parent_jobs}'
+    axes:
+      - axis:
+          name: systems
+          type: slave
+          values: '{obj:machines}'
+    builders:
+      - shell: |
+          {make_env}
+          cd build
+          $MAKE -j{smp} syntax-check
+    publishers:
+      - email:
+          recipients: '{obj:spam}'
+          notify-every-unstable-build: true
+          send-to-individuals: false
+
+- job-template:
+    id: autotools-check-job
+    name: '{name}-{branch}-check'
+    project-type: matrix
+    description: '{title} Check'
+    check_env: ''
+    workspace: '{name}-{branch}'
+    block-downstream: true
+    block-upstream: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 1000
+    triggers:
+      - reverse:
+          jobs: '{obj:parent_jobs}'
+    axes:
+      - axis:
+          name: systems
+          type: slave
+          values: '{obj:machines}'
+    builders:
+      - shell: |
+          {make_env}
+          {check_env}
+          cd build
+          $MAKE -j{smp} check
+    publishers:
+      - email:
+          recipients: '{obj:spam}'
+          notify-every-unstable-build: true
+          send-to-individuals: false
+
+- job-template:
+    id: autotools-rpm-job
+    name: '{name}-{branch}-rpm'
+    project-type: matrix
+    description: '{title} RPM'
+    archive_format: gz
+    workspace: '{name}-{branch}'
+    block-downstream: true
+    block-upstream: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 1000
+    triggers:
+      - reverse:
+          jobs: '{obj:parent_jobs}'
+    axes:
+      - axis:
+          name: systems
+          type: slave
+          values: '{obj:machines}'
+    builders:
+      - shell: |
+          {make_env}
+          cd build
+          sed -i -e 's/BuildRequires: libvirt.*devel.*//' {name}.spec
+          rm -f *.tar.{archive_format}
+          $MAKE -j{smp} dist
+          rpmbuild -ta {name}-*.tar.{archive_format}
+    publishers:
+      - email:
+          recipients: '{obj:spam}'
+          notify-every-unstable-build: true
+          send-to-individuals: false
+
+- job-template:
+    id: autotools-mingw-job
+    name: '{name}-{branch}-mingw'
+    project-type: matrix
+    description: '{title} MinGW'
+    autogen_args: ''
+    workspace: '{name}-{branch}-mingw'
+    block-downstream: true
+    block-upstream: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 1000
+    scm:
+      - git:
+          url: git://n64.pufty.ci.centos.org/{name}.git
+          branches:
+            - origin/{branch}
+          clean: true
+    triggers:
+      - reverse:
+          jobs: '{obj:parent_jobs}'
+      - pollscm:
+          cron: "H/20 * * * *"
+    axes:
+      - axis:
+          name: systems
+          type: slave
+          values: '{obj:machines}'
+    builders:
+      - shell: |
+          mkdir -p build32
+          cd build32
+
+          export PKG_CONFIG_LIBDIR="/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig"
+          export PKG_CONFIG_PATH="$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig" \
+          export PREFIX=$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw
+          ../autogen.sh --host=i686-w64-mingw32 --prefix=$PREFIX
+          make -j{smp}
+          make -j{smp} install
+      - shell: |
+          mkdir -p build64
+          cd build64
+
+          export PKG_CONFIG_LIBDIR="/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig"
+          export PKG_CONFIG_PATH="$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig" \
+          export PREFIX=$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw
+          ../autogen.sh --host=x86_64-w64-mingw32 --prefix=$PREFIX
+          make -j{smp}
+          make -j{smp} install
+    publishers:
+      - email:
+          recipients: '{obj:spam}'
+          notify-every-unstable-build: true
+          send-to-individuals: false
