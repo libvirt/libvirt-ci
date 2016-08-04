@@ -1,0 +1,19 @@
+
+- project:
+    name: libvirt-sandbox
+    machines:
+      - libvirt-fedora-21
+      - libvirt-fedora-22
+      - libvirt-fedora-23
+      - libvirt-fedora-rawhide
+    title: Libvirt Sandbox
+    jobs:
+      - autotools-build-job:
+          parent_jobs: 'libvirt-glib-master-build'
+          autogen_args: --enable-gtk-doc
+      - autotools-syntax-check-job:
+          parent_jobs: 'libvirt-sandbox-master-build'
+      - autotools-check-job:
+          parent_jobs: 'libvirt-sandbox-master-syntax-check'
+      - autotools-rpm-job:
+          parent_jobs: 'libvirt-sandbox-master-check'
