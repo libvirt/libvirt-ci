@@ -1,0 +1,24 @@
+
+- project:
+    name: libvirt-cim
+    machines:
+      - libvirt-centos-6
+      - libvirt-centos-7
+      - libvirt-fedora-21
+      - libvirt-fedora-22
+      - libvirt-fedora-23
+      - libvirt-fedora-rawhide
+    title: libvirt CIM
+    jobs:
+      - generic-build-job:
+          parent_jobs: 'libvirt-master-build'
+          command: |
+            ./autoconfiscate.sh
+            ./configure --prefix=$VIRT_PREFIX
+            make -j{smp}
+            make -j{smp} install
+      - generic-rpm-job:
+          parent_jobs: 'libvirt-cim-master-build'
+          command: |
+            sed -i -e "s/.*libvirt-devel.*//" libvirt-cim.spec.in
+            make -j{smp} rpm
