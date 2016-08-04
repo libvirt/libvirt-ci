@@ -1,0 +1,20 @@
+
+- project:
+    name: libvirt-glib
+    machines:
+      - libvirt-centos-7
+      - libvirt-fedora-21
+      - libvirt-fedora-22
+      - libvirt-fedora-23
+      - libvirt-fedora-rawhide
+    title: Libvirt GLib
+    jobs:
+      - autotools-build-job:
+          parent_jobs: 'libvirt-master-build'
+          autogen_args: --enable-gtk-doc
+      - autotools-syntax-check-job:
+          parent_jobs: 'libvirt-glib-master-build'
+      - autotools-check-job:
+          parent_jobs: 'libvirt-glib-master-syntax-check'
+      - autotools-rpm-job:
+          parent_jobs: 'libvirt-glib-master-check'
