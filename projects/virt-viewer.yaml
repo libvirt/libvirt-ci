@@ -1,0 +1,19 @@
+
+- project:
+    name: virt-viewer
+    machines:
+      - libvirt-centos-7
+      - libvirt-fedora-21
+      - libvirt-fedora-22
+      - libvirt-fedora-23
+      - libvirt-fedora-rawhide
+    title: Virt Viewer
+    jobs:
+      - autotools-build-job:
+          parent_jobs: 'libvirt-glib-master-build'
+      - autotools-syntax-check-job:
+          parent_jobs: 'virt-viewer-master-build'
+      - autotools-check-job:
+          parent_jobs: 'virt-viewer-master-syntax-check'
+      - autotools-rpm-job:
+          parent_jobs: 'virt-viewer-master-check'
