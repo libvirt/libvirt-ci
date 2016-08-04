@@ -1,0 +1,104 @@
+
+- job-template:
+    id: perl-modulebuild-build-job
+    name: '{name}-{branch}-build'
+    project-type: matrix
+    description: '{title} Build'
+    autogen_args: ''
+    workspace: '{name}-{branch}'
+    block-downstream: true
+    block-upstream: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 1000
+    scm:
+      - git:
+          url: git://n64.pufty.ci.centos.org/{name}.git
+          branches:
+            - origin/{branch}
+          clean: true
+    triggers:
+      - reverse:
+          jobs: '{obj:parent_jobs}'
+      - pollscm:
+          cron: "H/20 * * * *"
+    axes:
+      - axis:
+          name: systems
+          type: slave
+          values: '{obj:machines}'
+    builders:
+      - shell: |
+          perl Build.PL install_base="$VIRT_PREFIX"
+          perl Build manifest
+          perl Build
+          perl Build install
+    publishers:
+      - email:
+          recipients: '{obj:spam}'
+          notify-every-unstable-build: true
+          send-to-individuals: false
+
+
+- job-template:
+    id: perl-modulebuild-test-job
+    name: '{name}-{branch}-test'
+    project-type: matrix
+    description: '{title} Test'
+    workspace: '{name}-{branch}'
+    block-downstream: true
+    block-upstream: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 1000
+    triggers:
+      - reverse:
+          jobs: '{obj:parent_jobs}'
+    axes:
+      - axis:
+          name: systems
+          type: slave
+          values: '{obj:machines}'
+    builders:
+      - shell: |
+          perl Build test
+    publishers:
+      - email:
+          recipients: '{obj:spam}'
+          notify-every-unstable-build: true
+          send-to-individuals: false
+
+- job-template:
+    id: perl-modulebuild-rpm-job
+    name: '{name}-{branch}-rpm'
+    project-type: matrix
+    description: '{title} RPM'
+    archive_format: gz
+    workspace: '{name}-{branch}'
+    block-downstream: true
+    block-upstream: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 1000
+    triggers:
+      - reverse:
+          jobs: '{obj:parent_jobs}'
+    axes:
+      - axis:
+          name: systems
+          type: slave
+          values: '{obj:machines}'
+    builders:
+      - shell: |
+          sed -i -e 's/BuildRequires: perl-Sys-Virt.*//' *.spec
+          rm -f *.tar.{archive_format}
+          perl Build dist
+          rpmbuild -ta *.tar.{archive_format}
+    publishers:
+      - email:
+          recipients: '{obj:spam}'
+          notify-every-unstable-build: true
+          send-to-individuals: false
