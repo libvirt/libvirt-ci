@@ -1,0 +1,44 @@
+
+- project:
+    name: libvirt
+    machines:
+      - libvirt-centos-6
+      - libvirt-centos-7
+      - libvirt-fedora-21
+      - libvirt-fedora-22
+      - libvirt-fedora-23
+      - libvirt-fedora-rawhide
+    title: Libvirt
+    jobs:
+      - autotools-build-job:
+          parent_jobs:
+          machines:
+            - libvirt-centos-6
+            - libvirt-centos-7
+            - libvirt-debian
+            - libvirt-fedora-21
+            - libvirt-fedora-22
+            - libvirt-fedora-23
+            - libvirt-fedora-rawhide
+            - libvirt-freebsd
+      - autotools-syntax-check-job:
+          parent_jobs: 'libvirt-master-build'
+          machines:
+            - libvirt-centos-6
+            - libvirt-centos-7
+            - libvirt-debian
+            - libvirt-fedora-21
+            - libvirt-fedora-22
+            - libvirt-fedora-23
+            - libvirt-fedora-rawhide
+          check_env: |
+            export VIR_TEST_EXPENSIVE=1
+            export VIR_TEST_DEBUG=2
+      - autotools-check-job:
+          parent_jobs: 'libvirt-master-syntax-check'
+      - autotools-rpm-job:
+          parent_jobs: 'libvirt-master-check'
+      - autotools-mingw-job:
+          parent_jobs:
+          machines:
+            - libvirt-fedora-rawhide
