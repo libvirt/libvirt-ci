@@ -1,0 +1,12 @@
+
+- defaults:
+    name: global
+    branch: master
+    make_env: |
+      MAKE='make'
+      unamestr=`uname`
+      if [ "$unamestr" = 'FreeBSD' ]; then
+          MAKE='gmake'
+      fi
+    smp: 3
+    spam: shajyan@redhat.com libvirt-ci@redhat.com
