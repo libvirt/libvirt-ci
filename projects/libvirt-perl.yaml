@@ -1,0 +1,18 @@
+
+- project:
+    name: libvirt-perl
+    machines:
+      - libvirt-centos-7
+      - libvirt-fedora-21
+      - libvirt-fedora-22
+      - libvirt-fedora-23
+      - libvirt-fedora-rawhide
+    title: Libvirt Perl
+    jobs:
+      - perl-makemaker-build-job:
+          parent_jobs: 'libvirt-master-build'
+      - perl-makemaker-test-job:
+          parent_jobs: 'libvirt-perl-master-build'
+          test_args: 'TEST_MAINTAINER=1'
+      - perl-makemaker-rpm-job:
+          parent_jobs: 'libvirt-perl-master-test'
