@@ -1,0 +1,122 @@
+
+- job-template:
+    id: generic-build-job
+    name: '{name}-{branch}-build'
+    project-type: matrix
+    description: '{title} Build'
+    autogen_args: ''
+    workspace: '{name}-{branch}'
+    block-downstream: true
+    block-upstream: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 1000
+    scm:
+      - git:
+          url: git://n64.pufty.ci.centos.org/{name}.git
+          branches:
+            - origin/{branch}
+          clean: true
+    triggers:
+      - reverse:
+          jobs: '{obj:parent_jobs}'
+      - pollscm:
+          cron: "H/20 * * * *"
+    axes:
+      - axis:
+          name: systems
+          type: slave
+          values: '{obj:machines}'
+    builders:
+      - shell: '{command}'
+    publishers:
+      - email:
+          recipients: '{obj:spam}'
+          notify-every-unstable-build: true
+          send-to-individuals: false
+
+- job-template:
+    id: generic-syntax-check-job
+    name: '{name}-{branch}-syntax-check'
+    project-type: matrix
+    description: '{title} Syntax Check'
+    workspace: '{name}-{branch}'
+    block-downstream: true
+    block-upstream: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 1000
+    triggers:
+      - reverse:
+          jobs: '{obj:parent_jobs}'
+    axes:
+      - axis:
+          name: systems
+          type: slave
+          values: '{obj:machines}'
+    builders:
+      - shell: '{command}'
+    publishers:
+      - email:
+          recipients: '{obj:spam}'
+          notify-every-unstable-build: true
+          send-to-individuals: false
+
+- job-template:
+    id: generic-check-job
+    name: '{name}-{branch}-check'
+    project-type: matrix
+    description: '{title} Check'
+    workspace: '{name}-{branch}'
+    block-downstream: true
+    block-upstream: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 1000
+    triggers:
+      - reverse:
+          jobs: '{obj:parent_jobs}'
+    axes:
+      - axis:
+          name: systems
+          type: slave
+          values: '{obj:machines}'
+    builders:
+      - shell: '{command}'
+    publishers:
+      - email:
+          recipients: '{obj:spam}'
+          notify-every-unstable-build: true
+          send-to-individuals: false
+
+- job-template:
+    id: generic-rpm-job
+    name: '{name}-{branch}-rpm'
+    project-type: matrix
+    description: '{title} RPM'
+    archive_format: gz
+    workspace: '{name}-{branch}'
+    block-downstream: true
+    block-upstream: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 1000
+    triggers:
+      - reverse:
+          jobs: '{obj:parent_jobs}'
+    axes:
+      - axis:
+          name: systems
+          type: slave
+          values: '{obj:machines}'
+    builders:
+      - shell: '{command}'
+    publishers:
+      - email:
+          recipients: '{obj:spam}'
+          notify-every-unstable-build: true
+          send-to-individuals: false
