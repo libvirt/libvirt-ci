@@ -1,0 +1,19 @@
+
+- project:
+    name: virt-manager
+    machines:
+      - libvirt-centos-7
+      - libvirt-fedora-21
+      - libvirt-fedora-22
+      - libvirt-fedora-23
+      - libvirt-fedora-rawhide
+    title: Virtual Machine Manager
+    jobs:
+      - python-distutils-build-job:
+          parent_jobs:
+            - 'libvirt-python-master-build'
+            - 'libosinfo-master-build'
+      - python-distutils-check-job:
+          parent_jobs: 'virt-manager-master-build'
+      - python-distutils-rpm-job:
+          parent_jobs: 'virt-manager-master-check'
