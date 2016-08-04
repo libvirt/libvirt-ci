@@ -1,0 +1,18 @@
+
+- project:
+    name: libvirt-python
+    machines:
+      - libvirt-centos-6
+      - libvirt-centos-7
+      - libvirt-fedora-21
+      - libvirt-fedora-22
+      - libvirt-fedora-23
+      - libvirt-fedora-rawhide
+    title: Libvirt Python
+    jobs:
+      - python-distutils-build-job:
+          parent_jobs: 'libvirt-master-build'
+      - python-distutils-check-job:
+          parent_jobs: 'libvirt-python-master-build'
+      - python-distutils-rpm-job:
+          parent_jobs: 'libvirt-python-master-check'
