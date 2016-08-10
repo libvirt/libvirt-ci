@@ -16,4 +16,4 @@
       - autotools-check-job:
           parent_jobs: 'libosinfo-master-syntax-check'
       - autotools-rpm-job:
-          parent_jobs: 'libosinfo-master-rpm'
+          parent_jobs: 'libosinfo-master-check'
