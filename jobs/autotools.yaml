@@ -181,9 +181,9 @@
           mkdir -p build32
           cd build32
 
-          export PKG_CONFIG_LIBDIR="/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig"
-          export PKG_CONFIG_PATH="$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig" \
-          export PREFIX=$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw
+          export PKG_CONFIG_LIBDIR="/usr/i686-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/i686-w64-mingw32/sys-root/mingw/share/pkgconfig"
+          export PKG_CONFIG_PATH="$VIRT_PREFIX/i686-w64-mingw32/sys-root/mingw/lib/pkgconfig" \
+          export PREFIX=$VIRT_PREFIX/i686-w64-mingw32/sys-root/mingw
           ../autogen.sh --host=i686-w64-mingw32 --prefix=$PREFIX
           make -j{smp}
           make -j{smp} install
