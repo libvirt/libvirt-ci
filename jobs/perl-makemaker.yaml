@@ -34,7 +34,7 @@
     builders:
       - shell: |
           perl Makefile.PL PREFIX="$VIRT_PREFIX"
-          make -j{smp}
+          make
           make -j{smp} install
           make -j{smp} manifest
     publishers:
