@@ -18,6 +18,7 @@
       - generic-rpm-job:
           parent_jobs: 'osinfo-db-master-build'
           command: |
+            export PATH=$VIRT_PREFIX/bin:$PATH
             rm -f *.tar.xz
             make osinfo-db.spec
             perl -i -p -e 's/BuildRequires: osinfo-db-tools.*//' osinfo-db.spec
