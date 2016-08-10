@@ -9,6 +9,7 @@
       - libvirt-fedora-23
       - libvirt-fedora-rawhide
     title: Libvirt
+    archive_format: xz
     jobs:
       - autotools-build-job:
           parent_jobs:
