@@ -93,7 +93,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
-          sed -i -e 's/BuildRequires: libvirt.*devel.*//' *.spec
+          sed -i -e 's/BuildRequires: libvirt.*devel.*//' *.spec.in
           python setup.py rpm
     publishers:
       - email:
