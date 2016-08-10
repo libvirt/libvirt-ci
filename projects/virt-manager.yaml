@@ -13,6 +13,8 @@
           parent_jobs:
             - 'libvirt-python-master-build'
             - 'libosinfo-master-build'
+          command_pre_build: |
+            python setup.py configure --prefix=$VIRT_PREFIX
       - python-distutils-check-job:
           parent_jobs: 'virt-manager-master-build'
       - python-distutils-rpm-job:

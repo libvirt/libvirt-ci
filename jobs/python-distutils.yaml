@@ -4,7 +4,7 @@
     name: '{name}-{branch}-build'
     project-type: matrix
     description: '{title} Build'
-    autogen_args: ''
+    command_pre_build: ''
     workspace: '{name}-{branch}'
     block-downstream: true
     block-upstream: true
@@ -33,6 +33,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
+          {command_pre_build}
           python setup.py build
           python setup.py install --prefix=$VIRT_PREFIX
     publishers:
