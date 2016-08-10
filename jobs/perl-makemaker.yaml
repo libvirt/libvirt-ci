@@ -17,7 +17,10 @@
           url: git://n64.pufty.ci.centos.org/{name}.git
           branches:
             - origin/{branch}
-          clean: true
+          clean:
+            after: true
+          skip-tag: true
+          wipe-workspace: false
     triggers:
       - reverse:
           jobs: '{obj:parent_jobs}'
