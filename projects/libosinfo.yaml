@@ -8,6 +8,13 @@
       - libvirt-fedora-23
       - libvirt-fedora-rawhide
     title: libosinfo
+    make_env: |
+      MAKE='make'
+      unamestr=`uname`
+      if [ "$unamestr" = 'FreeBSD' ]; then
+          MAKE='gmake'
+      fi
+      export OSINFO_DATA_DIR=$VIRT_PREFIX/share/osinfo
     jobs:
       - autotools-build-job:
           parent_jobs: 'osinfo-db-master-build'
