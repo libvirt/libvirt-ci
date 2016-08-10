@@ -17,3 +17,5 @@
           parent_jobs: 'virt-viewer-master-syntax-check'
       - autotools-rpm-job:
           parent_jobs: 'virt-viewer-master-check'
+          machines:
+            - libvirt-fedora-rawhide
