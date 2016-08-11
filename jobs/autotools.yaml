@@ -102,7 +102,11 @@
           {make_env}
           {check_env}
           cd build
-          $MAKE -j{smp} check
+          if ! $MAKE -j{smp} check
+          then
+              cat test-suite.log || true
+              exit 1
+          fi
     publishers:
       - email:
           recipients: '{obj:spam}'
