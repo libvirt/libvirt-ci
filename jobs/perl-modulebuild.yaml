@@ -97,6 +97,7 @@
     builders:
       - shell: |
           sed -i -e 's/BuildRequires: *perl-Sys-Virt.*//' *.spec
+          sed -i -e 's/BuildRequires: *perl(Sys::Virt).*//' *.spec
           sed -i -e 's/BuildRequires: *libvirt.*devel.*//' *.spec
           rm -f *.tar.{archive_format}
           perl Build dist
