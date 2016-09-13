@@ -104,7 +104,7 @@
           cd build
           if ! $MAKE -j{smp} check
           then
-              cat test-suite.log || true
+              cat tests/test-suite.log || true
               exit 1
           fi
     publishers:
