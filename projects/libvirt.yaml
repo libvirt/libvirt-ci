@@ -4,9 +4,8 @@
     machines:
       - libvirt-centos-6
       - libvirt-centos-7
-      - libvirt-fedora-21
-      - libvirt-fedora-22
       - libvirt-fedora-23
+      - libvirt-fedora-24
       - libvirt-fedora-rawhide
     title: Libvirt
     archive_format: xz
@@ -17,9 +16,8 @@
             - libvirt-centos-6
             - libvirt-centos-7
             - libvirt-debian
-            - libvirt-fedora-21
-            - libvirt-fedora-22
             - libvirt-fedora-23
+            - libvirt-fedora-24
             - libvirt-fedora-rawhide
             - libvirt-freebsd
       - autotools-syntax-check-job:
@@ -28,9 +26,8 @@
             - libvirt-centos-6
             - libvirt-centos-7
             - libvirt-debian
-            - libvirt-fedora-21
-            - libvirt-fedora-22
             - libvirt-fedora-23
+            - libvirt-fedora-24
             - libvirt-fedora-rawhide
           check_env: |
             export VIR_TEST_EXPENSIVE=1
