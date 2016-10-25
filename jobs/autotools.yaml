@@ -138,6 +138,7 @@
       - shell: |
           {make_env}
           cd build
+          sed -i -e 's/BuildRequires: osinfo-db.*//' {name}.spec
           sed -i -e 's/BuildRequires: libvirt.*devel.*//' {name}.spec
           sed -i -e 's/BuildRequires: pkgconfig(libvirt.*).*//' {name}.spec
           rm -f *.tar.{archive_format}
