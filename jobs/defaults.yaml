@@ -9,4 +9,4 @@
           MAKE='gmake'
       fi
     smp: 3
-    spam: shajyan@redhat.com libvirt-ci@redhat.com
+    spam: ymankad@redhat.com libvirt-ci@redhat.com
