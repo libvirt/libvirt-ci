@@ -6,6 +6,7 @@
     description: '{title} Build'
     autogen_args: ''
     workspace: '{name}-{branch}'
+    child-workspace: '.'
     block-downstream: true
     block-upstream: true
     properties:
@@ -47,6 +48,7 @@
     description: '{title} Check'
     check_env: ''
     workspace: '{name}-{branch}'
+    child-workspace: '.'
     block-downstream: true
     block-upstream: true
     properties:

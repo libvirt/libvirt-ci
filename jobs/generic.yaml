@@ -6,6 +6,7 @@
     description: '{title} Build'
     autogen_args: ''
     workspace: '{name}-{branch}'
+    child-workspace: '.'
     block-downstream: true
     block-upstream: true
     properties:
@@ -45,6 +46,7 @@
     project-type: matrix
     description: '{title} Syntax Check'
     workspace: '{name}-{branch}'
+    child-workspace: '.'
     block-downstream: true
     block-upstream: true
     properties:
@@ -73,6 +75,7 @@
     project-type: matrix
     description: '{title} Check'
     workspace: '{name}-{branch}'
+    child-workspace: '.'
     block-downstream: true
     block-upstream: true
     properties:
@@ -102,6 +105,7 @@
     description: '{title} RPM'
     archive_format: gz
     workspace: '{name}-{branch}'
+    child-workspace: '.'
     block-downstream: true
     block-upstream: true
     properties:

@@ -6,6 +6,7 @@
     description: '{title} Build'
     command_pre_build: ''
     workspace: '{name}-{branch}'
+    child-workspace: '.'
     block-downstream: true
     block-upstream: true
     properties:
@@ -49,6 +50,7 @@
     project-type: matrix
     description: '{title} Check'
     workspace: '{name}-{branch}'
+    child-workspace: '.'
     block-downstream: true
     block-upstream: true
     properties:
@@ -78,6 +80,7 @@
     project-type: matrix
     description: '{title} RPM'
     workspace: '{name}-{branch}'
+    child-workspace: '.'
     block-downstream: true
     block-upstream: true
     properties:
