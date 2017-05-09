@@ -2,6 +2,7 @@
 - defaults:
     name: global
     branch: master
+    node: libvirt
     make_env: |
       MAKE='make'
       unamestr=`uname`
