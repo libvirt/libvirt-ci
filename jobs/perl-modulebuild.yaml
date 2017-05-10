@@ -9,6 +9,12 @@
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
+    wrappers:
+      - timeout:
+          abort: true
+          type: absolute
+          timeout: 60
+          write-description: 'Aborted build after 60 minutes'
     properties:
       - build-discarder:
           days-to-keep: 30
@@ -54,6 +60,12 @@
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
+    wrappers:
+      - timeout:
+          abort: true
+          type: absolute
+          timeout: 60
+          write-description: 'Aborted build after 60 minutes'
     properties:
       - build-discarder:
           days-to-keep: 30
@@ -85,6 +97,12 @@
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
+    wrappers:
+      - timeout:
+          abort: true
+          type: absolute
+          timeout: 60
+          write-description: 'Aborted build after 60 minutes'
     properties:
       - build-discarder:
           days-to-keep: 30
