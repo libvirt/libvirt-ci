@@ -13,8 +13,8 @@
       - timeout:
           abort: true
           type: absolute
-          timeout: 60
-          write-description: 'Aborted build after 60 minutes'
+          timeout: 90
+          write-description: 'Aborted build after 90 minutes'
     properties:
       - build-discarder:
           days-to-keep: 30
@@ -65,8 +65,8 @@
       - timeout:
           abort: true
           type: absolute
-          timeout: 60
-          write-description: 'Aborted build after 60 minutes'
+          timeout: 90
+          write-description: 'Aborted build after 90 minutes'
     properties:
       - build-discarder:
           days-to-keep: 30
@@ -104,8 +104,8 @@
       - timeout:
           abort: true
           type: absolute
-          timeout: 60
-          write-description: 'Aborted build after 60 minutes'
+          timeout: 90
+          write-description: 'Aborted build after 90 minutes'
     properties:
       - build-discarder:
           days-to-keep: 30
@@ -148,8 +148,8 @@
       - timeout:
           abort: true
           type: absolute
-          timeout: 60
-          write-description: 'Aborted build after 60 minutes'
+          timeout: 90
+          write-description: 'Aborted build after 90 minutes'
     properties:
       - build-discarder:
           days-to-keep: 30
@@ -192,8 +192,8 @@
       - timeout:
           abort: true
           type: absolute
-          timeout: 60
-          write-description: 'Aborted build after 60 minutes'
+          timeout: 90
+          write-description: 'Aborted build after 90 minutes'
     properties:
       - build-discarder:
           days-to-keep: 30
