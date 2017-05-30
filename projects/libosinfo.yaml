@@ -13,7 +13,7 @@
       if [ "$unamestr" = 'FreeBSD' ]; then
           MAKE='gmake'
       fi
-      export OSINFO_DATA_DIR=$VIRT_PREFIX/share/osinfo
+      export OSINFO_SYSTEM_DIR=$VIRT_PREFIX/share/osinfo
     jobs:
       - autotools-build-job:
           parent_jobs: 'osinfo-db-master-build'
