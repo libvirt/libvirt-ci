@@ -16,7 +16,7 @@
           machines:
             - libvirt-centos-6
             - libvirt-centos-7
-            - libvirt-debian
+            - libvirt-debian-8
             - libvirt-fedora-23
             - libvirt-fedora-24
             - libvirt-fedora-25
@@ -27,7 +27,7 @@
           machines:
             - libvirt-centos-6
             - libvirt-centos-7
-            - libvirt-debian
+            - libvirt-debian-8
             - libvirt-fedora-23
             - libvirt-fedora-24
             - libvirt-fedora-25
