@@ -3,9 +3,8 @@
     name: virt-viewer
     machines:
       - libvirt-centos-7
-      - libvirt-fedora-23
-      - libvirt-fedora-24
       - libvirt-fedora-25
+      - libvirt-fedora-26
       - libvirt-fedora-rawhide
     title: Virt Viewer
     jobs:
