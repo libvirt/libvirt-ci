@@ -13,7 +13,7 @@
       - generic-build-job:
           parent_jobs: 'libvirt-master-build'
           command: |
-            ./autoconfiscate.sh
+            ./autogen.sh
             ./configure --prefix=$VIRT_PREFIX
             make -j{smp}
             make -j{smp} install
