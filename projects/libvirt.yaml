@@ -32,11 +32,11 @@
             - libvirt-fedora-24
             - libvirt-fedora-25
             - libvirt-fedora-rawhide
+      - autotools-check-job:
+          parent_jobs: 'libvirt-master-syntax-check'
           check_env: |
             export VIR_TEST_EXPENSIVE=1
             export VIR_TEST_DEBUG=2
-      - autotools-check-job:
-          parent_jobs: 'libvirt-master-syntax-check'
       - autotools-rpm-job:
           parent_jobs: 'libvirt-master-check'
       - autotools-mingw-job:
