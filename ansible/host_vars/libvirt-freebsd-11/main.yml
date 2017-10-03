@@ -8,3 +8,4 @@ sudo: /usr/local/bin/sudo
 
 projects:
   - base
+  - libosinfo

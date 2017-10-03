@@ -1,0 +1,15 @@
+---
+packages:
+  - check
+  - glib2
+  - gnome-common
+  - gobject-introspection
+  - gtk-doc
+  - intltool
+  - libsoup
+  - libxml2
+  - libxslt
+  - pci-ids
+  - usb-ids
+  - vala
+  - xmllint

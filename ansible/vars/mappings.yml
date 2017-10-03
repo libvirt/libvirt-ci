@@ -45,6 +45,10 @@ mappings:
     default: ccache
     CentOS:
 
+  check:
+    default: check
+    rpm: check-devel
+
   cppi:
     Fedora: cppi
     FreeBSD: cppi
@@ -56,9 +60,35 @@ mappings:
   gettext:
     default: gettext
 
+  glib2:
+    deb: libglib2.0-dev
+    pkg: glib
+    rpm: glib2-devel
+
   glibc:
     deb: libc6-dev
     rpm: glibc-devel
+
+  gnome-common:
+    default: gnome-common
+
+  gobject-introspection:
+    deb: libgirepository1.0-dev
+    pkg: gobject-introspection
+    rpm: gobject-introspection-devel
+    CentOS6:
+
+  gtk-doc:
+    default: gtk-doc
+    deb: gtk-doc-tools
+
+  intltool:
+    default: intltool
+
+  libsoup:
+    deb: libsoup2.4-dev
+    pkg: libsoup
+    rpm: libsoup-devel
 
   libtool:
     default: libtool
@@ -68,12 +98,26 @@ mappings:
   libtoolize:
     default: libtool
 
+  libxml2:
+    deb: libxml2-dev
+    pkg: libxml2
+    rpm: libxml2-devel
+
+  libxslt:
+    deb: libxslt1-dev
+    pkg: libxslt
+    rpm: libxslt-devel
+
   make:
     default: make
     FreeBSD: gmake
 
   patch:
     default: patch
+
+  pci-ids:
+    default: hwdata
+    FreeBSD: pciids
 
   perl:
     default: perl
@@ -86,3 +130,16 @@ mappings:
 
   rpmbuild:
     rpm: rpm-build
+
+  usb-ids:
+    default: hwdata
+    FreeBSD: usbids
+
+  vala:
+    default: vala
+    deb: valac
+    CentOS6:
+
+  xmllint:
+    default: libxml2
+    deb: libxml2-utils
