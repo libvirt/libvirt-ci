@@ -1,0 +1,19 @@
+---
+- hosts: all
+
+  vars_files:
+    - vars/mappings.yml
+
+  tasks:
+
+    # Prepare the base environment
+    - include: tasks/base.yml
+
+    # Install build dependencies for each project
+    - include: tasks/packages.yml
+      with_items:
+        '{{ projects }}'
+      loop_control:
+        loop_var: project
+      when:
+        - projects is defined

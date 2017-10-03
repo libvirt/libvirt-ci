@@ -1,0 +1,22 @@
+---
+- name: Bootstrap the pkgng package manager
+  raw: env ASSUME_ALWAYS_YES=YES pkg bootstrap
+  when:
+    - inventory_hostname|search('freebsd')
+
+- name: Bootstrap Ansible
+  raw: yum install -y python2
+  when:
+    - ( inventory_hostname|search('centos') or
+        inventory_hostname|search('fedora') )
+
+- name: Bootstrap Ansible
+  raw: apt-get install -y python
+  when:
+    - ( inventory_hostname|search('debian') or
+        inventory_hostname|search('ubuntu') )
+
+- name: Bootstrap Ansible
+  raw: pkg install -y python2
+  when:
+    - inventory_hostname|search('freebsd')

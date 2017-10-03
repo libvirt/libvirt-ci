@@ -1,0 +1,88 @@
+---
+# Mappings are used to map the generic packages name used to define projects
+# to the specific package names used by each OS. They implement inheritance,
+# so you can define them without repeating yourself too much.
+#
+# Inheritance works the way you'd expect, that is, in order of increasing
+# priority:
+#
+#   - default
+#   - package format (deb, pkg, rpm)
+#   - OS name (CentOS, Debian, Fedora, FreeBSD, Ubuntu)
+#   - OS version (CentOS6, Debian9, FedoraRawhide, Ubuntu14 and so on)
+#
+# So something like
+#
+#   make:
+#     default: make
+#     FreeBSD: gmake
+#
+# will result in the 'make' package being installed everywhere except
+# for FreeBSD, where 'gmake' will be used instead. Clearing out existing
+# mappings is possible as well, so
+#
+#   ccache:
+#     default: ccache
+#     CentOS:
+#
+# will result in the 'ccache' package being installed everywhere except
+# for CentOS, where nothing will be installed.
+
+mappings:
+
+  autoconf:
+    default: autoconf
+
+  automake:
+    default: automake
+
+  autopoint:
+    deb: autopoint
+    pkg: gettext-tools
+    rpm: gettext-devel
+
+  ccache:
+    default: ccache
+    CentOS:
+
+  cppi:
+    Fedora: cppi
+    FreeBSD: cppi
+
+  gcc:
+    default: gcc
+    FreeBSD:
+
+  gettext:
+    default: gettext
+
+  glibc:
+    deb: libc6-dev
+    rpm: glibc-devel
+
+  libtool:
+    default: libtool
+    Debian: libtool-bin
+    Ubuntu16: libtool-bin
+
+  libtoolize:
+    default: libtool
+
+  make:
+    default: make
+    FreeBSD: gmake
+
+  patch:
+    default: patch
+
+  perl:
+    default: perl
+    FreeBSD: perl5
+
+  pkg-config:
+    default: pkgconf
+    rpm: pkgconfig
+    Ubuntu12: pkg-config
+
+  rpmbuild:
+    rpm: rpm-build

@@ -1,0 +1,8 @@
+---
+ansible_user: root
+
+# Paths to various command. Can be overridden on a per-host basis
+bash: /bin/bash
+java: /usr/bin/java
+make: /usr/bin/make
+sudo: /usr/bin/sudo

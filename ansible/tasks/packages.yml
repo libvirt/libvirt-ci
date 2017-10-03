@@ -1,0 +1,66 @@
+---
+- name: '{{ project }}: Load variables'
+  include_vars:
+    file: 'vars/projects/{{ project }}.yml'
+
+- set_fact:
+    temp: {}
+
+- name: '{{ project }}: Verify mappings'
+  fail:
+    msg: 'No mappings defined for {{ item }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - mappings[item] is undefined
+
+- name: '{{ project }}: Look up mappings (default)'
+  set_fact:
+    temp: '{{ temp|combine({ item: mappings[item]["default"] }) }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - mappings[item]["default"] is defined
+
+- name: '{{ project }}: Look up mappings (package format)'
+  set_fact:
+    temp: '{{ temp|combine({ item: mappings[item][package_format] }) }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - mappings[item][package_format] is defined
+
+- name: '{{ project }}: Look up mappings (OS name)'
+  set_fact:
+    temp: '{{ temp|combine({ item: mappings[item][os_name] }) }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - mappings[item][os_name] is defined
+
+- name: '{{ project }}: Look up mappings (OS version)'
+  set_fact:
+    temp: '{{ temp|combine({ item: mappings[item][os_name + os_version] }) }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - mappings[item][os_name + os_version] is defined
+
+- set_fact:
+    flattened: []
+
+- name: '{{ project }}: Flatten package list'
+  set_fact:
+    flattened: '{{ flattened }} + [ "{{ temp[item] }}" ]'
+  with_items:
+    '{{ temp }}'
+  when:
+    - temp[item] != None
+    - temp[item] not in flattened
+
+- name: '{{ project }}: Install packages'
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    '{{ flattened|sort }}'
