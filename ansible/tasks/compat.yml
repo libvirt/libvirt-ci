@@ -1,0 +1,31 @@
+---
+# libvirt can't detect these automatically at the moment, so a kludge
+# is required. Can be dropped it as soon as libvirt has been fixed
+- name: Create compatibility symlinks
+  file:
+    src: '/usr/local/{{ item }}'
+    dest: '/usr/{{ item }}'
+    state: link
+    force: yes
+  with_items:
+    - include/sasl
+    - include/yajl
+    - lib/libsasl2.so
+    - lib/libyajl.so
+  when:
+    - os_name == 'FreeBSD'
+
+# Same as above, except we only need to do it on FreeBSD 11 because
+# FreeBSD 10 shipped (an old version of) readline in the base system
+- name: Create compatibility symlinks
+  file:
+    src: '/usr/local/{{ item }}'
+    dest: '/usr/{{ item }}'
+    state: link
+    force: yes
+  with_items:
+    - include/readline
+    - lib/libreadline.so
+  when:
+    - os_name == 'FreeBSD'
+    - os_version == '11'

@@ -8,6 +8,7 @@
 
     # Prepare the base environment
     - include: tasks/base.yml
+    - include: tasks/compat.yml
 
     # Install build dependencies for each project
     - include: tasks/packages.yml

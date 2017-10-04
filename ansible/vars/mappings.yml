@@ -30,6 +30,13 @@
 
 mappings:
 
+  apparmor:
+    deb: libapparmor-dev
+
+  augeas:
+    default: augeas
+    deb: augeas-tools
+
   autoconf:
     default: autoconf
 
@@ -40,6 +47,11 @@ mappings:
     deb: autopoint
     pkg: gettext-tools
     rpm: gettext-devel
+
+  avahi:
+    deb: libavahi-client-dev
+    pkg: avahi
+    rpm: avahi-devel
 
   ccache:
     default: ccache
@@ -52,6 +64,32 @@ mappings:
   cppi:
     Fedora: cppi
     FreeBSD: cppi
+
+  cyrus-sasl:
+    deb: libsasl2-dev
+    pkg: cyrus-sasl
+    rpm: cyrus-sasl-devel
+
+  device-mapper:
+    deb: libdevmapper-dev
+    rpm: device-mapper-devel
+
+  dnsmasq:
+    default: dnsmasq
+    deb: dnsmasq-base
+
+  dtrace:
+    deb: systemtap-sdt-dev
+    rpm: systemtap-sdt-devel
+
+  ebtables:
+    default: ebtables
+    FreeBSD:
+
+  fuse:
+    deb: libfuse-dev
+    pkg: fusefs-libs
+    rpm: fuse-devel
 
   gcc:
     default: gcc
@@ -69,8 +107,20 @@ mappings:
     deb: libc6-dev
     rpm: glibc-devel
 
+  glusterfs:
+    deb: glusterfs-client
+    pkg: glusterfs
+    rpm: glusterfs-api-devel
+
   gnome-common:
     default: gnome-common
+
+  gnutls:
+    deb: libgnutls28-dev
+    pkg: gnutls
+    rpm: gnutls-devel
+    Ubuntu12: libgnutls-dev
+    Ubuntu14: libgnutls-dev
 
   gobject-introspection:
     deb: libgirepository1.0-dev
@@ -82,13 +132,101 @@ mappings:
     default: gtk-doc
     deb: gtk-doc-tools
 
+  hal:
+    FreeBSD: hal
+    Ubuntu12: libhal-dev
+
   intltool:
     default: intltool
+
+  iscsiadm:
+    deb: open-iscsi
+    rpm: iscsi-initiator-utils
+
+  libacl:
+    deb: libacl1-dev
+    rpm: libacl-devel
+
+  libattr:
+    deb: libattr1-dev
+    rpm: libattr-devel
+
+  libaudit:
+    deb: libaudit-dev
+    rpm: audit-libs-devel
+
+  libblkid:
+    deb: libblkid-dev
+    rpm: libblkid-devel
+
+  libcap-ng:
+    deb: libcap-ng-dev
+    rpm: libcap-ng-devel
+
+  libcurl:
+    deb: libcurl4-gnutls-dev
+    pkg: curl
+    rpm: libcurl-devel
+
+  libdbus:
+    deb: libdbus-1-dev
+    pkg: dbus
+    rpm: dbus-devel
+
+  libnl:
+    CentOS6: libnl-devel
+
+  libnl3:
+    deb: libnl-3-dev
+    rpm: libnl3-devel
+
+  libnlroute3:
+    deb: libnl-route-3-dev
+    rpm: libnl3-devel
+
+  libnuma:
+    deb: libnuma-dev
+    rpm: numactl-devel
+
+  libparted:
+    deb: libparted-dev
+    rpm: parted-devel
+
+  libpcap:
+    deb: libpcap-dev
+    pkg: libpcap
+    rpm: libpcap-devel
+
+  libpciaccess:
+    deb: libpciaccess-dev
+    pkg: libpciaccess
+    rpm: libpciaccess-devel
+
+  librbd:
+    deb: librbd-dev
+    Fedora: librbd-devel
+    CentOS7: librbd1-devel
+
+  libselinux:
+    deb: libselinux1-dev
+    rpm: libselinux-devel
 
   libsoup:
     deb: libsoup2.4-dev
     pkg: libsoup
     rpm: libsoup-devel
+
+  libssh:
+    pkg: libssh
+    rpm: libssh-devel
+    Debian: libssh-gcrypt-dev
+    Ubuntu: libssh-dev
+    CentOS6:
+
+  libssh2:
+    deb: libssh2-1-dev
+    pkg: libssh2
+    rpm: libssh2-devel
 
   libtool:
     default: libtool
@@ -97,6 +235,10 @@ mappings:
 
   libtoolize:
     default: libtool
+
+  libudev:
+    deb: libudev-dev
+    rpm: libudev-devel
 
   libxml2:
     deb: libxml2-dev
@@ -108,9 +250,104 @@ mappings:
     pkg: libxslt
     rpm: libxslt-devel
 
+  lvm2:
+    default: lvm2
+    FreeBSD:
+
   make:
     default: make
     FreeBSD: gmake
+
+  mingw32-curl:
+    FedoraRawhide: mingw32-curl
+
+  mingw32-dbus:
+    FedoraRawhide: mingw32-dbus
+
+  mingw32-dlfcn:
+    FedoraRawhide: mingw32-dlfcn
+
+  mingw32-gcc:
+    FedoraRawhide: mingw32-gcc
+
+  mingw32-gettext:
+    FedoraRawhide: mingw32-gettext
+
+  mingw32-gnutls:
+    FedoraRawhide: mingw32-gnutls
+
+  mingw32-libssh2:
+    FedoraRawhide: mingw32-libssh2
+
+  mingw32-libxml2:
+    FedoraRawhide: mingw32-libxml2
+
+  mingw32-openssl:
+    FedoraRawhide: mingw32-openssl
+
+  mingw32-pkg-config:
+    FedoraRawhide: mingw32-pkg-config
+
+  mingw32-portablexdr:
+    FedoraRawhide: mingw32-portablexdr
+
+  mingw32-readline:
+    FedoraRawhide: mingw32-readline
+
+  mingw64-curl:
+    FedoraRawhide: mingw64-curl
+
+  mingw64-dbus:
+    FedoraRawhide: mingw64-dbus
+
+  mingw64-dlfcn:
+    FedoraRawhide: mingw64-dlfcn
+
+  mingw64-gcc:
+    FedoraRawhide: mingw64-gcc
+
+  mingw64-gettext:
+    FedoraRawhide: mingw64-gettext
+
+  mingw64-gnutls:
+    FedoraRawhide: mingw64-gnutls
+
+  mingw64-libssh2:
+    FedoraRawhide: mingw64-libssh2
+
+  mingw64-libxml2:
+    FedoraRawhide: mingw64-libxml2
+
+  mingw64-openssl:
+    FedoraRawhide: mingw64-openssl
+
+  mingw64-pkg-config:
+    FedoraRawhide: mingw64-pkg-config
+
+  mingw64-portablexdr:
+    FedoraRawhide: mingw64-portablexdr
+
+  mingw64-readline:
+    FedoraRawhide: mingw64-readline
+
+  netcf:
+    deb: libnetcf-dev
+    rpm: netcf-devel
+
+  numad:
+    default: numad
+    FreeBSD:
+    Debian8:
+    Ubuntu12:
+    Ubuntu14:
+
+  openwsman:
+    rpm: libwsman-devel
+    Ubuntu: libopenwsman-dev
+
+  parted:
+    default: parted
+    FreeBSD:
 
   patch:
     default: patch
@@ -128,8 +365,43 @@ mappings:
     rpm: pkgconfig
     Ubuntu12: pkg-config
 
+  polkit:
+    deb: policykit-1
+    pkg: polkit
+    rpm: polkit-devel
+
+  qemu-img:
+    default: qemu-utils
+    rpm: qemu-img
+
+  radvd:
+    default: radvd
+
+  readline:
+    deb: libreadline-dev
+    pkg: readline
+    rpm: readline-devel
+
   rpmbuild:
     rpm: rpm-build
+
+  sanlock:
+    deb: libsanlock-dev
+    rpm: sanlock-devel
+    Ubuntu12:
+
+  scrub:
+    default: scrub
+    FreeBSD: diskscrub
+
+  sheepdog:
+    default: sheepdog
+    CentOS:
+    FreeBSD:
+
+  showmount:
+    deb: nfs-common
+    rpm: nfs-utils
 
   usb-ids:
     default: hwdata
@@ -140,6 +412,31 @@ mappings:
     deb: valac
     CentOS6:
 
+  wireshark:
+    deb: wireshark-dev
+    Fedora: wireshark-devel
+    Debian8:
+    Ubuntu12:
+    Ubuntu14:
+
+  xen:
+    deb: libxen-dev
+    Fedora: xen-devel
+
   xmllint:
     default: libxml2
     deb: libxml2-utils
+
+  xsltproc:
+    default: libxslt
+    deb: xsltproc
+
+  yajl:
+    deb: libyajl-dev
+    pkg: yajl
+    rpm: yajl-devel
+
+  zfs:
+    default: zfs-fuse
+    CentOS:
+    FreeBSD:
