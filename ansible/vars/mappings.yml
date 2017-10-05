@@ -423,6 +423,36 @@ mappings:
     pkg: polkit
     rpm: polkit-devel
 
+  python2-devel:
+    deb: python-dev
+    pkg: python27
+    rpm: python2-devel
+
+  python2-lxml:
+    default: python-lxml
+    Fedora: python2-lxml
+    FreeBSD: py27-lxml
+
+  python2-nose:
+    default: python-nose
+    Fedora: python2-nose
+    FreeBSD: py27-nose
+
+  python3-devel:
+    deb: python3-dev
+    pkg: python36
+    Fedora: python3-devel
+
+  python3-lxml:
+    default: python3-lxml
+    FreeBSD: py36-lxml
+    CentOS:
+
+  python3-nose:
+    default: python3-nose
+    FreeBSD: py36-nose
+    CentOS:
+
   qemu-img:
     default: qemu-utils
     rpm: qemu-img

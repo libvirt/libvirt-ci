@@ -4,3 +4,4 @@ projects:
   - libvirt
   - libvirt-cim
   - libvirt-perl
+  - libvirt-python

@@ -7,3 +7,4 @@ projects:
   - libvirt-go
   - libvirt-go-xml
   - libvirt-perl
+  - libvirt-python
