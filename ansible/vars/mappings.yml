@@ -390,10 +390,78 @@ mappings:
     rpm: perl-CPAN-Changes
     CentOS6:
 
+  perl-Config-Record:
+    deb: libconfig-record-perl
+    pkg: p5-Config-Record
+    Fedora: perl-Config-Record
+
+  perl-Digest:
+    deb: libdigest-perl
+    pkg: p5-Digest
+    rpm: perl-Digest
+    CentOS6:
+
+  perl-Digest-MD5:
+    deb: libdigest-perl-md5-perl
+    pkg: p5-Digest-MD5
+    rpm: perl-Digest-MD5
+    CentOS6:
+    Ubuntu12:
+    Ubuntu14:
+
   perl-ExtUtils-MakeMaker:
     deb: perl-modules
     pkg: p5-ExtUtils-MakeMaker
     rpm: perl-ExtUtils-MakeMaker
+
+  perl-File-Slurp:
+    deb: libfile-slurp-perl
+    pkg: p5-File-Slurp
+    rpm: perl-File-Slurp
+
+  perl-IO-Compress-Bzip2:
+    deb: libio-compress-perl
+    pkg: p5-IO-Compress
+    rpm: perl-IO-Compress-Bzip2
+
+  perl-IO-String:
+    deb: libio-string-perl
+    pkg: p5-IO-String
+    rpm: perl-IO-String
+
+  perl-Module-Build:
+    deb: libmodule-build-perl
+    pkg: p5-Module-Build
+    rpm: perl-Module-Build
+
+  perl-Sub-Uplevel:
+    deb: libsub-uplevel-perl
+    pkg: p5-Sub-Uplevel
+    rpm: perl-Sub-Uplevel
+
+  perl-TAP-Formatter-HTML:
+    deb: libtap-formatter-html-perl
+    Fedora: perl-TAP-Formatter-HTML
+
+  perl-TAP-Formatter-JUnit:
+    deb: libtap-formatter-junit-perl
+    pkg: p5-TAP-Formatter-JUnit
+    Fedora: perl-TAP-Formatter-JUnit
+
+  perl-TAP-Harness-Archive:
+    deb: libtap-harness-archive-perl
+    Fedora: perl-TAP-Harness-Archive
+
+  perl-Test-Exception:
+    deb: libtest-exception-perl
+    pkg: p5-Test-Exception
+    rpm: perl-Test-Exception
+
+  perl-Test-LWP-UserAgent:
+    deb: libtest-lwp-useragent-perl
+    pkg: p5-Test-LWP-UserAgent
+    Fedora: perl-Test-LWP-UserAgent
+    Ubuntu12:
 
   perl-Test-Pod:
     deb: libtest-pod-perl
@@ -412,10 +480,25 @@ mappings:
     Ubuntu12: perl
     Ubuntu14: perl
 
+  perl-XML-Twig:
+    deb: libxml-twig-perl
+    pkg: p5-XML-Twig
+    rpm: perl-XML-Twig
+
+  perl-XML-Writer:
+    deb: libxml-writer-perl
+    pkg: p5-XML-Writer
+    rpm: perl-XML-Writer
+
   perl-XML-XPath:
     deb: libxml-xpath-perl
     pkg: p5-XML-XPath
     rpm: perl-XML-XPath
+
+  perl-accessors:
+    deb: libaccessors-perl
+    pkg: p5-accessors
+    Fedora: perl-accessors
 
   pkg-config:
     default: pkgconf

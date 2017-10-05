@@ -5,3 +5,4 @@ projects:
   - libvirt
   - libvirt-perl
   - libvirt-python
+  - libvirt-tck

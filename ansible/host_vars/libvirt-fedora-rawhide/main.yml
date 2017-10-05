@@ -10,3 +10,4 @@ projects:
   - libvirt-perl
   - libvirt-python
   - libvirt-sandbox
+  - libvirt-tck
