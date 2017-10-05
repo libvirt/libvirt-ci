@@ -16,3 +16,4 @@ projects:
   - libvirt-perl
   - libvirt-python
   - libvirt-tck
+  - osinfo-db
