@@ -13,3 +13,4 @@ projects:
   - libvirt-tck
   - osinfo-db
   - osinfo-db-tools
+  - virt-manager
