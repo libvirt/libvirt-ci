@@ -5,3 +5,4 @@ projects:
   - libvirt
   - libvirt-cim
   - libvirt-glib
+  - libvirt-go

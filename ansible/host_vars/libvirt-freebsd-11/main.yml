@@ -11,3 +11,4 @@ projects:
   - libosinfo
   - libvirt
   - libvirt-glib
+  - libvirt-go

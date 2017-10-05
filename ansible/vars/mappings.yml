@@ -122,6 +122,13 @@ mappings:
     Ubuntu12: libgnutls-dev
     Ubuntu14: libgnutls-dev
 
+  go:
+    default: golang
+    FreeBSD: go
+    CentOS6:
+    Ubuntu12:
+    Ubuntu14:
+
   gobject-introspection:
     deb: libgirepository1.0-dev
     pkg: gobject-introspection
