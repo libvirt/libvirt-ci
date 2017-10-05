@@ -3,3 +3,4 @@ projects:
   - base
   - libvirt
   - libvirt-cim
+  - libvirt-perl

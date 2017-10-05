@@ -13,3 +13,4 @@ projects:
   - libvirt-glib
   - libvirt-go
   - libvirt-go-xml
+  - libvirt-perl

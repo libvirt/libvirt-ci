@@ -380,6 +380,39 @@ mappings:
     default: perl
     FreeBSD: perl5
 
+  perl-CPAN-Changes:
+    deb: libcpan-changes-perl
+    pkg: p5-CPAN-Changes
+    rpm: perl-CPAN-Changes
+    CentOS6:
+
+  perl-ExtUtils-MakeMaker:
+    deb: perl-modules
+    pkg: p5-ExtUtils-MakeMaker
+    rpm: perl-ExtUtils-MakeMaker
+
+  perl-Test-Pod:
+    deb: libtest-pod-perl
+    pkg: p5-Test-Pod
+    rpm: perl-Test-Pod
+
+  perl-Test-Pod-Coverage:
+    deb: libtest-pod-coverage-perl
+    pkg: p5-Test-Pod-Coverage
+    rpm: perl-Test-Pod-Coverage
+
+  perl-Time-HiRes:
+    deb: libtime-hr-perl
+    pkg: p5-Time-HiRes
+    rpm: perl-Time-HiRes
+    Ubuntu12: perl
+    Ubuntu14: perl
+
+  perl-XML-XPath:
+    deb: libxml-xpath-perl
+    pkg: p5-XML-XPath
+    rpm: perl-XML-XPath
+
   pkg-config:
     default: pkgconf
     rpm: pkgconfig
