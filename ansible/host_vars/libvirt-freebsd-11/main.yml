@@ -10,3 +10,4 @@ projects:
   - base
   - libosinfo
   - libvirt
+  - libvirt-glib
