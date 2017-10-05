@@ -1,0 +1,14 @@
+---
+packages:
+  - glib2
+  - glibc-static
+  - gobject-introspection
+  - gtk-doc
+  - intltool
+  - libcap-ng
+  - libselinux
+  - libxml2
+  - xz
+  - xz-static
+  - zlib
+  - zlib-static

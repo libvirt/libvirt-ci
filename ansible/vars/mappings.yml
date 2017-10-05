@@ -107,6 +107,10 @@ mappings:
     deb: libc6-dev
     rpm: glibc-devel
 
+  glibc-static:
+    deb: libc6-dev
+    rpm: glibc-static
+
   glusterfs:
     deb: glusterfs-client
     pkg: glusterfs
@@ -517,6 +521,14 @@ mappings:
     default: libxslt
     deb: xsltproc
 
+  xz:
+    deb: liblzma-dev
+    rpm: xz-devel
+
+  xz-static:
+    deb: liblzma-dev
+    Fedora: xz-static
+
   yajl:
     deb: libyajl-dev
     pkg: yajl
@@ -526,3 +538,11 @@ mappings:
     default: zfs-fuse
     CentOS:
     FreeBSD:
+
+  zlib:
+    deb: zlib1g-dev
+    rpm: zlib-devel
+
+  zlib-static:
+    deb: zlib1g-dev
+    rpm: zlib-static
