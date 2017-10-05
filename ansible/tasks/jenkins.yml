@@ -1,0 +1,59 @@
+---
+- name: Create Jenkins user account
+  user:
+    name: jenkins
+    comment: Jenkins
+    password: '*'
+
+- name: Download Jenkins agent
+  get_url:
+    url: https://ci.centos.org/jnlpJars/slave.jar
+    dest: /home/jenkins/slave.jar
+    owner: jenkins
+    group: jenkins
+
+- name: Figure out how to start Jenkins agent
+  set_fact:
+    use_rc_local: true
+    use_systemd: false
+  when:
+    - ( os_name == 'FreeBSD' or
+        ( os_name == 'CentOS' and os_version == '6' ) or
+        ( os_name == 'Ubuntu' and os_version == '12' ) or
+        ( os_name == 'Ubuntu' and os_version == '14' ) )
+
+- name: Figure out how to start Jenkins agent
+  set_fact:
+    use_rc_local: false
+    use_systemd: true
+  when:
+    - use_rc_local is not defined
+    - use_systemd is not defined
+
+- name: Configure and enable Jenkins agent
+  lineinfile:
+    path: /etc/rc.local
+    create: yes
+    backup: yes
+    regexp: '^nohup.*jenkins.*java.*slave\.jar.*&$'
+    line: "nohup {{ sudo }} -u jenkins {{ bash }} -l -c '{{ java }} -jar /home/jenkins/slave.jar -jnlpUrl \"{{ jenkins_url }}\" -secret \"{{ jenkins_secret }}\"' >/var/log/jenkins.log 2>&1 &"
+    insertbefore: '^exit .*$'
+  when:
+    - use_rc_local
+
+- name: Configure Jenkins agent
+  template:
+    src: templates/jenkins.service.j2
+    dest: /etc/systemd/system/jenkins.service
+  when:
+    - use_systemd
+
+- name: Reload systemd status
+  command: systemctl daemon-reload
+  when:
+    - use_systemd
+
+- name: Enable Jenkins agent
+  command: systemctl enable jenkins
+  when:
+    - use_systemd

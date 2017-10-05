@@ -166,6 +166,14 @@ mappings:
     deb: open-iscsi
     rpm: iscsi-initiator-utils
 
+  java:
+    deb: openjdk-8-jre-headless
+    pkg: openjdk8-jre
+    rpm: java-1.8.0-openjdk-headless
+    Debian8: openjdk-7-jre-headless
+    Ubuntu12: openjdk-7-jre-headless
+    Ubuntu14: openjdk-7-jre-headless
+
   libacl:
     deb: libacl1-dev
     rpm: libacl-devel

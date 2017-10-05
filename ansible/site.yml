@@ -18,3 +18,10 @@
         loop_var: project
       when:
         - projects is defined
+
+    # Configure the Jenkins agent
+    - include: tasks/jenkins.yml
+      when:
+        - projects is defined
+        # jenkins is a pseudo-project
+        - ( 'jenkins' in projects )
