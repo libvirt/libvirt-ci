@@ -11,3 +11,4 @@ projects:
   - libvirt-python
   - libvirt-sandbox
   - osinfo-db
+  - osinfo-db-tools

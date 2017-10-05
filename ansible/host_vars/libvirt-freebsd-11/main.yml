@@ -17,3 +17,4 @@ projects:
   - libvirt-python
   - libvirt-tck
   - osinfo-db
+  - osinfo-db-tools

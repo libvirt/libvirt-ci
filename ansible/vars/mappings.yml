@@ -158,6 +158,11 @@ mappings:
     deb: libacl1-dev
     rpm: libacl-devel
 
+  libarchive:
+    deb: libarchive-dev
+    pkg: libarchive
+    rpm: libarchive-devel
+
   libattr:
     deb: libattr1-dev
     rpm: libattr-devel
