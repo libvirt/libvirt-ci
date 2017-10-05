@@ -1,0 +1,8 @@
+---
+packages:
+  - libcmpiutil
+  - libconfig
+  - libuuid
+  - libxml2
+  - libxslt
+  - wget

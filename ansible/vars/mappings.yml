@@ -163,6 +163,14 @@ mappings:
     deb: libcap-ng-dev
     rpm: libcap-ng-devel
 
+  libcmpiutil:
+    rpm: libcmpiutil-devel
+
+  libconfig:
+    deb: libconfig-dev
+    pkg: libconfig
+    rpm: libconfig-devel
+
   libcurl:
     deb: libcurl4-gnutls-dev
     pkg: curl
@@ -239,6 +247,11 @@ mappings:
   libudev:
     deb: libudev-dev
     rpm: libudev-devel
+
+  libuuid:
+    deb: uuid-dev
+    pkg: e2fsprogs-libuuid
+    rpm: libuuid-devel
 
   libxml2:
     deb: libxml2-dev
@@ -411,6 +424,9 @@ mappings:
     default: vala
     deb: valac
     CentOS6:
+
+  wget:
+    default: wget
 
   wireshark:
     deb: wireshark-dev

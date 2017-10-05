@@ -2,3 +2,4 @@
 projects:
   - base
   - libvirt
+  - libvirt-cim
