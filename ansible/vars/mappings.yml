@@ -139,9 +139,21 @@ mappings:
     rpm: gobject-introspection-devel
     CentOS6:
 
+  gtk3:
+    deb: libgtk-3-dev
+    pkg: gtk3
+    rpm: gtk3-devel
+    CentOS6:
+
   gtk-doc:
     default: gtk-doc
     deb: gtk-doc-tools
+
+  gtk-vnc:
+    deb: libgtk-vnc-2.0-dev
+    pkg: gtk-vnc
+    rpm: gtk-vnc2-devel
+    CentOS6:
 
   hal:
     FreeBSD: hal
@@ -196,6 +208,11 @@ mappings:
     deb: libdbus-1-dev
     pkg: dbus
     rpm: dbus-devel
+
+  libgovirt:
+    Debian: libgovirt-dev
+    Fedora: libgovirt-devel
+    Debian8:
 
   libnl:
     CentOS6: libnl-devel
@@ -597,6 +614,12 @@ mappings:
   showmount:
     deb: nfs-common
     rpm: nfs-utils
+
+  spice-gtk3:
+    deb: libspice-client-gtk-3.0-dev
+    pkg: spice-gtk
+    rpm: spice-gtk3-devel
+    CentOS6:
 
   usb-ids:
     default: hwdata

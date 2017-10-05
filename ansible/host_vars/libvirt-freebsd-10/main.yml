@@ -19,3 +19,4 @@ projects:
   - osinfo-db
   - osinfo-db-tools
   - virt-manager
+  - virt-viewer

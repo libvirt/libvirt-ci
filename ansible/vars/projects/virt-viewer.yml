@@ -1,0 +1,10 @@
+---
+packages:
+  - glib2
+  - gtk-vnc
+  - gtk3
+  - intltool
+  - libgovirt
+  - libxml2
+  - spice-gtk3
+  - xmllint
