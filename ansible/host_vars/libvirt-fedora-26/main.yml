@@ -6,3 +6,4 @@ projects:
   - libvirt-cim
   - libvirt-glib
   - libvirt-go
+  - libvirt-go-xml
