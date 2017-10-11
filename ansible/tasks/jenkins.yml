@@ -48,12 +48,10 @@
   when:
     - use_systemd
 
-- name: Reload systemd status
-  command: systemctl daemon-reload
-  when:
-    - use_systemd
-
 - name: Enable Jenkins agent
-  command: systemctl enable jenkins
+  systemd:
+    name: jenkins.service
+    enabled: yes
+    daemon_reload: yes
   when:
     - use_systemd
