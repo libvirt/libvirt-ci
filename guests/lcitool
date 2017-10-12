@@ -25,6 +25,34 @@ print(crypt.crypt(password,
       crypt.mksalt(crypt.METHOD_SHA512)))"
 }
 
+# yaml_var FILE VAR
+#
+# Read $FILE and output the value of YAML variable $VAR. Only trivial YAML
+# values are supported, eg. strings and numbers that don't depend on the
+# value of other variables. That's enough for our use case.
+yaml_var() {
+    grep "^$2:\\s*" "$1" 2>/dev/null | tail -1 | sed "s/$2:\\s*//g"
+}
+
+# load_config FILE
+#
+# Read all known configuration variables from $FILE and set them in the
+# environment. Configuration variables that have already been set in
+# the environment will not be updated.
+load_config() {
+    INSTALL_URL=${INSTALL_URL:-$(yaml_var "$1" install_url)}
+    INSTALL_CONFIG=${INSTALL_CONFIG:-$(yaml_var "$1" install_config)}
+    INSTALL_VIRT_TYPE=${INSTALL_VIRT_TYPE:-$(yaml_var "$1" install_virt_type)}
+    INSTALL_ARCH=${INSTALL_ARCH:-$(yaml_var "$1" install_arch)}
+    INSTALL_MACHINE=${INSTALL_MACHINE:-$(yaml_var "$1" install_machine)}
+    INSTALL_CPU_MODEL=${INSTALL_CPU_MODEL:-$(yaml_var "$1" install_cpu_model)}
+    INSTALL_VCPUS=${INSTALL_VCPUS:-$(yaml_var "$1" install_vcpus)}
+    INSTALL_MEMORY_SIZE=${INSTALL_MEMORY_SIZE:-$(yaml_var "$1" install_memory_size)}
+    INSTALL_DISK_SIZE=${INSTALL_DISK_SIZE:-$(yaml_var "$1" install_disk_size)}
+    INSTALL_STORAGE_POOL=${INSTALL_STORAGE_POOL:-$(yaml_var "$1" install_storage_pool)}
+    INSTALL_NETWORK=${INSTALL_NETWORK:-$(yaml_var "$1" install_network)}
+}
+
 # ----------------------
 #  User-visible actions
 # ----------------------
@@ -35,6 +63,7 @@ Usage: $CALL_NAME ACTION [OPTIONS]
 
 Actions:
   list                 List known guests
+  install GUEST        Install GUEST
   prepare GUEST|all    Prepare or update GUEST. Can be run multiple times
   update  GUEST|all    Alias for prepare
   help                 Display this help"
@@ -44,6 +73,58 @@ do_list() {
     # List all guests present in the inventory. Skip group names,
     # comments and empty lines
     grep -vE '^#|^\[|^$' inventory | sort -u
+}
+
+do_install()
+{
+    GUEST="$1"
+
+    test "$GUEST" || {
+        die "$(do_help)"
+    }
+    do_list | grep -q "$GUEST" || {
+        die "$PROGRAM_NAME: $GUEST: Unknown guest"
+    }
+    test -f "host_vars/$GUEST/install.yml" || {
+        die "$PROGRAM_NAME: $GUEST: Missing configuration, guest must be installed manually"
+    }
+
+    # Load configuration files. Values don't get overwritten after being
+    # set the first time, so loading the host-specific configuration before
+    # the group configuration ensures overrides work as expected
+    load_config "host_vars/$GUEST/install.yml"
+    load_config "group_vars/all/install.yml"
+
+    # Both memory size and disk size use GiB as unit, but virt-install wants
+    # disk size in GiB and memory size in *MiB*, so perform conversion here
+    INSTALL_MEMORY_SIZE=$(expr "$INSTALL_MEMORY_SIZE" \* 1024 2>/dev/null)
+
+    # preseed files must use a well-known name to be picked up by d-i;
+    # for kickstart files, we can use whatever name we please but we need
+    # to point anaconda in the right direction through a kernel argument
+    case "$INSTALL_CONFIG" in
+        *kickstart*|*ks*) EXTRA_ARGS="ks=file:/${INSTALL_CONFIG##*/}" ;;
+    esac
+
+    virt-install \
+        --name "$GUEST" \
+        --location "$INSTALL_URL" \
+        --virt-type "$INSTALL_VIRT_TYPE" \
+        --arch "$INSTALL_ARCH" \
+        --machine "$INSTALL_MACHINE"  \
+        --cpu "$INSTALL_CPU_MODEL" \
+        --vcpus "$INSTALL_VCPUS" \
+        --memory "$INSTALL_MEMORY_SIZE" \
+        --disk "size=$INSTALL_DISK_SIZE,pool=$INSTALL_STORAGE_POOL,bus=virtio" \
+        --network "network=$INSTALL_NETWORK,model=virtio" \
+        --graphics none \
+        --console pty \
+        --sound none \
+        --controller usb,model=none \
+        --initrd-inject "$INSTALL_CONFIG" \
+        --extra-args "console=ttyS0 $EXTRA_ARGS" \
+        --autostart \
+        --wait 0
 }
 
 do_prepare() {
@@ -95,6 +176,7 @@ test -f "$PROGRAM_NAME" || {
 
 case "$1" in
     list)           do_list ;;
+    install)        do_install "$2" ;;
     prepare|update) do_prepare "$2" ;;
     *help)          do_help ;;
     *)              die "$(do_help)" ;;

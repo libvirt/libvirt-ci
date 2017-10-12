@@ -1,0 +1,3 @@
+---
+install_url: https://download.fedoraproject.org/pub/fedora/linux/releases/26/Server/x86_64/os
+install_config: kickstart.cfg
