@@ -1,0 +1,76 @@
+#!/bin/sh
+
+# -------------------
+#  Utility functions
+# -------------------
+
+# die MESSAGE
+#
+# Abort the program after displaying $MESSAGE on standard error.
+die() {
+    echo "$1" >&2
+    exit 1
+}
+
+# ----------------------
+#  User-visible actions
+# ----------------------
+
+do_help() {
+    echo "\
+Usage: $CALL_NAME ACTION [OPTIONS]
+
+Actions:
+  list                 List known guests
+  prepare GUEST|all    Prepare or update GUEST. Can be run multiple times
+  update  GUEST|all    Alias for prepare
+  help                 Display this help"
+}
+
+do_list() {
+    # List all guests present in the inventory. Skip group names,
+    # comments and empty lines
+    grep -vE '^#|^\[|^$' inventory | sort -u
+}
+
+do_prepare() {
+    GUEST="$1"
+
+    test "$GUEST" || {
+        die "$(do_help)"
+    }
+    do_list | grep -q "$GUEST" || test "$GUEST" = all || {
+        die "$PROGRAM_NAME: $GUEST: Unknown guest"
+    }
+
+    VAULT_PASS_FILE="$CONFIG_DIR/vault-password"
+
+    # Make sure required passwords exist and are not invalid (empty)
+    test -f "$VAULT_PASS_FILE" && test "$(cat "$VAULT_PASS_FILE")" || {
+        die "$PROGRAM_NAME: $VAULT_PASS_FILE: Missing or invalid password"
+    }
+
+    ansible-playbook \
+        --vault-password-file "$VAULT_PASS_FILE" \
+        -l "$GUEST" \
+        site.yml
+}
+
+# ---------------------
+#  Program entry point
+# ---------------------
+
+CALL_NAME="$0"
+PROGRAM_NAME="${0##*/}"
+CONFIG_DIR="$HOME/.config/$PROGRAM_NAME"
+
+test -f "$PROGRAM_NAME" || {
+    die "$PROGRAM_NAME: Must be run from the source directory"
+}
+
+case "$1" in
+    list)           do_list ;;
+    prepare|update) do_prepare "$2" ;;
+    *help)          do_help ;;
+    *)              die "$(do_help)" ;;
+esac
