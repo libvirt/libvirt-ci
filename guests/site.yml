@@ -1,5 +1,13 @@
 ---
 - hosts: all
+  gather_facts: no
+
+  tasks:
+
+    # Bootstrap Ansible itself
+    - include: tasks/bootstrap.yml
+
+- hosts: all
 
   vars_files:
     - vars/mappings.yml

@@ -12,6 +12,19 @@ die() {
     exit 1
 }
 
+# hash_file PASS_FILE
+#
+# Generate a password hash from the contents of PASS_FILE.
+hash_file() {
+    PASS_FILE="$1"
+
+    python2 -c "
+import crypt
+password = open('$PASS_FILE', 'r').read().strip()
+print(crypt.crypt(password,
+      crypt.mksalt(crypt.METHOD_SHA512)))"
+}
+
 # ----------------------
 #  User-visible actions
 # ----------------------
@@ -44,10 +57,22 @@ do_prepare() {
     }
 
     VAULT_PASS_FILE="$CONFIG_DIR/vault-password"
+    ROOT_PASS_FILE="$CONFIG_DIR/root-password"
 
     # Make sure required passwords exist and are not invalid (empty)
     test -f "$VAULT_PASS_FILE" && test "$(cat "$VAULT_PASS_FILE")" || {
         die "$PROGRAM_NAME: $VAULT_PASS_FILE: Missing or invalid password"
+    }
+    test -f "$ROOT_PASS_FILE" && test "$(cat "$ROOT_PASS_FILE")" || {
+        die "$PROGRAM_NAME: $ROOT_PASS_FILE: Missing or invalid password"
+    }
+
+    ROOT_HASH_FILE="$CONFIG_DIR/.root-password.hash"
+
+    # Regenerate root password hash. Ansible expects passwords as hashes but
+    # doesn't provide a built-in facility to generate one from plain text
+    hash_file "$ROOT_PASS_FILE" >"$ROOT_HASH_FILE" || {
+        die "$PROGRAM_NAME: Failure while hashing root password"
     }
 
     ansible-playbook \

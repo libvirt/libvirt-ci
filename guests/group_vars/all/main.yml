@@ -1,6 +1,11 @@
 ---
 ansible_user: root
 
+# This password is only used to access the guest the very first time
+# Ansible is used: afterwards, the user's SSH key will have been installed
+# in the guest and SSH password authentication will have been disabled
+ansible_ssh_pass: root
+
 jenkins_url: https://ci.centos.org/computer/{{ inventory_hostname }}/slave-agent.jnlp
 
 # Paths to various command. Can be overridden on a per-host basis
