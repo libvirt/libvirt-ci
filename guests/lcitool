@@ -120,7 +120,6 @@ do_install()
         --graphics none \
         --console pty \
         --sound none \
-        --controller usb,model=none \
         --initrd-inject "$INSTALL_CONFIG" \
         --extra-args "console=ttyS0 $EXTRA_ARGS" \
         --autostart \
