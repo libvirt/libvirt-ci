@@ -34,3 +34,8 @@
         - projects is defined
         # jenkins is a pseudo-project
         - ( 'jenkins' in projects )
+
+    # Configure the test environment
+    - include: tasks/test.yml
+      when:
+        - flavor == 'test'

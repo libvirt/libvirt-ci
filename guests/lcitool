@@ -141,6 +141,8 @@ do_install()
         die "$PROGRAM_NAME: $GUEST: Missing configuration, guest must be installed manually"
     }
 
+    load_config
+
     # Load configuration files. Values don't get overwritten after being
     # set the first time, so loading the host-specific configuration before
     # the group configuration ensures overrides work as expected
@@ -158,6 +160,11 @@ do_install()
         *kickstart*|*ks*) EXTRA_ARGS="ks=file:/${INSTALL_CONFIG##*/}" ;;
     esac
 
+    # Only configure autostart for the guest for the ci flavor
+    test "$FLAVOR" = ci && {
+        AUTOSTART="--autostart"
+    }
+
     virt-install \
         --name "$GUEST" \
         --location "$INSTALL_URL" \
@@ -174,7 +181,7 @@ do_install()
         --sound none \
         --initrd-inject "$INSTALL_CONFIG" \
         --extra-args "console=ttyS0 $EXTRA_ARGS" \
-        --autostart \
+        $AUTOSTART \
         --wait 0
 }
 
