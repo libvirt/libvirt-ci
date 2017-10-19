@@ -82,6 +82,11 @@ mappings:
     deb: systemtap-sdt-dev
     rpm: systemtap-sdt-devel
 
+  dwarves:
+    default: dwarves
+    CentOS:
+    FreeBSD:
+
   ebtables:
     default: ebtables
     FreeBSD:
