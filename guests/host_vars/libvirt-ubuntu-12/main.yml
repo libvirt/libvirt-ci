@@ -3,5 +3,3 @@ projects:
   - base
   - jenkins
   - libvirt
-
-jenkins_secret: '{{ vault.jenkins_secret }}'

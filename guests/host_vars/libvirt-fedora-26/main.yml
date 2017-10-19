@@ -16,5 +16,3 @@ projects:
   - osinfo-db-tools
   - virt-manager
   - virt-viewer
-
-jenkins_secret: '{{ vault.jenkins_secret }}'

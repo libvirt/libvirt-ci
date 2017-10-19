@@ -1,4 +1,12 @@
 ---
+- name: Open vault
+  include_vars:
+    file: vars/vault.yml
+
+- name: Look up Jenkins secret
+  set_fact:
+    jenkins_secret: '{{ vault.jenkins_secrets[inventory_hostname] }}'
+
 - name: Create Jenkins user account
   user:
     name: jenkins

@@ -6,5 +6,3 @@ projects:
   - libvirt-cim
   - libvirt-perl
   - libvirt-python
-
-jenkins_secret: '{{ vault.jenkins_secret }}'
