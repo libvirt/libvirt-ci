@@ -34,12 +34,12 @@ yaml_var() {
     grep "^$2:\\s*" "$1" 2>/dev/null | tail -1 | sed "s/$2:\\s*//g"
 }
 
-# load_config FILE
+# load_install_config FILE
 #
 # Read all known configuration variables from $FILE and set them in the
 # environment. Configuration variables that have already been set in
 # the environment will not be updated.
-load_config() {
+load_install_config() {
     INSTALL_URL=${INSTALL_URL:-$(yaml_var "$1" install_url)}
     INSTALL_CONFIG=${INSTALL_CONFIG:-$(yaml_var "$1" install_config)}
     INSTALL_VIRT_TYPE=${INSTALL_VIRT_TYPE:-$(yaml_var "$1" install_virt_type)}
@@ -51,6 +51,32 @@ load_config() {
     INSTALL_DISK_SIZE=${INSTALL_DISK_SIZE:-$(yaml_var "$1" install_disk_size)}
     INSTALL_STORAGE_POOL=${INSTALL_STORAGE_POOL:-$(yaml_var "$1" install_storage_pool)}
     INSTALL_NETWORK=${INSTALL_NETWORK:-$(yaml_var "$1" install_network)}
+}
+
+# load_config
+#
+# Read tool configuration and perform the necessary validation.
+load_config() {
+    CONFIG_DIR="$HOME/.config/$PROGRAM_NAME"
+
+    VAULT_PASS_FILE="$CONFIG_DIR/vault-password"
+    ROOT_PASS_FILE="$CONFIG_DIR/root-password"
+
+    # Make sure required passwords exist and are not invalid (empty)
+    test -f "$VAULT_PASS_FILE" && test "$(cat "$VAULT_PASS_FILE")" || {
+        die "$PROGRAM_NAME: $VAULT_PASS_FILE: Missing or invalid password"
+    }
+    test -f "$ROOT_PASS_FILE" && test "$(cat "$ROOT_PASS_FILE")" || {
+        die "$PROGRAM_NAME: $ROOT_PASS_FILE: Missing or invalid password"
+    }
+
+    ROOT_HASH_FILE="$CONFIG_DIR/.root-password.hash"
+
+    # Regenerate root password hash. Ansible expects passwords as hashes but
+    # doesn't provide a built-in facility to generate one from plain text
+    hash_file "$ROOT_PASS_FILE" >"$ROOT_HASH_FILE" || {
+        die "$PROGRAM_NAME: Failure while hashing root password"
+    }
 }
 
 # ----------------------
@@ -92,8 +118,8 @@ do_install()
     # Load configuration files. Values don't get overwritten after being
     # set the first time, so loading the host-specific configuration before
     # the group configuration ensures overrides work as expected
-    load_config "host_vars/$GUEST/install.yml"
-    load_config "group_vars/all/install.yml"
+    load_install_config "host_vars/$GUEST/install.yml"
+    load_install_config "group_vars/all/install.yml"
 
     # Both memory size and disk size use GiB as unit, but virt-install wants
     # disk size in GiB and memory size in *MiB*, so perform conversion here
@@ -136,24 +162,7 @@ do_prepare() {
         die "$PROGRAM_NAME: $GUEST: Unknown guest"
     }
 
-    VAULT_PASS_FILE="$CONFIG_DIR/vault-password"
-    ROOT_PASS_FILE="$CONFIG_DIR/root-password"
-
-    # Make sure required passwords exist and are not invalid (empty)
-    test -f "$VAULT_PASS_FILE" && test "$(cat "$VAULT_PASS_FILE")" || {
-        die "$PROGRAM_NAME: $VAULT_PASS_FILE: Missing or invalid password"
-    }
-    test -f "$ROOT_PASS_FILE" && test "$(cat "$ROOT_PASS_FILE")" || {
-        die "$PROGRAM_NAME: $ROOT_PASS_FILE: Missing or invalid password"
-    }
-
-    ROOT_HASH_FILE="$CONFIG_DIR/.root-password.hash"
-
-    # Regenerate root password hash. Ansible expects passwords as hashes but
-    # doesn't provide a built-in facility to generate one from plain text
-    hash_file "$ROOT_PASS_FILE" >"$ROOT_HASH_FILE" || {
-        die "$PROGRAM_NAME: Failure while hashing root password"
-    }
+    load_config
 
     ansible-playbook \
         --vault-password-file "$VAULT_PASS_FILE" \
@@ -167,7 +176,6 @@ do_prepare() {
 
 CALL_NAME="$0"
 PROGRAM_NAME="${0##*/}"
-CONFIG_DIR="$HOME/.config/$PROGRAM_NAME"
 
 test -f "$PROGRAM_NAME" || {
     die "$PROGRAM_NAME: Must be run from the source directory"
