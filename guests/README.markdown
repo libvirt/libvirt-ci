@@ -11,8 +11,7 @@ There are two steps to bringing up a guest:
   section below;
 
 * `./lcitool prepare $guest` will go through all the post-installation
-  configuration steps required to make the newly-created guest usable as
-  part of the Jenkins CI setup.
+  configuration steps required to make the newly-created guest usable;
 
 Once those steps have been performed, maintainance will involve running:
 
@@ -46,37 +45,49 @@ along the lines of
 in your crontab.
 
 
-Adding new guests
------------------
-
-Adding new guests will require tweaking the inventory and host variables,
-but it should be very easy to eg. use the Fedora 26 configuration to come
-up with a working Fedora 27 configuration.
-
-
-Development use
+Test use
 ---------------
 
 If you are a developer trying to reproduce a bug on some OS you don't
 have easy access to, you can use these tools to create a suitable test
 environment.
 
-Since the tools are intended mainly for CI use, you'll have to tweak them
-a bit first, including:
+The `test` flavor is used by default, so you don't need to do anything
+special in order to use it: just follow the steps outlined above. Once
+a guest has been prepared, you'll be able to log in as `test` either
+via SSH (your public key will have been authorized) or on the serial
+console (password: `test`).
 
-* trimming down the `inventory` file to just the guest you're interested in;
+Once logged in, you'll be able to perform administrative tasks using
+`sudo`. Regular root access will still be available, either through
+SSH or on the serial console.
 
-* removing any references to the `jenkins` pseudo-project from
-  `host_vars/$guest/main.yml`, along with any references to projects you're
-  not interested to (this will cut down on the number of packages installed)
-  and any references to `jenkins_secret`;
+Since guests created for this purpose are probably not going to be
+long-lived or contain valuable information, you can configure your
+SSH client to skip some of the usual verification steps and thus
+prompt you less frequently; moreover, you can have the username
+selected automatically for you to avoid having to type it in every
+single time you want to connect. Just add
 
-* deleting `host_vars/$guest/vault.yml` altogether.
+    Host libvirt-*
+        User test
+        GSSAPIAuthentication no
+        StrictHostKeyChecking no
+        CheckHostIP no
+        UserKnownHostsFile /dev/null
 
-After performing these tweaks, you should be able to use the same steps
-outlined above.
+to your `~/.ssh/config` file to achieve all of the above.
 
-A better way to deal with this use case will be provided in the future.
+
+CI use
+------
+
+You'll need to configure `lcitool` to use the `ci` flavor for guests:
+to do so, just write `ci` in the `~/.config/lcitool/flavor` file.
+
+Once a guest has been prepared, you'll be able to log in as root either
+via SSH (your public key will have been authorized) or on the serial
+console (using the password configured earlier).
 
 
 FreeBSD
@@ -95,3 +106,11 @@ Some manual tweaking will be needed, in particular:
 
 Once these steps have been performed, FreeBSD guests can be managed just
 like all other guests.
+
+
+Adding new guests
+-----------------
+
+Adding new guests will require tweaking the inventory and host variables,
+but it should be very easy to eg. use the Fedora 26 configuration to come
+up with a working Fedora 27 configuration.
