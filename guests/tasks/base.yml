@@ -127,7 +127,7 @@
 - name: Configure root password and shell
   user:
     name: root
-    password: '{{ lookup("file", lookup("env", "HOME") + "/.config/lcitool/.root-password.hash") }}'
+    password: '{{ lookup("file", root_password_file) }}'
     shell: '{{ bash }}'
 
 - name: Disable password authentication for the root user

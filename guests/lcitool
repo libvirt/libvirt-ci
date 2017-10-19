@@ -197,7 +197,7 @@ do_prepare() {
 
     load_config
 
-    EXTRA_VARS="flavor=$FLAVOR"
+    EXTRA_VARS="flavor=$FLAVOR root_password_file=$ROOT_HASH_FILE"
 
     ansible-playbook \
         --vault-password-file "$VAULT_PASS_FILE" \
