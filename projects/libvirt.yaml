@@ -19,7 +19,7 @@
             - libvirt-fedora-25
             - libvirt-fedora-26
             - libvirt-fedora-rawhide
-            - libvirt-freebsd
+            - libvirt-freebsd-10
       - autotools-syntax-check-job:
           parent_jobs: 'libvirt-master-build'
           machines:
