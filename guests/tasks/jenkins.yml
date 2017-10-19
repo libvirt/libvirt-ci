@@ -11,6 +11,7 @@
     dest: /home/jenkins/slave.jar
     owner: jenkins
     group: jenkins
+    force: yes
 
 - name: Configure and enable Jenkins agent
   lineinfile:
