@@ -181,9 +181,12 @@
 - name: Configure the FreeBSD bootloader
   lineinfile:
     path: /boot/loader.conf
-    regexp: '^console=.*$'
-    line: 'console="comconsole"'
+    regexp: '^{{ item.key }}=.*$'
+    line: '{{ item.key }}="{{ item.value }}"'
     create: yes
     backup: yes
+  with_items:
+    - { key: 'console', value: 'comconsole' }
+    - { key: 'autoboot_delay', value: '1' }
   when:
     - os_name == 'FreeBSD'
