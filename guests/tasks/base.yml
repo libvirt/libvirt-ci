@@ -37,6 +37,7 @@
   command: apt-get install -y python-apt
   args:
     creates: /usr/lib/python2*/*-packages/apt
+    warn: no
   when:
     - package_format == 'deb'
 
@@ -44,6 +45,7 @@
   command: dnf install -y python2-dnf
   args:
     creates: /usr/lib*/python2*/*-packages/dnf
+    warn: no
   when:
     - os_name == 'Fedora'
 
