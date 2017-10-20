@@ -118,7 +118,6 @@ mappings:
 
   glusterfs:
     deb: glusterfs-client
-    pkg: glusterfs
     rpm: glusterfs-api-devel
 
   gnome-common:
