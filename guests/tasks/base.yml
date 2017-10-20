@@ -4,6 +4,7 @@
     os_name: '{{ ansible_distribution }}'
     os_version: '{{ ansible_distribution_major_version }}'
   when:
+    - ansible_distribution != 'FreeBSD'
     - ansible_distribution_release != 'Rawhide'
 
 - name: Set additional facts (OS)
@@ -11,7 +12,15 @@
     os_name: '{{ ansible_distribution }}'
     os_version: Rawhide
   when:
+    - ansible_distribution != 'FreeBSD'
     - ansible_distribution_release == 'Rawhide'
+
+- name: Set additional facts (OS)
+  set_fact:
+    os_name: '{{ ansible_distribution }}'
+    os_version: '{{ ansible_distribution_release|regex_replace("^(\d+)\.\d+-.*$", "\1") }}'
+  when:
+    - ansible_distribution == 'FreeBSD'
 
 - name: Set additional facts (package format)
   set_fact:
