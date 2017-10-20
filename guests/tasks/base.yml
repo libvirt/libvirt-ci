@@ -33,6 +33,26 @@
     - ( os_name == 'CentOS' or
         os_name == 'Fedora' )
 
+- name: Enable jessie-backports repository
+  copy:
+    src: files/jessie-backports.sources
+    dest: /etc/apt/sources.list.d/jessie-backports.list
+    owner: root
+    group: root
+  when:
+    - os_name == 'Debian'
+    - os_version == '8'
+
+- name: Configure APT pinning for jessie-backports
+  copy:
+    src: files/jessie-backports.preferences
+    dest: /etc/apt/preferences.d/jessie-backports
+    owner: root
+    group: root
+  when:
+    - os_name == 'Debian'
+    - os_version == '8'
+
 - name: Bootstrap the package module
   command: apt-get install -y python-apt
   args:
