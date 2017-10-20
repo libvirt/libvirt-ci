@@ -4,7 +4,7 @@ ansible_python_interpreter: /usr/local/bin/python2
 bash: /usr/local/bin/bash
 java: /usr/local/bin/java
 make: /usr/local/bin/gmake
-sudo: /usr/local/bin/sudo
+su: /usr/bin/su
 
 projects:
   - base

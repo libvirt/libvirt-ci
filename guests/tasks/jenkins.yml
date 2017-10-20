@@ -19,7 +19,7 @@
     create: yes
     backup: yes
     regexp: '^nohup.*jenkins.*java.*slave\.jar.*&$'
-    line: "nohup {{ sudo }} -u jenkins {{ bash }} -l -c '{{ java }} -jar /home/jenkins/slave.jar -jnlpUrl \"{{ jenkins_url }}\" -secret \"{{ jenkins_secret }}\"' >/var/log/jenkins.log 2>&1 &"
+    line: "nohup {{ su }} - jenkins -c '{{ java }} -jar /home/jenkins/slave.jar -jnlpUrl \"{{ jenkins_url }}\" -secret \"{{ jenkins_secret }}\"' >/var/log/jenkins.log 2>&1 &"
     insertbefore: '^exit .*$'
   when:
     - ansible_service_mgr != 'systemd'

@@ -12,4 +12,4 @@ jenkins_url: https://ci.centos.org/computer/{{ inventory_hostname }}/slave-agent
 bash: /bin/bash
 java: /usr/bin/java
 make: /usr/bin/make
-sudo: /usr/bin/sudo
+su: /bin/su
