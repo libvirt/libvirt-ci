@@ -96,17 +96,17 @@
   hostname:
     name: '{{ inventory_hostname }}'
 
-- name: Configure root password and shell
-  user:
-    name: root
-    password: '{{ lookup("file", lookup("env", "HOME") + "/.config/lcitool/.root-password.hash") }}'
-    shell: '{{ bash }}'
-
 - name: Configure ssh access for the root user
   authorized_key:
     user: root
     key: '{{ lookup("file", lookup("env", "HOME") + "/.ssh/id_rsa.pub") }}'
     state: present
+
+- name: Configure root password and shell
+  user:
+    name: root
+    password: '{{ lookup("file", lookup("env", "HOME") + "/.config/lcitool/.root-password.hash") }}'
+    shell: '{{ bash }}'
 
 - name: Disable password authentication for the root user
   lineinfile:
