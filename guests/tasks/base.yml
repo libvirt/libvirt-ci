@@ -77,6 +77,16 @@
     - os_name == 'Debian'
     - os_version == '8'
 
+- name: Enable fedora-rawhide-kernel-nodebug repository
+  copy:
+    src: files/fedora-rawhide-kernel-nodebug.repo
+    dest: /etc/yum.repos.d/fedora-rawhide-kernel-nodebug.repo
+    owner: root
+    group: root
+  when:
+    - os_name == 'Fedora'
+    - os_version == 'Rawhide'
+
 - name: Update installed packages
   package:
     name: '*'
