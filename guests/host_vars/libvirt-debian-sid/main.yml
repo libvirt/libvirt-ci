@@ -1,0 +1,16 @@
+---
+projects:
+  - base
+  - libosinfo
+  - libvirt
+  - libvirt-glib
+  - libvirt-go
+  - libvirt-go-xml
+  - libvirt-perl
+  - libvirt-python
+  - libvirt-sandbox
+  - libvirt-tck
+  - osinfo-db
+  - osinfo-db-tools
+  - virt-manager
+  - virt-viewer

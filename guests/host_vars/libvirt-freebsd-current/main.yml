@@ -1,0 +1,23 @@
+---
+ansible_python_interpreter: /usr/local/bin/python2
+
+bash: /usr/local/bin/bash
+java: /usr/local/bin/java
+make: /usr/local/bin/gmake
+su: /usr/bin/su
+sudoers: /usr/local/etc/sudoers
+
+projects:
+  - base
+  - libosinfo
+  - libvirt
+  - libvirt-glib
+  - libvirt-go
+  - libvirt-go-xml
+  - libvirt-perl
+  - libvirt-python
+  - libvirt-tck
+  - osinfo-db
+  - osinfo-db-tools
+  - virt-manager
+  - virt-viewer
