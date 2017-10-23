@@ -33,6 +33,30 @@
     - ( os_name == 'CentOS' or
         os_name == 'Fedora' )
 
+- name: Bootstrap the package module
+  command: apt-get install -y python-apt
+  args:
+    creates: /usr/lib/python2*/*-packages/apt
+    warn: no
+  when:
+    - package_format == 'deb'
+
+- name: Bootstrap the package module
+  command: dnf install -y python2-dnf
+  args:
+    creates: /usr/lib*/python2*/*-packages/dnf
+    warn: no
+  when:
+    - os_name == 'Fedora'
+
+- name: Permit file editing on SELinux-enabled systems
+  package:
+    name: libselinux-python
+    state: present
+  when:
+    - ( os_name == 'CentOS' or
+        os_name == 'Fedora' )
+
 - name: Enable jessie-backports repository
   copy:
     src: files/jessie-backports.sources
@@ -52,22 +76,6 @@
   when:
     - os_name == 'Debian'
     - os_version == '8'
-
-- name: Bootstrap the package module
-  command: apt-get install -y python-apt
-  args:
-    creates: /usr/lib/python2*/*-packages/apt
-    warn: no
-  when:
-    - package_format == 'deb'
-
-- name: Bootstrap the package module
-  command: dnf install -y python2-dnf
-  args:
-    creates: /usr/lib*/python2*/*-packages/dnf
-    warn: no
-  when:
-    - os_name == 'Fedora'
 
 - name: Update installed packages
   package:
@@ -105,14 +113,6 @@
     state: absent
   with_items:
     - nano
-
-- name: Permit file editing on SELinux-enabled systems
-  package:
-    name: libselinux-python
-    state: present
-  when:
-    - ( os_name == 'CentOS' or
-        os_name == 'Fedora' )
 
 - name: Configure hostname
   hostname:
