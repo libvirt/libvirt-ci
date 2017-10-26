@@ -52,7 +52,6 @@
     name: '{name}-{branch}-check'
     project-type: matrix
     description: '{title} Check'
-    check_env: ''
     workspace: '{name}-{branch}'
     child-workspace: '.'
     block-downstream: true

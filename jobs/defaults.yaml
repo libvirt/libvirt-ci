@@ -9,5 +9,6 @@
       if [ "$unamestr" = 'FreeBSD' ]; then
           MAKE='gmake'
       fi
+    check_env: |
     smp: 3
     spam: ymankad@redhat.com libvirt-ci@redhat.com
