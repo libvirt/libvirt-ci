@@ -2,9 +2,13 @@
 - project:
     name: libvirt-tck
     machines:
+      - libvirt-debian-8
+      - libvirt-debian-9
       - libvirt-fedora-25
       - libvirt-fedora-26
       - libvirt-fedora-rawhide
+      - libvirt-freebsd-10
+      - libvirt-freebsd-11
     title: Libvirt TCK
     jobs:
       - perl-modulebuild-build-job:
