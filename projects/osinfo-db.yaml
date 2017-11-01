@@ -3,6 +3,7 @@
     name: osinfo-db
     machines:
       - libvirt-centos-7
+      - libvirt-debian-8
       - libvirt-debian-9
       - libvirt-fedora-25
       - libvirt-fedora-26
