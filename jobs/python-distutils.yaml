@@ -41,8 +41,8 @@
     builders:
       - shell: |
           {command_pre_build}
-          python setup.py build
-          python setup.py install --prefix=$VIRT_PREFIX
+          python2 setup.py build
+          python2 setup.py install --prefix=$VIRT_PREFIX
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -79,7 +79,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
-          python setup.py test
+          python2 setup.py test
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -116,7 +116,7 @@
     builders:
       - shell: |
           sed -i -e 's/BuildRequires: libvirt.*devel.*//' *.spec.in
-          python setup.py rpm
+          python2 setup.py rpm
     publishers:
       - email:
           recipients: '{obj:spam}'
