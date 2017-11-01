@@ -20,6 +20,11 @@
             $MAKE install OSINFO_DB_TARGET="--system"
       - generic-rpm-job:
           parent_jobs: 'osinfo-db-master-build'
+          machines:
+            - libvirt-centos-7
+            - libvirt-fedora-25
+            - libvirt-fedora-26
+            - libvirt-fedora-rawhide
           command: |
             {make_env}
             export PATH=$VIRT_PREFIX/bin:$PATH

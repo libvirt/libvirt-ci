@@ -21,4 +21,7 @@
       - autotools-rpm-job:
           parent_jobs: 'virt-viewer-master-check'
           machines:
+            - libvirt-centos-7
+            - libvirt-fedora-25
+            - libvirt-fedora-26
             - libvirt-fedora-rawhide

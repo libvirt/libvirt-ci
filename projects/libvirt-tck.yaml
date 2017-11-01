@@ -17,3 +17,7 @@
           parent_jobs: 'libvirt-tck-master-build'
       - perl-modulebuild-rpm-job:
           parent_jobs: 'libvirt-tck-master-test'
+          machines:
+            - libvirt-fedora-25
+            - libvirt-fedora-26
+            - libvirt-fedora-rawhide

@@ -18,3 +18,8 @@
           parent_jobs: 'libvirt-sandbox-master-syntax-check'
       - autotools-rpm-job:
           parent_jobs: 'libvirt-sandbox-master-check'
+          machines:
+            - libvirt-centos-7
+            - libvirt-fedora-25
+            - libvirt-fedora-26
+            - libvirt-fedora-rawhide

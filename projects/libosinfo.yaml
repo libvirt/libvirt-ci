@@ -22,3 +22,8 @@
           parent_jobs: 'libosinfo-master-syntax-check'
       - autotools-rpm-job:
           parent_jobs: 'libosinfo-master-check'
+          machines:
+            - libvirt-centos-7
+            - libvirt-fedora-25
+            - libvirt-fedora-26
+            - libvirt-fedora-rawhide
