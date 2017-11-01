@@ -21,7 +21,6 @@
       - perl-makemaker-rpm-job:
           parent_jobs: 'libvirt-perl-master-test'
           machines:
-            - libvirt-centos-6
             - libvirt-centos-7
             - libvirt-fedora-25
             - libvirt-fedora-26
