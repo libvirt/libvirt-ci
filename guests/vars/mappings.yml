@@ -220,8 +220,8 @@ mappings:
     rpm: dbus-devel
 
   libgovirt:
+    rpm: libgovirt-devel
     Debian: libgovirt-dev
-    Fedora: libgovirt-devel
     Debian8:
 
   libnl:
