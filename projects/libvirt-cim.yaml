@@ -12,12 +12,14 @@
       - generic-build-job:
           parent_jobs: 'libvirt-master-build'
           command: |
+            {make_env}
             ./autogen.sh
             ./configure --prefix=$VIRT_PREFIX
-            make -j{smp}
-            make -j{smp} install
+            $MAKE -j{smp}
+            $MAKE -j{smp} install
       - generic-rpm-job:
           parent_jobs: 'libvirt-cim-master-build'
           command: |
+            {make_env}
             sed -i -e "s/.*libvirt-devel.*//" libvirt-cim.spec.in
-            make -j{smp} rpm
+            $MAKE -j{smp} rpm

@@ -41,9 +41,10 @@
     builders:
       - shell: |
           perl Makefile.PL PREFIX="$VIRT_PREFIX"
-          make
-          make -j{smp} install
-          make -j{smp} manifest
+          {make_env}
+          $MAKE
+          $MAKE -j{smp} install
+          $MAKE -j{smp} manifest
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -81,7 +82,8 @@
           values: '{obj:machines}'
     builders:
       - shell: |
-          make -j{smp} test {test_args}
+          {make_env}
+          $MAKE -j{smp} test {test_args}
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -118,10 +120,11 @@
           values: '{obj:machines}'
     builders:
       - shell: |
+          {make_env}
           sed -i -e 's/BuildRequires: *perl-Sys-Virt.*//' *.spec
           sed -i -e 's/BuildRequires: *libvirt.*devel.*//' *.spec
           rm -f *.tar.{archive_format}
-          make -j{smp} dist
+          $MAKE -j{smp} dist
           rpmbuild --define "_topdir `pwd`/rpmbuild" -ta *.tar.{archive_format}
     publishers:
       - email:

@@ -14,14 +14,16 @@
       - generic-build-job:
           parent_jobs: 'osinfo-db-tools-master-build'
           command: |
+            {make_env}
             export PATH=$VIRT_PREFIX/bin:$PATH
-            make -j3 all
-            make install OSINFO_DB_TARGET="--system"
+            $MAKE -j3 all
+            $MAKE install OSINFO_DB_TARGET="--system"
       - generic-rpm-job:
           parent_jobs: 'osinfo-db-master-build'
           command: |
+            {make_env}
             export PATH=$VIRT_PREFIX/bin:$PATH
             rm -f *.tar.xz
-            make osinfo-db.spec
+            $MAKE osinfo-db.spec
             perl -i -p -e 's/BuildRequires: osinfo-db-tools.*//' osinfo-db.spec
-            make rpm
+            $MAKE rpm
