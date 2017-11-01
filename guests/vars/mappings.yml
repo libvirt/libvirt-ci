@@ -631,6 +631,10 @@ mappings:
     rpm: spice-gtk3-devel
     CentOS6:
 
+  unzip:
+    default: unzip
+    FreeBSD:
+
   usb-ids:
     default: hwdata
     FreeBSD: usbids

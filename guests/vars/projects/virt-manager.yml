@@ -5,3 +5,4 @@ packages:
   - python2-ipaddr
   - python2-libxml2
   - python2-requests
+  - unzip
