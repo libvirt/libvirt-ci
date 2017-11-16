@@ -9,17 +9,7 @@
       - libvirt-fedora-rawhide
     title: libvirt CIM
     jobs:
-      - generic-build-job:
+      - autotools-build-job:
           parent_jobs: 'libvirt-master-build'
-          command: |
-            {make_env}
-            ./autogen.sh
-            ./configure --prefix=$VIRT_PREFIX
-            $MAKE -j{smp}
-            $MAKE -j{smp} install
-      - generic-rpm-job:
+      - autotools-rpm-job:
           parent_jobs: 'libvirt-cim-master-build'
-          command: |
-            {make_env}
-            sed -i -e "s/.*libvirt-devel.*//" libvirt-cim.spec.in
-            $MAKE -j{smp} rpm
