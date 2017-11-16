@@ -6,6 +6,7 @@
       - libvirt-centos-7
       - libvirt-fedora-25
       - libvirt-fedora-26
+      - libvirt-fedora-27
       - libvirt-fedora-rawhide
     title: libvirt CIM
     jobs:

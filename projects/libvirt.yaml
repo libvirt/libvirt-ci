@@ -8,6 +8,7 @@
       - libvirt-debian-9
       - libvirt-fedora-25
       - libvirt-fedora-26
+      - libvirt-fedora-27
       - libvirt-fedora-rawhide
     title: Libvirt
     archive_format: xz
@@ -21,6 +22,7 @@
             - libvirt-debian-9
             - libvirt-fedora-25
             - libvirt-fedora-26
+            - libvirt-fedora-27
             - libvirt-fedora-rawhide
             - libvirt-freebsd-10
             - libvirt-freebsd-11
@@ -38,6 +40,7 @@
             - libvirt-centos-7
             - libvirt-fedora-25
             - libvirt-fedora-26
+            - libvirt-fedora-27
             - libvirt-fedora-rawhide
       - autotools-mingw-job:
           parent_jobs:
