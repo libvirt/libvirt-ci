@@ -225,8 +225,8 @@
           export PKG_CONFIG_PATH="$VIRT_PREFIX/i686-w64-mingw32/sys-root/mingw/lib/pkgconfig" \
           export PREFIX=$VIRT_PREFIX/i686-w64-mingw32/sys-root/mingw
           ../autogen.sh --host=i686-w64-mingw32 --prefix=$PREFIX
-          make -j{smp}
-          make -j{smp} install
+          $MAKE -j{smp}
+          $MAKE -j{smp} install
       - shell: |
           mkdir -p build64
           cd build64
@@ -235,8 +235,8 @@
           export PKG_CONFIG_PATH="$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig" \
           export PREFIX=$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw
           ../autogen.sh --host=x86_64-w64-mingw32 --prefix=$PREFIX
-          make -j{smp}
-          make -j{smp} install
+          $MAKE -j{smp}
+          $MAKE -j{smp} install
     publishers:
       - email:
           recipients: '{obj:spam}'
