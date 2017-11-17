@@ -41,6 +41,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           perl Build.PL install_base="$VIRT_PREFIX"
           perl Build
           perl Build manifest
@@ -82,6 +83,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           perl Build test
     publishers:
       - email:
@@ -120,6 +122,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           sed -i -e 's/BuildRequires: *perl-Sys-Virt.*//' *.spec
           sed -i -e 's/BuildRequires: *perl(Sys::Virt).*//' *.spec
           sed -i -e 's/BuildRequires: *libvirt.*devel.*//' *.spec

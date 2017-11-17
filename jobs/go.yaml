@@ -41,6 +41,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           go build -v
     publishers:
       - email:
@@ -78,6 +79,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           go test -tags api
     publishers:
       - email:

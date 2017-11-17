@@ -41,6 +41,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           {command}
     publishers:
       - email:
@@ -78,6 +79,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           {command}
     publishers:
       - email:
@@ -115,6 +117,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           {command}
     publishers:
       - email:
@@ -153,6 +156,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           {command}
     publishers:
       - email:

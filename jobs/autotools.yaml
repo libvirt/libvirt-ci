@@ -41,6 +41,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           mkdir build
           cd build
           ../autogen.sh --prefix=$VIRT_PREFIX {autogen_args}
@@ -82,6 +83,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           cd build
           $MAKE -j{smp} syntax-check
     publishers:
@@ -164,6 +166,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           cd build
           sed -i -e 's/BuildRequires: osinfo-db.*//' {name}.spec
           sed -i -e 's/BuildRequires: libvirt.*devel.*//' {name}.spec
@@ -219,6 +222,7 @@
     builders:
       - shell: |
           {global_env}
+          {local_env}
           mkdir -p build32
           cd build32
 
@@ -230,6 +234,7 @@
           $MAKE -j{smp} install
       - shell: |
           {global_env}
+          {local_env}
           mkdir -p build64
           cd build64
 
