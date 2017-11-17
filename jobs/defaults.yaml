@@ -9,6 +9,7 @@
       if [ "$unamestr" = 'FreeBSD' ]; then
           MAKE='gmake'
       fi
+      export PATH=$VIRT_PREFIX/bin:$PATH
     local_env: |
     smp: 3
     spam: ymankad@redhat.com libvirt-ci@redhat.com
