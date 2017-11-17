@@ -11,7 +11,7 @@
       - libvirt-freebsd-10
       - libvirt-freebsd-11
     title: libosinfo
-    check_env: |
+    local_env: |
       export OSINFO_SYSTEM_DIR=$VIRT_PREFIX/share/osinfo
     jobs:
       - autotools-build-job:

@@ -120,7 +120,7 @@
     builders:
       - shell: |
           {global_env}
-          {check_env}
+          {local_env}
           cd build
           if ! $MAKE -j{smp} check
           then

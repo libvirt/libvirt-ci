@@ -28,7 +28,7 @@
           parent_jobs: 'libvirt-master-build'
       - autotools-check-job:
           parent_jobs: 'libvirt-master-syntax-check'
-          check_env: |
+          local_env: |
             export VIR_TEST_EXPENSIVE=1
             export VIR_TEST_DEBUG=2
       - autotools-rpm-job:
