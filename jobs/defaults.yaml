@@ -3,7 +3,7 @@
     name: global
     branch: master
     node: libvirt
-    make_env: |
+    global_env: |
       MAKE='make'
       unamestr=`uname`
       if [ "$unamestr" = 'FreeBSD' ]; then

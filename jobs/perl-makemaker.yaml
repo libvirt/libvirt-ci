@@ -41,7 +41,7 @@
     builders:
       - shell: |
           perl Makefile.PL PREFIX="$VIRT_PREFIX"
-          {make_env}
+          {global_env}
           $MAKE
           $MAKE -j{smp} install
           $MAKE -j{smp} manifest
@@ -82,7 +82,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
-          {make_env}
+          {global_env}
           $MAKE -j{smp} test {test_args}
     publishers:
       - email:
@@ -120,7 +120,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
-          {make_env}
+          {global_env}
           sed -i -e 's/BuildRequires: *perl-Sys-Virt.*//' *.spec
           sed -i -e 's/BuildRequires: *libvirt.*devel.*//' *.spec
           rm -f *.tar.{archive_format}

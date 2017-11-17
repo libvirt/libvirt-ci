@@ -40,7 +40,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
-          {make_env}
+          {global_env}
           mkdir build
           cd build
           ../autogen.sh --prefix=$VIRT_PREFIX {autogen_args}
@@ -81,7 +81,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
-          {make_env}
+          {global_env}
           cd build
           $MAKE -j{smp} syntax-check
     publishers:
@@ -119,7 +119,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
-          {make_env}
+          {global_env}
           {check_env}
           cd build
           if ! $MAKE -j{smp} check
@@ -163,7 +163,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
-          {make_env}
+          {global_env}
           cd build
           sed -i -e 's/BuildRequires: osinfo-db.*//' {name}.spec
           sed -i -e 's/BuildRequires: libvirt.*devel.*//' {name}.spec
