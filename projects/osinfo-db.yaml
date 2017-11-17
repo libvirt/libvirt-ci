@@ -15,7 +15,6 @@
       - generic-build-job:
           parent_jobs: 'osinfo-db-tools-master-build'
           command: |
-            {global_env}
             export PATH=$VIRT_PREFIX/bin:$PATH
             $MAKE -j{smp} all
             $MAKE install OSINFO_DB_TARGET="--system"
@@ -27,7 +26,6 @@
             - libvirt-fedora-27
             - libvirt-fedora-rawhide
           command: |
-            {global_env}
             export PATH=$VIRT_PREFIX/bin:$PATH
             rm -f *.tar.xz
             $MAKE osinfo-db.spec

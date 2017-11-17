@@ -40,6 +40,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
+          {global_env}
           {command_pre_build}
           python2 setup.py build
           python2 setup.py install --prefix=$VIRT_PREFIX
@@ -79,6 +80,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
+          {global_env}
           python2 setup.py test
     publishers:
       - email:
@@ -115,6 +117,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
+          {global_env}
           sed -i -e 's/BuildRequires: libvirt.*devel.*//' *.spec.in
           python2 setup.py rpm
     publishers:

@@ -40,6 +40,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
+          {global_env}
           perl Build.PL install_base="$VIRT_PREFIX"
           perl Build
           perl Build manifest
@@ -80,6 +81,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
+          {global_env}
           perl Build test
     publishers:
       - email:
@@ -117,6 +119,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
+          {global_env}
           sed -i -e 's/BuildRequires: *perl-Sys-Virt.*//' *.spec
           sed -i -e 's/BuildRequires: *perl(Sys::Virt).*//' *.spec
           sed -i -e 's/BuildRequires: *libvirt.*devel.*//' *.spec

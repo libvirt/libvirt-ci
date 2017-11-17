@@ -39,7 +39,9 @@
           type: slave
           values: '{obj:machines}'
     builders:
-      - shell: '{command}'
+      - shell: |
+          {global_env}
+          {command}
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -74,7 +76,9 @@
           type: slave
           values: '{obj:machines}'
     builders:
-      - shell: '{command}'
+      - shell: |
+          {global_env}
+          {command}
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -109,7 +113,9 @@
           type: slave
           values: '{obj:machines}'
     builders:
-      - shell: '{command}'
+      - shell: |
+          {global_env}
+          {command}
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -145,7 +151,9 @@
           type: slave
           values: '{obj:machines}'
     builders:
-      - shell: '{command}'
+      - shell: |
+          {global_env}
+          {command}
     publishers:
       - email:
           recipients: '{obj:spam}'

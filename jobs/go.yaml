@@ -40,6 +40,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
+          {global_env}
           go build -v
     publishers:
       - email:
@@ -76,6 +77,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
+          {global_env}
           go test -tags api
     publishers:
       - email:

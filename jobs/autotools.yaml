@@ -218,6 +218,7 @@
           values: '{obj:machines}'
     builders:
       - shell: |
+          {global_env}
           mkdir -p build32
           cd build32
 
@@ -228,6 +229,7 @@
           $MAKE -j{smp}
           $MAKE -j{smp} install
       - shell: |
+          {global_env}
           mkdir -p build64
           cd build64
 
