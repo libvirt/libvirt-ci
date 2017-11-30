@@ -80,7 +80,7 @@
       - shell: |
           {global_env}
           {local_env}
-          go test -tags api
+          go test $TEST_ARGS
     publishers:
       - email:
           recipients: '{obj:spam}'

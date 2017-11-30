@@ -11,6 +11,8 @@
       - libvirt-freebsd-10
       - libvirt-freebsd-11
     title: Libvirt Go
+    local_env: |
+      export TEST_ARGS="-tags api"
     jobs:
       - go-build-job:
           parent_jobs: 'libvirt-master-build'

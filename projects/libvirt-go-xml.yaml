@@ -11,6 +11,8 @@
       - libvirt-freebsd-10
       - libvirt-freebsd-11
     title: Libvirt Go XML
+    local_env: |
+      export TEST_ARGS="-tags xmlroundtrip"
     jobs:
       - go-build-job:
           parent_jobs:
