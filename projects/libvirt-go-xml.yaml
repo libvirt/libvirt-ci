@@ -15,6 +15,6 @@
       export TEST_ARGS="-tags xmlroundtrip"
     jobs:
       - go-build-job:
-          parent_jobs:
+          parent_jobs: 'libvirt-master-build'
       - go-check-job:
           parent_jobs: 'libvirt-go-xml-master-build'
