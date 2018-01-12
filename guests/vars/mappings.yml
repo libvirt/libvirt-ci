@@ -607,7 +607,7 @@ mappings:
   rpcgen:
     deb: libc-dev-bin
     rpm: glibc-common
-    FedoraRawhide: glibc-rpcgen
+    FedoraRawhide: rpcgen
     FreeBSD:
 
   rpmbuild:
