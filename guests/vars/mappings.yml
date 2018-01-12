@@ -604,6 +604,12 @@ mappings:
     pkg: readline
     rpm: readline-devel
 
+  rpcgen:
+    deb: libc-dev-bin
+    rpm: glibc-common
+    FedoraRawhide: glibc-rpcgen
+    FreeBSD:
+
   rpmbuild:
     rpm: rpm-build
 

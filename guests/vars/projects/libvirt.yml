@@ -67,6 +67,7 @@ packages:
   - qemu-img
   - radvd
   - readline
+  - rpcgen
   - sanlock
   - scrub
   - sheepdog
