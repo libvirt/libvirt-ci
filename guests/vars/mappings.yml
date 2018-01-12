@@ -279,6 +279,10 @@ mappings:
     pkg: libssh2
     rpm: libssh2-devel
 
+  libtirpc:
+    deb: libtirpc-dev
+    rpm: libtirpc-devel
+
   libtool:
     default: libtool
     Debian: libtool-bin
