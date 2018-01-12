@@ -606,8 +606,10 @@ mappings:
 
   rpcgen:
     deb: libc-dev-bin
-    rpm: glibc-common
-    FedoraRawhide: rpcgen
+    rpm: rpcgen
+    CentOS: glibc-common
+    Fedora26: glibc-common
+    Fedora27: glibc-common
     FreeBSD:
 
   rpmbuild:
