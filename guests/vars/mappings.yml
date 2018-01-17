@@ -53,6 +53,10 @@ mappings:
     pkg: avahi
     rpm: avahi-devel
 
+  bash-completion:
+    default: bash-completion
+    CentOS6:
+
   ccache:
     default: ccache
     CentOS:
