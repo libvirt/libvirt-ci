@@ -13,5 +13,4 @@ projects:
   - libvirt-sandbox
   - osinfo-db
   - osinfo-db-tools
-  - virt-manager
   - virt-viewer

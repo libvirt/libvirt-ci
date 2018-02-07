@@ -555,21 +555,6 @@ mappings:
     pkg: python27
     rpm: python2-devel
 
-  python2-gi:
-    deb: python-gi
-    pkg: py27-gobject3
-    rpm: python-gobject
-    CentOS6:
-
-  python2-ipaddr:
-    default: python-ipaddr
-    FreeBSD: py27-ipaddr
-
-  python2-libxml2:
-    default: python-libxml2
-    pkg: py27-libxml2
-    CentOS: libxml2-python
-
   python2-lxml:
     default: python-lxml
     Fedora: python2-lxml
@@ -580,15 +565,27 @@ mappings:
     Fedora: python2-nose
     FreeBSD: py27-nose
 
-  python2-requests:
-    default: python-requests
-    Fedora: python2-requests
-    FreeBSD: py27-requests
+  python3:
+    default: python3
+    CentOS:
 
   python3-devel:
     deb: python3-dev
     pkg: python36
     Fedora: python3-devel
+
+  python3-gi:
+    deb: python3-gi
+    pkg: py36-gobject3
+    rpm: python3-gobject
+    CentOS:
+
+  python3-libxml2:
+    default: python3-libxml2
+    FreeBSD: py36-libxml2
+    CentOS:
+    Ubuntu:
+    Debian8:
 
   python3-lxml:
     default: python3-lxml
@@ -599,6 +596,12 @@ mappings:
     default: python3-nose
     FreeBSD: py36-nose
     CentOS:
+
+  python3-requests:
+    default: python3-requests
+    FreeBSD: py36-requests
+    CentOS:
+    Ubuntu12:
 
   qemu-img:
     default: qemu-utils

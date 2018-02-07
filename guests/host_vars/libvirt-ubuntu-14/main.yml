@@ -7,5 +7,4 @@ projects:
   - libvirt-python
   - libvirt-tck
   - osinfo-db-tools
-  - virt-manager
   - virt-viewer
