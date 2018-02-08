@@ -14,11 +14,14 @@
     title: Libvirt Python
     jobs:
       - python-distutils-build-job:
+          python: python2
           parent_jobs: 'libvirt-master-build'
       - python-distutils-check-job:
-          parent_jobs: 'libvirt-python-master-build'
+          python: python2
+          parent_jobs: 'libvirt-python-master-{python}-build'
       - python-distutils-rpm-job:
-          parent_jobs: 'libvirt-python-master-check'
+          python: python2
+          parent_jobs: 'libvirt-python-master-{python}-check'
           machines:
             - libvirt-centos-6
             - libvirt-centos-7

@@ -13,15 +13,18 @@
     title: Virtual Machine Manager
     jobs:
       - python-distutils-build-job:
+          python: python2
           parent_jobs:
-            - 'libvirt-python-master-build'
+            - 'libvirt-python-master-{python}-build'
             - 'libosinfo-master-build'
           command_pre_build: |
-            python2 setup.py configure --prefix=$VIRT_PREFIX
+            {python} ./setup.py configure --prefix=$VIRT_PREFIX
       - python-distutils-check-job:
-          parent_jobs: 'virt-manager-master-build'
+          python: python2
+          parent_jobs: 'virt-manager-master-{python}-build'
       - python-distutils-rpm-job:
-          parent_jobs: 'virt-manager-master-check'
+          python: python2
+          parent_jobs: 'virt-manager-master-{python}-check'
           machines:
             - libvirt-centos-7
             - libvirt-fedora-26

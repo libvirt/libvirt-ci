@@ -1,11 +1,11 @@
 
 - job-template:
     id: python-distutils-build-job
-    name: '{name}-{branch}-build'
+    name: '{name}-{branch}-{python}-build'
     project-type: matrix
-    description: '{title} Build'
+    description: '{title} Build ({python})'
     command_pre_build: ''
-    workspace: '{name}-{branch}'
+    workspace: '{name}-{branch}-{python}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -43,8 +43,8 @@
           {global_env}
           {local_env}
           {command_pre_build}
-          python2 setup.py build
-          python2 setup.py install --prefix=$VIRT_PREFIX
+          {python} ./setup.py build
+          {python} ./setup.py install --prefix=$VIRT_PREFIX
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -54,9 +54,9 @@
 
 - job-template:
     id: python-distutils-check-job
-    name: '{name}-{branch}-check'
+    name: '{name}-{branch}-{python}-check'
     project-type: matrix
-    description: '{title} Check'
+    description: '{title} Check ({python})'
     workspace: '{name}-{branch}'
     child-workspace: '.'
     block-downstream: true
@@ -83,7 +83,7 @@
       - shell: |
           {global_env}
           {local_env}
-          python2 setup.py test
+          {python} ./setup.py test
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -92,9 +92,9 @@
 
 - job-template:
     id: python-distutils-rpm-job
-    name: '{name}-{branch}-rpm'
+    name: '{name}-{branch}-{python}-rpm'
     project-type: matrix
-    description: '{title} RPM'
+    description: '{title} RPM ({python})'
     workspace: '{name}-{branch}'
     child-workspace: '.'
     block-downstream: true
@@ -122,7 +122,7 @@
           {global_env}
           {local_env}
           sed -i -e 's/BuildRequires: libvirt.*devel.*//' *.spec.in
-          python2 setup.py rpm
+          {python} ./setup.py rpm
     publishers:
       - email:
           recipients: '{obj:spam}'
