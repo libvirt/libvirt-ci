@@ -550,9 +550,14 @@ mappings:
     pkg: polkit
     rpm: polkit-devel
 
+  python2:
+    default: python
+    Fedora: python2
+    FreeBSD: python2
+
   python2-devel:
     deb: python-dev
-    pkg: python27
+    pkg: python2
     rpm: python2-devel
 
   python2-lxml:
@@ -571,7 +576,7 @@ mappings:
 
   python3-devel:
     deb: python3-dev
-    pkg: python36
+    pkg: python3
     Fedora: python3-devel
 
   python3-gi:
