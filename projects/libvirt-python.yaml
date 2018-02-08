@@ -16,9 +16,31 @@
       - python-distutils-build-job:
           python: python2
           parent_jobs: 'libvirt-master-build'
+      - python-distutils-build-job:
+          python: python3
+          parent_jobs: 'libvirt-master-build'
+          machines:
+            - libvirt-debian-8
+            - libvirt-debian-9
+            - libvirt-fedora-26
+            - libvirt-fedora-27
+            - libvirt-fedora-rawhide
+            - libvirt-freebsd-10
+            - libvirt-freebsd-11
       - python-distutils-check-job:
           python: python2
           parent_jobs: 'libvirt-python-master-{python}-build'
+      - python-distutils-check-job:
+          python: python3
+          parent_jobs: 'libvirt-python-master-{python}-build'
+          machines:
+            - libvirt-debian-8
+            - libvirt-debian-9
+            - libvirt-fedora-26
+            - libvirt-fedora-27
+            - libvirt-fedora-rawhide
+            - libvirt-freebsd-10
+            - libvirt-freebsd-11
       - python-distutils-rpm-job:
           python: python2
           parent_jobs: 'libvirt-python-master-{python}-check'
