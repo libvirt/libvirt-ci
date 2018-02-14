@@ -1,11 +1,11 @@
 
 - job-template:
     id: python-distutils-build-job
-    name: '{name}-{branch}-{python}-build'
+    name: '{name}-{branch}-py{pyver}-build'
     project-type: matrix
-    description: '{title} Build ({python})'
+    description: '{title} Build (Python {pyver})'
     command_pre_build: ''
-    workspace: '{name}-{branch}-{python}'
+    workspace: '{name}-{branch}-py{pyver}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -43,8 +43,8 @@
           {global_env}
           {local_env}
           {command_pre_build}
-          {python} ./setup.py build
-          {python} ./setup.py install --prefix=$VIRT_PREFIX
+          python{pyver} ./setup.py build
+          python{pyver} ./setup.py install --prefix=$VIRT_PREFIX
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -54,9 +54,9 @@
 
 - job-template:
     id: python-distutils-check-job
-    name: '{name}-{branch}-{python}-check'
+    name: '{name}-{branch}-py{pyver}-check'
     project-type: matrix
-    description: '{title} Check ({python})'
+    description: '{title} Check (Python {pyver})'
     workspace: '{name}-{branch}'
     child-workspace: '.'
     block-downstream: true
@@ -83,7 +83,7 @@
       - shell: |
           {global_env}
           {local_env}
-          {python} ./setup.py test
+          python{pyver} ./setup.py test
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -92,9 +92,9 @@
 
 - job-template:
     id: python-distutils-rpm-job
-    name: '{name}-{branch}-{python}-rpm'
+    name: '{name}-{branch}-py{pyver}-rpm'
     project-type: matrix
-    description: '{title} RPM ({python})'
+    description: '{title} RPM (Python {pyver})'
     workspace: '{name}-{branch}'
     child-workspace: '.'
     block-downstream: true
@@ -122,7 +122,7 @@
           {global_env}
           {local_env}
           sed -i -e 's/BuildRequires: libvirt.*devel.*//' *.spec.in
-          {python} ./setup.py rpm
+          python{pyver} ./setup.py rpm
     publishers:
       - email:
           recipients: '{obj:spam}'

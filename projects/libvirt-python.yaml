@@ -14,10 +14,10 @@
     title: Libvirt Python
     jobs:
       - python-distutils-build-job:
-          python: python2
+          pyver: 2
           parent_jobs: 'libvirt-master-build'
       - python-distutils-build-job:
-          python: python3
+          pyver: 3
           parent_jobs: 'libvirt-master-build'
           machines:
             - libvirt-debian-8
@@ -28,11 +28,11 @@
             - libvirt-freebsd-10
             - libvirt-freebsd-11
       - python-distutils-check-job:
-          python: python2
-          parent_jobs: 'libvirt-python-master-{python}-build'
+          pyver: 2
+          parent_jobs: 'libvirt-python-master-py{pyver}-build'
       - python-distutils-check-job:
-          python: python3
-          parent_jobs: 'libvirt-python-master-{python}-build'
+          pyver: 3
+          parent_jobs: 'libvirt-python-master-py{pyver}-build'
           machines:
             - libvirt-debian-8
             - libvirt-debian-9
@@ -42,8 +42,8 @@
             - libvirt-freebsd-10
             - libvirt-freebsd-11
       - python-distutils-rpm-job:
-          python: python2
-          parent_jobs: 'libvirt-python-master-{python}-check'
+          pyver: 2
+          parent_jobs: 'libvirt-python-master-py{pyver}-check'
           machines:
             - libvirt-centos-6
             - libvirt-centos-7
