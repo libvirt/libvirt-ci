@@ -20,6 +20,14 @@
       - python-distutils-check-job:
           pyver: 3
           parent_jobs: 'virt-manager-master-py{pyver}-build'
+          # libxml2's Python 3 bindings don't work properly on FreeBSD,
+          # so skip the test suite there for the time being. See
+          # https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=224902
+          machines:
+            - libvirt-debian-9
+            - libvirt-fedora-26
+            - libvirt-fedora-27
+            - libvirt-fedora-rawhide
       - python-distutils-rpm-job:
           pyver: 3
           parent_jobs: 'virt-manager-master-py{pyver}-check'
