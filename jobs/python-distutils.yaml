@@ -58,7 +58,7 @@
     name: '{name}-{branch}-py{pyver}-check'
     project-type: matrix
     description: '{title} Check (Python {pyver})'
-    workspace: '{name}-{branch}'
+    workspace: '{name}-{branch}-py{pyver}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -97,7 +97,7 @@
     name: '{name}-{branch}-py{pyver}-rpm'
     project-type: matrix
     description: '{title} RPM (Python {pyver})'
-    workspace: '{name}-{branch}'
+    workspace: '{name}-{branch}-py{pyver}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
