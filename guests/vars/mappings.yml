@@ -546,9 +546,8 @@ mappings:
     Ubuntu12: pkg-config
 
   polkit:
+    default: polkit
     deb: policykit-1
-    pkg: polkit
-    rpm: polkit-devel
 
   python2:
     default: python
