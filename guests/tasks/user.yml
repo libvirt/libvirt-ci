@@ -30,3 +30,13 @@
     validate: 'visudo -cf %s'
   when:
     - flavor == 'test'
+
+- name: '{{ flavor }}: Configure ccache'
+  file:
+    path: /home/{{ flavor }}/.ccache
+    state: directory
+
+- name: '{{ flavor }}: Configure ccache'
+  copy:
+    src: files/ccache.conf
+    dest: /home/{{ flavor }}/.ccache/ccache.conf
