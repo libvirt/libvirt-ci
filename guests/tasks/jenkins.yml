@@ -7,12 +7,6 @@
   set_fact:
     jenkins_secret: '{{ vault.jenkins_secrets[inventory_hostname] }}'
 
-- name: Create Jenkins user account
-  user:
-    name: jenkins
-    comment: Jenkins
-    password: '*'
-
 - name: Download Jenkins agent
   get_url:
     url: https://ci.centos.org/jnlpJars/slave.jar

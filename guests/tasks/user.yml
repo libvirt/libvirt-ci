@@ -1,0 +1,32 @@
+---
+- name: '{{ flavor }}: Create user account'
+  user:
+    name: '{{ flavor }}'
+    comment: '{{ flavor }}'
+    password: '*'
+    shell: '{{ bash }}'
+
+- name: '{{ flavor }}: Set password'
+  user:
+    name: '{{ flavor }}'
+    password: '$6$xSlfvkcsDgPmRAMX$mFh9qRmFFW9cyW1n5/jeHvq4OmJA8WzSD70Mfis3VHc3Z5imZeiQAg9VNL4sFEtmDy/siU3nJL.QeAapCgfL20'
+  when:
+    - flavor == 'test'
+
+- name: '{{ flavor }}: Configure ssh access'
+  authorized_key:
+    user: '{{ flavor }}'
+    key: '{{ lookup("file", lookup("env", "HOME") + "/.ssh/id_rsa.pub") }}'
+    state: present
+  when:
+    - flavor == 'test'
+
+- name: '{{ flavor }}: Grant passwordless sudo access'
+  lineinfile:
+    path: '{{ sudoers }}'
+    line: '{{ flavor }} ALL=(ALL) NOPASSWD: ALL'
+    state: present
+    backup: yes
+    validate: 'visudo -cf %s'
+  when:
+    - flavor == 'test'
