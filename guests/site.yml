@@ -30,7 +30,7 @@
     # Configure the Jenkins agent
     - include: tasks/jenkins.yml
       when:
-        - flavor == 'ci'
+        - flavor == 'jenkins'
         - projects is defined
         # jenkins is a pseudo-project
         - ( 'jenkins' in projects )

@@ -67,20 +67,20 @@ load_config() {
     VAULT_PASS_FILE="$CONFIG_DIR/vault-password"
     ROOT_PASS_FILE="$CONFIG_DIR/root-password"
 
-    # Two flavors are supported: test (default) and ci. Read the
+    # Two flavors are supported: test (default) and jenkins. Read the
     # flavor from configuration, validate it and write it back in case
     # it was not present
     FLAVOR="$(cat "$FLAVOR_FILE" 2>/dev/null)"
     FLAVOR=${FLAVOR:-test}
-    test "$FLAVOR" = test || test "$FLAVOR" = ci || {
+    test "$FLAVOR" = test || test "$FLAVOR" = jenkins || {
         die "$PROGRAM_NAME: Invalid flavor '$FLAVOR'"
     }
     echo "$FLAVOR" >"$FLAVOR_FILE" || {
         die "$PROGRAM_NAME: $FLAVOR_FILE: Unable to save flavor"
     }
 
-    test "$FLAVOR" = ci && {
-        # The vault password is only needed for the ci flavor, so only
+    test "$FLAVOR" = jenkins && {
+        # The vault password is only needed for the jenkins flavor, so only
         # validate it in that case
         test -f "$VAULT_PASS_FILE" && test "$(cat "$VAULT_PASS_FILE")" || {
             die "$PROGRAM_NAME: $VAULT_PASS_FILE: Missing or invalid password"
@@ -160,8 +160,8 @@ do_install()
         *kickstart*|*ks*) EXTRA_ARGS="ks=file:/${INSTALL_CONFIG##*/}" ;;
     esac
 
-    # Only configure autostart for the guest for the ci flavor
-    test "$FLAVOR" = ci && {
+    # Only configure autostart for the guest for the jenkins flavor
+    test "$FLAVOR" = jenkins && {
         AUTOSTART="--autostart"
     }
 

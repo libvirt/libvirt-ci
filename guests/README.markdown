@@ -79,11 +79,12 @@ single time you want to connect. Just add
 to your `~/.ssh/config` file to achieve all of the above.
 
 
-CI use
-------
+Jenkins CI use
+--------------
 
-You'll need to configure `lcitool` to use the `ci` flavor for guests:
-to do so, just write `ci` in the `~/.config/lcitool/flavor` file.
+You'll need to configure `lcitool` to use the `jenkins` flavor for
+guests: to do so, just write `jenkins` in the `~/.config/lcitool/flavor`
+file.
 
 Once a guest has been prepared, you'll be able to log in as root either
 via SSH (your public key will have been authorized) or on the serial
