@@ -1,7 +1,6 @@
 ---
 projects:
   - base
-  - jenkins
   - libvirt
   - libvirt-cim
   - libvirt-perl

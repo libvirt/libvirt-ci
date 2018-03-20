@@ -28,6 +28,13 @@
       when:
         - projects is defined
 
+    # Install packages needed for the Jenkins agent
+    - include: tasks/packages.yml
+      vars:
+        project: jenkins
+      when:
+        - flavor == "jenkins"
+
     # Configure the Jenkins agent
     - include: tasks/jenkins.yml
       when:
