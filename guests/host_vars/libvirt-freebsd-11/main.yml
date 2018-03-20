@@ -8,7 +8,6 @@ su: /usr/bin/su
 sudoers: /usr/local/etc/sudoers
 
 projects:
-  - base
   - libosinfo
   - libvirt
   - libvirt-glib
