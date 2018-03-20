@@ -32,6 +32,3 @@
     - include: tasks/jenkins.yml
       when:
         - flavor == 'jenkins'
-        - projects is defined
-        # jenkins is a pseudo-project
-        - ( 'jenkins' in projects )
