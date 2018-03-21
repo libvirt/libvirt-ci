@@ -17,6 +17,7 @@
     # Prepare environment. None of the actions performed here might
     # depend on packages being installed
     - include: tasks/base.yml
+    - include: tasks/bootloader.yml
     - include: tasks/compat.yml
 
     # Install base packages
