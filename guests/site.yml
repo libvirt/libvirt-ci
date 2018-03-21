@@ -31,7 +31,7 @@
         state: absent
 
     # Create users. This needs to happen after installing base packages
-    - include: tasks/user.yml
+    - include: tasks/users.yml
 
     # Install build dependencies for each project
     - include: tasks/packages.yml
