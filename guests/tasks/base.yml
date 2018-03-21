@@ -115,13 +115,6 @@
   when:
     - package_format == 'pkg'
 
-- name: Remove unwanted packages
-  package:
-    name: '{{ item }}'
-    state: absent
-  with_items:
-    - nano
-
 - name: Configure hostname
   hostname:
     name: '{{ inventory_hostname }}'

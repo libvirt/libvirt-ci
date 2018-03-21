@@ -400,6 +400,9 @@ mappings:
   mingw64-readline:
     FedoraRawhide: mingw64-readline
 
+  nano:
+    default: nano
+
   netcf:
     deb: libnetcf-dev
     rpm: netcf-devel

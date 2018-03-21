@@ -24,6 +24,12 @@
       vars:
         project: base
 
+    # Remove blacklisted packages
+    - include: tasks/packages.yml
+      vars:
+        project: blacklist
+        state: absent
+
     # Create users. This needs to happen after installing base packages
     - include: tasks/user.yml
 
