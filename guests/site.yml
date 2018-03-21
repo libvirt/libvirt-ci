@@ -14,15 +14,18 @@
 
   tasks:
 
-    # Prepare the base environment
+    # Prepare environment. None of the actions performed here might
+    # depend on packages being installed
     - include: tasks/base.yml
     - include: tasks/compat.yml
-    - include: tasks/user.yml
 
     # Install base packages
     - include: tasks/packages.yml
       vars:
         project: base
+
+    # Create users. This needs to happen after installing base packages
+    - include: tasks/user.yml
 
     # Install build dependencies for each project
     - include: tasks/packages.yml

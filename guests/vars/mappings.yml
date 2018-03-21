@@ -53,6 +53,9 @@ mappings:
     pkg: avahi
     rpm: avahi-devel
 
+  bash:
+    default: bash
+
   bash-completion:
     default: bash-completion
     CentOS6:
@@ -106,6 +109,9 @@ mappings:
 
   gettext:
     default: gettext
+
+  git:
+    default: git
 
   glib2:
     deb: libglib2.0-dev
@@ -635,6 +641,9 @@ mappings:
     rpm: sanlock-devel
     Ubuntu12:
 
+  screen:
+    default: screen
+
   scrub:
     default: scrub
     FreeBSD: diskscrub
@@ -654,6 +663,9 @@ mappings:
     rpm: spice-gtk3-devel
     CentOS6:
 
+  sudo:
+    default: sudo
+
   unzip:
     default: unzip
     FreeBSD:
@@ -666,6 +678,9 @@ mappings:
     default: vala
     deb: valac
     CentOS6:
+
+  vim:
+    default: vim
 
   wget:
     default: wget

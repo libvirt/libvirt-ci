@@ -3,10 +3,12 @@ packages:
   - autoconf
   - automake
   - autopoint
+  - bash
   - ccache
   - cppi
   - gcc
   - gettext
+  - git
   - glibc
   - libtool
   - libtoolize
@@ -15,3 +17,6 @@ packages:
   - perl
   - pkg-config
   - rpmbuild
+  - screen
+  - sudo
+  - vim

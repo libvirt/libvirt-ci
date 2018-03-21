@@ -115,17 +115,6 @@
   when:
     - package_format == 'pkg'
 
-- name: Install base packages
-  package:
-    name: '{{ item }}'
-    state: present
-  with_items:
-    - bash
-    - git
-    - screen
-    - sudo
-    - vim
-
 - name: Remove unwanted packages
   package:
     name: '{{ item }}'
