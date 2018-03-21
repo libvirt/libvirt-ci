@@ -75,6 +75,7 @@
   when:
     - os_name == 'Debian'
     - os_version == '8'
+    - flavor == 'jenkins'
 
 - name: Configure APT pinning for jessie-backports
   copy:
@@ -85,6 +86,7 @@
   when:
     - os_name == 'Debian'
     - os_version == '8'
+    - flavor == 'jenkins'
 
 - name: Enable fedora-rawhide-kernel-nodebug repository
   copy:
