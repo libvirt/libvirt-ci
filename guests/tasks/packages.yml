@@ -1,4 +1,10 @@
 ---
+# Default to installing packages if state is not passed from the caller
+- set_fact:
+    state: present
+  when:
+    - state is undefined
+
 - name: '{{ project }}: Load variables'
   include_vars:
     file: 'vars/projects/{{ project }}.yml'
@@ -58,9 +64,9 @@
     - temp[item] != None
     - temp[item] not in flattened
 
-- name: '{{ project }}: Install packages'
+- name: '{{ project }}: Install/remove packages (state={{ state }})'
   package:
     name: '{{ item }}'
-    state: present
+    state: '{{ state }}'
   with_items:
     '{{ flattened|sort }}'
