@@ -137,14 +137,12 @@ mappings:
     deb: libgnutls28-dev
     pkg: gnutls
     rpm: gnutls-devel
-    Ubuntu12: libgnutls-dev
     Ubuntu14: libgnutls-dev
 
   go:
     default: golang
     FreeBSD: go
     CentOS6:
-    Ubuntu12:
     Ubuntu14:
 
   gobject-introspection:
@@ -171,7 +169,6 @@ mappings:
 
   hal:
     FreeBSD: hal
-    Ubuntu12: libhal-dev
 
   intltool:
     default: intltool
@@ -411,7 +408,6 @@ mappings:
     default: numad
     FreeBSD:
     Debian8:
-    Ubuntu12:
     Ubuntu14:
 
   openwsman:
@@ -455,7 +451,6 @@ mappings:
     pkg: p5-Digest-MD5
     rpm: perl-Digest-MD5
     CentOS6:
-    Ubuntu12:
     Ubuntu14:
 
   perl-ExtUtils-MakeMaker:
@@ -510,7 +505,6 @@ mappings:
     deb: libtest-lwp-useragent-perl
     pkg: p5-Test-LWP-UserAgent
     Fedora: perl-Test-LWP-UserAgent
-    Ubuntu12:
 
   perl-Test-Pod:
     deb: libtest-pod-perl
@@ -526,7 +520,6 @@ mappings:
     deb: libtime-hr-perl
     pkg: p5-Time-HiRes
     rpm: perl-Time-HiRes
-    Ubuntu12: perl
     Ubuntu14: perl
 
   perl-XML-Twig:
@@ -552,7 +545,6 @@ mappings:
   pkg-config:
     default: pkgconf
     rpm: pkgconfig
-    Ubuntu12: pkg-config
 
   polkit:
     default: polkit
@@ -614,7 +606,6 @@ mappings:
     default: python3-requests
     FreeBSD: py36-requests
     CentOS:
-    Ubuntu12:
 
   qemu-img:
     default: qemu-utils
@@ -642,7 +633,6 @@ mappings:
   sanlock:
     deb: libsanlock-dev
     rpm: sanlock-devel
-    Ubuntu12:
 
   screen:
     default: screen
@@ -692,7 +682,6 @@ mappings:
     deb: wireshark-dev
     Fedora: wireshark-devel
     Debian8:
-    Ubuntu12:
     Ubuntu14:
 
   xen:
