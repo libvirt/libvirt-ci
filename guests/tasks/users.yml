@@ -55,8 +55,12 @@
   file:
     path: /home/{{ flavor }}/.ccache
     state: directory
+    owner: '{{ flavor }}'
+    group: '{{ flavor }}'
 
 - name: '{{ flavor }}: Configure ccache'
   copy:
     src: files/ccache.conf
     dest: /home/{{ flavor }}/.ccache/ccache.conf
+    owner: '{{ flavor }}'
+    group: '{{ flavor }}'
