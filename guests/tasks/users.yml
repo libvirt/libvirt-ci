@@ -64,3 +64,21 @@
     dest: /home/{{ flavor }}/.ccache/ccache.conf
     owner: '{{ flavor }}'
     group: '{{ flavor }}'
+
+- name: '{{ flavor }}: Enable ccache'
+  lineinfile:
+    path: /home/{{ flavor }}/.profile
+    line: 'which ccache >/dev/null 2>&1 && export CC="ccache cc"'
+    state: present
+    owner: '{{ flavor }}'
+    group: '{{ flavor }}'
+    create: yes
+
+- name: '{{ flavor }}: Enable ccache'
+  lineinfile:
+    path: /home/{{ flavor }}/.bashrc
+    line: 'which ccache >/dev/null 2>&1 && export CC="ccache cc"'
+    state: present
+    owner: '{{ flavor }}'
+    group: '{{ flavor }}'
+    create: yes
