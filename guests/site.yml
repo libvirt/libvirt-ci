@@ -31,6 +31,7 @@
 
     # Configure environment. Needs to happen after installing base packages
     - include: tasks/bootloader.yml
+    - include: tasks/services.yml
     - include: tasks/compat.yml
     - include: tasks/users.yml
 

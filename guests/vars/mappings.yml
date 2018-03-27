@@ -68,6 +68,9 @@ mappings:
     default: check
     rpm: check-devel
 
+  chrony:
+    default: chrony
+
   cppi:
     Fedora: cppi
     FreeBSD: cppi
