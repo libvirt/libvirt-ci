@@ -38,7 +38,7 @@
     # Install build dependencies for each project
     - include: tasks/packages.yml
       with_items:
-        - libvirt
+        '{{ projects }}'
       loop_control:
         loop_var: project
       when:

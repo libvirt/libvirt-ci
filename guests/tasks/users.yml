@@ -82,21 +82,3 @@
     owner: '{{ flavor }}'
     group: '{{ flavor }}'
     create: yes
-
-- name: '{{ flavor }}: Enable vi mode'
-  lineinfile:
-    path: /home/{{ flavor }}/.profile
-    line: 'set -o vi'
-    state: present
-    owner: '{{ flavor }}'
-    group: '{{ flavor }}'
-    create: yes
-
-- name: '{{ flavor }}: Enable vi mode'
-  lineinfile:
-    path: /home/{{ flavor }}/.bashrc
-    line: 'set -o vi'
-    state: present
-    owner: '{{ flavor }}'
-    group: '{{ flavor }}'
-    create: yes
