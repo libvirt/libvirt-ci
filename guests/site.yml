@@ -17,8 +17,6 @@
     # Prepare environment. None of the actions performed here might
     # depend on packages being installed
     - include: tasks/base.yml
-    - include: tasks/bootloader.yml
-    - include: tasks/compat.yml
 
     # Install base packages
     - include: tasks/packages.yml
@@ -31,7 +29,9 @@
         project: blacklist
         state: absent
 
-    # Create users. This needs to happen after installing base packages
+    # Configure environment. Needs to happen after installing base packages
+    - include: tasks/bootloader.yml
+    - include: tasks/compat.yml
     - include: tasks/users.yml
 
     # Install build dependencies for each project
