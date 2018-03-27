@@ -4,8 +4,8 @@ install_virt_type: kvm
 install_arch: x86_64
 install_machine: pc
 install_cpu_model: host-passthrough
-install_vcpus: 2
-install_memory_size: 2
-install_disk_size: 15
+install_vcpus: 4
+install_memory_size: 1
+install_disk_size: 10
 install_storage_pool: default
 install_network: default
