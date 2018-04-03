@@ -32,7 +32,7 @@
     # Configure environment. Needs to happen after installing base packages
     - include: tasks/bootloader.yml
     - include: tasks/services.yml
-    - include: tasks/compat.yml
+    - include: tasks/kludges.yml
     - include: tasks/users.yml
 
     # Install build dependencies for each project
