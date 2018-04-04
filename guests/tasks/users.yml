@@ -82,3 +82,20 @@
     owner: '{{ flavor }}'
     group: '{{ flavor }}'
     create: yes
+
+- name: '{{ flavor }}: Create shell profile'
+  template:
+    src: templates/{{ item }}
+    dest: /home/{{ flavor }}/.{{ item }}
+    owner: '{{ flavor }}'
+    group: '{{ flavor }}'
+  with_items:
+    - bash_profile
+    - bashrc
+
+- name: '{{ flavor }}: Remove existing shell profile'
+  file:
+    path: /home/{{ flavor }}/.{{ item }}
+    state: absent
+  with_items:
+    - profile
