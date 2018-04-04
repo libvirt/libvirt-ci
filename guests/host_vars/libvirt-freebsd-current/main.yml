@@ -1,6 +1,8 @@
 ---
 ansible_python_interpreter: /usr/local/bin/python2
 
+PERL5LIB: $VIRT_PREFIX/lib/perl5/site_perl/mach/5.26
+
 bash: /usr/local/bin/bash
 java: /usr/local/bin/java
 make: /usr/local/bin/gmake

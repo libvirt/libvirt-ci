@@ -1,4 +1,6 @@
 ---
+PERL5LIB: $VIRT_PREFIX/lib/x86_64-linux-gnu/perl/5.22.1
+
 projects:
   - libosinfo
   - libvirt

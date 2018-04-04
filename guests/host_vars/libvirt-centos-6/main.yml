@@ -1,4 +1,6 @@
 ---
+PERL5LIB: $VIRT_PREFIX/lib64/perl5
+
 projects:
   - libvirt
   - libvirt-cim
