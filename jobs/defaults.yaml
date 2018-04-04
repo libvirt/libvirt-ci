@@ -4,11 +4,6 @@
     branch: master
     node: libvirt
     global_env: |
-      MAKE='make'
-      unamestr=`uname`
-      if [ "$unamestr" = 'FreeBSD' ]; then
-          MAKE='gmake'
-      fi
       export PATH=$VIRT_PREFIX/bin:$PATH
     local_env: |
     smp: 3
