@@ -1,0 +1,6 @@
+---
+packages:
+  - glib2
+  - python3
+  - python3-dbus
+  - python3-pytest

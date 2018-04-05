@@ -5,6 +5,7 @@ PYTHONPATH: $VIRT_PREFIX/lib/python3.6/site-packages
 projects:
   - libosinfo
   - libvirt
+  - libvirt-dbus
   - libvirt-glib
   - libvirt-go
   - libvirt-go-xml

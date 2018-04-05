@@ -12,6 +12,7 @@ sudoers: /usr/local/etc/sudoers
 projects:
   - libosinfo
   - libvirt
+  - libvirt-dbus
   - libvirt-glib
   - libvirt-go
   - libvirt-go-xml

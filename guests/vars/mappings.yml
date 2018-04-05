@@ -577,6 +577,11 @@ mappings:
     default: python3
     CentOS:
 
+  python3-dbus:
+    default: python3-dbus
+    FreeBSD: py36-dbus
+    CentOS:
+
   python3-devel:
     deb: python3-dev
     pkg: python3
@@ -603,6 +608,11 @@ mappings:
   python3-nose:
     default: python3-nose
     FreeBSD: py36-nose
+    CentOS:
+
+  python3-pytest:
+    default: python3-pytest
+    FreeBSD: py36-pytest
     CentOS:
 
   python3-requests:

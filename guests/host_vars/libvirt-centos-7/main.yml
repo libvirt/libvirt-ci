@@ -6,6 +6,7 @@ projects:
   - libosinfo
   - libvirt
   - libvirt-cim
+  - libvirt-dbus
   - libvirt-glib
   - libvirt-go
   - libvirt-go-xml
