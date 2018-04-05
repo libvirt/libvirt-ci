@@ -1,11 +1,11 @@
 
 - job-template:
     id: python-distutils-build-job
-    name: '{name}-{branch}-py{pyver}-build'
+    name: '{name}-{branch}-build'
     project-type: matrix
-    description: '{title} Build (Python {pyver})'
+    description: '{title} Build'
     command_pre_build: ''
-    workspace: '{name}-{branch}-py{pyver}'
+    workspace: '{name}-{branch}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -44,8 +44,8 @@
           {local_env}
           export PYTHONPATH=$VIRT_PREFIX/lib/python{pyver}.4/site-packages:$VIRT_PREFIX/lib64/python{pyver}.4/site-packages:$VIRT_PREFIX/lib/python{pyver}.5/site-packages:$VIRT_PREFIX/lib64/python{pyver}.5/site-packages:$VIRT_PREFIX/lib/python{pyver}.6/site-packages:$VIRT_PREFIX/lib64/python{pyver}.6/site-packages:$VIRT_PREFIX/lib/python{pyver}.7/site-packages:$VIRT_PREFIX/lib64/python{pyver}.7/site-packages
           {command_pre_build}
-          python{pyver} ./setup.py build
-          python{pyver} ./setup.py install --prefix=$VIRT_PREFIX
+          $PYTHON ./setup.py build
+          $PYTHON ./setup.py install --prefix=$VIRT_PREFIX
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -55,10 +55,10 @@
 
 - job-template:
     id: python-distutils-check-job
-    name: '{name}-{branch}-py{pyver}-check'
+    name: '{name}-{branch}-check'
     project-type: matrix
-    description: '{title} Check (Python {pyver})'
-    workspace: '{name}-{branch}-py{pyver}'
+    description: '{title} Check'
+    workspace: '{name}-{branch}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -85,7 +85,7 @@
           {global_env}
           {local_env}
           export PYTHONPATH=$VIRT_PREFIX/lib/python{pyver}.4/site-packages:$VIRT_PREFIX/lib64/python{pyver}.4/site-packages:$VIRT_PREFIX/lib/python{pyver}.5/site-packages:$VIRT_PREFIX/lib64/python{pyver}.5/site-packages:$VIRT_PREFIX/lib/python{pyver}.6/site-packages:$VIRT_PREFIX/lib64/python{pyver}.6/site-packages:$VIRT_PREFIX/lib/python{pyver}.7/site-packages:$VIRT_PREFIX/lib64/python{pyver}.7/site-packages
-          python{pyver} ./setup.py test
+          $PYTHON ./setup.py test
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -94,10 +94,10 @@
 
 - job-template:
     id: python-distutils-rpm-job
-    name: '{name}-{branch}-py{pyver}-rpm'
+    name: '{name}-{branch}-rpm'
     project-type: matrix
-    description: '{title} RPM (Python {pyver})'
-    workspace: '{name}-{branch}-py{pyver}'
+    description: '{title} RPM'
+    workspace: '{name}-{branch}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -125,7 +125,7 @@
           {local_env}
           export PYTHONPATH=$VIRT_PREFIX/lib/python{pyver}.4/site-packages:$VIRT_PREFIX/lib64/python{pyver}.4/site-packages:$VIRT_PREFIX/lib/python{pyver}.5/site-packages:$VIRT_PREFIX/lib64/python{pyver}.5/site-packages:$VIRT_PREFIX/lib/python{pyver}.6/site-packages:$VIRT_PREFIX/lib64/python{pyver}.6/site-packages:$VIRT_PREFIX/lib/python{pyver}.7/site-packages:$VIRT_PREFIX/lib64/python{pyver}.7/site-packages
           sed -i -e 's/BuildRequires: libvirt.*devel.*//' *.spec.in
-          python{pyver} ./setup.py rpm
+          $PYTHON ./setup.py rpm
     publishers:
       - email:
           recipients: '{obj:spam}'

@@ -11,15 +11,13 @@
     title: Virtual Machine Manager
     jobs:
       - python-distutils-build-job:
-          pyver: 3
           parent_jobs:
-            - 'libvirt-python-master-py{pyver}-build'
+            - 'libvirt-python-master-build'
             - 'libosinfo-master-build'
           command_pre_build: |
-            python{pyver} ./setup.py configure --prefix=$VIRT_PREFIX
+            $PYTHON ./setup.py configure --prefix=$VIRT_PREFIX
       - python-distutils-check-job:
-          pyver: 3
-          parent_jobs: 'virt-manager-master-py{pyver}-build'
+          parent_jobs: 'virt-manager-master-build'
           # libxml2's Python 3 bindings don't work properly on FreeBSD,
           # so skip the test suite there for the time being. See
           # https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=224902
@@ -29,8 +27,7 @@
             - libvirt-fedora-27
             - libvirt-fedora-rawhide
       - python-distutils-rpm-job:
-          pyver: 3
-          parent_jobs: 'virt-manager-master-py{pyver}-check'
+          parent_jobs: 'virt-manager-master-check'
           machines:
             - libvirt-fedora-26
             - libvirt-fedora-27
