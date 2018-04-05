@@ -6,7 +6,6 @@ PYTHONPATH: $VIRT_PREFIX/lib/python3.6/site-packages
 
 bash: /usr/local/bin/bash
 java: /usr/local/bin/java
-make: /usr/local/bin/gmake
 su: /usr/bin/su
 sudoers: /usr/local/etc/sudoers
 

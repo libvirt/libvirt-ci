@@ -23,6 +23,5 @@ PYTHONPATH:
 
 bash: /bin/bash
 java: /usr/bin/java
-make: /usr/bin/make
 su: /bin/su
 sudoers: /etc/sudoers
