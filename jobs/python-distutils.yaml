@@ -42,7 +42,6 @@
       - shell: |
           {global_env}
           {local_env}
-          export PYTHONPATH=$VIRT_PREFIX/lib/python{pyver}.4/site-packages:$VIRT_PREFIX/lib64/python{pyver}.4/site-packages:$VIRT_PREFIX/lib/python{pyver}.5/site-packages:$VIRT_PREFIX/lib64/python{pyver}.5/site-packages:$VIRT_PREFIX/lib/python{pyver}.6/site-packages:$VIRT_PREFIX/lib64/python{pyver}.6/site-packages:$VIRT_PREFIX/lib/python{pyver}.7/site-packages:$VIRT_PREFIX/lib64/python{pyver}.7/site-packages
           {command_pre_build}
           $PYTHON ./setup.py build
           $PYTHON ./setup.py install --prefix=$VIRT_PREFIX
@@ -84,7 +83,6 @@
       - shell: |
           {global_env}
           {local_env}
-          export PYTHONPATH=$VIRT_PREFIX/lib/python{pyver}.4/site-packages:$VIRT_PREFIX/lib64/python{pyver}.4/site-packages:$VIRT_PREFIX/lib/python{pyver}.5/site-packages:$VIRT_PREFIX/lib64/python{pyver}.5/site-packages:$VIRT_PREFIX/lib/python{pyver}.6/site-packages:$VIRT_PREFIX/lib64/python{pyver}.6/site-packages:$VIRT_PREFIX/lib/python{pyver}.7/site-packages:$VIRT_PREFIX/lib64/python{pyver}.7/site-packages
           $PYTHON ./setup.py test
     publishers:
       - email:
@@ -123,7 +121,6 @@
       - shell: |
           {global_env}
           {local_env}
-          export PYTHONPATH=$VIRT_PREFIX/lib/python{pyver}.4/site-packages:$VIRT_PREFIX/lib64/python{pyver}.4/site-packages:$VIRT_PREFIX/lib/python{pyver}.5/site-packages:$VIRT_PREFIX/lib64/python{pyver}.5/site-packages:$VIRT_PREFIX/lib/python{pyver}.6/site-packages:$VIRT_PREFIX/lib64/python{pyver}.6/site-packages:$VIRT_PREFIX/lib/python{pyver}.7/site-packages:$VIRT_PREFIX/lib64/python{pyver}.7/site-packages
           sed -i -e 's/BuildRequires: libvirt.*devel.*//' *.spec.in
           $PYTHON ./setup.py rpm
     publishers:
