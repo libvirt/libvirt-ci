@@ -19,6 +19,7 @@ XDG_DATA_DIRS: $VIRT_PREFIX/share:/usr/share:/usr/local/share
 GI_TYPELIB_PATH: $VIRT_PREFIX/lib/girepository-1.0
 OSINFO_SYSTEM_DIR: $VIRT_PREFIX/share/osinfo
 PERL5LIB:
+PYTHONPATH:
 
 bash: /bin/bash
 java: /usr/bin/java

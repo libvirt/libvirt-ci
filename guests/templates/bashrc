@@ -9,6 +9,8 @@ export XDG_DATA_DIRS="{{ XDG_DATA_DIRS }}"
 export GI_TYPELIB_PATH="{{ GI_TYPELIB_PATH }}"
 export OSINFO_SYSTEM_DIR="{{ OSINFO_SYSTEM_DIR }}"
 export PERL5LIB="{{ PERL5LIB }}"
+export PYTHONPATH="{{ PYTHONPATH }}"
 
+which python3 >/dev/null 2>&1 && export PYTHON="python3" || export PYTHON="python2"
 which gmake >/dev/null 2>&1 && export MAKE="gmake" || export MAKE="make"
 which ccache >/dev/null 2>&1 && export CC="ccache cc"

@@ -1,5 +1,6 @@
 ---
 PERL5LIB: $VIRT_PREFIX/lib64/perl5
+PYTHONPATH: $VIRT_PREFIX/lib64/python3.6/site-packages
 
 projects:
   - libosinfo
