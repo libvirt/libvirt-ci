@@ -17,6 +17,7 @@ LD_LIBRARY_PATH: $VIRT_PREFIX/lib
 PKG_CONFIG_PATH: $VIRT_PREFIX/lib/pkgconfig
 XDG_DATA_DIRS: $VIRT_PREFIX/share:/usr/share:/usr/local/share
 GI_TYPELIB_PATH: $VIRT_PREFIX/lib/girepository-1.0
+OSINFO_SYSTEM_DIR: $VIRT_PREFIX/share/osinfo
 
 bash: /bin/bash
 java: /usr/bin/java

@@ -11,8 +11,6 @@
       - libvirt-freebsd-10
       - libvirt-freebsd-11
     title: libosinfo
-    local_env: |
-      export OSINFO_SYSTEM_DIR=$VIRT_PREFIX/share/osinfo
     jobs:
       - autotools-build-job:
           parent_jobs: 'osinfo-db-master-build'

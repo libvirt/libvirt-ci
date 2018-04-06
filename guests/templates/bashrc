@@ -7,6 +7,7 @@ export LD_LIBRARY_PATH="{{ LD_LIBRARY_PATH }}"
 export PKG_CONFIG_PATH="{{ PKG_CONFIG_PATH }}"
 export XDG_DATA_DIRS="{{ XDG_DATA_DIRS }}"
 export GI_TYPELIB_PATH="{{ GI_TYPELIB_PATH }}"
+export OSINFO_SYSTEM_DIR="{{ OSINFO_SYSTEM_DIR }}"
 
 which gmake >/dev/null 2>&1 && export MAKE="gmake" || export MAKE="make"
 which ccache >/dev/null 2>&1 && export CC="ccache cc"
