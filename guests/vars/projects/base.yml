@@ -4,6 +4,7 @@ packages:
   - automake
   - autopoint
   - bash
+  - bash-completion
   - ccache
   - chrony
   - cppi

@@ -14,3 +14,8 @@ export PYTHONPATH="{{ PYTHONPATH }}"
 which python3 >/dev/null 2>&1 && export PYTHON="python3" || export PYTHON="python2"
 which gmake >/dev/null 2>&1 && export MAKE="gmake" || export MAKE="make"
 which ccache >/dev/null 2>&1 && export CC="ccache cc"
+
+# Enable bash completion. Only needed on FreeBSD, the system-wide
+# shell profile will take care of it for us everywhere else
+bash_completion=/usr/local/share/bash-completion/bash_completion.sh
+test -f "$bash_completion" && . "$bash_completion"

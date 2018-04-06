@@ -3,7 +3,6 @@ packages:
   - apparmor
   - augeas
   - avahi
-  - bash-completion
   - cyrus-sasl
   - device-mapper
   - dnsmasq
