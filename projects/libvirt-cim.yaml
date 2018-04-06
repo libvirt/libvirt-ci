@@ -2,7 +2,6 @@
 - project:
     name: libvirt-cim
     machines:
-      - libvirt-centos-6
       - libvirt-centos-7
       - libvirt-fedora-26
       - libvirt-fedora-27

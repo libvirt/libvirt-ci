@@ -2,7 +2,6 @@
 - project:
     name: libvirt-python
     machines:
-      - libvirt-centos-6
       - libvirt-centos-7
       - libvirt-debian-8
       - libvirt-debian-9
@@ -20,7 +19,6 @@
       - python-distutils-rpm-job:
           parent_jobs: 'libvirt-python-master-check'
           machines:
-            - libvirt-centos-6
             - libvirt-centos-7
             - libvirt-fedora-26
             - libvirt-fedora-27

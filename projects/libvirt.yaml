@@ -2,7 +2,6 @@
 - project:
     name: libvirt
     machines:
-      - libvirt-centos-6
       - libvirt-centos-7
       - libvirt-debian-8
       - libvirt-debian-9
@@ -15,7 +14,6 @@
       - autotools-build-job:
           parent_jobs:
           machines:
-            - libvirt-centos-6
             - libvirt-centos-7
             - libvirt-debian-8
             - libvirt-debian-9
@@ -34,7 +32,6 @@
       - autotools-rpm-job:
           parent_jobs: 'libvirt-master-check'
           machines:
-            - libvirt-centos-6
             - libvirt-centos-7
             - libvirt-fedora-26
             - libvirt-fedora-27
