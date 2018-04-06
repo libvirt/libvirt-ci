@@ -4,6 +4,22 @@
     branch: master
     variant: ''
     node: libvirt
+    all_machines:
+      - libvirt-centos-7
+      - libvirt-debian-8
+      - libvirt-debian-9
+      - libvirt-fedora-26
+      - libvirt-fedora-27
+      - libvirt-fedora-rawhide
+      - libvirt-freebsd-10
+      - libvirt-freebsd-11
+    rpm_machines:
+      - libvirt-centos-7
+      - libvirt-fedora-26
+      - libvirt-fedora-27
+      - libvirt-fedora-rawhide
+    mingw_machines:
+      - libvirt-fedora-rawhide
     global_env: |
     local_env: |
     mingw32_local_env: |

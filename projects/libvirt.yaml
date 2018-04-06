@@ -1,18 +1,14 @@
 
 - project:
     name: libvirt
-    machines:
-      - libvirt-centos-7
-      - libvirt-debian-8
-      - libvirt-debian-9
-      - libvirt-fedora-26
-      - libvirt-fedora-27
-      - libvirt-fedora-rawhide
+    machines: '{all_machines}'
     title: Libvirt
     archive_format: xz
     jobs:
       - autotools-build-job:
           parent_jobs:
+      - autotools-syntax-check-job:
+          parent_jobs: 'libvirt-master-build'
           machines:
             - libvirt-centos-7
             - libvirt-debian-8
@@ -20,33 +16,30 @@
             - libvirt-fedora-26
             - libvirt-fedora-27
             - libvirt-fedora-rawhide
-            - libvirt-freebsd-10
-            - libvirt-freebsd-11
-      - autotools-syntax-check-job:
-          parent_jobs: 'libvirt-master-build'
       - autotools-check-job:
           parent_jobs: 'libvirt-master-syntax-check'
+          machines:
+            - libvirt-centos-7
+            - libvirt-debian-8
+            - libvirt-debian-9
+            - libvirt-fedora-26
+            - libvirt-fedora-27
+            - libvirt-fedora-rawhide
           local_env: |
             export VIR_TEST_EXPENSIVE=1
             export VIR_TEST_DEBUG=2
       - autotools-rpm-job:
           parent_jobs: 'libvirt-master-check'
-          machines:
-            - libvirt-centos-7
-            - libvirt-fedora-26
-            - libvirt-fedora-27
-            - libvirt-fedora-rawhide
+          machines: '{rpm_machines}'
       - autotools-build-job:
           parent_jobs:
           variant: -mingw32
           local_env: '{mingw32_local_env}'
           autogen_args: '{mingw32_autogen_args}'
-          machines:
-            - libvirt-fedora-rawhide
+          machines: '{mingw_machines}'
       - autotools-build-job:
           parent_jobs:
           variant: -mingw64
           local_env: '{mingw64_local_env}'
           autogen_args: '{mingw64_autogen_args}'
-          machines:
-            - libvirt-fedora-rawhide
+          machines: '{mingw_machines}'

@@ -1,15 +1,7 @@
 
 - project:
     name: virt-viewer
-    machines:
-      - libvirt-centos-7
-      - libvirt-debian-8
-      - libvirt-debian-9
-      - libvirt-fedora-26
-      - libvirt-fedora-27
-      - libvirt-fedora-rawhide
-      - libvirt-freebsd-10
-      - libvirt-freebsd-11
+    machines: '{all_machines}'
     title: Virt Viewer
     jobs:
       - autotools-build-job:
@@ -20,22 +12,16 @@
           parent_jobs: 'virt-viewer-master-syntax-check'
       - autotools-rpm-job:
           parent_jobs: 'virt-viewer-master-check'
-          machines:
-            - libvirt-centos-7
-            - libvirt-fedora-26
-            - libvirt-fedora-27
-            - libvirt-fedora-rawhide
+          machines: '{rpm_machines}'
       - autotools-build-job:
           parent_jobs:
           variant: -mingw32
           local_env: '{mingw32_local_env}'
           autogen_args: '{mingw32_autogen_args}'
-          machines:
-            - libvirt-fedora-rawhide
+          machines: '{mingw_machines}'
       - autotools-build-job:
           parent_jobs:
           variant: -mingw64
           local_env: '{mingw64_local_env}'
           autogen_args: '{mingw64_autogen_args}'
-          machines:
-            - libvirt-fedora-rawhide
+          machines: '{mingw_machines}'

@@ -24,8 +24,4 @@
             - libvirt-freebsd-11
       - autotools-rpm-job:
           parent_jobs: 'libvirt-dbus-master-check'
-          machines:
-            - libvirt-centos-7
-            - libvirt-fedora-26
-            - libvirt-fedora-27
-            - libvirt-fedora-rawhide
+          machines: '{rpm_machines}'

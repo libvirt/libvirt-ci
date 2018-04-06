@@ -1,15 +1,7 @@
 
 - project:
     name: libvirt-go-xml
-    machines:
-      - libvirt-centos-7
-      - libvirt-debian-8
-      - libvirt-debian-9
-      - libvirt-fedora-26
-      - libvirt-fedora-27
-      - libvirt-fedora-rawhide
-      - libvirt-freebsd-10
-      - libvirt-freebsd-11
+    machines: '{all_machines}'
     title: Libvirt Go XML
     local_env: |
       export TEST_ARGS="-tags xmlroundtrip"

@@ -1,15 +1,7 @@
 
 - project:
     name: osinfo-db-tools
-    machines:
-      - libvirt-centos-7
-      - libvirt-debian-8
-      - libvirt-debian-9
-      - libvirt-fedora-26
-      - libvirt-fedora-27
-      - libvirt-fedora-rawhide
-      - libvirt-freebsd-10
-      - libvirt-freebsd-11
+    machines: '{all_machines}'
     title: osinfo database tools
     jobs:
       - autotools-build-job:
@@ -20,8 +12,4 @@
           parent_jobs: 'osinfo-db-tools-master-syntax-check'
       - autotools-rpm-job:
           parent_jobs: 'osinfo-db-tools-master-check'
-          machines:
-            - libvirt-centos-7
-            - libvirt-fedora-26
-            - libvirt-fedora-27
-            - libvirt-fedora-rawhide
+          machines: '{rpm_machines}'
