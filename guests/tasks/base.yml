@@ -117,6 +117,34 @@
   when:
     - package_format == 'pkg'
 
+- name: Clean up packages after update
+  command: yum clean packages -y
+  args:
+    warn: no
+  when:
+    - package_format == 'rpm'
+
+- name: Clean up packages after update
+  command: yum autoremove -y
+  args:
+    warn: no
+  when:
+    - package_format == 'rpm'
+    - not ( os_name == 'CentOS' and
+            os_version == '6' )
+
+- name: Clean up packages after update
+  apt:
+    autoclean: yes
+    autoremove: yes
+  when:
+    - package_format == 'deb'
+
+- name: Clean up packages after update
+  shell: pkg clean -y && pkg autoremove -y
+  when:
+    - package_format == 'pkg'
+
 - name: Configure hostname
   hostname:
     name: '{{ inventory_hostname }}'
