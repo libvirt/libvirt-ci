@@ -17,8 +17,12 @@
           command: |
             $MAKE -j{smp} all
             $MAKE install OSINFO_DB_TARGET="--system"
-      - generic-rpm-job:
+      - generic-check-job:
           parent_jobs: 'osinfo-db-master-build'
+          command: |
+            $MAKE -j{smp} check
+      - generic-rpm-job:
+          parent_jobs: 'osinfo-db-master-check'
           machines:
             - libvirt-centos-7
             - libvirt-fedora-26
