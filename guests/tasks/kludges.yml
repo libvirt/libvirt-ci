@@ -46,3 +46,16 @@
   command: cap_mkdb /etc/login.conf
   when:
     - loginconf.changed
+
+# FreeBSD switched to Perl 5.26, which makes a long existing warning in
+# intltool-update turn into an error and causes jobs to fail. While we
+# wait for the port to be fixed, we can patch things up ourselves.
+#
+# See https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=227444
+- name: Fix intltool-update
+  replace:
+    path: /usr/local/bin/intltool-update
+    regexp: '^(.*) !~ /\\\$\{\?\$2\}\?/;$'
+    replace: '\1 !~ /\\$\\{?$2}?/;'
+  when:
+    - os_name == 'FreeBSD'
