@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  remote_user: root
   gather_facts: no
 
   tasks:
@@ -8,6 +9,7 @@
     - include: tasks/bootstrap.yml
 
 - hosts: all
+  remote_user: root
 
   vars_files:
     - vars/mappings.yml
