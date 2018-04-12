@@ -1,0 +1,5 @@
+---
+packages:
+  - libxml2
+  - rpcgen
+  - xsltproc
