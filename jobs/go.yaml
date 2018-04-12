@@ -42,6 +42,11 @@
       - shell: |
           {global_env}
           {local_env}
+          # go doesn't handle the $CC variable containing whitespace
+          # correctly, so we have to make sure it's unset when building.
+          # See https://github.com/golang/go/issues/11685
+          export CC=
+
           go build -v
     publishers:
       - email:
@@ -80,6 +85,9 @@
       - shell: |
           {global_env}
           {local_env}
+          # See above
+          export CC=
+
           go test $TEST_ARGS
     publishers:
       - email:

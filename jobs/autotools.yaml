@@ -223,6 +223,11 @@
       - shell: |
           {global_env}
           {local_env}
+          # The MinGW build needs to use the MinGW compiler toolchain,
+          # while $CC is pointing to the native toolchain, so we have
+          # to unset it here.
+          export CC=
+
           mkdir -p build32
           cd build32
 
@@ -235,6 +240,9 @@
       - shell: |
           {global_env}
           {local_env}
+          # See above
+          export CC=
+
           mkdir -p build64
           cd build64
 
