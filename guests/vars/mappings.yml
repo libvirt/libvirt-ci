@@ -343,6 +343,9 @@ mappings:
   mingw32-gettext:
     FedoraRawhide: mingw32-gettext
 
+  mingw32-glib2:
+    FedoraRawhide: mingw32-glib2
+
   mingw32-gnutls:
     FedoraRawhide: mingw32-gnutls
 
@@ -378,6 +381,9 @@ mappings:
 
   mingw64-gettext:
     FedoraRawhide: mingw64-gettext
+
+  mingw64-glib2:
+    FedoraRawhide: mingw64-glib2
 
   mingw64-gnutls:
     FedoraRawhide: mingw64-gnutls
