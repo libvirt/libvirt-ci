@@ -346,11 +346,32 @@ mappings:
   mingw32-glib2:
     FedoraRawhide: mingw32-glib2
 
+  mingw32-glib-networking:
+    FedoraRawhide: mingw32-glib-networking
+
   mingw32-gnutls:
     FedoraRawhide: mingw32-gnutls
 
+  mingw32-gstreamer1-plugins-bad-free:
+    FedoraRawhide: mingw32-gstreamer1-plugins-bad-free
+
+  mingw32-gstreamer1-plugins-good:
+    FedoraRawhide: mingw32-gstreamer1-plugins-good
+
+  mingw32-gtk3:
+    FedoraRawhide: mingw32-gtk3
+
+  mingw32-gtk-vnc2:
+    FedoraRawhide: mingw32-gtk-vnc2
+
+  mingw32-libgovirt:
+    FedoraRawhide: mingw32-libgovirt
+
   mingw32-libssh2:
     FedoraRawhide: mingw32-libssh2
+
+  mingw32-libusbx:
+    FedoraRawhide: mingw32-libusbx
 
   mingw32-libxml2:
     FedoraRawhide: mingw32-libxml2
@@ -366,6 +387,15 @@ mappings:
 
   mingw32-readline:
     FedoraRawhide: mingw32-readline
+
+  mingw32-rest:
+    FedoraRawhide: mingw32-rest
+
+  mingw32-spice-gtk3:
+    FedoraRawhide: mingw32-spice-gtk3
+
+  mingw32-usbredir:
+    FedoraRawhide: mingw32-usbredir
 
   mingw64-curl:
     FedoraRawhide: mingw64-curl
@@ -385,11 +415,32 @@ mappings:
   mingw64-glib2:
     FedoraRawhide: mingw64-glib2
 
+  mingw64-glib-networking:
+    FedoraRawhide: mingw64-glib-networking
+
   mingw64-gnutls:
     FedoraRawhide: mingw64-gnutls
 
+  mingw64-gstreamer1-plugins-bad-free:
+    FedoraRawhide: mingw64-gstreamer1-plugins-bad-free
+
+  mingw64-gstreamer1-plugins-good:
+    FedoraRawhide: mingw64-gstreamer1-plugins-good
+
+  mingw64-gtk3:
+    FedoraRawhide: mingw64-gtk3
+
+  mingw64-gtk-vnc2:
+    FedoraRawhide: mingw64-gtk-vnc2
+
+  mingw64-libgovirt:
+    FedoraRawhide: mingw64-libgovirt
+
   mingw64-libssh2:
     FedoraRawhide: mingw64-libssh2
+
+  mingw64-libusbx:
+    FedoraRawhide: mingw64-libusbx
 
   mingw64-libxml2:
     FedoraRawhide: mingw64-libxml2
@@ -405,6 +456,15 @@ mappings:
 
   mingw64-readline:
     FedoraRawhide: mingw64-readline
+
+  mingw64-rest:
+    FedoraRawhide: mingw64-rest
+
+  mingw64-spice-gtk3:
+    FedoraRawhide: mingw64-spice-gtk3
+
+  mingw64-usbredir:
+    FedoraRawhide: mingw64-usbredir
 
   nano:
     default: nano
