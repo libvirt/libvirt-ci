@@ -5,6 +5,7 @@ PYTHONPATH: $VIRT_PREFIX/lib64/python3.6/site-packages
 projects:
   - libosinfo
   - libvirt
+  - libvirt+mingw
   - libvirt-cim
   - libvirt-dbus
   - libvirt-glib
