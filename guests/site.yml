@@ -57,3 +57,7 @@
     - include: tasks/jenkins.yml
       when:
         - flavor == 'jenkins'
+
+    # Some of the kludges involve tweaking files that are included in
+    # the packages we just installed, so go through them again here
+    - include: tasks/kludges.yml
