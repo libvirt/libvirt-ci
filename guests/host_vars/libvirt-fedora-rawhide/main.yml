@@ -9,6 +9,7 @@ projects:
   - libvirt-cim
   - libvirt-dbus
   - libvirt-glib
+  - libvirt-glib+mingw
   - libvirt-go
   - libvirt-go-xml
   - libvirt-perl
