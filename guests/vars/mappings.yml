@@ -164,7 +164,7 @@ mappings:
     default: gtk-doc
     deb: gtk-doc-tools
 
-  gtk-vnc:
+  gtk-vnc2:
     deb: libgtk-vnc-2.0-dev
     pkg: gtk-vnc
     rpm: gtk-vnc2-devel
