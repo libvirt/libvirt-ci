@@ -20,3 +20,4 @@ projects:
   - osinfo-db-tools
   - virt-manager
   - virt-viewer
+  - virt-viewer+mingw
