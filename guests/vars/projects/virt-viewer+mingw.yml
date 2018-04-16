@@ -1,6 +1,7 @@
 ---
 packages:
   - glib2
+  - icoutils
   - intltool
   - mingw32-glib2
   - mingw32-glib-networking

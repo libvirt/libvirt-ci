@@ -173,6 +173,10 @@ mappings:
   hal:
     FreeBSD: hal
 
+  icoutils:
+    default: icoutils
+    CentOS6:
+
   intltool:
     default: intltool
 
