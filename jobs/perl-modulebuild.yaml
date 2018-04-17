@@ -1,11 +1,11 @@
 
 - job-template:
     id: perl-modulebuild-build-job
-    name: '{name}-{branch}-build'
+    name: '{name}-{branch}-build{variant}'
     project-type: matrix
     description: '{title} Build'
     autogen_args: ''
-    workspace: '{name}-{branch}'
+    workspace: '{name}-{branch}{variant}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -55,10 +55,10 @@
 
 - job-template:
     id: perl-modulebuild-test-job
-    name: '{name}-{branch}-test'
+    name: '{name}-{branch}-test{variant}'
     project-type: matrix
     description: '{title} Test'
-    workspace: '{name}-{branch}'
+    workspace: '{name}-{branch}{variant}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -93,11 +93,11 @@
 
 - job-template:
     id: perl-modulebuild-rpm-job
-    name: '{name}-{branch}-rpm'
+    name: '{name}-{branch}-rpm{variant}'
     project-type: matrix
     description: '{title} RPM'
     archive_format: gz
-    workspace: '{name}-{branch}'
+    workspace: '{name}-{branch}{variant}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true

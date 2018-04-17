@@ -2,6 +2,7 @@
 - defaults:
     name: global
     branch: master
+    variant: ''
     node: libvirt
     global_env: |
     local_env: |

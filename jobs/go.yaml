@@ -1,11 +1,11 @@
 
 - job-template:
     id: go-build-job
-    name: '{name}-{branch}-build'
+    name: '{name}-{branch}-build{variant}'
     project-type: matrix
     description: '{title} Build'
     autogen_args: ''
-    workspace: '{name}-{branch}'
+    workspace: '{name}-{branch}{variant}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -56,10 +56,10 @@
 
 - job-template:
     id: go-check-job
-    name: '{name}-{branch}-check'
+    name: '{name}-{branch}-check{variant}'
     project-type: matrix
     description: '{title} Check'
-    workspace: '{name}-{branch}'
+    workspace: '{name}-{branch}{variant}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
