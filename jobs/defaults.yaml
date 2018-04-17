@@ -6,5 +6,21 @@
     node: libvirt
     global_env: |
     local_env: |
+    mingw32_local_env: |
+      # The MinGW build needs to use the MinGW compiler toolchain,
+      # while $CC is pointing to the native toolchain, so we have
+      # to unset it here.
+      export CC=
+      export VIRT_PREFIX="$VIRT_PREFIX/i686-w64-mingw32/sys-root/mingw"
+      export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
+      export PKG_CONFIG_LIBDIR="/usr/i686-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/i686-w64-mingw32/sys-root/mingw/share/pkgconfig"
+    mingw32_autogen_args: --host=i686-w64-mingw32
+    mingw64_local_env: |
+      # See above
+      export CC=
+      export VIRT_PREFIX="$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw"
+      export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
+      export PKG_CONFIG_LIBDIR="/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig"
+    mingw64_autogen_args: --host=x86_64-w64-mingw32
     smp: 3
     spam: ymankad@redhat.com libvirt-ci@redhat.com
