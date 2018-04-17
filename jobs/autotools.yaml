@@ -228,13 +228,14 @@
           # to unset it here.
           export CC=
 
+          export VIRT_PREFIX="$VIRT_PREFIX/i686-w64-mingw32/sys-root/mingw"
+          export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
+          export PKG_CONFIG_LIBDIR="/usr/i686-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/i686-w64-mingw32/sys-root/mingw/share/pkgconfig"
+
           mkdir -p build32
           cd build32
 
-          export PKG_CONFIG_LIBDIR="/usr/i686-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/i686-w64-mingw32/sys-root/mingw/share/pkgconfig"
-          export PKG_CONFIG_PATH="$VIRT_PREFIX/i686-w64-mingw32/sys-root/mingw/lib/pkgconfig" \
-          export PREFIX=$VIRT_PREFIX/i686-w64-mingw32/sys-root/mingw
-          ../autogen.sh --host=i686-w64-mingw32 --prefix=$PREFIX
+          ../autogen.sh --prefix=$VIRT_PREFIX --host=i686-w64-mingw32
           $MAKE -j{smp}
           $MAKE -j{smp} install
       - shell: |
@@ -243,13 +244,14 @@
           # See above
           export CC=
 
+          export VIRT_PREFIX="$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw"
+          export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
+          export PKG_CONFIG_LIBDIR="/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig"
+
           mkdir -p build64
           cd build64
 
-          export PKG_CONFIG_LIBDIR="/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig"
-          export PKG_CONFIG_PATH="$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig" \
-          export PREFIX=$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw
-          ../autogen.sh --host=x86_64-w64-mingw32 --prefix=$PREFIX
+          ../autogen.sh --prefix=$VIRT_PREFIX --host=x86_64-w64-mingw32
           $MAKE -j{smp}
           $MAKE -j{smp} install
     publishers:
