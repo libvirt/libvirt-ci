@@ -104,6 +104,24 @@
     state: latest
   when:
     - package_format == 'rpm'
+    - not ( os_name == 'Fedora' and
+            os_version == 'Rawhide' )
+
+- name: Update installed packages
+  command: dnf update --refresh --exclude 'kernel*' -y
+  args:
+    warn: no
+  when:
+    - os_name == 'Fedora'
+    - os_version == 'Rawhide'
+
+- name: Update installed packages
+  command: dnf update --disablerepo='*' --enablerepo=fedora-rawhide-kernel-nodebug 'kernel*' -y
+  args:
+    warn: no
+  when:
+    - os_name == 'Fedora'
+    - os_version == 'Rawhide'
 
 - name: Update installed packages
   apt:
