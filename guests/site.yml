@@ -48,6 +48,7 @@
         - flavor == "jenkins"
 
     # Configure environment. Needs to happen after installing packages
+    - include: tasks/paths.yml
     - include: tasks/bootloader.yml
     - include: tasks/services.yml
     - include: tasks/kludges.yml
