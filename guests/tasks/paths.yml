@@ -8,7 +8,12 @@
   register: which
   with_items:
     - bash
+    - ccache
+    - gmake
     - java
+    - make
+    - python2
+    - python3
     - su
 
 - name: 'Look for files'
@@ -32,6 +37,33 @@
 - name: 'Export paths'
   set_fact:
     bash: '{{ commands["bash"] }}'
+    ccache: '{{ commands["ccache"] }}'
     java: '{{ commands["java"] }}'
     su: '{{ commands["su"] }}'
     sudoers: '{{ files["sudoers"] }}'
+
+# Prefer gmake, fall back to make
+- name: 'Export paths'
+  set_fact:
+    make: '{{ commands["gmake"] }}'
+  when:
+    - commands["gmake"] != ''
+
+- name: 'Export paths'
+  set_fact:
+    make: '{{ commands["make"] }}'
+  when:
+    - make is undefined
+
+# Prefer python3, fall back to python2
+- name: 'Export paths'
+  set_fact:
+    python: '{{ commands["python3"] }}'
+  when:
+    - commands["python3"] != ''
+
+- name: 'Export paths'
+  set_fact:
+    python: '{{ commands["python2"] }}'
+  when:
+    - python is undefined
