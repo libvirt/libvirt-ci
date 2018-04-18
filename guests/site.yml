@@ -31,12 +31,6 @@
         project: blacklist
         state: absent
 
-    # Configure environment. Needs to happen after installing base packages
-    - include: tasks/bootloader.yml
-    - include: tasks/services.yml
-    - include: tasks/kludges.yml
-    - include: tasks/users.yml
-
     # Install build dependencies for each project
     - include: tasks/packages.yml
       with_items:
@@ -53,11 +47,13 @@
       when:
         - flavor == "jenkins"
 
+    # Configure environment. Needs to happen after installing packages
+    - include: tasks/bootloader.yml
+    - include: tasks/services.yml
+    - include: tasks/kludges.yml
+    - include: tasks/users.yml
+
     # Configure the Jenkins agent
     - include: tasks/jenkins.yml
       when:
         - flavor == 'jenkins'
-
-    # Some of the kludges involve tweaking files that are included in
-    # the packages we just installed, so go through them again here
-    - include: tasks/kludges.yml
