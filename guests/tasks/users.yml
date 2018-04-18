@@ -53,10 +53,13 @@
 
 - name: '{{ flavor }}: Configure ccache'
   file:
-    path: /home/{{ flavor }}/.ccache
+    path: /home/{{ flavor }}/.{{ item }}
     state: directory
     owner: '{{ flavor }}'
     group: '{{ flavor }}'
+  with_items:
+    - ccache
+    - ccache/bin
 
 - name: '{{ flavor }}: Configure ccache'
   copy:
@@ -64,6 +67,34 @@
     dest: /home/{{ flavor }}/.ccache/ccache.conf
     owner: '{{ flavor }}'
     group: '{{ flavor }}'
+
+- name: '{{ flavor }}: Create ccache wrappers'
+  file:
+    src: '{{ ccache }}'
+    dest: /home/{{ flavor }}/.ccache/bin/{{ item }}
+    state: link
+    owner: '{{ flavor }}'
+    group: '{{ flavor }}'
+  with_items:
+    - cc
+    - clang
+  when:
+    - ccache != ''
+    - os_name == 'FreeBSD'
+
+- name: '{{ flavor }}: Create ccache wrappers'
+  file:
+    src: '{{ ccache }}'
+    dest: /home/{{ flavor }}/.ccache/bin/{{ item }}
+    state: link
+    owner: '{{ flavor }}'
+    group: '{{ flavor }}'
+  with_items:
+    - cc
+    - gcc
+  when:
+    - ccache != ''
+    - os_name != 'FreeBSD'
 
 - name: '{{ flavor }}: Create shell profile'
   template:

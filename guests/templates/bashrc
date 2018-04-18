@@ -11,11 +11,8 @@ export OSINFO_SYSTEM_DIR="{{ OSINFO_SYSTEM_DIR }}"
 export PERL5LIB="{{ PERL5LIB }}"
 export PYTHONPATH="{{ PYTHONPATH }}"
 
-export CCACHE="{{ ccache }}"
 export MAKE="{{ make }}"
 export PYTHON="{{ python }}"
-
-test "$CCACHE" && export CC="$CCACHE cc"
 
 # Enable bash completion. Only needed on FreeBSD, the system-wide
 # shell profile will take care of it for us everywhere else
