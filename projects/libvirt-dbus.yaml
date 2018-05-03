@@ -10,6 +10,7 @@
             - libvirt-debian-9
             - libvirt-fedora-26
             - libvirt-fedora-27
+            - libvirt-fedora-28
             - libvirt-fedora-rawhide
             - libvirt-freebsd-10
             - libvirt-freebsd-11
@@ -19,6 +20,7 @@
             - libvirt-debian-9
             - libvirt-fedora-26
             - libvirt-fedora-27
+            - libvirt-fedora-28
             - libvirt-fedora-rawhide
             - libvirt-freebsd-10
             - libvirt-freebsd-11
