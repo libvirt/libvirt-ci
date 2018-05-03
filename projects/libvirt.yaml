@@ -18,13 +18,6 @@
             - libvirt-fedora-rawhide
       - autotools-check-job:
           parent_jobs: 'libvirt-master-syntax-check'
-          machines:
-            - libvirt-centos-7
-            - libvirt-debian-8
-            - libvirt-debian-9
-            - libvirt-fedora-27
-            - libvirt-fedora-28
-            - libvirt-fedora-rawhide
           local_env: |
             export VIR_TEST_EXPENSIVE=1
             export VIR_TEST_DEBUG=2
