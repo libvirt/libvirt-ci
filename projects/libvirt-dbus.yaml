@@ -8,7 +8,6 @@
           machines:
             - libvirt-centos-7
             - libvirt-debian-9
-            - libvirt-fedora-26
             - libvirt-fedora-27
             - libvirt-fedora-28
             - libvirt-fedora-rawhide
@@ -18,7 +17,6 @@
           parent_jobs: 'libvirt-dbus-master-build'
           machines:
             - libvirt-debian-9
-            - libvirt-fedora-26
             - libvirt-fedora-27
             - libvirt-fedora-28
             - libvirt-fedora-rawhide
