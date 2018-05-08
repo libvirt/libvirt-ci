@@ -1,0 +1,8 @@
+---
+packages:
+  - mingw32-glib2
+  - mingw32-libxml2
+  - mingw32-libxslt
+  - mingw64-glib2
+  - mingw64-libxml2
+  - mingw64-libxslt

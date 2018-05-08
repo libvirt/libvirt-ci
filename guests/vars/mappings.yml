@@ -368,6 +368,9 @@ mappings:
   mingw32-gtk-vnc2:
     FedoraRawhide: mingw32-gtk-vnc2
 
+  mingw32-libarchive:
+    FedoraRawhide: mingw32-libarchive
+
   mingw32-libgovirt:
     FedoraRawhide: mingw32-libgovirt
 
@@ -379,6 +382,9 @@ mappings:
 
   mingw32-libxml2:
     FedoraRawhide: mingw32-libxml2
+
+  mingw32-libxslt:
+    FedoraRawhide: mingw32-libxslt
 
   mingw32-openssl:
     FedoraRawhide: mingw32-openssl
@@ -437,6 +443,9 @@ mappings:
   mingw64-gtk-vnc2:
     FedoraRawhide: mingw64-gtk-vnc2
 
+  mingw64-libarchive:
+    FedoraRawhide: mingw64-libarchive
+
   mingw64-libgovirt:
     FedoraRawhide: mingw64-libgovirt
 
@@ -448,6 +457,9 @@ mappings:
 
   mingw64-libxml2:
     FedoraRawhide: mingw64-libxml2
+
+  mingw64-libxslt:
+    FedoraRawhide: mingw64-libxslt
 
   mingw64-openssl:
     FedoraRawhide: mingw64-openssl

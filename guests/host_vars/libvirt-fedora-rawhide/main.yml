@@ -4,6 +4,7 @@ PYTHONPATH: $VIRT_PREFIX/lib64/python3.6/site-packages
 
 projects:
   - libosinfo
+  - libosinfo+mingw
   - libvirt
   - libvirt+mingw
   - libvirt-cim
@@ -18,6 +19,7 @@ projects:
   - libvirt-tck
   - osinfo-db
   - osinfo-db-tools
+  - osinfo-db-tools+mingw
   - virt-manager
   - virt-viewer
   - virt-viewer+mingw
