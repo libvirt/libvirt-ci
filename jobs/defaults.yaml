@@ -33,5 +33,4 @@
       export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
       export PKG_CONFIG_LIBDIR="/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig"
     mingw64_autogen_args: --host=x86_64-w64-mingw32
-    smp: 3
     spam: ymankad@redhat.com libvirt-ci@redhat.com

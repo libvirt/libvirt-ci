@@ -8,17 +8,17 @@
       - generic-build-job:
           parent_jobs: 'osinfo-db-tools-master-build'
           command: |
-            $MAKE -j{smp} all
-            $MAKE -j{smp} install OSINFO_DB_TARGET="--system"
+            $MAKE all
+            $MAKE install OSINFO_DB_TARGET="--system"
       - generic-check-job:
           parent_jobs: 'osinfo-db-master-build'
           command: |
-            $MAKE -j{smp} check
+            $MAKE check
       - generic-rpm-job:
           parent_jobs: 'osinfo-db-master-check'
           machines: '{rpm_machines}'
           command: |
             rm -f *.tar.{archive_format}
-            $MAKE -j{smp} osinfo-db.spec
+            $MAKE osinfo-db.spec
             perl -i -p -e 's/BuildRequires: osinfo-db-tools.*//' osinfo-db.spec
-            $MAKE -j{smp} rpm
+            $MAKE rpm

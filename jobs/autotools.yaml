@@ -45,8 +45,8 @@
           mkdir build
           cd build
           ../autogen.sh --prefix=$VIRT_PREFIX {autogen_args}
-          $MAKE -j{smp}
-          $MAKE -j{smp} install
+          $MAKE
+          $MAKE install
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -85,7 +85,7 @@
           {global_env}
           {local_env}
           cd build
-          $MAKE -j{smp} syntax-check
+          $MAKE syntax-check
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -124,7 +124,7 @@
           {global_env}
           {local_env}
           cd build
-          if ! $MAKE -j{smp} check
+          if ! $MAKE check
           then
               cat tests/test-suite.log || true
               exit 1
@@ -171,7 +171,7 @@
           sed -i -e 's/BuildRequires: libvirt.*devel.*//' {name}.spec
           sed -i -e 's/BuildRequires: pkgconfig(libvirt.*).*//' {name}.spec
           rm -f *.tar.{archive_format}
-          $MAKE -j{smp} dist
+          $MAKE dist
           rpmbuild --define "_topdir `pwd`/rpmbuild" -ta {name}-*.tar.{archive_format}
     publishers:
       - email:

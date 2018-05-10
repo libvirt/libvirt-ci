@@ -47,7 +47,7 @@
             mkdir build
             cd build
             ../autogen.sh --without-libvirtd --without-macvtap
-            $MAKE -j{smp} -C docs/
-            $MAKE -j{smp} dist
+            $MAKE -C docs/
+            $MAKE dist
           machines:
             - libvirt-centos-6
