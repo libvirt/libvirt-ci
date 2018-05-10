@@ -140,7 +140,6 @@
     name: '{name}-{branch}-rpm{variant}'
     project-type: matrix
     description: '{title} RPM'
-    archive_format: gz
     workspace: '{name}-{branch}{variant}'
     child-workspace: '.'
     block-downstream: true
