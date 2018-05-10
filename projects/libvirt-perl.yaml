@@ -6,9 +6,9 @@
     jobs:
       - perl-makemaker-build-job:
           parent_jobs: 'libvirt-master-build'
-      - perl-makemaker-test-job:
+      - perl-makemaker-check-job:
           parent_jobs: 'libvirt-perl-master-build'
           test_args: 'TEST_MAINTAINER=1'
       - perl-makemaker-rpm-job:
-          parent_jobs: 'libvirt-perl-master-test'
+          parent_jobs: 'libvirt-perl-master-check'
           machines: '{rpm_machines}'

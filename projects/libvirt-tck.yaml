@@ -13,10 +13,10 @@
     jobs:
       - perl-modulebuild-build-job:
           parent_jobs: 'libvirt-perl-master-build'
-      - perl-modulebuild-test-job:
+      - perl-modulebuild-check-job:
           parent_jobs: 'libvirt-tck-master-build'
       - perl-modulebuild-rpm-job:
-          parent_jobs: 'libvirt-tck-master-test'
+          parent_jobs: 'libvirt-tck-master-check'
           machines:
             - libvirt-fedora-27
             - libvirt-fedora-28

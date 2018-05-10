@@ -54,10 +54,10 @@
 
 
 - job-template:
-    id: perl-makemaker-test-job
-    name: '{name}-{branch}-test{variant}'
+    id: perl-makemaker-check-job
+    name: '{name}-{branch}-check{variant}'
     project-type: matrix
-    description: '{title} Test'
+    description: '{title} Check'
     test_args: ''
     workspace: '{name}-{branch}{variant}'
     child-workspace: '.'

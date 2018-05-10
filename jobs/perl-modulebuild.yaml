@@ -54,10 +54,10 @@
 
 
 - job-template:
-    id: perl-modulebuild-test-job
-    name: '{name}-{branch}-test{variant}'
+    id: perl-modulebuild-check-job
+    name: '{name}-{branch}-check{variant}'
     project-type: matrix
-    description: '{title} Test'
+    description: '{title} Check'
     workspace: '{name}-{branch}{variant}'
     child-workspace: '.'
     block-downstream: true
