@@ -6,7 +6,6 @@
     jobs:
       - autotools-build-job:
           parent_jobs: 'libvirt-master-build'
-          autogen_args: --enable-gtk-doc
       - autotools-syntax-check-job:
           parent_jobs: 'libvirt-glib-master-build'
       - autotools-check-job:
