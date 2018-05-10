@@ -14,6 +14,8 @@ export PYTHONPATH="{{ PYTHONPATH }}"
 export MAKE="{{ make }}"
 export PYTHON="{{ python }}"
 
+export MAKEFLAGS="-j{{ install_vcpus|int + 1 }}"
+
 # Enable bash completion. Only needed on FreeBSD, the system-wide
 # shell profile will take care of it for us everywhere else
 bash_completion=/usr/local/share/bash-completion/bash_completion.sh
