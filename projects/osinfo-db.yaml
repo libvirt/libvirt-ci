@@ -3,6 +3,7 @@
     name: osinfo-db
     machines: '{all_machines}'
     title: osinfo database
+    archive_format: xz
     jobs:
       - generic-build-job:
           parent_jobs: 'osinfo-db-tools-master-build'
@@ -17,7 +18,7 @@
           parent_jobs: 'osinfo-db-master-check'
           machines: '{rpm_machines}'
           command: |
-            rm -f *.tar.xz
+            rm -f *.tar.{archive_format}
             $MAKE osinfo-db.spec
             perl -i -p -e 's/BuildRequires: osinfo-db-tools.*//' osinfo-db.spec
             $MAKE rpm
