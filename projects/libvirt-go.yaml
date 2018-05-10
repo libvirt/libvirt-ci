@@ -3,10 +3,10 @@
     name: libvirt-go
     machines: '{all_machines}'
     title: Libvirt Go
-    local_env: |
-      export TEST_ARGS="-tags api"
     jobs:
       - go-build-job:
           parent_jobs: 'libvirt-master-build'
       - go-check-job:
           parent_jobs: 'libvirt-go-master-build'
+          local_env: |
+            export TEST_ARGS="-tags api"

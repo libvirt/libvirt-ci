@@ -3,10 +3,10 @@
     name: libvirt-go-xml
     machines: '{all_machines}'
     title: Libvirt Go XML
-    local_env: |
-      export TEST_ARGS="-tags xmlroundtrip"
     jobs:
       - go-build-job:
           parent_jobs: 'libvirt-master-build'
       - go-check-job:
           parent_jobs: 'libvirt-go-xml-master-build'
+          local_env: |
+            export TEST_ARGS="-tags xmlroundtrip"
