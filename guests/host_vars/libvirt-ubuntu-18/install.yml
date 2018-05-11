@@ -1,0 +1,3 @@
+---
+install_url: http://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/
+install_config: preseed.cfg

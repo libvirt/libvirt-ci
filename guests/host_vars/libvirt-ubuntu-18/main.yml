@@ -1,0 +1,19 @@
+---
+PERL5LIB: $VIRT_PREFIX/lib/x86_64-linux-gnu/perl/5.26.1
+PYTHONPATH: $VIRT_PREFIX/lib/python3.6/site-packages
+
+projects:
+  - libosinfo
+  - libvirt
+  - libvirt-dbus
+  - libvirt-glib
+  - libvirt-go
+  - libvirt-go-xml
+  - libvirt-perl
+  - libvirt-python
+  - libvirt-sandbox
+  - libvirt-tck
+  - osinfo-db
+  - osinfo-db-tools
+  - virt-manager
+  - virt-viewer
