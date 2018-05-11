@@ -6,6 +6,7 @@ packages:
   - gobject-introspection
   - gtk-doc
   - intltool
+  - libcurl
   - libsoup
   - libxml2
   - libxslt
