@@ -299,8 +299,8 @@ mappings:
 
   libtool:
     default: libtool
-    Debian: libtool-bin
-    Ubuntu16: libtool-bin
+    deb: libtool-bin
+    Ubuntu14: libtool
 
   libtoolize:
     default: libtool
