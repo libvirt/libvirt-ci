@@ -685,8 +685,9 @@ mappings:
     default: python3-libxml2
     FreeBSD: py36-libxml2
     CentOS:
-    Ubuntu:
     Debian8:
+    Ubuntu14:
+    Ubuntu16:
 
   python3-lxml:
     default: python3-lxml
