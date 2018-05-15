@@ -1,8 +1,6 @@
 ---
 packages:
-  - glib2
   - icoutils
-  - intltool
   - mingw32-glib2
   - mingw32-glib-networking
   - mingw32-gstreamer1-plugins-bad-free

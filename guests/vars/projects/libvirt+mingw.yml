@@ -24,5 +24,3 @@ packages:
   - mingw64-pkg-config
   - mingw64-portablexdr
   - mingw64-readline
-  - rpcgen
-  - xsltproc

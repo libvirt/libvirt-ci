@@ -1,9 +1,5 @@
 ---
 packages:
-  - glib2
-  - gobject-introspection
-  - gtk-doc
-  - intltool
   - mingw32-glib2
   - mingw64-glib2
   - mingw32-libxml2
