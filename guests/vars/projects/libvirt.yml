@@ -55,5 +55,4 @@ packages:
   - xen
   - xmllint
   - xsltproc
-  - yajl
   - zfs
