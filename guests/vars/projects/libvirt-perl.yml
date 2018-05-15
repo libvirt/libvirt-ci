@@ -1,7 +1,7 @@
 ---
 packages:
   - perl-CPAN-Changes
-  - perl-ExtUtils-MakeMaker
+  - perl-Module-Build
   - perl-Test-Pod
   - perl-Test-Pod-Coverage
   - perl-Time-HiRes
