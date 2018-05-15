@@ -520,6 +520,11 @@ mappings:
     default: perl
     FreeBSD: perl5
 
+  perl-Archive-Tar:
+    deb: perl
+    pkg: perl5
+    rpm: perl-Archive-Tar
+
   perl-CPAN-Changes:
     deb: libcpan-changes-perl
     pkg: p5-CPAN-Changes
