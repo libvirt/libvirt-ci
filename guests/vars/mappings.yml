@@ -164,6 +164,12 @@ mappings:
     default: gtk-doc
     deb: gtk-doc-tools
 
+  gtk-update-icon-cache:
+    default: gtk-update-icon-cache
+    Debian8: libgtk2.0-bin
+    Ubuntu14: libgtk2.0-bin
+    Ubuntu16: libgtk2.0-bin
+
   gtk-vnc2:
     deb: libgtk-vnc-2.0-dev
     pkg: gtk-vnc
