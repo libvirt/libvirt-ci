@@ -185,6 +185,11 @@ mappings:
     deb: open-iscsi
     rpm: iscsi-initiator-utils
 
+  jansson:
+    deb: libjansson-dev
+    rpm: jansson-devel
+    pkg: jansson
+
   java:
     deb: openjdk-8-jre-headless
     pkg: openjdk8-jre

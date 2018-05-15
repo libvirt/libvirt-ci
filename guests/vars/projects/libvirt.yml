@@ -15,6 +15,7 @@ packages:
   - hal
   - ip
   - iscsiadm
+  - jansson
   - libacl
   - libattr
   - libaudit
