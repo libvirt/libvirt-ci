@@ -19,7 +19,11 @@
       - autotools-check-job:
           parent_jobs: 'libvirt-master-syntax-check'
           local_env: |
-            export VIR_TEST_EXPENSIVE=1
+            # gnulib's test-poll is broken on FreeBSD, so disable expensive
+            # tests (which include gnulib's test suite) until it's fixed
+            if [ "$(uname)" != "FreeBSD" ]; then
+              export VIR_TEST_EXPENSIVE=1
+            fi
             export VIR_TEST_DEBUG=2
       - autotools-rpm-job:
           parent_jobs: 'libvirt-master-check'
