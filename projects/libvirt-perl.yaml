@@ -4,11 +4,12 @@
     machines: '{all_machines}'
     title: Libvirt Perl
     jobs:
-      - perl-makemaker-build-job:
+      - perl-modulebuild-build-job:
           parent_jobs: 'libvirt-master-build'
-      - perl-makemaker-check-job:
+      - perl-modulebuild-check-job:
           parent_jobs: 'libvirt-perl-master-build'
-          test_args: 'TEST_MAINTAINER=1'
-      - perl-makemaker-rpm-job:
+          local_env: |
+            export TEST_MAINTAINER=1
+      - perl-modulebuild-rpm-job:
           parent_jobs: 'libvirt-perl-master-check'
           machines: '{rpm_machines}'
