@@ -44,7 +44,6 @@
           {local_env}
           perl Build.PL install_base="$VIRT_PREFIX"
           perl Build
-          perl Build manifest
           perl Build install
     publishers:
       - email:
