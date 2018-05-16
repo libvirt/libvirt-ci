@@ -549,11 +549,6 @@ mappings:
     CentOS6:
     Ubuntu14:
 
-  perl-ExtUtils-MakeMaker:
-    deb: perl-modules
-    pkg: p5-ExtUtils-MakeMaker
-    rpm: perl-ExtUtils-MakeMaker
-
   perl-File-Slurp:
     deb: libfile-slurp-perl
     pkg: p5-File-Slurp
