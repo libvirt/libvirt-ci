@@ -1,5 +1,5 @@
 ---
-PERL5LIB: $VIRT_PREFIX/lib/perl/5.18.2
+PERL5LIB: $VIRT_PREFIX/lib/perl5/x86_64-linux-gnu-thread-multi
 PYTHONPATH: $VIRT_PREFIX/lib/python3.4/site-packages
 
 projects:

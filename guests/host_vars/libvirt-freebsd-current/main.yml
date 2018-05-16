@@ -1,7 +1,7 @@
 ---
 ansible_python_interpreter: /usr/local/bin/python2
 
-PERL5LIB: $VIRT_PREFIX/lib/perl5/site_perl/mach/5.26
+PERL5LIB: $VIRT_PREFIX/lib/perl5/amd64-freebsd-thread-multi
 PYTHONPATH: $VIRT_PREFIX/lib/python3.6/site-packages
 
 projects:
