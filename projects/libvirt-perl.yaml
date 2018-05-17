@@ -6,6 +6,8 @@
     jobs:
       - perl-modulebuild-build-job:
           parent_jobs: 'libvirt-master-build'
+          local_env: |
+            export TEST_MAINTAINER=1
       - perl-modulebuild-check-job:
           parent_jobs: 'libvirt-perl-master-build'
           local_env: |
