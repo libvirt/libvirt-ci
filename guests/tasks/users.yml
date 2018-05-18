@@ -60,8 +60,8 @@
     - ccache/bin
 
 - name: '{{ flavor }}: Configure ccache'
-  copy:
-    src: files/ccache.conf
+  template:
+    src: templates/ccache.conf.j2
     dest: /home/{{ flavor }}/.ccache/ccache.conf
     owner: '{{ flavor }}'
     group: '{{ flavor }}'

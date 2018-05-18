@@ -75,8 +75,8 @@
         os_name == 'Fedora' )
 
 - name: Enable jessie-backports repository
-  copy:
-    src: files/jessie-backports.sources
+  template:
+    src: templates/jessie-backports.sources.j2
     dest: /etc/apt/sources.list.d/jessie-backports.list
     owner: root
     group: root
@@ -86,8 +86,8 @@
     - flavor == 'jenkins'
 
 - name: Configure APT pinning for jessie-backports
-  copy:
-    src: files/jessie-backports.preferences
+  template:
+    src: templates/jessie-backports.preferences.j2
     dest: /etc/apt/preferences.d/jessie-backports
     owner: root
     group: root
@@ -97,8 +97,8 @@
     - flavor == 'jenkins'
 
 - name: Enable fedora-rawhide-kernel-nodebug repository
-  copy:
-    src: files/fedora-rawhide-kernel-nodebug.repo
+  template:
+    src: templates/fedora-rawhide-kernel-nodebug.repo.j2
     dest: /etc/yum.repos.d/fedora-rawhide-kernel-nodebug.repo
     owner: root
     group: root
