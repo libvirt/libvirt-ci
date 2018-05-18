@@ -96,7 +96,7 @@
 
 - name: '{{ flavor }}: Create shell profile'
   template:
-    src: templates/{{ item }}
+    src: templates/{{ item }}.j2
     dest: /home/{{ flavor }}/.{{ item }}
     owner: '{{ flavor }}'
     group: '{{ flavor }}'
