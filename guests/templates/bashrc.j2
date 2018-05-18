@@ -8,13 +8,17 @@ export PKG_CONFIG_PATH="{{ PKG_CONFIG_PATH }}"
 export XDG_DATA_DIRS="{{ XDG_DATA_DIRS }}"
 export GI_TYPELIB_PATH="{{ GI_TYPELIB_PATH }}"
 export OSINFO_SYSTEM_DIR="{{ OSINFO_SYSTEM_DIR }}"
-export PERL5LIB="{{ PERL5LIB }}"
 export PYTHONPATH="{{ PYTHONPATH }}"
 
 export MAKE="{{ make }}"
 export PYTHON="{{ python }}"
 
 export MAKEFLAGS="-j{{ install_vcpus|int + 1 }}"
+
+# We need to ask Perl for this information, since it's used to
+# construct installation paths
+plarch=$(perl -e 'use Config; print $Config{archname}')
+export PERL5LIB="$VIRT_PREFIX/lib/perl5/$plarch"
 
 # Enable bash completion. Only needed on FreeBSD, the system-wide
 # shell profile will take care of it for us everywhere else
