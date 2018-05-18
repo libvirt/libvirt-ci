@@ -8,7 +8,6 @@ export PKG_CONFIG_PATH="{{ PKG_CONFIG_PATH }}"
 export XDG_DATA_DIRS="{{ XDG_DATA_DIRS }}"
 export GI_TYPELIB_PATH="{{ GI_TYPELIB_PATH }}"
 export OSINFO_SYSTEM_DIR="{{ OSINFO_SYSTEM_DIR }}"
-export PYTHONPATH="{{ PYTHONPATH }}"
 
 export MAKE="{{ make }}"
 export PYTHON="{{ python }}"
@@ -19,6 +18,15 @@ export MAKEFLAGS="-j{{ install_vcpus|int + 1 }}"
 # construct installation paths
 plarch=$(perl -e 'use Config; print $Config{archname}')
 export PERL5LIB="$VIRT_PREFIX/lib/perl5/$plarch"
+
+# For Python we need the version number (major and minor) and
+# to know whether "lib64" paths are searched
+pylib=lib
+if $PYTHON -c 'import sys; print("\n".join(sys.path))' | grep -q lib64; then
+    pylib=lib64
+fi
+pyver=$($PYTHON -c 'import sys; print(".".join(map(lambda x: str(sys.version_info[x]), [0,1])))')
+export PYTHONPATH="$VIRT_PREFIX/$pylib/python$pyver/site-packages"
 
 # Enable bash completion. Only needed on FreeBSD, the system-wide
 # shell profile will take care of it for us everywhere else

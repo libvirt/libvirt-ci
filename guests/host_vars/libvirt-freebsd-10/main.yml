@@ -1,8 +1,6 @@
 ---
 ansible_python_interpreter: /usr/local/bin/python2
 
-PYTHONPATH: $VIRT_PREFIX/lib/python3.6/site-packages
-
 projects:
   - libosinfo
   - libvirt

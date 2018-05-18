@@ -1,6 +1,4 @@
 ---
-PYTHONPATH: $VIRT_PREFIX/lib/python3.4/site-packages
-
 projects:
   - libosinfo
   - libvirt
