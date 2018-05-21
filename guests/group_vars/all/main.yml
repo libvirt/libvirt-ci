@@ -5,14 +5,3 @@
 ansible_ssh_pass: root
 
 jenkins_url: https://ci.centos.org/computer/{{ inventory_hostname }}/slave-agent.jnlp
-
-# Environment variables and paths to commands/files that might be
-# OS-dependent. Can be overridden on a per-host basis
-VIRT_PREFIX: $HOME/build/libvirt
-PATH: $VIRT_PREFIX/bin:$HOME/.ccache/bin:$PATH
-C_INCLUDE_PATH: $VIRT_PREFIX/include
-LD_LIBRARY_PATH: $VIRT_PREFIX/lib
-PKG_CONFIG_PATH: $VIRT_PREFIX/lib/pkgconfig
-XDG_DATA_DIRS: $VIRT_PREFIX/share:/usr/share:/usr/local/share
-GI_TYPELIB_PATH: $VIRT_PREFIX/lib/girepository-1.0
-OSINFO_SYSTEM_DIR: $VIRT_PREFIX/share/osinfo

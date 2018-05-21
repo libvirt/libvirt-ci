@@ -1,18 +1,18 @@
 export PS1="[\u@\h \w]\$ "
 
-export VIRT_PREFIX="{{ VIRT_PREFIX }}"
-export PATH="{{ PATH }}"
-export C_INCLUDE_PATH="{{ C_INCLUDE_PATH }}"
-export LD_LIBRARY_PATH="{{ LD_LIBRARY_PATH }}"
-export PKG_CONFIG_PATH="{{ PKG_CONFIG_PATH }}"
-export XDG_DATA_DIRS="{{ XDG_DATA_DIRS }}"
-export GI_TYPELIB_PATH="{{ GI_TYPELIB_PATH }}"
-export OSINFO_SYSTEM_DIR="{{ OSINFO_SYSTEM_DIR }}"
-
 export MAKE="{{ make }}"
 export PYTHON="{{ python }}"
 
 export MAKEFLAGS="-j{{ install_vcpus|int + 1 }}"
+
+export VIRT_PREFIX="$HOME/build/libvirt"
+export PATH="$VIRT_PREFIX/bin:$HOME/.ccache/bin:$PATH"
+export C_INCLUDE_PATH="$VIRT_PREFIX/include"
+export LD_LIBRARY_PATH="$VIRT_PREFIX/lib"
+export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
+export XDG_DATA_DIRS="$VIRT_PREFIX/share:/usr/share:/usr/local/share"
+export GI_TYPELIB_PATH="$VIRT_PREFIX/lib/girepository-1.0"
+export OSINFO_SYSTEM_DIR="$VIRT_PREFIX/share/osinfo"
 
 # We need to ask Perl for this information, since it's used to
 # construct installation paths
