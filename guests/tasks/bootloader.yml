@@ -19,7 +19,6 @@
     path: /etc/default/grub
     regexp: '^{{ item.key }}=.*$'
     line: '{{ item.key }}="{{ item.value }}"'
-    backup: yes
   with_items:
     - { key: 'GRUB_TIMEOUT', value: '1' }
     - { key: 'GRUB_CMDLINE_LINUX_DEFAULT', value: 'console=ttyS0' }
@@ -45,7 +44,6 @@
     regexp: '^{{ item.key }}=.*$'
     line: '{{ item.key }}="{{ item.value }}"'
     create: yes
-    backup: yes
   with_items:
     - { key: 'console', value: 'comconsole' }
     - { key: 'autoboot_delay', value: '1' }

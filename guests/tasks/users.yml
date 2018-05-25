@@ -17,7 +17,6 @@
     regexp: '^#*\s*PermitRootLogin\s*.*$'
     line: 'PermitRootLogin without-password'
     state: present
-    backup: yes
 
 - name: '{{ flavor }}: Create user account'
   user:
@@ -46,7 +45,6 @@
     path: '{{ sudoers }}'
     line: '{{ flavor }} ALL=(ALL) NOPASSWD: ALL'
     state: present
-    backup: yes
     validate: 'visudo -cf %s'
   when:
     - flavor == 'test'
