@@ -633,6 +633,11 @@ mappings:
     pkg: p5-accessors
     Fedora: perl-accessors
 
+  perl-generators:
+    rpm: perl-generators
+    CentOS6:
+    CentOS7:
+
   pkg-config:
     default: pkgconf
     rpm: pkgconfig

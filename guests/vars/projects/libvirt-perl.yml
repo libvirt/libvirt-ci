@@ -7,3 +7,4 @@ packages:
   - perl-Test-Pod-Coverage
   - perl-Time-HiRes
   - perl-XML-XPath
+  - perl-generators

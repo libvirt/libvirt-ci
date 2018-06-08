@@ -20,3 +20,4 @@ packages:
   - perl-XML-Writer
   - perl-XML-XPath
   - perl-accessors
+  - perl-generators
