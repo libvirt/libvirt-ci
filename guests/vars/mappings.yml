@@ -186,6 +186,10 @@ mappings:
   intltool:
     default: intltool
 
+  ip:
+    deb: iproute2
+    rpm: iproute
+
   iscsiadm:
     deb: open-iscsi
     rpm: iscsi-initiator-utils
@@ -765,6 +769,12 @@ mappings:
 
   sudo:
     default: sudo
+
+  tc:
+    deb: iproute2
+    rpm: iproute-tc
+    CentOS6: iproute
+    CentOS7: iproute
 
   unzip:
     default: unzip

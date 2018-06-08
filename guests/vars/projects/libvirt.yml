@@ -13,6 +13,7 @@ packages:
   - glusterfs
   - gnutls
   - hal
+  - ip
   - iscsiadm
   - libacl
   - libattr
@@ -49,6 +50,7 @@ packages:
   - scrub
   - sheepdog
   - showmount
+  - tc
   - wireshark
   - xen
   - xmllint
