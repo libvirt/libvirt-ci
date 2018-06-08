@@ -21,14 +21,14 @@
     os_version: Sid
   when:
     - os_name == 'Debian'
-    - '{{ ansible_distribution_major_version|match("^.*/sid$") }}'
+    - ansible_distribution_major_version|match("^.*/sid$")
 
 - name: Set additional facts (OS)
   set_fact:
     os_version: Current
   when:
     - ansible_distribution == 'FreeBSD'
-    - '{{ ansible_distribution_release|match("^.*-CURRENT$") }}'
+    - ansible_distribution_release|match("^.*-CURRENT$")
 
 - name: Set additional facts (package format)
   set_fact:
