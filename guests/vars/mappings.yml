@@ -656,12 +656,12 @@ mappings:
 
   python3:
     default: python3
-    CentOS:
+    CentOS7:
 
   python3-dbus:
     default: python3-dbus
     FreeBSD: py36-dbus
-    CentOS:
+    CentOS7:
 
   python3-devel:
     deb: python3-dev
@@ -672,34 +672,34 @@ mappings:
     deb: python3-gi
     pkg: py36-gobject3
     rpm: python3-gobject
-    CentOS:
+    CentOS7:
 
   python3-libxml2:
     default: python3-libxml2
     FreeBSD: py36-libxml2
-    CentOS:
+    CentOS7:
     Debian8:
     Ubuntu16:
 
   python3-lxml:
     default: python3-lxml
     FreeBSD: py36-lxml
-    CentOS:
+    CentOS7:
 
   python3-nose:
     default: python3-nose
     FreeBSD: py36-nose
-    CentOS:
+    CentOS7:
 
   python3-pytest:
     default: python3-pytest
     FreeBSD: py36-pytest
-    CentOS:
+    CentOS7:
 
   python3-requests:
     default: python3-requests
     FreeBSD: py36-requests
-    CentOS:
+    CentOS7:
 
   qemu-img:
     default: qemu-utils
@@ -716,7 +716,7 @@ mappings:
   rpcgen:
     deb: libc-dev-bin
     rpm: rpcgen
-    CentOS: glibc-common
+    CentOS7: glibc-common
     Fedora26: glibc-common
     Fedora27: glibc-common
     FreeBSD:
