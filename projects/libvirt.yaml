@@ -40,14 +40,3 @@
           local_env: '{mingw64_local_env}'
           autogen_args: '{mingw64_autogen_args}'
           machines: '{mingw_machines}'
-      - generic-build-job:
-          parent_jobs:
-          variant: -website
-          command: |
-            mkdir build
-            cd build
-            ../autogen.sh --without-libvirtd --without-macvtap
-            $MAKE -C docs/
-            $MAKE dist
-          machines:
-            - libvirt-centos-6
