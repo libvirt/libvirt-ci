@@ -9,7 +9,7 @@
 #   - default
 #   - package format (deb, pkg, rpm)
 #   - OS name (CentOS, Debian, Fedora, FreeBSD, Ubuntu)
-#   - OS version (CentOS6, Debian9, FedoraRawhide, Ubuntu18 and so on)
+#   - OS version (CentOS7, Debian9, FedoraRawhide, Ubuntu18 and so on)
 #
 # So something like
 #
@@ -58,7 +58,6 @@ mappings:
 
   bash-completion:
     default: bash-completion
-    CentOS6:
 
   ccache:
     default: ccache
@@ -144,19 +143,16 @@ mappings:
   go:
     default: golang
     FreeBSD: go
-    CentOS6:
 
   gobject-introspection:
     deb: libgirepository1.0-dev
     pkg: gobject-introspection
     rpm: gobject-introspection-devel
-    CentOS6:
 
   gtk3:
     deb: libgtk-3-dev
     pkg: gtk3
     rpm: gtk3-devel
-    CentOS6:
 
   gtk-doc:
     default: gtk-doc
@@ -171,14 +167,12 @@ mappings:
     deb: libgtk-vnc-2.0-dev
     pkg: gtk-vnc
     rpm: gtk-vnc2-devel
-    CentOS6:
 
   hal:
     FreeBSD: hal
 
   icoutils:
     default: icoutils
-    CentOS6:
 
   intltool:
     default: intltool
@@ -245,9 +239,6 @@ mappings:
     Debian: libgovirt-dev
     Debian8:
 
-  libnl:
-    CentOS6: libnl-devel
-
   libnl3:
     deb: libnl-3-dev
     rpm: libnl3-devel
@@ -293,7 +284,6 @@ mappings:
     rpm: libssh-devel
     Debian: libssh-gcrypt-dev
     Ubuntu: libssh-dev
-    CentOS6:
 
   libssh2:
     deb: libssh2-1-dev
@@ -528,7 +518,6 @@ mappings:
     deb: libcpan-changes-perl
     pkg: p5-CPAN-Changes
     rpm: perl-CPAN-Changes
-    CentOS6:
 
   perl-Config-Record:
     deb: libconfig-record-perl
@@ -539,13 +528,11 @@ mappings:
     deb: libdigest-perl
     pkg: p5-Digest
     rpm: perl-Digest
-    CentOS6:
 
   perl-Digest-MD5:
     deb: libdigest-perl-md5-perl
     pkg: p5-Digest-MD5
     rpm: perl-Digest-MD5
-    CentOS6:
 
   perl-File-Slurp:
     deb: libfile-slurp-perl
@@ -632,7 +619,6 @@ mappings:
 
   perl-generators:
     rpm: perl-generators
-    CentOS6:
     CentOS7:
 
   pkg-config:
@@ -757,7 +743,6 @@ mappings:
     deb: libspice-client-gtk-3.0-dev
     pkg: spice-gtk
     rpm: spice-gtk3-devel
-    CentOS6:
 
   sudo:
     default: sudo
@@ -765,7 +750,6 @@ mappings:
   tc:
     deb: iproute2
     rpm: iproute-tc
-    CentOS6: iproute
     CentOS7: iproute
 
   unzip:
@@ -779,7 +763,6 @@ mappings:
   vala:
     default: vala
     deb: valac
-    CentOS6:
 
   vim:
     default: vim

@@ -156,8 +156,6 @@
     warn: no
   when:
     - package_format == 'rpm'
-    - not ( os_name == 'CentOS' and
-            os_version == '6' )
 
 - name: Clean up packages after update
   apt:
