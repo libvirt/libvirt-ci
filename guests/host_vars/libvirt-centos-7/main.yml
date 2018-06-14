@@ -13,3 +13,7 @@ projects:
   - osinfo-db
   - osinfo-db-tools
   - virt-viewer
+
+package_format: rpm
+os_name: CentOS
+os_version: 7

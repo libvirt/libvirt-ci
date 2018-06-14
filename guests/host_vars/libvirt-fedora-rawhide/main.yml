@@ -20,3 +20,7 @@ projects:
   - virt-manager
   - virt-viewer
   - virt-viewer+mingw
+
+package_format: rpm
+os_name: Fedora
+os_version: Rawhide

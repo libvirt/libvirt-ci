@@ -15,3 +15,7 @@ projects:
   - osinfo-db-tools
   - virt-manager
   - virt-viewer
+
+package_format: rpm
+os_name: Fedora
+os_version: 27

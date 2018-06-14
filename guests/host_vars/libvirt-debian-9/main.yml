@@ -14,3 +14,7 @@ projects:
   - osinfo-db-tools
   - virt-manager
   - virt-viewer
+
+package_format: deb
+os_name: Debian
+os_version: 9

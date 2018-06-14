@@ -11,3 +11,7 @@ projects:
   - osinfo-db
   - osinfo-db-tools
   - virt-viewer
+
+package_format: deb
+os_name: Debian
+os_version: 8
