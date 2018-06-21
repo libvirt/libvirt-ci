@@ -21,7 +21,7 @@
           num-to-keep: 1000
     scm:
       - git:
-          url: git://n64.pufty.ci.centos.org/{name}.git
+          url: '{git-url}'
           branches:
             - origin/{branch}
           clean:

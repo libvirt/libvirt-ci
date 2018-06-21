@@ -3,6 +3,7 @@
     name: libvirt-glib
     machines: '{all_machines}'
     title: Libvirt GLib
+    git-url: https://github.com/libvirt/libvirt-glib.git
     jobs:
       - autotools-build-job:
           parent_jobs: 'libvirt-master-build'

@@ -7,6 +7,7 @@
       - libvirt-fedora-28
       - libvirt-fedora-rawhide
     title: Libvirt Sandbox
+    git-url: https://github.com/libvirt/libvirt-sandbox.git
     jobs:
       - autotools-build-job:
           parent_jobs: 'libvirt-glib-master-build'

@@ -3,6 +3,7 @@
     name: virt-viewer
     machines: '{all_machines}'
     title: Virt Viewer
+    git-url: https://pagure.io/virt-viewer.git
     jobs:
       - autotools-build-job:
           parent_jobs: 'libvirt-glib-master-build'

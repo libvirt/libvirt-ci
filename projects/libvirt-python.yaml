@@ -3,6 +3,7 @@
     name: libvirt-python
     machines: '{all_machines}'
     title: Libvirt Python
+    git-url: https://github.com/libvirt/libvirt-python.git
     jobs:
       - python-distutils-build-job:
           parent_jobs: 'libvirt-master-build'
