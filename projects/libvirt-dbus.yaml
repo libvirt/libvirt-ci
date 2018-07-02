@@ -2,6 +2,7 @@
 - project:
     name: libvirt-dbus
     title: Libvirt D-Bus
+    archive_format: xz
     git-url: https://github.com/libvirt/libvirt-dbus.git
     jobs:
       - autotools-build-job:
