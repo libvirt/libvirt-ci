@@ -17,6 +17,10 @@
 # with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import argparse
+import crypt
+import os
+import random
+import string
 import sys
 
 
@@ -27,9 +31,120 @@ class Error(Exception):
         self.message = message
 
 
+class Util:
+
+    @staticmethod
+    def mksalt():
+        alphabeth = string.ascii_letters + string.digits
+        salt = "".join(random.choice(alphabeth) for x in range(0, 16))
+        return "$6${}$".format(salt)
+
+
+class Config:
+
+    @staticmethod
+    def _get_config_file(name):
+        try:
+            config_dir = os.environ["XDG_CONFIG_HOME"]
+        except KeyError:
+            config_dir = os.path.join(os.environ["HOME"], ".config/")
+        config_dir = os.path.join(config_dir, "lcitool/")
+
+        # Create the directory if it doesn't already exist
+        if not os.path.exists(config_dir):
+            try:
+                os.mkdir(config_dir)
+            except Exception:
+                raise Error(
+                    "Can't create configuration directory ({})".format(
+                        config_dir,
+                    )
+                )
+
+        return os.path.join(config_dir, name)
+
+    def get_flavor(self):
+        flavor_file = self._get_config_file("flavor")
+
+        try:
+            with open(flavor_file, "r") as infile:
+                flavor = infile.readline().strip()
+        except Exception:
+            # If the flavor has not been configured, we choose the default
+            # and store it on disk to ensure consistent behavior from now on
+            flavor = "test"
+            try:
+                with open(flavor_file, "w") as infile:
+                    infile.write("{}\n".format(flavor))
+            except Exception:
+                raise Error(
+                    "Can't write flavor file ({})".format(
+                        flavor_file,
+                    )
+                )
+
+        if flavor not in ["test", "jenkins"]:
+            raise Error("Invalid flavor '{}'".format(flavor))
+
+        return flavor
+
+    def get_vault_password_file(self):
+        vault_pass_file = None
+
+        # The vault password is only needed for the jenkins flavor, but in
+        # that case we want to make sure there's *something* in there
+        if self.get_flavor() != "test":
+            vault_pass_file = self._get_config_file("vault-password")
+
+            try:
+                with open(vault_pass_file, "r") as infile:
+                    if not infile.readline().strip():
+                        raise ValueError
+            except Exception:
+                raise Error(
+                    "Missing or invalid vault password file ({})".format(
+                        vault_pass_file,
+                    )
+                )
+
+        return vault_pass_file
+
+    def get_root_password_file(self):
+        root_pass_file = self._get_config_file("root-password")
+        root_hash_file = self._get_config_file(".root-password.hash")
+
+        try:
+            with open(root_pass_file, "r") as infile:
+                root_pass = infile.readline().strip()
+        except Exception:
+            raise Error(
+                "Missing or invalid root password file ({})".format(
+                    root_pass_file,
+                )
+            )
+
+        # The hash will be different every time we run, but that doesn't
+        # matter - it will still validate the correct root password
+        root_hash = crypt.crypt(root_pass, Util.mksalt())
+
+        try:
+            with open(root_hash_file, "w") as infile:
+                infile.write("{}\n".format(root_hash))
+        except Exception:
+            raise Error(
+                "Can't write hashed root password file ({})".format(
+                    root_hash_file,
+                )
+            )
+
+        return root_hash_file
+
+
 class Application:
 
     def __init__(self):
+        self._config = Config()
+
         self._parser = argparse.ArgumentParser(
             description="libvirt CI guest management tool",
         )
