@@ -253,6 +253,7 @@ class Application:
             epilog=textwrap.dedent("""
                 common actions:
                   install  perform unattended host installation
+                  update   prepare hosts and keep them updated
 
                 informational actions:
                   hosts  list all known hosts
@@ -333,6 +334,35 @@ class Application:
                 subprocess.check_call(cmd)
             except Exception:
                 raise Error("Failed to install '{}'".format(host))
+
+    def _action_update(self, hosts):
+        flavor = self._config.get_flavor()
+        vault_pass_file = self._config.get_vault_password_file()
+        root_pass_file = self._config.get_root_password_file()
+
+        ansible_hosts = ",".join(self._inventory.expand_pattern(hosts))
+
+        extra_vars = "flavor={} root_password_file={}".format(
+            flavor,
+            root_pass_file,
+        )
+
+        cmd = ["ansible-playbook"]
+
+        # Provide the vault password if available
+        if vault_pass_file is not None:
+            cmd += ["--vault-password-file", vault_pass_file]
+
+        cmd += [
+            "--limit", ansible_hosts,
+            "--extra-vars", extra_vars,
+            "./site.yml",
+        ]
+
+        try:
+            subprocess.check_call(cmd)
+        except Exception:
+            raise Error("Failed to update '{}'".format(hosts))
 
     def run(self):
         cmdline = self._parser.parse_args()
