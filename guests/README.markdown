@@ -6,16 +6,16 @@ of the guests used by the Jenkins-based libvirt CI environment.
 
 There are two steps to bringing up a guest:
 
-* `./lcitool install $guest` will perform an unattended installation
+* `./lcitool -a install -h $guest` will perform an unattended installation
   of `$guest`. Not all guests can be installed this way: see the "FreeBSD"
   section below;
 
-* `./lcitool prepare $guest` will go through all the post-installation
+* `./lcitool -a update -h $guest` will go through all the post-installation
   configuration steps required to make the newly-created guest usable;
 
 Once those steps have been performed, maintainance will involve running:
 
-* `./lcitool update $guest`
+* `./lcitool -a update -h $guest`
 
 periodically to ensure the guest configuration is sane and all installed
 packages are updated.
@@ -40,7 +40,7 @@ you'll want to use the `libvirt_guest` variant of the plugin.
 To keep guests up to date over time, it's recommended to have an entry
 along the lines of
 
-    0 0 * * * cd ~/libvirt-jenkins-ci/guests && ./lcitool update all
+    0 0 * * * cd ~/libvirt-jenkins-ci/guests && ./lcitool -a update -h all
 
 in your crontab.
 
