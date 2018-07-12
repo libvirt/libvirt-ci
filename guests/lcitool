@@ -303,7 +303,8 @@ class Application:
                   update   prepare hosts and keep them updated
 
                 informational actions:
-                  hosts  list all known hosts
+                  hosts     list all known hosts
+                  projects  list all known projects
 
                 glob patterns are supported for HOSTS
             """),
@@ -323,6 +324,10 @@ class Application:
     def _action_hosts(self, _hosts):
         for host in self._inventory.expand_pattern("all"):
             print(host)
+
+    def _action_projects(self, _hosts):
+        for project in self._projects.expand_pattern("all"):
+            print(project)
 
     def _action_install(self, hosts):
         flavor = self._config.get_flavor()
