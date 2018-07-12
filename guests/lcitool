@@ -240,11 +240,58 @@ class Inventory:
         return self._facts[host]
 
 
+class Projects:
+
+    def __init__(self):
+        try:
+            with open("./vars/mappings.yml", "r") as infile:
+                mappings = yaml.load(infile)
+                self._mappings = mappings["mappings"]
+        except Exception:
+            raise Error("Can't load mappings")
+
+        self._packages = {}
+        source = "./vars/projects/"
+        for item in os.listdir(source):
+            yaml_path = os.path.join(source, item)
+            if not os.path.isfile(yaml_path):
+                continue
+            if not yaml_path.endswith(".yml"):
+                continue
+
+            project = os.path.splitext(item)[0]
+
+            try:
+                with open(yaml_path, "r") as infile:
+                    packages = yaml.load(infile)
+                    self._packages[project] = packages["packages"]
+            except Exception:
+                raise Error("Can't load packages for '{}'".format(project))
+
+    def expand_pattern(self, pattern):
+        projects = Util.expand_pattern(pattern, self._packages, "project")
+
+        # Some projects are internal implementation details and should
+        # not be exposed to the user
+        for project in ["base", "blacklist", "jenkins"]:
+            if project in projects:
+                projects.remove(project)
+
+        return projects
+
+    def get_mappings(self):
+        return self._mappings
+
+    def get_packages(self, project):
+        return self._packages[project]
+
+
 class Application:
 
     def __init__(self):
         self._config = Config()
         self._inventory = Inventory()
+        self._projects = Projects()
 
         self._parser = argparse.ArgumentParser(
             conflict_handler="resolve",
