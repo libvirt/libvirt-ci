@@ -61,7 +61,7 @@
 
 - name: '{{ flavor }}: Configure ccache'
   template:
-    src: templates/ccache.conf.j2
+    src: '{{ playbook_base }}/templates/ccache.conf.j2'
     dest: /home/{{ flavor }}/.ccache/ccache.conf
     owner: '{{ flavor }}'
     group: '{{ flavor }}'
@@ -96,7 +96,7 @@
 
 - name: '{{ flavor }}: Create shell profile'
   template:
-    src: templates/{{ item }}.j2
+    src: '{{ playbook_base }}/templates/{{ item }}.j2'
     dest: /home/{{ flavor }}/.{{ item }}
     owner: '{{ flavor }}'
     group: '{{ flavor }}'

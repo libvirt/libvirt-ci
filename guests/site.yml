@@ -6,33 +6,33 @@
   tasks:
 
     # Bootstrap Ansible itself
-    - include: tasks/bootstrap.yml
+    - include: '{{ playbook_base }}/tasks/bootstrap.yml'
 
 - hosts: all
   remote_user: root
 
   vars_files:
-    - vars/mappings.yml
+    - '{{ base }}/vars/mappings.yml'
 
   tasks:
 
     # Prepare environment. None of the actions performed here might
     # depend on packages being installed
-    - include: tasks/base.yml
+    - include: '{{ playbook_base }}/tasks/base.yml'
 
     # Install base packages
-    - include: tasks/packages.yml
+    - include: '{{ playbook_base }}/tasks/packages.yml'
       vars:
         project: base
 
     # Remove blacklisted packages
-    - include: tasks/packages.yml
+    - include: '{{ playbook_base }}/tasks/packages.yml'
       vars:
         project: blacklist
         state: absent
 
     # Install build dependencies for each project
-    - include: tasks/packages.yml
+    - include: '{{ playbook_base }}/tasks/packages.yml'
       with_items:
         '{{ projects }}'
       loop_control:
@@ -41,20 +41,20 @@
         - projects is defined
 
     # Install packages needed for the Jenkins agent
-    - include: tasks/packages.yml
+    - include: '{{ playbook_base }}/tasks/packages.yml'
       vars:
         project: jenkins
       when:
         - flavor == "jenkins"
 
     # Configure environment. Needs to happen after installing packages
-    - include: tasks/paths.yml
-    - include: tasks/bootloader.yml
-    - include: tasks/services.yml
-    - include: tasks/kludges.yml
-    - include: tasks/users.yml
+    - include: '{{ playbook_base }}/tasks/paths.yml'
+    - include: '{{ playbook_base }}/tasks/bootloader.yml'
+    - include: '{{ playbook_base }}/tasks/services.yml'
+    - include: '{{ playbook_base }}/tasks/kludges.yml'
+    - include: '{{ playbook_base }}/tasks/users.yml'
 
     # Configure the Jenkins agent
-    - include: tasks/jenkins.yml
+    - include: '{{ playbook_base }}/tasks/jenkins.yml'
       when:
         - flavor == 'jenkins'

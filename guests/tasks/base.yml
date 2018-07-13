@@ -25,7 +25,7 @@
 
 - name: Enable jessie-backports repository
   template:
-    src: templates/jessie-backports.sources.j2
+    src: '{{ playbook_base }}/templates/jessie-backports.sources.j2'
     dest: /etc/apt/sources.list.d/jessie-backports.list
     owner: root
     group: root
@@ -36,7 +36,7 @@
 
 - name: Configure APT pinning for jessie-backports
   template:
-    src: templates/jessie-backports.preferences.j2
+    src: '{{ playbook_base }}/templates/jessie-backports.preferences.j2'
     dest: /etc/apt/preferences.d/jessie-backports
     owner: root
     group: root
@@ -47,7 +47,7 @@
 
 - name: Enable fedora-rawhide-kernel-nodebug repository
   template:
-    src: templates/fedora-rawhide-kernel-nodebug.repo.j2
+    src: '{{ playbook_base }}/templates/fedora-rawhide-kernel-nodebug.repo.j2'
     dest: /etc/yum.repos.d/fedora-rawhide-kernel-nodebug.repo
     owner: root
     group: root

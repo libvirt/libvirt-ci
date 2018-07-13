@@ -7,7 +7,7 @@
 
 - name: '{{ project }}: Load variables'
   include_vars:
-    file: 'vars/projects/{{ project }}.yml'
+    file: '{{ base }}/vars/projects/{{ project }}.yml'
 
 - set_fact:
     temp: {}
