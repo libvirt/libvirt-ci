@@ -34,11 +34,11 @@
     # Install build dependencies for each project
     - include: '{{ playbook_base }}/tasks/packages.yml'
       with_items:
-        '{{ projects }}'
+        '{{ selected_projects }}'
       loop_control:
         loop_var: project
       when:
-        - projects is defined
+        - project in projects
 
     # Install packages needed for the Jenkins agent
     - include: '{{ playbook_base }}/tasks/packages.yml'

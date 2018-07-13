@@ -430,7 +430,7 @@ class Application:
             except Exception:
                 raise Error("Failed to install '{}'".format(host))
 
-    def _action_update(self, hosts, _projects):
+    def _action_update(self, hosts, projects):
         base = Util.get_base()
 
         flavor = self._config.get_flavor()
@@ -438,6 +438,7 @@ class Application:
         root_pass_file = self._config.get_root_password_file()
 
         ansible_hosts = ",".join(self._inventory.expand_pattern(hosts))
+        selected_projects = self._projects.expand_pattern(projects)
 
         ansible_cfg_path = os.path.join(base, "ansible.cfg")
         playbook_base = os.path.join(base, "playbooks", "update")
@@ -448,6 +449,7 @@ class Application:
             "playbook_base": playbook_base,
             "root_password_file": root_pass_file,
             "flavor": flavor,
+            "selected_projects": selected_projects,
         })
 
         cmd = [
