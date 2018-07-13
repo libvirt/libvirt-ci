@@ -431,8 +431,8 @@ class Application:
         ansible_hosts = ",".join(self._inventory.expand_pattern(hosts))
 
         ansible_cfg_path = os.path.join(base, "ansible.cfg")
-        playbook_base = base
-        playbook_path = os.path.join(playbook_base, "site.yml")
+        playbook_base = os.path.join(base, "playbooks", "update")
+        playbook_path = os.path.join(playbook_base, "main.yml")
 
         extra_vars = json.dumps({
             "base": base,
