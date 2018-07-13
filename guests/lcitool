@@ -351,6 +351,50 @@ class Application:
             help="list of projects to consider",
         )
 
+    def _execute_playbook(self, playbook, hosts, projects):
+        base = Util.get_base()
+
+        flavor = self._config.get_flavor()
+        vault_pass_file = self._config.get_vault_password_file()
+        root_pass_file = self._config.get_root_password_file()
+
+        ansible_hosts = ",".join(self._inventory.expand_pattern(hosts))
+        selected_projects = self._projects.expand_pattern(projects)
+
+        ansible_cfg_path = os.path.join(base, "ansible.cfg")
+        playbook_base = os.path.join(base, "playbooks", playbook)
+        playbook_path = os.path.join(playbook_base, "main.yml")
+
+        extra_vars = json.dumps({
+            "base": base,
+            "playbook_base": playbook_base,
+            "root_password_file": root_pass_file,
+            "flavor": flavor,
+            "selected_projects": selected_projects,
+        })
+
+        cmd = [
+            "ansible-playbook",
+            "--limit", ansible_hosts,
+            "--extra-vars", extra_vars,
+        ]
+
+        # Provide the vault password if available
+        if vault_pass_file is not None:
+            cmd += ["--vault-password-file", vault_pass_file]
+
+        cmd += [playbook_path]
+
+        # We need to point Ansible to the correct configuration file,
+        # and for some reason this has to be done using the environment
+        # rather than through the command line
+        os.environ["ANSIBLE_CONFIG"] = ansible_cfg_path
+
+        try:
+            subprocess.check_call(cmd)
+        except Exception:
+            raise Error("Failed to run {} on '{}'".format(playbook, hosts))
+
     def _action_hosts(self, _hosts, _projects):
         for host in self._inventory.expand_pattern("all"):
             print(host)
@@ -431,48 +475,7 @@ class Application:
                 raise Error("Failed to install '{}'".format(host))
 
     def _action_update(self, hosts, projects):
-        base = Util.get_base()
-
-        flavor = self._config.get_flavor()
-        vault_pass_file = self._config.get_vault_password_file()
-        root_pass_file = self._config.get_root_password_file()
-
-        ansible_hosts = ",".join(self._inventory.expand_pattern(hosts))
-        selected_projects = self._projects.expand_pattern(projects)
-
-        ansible_cfg_path = os.path.join(base, "ansible.cfg")
-        playbook_base = os.path.join(base, "playbooks", "update")
-        playbook_path = os.path.join(playbook_base, "main.yml")
-
-        extra_vars = json.dumps({
-            "base": base,
-            "playbook_base": playbook_base,
-            "root_password_file": root_pass_file,
-            "flavor": flavor,
-            "selected_projects": selected_projects,
-        })
-
-        cmd = [
-            "ansible-playbook",
-            "--limit", ansible_hosts,
-            "--extra-vars", extra_vars,
-        ]
-
-        # Provide the vault password if available
-        if vault_pass_file is not None:
-            cmd += ["--vault-password-file", vault_pass_file]
-
-        cmd += [playbook_path]
-
-        # We need to point Ansible to the correct configuration file,
-        # and for some reason this has to be done using the environment
-        # rather than through the command line
-        os.environ["ANSIBLE_CONFIG"] = ansible_cfg_path
-
-        try:
-            subprocess.check_call(cmd)
-        except Exception:
-            raise Error("Failed to update '{}'".format(hosts))
+        self._execute_playbook("update", hosts, projects)
 
     def _action_dockerfile(self, hosts, projects):
         mappings = self._projects.get_mappings()
