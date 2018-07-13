@@ -323,6 +323,7 @@ class Application:
                 common actions:
                   install  perform unattended host installation
                   update   prepare hosts and keep them updated
+                  build    build projects on hosts
 
                 informational actions:
                   hosts     list all known hosts
@@ -476,6 +477,9 @@ class Application:
 
     def _action_update(self, hosts, projects):
         self._execute_playbook("update", hosts, projects)
+
+    def _action_build(self, hosts, projects):
+        self._execute_playbook("build", hosts, projects)
 
     def _action_dockerfile(self, hosts, projects):
         mappings = self._projects.get_mappings()
