@@ -22,6 +22,7 @@ import fnmatch
 import os
 import random
 import string
+import subprocess
 import sys
 import textwrap
 import yaml
@@ -246,11 +247,17 @@ class Application:
         self._inventory = Inventory()
 
         self._parser = argparse.ArgumentParser(
+            conflict_handler="resolve",
             formatter_class=argparse.RawDescriptionHelpFormatter,
             description="libvirt CI guest management tool",
             epilog=textwrap.dedent("""
+                common actions:
+                  install  perform unattended host installation
+
                 informational actions:
                   hosts  list all known hosts
+
+                glob patterns are supported for HOSTS
             """),
         )
         self._parser.add_argument(
@@ -259,19 +266,83 @@ class Application:
             required=True,
             help="action to perform (see below)",
         )
+        self._parser.add_argument(
+            "-h",
+            metavar="HOSTS",
+            help="list of hosts to act on",
+        )
 
-    def _action_hosts(self):
+    def _action_hosts(self, _hosts):
         for host in self._inventory.expand_pattern("all"):
             print(host)
+
+    def _action_install(self, hosts):
+        flavor = self._config.get_flavor()
+
+        for host in self._inventory.expand_pattern(hosts):
+            facts = self._inventory.get_facts(host)
+
+            # Both memory size and disk size are stored as GiB in the
+            # inventory, but virt-install expects the disk size in GiB
+            # and the memory size in *MiB*, so perform conversion here
+            memory_arg = str(int(facts["install_memory_size"]) * 1024)
+
+            vcpus_arg = str(facts["install_vcpus"])
+
+            disk_arg = "size={},pool={},bus=virtio".format(
+                facts["install_disk_size"],
+                facts["install_storage_pool"],
+            )
+            network_arg = "network={},model=virtio".format(
+                facts["install_network"],
+            )
+
+            # preseed files must use a well-known name to be picked up by
+            # d-i; for kickstart files, we can use whatever name we please
+            # but we need to point anaconda in the right direction through
+            # a kernel argument
+            extra_arg = "console=ttyS0 ks=file:/{}".format(
+                facts["install_config"],
+            )
+
+            cmd = [
+                "virt-install",
+                "--name", host,
+                "--location", facts["install_url"],
+                "--virt-type", facts["install_virt_type"],
+                "--arch", facts["install_arch"],
+                "--machine", facts["install_machine"],
+                "--cpu", facts["install_cpu_model"],
+                "--vcpus", vcpus_arg,
+                "--memory", memory_arg,
+                "--disk", disk_arg,
+                "--network", network_arg,
+                "--graphics", "none",
+                "--console", "pty",
+                "--sound", "none",
+                "--initrd-inject", facts["install_config"],
+                "--extra-args", extra_arg,
+                "--wait", "0",
+            ]
+
+            # Only configure autostart for the guest for the jenkins flavor
+            if flavor == "jenkins":
+                cmd += ["--autostart"]
+
+            try:
+                subprocess.check_call(cmd)
+            except Exception:
+                raise Error("Failed to install '{}'".format(host))
 
     def run(self):
         cmdline = self._parser.parse_args()
         action = cmdline.a
+        hosts = cmdline.h
 
         method = "_action_{}".format(action.replace("-", "_"))
 
         if hasattr(self, method):
-            getattr(self, method).__call__()
+            getattr(self, method).__call__(hosts)
         else:
             raise Error("Invalid action '{}'".format(action))
 
