@@ -23,6 +23,7 @@ import os
 import random
 import string
 import sys
+import textwrap
 import yaml
 
 # This is necessary to maintain Python 2.7 compatibility
@@ -245,11 +246,34 @@ class Application:
         self._inventory = Inventory()
 
         self._parser = argparse.ArgumentParser(
+            formatter_class=argparse.RawDescriptionHelpFormatter,
             description="libvirt CI guest management tool",
+            epilog=textwrap.dedent("""
+                informational actions:
+                  hosts  list all known hosts
+            """),
+        )
+        self._parser.add_argument(
+            "-a",
+            metavar="ACTION",
+            required=True,
+            help="action to perform (see below)",
         )
 
+    def _action_hosts(self):
+        for host in self._inventory.expand_pattern("all"):
+            print(host)
+
     def run(self):
-        self._parser.parse_args()
+        cmdline = self._parser.parse_args()
+        action = cmdline.a
+
+        method = "_action_{}".format(action.replace("-", "_"))
+
+        if hasattr(self, method):
+            getattr(self, method).__call__()
+        else:
+            raise Error("Invalid action '{}'".format(action))
 
 
 if __name__ == "__main__":
