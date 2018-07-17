@@ -306,7 +306,10 @@ class Application:
                   hosts     list all known hosts
                   projects  list all known projects
 
-                glob patterns are supported for HOSTS
+                uncommon actions:
+                  dockerfile  generate Dockerfile (doesn't access the host)
+
+                glob patterns are supported for HOSTS and PROJECTS
             """),
         )
         self._parser.add_argument(
@@ -320,16 +323,21 @@ class Application:
             metavar="HOSTS",
             help="list of hosts to act on",
         )
+        self._parser.add_argument(
+            "-p",
+            metavar="PROJECTS",
+            help="list of projects to consider",
+        )
 
-    def _action_hosts(self, _hosts):
+    def _action_hosts(self, _hosts, _projects):
         for host in self._inventory.expand_pattern("all"):
             print(host)
 
-    def _action_projects(self, _hosts):
+    def _action_projects(self, _hosts, _projects):
         for project in self._projects.expand_pattern("all"):
             print(project)
 
-    def _action_install(self, hosts):
+    def _action_install(self, hosts, _projects):
         flavor = self._config.get_flavor()
 
         for host in self._inventory.expand_pattern(hosts):
@@ -387,7 +395,7 @@ class Application:
             except Exception:
                 raise Error("Failed to install '{}'".format(host))
 
-    def _action_update(self, hosts):
+    def _action_update(self, hosts, _projects):
         flavor = self._config.get_flavor()
         vault_pass_file = self._config.get_vault_password_file()
         root_pass_file = self._config.get_root_password_file()
@@ -416,15 +424,81 @@ class Application:
         except Exception:
             raise Error("Failed to update '{}'".format(hosts))
 
+    def _action_dockerfile(self, hosts, projects):
+        mappings = self._projects.get_mappings()
+
+        hosts = self._inventory.expand_pattern(hosts)
+        if len(hosts) > 1:
+            raise Error("Can't generate Dockerfile for multiple hosts")
+        host = hosts[0]
+
+        facts = self._inventory.get_facts(host)
+        package_format = facts["package_format"]
+        os_name = facts["os_name"]
+        os_full = os_name + str(facts["os_version"])
+
+        if package_format not in ["deb", "rpm"]:
+            raise Error("Host {} doesn't support Dockerfiles".format(host))
+
+        projects = self._projects.expand_pattern(projects)
+        for project in projects:
+            if project not in facts["projects"]:
+                raise Error(
+                    "Host {} doesn't support project {}".format(
+                        host,
+                        project,
+                    )
+                )
+
+        temp = {}
+
+        # We need to add the base project manually here: the standard
+        # machinery hides it because it's an implementation detail
+        for project in projects + ["base"]:
+            for package in self._projects.get_packages(project):
+                if "default" in mappings[package]:
+                    temp[package] = mappings[package]["default"]
+                if package_format in mappings[package]:
+                    temp[package] = mappings[package][package_format]
+                if os_name in mappings[package]:
+                    temp[package] = mappings[package][os_name]
+                if os_full in mappings[package]:
+                    temp[package] = mappings[package][os_full]
+
+        flattened = []
+        for item in temp:
+            if temp[item] is not None and temp[item] not in flattened:
+                flattened += [temp[item]]
+
+        print("FROM {}".format(facts["docker_base"]))
+
+        sys.stdout.write("ENV PACKAGES ")
+        sys.stdout.write(" \\\n             ".join(sorted(flattened)))
+
+        if package_format == "deb":
+            sys.stdout.write(textwrap.dedent("""
+                RUN apt-get update && \\
+                    apt-get install -y ${PACKAGES} && \\
+                    apt-get autoremove -y && \\
+                    apt-get autoclean -y
+            """))
+        elif package_format == "rpm":
+            sys.stdout.write(textwrap.dedent("""
+                RUN yum install -y ${PACKAGES} && \\
+                    yum autoremove -y && \\
+                    yum clean all -y
+            """))
+
     def run(self):
         cmdline = self._parser.parse_args()
         action = cmdline.a
         hosts = cmdline.h
+        projects = cmdline.p
 
         method = "_action_{}".format(action.replace("-", "_"))
 
         if hasattr(self, method):
-            getattr(self, method).__call__(hosts)
+            getattr(self, method).__call__(hosts, projects)
         else:
             raise Error("Invalid action '{}'".format(action))
 
