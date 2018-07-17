@@ -18,10 +18,18 @@
 
 import argparse
 import crypt
+import fnmatch
 import os
 import random
 import string
 import sys
+import yaml
+
+# This is necessary to maintain Python 2.7 compatibility
+try:
+    import configparser
+except ImportError:
+    import ConfigParser as configparser
 
 
 class Error(Exception):
@@ -38,6 +46,32 @@ class Util:
         alphabeth = string.ascii_letters + string.digits
         salt = "".join(random.choice(alphabeth) for x in range(0, 16))
         return "$6${}$".format(salt)
+
+    @staticmethod
+    def expand_pattern(pattern, source, name):
+        if pattern is None:
+            raise Error("Missing {} list".format(name))
+
+        if pattern == "all":
+            pattern = "*"
+
+        # This works correctly for single items as well as more complex
+        # cases such as explicit lists, glob patterns and any combination
+        # of the above
+        matches = []
+        for partial_pattern in pattern.split(","):
+
+            partial_matches = []
+            for item in source:
+                if fnmatch.fnmatch(item, partial_pattern):
+                    partial_matches += [item]
+
+            if not partial_matches:
+                raise Error("Invalid {} list '{}'".format(name, pattern))
+
+            matches += partial_matches
+
+        return sorted(set(matches))
 
 
 class Config:
@@ -140,10 +174,75 @@ class Config:
         return root_hash_file
 
 
+class Inventory:
+
+    def __init__(self):
+        try:
+            parser = configparser.SafeConfigParser()
+            parser.read("./ansible.cfg")
+            inventory_path = parser.get("defaults", "inventory")
+        except Exception:
+            raise Error("Can't find inventory location in ansible.cfg")
+
+        self._facts = {}
+        try:
+            # We can only deal with trivial inventories, but that's
+            # all we need right now and we can expand support further
+            # later on if necessary
+            with open(inventory_path, "r") as infile:
+                for line in infile:
+                    host = line.strip()
+                    self._facts[host] = {}
+        except Exception:
+            raise Error(
+                "Missing or invalid inventory ({})".format(
+                    inventory_path,
+                )
+            )
+
+        for host in self._facts:
+            try:
+                self._facts[host] = self._read_all_facts(host)
+                self._facts[host]["inventory_hostname"] = host
+            except Exception:
+                raise Error("Can't load facts for '{}'".format(host))
+
+    @staticmethod
+    def _add_facts_from_file(facts, yaml_path):
+        with open(yaml_path, "r") as infile:
+            some_facts = yaml.load(infile)
+            for fact in some_facts:
+                facts[fact] = some_facts[fact]
+
+    def _read_all_facts(self, host):
+        facts = {}
+
+        # We load from group_vars/ first and host_vars/ second, sorting
+        # files alphabetically; doing so should result in our view of
+        # the facts matching Ansible's
+        for source in ["./group_vars/all/", "./host_vars/{}/".format(host)]:
+            for item in sorted(os.listdir(source)):
+                yaml_path = os.path.join(source, item)
+                if not os.path.isfile(yaml_path):
+                    continue
+                if not yaml_path.endswith(".yml"):
+                    continue
+                self._add_facts_from_file(facts, yaml_path)
+
+        return facts
+
+    def expand_pattern(self, pattern):
+        return Util.expand_pattern(pattern, self._facts, "host")
+
+    def get_facts(self, host):
+        return self._facts[host]
+
+
 class Application:
 
     def __init__(self):
         self._config = Config()
+        self._inventory = Inventory()
 
         self._parser = argparse.ArgumentParser(
             description="libvirt CI guest management tool",
