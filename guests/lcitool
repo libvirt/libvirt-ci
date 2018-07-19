@@ -44,6 +44,10 @@ class Error(Exception):
 class Util:
 
     @staticmethod
+    def get_base():
+        return os.path.dirname(os.path.abspath(__file__))
+
+    @staticmethod
     def mksalt():
         alphabeth = string.ascii_letters + string.digits
         salt = "".join(random.choice(alphabeth) for x in range(0, 16))
@@ -83,8 +87,8 @@ class Config:
         try:
             config_dir = os.environ["XDG_CONFIG_HOME"]
         except KeyError:
-            config_dir = os.path.join(os.environ["HOME"], ".config/")
-        config_dir = os.path.join(config_dir, "lcitool/")
+            config_dir = os.path.join(os.environ["HOME"], ".config")
+        config_dir = os.path.join(config_dir, "lcitool")
 
         # Create the directory if it doesn't already exist
         if not os.path.exists(config_dir):
@@ -179,12 +183,17 @@ class Config:
 class Inventory:
 
     def __init__(self):
+        base = Util.get_base()
+        ansible_cfg_path = os.path.join(base, "ansible.cfg")
+
         try:
             parser = configparser.SafeConfigParser()
-            parser.read("./ansible.cfg")
+            parser.read(ansible_cfg_path)
             inventory_path = parser.get("defaults", "inventory")
         except Exception:
             raise Error("Can't find inventory location in ansible.cfg")
+
+        inventory_path = os.path.join(base, inventory_path)
 
         self._facts = {}
         try:
@@ -217,12 +226,19 @@ class Inventory:
                 facts[fact] = some_facts[fact]
 
     def _read_all_facts(self, host):
+        base = Util.get_base()
+
+        sources = [
+            os.path.join(base, "group_vars", "all"),
+            os.path.join(base, "host_vars", host),
+        ]
+
         facts = {}
 
         # We load from group_vars/ first and host_vars/ second, sorting
         # files alphabetically; doing so should result in our view of
         # the facts matching Ansible's
-        for source in ["./group_vars/all/", "./host_vars/{}/".format(host)]:
+        for source in sources:
             for item in sorted(os.listdir(source)):
                 yaml_path = os.path.join(source, item)
                 if not os.path.isfile(yaml_path):
@@ -243,15 +259,20 @@ class Inventory:
 class Projects:
 
     def __init__(self):
+        base = Util.get_base()
+
+        mappings_path = os.path.join(base, "vars", "mappings.yml")
+
         try:
-            with open("./vars/mappings.yml", "r") as infile:
+            with open(mappings_path, "r") as infile:
                 mappings = yaml.load(infile)
                 self._mappings = mappings["mappings"]
         except Exception:
             raise Error("Can't load mappings")
 
+        source = os.path.join(base, "vars", "projects")
+
         self._packages = {}
-        source = "./vars/projects/"
         for item in os.listdir(source):
             yaml_path = os.path.join(source, item)
             if not os.path.isfile(yaml_path):
@@ -338,6 +359,8 @@ class Application:
             print(project)
 
     def _action_install(self, hosts, _projects):
+        base = Util.get_base()
+
         flavor = self._config.get_flavor()
 
         for host in self._inventory.expand_pattern(hosts):
@@ -357,6 +380,8 @@ class Application:
             network_arg = "network={},model=virtio".format(
                 facts["install_network"],
             )
+
+            install_config = os.path.join(base, facts["install_config"])
 
             # preseed files must use a well-known name to be picked up by
             # d-i; for kickstart files, we can use whatever name we please
@@ -381,7 +406,7 @@ class Application:
                 "--graphics", "none",
                 "--console", "pty",
                 "--sound", "none",
-                "--initrd-inject", facts["install_config"],
+                "--initrd-inject", install_config,
                 "--extra-args", extra_arg,
                 "--wait", "0",
             ]
@@ -396,28 +421,38 @@ class Application:
                 raise Error("Failed to install '{}'".format(host))
 
     def _action_update(self, hosts, _projects):
+        base = Util.get_base()
+
         flavor = self._config.get_flavor()
         vault_pass_file = self._config.get_vault_password_file()
         root_pass_file = self._config.get_root_password_file()
 
         ansible_hosts = ",".join(self._inventory.expand_pattern(hosts))
 
+        ansible_cfg_path = os.path.join(base, "ansible.cfg")
+        playbook_path = os.path.join(base, "site.yml")
+
         extra_vars = "flavor={} root_password_file={}".format(
             flavor,
             root_pass_file,
         )
 
-        cmd = ["ansible-playbook"]
+        cmd = [
+            "ansible-playbook",
+            "--limit", ansible_hosts,
+            "--extra-vars", extra_vars,
+        ]
 
         # Provide the vault password if available
         if vault_pass_file is not None:
             cmd += ["--vault-password-file", vault_pass_file]
 
-        cmd += [
-            "--limit", ansible_hosts,
-            "--extra-vars", extra_vars,
-            "./site.yml",
-        ]
+        cmd += [playbook_path]
+
+        # We need to point Ansible to the correct configuration file,
+        # and for some reason this has to be done using the environment
+        # rather than through the command line
+        os.environ["ANSIBLE_CONFIG"] = ansible_cfg_path
 
         try:
             subprocess.check_call(cmd)
