@@ -19,6 +19,7 @@
 import argparse
 import crypt
 import fnmatch
+import json
 import os
 import random
 import string
@@ -432,10 +433,10 @@ class Application:
         ansible_cfg_path = os.path.join(base, "ansible.cfg")
         playbook_path = os.path.join(base, "site.yml")
 
-        extra_vars = "flavor={} root_password_file={}".format(
-            flavor,
-            root_pass_file,
-        )
+        extra_vars = json.dumps({
+            "root_password_file": root_pass_file,
+            "flavor": flavor,
+        })
 
         cmd = [
             "ansible-playbook",
