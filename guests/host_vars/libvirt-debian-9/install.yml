@@ -1,3 +1,2 @@
 ---
 install_url: http://deb.debian.org/debian/dists/stretch/main/installer-amd64/
-install_config: preseed.cfg

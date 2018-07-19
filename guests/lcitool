@@ -382,15 +382,24 @@ class Application:
                 facts["install_network"],
             )
 
-            install_config = os.path.join(base, facts["install_config"])
+            # Different operating systems require different configuration
+            # files for unattended installation to work, but some operating
+            # systems simply don't support unattended installation at all
+            if facts["os_name"] in ["Debian", "Ubuntu"]:
+                install_config = "preseed.cfg"
+            elif facts["os_name"] in ["CentOS", "Fedora"]:
+                install_config = "kickstart.cfg"
+            else:
+                raise Error(
+                    "Host {} doesn't support installation".format(host)
+                )
+            initrd_inject = os.path.join(base, install_config)
 
             # preseed files must use a well-known name to be picked up by
             # d-i; for kickstart files, we can use whatever name we please
             # but we need to point anaconda in the right direction through
             # a kernel argument
-            extra_arg = "console=ttyS0 ks=file:/{}".format(
-                facts["install_config"],
-            )
+            extra_arg = "console=ttyS0 ks=file:/{}".format(install_config)
 
             cmd = [
                 "virt-install",
@@ -407,7 +416,7 @@ class Application:
                 "--graphics", "none",
                 "--console", "pty",
                 "--sound", "none",
-                "--initrd-inject", install_config,
+                "--initrd-inject", initrd_inject,
                 "--extra-args", extra_arg,
                 "--wait", "0",
             ]
