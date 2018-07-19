@@ -4,21 +4,47 @@ libvirt CI - guest management tools
 The tools contained in this directory simplify and automate the management
 of the guests used by the Jenkins-based libvirt CI environment.
 
+
+Usage and examples
+------------------
+
 There are two steps to bringing up a guest:
 
-* `./lcitool -a install -h $guest` will perform an unattended installation
+* `lcitool -a install -h $guest` will perform an unattended installation
   of `$guest`. Not all guests can be installed this way: see the "FreeBSD"
   section below;
 
-* `./lcitool -a update -h $guest` will go through all the post-installation
-  configuration steps required to make the newly-created guest usable;
+* `lcitool -a update -h $guest -p $project` will go through all the
+  post-installation configuration steps required to make the newly-created
+  guest usable and ready to be used for building `$project`;
 
 Once those steps have been performed, maintainance will involve running:
 
-* `./lcitool -a update -h $guest`
+    lcitool -a update -h $guest -p $project
 
 periodically to ensure the guest configuration is sane and all installed
 packages are updated.
+
+To get a list of known guests and projects, run
+
+    lcitool -a hosts
+
+and
+
+    lcitool -a projects
+
+respectively. You can run operations involving multiple guests and projects
+at once by providing a list on the command line: for example, running
+
+    lcitool -a update -h '*fedora*' -p '*osinfo*'
+
+will update all Fedora guests and get them ready to build libosinfo and
+related projects, while running
+
+    lcitool -a update -h all -p libvirt,libvirt+mingw
+
+will update all hosts and prepare them to build libvirt both as a native
+library and, where supported, as a Windows library using MinGW.
 
 
 Host setup
@@ -40,13 +66,13 @@ you'll want to use the `libvirt_guest` variant of the plugin.
 To keep guests up to date over time, it's recommended to have an entry
 along the lines of
 
-    0 0 * * * cd ~/libvirt-jenkins-ci/guests && ./lcitool -a update -h all
+    0 0 * * * ~/libvirt-jenkins-ci/guests/lcitool -a update -h all -p all
 
 in your crontab.
 
 
 Test use
----------------
+--------
 
 If you are a developer trying to reproduce a bug on some OS you don't
 have easy access to, you can use these tools to create a suitable test
