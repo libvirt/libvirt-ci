@@ -393,7 +393,7 @@ class Application:
                 raise Error(
                     "Host {} doesn't support installation".format(host)
                 )
-            initrd_inject = os.path.join(base, install_config)
+            initrd_inject = os.path.join(base, "configs", install_config)
 
             # preseed files must use a well-known name to be picked up by
             # d-i; for kickstart files, we can use whatever name we please
