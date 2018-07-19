@@ -800,11 +800,6 @@ mappings:
     deb: liblzma-dev
     Fedora: xz-static
 
-  yajl:
-    deb: libyajl-dev
-    pkg: yajl
-    rpm: yajl-devel
-
   zfs:
     default: zfs-fuse
     CentOS:
