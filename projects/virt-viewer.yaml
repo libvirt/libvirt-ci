@@ -13,7 +13,9 @@
           parent_jobs: 'virt-viewer-master-syntax-check'
       - autotools-rpm-job:
           parent_jobs: 'virt-viewer-master-check'
-          machines: '{rpm_machines}'
+          machines:
+            - libvirt-fedora-28
+            - libvirt-fedora-rawhide
       - autotools-build-job:
           parent_jobs: 'libvirt-glib-master-build-mingw32'
           variant: -mingw32
