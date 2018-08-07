@@ -3,6 +3,7 @@
     name: libvirt-perl
     machines: '{all_machines}'
     title: Libvirt Perl
+    archive_format: gz
     git_url: https://github.com/libvirt/libvirt-perl.git
     jobs:
       - perl-modulebuild-build-job:

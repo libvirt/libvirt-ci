@@ -3,6 +3,7 @@
     name: virt-viewer
     machines: '{all_machines}'
     title: Virt Viewer
+    archive_format: gz
     git_url: https://pagure.io/virt-viewer.git
     jobs:
       - autotools-build-job:

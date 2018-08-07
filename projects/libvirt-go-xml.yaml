@@ -3,6 +3,7 @@
     name: libvirt-go-xml
     machines: '{all_machines}'
     title: Libvirt Go XML
+    archive_format: gz
     git_url: https://github.com/libvirt/libvirt-go-xml.git
     jobs:
       - go-build-job:

@@ -3,6 +3,7 @@
     name: osinfo-db-tools
     machines: '{all_machines}'
     title: osinfo database tools
+    archive_format: gz
     git_url: https://gitlab.com/libosinfo/osinfo-db-tools.git
     jobs:
       - autotools-build-job:

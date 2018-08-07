@@ -3,6 +3,7 @@
     name: libosinfo
     machines: '{all_machines}'
     title: libosinfo
+    archive_format: gz
     git_url: https://gitlab.com/libosinfo/libosinfo.git
     jobs:
       - autotools-build-job:

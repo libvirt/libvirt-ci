@@ -20,7 +20,6 @@
       - libvirt-fedora-rawhide
     mingw_machines:
       - libvirt-fedora-rawhide
-    archive_format: gz
     global_env: |
     local_env: |
     strip_buildrequires: |
