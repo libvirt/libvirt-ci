@@ -3,7 +3,7 @@
     name: libvirt-cim
     machines: '{rpm_machines}'
     title: libvirt CIM
-    git-url: https://github.com/libvirt/libvirt-cim.git
+    git_url: https://github.com/libvirt/libvirt-cim.git
     jobs:
       - autotools-build-job:
           parent_jobs: 'libvirt-master-build'

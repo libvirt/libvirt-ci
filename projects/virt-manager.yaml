@@ -10,7 +10,7 @@
       - libvirt-freebsd-10
       - libvirt-freebsd-11
     title: Virtual Machine Manager
-    git-url: https://github.com/virt-manager/virt-manager.git
+    git_url: https://github.com/virt-manager/virt-manager.git
     jobs:
       - python-distutils-build-job:
           parent_jobs:

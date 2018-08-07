@@ -3,7 +3,7 @@
     name: libvirt-go
     machines: '{all_machines}'
     title: Libvirt Go
-    git-url: https://github.com/libvirt/libvirt-go.git
+    git_url: https://github.com/libvirt/libvirt-go.git
     jobs:
       - go-build-job:
           parent_jobs: 'libvirt-master-build'
