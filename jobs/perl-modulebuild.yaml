@@ -4,7 +4,6 @@
     name: '{name}-{branch}-build{variant}'
     project-type: matrix
     description: '{title} Build'
-    autogen_args: ''
     workspace: '{name}-{branch}{variant}'
     child-workspace: '.'
     block-downstream: true

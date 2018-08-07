@@ -4,7 +4,6 @@
     name: '{name}-{branch}-build{variant}'
     project-type: matrix
     description: '{title} Build'
-    command_pre_build: ''
     workspace: '{name}-{branch}{variant}'
     child-workspace: '.'
     block-downstream: true
