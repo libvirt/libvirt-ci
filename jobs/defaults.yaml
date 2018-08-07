@@ -20,8 +20,8 @@
       - libvirt-fedora-rawhide
     mingw_machines:
       - libvirt-fedora-rawhide
-    global_env: |
-    local_env: |
+    global_env: ''
+    local_env: ''
     autogen_args: ''
     command: ''
     command_pre_build: ''
