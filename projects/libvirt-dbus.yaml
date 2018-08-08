@@ -18,7 +18,8 @@
           parent_jobs: 'libvirt-glib-master-build'
       - autotools-syntax-check-job:
           parent_jobs: 'libvirt-dbus-master-build'
-          # syntax-check uses Python 3, which CentOS 7 doesn't include
+          # CentOS 7 doesn't include Python 3 and the version of pyflakes
+          # in FreeBSD CURRENT is too new to be used by flake8
           machines:
             - libvirt-debian-9
             - libvirt-fedora-27
@@ -28,7 +29,8 @@
             - libvirt-freebsd-11
       - autotools-check-job:
           parent_jobs: 'libvirt-dbus-master-syntax-check'
-          # The test suite uses Python 3, which CentOS 7 doesn't include
+          # CentOS 7 doesn't include Python 3 and the version in Ubuntu
+          # 16.04 is too old
           machines:
             - libvirt-debian-9
             - libvirt-fedora-27

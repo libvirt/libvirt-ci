@@ -5,11 +5,15 @@
     machines:
       - libvirt-centos-7
       - libvirt-debian-9
+      - libvirt-debian-sid
       - libvirt-fedora-27
       - libvirt-fedora-28
       - libvirt-fedora-rawhide
       - libvirt-freebsd-10
       - libvirt-freebsd-11
+      - libvirt-freebsd-current
+      - libvirt-ubuntu-16
+      - libvirt-ubuntu-18
     archive_format: xz
     git_url: https://github.com/libvirt/libvirt-dbus.git
 
@@ -17,24 +21,32 @@
 - include: '{{ playbook_base }}/jobs/autotools-build-job.yml'
 - include: '{{ playbook_base }}/jobs/autotools-syntax-check-job.yml'
   vars:
-    # syntax-check uses Python 3, which CentOS 7 doesn't include
+    # CentOS 7 doesn't include Python 3 and the version of pyflakes
+    # in FreeBSD CURRENT is too new to be used by flake8
     machines:
       - libvirt-debian-9
+      - libvirt-debian-sid
       - libvirt-fedora-27
       - libvirt-fedora-28
       - libvirt-fedora-rawhide
       - libvirt-freebsd-10
       - libvirt-freebsd-11
+      - libvirt-ubuntu-16
+      - libvirt-ubuntu-18
 - include: '{{ playbook_base }}/jobs/autotools-check-job.yml'
   vars:
-    # The test suite uses Python 3, which CentOS 7 doesn't include
+    # CentOS 7 doesn't include Python 3 and the version in Ubuntu
+    # 16.04 is too old
     machines:
       - libvirt-debian-9
+      - libvirt-debian-sid
       - libvirt-fedora-27
       - libvirt-fedora-28
       - libvirt-fedora-rawhide
       - libvirt-freebsd-10
       - libvirt-freebsd-11
+      - libvirt-freebsd-current
+      - libvirt-ubuntu-18
 - include: '{{ playbook_base }}/jobs/autotools-rpm-job.yml'
   vars:
     machines: '{{ rpm_machines }}'

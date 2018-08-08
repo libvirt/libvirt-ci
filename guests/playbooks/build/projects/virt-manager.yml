@@ -1,14 +1,19 @@
 ---
 - set_fact:
     name: virt-manager
-    # virt-manager is Python 3 only, so it can't be built on CentOS 7
+    # virt-manager is Python 3 only, so it can't be built on CentOS 7;
+    # Debian 8 and Ubuntu 16.04 have Python 3 but not the libxml2
+    # bindings so they can't build the project either
     machines:
       - libvirt-debian-9
+      - libvirt-debian-sid
       - libvirt-fedora-27
       - libvirt-fedora-28
       - libvirt-fedora-rawhide
       - libvirt-freebsd-10
       - libvirt-freebsd-11
+      - libvirt-freebsd-current
+      - libvirt-ubuntu-18
     archive_format: gz
     git_url: https://github.com/virt-manager/virt-manager.git
 
@@ -24,9 +29,11 @@
     # https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=224902
     machines:
       - libvirt-debian-9
+      - libvirt-debian-sid
       - libvirt-fedora-27
       - libvirt-fedora-28
       - libvirt-fedora-rawhide
+      - libvirt-ubuntu-18
 - include: '{{ playbook_base }}/jobs/python-distutils-rpm-job.yml'
   vars:
     machines:
