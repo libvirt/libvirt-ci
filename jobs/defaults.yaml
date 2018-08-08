@@ -1,7 +1,6 @@
 
 - defaults:
     name: global
-    variant: ''
     node: libvirt
     all_machines:
       - libvirt-centos-7

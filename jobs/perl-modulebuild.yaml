@@ -1,10 +1,10 @@
 
 - job-template:
     id: perl-modulebuild-build-job
-    name: '{name}-build{variant}'
+    name: '{name}-build'
     project-type: matrix
     description: '{title} Build'
-    workspace: '{name}{variant}'
+    workspace: '{name}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -53,10 +53,10 @@
 
 - job-template:
     id: perl-modulebuild-check-job
-    name: '{name}-check{variant}'
+    name: '{name}-check'
     project-type: matrix
     description: '{title} Check'
-    workspace: '{name}{variant}'
+    workspace: '{name}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -91,10 +91,10 @@
 
 - job-template:
     id: perl-modulebuild-rpm-job
-    name: '{name}-rpm{variant}'
+    name: '{name}-rpm'
     project-type: matrix
     description: '{title} RPM'
-    workspace: '{name}{variant}'
+    workspace: '{name}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true

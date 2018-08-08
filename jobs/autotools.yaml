@@ -1,10 +1,10 @@
 
 - job-template:
     id: autotools-build-job
-    name: '{name}-build{variant}'
+    name: '{name}-build'
     project-type: matrix
     description: '{title} Build'
-    workspace: '{name}{variant}'
+    workspace: '{name}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -54,10 +54,10 @@
 
 - job-template:
     id: autotools-syntax-check-job
-    name: '{name}-syntax-check{variant}'
+    name: '{name}-syntax-check'
     project-type: matrix
     description: '{title} Syntax Check'
-    workspace: '{name}{variant}'
+    workspace: '{name}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -93,10 +93,10 @@
 
 - job-template:
     id: autotools-check-job
-    name: '{name}-check{variant}'
+    name: '{name}-check'
     project-type: matrix
     description: '{title} Check'
-    workspace: '{name}{variant}'
+    workspace: '{name}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -136,10 +136,10 @@
 
 - job-template:
     id: autotools-rpm-job
-    name: '{name}-rpm{variant}'
+    name: '{name}-rpm'
     project-type: matrix
     description: '{title} RPM'
-    workspace: '{name}{variant}'
+    workspace: '{name}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true

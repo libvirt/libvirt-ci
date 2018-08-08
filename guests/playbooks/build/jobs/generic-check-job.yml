@@ -1,8 +1,8 @@
 ---
-- name: '{{ name }}-check{{ variant }}'
+- name: '{{ name }}-check'
   shell: |
     set -e
-    cd {{ name }}{{ variant }}
+    cd {{ name }}
 
     {{ global_env }}
     {{ local_env }}
