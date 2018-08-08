@@ -1,0 +1,16 @@
+---
+- hosts: all
+  remote_user: '{{ flavor }}'
+
+  vars_files:
+    - '{{ playbook_base }}/jobs/defaults.yml'
+
+  tasks:
+
+    - include: '{{ playbook_base }}/projects/{{ project }}.yml'
+      with_items:
+        '{{ selected_projects }}'
+      loop_control:
+        loop_var: project
+      when:
+        - project in projects
