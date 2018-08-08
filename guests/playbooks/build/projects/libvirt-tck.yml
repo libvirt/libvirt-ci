@@ -1,0 +1,23 @@
+---
+- set_fact:
+    name: libvirt-tck
+    machines:
+      - libvirt-debian-8
+      - libvirt-debian-9
+      - libvirt-fedora-27
+      - libvirt-fedora-28
+      - libvirt-fedora-rawhide
+      - libvirt-freebsd-10
+      - libvirt-freebsd-11
+    archive_format: gz
+    git_url: https://github.com/libvirt/libvirt-tck.git
+
+- include: '{{ playbook_base }}/jobs/prepare.yml'
+- include: '{{ playbook_base }}/jobs/perl-modulebuild-build-job.yml'
+- include: '{{ playbook_base }}/jobs/perl-modulebuild-check-job.yml'
+- include: '{{ playbook_base }}/jobs/perl-modulebuild-rpm-job.yml'
+  vars:
+    machines:
+      - libvirt-fedora-27
+      - libvirt-fedora-28
+      - libvirt-fedora-rawhide

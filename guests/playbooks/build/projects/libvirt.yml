@@ -1,0 +1,54 @@
+---
+- set_fact:
+    name: libvirt
+    machines: '{{ all_machines }}'
+    archive_format: xz
+    git_url: https://github.com/libvirt/libvirt.git
+
+- include: '{{ playbook_base }}/jobs/prepare.yml'
+- include: '{{ playbook_base }}/jobs/autotools-build-job.yml'
+- include: '{{ playbook_base }}/jobs/autotools-syntax-check-job.yml'
+  vars:
+    # We limit syntax-check to Linux platforms because it calls some
+    # commands with more arguments than FreeBSD supports
+    machines:
+      - libvirt-centos-7
+      - libvirt-debian-8
+      - libvirt-debian-9
+      - libvirt-fedora-27
+      - libvirt-fedora-28
+      - libvirt-fedora-rawhide
+- include: '{{ playbook_base }}/jobs/autotools-check-job.yml'
+  vars:
+    local_env: |
+      # gnulib's test-poll is broken on FreeBSD, so disable expensive
+      # tests (which include gnulib's test suite) until it's fixed
+      if [ "$(uname)" != "FreeBSD" ]; then
+        export VIR_TEST_EXPENSIVE=1
+      fi
+      export VIR_TEST_DEBUG=2
+- include: '{{ playbook_base }}/jobs/autotools-rpm-job.yml'
+  vars:
+    machines: '{{ rpm_machines }}'
+
+- include: '{{ playbook_base }}/jobs/prepare.yml'
+  vars:
+    variant: -mingw32
+    machines: '{{ mingw_machines }}'
+- include: '{{ playbook_base }}/jobs/autotools-build-job.yml'
+  vars:
+    variant: -mingw32
+    local_env: '{{ mingw32_local_env }}'
+    autogen_args: '{{ mingw32_autogen_args }}'
+    machines: '{{ mingw_machines }}'
+
+- include: '{{ playbook_base }}/jobs/prepare.yml'
+  vars:
+    variant: -mingw64
+    machines: '{{ mingw_machines }}'
+- include: '{{ playbook_base }}/jobs/autotools-build-job.yml'
+  vars:
+    variant: -mingw64
+    local_env: '{{ mingw64_local_env }}'
+    autogen_args: '{{ mingw64_autogen_args }}'
+    machines: '{{ mingw_machines }}'

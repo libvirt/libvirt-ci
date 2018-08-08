@@ -1,0 +1,23 @@
+---
+- set_fact:
+    name: osinfo-db
+    machines: '{{ all_machines }}'
+    archive_format: xz
+    git_url: https://gitlab.com/libosinfo/osinfo-db.git
+
+- include: '{{ playbook_base }}/jobs/prepare.yml'
+- include: '{{ playbook_base }}/jobs/generic-build-job.yml'
+  vars:
+    command: |
+      $MAKE all
+      $MAKE install OSINFO_DB_TARGET="--system"
+- include: '{{ playbook_base }}/jobs/generic-check-job.yml'
+  vars:
+    command: |
+      $MAKE check
+- include: '{{ playbook_base }}/jobs/generic-rpm-job.yml'
+  vars:
+    machines: '{{ rpm_machines }}'
+    command: |
+      {{ strip_buildrequires }}
+      rpmbuild --clean --define "_topdir `pwd`/rpmbuild" --define "_sourcedir `pwd`" -ba osinfo-db.spec
