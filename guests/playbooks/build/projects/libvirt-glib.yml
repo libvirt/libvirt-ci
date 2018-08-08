@@ -14,25 +14,3 @@
 - include: '{{ playbook_base }}/jobs/autotools-rpm-job.yml'
   vars:
     machines: '{{ rpm_machines }}'
-
-- include: '{{ playbook_base }}/jobs/prepare.yml'
-  vars:
-    variant: -mingw32
-    machines: '{{ mingw_machines }}'
-- include: '{{ playbook_base }}/jobs/autotools-build-job.yml'
-  vars:
-    variant: -mingw32
-    local_env: '{{ mingw32_local_env }}'
-    autogen_args: '{{ mingw32_autogen_args }}'
-    machines: '{{ mingw_machines }}'
-
-- include: '{{ playbook_base }}/jobs/prepare.yml'
-  vars:
-    variant: -mingw64
-    machines: '{{ mingw_machines }}'
-- include: '{{ playbook_base }}/jobs/autotools-build-job.yml'
-  vars:
-    variant: -mingw64
-    local_env: '{{ mingw64_local_env }}'
-    autogen_args: '{{ mingw64_autogen_args }}'
-    machines: '{{ mingw_machines }}'

@@ -1,0 +1,12 @@
+
+- project:
+    name: libosinfo+mingw64
+    machines: '{mingw_machines}'
+    title: libosinfo MinGW (64-bit)
+    archive_format: gz
+    git_url: '{git_urls[libosinfo][default]}'
+    jobs:
+      - autotools-build-job:
+          parent_jobs: 'osinfo-db-tools+mingw64-build'
+          local_env: '{mingw64_local_env}'
+          autogen_args: '{mingw64_autogen_args}'

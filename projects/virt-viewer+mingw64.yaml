@@ -1,0 +1,12 @@
+
+- project:
+    name: virt-viewer+mingw64
+    machines: '{mingw_machines}'
+    title: Virt Viewer MinGW (64-bit)
+    archive_format: gz
+    git_url: '{git_urls[virt-viewer][default]}'
+    jobs:
+      - autotools-build-job:
+          parent_jobs: 'libvirt-glib+mingw64-build'
+          local_env: '{mingw64_local_env}'
+          autogen_args: '{mingw64_autogen_args}'

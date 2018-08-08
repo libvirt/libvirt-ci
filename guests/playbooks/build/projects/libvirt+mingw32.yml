@@ -1,0 +1,12 @@
+---
+- set_fact:
+    name: libvirt+mingw32
+    machines: '{{ mingw_machines }}'
+    archive_format: xz
+    git_url: '{{ git_urls["libvirt"][git_remote] }}'
+
+- include: '{{ playbook_base }}/jobs/prepare.yml'
+- include: '{{ playbook_base }}/jobs/autotools-build-job.yml'
+  vars:
+    local_env: '{{ mingw32_local_env }}'
+    autogen_args: '{{ mingw32_autogen_args }}'

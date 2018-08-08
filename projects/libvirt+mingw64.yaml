@@ -1,0 +1,12 @@
+
+- project:
+    name: libvirt+mingw64
+    machines: '{mingw_machines}'
+    title: Libvirt MinGW (64-bit)
+    archive_format: xz
+    git_url: '{git_urls[libvirt][default]}'
+    jobs:
+      - autotools-build-job:
+          parent_jobs:
+          local_env: '{mingw64_local_env}'
+          autogen_args: '{mingw64_autogen_args}'
