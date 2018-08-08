@@ -1,0 +1,15 @@
+---
+- name: '{{ name }}-{{ branch }}-build{{ variant }}'
+  shell: |
+    set -e
+    cd {{ name }}-{{ branch }}{{ variant }}
+
+    {{ global_env }}
+    {{ local_env }}
+    mkdir build
+    cd build
+    ../autogen.sh --prefix=$VIRT_PREFIX {{ autogen_args }}
+    $MAKE
+    $MAKE install
+  when:
+    - inventory_hostname in machines

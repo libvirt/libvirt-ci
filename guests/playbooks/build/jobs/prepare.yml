@@ -1,0 +1,19 @@
+---
+- name: '{{ name }}-{{ branch }}-prepare{{ variant }}'
+  git:
+    repo: '{{ git_url }}'
+    version: '{{ branch }}'
+    dest: '{{ name }}-{{ branch }}{{ variant }}'
+    force: yes
+  when:
+    - inventory_hostname in machines
+
+- name: '{{ name }}-{{ branch }}-prepare{{ variant }}'
+  shell: |
+    set -e
+    cd {{ name }}-{{ branch }}{{ variant }}
+
+    git clean -xdf
+    git submodule update --init
+  when:
+    - inventory_hostname in machines

@@ -1,0 +1,13 @@
+---
+- name: '{{ name }}-{{ branch }}-build{{ variant }}'
+  shell: |
+    set -e
+    cd {{ name }}-{{ branch }}{{ variant }}
+
+    {{ global_env }}
+    {{ local_env }}
+    {{ command_pre_build }}
+    $PYTHON ./setup.py build
+    $PYTHON ./setup.py install --prefix=$VIRT_PREFIX
+  when:
+    - inventory_hostname in machines

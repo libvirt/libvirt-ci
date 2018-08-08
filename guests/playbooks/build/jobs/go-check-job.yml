@@ -1,0 +1,11 @@
+---
+- name: '{{ name }}-{{ branch }}-check{{ variant }}'
+  shell: |
+    set -e
+    cd {{ name }}-{{ branch }}{{ variant }}
+
+    {{ global_env }}
+    {{ local_env }}
+    go test $TEST_ARGS
+  when:
+    - inventory_hostname in machines

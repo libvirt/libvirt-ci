@@ -1,0 +1,11 @@
+---
+- name: '{{ name }}-{{ branch }}-build{{ variant }}'
+  shell: |
+    set -e
+    cd {{ name }}-{{ branch }}{{ variant }}
+
+    {{ global_env }}
+    {{ local_env }}
+    go build -v
+  when:
+    - inventory_hostname in machines

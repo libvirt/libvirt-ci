@@ -1,0 +1,12 @@
+---
+- name: '{{ name }}-{{ branch }}-syntax-check{{ variant }}'
+  shell: |
+    set -e
+    cd {{ name }}-{{ branch }}{{ variant }}
+
+    {{ global_env }}
+    {{ local_env }}
+    cd build
+    $MAKE syntax-check
+  when:
+    - inventory_hostname in machines

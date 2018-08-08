@@ -1,0 +1,11 @@
+---
+- name: '{{ name }}-{{ branch }}-rpm{{ variant }}'
+  shell: |
+    set -e
+    cd {{ name }}-{{ branch }}{{ variant }}
+
+    {{ global_env }}
+    {{ local_env }}
+    {{ command }}
+  when:
+    - inventory_hostname in machines
