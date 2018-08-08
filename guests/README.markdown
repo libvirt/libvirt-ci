@@ -46,6 +46,14 @@ related projects, while running
 will update all hosts and prepare them to build libvirt both as a native
 library and, where supported, as a Windows library using MinGW.
 
+Once hosts have been prepared following the steps above, you can use
+`lcitool` to perform builds as well: for example, running
+
+    lcitool -a build -h '*debian*' -p libvirt-python
+
+will fetch libvirt-python's `master` branch from the upstream repository
+and build it on all Debian hosts.
+
 
 Host setup
 ----------
