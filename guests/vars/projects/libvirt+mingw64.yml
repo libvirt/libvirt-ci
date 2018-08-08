@@ -1,0 +1,14 @@
+---
+packages:
+  - mingw64-curl
+  - mingw64-dbus
+  - mingw64-dlfcn
+  - mingw64-gcc
+  - mingw64-gettext
+  - mingw64-gnutls
+  - mingw64-libssh2
+  - mingw64-libxml2
+  - mingw64-openssl
+  - mingw64-pkg-config
+  - mingw64-portablexdr
+  - mingw64-readline
