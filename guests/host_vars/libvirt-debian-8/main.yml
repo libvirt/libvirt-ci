@@ -2,6 +2,7 @@
 projects:
   - libosinfo
   - libvirt
+  - libvirt-dbus
   - libvirt-glib
   - libvirt-go
   - libvirt-go-xml
