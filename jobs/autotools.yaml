@@ -172,7 +172,7 @@
           sed -i -e 's/BuildRequires: pkgconfig(libvirt.*).*//' {name}.spec
           rm -f *.tar.{archive_format}
           $MAKE dist
-          rpmbuild --define "_topdir `pwd`/rpmbuild" -ta {name}-*.tar.{archive_format}
+          rpmbuild --clean --define "_topdir `pwd`/rpmbuild" -ta {name}-*.tar.{archive_format}
     publishers:
       - email:
           recipients: '{obj:spam}'
