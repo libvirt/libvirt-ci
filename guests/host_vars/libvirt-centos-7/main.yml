@@ -9,7 +9,6 @@ projects:
   - libvirt-go-xml
   - libvirt-perl
   - libvirt-python
-  - libvirt-sandbox
   - osinfo-db
   - osinfo-db-tools
   - virt-viewer
