@@ -2,6 +2,7 @@
 - project:
     name: libvirt-sandbox
     machines:
+      - libvirt-debian-8
       - libvirt-debian-9
       - libvirt-fedora-27
       - libvirt-fedora-28
