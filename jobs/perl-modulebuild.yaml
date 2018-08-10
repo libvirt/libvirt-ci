@@ -121,9 +121,9 @@
       - shell: |
           {global_env}
           {local_env}
-          sed -i -e 's/BuildRequires: *perl-Sys-Virt.*//' *.spec
-          sed -i -e 's/BuildRequires: *perl(Sys::Virt).*//' *.spec
-          sed -i -e 's/BuildRequires: *libvirt.*devel.*//' *.spec
+          sed -i -e 's/BuildRequires: *perl-Sys-Virt.*//' *.spec*
+          sed -i -e 's/BuildRequires: *perl(Sys::Virt).*//' *.spec*
+          sed -i -e 's/BuildRequires: *libvirt.*devel.*//' *.spec*
           rm -f *.tar.{archive_format}
           perl Build dist
           rpmbuild --clean --define "_topdir `pwd`/rpmbuild" -ta *.tar.{archive_format}

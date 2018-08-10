@@ -19,5 +19,5 @@
           parent_jobs: 'osinfo-db-master-check'
           machines: '{rpm_machines}'
           command: |
-            perl -i -p -e 's/BuildRequires: osinfo-db-tools.*//' osinfo-db.spec
+            sed -i -e 's/BuildRequires: *osinfo-db-tools.*//' *.spec*
             rpmbuild --clean --define "_topdir `pwd`/rpmbuild" --define "_sourcedir `pwd`" -ba osinfo-db.spec
