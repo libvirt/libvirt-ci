@@ -122,7 +122,9 @@
           {global_env}
           {local_env}
           sed -i -e 's/BuildRequires: libvirt.*devel.*//' *.spec.in
-          $PYTHON ./setup.py rpm
+          rm -f dist/*.tar.{archive_format}
+          $PYTHON ./setup.py sdist
+          rpmbuild --clean --define "_topdir `pwd`/rpmbuild" -ta dist/*.tar.{archive_format}
     publishers:
       - email:
           recipients: '{obj:spam}'
