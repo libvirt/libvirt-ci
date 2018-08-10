@@ -13,6 +13,8 @@
           parent_jobs: 'virt-viewer-master-syntax-check'
       - autotools-rpm-job:
           parent_jobs: 'virt-viewer-master-check'
+          # The spec file for virt-viewer requires a very recent version
+          # of spice-gtk, so we have to skip this job on older distros
           machines:
             - libvirt-fedora-28
             - libvirt-fedora-rawhide

@@ -1,6 +1,7 @@
 
 - project:
     name: libvirt-dbus
+    # Debian 8 doesn't have a recent enough GLib
     machines:
       - libvirt-centos-7
       - libvirt-debian-9
@@ -17,6 +18,7 @@
           parent_jobs: 'libvirt-glib-master-build'
       - autotools-syntax-check-job:
           parent_jobs: 'libvirt-dbus-master-build'
+          # The test suite uses Python 3, which CentOS 7 doesn't include
           machines:
             - libvirt-debian-9
             - libvirt-fedora-27
@@ -26,6 +28,7 @@
             - libvirt-freebsd-11
       - autotools-check-job:
           parent_jobs: 'libvirt-dbus-master-syntax-check'
+          # syntax-check uses Python 3, which CentOS 7 doesn't include
           machines:
             - libvirt-debian-9
             - libvirt-fedora-27

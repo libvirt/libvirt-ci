@@ -10,6 +10,8 @@
           parent_jobs:
       - autotools-syntax-check-job:
           parent_jobs: 'libvirt-master-build'
+          # We limit syntax-check to Linux platforms because it calls some
+          # commands with more arguments than FreeBSD supports
           machines:
             - libvirt-centos-7
             - libvirt-debian-8

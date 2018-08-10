@@ -1,6 +1,7 @@
 
 - project:
     name: virt-manager
+    # virt-manager is Python 3 only, so it can't be built on CentOS 7
     machines:
       - libvirt-debian-9
       - libvirt-fedora-27
