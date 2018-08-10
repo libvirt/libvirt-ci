@@ -23,6 +23,13 @@
     archive_format: gz
     global_env: |
     local_env: |
+    strip_buildrequires: |
+      sed -i -e 's/BuildRequires: *libvirt.*devel.*//' *.spec*
+      sed -i -e 's/BuildRequires: *osinfo-db-tools.*//' *.spec*
+      sed -i -e 's/BuildRequires: *osinfo-db.*//' *.spec*
+      sed -i -e 's/BuildRequires: *perl(Sys::Virt).*//' *.spec*
+      sed -i -e 's/BuildRequires: *perl-Sys-Virt.*//' *.spec*
+      sed -i -e 's/BuildRequires: *pkgconfig(libvirt.*).*//' *.spec*
     mingw32_local_env: |
       export VIRT_PREFIX="$VIRT_PREFIX/i686-w64-mingw32/sys-root/mingw"
       export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
