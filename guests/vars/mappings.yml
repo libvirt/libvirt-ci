@@ -100,6 +100,13 @@ mappings:
     default: ebtables
     FreeBSD:
 
+  flake8:
+    deb: flake8
+    pkg: py36-flake8
+    rpm: python3-flake8
+    CentOS7:
+    Debian8:
+
   fuse:
     deb: libfuse-dev
     pkg: fusefs-libs
