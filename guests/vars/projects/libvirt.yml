@@ -22,6 +22,7 @@ packages:
   - libcap-ng
   - libcurl
   - libdbus
+  - libiscsi
   - libnl3
   - libnlroute3
   - libnuma

@@ -239,6 +239,10 @@ mappings:
     Debian: libgovirt-dev
     Debian8:
 
+  libiscsi:
+    deb: libiscsi-dev
+    rpm: libiscsi-devel
+
   libnl3:
     deb: libnl-3-dev
     rpm: libnl3-devel
