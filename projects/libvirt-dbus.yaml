@@ -15,8 +15,17 @@
             - libvirt-fedora-rawhide
             - libvirt-freebsd-10
             - libvirt-freebsd-11
-      - autotools-check-job:
+      - autotools-syntax-check-job:
           parent_jobs: 'libvirt-dbus-master-build'
+          machines:
+            - libvirt-debian-9
+            - libvirt-fedora-27
+            - libvirt-fedora-28
+            - libvirt-fedora-rawhide
+            - libvirt-freebsd-10
+            - libvirt-freebsd-11
+      - autotools-check-job:
+          parent_jobs: 'libvirt-dbus-master-syntax-check'
           machines:
             - libvirt-debian-9
             - libvirt-fedora-27
