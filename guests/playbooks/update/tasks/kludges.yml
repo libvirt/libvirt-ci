@@ -9,7 +9,9 @@
     force: yes
   with_items:
     - include/sasl
+    - include/yajl
     - lib/libsasl2.so
+    - lib/libyajl.so
   when:
     - os_name == 'FreeBSD'
 
