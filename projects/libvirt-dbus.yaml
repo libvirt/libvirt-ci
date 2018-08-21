@@ -1,20 +1,20 @@
 
 - project:
     name: libvirt-dbus
+    machines:
+      - libvirt-centos-7
+      - libvirt-debian-9
+      - libvirt-fedora-27
+      - libvirt-fedora-28
+      - libvirt-fedora-rawhide
+      - libvirt-freebsd-10
+      - libvirt-freebsd-11
     title: Libvirt D-Bus
     archive_format: xz
     git-url: https://github.com/libvirt/libvirt-dbus.git
     jobs:
       - autotools-build-job:
           parent_jobs: 'libvirt-glib-master-build'
-          machines:
-            - libvirt-centos-7
-            - libvirt-debian-9
-            - libvirt-fedora-27
-            - libvirt-fedora-28
-            - libvirt-fedora-rawhide
-            - libvirt-freebsd-10
-            - libvirt-freebsd-11
       - autotools-syntax-check-job:
           parent_jobs: 'libvirt-dbus-master-build'
           machines:
