@@ -539,6 +539,7 @@ mappings:
     deb: libdigest-perl
     pkg: p5-Digest
     rpm: perl-Digest
+    DebianSid: perl
 
   perl-Digest-MD5:
     deb: libdigest-perl-md5-perl
