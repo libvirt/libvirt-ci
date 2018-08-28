@@ -3,7 +3,7 @@
     name: libvirt-cim
     machines: '{{ rpm_machines }}'
     archive_format: gz
-    git_url: '{{ git_urls["libvirt-cim"]["upstream"] }}'
+    git_url: '{{ git_urls["libvirt-cim"][git_remote] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
 - include: '{{ playbook_base }}/jobs/autotools-build-job.yml'

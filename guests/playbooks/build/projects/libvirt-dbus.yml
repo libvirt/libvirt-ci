@@ -15,7 +15,7 @@
       - libvirt-ubuntu-16
       - libvirt-ubuntu-18
     archive_format: xz
-    git_url: '{{ git_urls["libvirt-dbus"]["upstream"] }}'
+    git_url: '{{ git_urls["libvirt-dbus"][git_remote] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
 - include: '{{ playbook_base }}/jobs/autotools-build-job.yml'

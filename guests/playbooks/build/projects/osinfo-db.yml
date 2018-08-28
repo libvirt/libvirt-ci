@@ -3,7 +3,7 @@
     name: osinfo-db
     machines: '{{ all_machines }}'
     archive_format: xz
-    git_url: '{{ git_urls["osinfo-db"]["upstream"] }}'
+    git_url: '{{ git_urls["osinfo-db"][git_remote] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
 - include: '{{ playbook_base }}/jobs/generic-build-job.yml'
