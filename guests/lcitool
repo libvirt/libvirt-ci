@@ -351,8 +351,13 @@ class Application:
             metavar="PROJECTS",
             help="list of projects to consider",
         )
+        self._parser.add_argument(
+            "-g",
+            metavar="GIT_REVISION",
+            help="git revision to build (remote/branch)",
+        )
 
-    def _execute_playbook(self, playbook, hosts, projects):
+    def _execute_playbook(self, playbook, hosts, projects, git_revision):
         base = Util.get_base()
 
         flavor = self._config.get_flavor()
@@ -361,6 +366,18 @@ class Application:
 
         ansible_hosts = ",".join(self._inventory.expand_pattern(hosts))
         selected_projects = self._projects.expand_pattern(projects)
+
+        if git_revision is not None:
+            tokens = git_revision.split("/")
+            if len(tokens) < 2:
+                raise Error(
+                    "Missing or invalid git revision '{}'".format(git_revision)
+                )
+            git_remote = tokens[0]
+            git_branch = "/".join(tokens[1:])
+        else:
+            git_remote = "default"
+            git_branch = "master"
 
         ansible_cfg_path = os.path.join(base, "ansible.cfg")
         playbook_base = os.path.join(base, "playbooks", playbook)
@@ -372,6 +389,8 @@ class Application:
             "root_password_file": root_pass_file,
             "flavor": flavor,
             "selected_projects": selected_projects,
+            "git_remote": git_remote,
+            "git_branch": git_branch,
         })
 
         cmd = [
@@ -396,15 +415,15 @@ class Application:
         except Exception:
             raise Error("Failed to run {} on '{}'".format(playbook, hosts))
 
-    def _action_hosts(self, _hosts, _projects):
+    def _action_hosts(self, _hosts, _projects, _revision):
         for host in self._inventory.expand_pattern("all"):
             print(host)
 
-    def _action_projects(self, _hosts, _projects):
+    def _action_projects(self, _hosts, _projects, _revision):
         for project in self._projects.expand_pattern("all"):
             print(project)
 
-    def _action_install(self, hosts, _projects):
+    def _action_install(self, hosts, _projects, _revision):
         base = Util.get_base()
 
         flavor = self._config.get_flavor()
@@ -475,13 +494,13 @@ class Application:
             except Exception:
                 raise Error("Failed to install '{}'".format(host))
 
-    def _action_update(self, hosts, projects):
-        self._execute_playbook("update", hosts, projects)
+    def _action_update(self, hosts, projects, git_revision):
+        self._execute_playbook("update", hosts, projects, git_revision)
 
-    def _action_build(self, hosts, projects):
-        self._execute_playbook("build", hosts, projects)
+    def _action_build(self, hosts, projects, git_revision):
+        self._execute_playbook("build", hosts, projects, git_revision)
 
-    def _action_dockerfile(self, hosts, projects):
+    def _action_dockerfile(self, hosts, projects, _revision):
         mappings = self._projects.get_mappings()
 
         hosts = self._inventory.expand_pattern(hosts)
@@ -553,11 +572,12 @@ class Application:
         action = cmdline.a
         hosts = cmdline.h
         projects = cmdline.p
+        git_revision = cmdline.g
 
         method = "_action_{}".format(action.replace("-", "_"))
 
         if hasattr(self, method):
-            getattr(self, method).__call__(hosts, projects)
+            getattr(self, method).__call__(hosts, projects, git_revision)
         else:
             raise Error("Invalid action '{}'".format(action))
 
