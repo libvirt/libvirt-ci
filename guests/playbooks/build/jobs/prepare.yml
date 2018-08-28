@@ -1,17 +1,17 @@
 ---
-- name: '{{ name }}-{{ branch }}-prepare{{ variant }}'
+- name: '{{ name }}-prepare{{ variant }}'
   git:
     repo: '{{ git_url }}'
     version: '{{ branch }}'
-    dest: '{{ name }}-{{ branch }}{{ variant }}'
+    dest: '{{ name }}{{ variant }}'
     force: yes
   when:
     - inventory_hostname in machines
 
-- name: '{{ name }}-{{ branch }}-prepare{{ variant }}'
+- name: '{{ name }}-prepare{{ variant }}'
   shell: |
     set -e
-    cd {{ name }}-{{ branch }}{{ variant }}
+    cd {{ name }}{{ variant }}
 
     git clean -xdf
     git submodule update --init

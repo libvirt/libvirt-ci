@@ -7,26 +7,26 @@
     git_url: https://pagure.io/virt-viewer.git
     jobs:
       - autotools-build-job:
-          parent_jobs: 'libvirt-glib-master-build'
+          parent_jobs: 'libvirt-glib-build'
       - autotools-syntax-check-job:
-          parent_jobs: 'virt-viewer-master-build'
+          parent_jobs: 'virt-viewer-build'
       - autotools-check-job:
-          parent_jobs: 'virt-viewer-master-syntax-check'
+          parent_jobs: 'virt-viewer-syntax-check'
       - autotools-rpm-job:
-          parent_jobs: 'virt-viewer-master-check'
+          parent_jobs: 'virt-viewer-check'
           # The spec file for virt-viewer requires a very recent version
           # of spice-gtk, so we have to skip this job on older distros
           machines:
             - libvirt-fedora-28
             - libvirt-fedora-rawhide
       - autotools-build-job:
-          parent_jobs: 'libvirt-glib-master-build-mingw32'
+          parent_jobs: 'libvirt-glib-build-mingw32'
           variant: -mingw32
           local_env: '{mingw32_local_env}'
           autogen_args: '{mingw32_autogen_args}'
           machines: '{mingw_machines}'
       - autotools-build-job:
-          parent_jobs: 'libvirt-glib-master-build-mingw64'
+          parent_jobs: 'libvirt-glib-build-mingw64'
           variant: -mingw64
           local_env: '{mingw64_local_env}'
           autogen_args: '{mingw64_autogen_args}'

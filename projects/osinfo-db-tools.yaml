@@ -9,11 +9,11 @@
       - autotools-build-job:
           parent_jobs:
       - autotools-syntax-check-job:
-          parent_jobs: 'osinfo-db-tools-master-build'
+          parent_jobs: 'osinfo-db-tools-build'
       - autotools-check-job:
-          parent_jobs: 'osinfo-db-tools-master-syntax-check'
+          parent_jobs: 'osinfo-db-tools-syntax-check'
       - autotools-rpm-job:
-          parent_jobs: 'osinfo-db-tools-master-check'
+          parent_jobs: 'osinfo-db-tools-check'
           machines: '{rpm_machines}'
       - autotools-build-job:
           parent_jobs:

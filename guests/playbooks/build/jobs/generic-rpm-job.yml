@@ -1,8 +1,8 @@
 ---
-- name: '{{ name }}-{{ branch }}-rpm{{ variant }}'
+- name: '{{ name }}-rpm{{ variant }}'
   shell: |
     set -e
-    cd {{ name }}-{{ branch }}{{ variant }}
+    cd {{ name }}{{ variant }}
 
     {{ global_env }}
     {{ local_env }}

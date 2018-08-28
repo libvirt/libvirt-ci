@@ -17,12 +17,12 @@
     jobs:
       - python-distutils-build-job:
           parent_jobs:
-            - 'libvirt-python-master-build'
-            - 'libosinfo-master-build'
+            - 'libvirt-python-build'
+            - 'libosinfo-build'
           command_pre_build: |
             $PYTHON ./setup.py configure --prefix=$VIRT_PREFIX
       - python-distutils-check-job:
-          parent_jobs: 'virt-manager-master-build'
+          parent_jobs: 'virt-manager-build'
           # libxml2's Python 3 bindings don't work properly on FreeBSD,
           # so skip the test suite there for the time being. See
           # https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=224902
@@ -32,7 +32,7 @@
             - libvirt-fedora-28
             - libvirt-fedora-rawhide
       - python-distutils-rpm-job:
-          parent_jobs: 'virt-manager-master-check'
+          parent_jobs: 'virt-manager-check'
           machines:
             - libvirt-fedora-27
             - libvirt-fedora-28

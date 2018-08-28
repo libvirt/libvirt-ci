@@ -7,16 +7,16 @@
     git_url: https://gitlab.com/libosinfo/osinfo-db.git
     jobs:
       - generic-build-job:
-          parent_jobs: 'osinfo-db-tools-master-build'
+          parent_jobs: 'osinfo-db-tools-build'
           command: |
             $MAKE all
             $MAKE install OSINFO_DB_TARGET="--system"
       - generic-check-job:
-          parent_jobs: 'osinfo-db-master-build'
+          parent_jobs: 'osinfo-db-build'
           command: |
             $MAKE check
       - generic-rpm-job:
-          parent_jobs: 'osinfo-db-master-check'
+          parent_jobs: 'osinfo-db-check'
           machines: '{rpm_machines}'
           command: |
             {strip_buildrequires}

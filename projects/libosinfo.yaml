@@ -7,22 +7,22 @@
     git_url: https://gitlab.com/libosinfo/libosinfo.git
     jobs:
       - autotools-build-job:
-          parent_jobs: 'osinfo-db-master-build'
+          parent_jobs: 'osinfo-db-build'
       - autotools-syntax-check-job:
-          parent_jobs: 'libosinfo-master-build'
+          parent_jobs: 'libosinfo-build'
       - autotools-check-job:
-          parent_jobs: 'libosinfo-master-syntax-check'
+          parent_jobs: 'libosinfo-syntax-check'
       - autotools-rpm-job:
-          parent_jobs: 'libosinfo-master-check'
+          parent_jobs: 'libosinfo-check'
           machines: '{rpm_machines}'
       - autotools-build-job:
-          parent_jobs: 'osinfo-db-tools-master-build-mingw32'
+          parent_jobs: 'osinfo-db-tools-build-mingw32'
           variant: -mingw32
           local_env: '{mingw32_local_env}'
           autogen_args: '{mingw32_autogen_args}'
           machines: '{mingw_machines}'
       - autotools-build-job:
-          parent_jobs: 'osinfo-db-tools-master-build-mingw64'
+          parent_jobs: 'osinfo-db-tools-build-mingw64'
           variant: -mingw64
           local_env: '{mingw64_local_env}'
           autogen_args: '{mingw64_autogen_args}'

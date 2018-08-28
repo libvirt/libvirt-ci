@@ -15,9 +15,9 @@
     git_url: https://github.com/libvirt/libvirt-dbus.git
     jobs:
       - autotools-build-job:
-          parent_jobs: 'libvirt-glib-master-build'
+          parent_jobs: 'libvirt-glib-build'
       - autotools-syntax-check-job:
-          parent_jobs: 'libvirt-dbus-master-build'
+          parent_jobs: 'libvirt-dbus-build'
           # CentOS 7 doesn't include Python 3 and the version of pyflakes
           # in FreeBSD CURRENT is too new to be used by flake8
           machines:
@@ -28,7 +28,7 @@
             - libvirt-freebsd-10
             - libvirt-freebsd-11
       - autotools-check-job:
-          parent_jobs: 'libvirt-dbus-master-syntax-check'
+          parent_jobs: 'libvirt-dbus-syntax-check'
           # CentOS 7 doesn't include Python 3 and the version in Ubuntu
           # 16.04 is too old
           machines:
@@ -39,5 +39,5 @@
             - libvirt-freebsd-10
             - libvirt-freebsd-11
       - autotools-rpm-job:
-          parent_jobs: 'libvirt-dbus-master-check'
+          parent_jobs: 'libvirt-dbus-check'
           machines: '{rpm_machines}'

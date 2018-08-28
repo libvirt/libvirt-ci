@@ -7,23 +7,23 @@
     git_url: https://github.com/libvirt/libvirt-glib.git
     jobs:
       - autotools-build-job:
-          parent_jobs: 'libvirt-master-build'
+          parent_jobs: 'libvirt-build'
           autogen_args: --enable-gtk-doc
       - autotools-syntax-check-job:
-          parent_jobs: 'libvirt-glib-master-build'
+          parent_jobs: 'libvirt-glib-build'
       - autotools-check-job:
-          parent_jobs: 'libvirt-glib-master-syntax-check'
+          parent_jobs: 'libvirt-glib-syntax-check'
       - autotools-rpm-job:
-          parent_jobs: 'libvirt-glib-master-check'
+          parent_jobs: 'libvirt-glib-check'
           machines: '{rpm_machines}'
       - autotools-build-job:
-          parent_jobs: 'libvirt-master-build-mingw32'
+          parent_jobs: 'libvirt-build-mingw32'
           variant: -mingw32
           local_env: '{mingw32_local_env}'
           autogen_args: '{mingw32_autogen_args}'
           machines: '{mingw_machines}'
       - autotools-build-job:
-          parent_jobs: 'libvirt-master-build-mingw64'
+          parent_jobs: 'libvirt-build-mingw64'
           variant: -mingw64
           local_env: '{mingw64_local_env}'
           autogen_args: '{mingw64_autogen_args}'

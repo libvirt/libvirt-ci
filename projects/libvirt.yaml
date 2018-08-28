@@ -9,7 +9,7 @@
       - autotools-build-job:
           parent_jobs:
       - autotools-syntax-check-job:
-          parent_jobs: 'libvirt-master-build'
+          parent_jobs: 'libvirt-build'
           # We limit syntax-check to Linux platforms because it calls some
           # commands with more arguments than FreeBSD supports
           machines:
@@ -20,7 +20,7 @@
             - libvirt-fedora-28
             - libvirt-fedora-rawhide
       - autotools-check-job:
-          parent_jobs: 'libvirt-master-syntax-check'
+          parent_jobs: 'libvirt-syntax-check'
           local_env: |
             # gnulib's test-poll is broken on FreeBSD, so disable expensive
             # tests (which include gnulib's test suite) until it's fixed
@@ -29,7 +29,7 @@
             fi
             export VIR_TEST_DEBUG=2
       - autotools-rpm-job:
-          parent_jobs: 'libvirt-master-check'
+          parent_jobs: 'libvirt-check'
           machines: '{rpm_machines}'
       - autotools-build-job:
           parent_jobs:

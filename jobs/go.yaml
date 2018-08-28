@@ -1,10 +1,10 @@
 
 - job-template:
     id: go-build-job
-    name: '{name}-{branch}-build{variant}'
+    name: '{name}-build{variant}'
     project-type: matrix
     description: '{title} Build'
-    workspace: '{name}-{branch}{variant}'
+    workspace: '{name}{variant}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -50,10 +50,10 @@
 
 - job-template:
     id: go-check-job
-    name: '{name}-{branch}-check{variant}'
+    name: '{name}-check{variant}'
     project-type: matrix
     description: '{title} Check'
-    workspace: '{name}-{branch}{variant}'
+    workspace: '{name}{variant}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true

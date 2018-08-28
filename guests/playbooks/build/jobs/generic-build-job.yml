@@ -1,8 +1,8 @@
 ---
-- name: '{{ name }}-{{ branch }}-build{{ variant }}'
+- name: '{{ name }}-build{{ variant }}'
   shell: |
     set -e
-    cd {{ name }}-{{ branch }}{{ variant }}
+    cd {{ name }}{{ variant }}
 
     {{ global_env }}
     {{ local_env }}

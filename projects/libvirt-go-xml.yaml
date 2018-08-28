@@ -7,8 +7,8 @@
     git_url: https://github.com/libvirt/libvirt-go-xml.git
     jobs:
       - go-build-job:
-          parent_jobs: 'libvirt-master-build'
+          parent_jobs: 'libvirt-build'
       - go-check-job:
-          parent_jobs: 'libvirt-go-xml-master-build'
+          parent_jobs: 'libvirt-go-xml-build'
           local_env: |
             export TEST_ARGS="-tags xmlroundtrip"

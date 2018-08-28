@@ -1,10 +1,10 @@
 
 - job-template:
     id: generic-build-job
-    name: '{name}-{branch}-build{variant}'
+    name: '{name}-build{variant}'
     project-type: matrix
     description: '{title} Build'
-    workspace: '{name}-{branch}{variant}'
+    workspace: '{name}{variant}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -50,10 +50,10 @@
 
 - job-template:
     id: generic-syntax-check-job
-    name: '{name}-{branch}-syntax-check{variant}'
+    name: '{name}-syntax-check{variant}'
     project-type: matrix
     description: '{title} Syntax Check'
-    workspace: '{name}-{branch}{variant}'
+    workspace: '{name}{variant}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -88,10 +88,10 @@
 
 - job-template:
     id: generic-check-job
-    name: '{name}-{branch}-check{variant}'
+    name: '{name}-check{variant}'
     project-type: matrix
     description: '{title} Check'
-    workspace: '{name}-{branch}{variant}'
+    workspace: '{name}{variant}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true
@@ -126,10 +126,10 @@
 
 - job-template:
     id: generic-rpm-job
-    name: '{name}-{branch}-rpm{variant}'
+    name: '{name}-rpm{variant}'
     project-type: matrix
     description: '{title} RPM'
-    workspace: '{name}-{branch}{variant}'
+    workspace: '{name}{variant}'
     child-workspace: '.'
     block-downstream: true
     block-upstream: true

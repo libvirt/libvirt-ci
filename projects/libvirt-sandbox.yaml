@@ -15,14 +15,14 @@
     git_url: https://github.com/libvirt/libvirt-sandbox.git
     jobs:
       - autotools-build-job:
-          parent_jobs: 'libvirt-glib-master-build'
+          parent_jobs: 'libvirt-glib-build'
           autogen_args: --enable-gtk-doc
       - autotools-syntax-check-job:
-          parent_jobs: 'libvirt-sandbox-master-build'
+          parent_jobs: 'libvirt-sandbox-build'
       - autotools-check-job:
-          parent_jobs: 'libvirt-sandbox-master-syntax-check'
+          parent_jobs: 'libvirt-sandbox-syntax-check'
       - autotools-rpm-job:
-          parent_jobs: 'libvirt-sandbox-master-check'
+          parent_jobs: 'libvirt-sandbox-check'
           machines:
             - libvirt-fedora-27
             - libvirt-fedora-28
