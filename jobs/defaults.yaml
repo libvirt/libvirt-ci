@@ -1,7 +1,6 @@
 
 - defaults:
     name: global
-    branch: master
     variant: ''
     node: libvirt
     all_machines:

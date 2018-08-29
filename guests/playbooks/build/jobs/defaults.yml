@@ -1,5 +1,4 @@
 ---
-branch: master
 variant: ''
 all_machines:
   - libvirt-centos-7
