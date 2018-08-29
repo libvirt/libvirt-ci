@@ -4,7 +4,7 @@
     machines: '{all_machines}'
     title: osinfo database
     archive_format: xz
-    git_url: https://gitlab.com/libosinfo/osinfo-db.git
+    git_url: '{git_urls[osinfo-db][upstream]}'
     jobs:
       - generic-build-job:
           parent_jobs: 'osinfo-db-tools-build'

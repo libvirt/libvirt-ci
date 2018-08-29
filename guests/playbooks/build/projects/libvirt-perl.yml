@@ -3,7 +3,7 @@
     name: libvirt-perl
     machines: '{{ all_machines }}'
     archive_format: gz
-    git_url: https://github.com/libvirt/libvirt-perl.git
+    git_url: '{{ git_urls["libvirt-perl"]["upstream"] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
 - include: '{{ playbook_base }}/jobs/perl-modulebuild-build-job.yml'

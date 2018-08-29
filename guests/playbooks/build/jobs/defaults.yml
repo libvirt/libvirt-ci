@@ -40,3 +40,34 @@ mingw64_local_env: |
   export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
   export PKG_CONFIG_LIBDIR="/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig"
 mingw64_autogen_args: --host=x86_64-w64-mingw32
+git_urls:
+  libosinfo:
+    default: https://gitlab.com/libosinfo/libosinfo.git
+  libvirt-cim:
+    default: https://github.com/libvirt/libvirt-cim.git
+  libvirt-dbus:
+    default: https://github.com/libvirt/libvirt-dbus.git
+  libvirt-glib:
+    default: https://github.com/libvirt/libvirt-glib.git
+  libvirt-go-xml:
+    default: https://github.com/libvirt/libvirt-go-xml.git
+  libvirt-go:
+    default: https://github.com/libvirt/libvirt-go.git
+  libvirt-perl:
+    default: https://github.com/libvirt/libvirt-perl.git
+  libvirt-python:
+    default: https://github.com/libvirt/libvirt-python.git
+  libvirt-sandbox:
+    default: https://github.com/libvirt/libvirt-sandbox.git
+  libvirt-tck:
+    default: https://github.com/libvirt/libvirt-tck.git
+  libvirt:
+    default: https://github.com/libvirt/libvirt.git
+  osinfo-db-tools:
+    default: https://gitlab.com/libosinfo/osinfo-db-tools.git
+  osinfo-db:
+    default: https://gitlab.com/libosinfo/osinfo-db.git
+  virt-manager:
+    default: https://github.com/virt-manager/virt-manager.git
+  virt-viewer:
+    default: https://pagure.io/virt-viewer.git

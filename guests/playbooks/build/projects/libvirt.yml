@@ -3,7 +3,7 @@
     name: libvirt
     machines: '{{ all_machines }}'
     archive_format: xz
-    git_url: https://github.com/libvirt/libvirt.git
+    git_url: '{{ git_urls["libvirt"]["upstream"] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
 - include: '{{ playbook_base }}/jobs/autotools-build-job.yml'

@@ -3,7 +3,7 @@
     name: libvirt-python
     machines: '{{ all_machines }}'
     archive_format: gz
-    git_url: https://github.com/libvirt/libvirt-python.git
+    git_url: '{{ git_urls["libvirt-python"]["upstream"] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
 - include: '{{ playbook_base }}/jobs/python-distutils-build-job.yml'

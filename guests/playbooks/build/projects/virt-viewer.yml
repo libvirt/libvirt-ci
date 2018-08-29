@@ -3,7 +3,7 @@
     name: virt-viewer
     machines: '{{ all_machines }}'
     archive_format: gz
-    git_url: https://pagure.io/virt-viewer.git
+    git_url: '{{ git_urls["virt-viewer"]["upstream"] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
 - include: '{{ playbook_base }}/jobs/autotools-build-job.yml'

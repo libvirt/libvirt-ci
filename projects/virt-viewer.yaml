@@ -4,7 +4,7 @@
     machines: '{all_machines}'
     title: Virt Viewer
     archive_format: gz
-    git_url: https://pagure.io/virt-viewer.git
+    git_url: '{git_urls[virt-viewer][upstream]}'
     jobs:
       - autotools-build-job:
           parent_jobs: 'libvirt-glib-build'

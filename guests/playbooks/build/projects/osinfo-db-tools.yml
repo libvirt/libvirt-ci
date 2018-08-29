@@ -3,7 +3,7 @@
     name: osinfo-db-tools
     machines: '{{ all_machines }}'
     archive_format: gz
-    git_url: https://gitlab.com/libosinfo/osinfo-db-tools.git
+    git_url: '{{ git_urls["osinfo-db-tools"]["upstream"] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
 - include: '{{ playbook_base }}/jobs/autotools-build-job.yml'

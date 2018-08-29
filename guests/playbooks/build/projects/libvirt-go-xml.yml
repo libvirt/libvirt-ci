@@ -3,7 +3,7 @@
     name: libvirt-go-xml
     machines: '{{ all_machines }}'
     archive_format: gz
-    git_url: https://github.com/libvirt/libvirt-go-xml.git
+    git_url: '{{ git_urls["libvirt-go-xml"]["upstream"] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
 - include: '{{ playbook_base }}/jobs/go-build-job.yml'
