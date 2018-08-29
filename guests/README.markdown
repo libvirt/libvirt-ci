@@ -54,6 +54,12 @@ Once hosts have been prepared following the steps above, you can use
 will fetch libvirt-python's `master` branch from the upstream repository
 and build it on all Debian hosts.
 
+You can add more git repositories by tweaking the `git_urls` dictionary
+defined in `playbooks/build/jobs/defaults.yml` and then build arbitrary
+branches out of those with
+
+    lcitool -a build -h all -p libvirt -g github/cool-feature
+
 
 Host setup
 ----------
