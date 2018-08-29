@@ -22,7 +22,7 @@
       - git:
           url: '{git_url}'
           branches:
-            - origin/{branch}
+            - origin/master
           clean:
             after: true
           skip-tag: true
