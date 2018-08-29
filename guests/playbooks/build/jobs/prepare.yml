@@ -2,7 +2,7 @@
 - name: '{{ name }}-prepare{{ variant }}'
   git:
     repo: '{{ git_url }}'
-    version: '{{ branch }}'
+    version: '{{ git_branch }}'
     dest: '{{ name }}{{ variant }}'
     force: yes
   when:
