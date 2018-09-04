@@ -28,7 +28,7 @@
 - name: '{{ flavor }}: Set password'
   user:
     name: '{{ flavor }}'
-    password: '$6$xSlfvkcsDgPmRAMX$mFh9qRmFFW9cyW1n5/jeHvq4OmJA8WzSD70Mfis3VHc3Z5imZeiQAg9VNL4sFEtmDy/siU3nJL.QeAapCgfL20'
+    password: '{{ "test"|password_hash("sha512") }}'
   when:
     - flavor == 'test'
 
