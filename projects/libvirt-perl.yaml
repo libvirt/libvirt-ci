@@ -4,7 +4,7 @@
     machines: '{all_machines}'
     title: Libvirt Perl
     archive_format: gz
-    git_url: '{git_urls[libvirt-perl][upstream]}'
+    git_url: '{git_urls[libvirt-perl][default]}'
     jobs:
       - perl-modulebuild-build-job:
           parent_jobs: 'libvirt-build'

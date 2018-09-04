@@ -4,7 +4,7 @@
     machines: '{all_machines}'
     title: Libvirt Python
     archive_format: gz
-    git_url: '{git_urls[libvirt-python][upstream]}'
+    git_url: '{git_urls[libvirt-python][default]}'
     jobs:
       - python-distutils-build-job:
           parent_jobs: 'libvirt-build'

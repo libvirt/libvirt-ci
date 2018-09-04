@@ -4,7 +4,7 @@
     machines: '{all_machines}'
     title: Libvirt
     archive_format: xz
-    git_url: '{git_urls[libvirt][upstream]}'
+    git_url: '{git_urls[libvirt][default]}'
     jobs:
       - autotools-build-job:
           parent_jobs:

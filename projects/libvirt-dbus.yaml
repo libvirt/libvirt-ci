@@ -12,7 +12,7 @@
       - libvirt-freebsd-11
     title: Libvirt D-Bus
     archive_format: xz
-    git_url: '{git_urls[libvirt-dbus][upstream]}'
+    git_url: '{git_urls[libvirt-dbus][default]}'
     jobs:
       - autotools-build-job:
           parent_jobs: 'libvirt-glib-build'

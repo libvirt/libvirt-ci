@@ -4,7 +4,7 @@
     machines: '{all_machines}'
     title: Libvirt Go
     archive_format: gz
-    git_url: '{git_urls[libvirt-go][upstream]}'
+    git_url: '{git_urls[libvirt-go][default]}'
     jobs:
       - go-build-job:
           parent_jobs: 'libvirt-build'

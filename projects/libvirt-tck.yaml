@@ -13,7 +13,7 @@
       - libvirt-freebsd-11
     title: Libvirt TCK
     archive_format: gz
-    git_url: '{git_urls[libvirt-tck][upstream]}'
+    git_url: '{git_urls[libvirt-tck][default]}'
     jobs:
       - perl-modulebuild-build-job:
           parent_jobs: 'libvirt-perl-build'

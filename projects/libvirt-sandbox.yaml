@@ -12,7 +12,7 @@
       - libvirt-fedora-rawhide
     title: Libvirt Sandbox
     archive_format: gz
-    git_url: '{git_urls[libvirt-sandbox][upstream]}'
+    git_url: '{git_urls[libvirt-sandbox][default]}'
     jobs:
       - autotools-build-job:
           parent_jobs: 'libvirt-glib-build'

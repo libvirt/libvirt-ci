@@ -13,7 +13,7 @@
       - libvirt-freebsd-11
     title: Virtual Machine Manager
     archive_format: gz
-    git_url: '{git_urls[virt-manager][upstream]}'
+    git_url: '{git_urls[virt-manager][default]}'
     jobs:
       - python-distutils-build-job:
           parent_jobs:

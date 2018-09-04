@@ -4,7 +4,7 @@
     machines: '{all_machines}'
     title: libosinfo
     archive_format: gz
-    git_url: '{git_urls[libosinfo][upstream]}'
+    git_url: '{git_urls[libosinfo][default]}'
     jobs:
       - autotools-build-job:
           parent_jobs: 'osinfo-db-build'
