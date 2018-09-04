@@ -65,6 +65,15 @@
             os_version == 'Rawhide' )
 
 - name: Update installed packages
+  package:
+    name: fedora-gpg-keys
+    state: latest
+    disable_gpg_check: yes
+  when:
+    - os_name == 'Fedora'
+    - os_version == 'Rawhide'
+
+- name: Update installed packages
   command: dnf update --refresh --exclude 'kernel*' -y
   args:
     warn: no

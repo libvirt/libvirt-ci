@@ -511,7 +511,8 @@ class Application:
         facts = self._inventory.get_facts(host)
         package_format = facts["package_format"]
         os_name = facts["os_name"]
-        os_full = os_name + str(facts["os_version"])
+        os_version = str(facts["os_version"])
+        os_full = os_name + os_version
 
         if package_format not in ["deb", "rpm"]:
             raise Error("Host {} doesn't support Dockerfiles".format(host))
@@ -560,12 +561,21 @@ class Application:
                     apt-get autoclean -y
             """))
         elif package_format == "rpm":
-            sys.stdout.write(textwrap.dedent("""
-                RUN yum update -y && \\
-                    yum install -y ${PACKAGES} && \\
-                    yum autoremove -y && \\
-                    yum clean all -y
-            """))
+            if os_name == "Fedora" and os_version == "Rawhide":
+                sys.stdout.write(textwrap.dedent("""
+                    RUN yum update -y --nogpgcheck fedora-gpg-keys && \\
+                        yum update -y && \\
+                        yum install -y ${PACKAGES} && \\
+                        yum autoremove -y && \\
+                        yum clean all -y
+                """))
+            else:
+                sys.stdout.write(textwrap.dedent("""
+                    RUN yum update -y && \\
+                        yum install -y ${PACKAGES} && \\
+                        yum autoremove -y && \\
+                        yum clean all -y
+                """))
 
     def run(self):
         cmdline = self._parser.parse_args()
