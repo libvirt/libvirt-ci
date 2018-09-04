@@ -2,7 +2,7 @@
 - name: 'root: Set password'
   user:
     name: root
-    password: '{{ lookup("file", root_password_file) }}'
+    password: '{{ lookup("file", root_password_file)|password_hash("sha512") }}'
     shell: '{{ bash }}'
 
 - name: 'root: Configure ssh access'
