@@ -41,6 +41,7 @@
       - shell: |
           {global_env}
           {local_env}
+          rm -rf build
           mkdir build
           cd build
           ../autogen.sh --prefix=$VIRT_PREFIX {autogen_args}
