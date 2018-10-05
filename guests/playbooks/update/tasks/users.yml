@@ -37,8 +37,6 @@
     user: '{{ flavor }}'
     key: '{{ lookup("file", lookup("env", "HOME") + "/.ssh/id_rsa.pub") }}'
     state: present
-  when:
-    - flavor == 'test'
 
 - name: '{{ flavor }}: Grant passwordless sudo access'
   lineinfile:
