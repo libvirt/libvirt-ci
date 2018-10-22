@@ -1,0 +1,5 @@
+---
+packages:
+  - ocaml
+  - ocaml-findlib
+  - perl

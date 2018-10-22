@@ -13,6 +13,7 @@ projects:
   - libvirt-glib+mingw64
   - libvirt-go
   - libvirt-go-xml
+  - libvirt-ocaml
   - libvirt-perl
   - libvirt-python
   - libvirt-sandbox
