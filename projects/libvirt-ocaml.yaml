@@ -1,0 +1,23 @@
+
+- project:
+    name: libvirt-ocaml
+    # Debian 8 doesn't have a recent enough OCaml
+    machines:
+      - libvirt-centos-7
+      - libvirt-debian-9
+      - libvirt-fedora-27
+      - libvirt-fedora-28
+      - libvirt-fedora-rawhide
+      - libvirt-freebsd-10
+      - libvirt-freebsd-11
+    title: Libvirt OCaml
+    archive_format: xz
+    git_url: '{git_urls[libvirt-ocaml][default]}'
+    jobs:
+      - generic-build-job:
+          parent_jobs: 'libvirt-build'
+          command: |
+            autoreconf -vfi
+            ./configure --prefix=$VIRT_PREFIX
+            $MAKE
+            $MAKE opt

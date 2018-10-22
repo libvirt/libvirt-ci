@@ -51,6 +51,8 @@
         default: https://github.com/libvirt/libvirt-go-xml.git
       libvirt-go:
         default: https://github.com/libvirt/libvirt-go.git
+      libvirt-ocaml:
+        default: https://github.com/libvirt/libvirt-ocaml.git
       libvirt-perl:
         default: https://github.com/libvirt/libvirt-perl.git
       libvirt-python:
