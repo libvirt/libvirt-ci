@@ -730,7 +730,6 @@ mappings:
     deb: libc-dev-bin
     rpm: rpcgen
     CentOS7: glibc-common
-    Fedora27: glibc-common
     FreeBSD:
 
   rpmbuild:
