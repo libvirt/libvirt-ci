@@ -5,7 +5,6 @@
     machines:
       - libvirt-centos-7
       - libvirt-debian-9
-      - libvirt-fedora-27
       - libvirt-fedora-28
       - libvirt-fedora-29
       - libvirt-fedora-rawhide
@@ -23,7 +22,6 @@
           # in FreeBSD CURRENT is too new to be used by flake8
           machines:
             - libvirt-debian-9
-            - libvirt-fedora-27
             - libvirt-fedora-28
             - libvirt-fedora-29
             - libvirt-fedora-rawhide
@@ -35,7 +33,6 @@
           # 16.04 is too old
           machines:
             - libvirt-debian-9
-            - libvirt-fedora-27
             - libvirt-fedora-28
             - libvirt-fedora-29
             - libvirt-fedora-rawhide

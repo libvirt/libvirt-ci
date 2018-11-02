@@ -6,7 +6,6 @@
     # bindings so they can't build the project either
     machines:
       - libvirt-debian-9
-      - libvirt-fedora-27
       - libvirt-fedora-28
       - libvirt-fedora-29
       - libvirt-fedora-rawhide
@@ -29,14 +28,12 @@
           # https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=224902
           machines:
             - libvirt-debian-9
-            - libvirt-fedora-27
             - libvirt-fedora-28
             - libvirt-fedora-29
             - libvirt-fedora-rawhide
       - python-distutils-rpm-job:
           parent_jobs: 'virt-manager-check'
           machines:
-            - libvirt-fedora-27
             - libvirt-fedora-28
             - libvirt-fedora-29
             - libvirt-fedora-rawhide
