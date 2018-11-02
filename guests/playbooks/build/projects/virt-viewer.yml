@@ -15,4 +15,5 @@
     # of spice-gtk, so we have to skip this job on older distros
     machines:
       - libvirt-fedora-28
+      - libvirt-fedora-29
       - libvirt-fedora-rawhide

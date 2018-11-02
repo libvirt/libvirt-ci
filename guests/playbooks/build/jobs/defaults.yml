@@ -6,6 +6,7 @@ all_machines:
   - libvirt-debian-sid
   - libvirt-fedora-27
   - libvirt-fedora-28
+  - libvirt-fedora-29
   - libvirt-fedora-rawhide
   - libvirt-freebsd-10
   - libvirt-freebsd-11
@@ -16,6 +17,7 @@ rpm_machines:
   - libvirt-centos-7
   - libvirt-fedora-27
   - libvirt-fedora-28
+  - libvirt-fedora-29
   - libvirt-fedora-rawhide
 mingw_machines:
   - libvirt-fedora-rawhide
