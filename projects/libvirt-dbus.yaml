@@ -18,15 +18,14 @@
           parent_jobs: 'libvirt-glib-build'
       - autotools-syntax-check-job:
           parent_jobs: 'libvirt-dbus-build'
-          # CentOS 7 doesn't include Python 3 and the version of pyflakes
-          # in FreeBSD CURRENT is too new to be used by flake8
+          # CentOS 7 doesn't include Python 3, while the versions of flake8
+          # and pyflakes currently available on FreeBSD (3.5.0 and 2.0.0
+          # respectively) are not compatible
           machines:
             - libvirt-debian-9
             - libvirt-fedora-28
             - libvirt-fedora-29
             - libvirt-fedora-rawhide
-            - libvirt-freebsd-10
-            - libvirt-freebsd-11
       - autotools-check-job:
           parent_jobs: 'libvirt-dbus-syntax-check'
           # CentOS 7 doesn't include Python 3 and the version in Ubuntu
