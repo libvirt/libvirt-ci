@@ -12,9 +12,6 @@
           parent_jobs: 'libosinfo-build'
       - autotools-check-job:
           parent_jobs: 'libosinfo-syntax-check'
-          local_env: |
-            # Run tests that require network connectivity
-            export LIBOSINFO_NETWORK_TESTS=1
       - autotools-rpm-job:
           parent_jobs: 'libosinfo-check'
           machines: '{rpm_machines}'
