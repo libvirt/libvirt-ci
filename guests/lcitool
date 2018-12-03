@@ -466,6 +466,7 @@ class Application:
                 "--graphics", "none",
                 "--console", "pty",
                 "--sound", "none",
+                "--rng", "device=/dev/urandom,model=virtio",
                 "--initrd-inject", initrd_inject,
                 "--extra-args", extra_arg,
                 "--wait", "0",
