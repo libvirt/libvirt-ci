@@ -15,8 +15,8 @@
   when:
     - os_name == 'FreeBSD'
 
-# Same as above, except we only need to do it on FreeBSD 11 because
-# FreeBSD 10 shipped (an old version of) readline in the base system
+# Same as above, except we should skip it on FreeBSD 10 because it
+# shipped (an old version of) readline in the base system
 - name: Create compatibility symlinks
   file:
     src: '/usr/local/{{ item }}'
@@ -28,7 +28,7 @@
     - lib/libreadline.so
   when:
     - os_name == 'FreeBSD'
-    - os_version == '11'
+    - os_version != '10'
 
 # FreeBSD compiles bash without defining SSH_SOURCE_BASHRC, which means
 # it won't try to detect when it's spawned by ssh and source ~/.bashrc
