@@ -10,6 +10,7 @@
       - libvirt-fedora-rawhide
       - libvirt-freebsd-10
       - libvirt-freebsd-11
+      - libvirt-freebsd-12
     title: Libvirt OCaml
     archive_format: xz
     git_url: '{git_urls[libvirt-ocaml][default]}'

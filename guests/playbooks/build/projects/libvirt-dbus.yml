@@ -11,6 +11,7 @@
       - libvirt-fedora-rawhide
       - libvirt-freebsd-10
       - libvirt-freebsd-11
+      - libvirt-freebsd-12
       - libvirt-freebsd-current
       - libvirt-ubuntu-16
       - libvirt-ubuntu-18
@@ -44,6 +45,7 @@
       - libvirt-fedora-rawhide
       - libvirt-freebsd-10
       - libvirt-freebsd-11
+      - libvirt-freebsd-12
       - libvirt-freebsd-current
       - libvirt-ubuntu-18
 - include: '{{ playbook_base }}/jobs/autotools-rpm-job.yml'

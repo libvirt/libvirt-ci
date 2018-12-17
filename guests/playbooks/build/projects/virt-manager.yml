@@ -12,6 +12,7 @@
       - libvirt-fedora-rawhide
       - libvirt-freebsd-10
       - libvirt-freebsd-11
+      - libvirt-freebsd-12
       - libvirt-freebsd-current
       - libvirt-ubuntu-18
     archive_format: gz

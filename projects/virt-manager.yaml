@@ -11,6 +11,7 @@
       - libvirt-fedora-rawhide
       - libvirt-freebsd-10
       - libvirt-freebsd-11
+      - libvirt-freebsd-12
     title: Virtual Machine Manager
     archive_format: gz
     git_url: '{git_urls[virt-manager][default]}'

@@ -11,6 +11,7 @@
       - libvirt-fedora-rawhide
       - libvirt-freebsd-10
       - libvirt-freebsd-11
+      - libvirt-freebsd-12
     rpm_machines:
       - libvirt-centos-7
       - libvirt-fedora-28

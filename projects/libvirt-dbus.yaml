@@ -10,6 +10,7 @@
       - libvirt-fedora-rawhide
       - libvirt-freebsd-10
       - libvirt-freebsd-11
+      - libvirt-freebsd-12
     title: Libvirt D-Bus
     archive_format: xz
     git_url: '{git_urls[libvirt-dbus][default]}'
@@ -37,6 +38,7 @@
             - libvirt-fedora-rawhide
             - libvirt-freebsd-10
             - libvirt-freebsd-11
+            - libvirt-freebsd-12
       - autotools-rpm-job:
           parent_jobs: 'libvirt-dbus-check'
           machines: '{rpm_machines}'

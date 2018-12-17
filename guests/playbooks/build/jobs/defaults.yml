@@ -9,6 +9,7 @@ all_machines:
   - libvirt-fedora-rawhide
   - libvirt-freebsd-10
   - libvirt-freebsd-11
+  - libvirt-freebsd-12
   - libvirt-freebsd-current
   - libvirt-ubuntu-16
   - libvirt-ubuntu-18
