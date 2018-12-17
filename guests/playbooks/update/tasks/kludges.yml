@@ -8,27 +8,14 @@
     state: link
     force: yes
   with_items:
+    - include/readline
     - include/sasl
     - include/yajl
+    - lib/libreadline.so
     - lib/libsasl2.so
     - lib/libyajl.so
   when:
     - os_name == 'FreeBSD'
-
-# Same as above, except we should skip it on FreeBSD 10 because it
-# shipped (an old version of) readline in the base system
-- name: Create compatibility symlinks
-  file:
-    src: '/usr/local/{{ item }}'
-    dest: '/usr/{{ item }}'
-    state: link
-    force: yes
-  with_items:
-    - include/readline
-    - lib/libreadline.so
-  when:
-    - os_name == 'FreeBSD'
-    - os_version != '10'
 
 # FreeBSD compiles bash without defining SSH_SOURCE_BASHRC, which means
 # it won't try to detect when it's spawned by ssh and source ~/.bashrc
