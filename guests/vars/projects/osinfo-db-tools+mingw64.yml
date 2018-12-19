@@ -1,6 +1,6 @@
 ---
 packages:
   - mingw64-glib2
+  - mingw64-libarchive
   - mingw64-libxml2
   - mingw64-libxslt
-  - mingw64-libarchive
