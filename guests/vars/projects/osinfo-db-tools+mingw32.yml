@@ -1,6 +1,7 @@
 ---
 packages:
   - mingw32-glib2
+  - mingw32-json-glib
   - mingw32-libarchive
   - mingw32-libxml2
   - mingw32-libxslt

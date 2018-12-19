@@ -198,6 +198,11 @@ mappings:
     rpm: java-1.8.0-openjdk-headless
     Ubuntu:
 
+  json-glib:
+    deb: libjson-glib-dev
+    pkg: json-glib
+    rpm: json-glib-devel
+
   libacl:
     deb: libacl1-dev
     rpm: libacl-devel
@@ -375,6 +380,9 @@ mappings:
   mingw32-gtk-vnc2:
     FedoraRawhide: mingw32-gtk-vnc2
 
+  mingw32-json-glib:
+    FedoraRawhide: mingw32-json-glib
+
   mingw32-libarchive:
     FedoraRawhide: mingw32-libarchive
 
@@ -449,6 +457,9 @@ mappings:
 
   mingw64-gtk-vnc2:
     FedoraRawhide: mingw64-gtk-vnc2
+
+  mingw64-json-glib:
+    FedoraRawhide: mingw64-json-glib
 
   mingw64-libarchive:
     FedoraRawhide: mingw64-libarchive
