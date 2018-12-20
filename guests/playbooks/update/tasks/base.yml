@@ -1,12 +1,4 @@
 ---
-- name: Permit file editing on SELinux-enabled systems
-  package:
-    name: libselinux-python
-    state: present
-  when:
-    - ( os_name == 'CentOS' or
-        os_name == 'Fedora' )
-
 - name: Enable jessie-backports repository
   template:
     src: '{{ playbook_base }}/templates/jessie-backports.sources.j2'
