@@ -1,20 +1,4 @@
 ---
-- name: Bootstrap the package module
-  command: apt-get install -y python-apt
-  args:
-    creates: /usr/lib/python2*/*-packages/apt
-    warn: no
-  when:
-    - package_format == 'deb'
-
-- name: Bootstrap the package module
-  command: dnf install -y python2-dnf
-  args:
-    creates: /usr/lib*/python2*/*-packages/dnf
-    warn: no
-  when:
-    - os_name == 'Fedora'
-
 - name: Permit file editing on SELinux-enabled systems
   package:
     name: libselinux-python
