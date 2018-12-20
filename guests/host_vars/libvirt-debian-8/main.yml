@@ -16,3 +16,5 @@ projects:
 package_format: 'deb'
 os_name: 'Debian'
 os_version: '8'
+
+ansible_python_interpreter: /usr/bin/python2

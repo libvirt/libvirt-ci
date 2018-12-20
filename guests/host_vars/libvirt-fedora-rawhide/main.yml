@@ -30,3 +30,5 @@ projects:
 package_format: 'rpm'
 os_name: 'Fedora'
 os_version: 'Rawhide'
+
+ansible_python_interpreter: /usr/bin/python3

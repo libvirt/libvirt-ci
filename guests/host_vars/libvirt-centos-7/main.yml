@@ -17,3 +17,5 @@ projects:
 package_format: 'rpm'
 os_name: 'CentOS'
 os_version: '7'
+
+ansible_python_interpreter: /usr/bin/python2

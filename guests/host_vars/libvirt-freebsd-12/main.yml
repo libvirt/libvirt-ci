@@ -1,6 +1,4 @@
 ---
-ansible_python_interpreter: /usr/local/bin/python2
-
 projects:
   - libosinfo
   - libvirt
@@ -20,3 +18,5 @@ projects:
 package_format: 'pkg'
 os_name: 'FreeBSD'
 os_version: '12'
+
+ansible_python_interpreter: /usr/local/bin/python3
