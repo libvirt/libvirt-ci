@@ -66,7 +66,5 @@
 
 - name: '{{ project }}: Install/remove packages (state={{ state }})'
   package:
-    name: '{{ item }}'
+    name: '{{ flattened|sort }}'
     state: '{{ state }}'
-  with_items:
-    '{{ flattened|sort }}'
