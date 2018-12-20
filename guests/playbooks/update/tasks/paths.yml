@@ -12,8 +12,6 @@
     - gmake
     - java
     - make
-    - python2
-    - python3
     - su
 
 - name: 'Look for files'
@@ -54,16 +52,3 @@
     make: '{{ commands["make"] }}'
   when:
     - make is undefined
-
-# Prefer python3, fall back to python2
-- name: 'Export paths'
-  set_fact:
-    python: '{{ commands["python3"] }}'
-  when:
-    - commands["python3"] != ''
-
-- name: 'Export paths'
-  set_fact:
-    python: '{{ commands["python2"] }}'
-  when:
-    - python is undefined
