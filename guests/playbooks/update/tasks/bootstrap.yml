@@ -4,17 +4,32 @@
   when:
     - package_format == 'pkg'
 
+- set_fact:
+    python: python3
+
+- set_fact:
+    python: python2
+  when:
+    - os_name == 'CentOS'
+    - os_version == '7'
+
+- set_fact:
+    python: python
+  when:
+    - os_name == 'Debian'
+    - os_version == '8'
+
 - name: Bootstrap Ansible
-  raw: yum install -y python2
+  raw: 'yum install -y {{ python }}'
   when:
     - package_format == 'rpm'
 
 - name: Bootstrap Ansible
-  raw: apt-get install -y python
+  raw: 'apt-get install -y {{ python }}'
   when:
     - package_format == 'deb'
 
 - name: Bootstrap Ansible
-  raw: pkg install -y python2
+  raw: 'pkg install -y {{ python }}'
   when:
     - package_format == 'pkg'
