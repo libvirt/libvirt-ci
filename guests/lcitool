@@ -498,7 +498,7 @@ class Application:
         facts = self._inventory.get_facts(host)
         package_format = facts["package_format"]
         os_name = facts["os_name"]
-        os_version = str(facts["os_version"])
+        os_version = facts["os_version"]
         os_full = os_name + os_version
 
         if package_format not in ["deb", "rpm"]:
