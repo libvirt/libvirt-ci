@@ -17,6 +17,6 @@ projects:
   - virt-manager
   - virt-viewer
 
-package_format: rpm
-os_name: Fedora
-os_version: 28
+package_format: 'rpm'
+os_name: 'Fedora'
+os_version: '28'

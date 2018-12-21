@@ -16,6 +16,6 @@ projects:
   - virt-manager
   - virt-viewer
 
-package_format: deb
-os_name: Debian
-os_version: Sid
+package_format: 'deb'
+os_name: 'Debian'
+os_version: 'Sid'

@@ -27,6 +27,6 @@ projects:
   - virt-viewer+mingw32
   - virt-viewer+mingw64
 
-package_format: rpm
-os_name: Fedora
-os_version: Rawhide
+package_format: 'rpm'
+os_name: 'Fedora'
+os_version: 'Rawhide'

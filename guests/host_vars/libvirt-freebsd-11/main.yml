@@ -17,6 +17,6 @@ projects:
   - virt-manager
   - virt-viewer
 
-package_format: pkg
-os_name: FreeBSD
-os_version: 11
+package_format: 'pkg'
+os_name: 'FreeBSD'
+os_version: '11'

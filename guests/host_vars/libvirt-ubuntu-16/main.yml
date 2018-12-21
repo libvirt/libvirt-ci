@@ -15,6 +15,6 @@ projects:
   - osinfo-db-tools
   - virt-viewer
 
-package_format: deb
-os_name: Ubuntu
-os_version: 16
+package_format: 'deb'
+os_name: 'Ubuntu'
+os_version: '16'
