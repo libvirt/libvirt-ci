@@ -79,6 +79,11 @@ mappings:
     pkg: cyrus-sasl
     rpm: cyrus-sasl-devel
 
+  dbus-daemon:
+    default: dbus
+    Fedora: dbus-daemon
+    Fedora28: dbus
+
   device-mapper:
     deb: libdevmapper-dev
     rpm: device-mapper-devel
