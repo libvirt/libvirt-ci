@@ -95,10 +95,10 @@ class Config:
         if not os.path.exists(config_dir):
             try:
                 os.mkdir(config_dir)
-            except Exception:
+            except Exception as ex:
                 raise Error(
-                    "Can't create configuration directory ({})".format(
-                        config_dir,
+                    "Can't create configuration directory ({}): {}".format(
+                        config_dir, ex,
                     )
                 )
 
@@ -117,10 +117,10 @@ class Config:
             try:
                 with open(flavor_file, "w") as infile:
                     infile.write("{}\n".format(flavor))
-            except Exception:
+            except Exception as ex:
                 raise Error(
-                    "Can't write flavor file ({})".format(
-                        flavor_file,
+                    "Can't write flavor file ({}): {}".format(
+                        flavor_file, ex
                     )
                 )
 
@@ -141,10 +141,10 @@ class Config:
                 with open(vault_pass_file, "r") as infile:
                     if not infile.readline().strip():
                         raise ValueError
-            except Exception:
+            except Exception as ex:
                 raise Error(
-                    "Missing or invalid vault password file ({})".format(
-                        vault_pass_file,
+                    "Missing or invalid vault password file ({}): {}".format(
+                        vault_pass_file, ex
                     )
                 )
 
@@ -157,10 +157,10 @@ class Config:
             with open(root_pass_file, "r") as infile:
                 if not infile.readline().strip():
                     raise ValueError
-        except Exception:
+        except Exception as ex:
             raise Error(
-                "Missing or invalid root password file ({})".format(
-                    root_pass_file,
+                "Missing or invalid root password file ({}): {}".format(
+                    root_pass_file, ex
                 )
             )
 
@@ -177,8 +177,9 @@ class Inventory:
             parser = configparser.SafeConfigParser()
             parser.read(ansible_cfg_path)
             inventory_path = parser.get("defaults", "inventory")
-        except Exception:
-            raise Error("Can't find inventory location in ansible.cfg")
+        except Exception as ex:
+            raise Error(
+                "Can't read inventory location in ansible.cfg: {}".format(ex))
 
         inventory_path = os.path.join(base, inventory_path)
 
@@ -191,10 +192,10 @@ class Inventory:
                 for line in infile:
                     host = line.strip()
                     self._facts[host] = {}
-        except Exception:
+        except Exception as ex:
             raise Error(
-                "Missing or invalid inventory ({})".format(
-                    inventory_path,
+                "Missing or invalid inventory ({}): {}".format(
+                    inventory_path, ex
                 )
             )
 
@@ -202,8 +203,8 @@ class Inventory:
             try:
                 self._facts[host] = self._read_all_facts(host)
                 self._facts[host]["inventory_hostname"] = host
-            except Exception:
-                raise Error("Can't load facts for '{}'".format(host))
+            except Exception as ex:
+                raise Error("Can't load facts for '{}': {}".format(host, ex))
 
     @staticmethod
     def _add_facts_from_file(facts, yaml_path):
@@ -254,8 +255,8 @@ class Projects:
             with open(mappings_path, "r") as infile:
                 mappings = yaml.load(infile)
                 self._mappings = mappings["mappings"]
-        except Exception:
-            raise Error("Can't load mappings")
+        except Exception as ex:
+            raise Error("Can't load mappings: {}".format(ex))
 
         source = os.path.join(base, "vars", "projects")
 
@@ -273,8 +274,9 @@ class Projects:
                 with open(yaml_path, "r") as infile:
                     packages = yaml.load(infile)
                     self._packages[project] = packages["packages"]
-            except Exception:
-                raise Error("Can't load packages for '{}'".format(project))
+            except Exception as ex:
+                raise Error(
+                    "Can't load packages for '{}': {}".format(project, ex))
 
     def expand_pattern(self, pattern):
         projects = Util.expand_pattern(pattern, self._packages, "project")
@@ -398,8 +400,9 @@ class Application:
 
         try:
             subprocess.check_call(cmd)
-        except Exception:
-            raise Error("Failed to run {} on '{}'".format(playbook, hosts))
+        except Exception as ex:
+            raise Error(
+                "Failed to run {} on '{}': {}".format(playbook, hosts, ex))
 
     def _action_hosts(self, _hosts, _projects, _revision):
         for host in self._inventory.expand_pattern("all"):
@@ -478,8 +481,8 @@ class Application:
 
             try:
                 subprocess.check_call(cmd)
-            except Exception:
-                raise Error("Failed to install '{}'".format(host))
+            except Exception as ex:
+                raise Error("Failed to install '{}': {}".format(host, ex))
 
     def _action_update(self, hosts, projects, git_revision):
         self._execute_playbook("update", hosts, projects, git_revision)
