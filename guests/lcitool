@@ -544,7 +544,8 @@ class Application:
 
         if package_format == "deb":
             sys.stdout.write(textwrap.dedent("""
-                RUN apt-get update && \\
+                RUN export DEBIAN_FRONTEND=noninteractive && \\
+                    apt-get update && \\
                     apt-get dist-upgrade -y && \\
                     apt-get install -y ${PACKAGES} && \\
                     apt-get autoremove -y && \\
