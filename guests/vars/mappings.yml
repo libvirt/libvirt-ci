@@ -197,6 +197,10 @@ mappings:
     deb: open-iscsi
     rpm: iscsi-initiator-utils
 
+  isoinfo:
+    default: genisoimage
+    FreeBSD: cdrkit
+
   java:
     deb: openjdk-8-jre-headless
     pkg: openjdk8-jre
