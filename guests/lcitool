@@ -543,34 +543,34 @@ class Application:
 
         print("FROM {}".format(facts["docker_base"]))
 
-        sys.stdout.write("ENV PACKAGES ")
-        sys.stdout.write(" \\\n             ".join(sorted(pkgs)))
-
+        varmap = {}
+        varmap["pkgs"] = " \\\n            ".join(sorted(pkgs))
         if package_format == "deb":
             sys.stdout.write(textwrap.dedent("""
                 RUN export DEBIAN_FRONTEND=noninteractive && \\
                     apt-get update && \\
                     apt-get dist-upgrade -y && \\
-                    apt-get install --no-install-recommends -y ${PACKAGES} && \\
+                    apt-get install --no-install-recommends -y \\
+                            {pkgs} && \\
                     apt-get autoremove -y && \\
                     apt-get autoclean -y
-            """))
+            """).format(**varmap))
         elif package_format == "rpm":
             if os_name == "Fedora" and os_version == "Rawhide":
                 sys.stdout.write(textwrap.dedent("""
                     RUN yum update -y --nogpgcheck fedora-gpg-keys && \\
                         yum update -y && \\
-                        yum install -y ${PACKAGES} && \\
+                        yum install -y {pkgs} && \\
                         yum autoremove -y && \\
                         yum clean all -y
-                """))
+                """).format(**varmap))
             else:
                 sys.stdout.write(textwrap.dedent("""
                     RUN yum update -y && \\
-                        yum install -y ${PACKAGES} && \\
+                        yum install -y {pkgs} && \\
                         yum autoremove -y && \\
                         yum clean all -y
-                """))
+                """).format(**varmap))
 
     def run(self):
         cmdline = self._parser.parse_args()
