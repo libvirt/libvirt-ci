@@ -281,7 +281,7 @@ mappings:
     rpm: parted-devel
 
   libpcap:
-    deb: libpcap-dev
+    deb: libpcap0.8-dev
     pkg: libpcap
     rpm: libpcap-devel
 
