@@ -815,6 +815,10 @@ mappings:
     deb: libxen-dev
     Fedora: xen-devel
 
+  xfsprogs:
+    deb: xfslibs-dev
+    rpm: xfsprogs-devel
+
   xmllint:
     default: libxml2
     deb: libxml2-utils
