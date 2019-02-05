@@ -141,8 +141,12 @@ mappings:
     rpm: glibc-static
 
   glusterfs:
-    deb: glusterfs-client
+    deb: libglusterfs-dev
     rpm: glusterfs-api-devel
+    Debian8: glusterfs-common
+    Debian9: glusterfs-common
+    Ubuntu16: glusterfs-common
+    Ubuntu18: glusterfs-common
 
   gnome-common:
     default: gnome-common
