@@ -15,7 +15,7 @@ on Fedora, or straight from pip using:
 
 The `jobs/` directory contains general templates for defining jobs
 for the different build systems, such as GNU `autotools`, Python's
-`distutils`, Perl's `ExtUtils::MakeMaker` and so on.
+`distutils`, Perl's `Module::Build` and so on.
 
 The `projects/` directory contains the per-project config which
 activates the desired jobs and configures them if needed.
@@ -26,7 +26,7 @@ It's possible to see the raw Jenkins configuration using either:
 
 to see al jobs, or:
 
-    $ jenkins-jobs test -r . libvirt-master-build
+    $ jenkins-jobs test -r . libvirt-build
 
 if you're interested in a single job.
 
