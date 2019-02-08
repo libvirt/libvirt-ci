@@ -1,7 +1,7 @@
-Libvirt Jenkins CI
-==================
+libvirt CI - Jenkins configuration
+==================================
 
-This repository contains jobs definitions for the libvirt Jenkins CI.
+This directory contains jobs definitions for the libvirt Jenkins CI.
 
 They're supposed to be fed to the Jenkins Job Builder tool, which can
 be installed either through your distribution's package manager, for
@@ -22,11 +22,11 @@ activates the desired jobs and configures them if needed.
 
 It's possible to see the raw Jenkins configuration using either:
 
-    $ jenkins-jobs test -x .git -x guests -r .
+    $ jenkins-jobs test -r .
 
 to see al jobs, or:
 
-    $ jenkins-jobs test -x .git -x guests -r . libvirt-master-build
+    $ jenkins-jobs test -r . libvirt-master-build
 
 if you're interested in a single job.
 
@@ -41,8 +41,4 @@ going to need a configuration file containing access information:
 
 To update the Jenkins server with all jobs, run:
 
-    $ jenkins-jobs --conf jenkins.ini update -x .git -x guests -r .
-
-The `guests/` directory contains tools used to manage the CI guests
-rather than the Jenkins server; they are documented separately in
-`guests/README.markdown`.
+    $ jenkins-jobs --conf jenkins.ini update -r .
