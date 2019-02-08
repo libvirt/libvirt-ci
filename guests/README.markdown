@@ -41,7 +41,7 @@ at once by providing a list on the command line: for example, running
 will update all Fedora guests and get them ready to build libosinfo and
 related projects, while running
 
-    lcitool -a update -h all -p libvirt,libvirt+mingw
+    lcitool -a update -h all -p 'libvirt,libvirt+mingw*'
 
 will update all hosts and prepare them to build libvirt both as a native
 library and, where supported, as a Windows library using MinGW.
