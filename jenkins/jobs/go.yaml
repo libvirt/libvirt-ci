@@ -1,4 +1,4 @@
-
+---
 - job-template:
     id: go-build-job
     name: '{name}-build'

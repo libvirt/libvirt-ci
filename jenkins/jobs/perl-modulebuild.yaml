@@ -1,4 +1,4 @@
-
+---
 - job-template:
     id: perl-modulebuild-build-job
     name: '{name}-build'

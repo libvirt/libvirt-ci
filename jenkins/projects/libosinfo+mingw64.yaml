@@ -1,4 +1,4 @@
-
+---
 - project:
     name: libosinfo+mingw64
     machines: '{mingw_machines}'

@@ -1,4 +1,4 @@
-
+---
 - job-template:
     id: autotools-build-job
     name: '{name}-build'

@@ -1,4 +1,4 @@
-
+---
 - project:
     name: libvirt-perl
     machines: '{all_machines}'

@@ -1,4 +1,4 @@
-
+---
 - project:
     name: libvirt
     machines: '{all_machines}'

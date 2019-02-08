@@ -1,4 +1,4 @@
-
+---
 - defaults:
     name: global
     node: libvirt

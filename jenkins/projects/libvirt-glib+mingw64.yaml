@@ -1,4 +1,4 @@
-
+---
 - project:
     name: libvirt-glib+mingw64
     machines: '{mingw_machines}'

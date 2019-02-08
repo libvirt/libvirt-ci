@@ -1,4 +1,4 @@
-
+---
 - project:
     name: libvirt-cim
     machines: '{rpm_machines}'

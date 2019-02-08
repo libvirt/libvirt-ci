@@ -1,4 +1,4 @@
-
+---
 - job-template:
     id: python-distutils-build-job
     name: '{name}-build'

@@ -1,4 +1,4 @@
-
+---
 - project:
     name: virt-viewer+mingw64
     machines: '{mingw_machines}'

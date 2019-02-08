@@ -1,4 +1,4 @@
-
+---
 - project:
     name: osinfo-db
     machines: '{all_machines}'

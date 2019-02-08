@@ -1,4 +1,4 @@
-
+---
 - project:
     name: virt-viewer
     machines: '{all_machines}'

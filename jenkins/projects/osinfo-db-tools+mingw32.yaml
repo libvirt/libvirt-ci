@@ -1,4 +1,4 @@
-
+---
 - project:
     name: osinfo-db-tools+mingw32
     machines: '{mingw_machines}'
