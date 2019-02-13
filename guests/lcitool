@@ -532,15 +532,19 @@ class Application:
                 if os_full in mappings[package]:
                     temp[package] = mappings[package][os_full]
 
-        flattened = []
+        pkgs = []
         for item in temp:
-            if temp[item] is not None and temp[item] not in flattened:
-                flattened += [temp[item]]
+            pkgname = temp[item]
+            if pkgname is None:
+                continue
+            if pkgname in pkgs:
+                continue
+            pkgs.append(pkgname)
 
         print("FROM {}".format(facts["docker_base"]))
 
         sys.stdout.write("ENV PACKAGES ")
-        sys.stdout.write(" \\\n             ".join(sorted(flattened)))
+        sys.stdout.write(" \\\n             ".join(sorted(pkgs)))
 
         if package_format == "deb":
             sys.stdout.write(textwrap.dedent("""
