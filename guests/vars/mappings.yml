@@ -774,6 +774,7 @@ mappings:
     default: sheepdog
     CentOS:
     FreeBSD:
+    DebianSid:
 
   showmount:
     deb: nfs-common
