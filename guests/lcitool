@@ -304,45 +304,66 @@ class Application:
 
         self._parser = argparse.ArgumentParser(
             conflict_handler="resolve",
-            formatter_class=argparse.RawDescriptionHelpFormatter,
             description="libvirt CI guest management tool",
-            epilog=textwrap.dedent("""
-                common actions:
-                  install  perform unattended host installation
-                  update   prepare hosts and keep them updated
-                  build    build projects on hosts
+        )
 
-                informational actions:
-                  hosts     list all known hosts
-                  projects  list all known projects
+        subparsers = self._parser.add_subparsers(metavar="ACTION")
+        subparsers.required = True
 
-                uncommon actions:
-                  dockerfile  generate Dockerfile (doesn't access the host)
+        def add_hosts_arg(parser):
+            parser.add_argument(
+                "hosts",
+                help="list of hosts to act on (accepts globs)",
+            )
 
-                glob patterns are supported for HOSTS and PROJECTS
-            """),
-        )
-        self._parser.add_argument(
-            "-a",
-            metavar="ACTION",
-            required=True,
-            help="action to perform (see below)",
-        )
-        self._parser.add_argument(
-            "-h",
-            metavar="HOSTS",
-            help="list of hosts to act on",
-        )
-        self._parser.add_argument(
-            "-p",
-            metavar="PROJECTS",
-            help="list of projects to consider",
-        )
-        self._parser.add_argument(
-            "-g",
-            metavar="GIT_REVISION",
-            help="git revision to build (remote/branch)",
-        )
+        def add_projects_arg(parser):
+            parser.add_argument(
+                "projects",
+                help="list of projects to consider (accepts globs)",
+            )
+
+        def add_gitrev_arg(parser):
+            parser.add_argument(
+                "-g", "--git-revision",
+                help="git revision to build (remote/branch)",
+            )
+
+        installparser = subparsers.add_parser(
+            "install", help="perform unattended host installation")
+        installparser.set_defaults(func=self._action_install)
+
+        add_hosts_arg(installparser)
+
+        updateparser = subparsers.add_parser(
+            "update", help="prepare hosts and keep them updated")
+        updateparser.set_defaults(func=self._action_update)
+
+        add_hosts_arg(updateparser)
+        add_projects_arg(updateparser)
+        add_gitrev_arg(updateparser)
+
+        buildparser = subparsers.add_parser(
+            "build", help="build projects on hosts")
+        buildparser.set_defaults(func=self._action_build)
+
+        add_hosts_arg(buildparser)
+        add_projects_arg(buildparser)
+        add_gitrev_arg(buildparser)
+
+        hostsparser = subparsers.add_parser(
+            "hosts", help="list all known hosts")
+        hostsparser.set_defaults(func=self._action_hosts)
+
+        projectsparser = subparsers.add_parser(
+            "projects", help="list all known projects")
+        projectsparser.set_defaults(func=self._action_projects)
+
+        dockerfileparser = subparsers.add_parser(
+            "dockerfile", help="generate Dockerfile (doesn't access the host)")
+        dockerfileparser.set_defaults(func=self._action_dockerfile)
+
+        add_hosts_arg(dockerfileparser)
+        add_projects_arg(dockerfileparser)
 
     def _execute_playbook(self, playbook, hosts, projects, git_revision):
         base = Util.get_base()
@@ -403,20 +424,20 @@ class Application:
             raise Error(
                 "Failed to run {} on '{}': {}".format(playbook, hosts, ex))
 
-    def _action_hosts(self, _hosts, _projects, _revision):
+    def _action_hosts(self, args):
         for host in self._inventory.expand_pattern("all"):
             print(host)
 
-    def _action_projects(self, _hosts, _projects, _revision):
+    def _action_projects(self, args):
         for project in self._projects.expand_pattern("all"):
             print(project)
 
-    def _action_install(self, hosts, _projects, _revision):
+    def _action_install(self, args):
         base = Util.get_base()
 
         flavor = self._config.get_flavor()
 
-        for host in self._inventory.expand_pattern(hosts):
+        for host in self._inventory.expand_pattern(args.hosts):
             facts = self._inventory.get_facts(host)
 
             # Both memory size and disk size are stored as GiB in the
@@ -483,16 +504,18 @@ class Application:
             except Exception as ex:
                 raise Error("Failed to install '{}': {}".format(host, ex))
 
-    def _action_update(self, hosts, projects, git_revision):
-        self._execute_playbook("update", hosts, projects, git_revision)
+    def _action_update(self, args):
+        self._execute_playbook("update", args.hosts, args.projects,
+                               args.git_revision)
 
-    def _action_build(self, hosts, projects, git_revision):
-        self._execute_playbook("build", hosts, projects, git_revision)
+    def _action_build(self, args):
+        self._execute_playbook("build", args.hosts, args.projects,
+                               args.git_revision)
 
-    def _action_dockerfile(self, hosts, projects, _revision):
+    def _action_dockerfile(self, args):
         mappings = self._projects.get_mappings()
 
-        hosts = self._inventory.expand_pattern(hosts)
+        hosts = self._inventory.expand_pattern(args.hosts)
         if len(hosts) > 1:
             raise Error("Can't generate Dockerfile for multiple hosts")
         host = hosts[0]
@@ -506,7 +529,7 @@ class Application:
         if package_format not in ["deb", "rpm"]:
             raise Error("Host {} doesn't support Dockerfiles".format(host))
 
-        projects = self._projects.expand_pattern(projects)
+        projects = self._projects.expand_pattern(args.projects)
         for project in projects:
             if project not in facts["projects"]:
                 raise Error(
@@ -572,18 +595,8 @@ class Application:
                 """).format(**varmap))
 
     def run(self):
-        cmdline = self._parser.parse_args()
-        action = cmdline.a
-        hosts = cmdline.h
-        projects = cmdline.p
-        git_revision = cmdline.g
-
-        method = "_action_{}".format(action.replace("-", "_"))
-
-        if hasattr(self, method):
-            getattr(self, method).__call__(hosts, projects, git_revision)
-        else:
-            raise Error("Invalid action '{}'".format(action))
+        args = self._parser.parse_args()
+        args.func(args)
 
 
 if __name__ == "__main__":

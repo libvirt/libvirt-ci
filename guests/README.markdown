@@ -10,38 +10,38 @@ Usage and examples
 
 There are two steps to bringing up a guest:
 
-* `lcitool -a install -h $guest` will perform an unattended installation
+* `lcitool install $guest` will perform an unattended installation
   of `$guest`. Not all guests can be installed this way: see the "FreeBSD"
   section below;
 
-* `lcitool -a update -h $guest -p $project` will go through all the
+* `lcitool update $guest $project` will go through all the
   post-installation configuration steps required to make the newly-created
   guest usable and ready to be used for building `$project`;
 
 Once those steps have been performed, maintainance will involve running:
 
-    lcitool -a update -h $guest -p $project
+    lcitool update $guest $project
 
 periodically to ensure the guest configuration is sane and all installed
 packages are updated.
 
 To get a list of known guests and projects, run
 
-    lcitool -a hosts
+    lcitool hosts
 
 and
 
-    lcitool -a projects
+    lcitool projects
 
 respectively. You can run operations involving multiple guests and projects
 at once by providing a list on the command line: for example, running
 
-    lcitool -a update -h '*fedora*' -p '*osinfo*'
+    lcitool update '*fedora*' '*osinfo*'
 
 will update all Fedora guests and get them ready to build libosinfo and
 related projects, while running
 
-    lcitool -a update -h all -p 'libvirt,libvirt+mingw*'
+    lcitool update all 'libvirt,libvirt+mingw*'
 
 will update all hosts and prepare them to build libvirt both as a native
 library and, where supported, as a Windows library using MinGW.
@@ -49,7 +49,7 @@ library and, where supported, as a Windows library using MinGW.
 Once hosts have been prepared following the steps above, you can use
 `lcitool` to perform builds as well: for example, running
 
-    lcitool -a build -h '*debian*' -p libvirt-python
+    lcitool build '*debian*' libvirt-python
 
 will fetch libvirt-python's `master` branch from the upstream repository
 and build it on all Debian hosts.
@@ -58,7 +58,7 @@ You can add more git repositories by tweaking the `git_urls` dictionary
 defined in `playbooks/build/jobs/defaults.yml` and then build arbitrary
 branches out of those with
 
-    lcitool -a build -h all -p libvirt -g github/cool-feature
+    lcitool build -g github/cool-feature all libvirt
 
 
 Host setup
@@ -80,7 +80,7 @@ you'll want to use the `libvirt_guest` variant of the plugin.
 To keep guests up to date over time, it's recommended to have an entry
 along the lines of
 
-    0 0 * * * ~/libvirt-jenkins-ci/guests/lcitool -a update -h all -p all
+    0 0 * * * ~/libvirt-jenkins-ci/guests/lcitool update all all
 
 in your crontab.
 
