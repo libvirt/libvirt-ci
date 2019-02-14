@@ -541,18 +541,14 @@ class Application:
 
         temp = {}
 
+        keys = ["default", package_format, os_name, os_full]
         # We need to add the base project manually here: the standard
         # machinery hides it because it's an implementation detail
         for project in projects + ["base"]:
             for package in self._projects.get_packages(project):
-                if "default" in mappings[package]:
-                    temp[package] = mappings[package]["default"]
-                if package_format in mappings[package]:
-                    temp[package] = mappings[package][package_format]
-                if os_name in mappings[package]:
-                    temp[package] = mappings[package][os_name]
-                if os_full in mappings[package]:
-                    temp[package] = mappings[package][os_full]
+                for key in keys:
+                    if key in mappings[package]:
+                        temp[package] = mappings[package][key]
 
         pkgs = []
         for item in temp:
