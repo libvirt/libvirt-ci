@@ -513,6 +513,10 @@ mappings:
   mingw64-usbredir:
     FedoraRawhide: mingw64-usbredir
 
+  modprobe:
+    default: kmod
+    FreeBSD:
+
   nano:
     default: nano
 
