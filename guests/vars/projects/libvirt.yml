@@ -37,6 +37,7 @@ packages:
   - libudev
   - libxml2
   - lvm2
+  - modprobe
   - netcf
   - numad
   - openwsman
