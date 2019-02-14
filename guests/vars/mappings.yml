@@ -58,6 +58,13 @@
 #    x86_64-deb: libxen-dev
 #    x86_64-Fedora: xen-devel
 #
+# In parallel with this 'cross-policy-XXX:' entries can used to set the
+# installation policy when setting up a cross-architecture build env,
+# taking one of the values:
+#
+#  - 'native': use the native architecture package (default if omitted)
+#  - 'foreign: use the foreign archtiecture package
+#  -   'skip': don't install the package
 
 mappings:
 
