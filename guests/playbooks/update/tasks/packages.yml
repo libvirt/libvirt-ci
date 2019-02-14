@@ -52,6 +52,38 @@
   when:
     - mappings[item][os_name + os_version] is defined
 
+- name: '{{ project }}: Look up mappings (arch with default)'
+  set_fact:
+    temp: '{{ temp|combine({ item: mappings[item]["x86_64" + "-" + "default"] }) }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - mappings[item]["x86_64" + "-" + "default"] is defined
+
+- name: '{{ project }}: Look up mappings (arch with package format)'
+  set_fact:
+    temp: '{{ temp|combine({ item: mappings[item]["x86_64" + "-" + package_format] }) }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - mappings[item]["x86_64" + "-" + package_format] is defined
+
+- name: '{{ project }}: Look up mappings (arch with OS name)'
+  set_fact:
+    temp: '{{ temp|combine({ item: mappings[item]["x86_64" + "-" + os_name] }) }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - mappings[item]["x86_64" + "-" + os_name] is defined
+
+- name: '{{ project }}: Look up mappings (arch with OS version)'
+  set_fact:
+    temp: '{{ temp|combine({ item: mappings[item]["x86_64" + "-" + os_name + os_version] }) }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - mappings[item]["x86_64" + "-" + os_name + os_version] is defined
+
 - set_fact:
     flattened: []
 

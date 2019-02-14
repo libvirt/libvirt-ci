@@ -7,9 +7,25 @@
 # priority:
 #
 #   - default
-#   - package format (deb, pkg, rpm)
-#   - OS name (CentOS, Debian, Fedora, FreeBSD, Ubuntu)
-#   - OS version (CentOS7, Debian9, FedoraRawhide, Ubuntu18 and so on)
+#   - package format
+#   - OS name
+#   - OS version
+#   - arch with default
+#   - arch with package format
+#   - arch with OS name
+#   - arch with OS version
+#
+# Valid package formats are
+#   - deb, pkg, rpm
+#
+# Valid OS names are:
+#   - CentOS, Debian, Fedora, FreeBSD, Ubuntu
+#
+# Valid OS versions are:
+#   - CentOS7, Debian9, FedoraRawhide, Ubuntu18 and so on
+#
+# The arch specific rules use a prefix "$ARCH-" where  $ARCH
+# is a libvirt arch name.
 #
 # So something like
 #
@@ -27,6 +43,21 @@
 #
 # will result in the 'ccache' package being installed everywhere except
 # for CentOS, where nothing will be installed.
+#
+# For example to prevent Xen being installed on s390x
+#
+#  xen:
+#    deb: libxen-dev
+#    Fedora: xen-devel
+#    s390x-default:
+#
+# Or the inverse to only install Xen on x86_64 only on Debian-based
+# distros or Fedora
+#
+#  xen:
+#    x86_64-deb: libxen-dev
+#    x86_64-Fedora: xen-devel
+#
 
 mappings:
 
