@@ -539,8 +539,7 @@ class Application:
                     )
                 )
 
-        temp = {}
-
+        pkgs = {}
         keys = ["default", package_format, os_name, os_full]
         # We need to add the base project manually here: the standard
         # machinery hides it because it's an implementation detail
@@ -548,21 +547,17 @@ class Application:
             for package in self._projects.get_packages(project):
                 for key in keys:
                     if key in mappings[package]:
-                        temp[package] = mappings[package][key]
+                        pkgs[package] = mappings[package][key]
 
-        pkgs = []
-        for item in temp:
-            pkgname = temp[item]
-            if pkgname is None:
-                continue
-            if pkgname in pkgs:
-                continue
-            pkgs.append(pkgname)
+                if package not in pkgs:
+                    continue
+                if pkgs[package] is None:
+                    del pkgs[package]
 
         print("FROM {}".format(facts["docker_base"]))
 
         varmap = {}
-        varmap["pkgs"] = " \\\n            ".join(sorted(pkgs))
+        varmap["pkgs"] = " \\\n            ".join(sorted(set(pkgs.values())))
         if package_format == "deb":
             sys.stdout.write(textwrap.dedent("""
                 RUN export DEBIAN_FRONTEND=noninteractive && \\
