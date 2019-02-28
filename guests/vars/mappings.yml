@@ -310,6 +310,8 @@ mappings:
   libnuma:
     deb: libnuma-dev
     rpm: numactl-devel
+    armv6l-deb:
+    armv7l-deb:
 
   libparted:
     deb: libparted-dev
@@ -852,8 +854,10 @@ mappings:
     Debian8:
 
   xen:
-    deb: libxen-dev
     Fedora: xen-devel
+    x86_64-deb: libxen-dev
+    armv7l-deb: libxen-dev
+    aarch64-deb: libxen-dev
 
   xfsprogs:
     deb: xfslibs-dev
