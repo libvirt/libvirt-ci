@@ -350,6 +350,9 @@ class Application:
             description="libvirt CI guest management tool",
         )
 
+        self._parser.add_argument("--debug", action="store_true",
+                                  help="display debugging information")
+
         subparsers = self._parser.add_subparsers(metavar="ACTION")
         subparsers.required = True
 
@@ -691,11 +694,14 @@ class Application:
 
     def run(self):
         args = self._parser.parse_args()
-        try:
+        if args.debug:
             args.func(args)
-        except Exception as err:
-            sys.stderr.write("{}: {}\n".format(sys.argv[0], err))
-            sys.exit(1)
+        else:
+            try:
+                args.func(args)
+            except Exception as err:
+                sys.stderr.write("{}: {}\n".format(sys.argv[0], err))
+                sys.exit(1)
 
 
 if __name__ == "__main__":
