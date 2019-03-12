@@ -691,12 +691,12 @@ class Application:
 
     def run(self):
         args = self._parser.parse_args()
-        args.func(args)
+        try:
+            args.func(args)
+        except Exception as err:
+            sys.stderr.write("{}: {}\n".format(sys.argv[0], err))
+            sys.exit(1)
 
 
 if __name__ == "__main__":
-    try:
-        Application().run()
-    except Exception as err:
-        sys.stderr.write("{}: {}\n".format(sys.argv[0], err))
-        sys.exit(1)
+    Application().run()
