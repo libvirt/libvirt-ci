@@ -620,8 +620,8 @@ class Application:
                     if key in mappings[package]:
                         cross_policy = mappings[package][key]
                 if cross_policy not in ["native", "foreign", "skip"]:
-                    raise Error("Unexpected cross arch policy {} for {}",
-                                cross_policy, package)
+                    raise Error("Unexpected cross arch policy {} for {}".format
+                                (cross_policy, package))
 
                 for key in keys:
                     if key in mappings[package]:
