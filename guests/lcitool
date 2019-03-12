@@ -35,13 +35,6 @@ except ImportError:
     import ConfigParser as configparser
 
 
-class Error(Exception):
-
-    def __init__(self, message):
-        super(Error, self).__init__()
-        self.message = message
-
-
 class Util:
 
     @staticmethod
@@ -57,7 +50,7 @@ class Util:
     @staticmethod
     def expand_pattern(pattern, source, name):
         if pattern is None:
-            raise Error("Missing {} list".format(name))
+            raise Exception("Missing {} list".format(name))
 
         if pattern == "all":
             pattern = "*"
@@ -74,7 +67,7 @@ class Util:
                     partial_matches += [item]
 
             if not partial_matches:
-                raise Error("Invalid {} list '{}'".format(name, pattern))
+                raise Exception("Invalid {} list '{}'".format(name, pattern))
 
             matches += partial_matches
 
@@ -142,7 +135,7 @@ class Config:
             try:
                 os.mkdir(config_dir)
             except Exception as ex:
-                raise Error(
+                raise Exception(
                     "Can't create configuration directory ({}): {}".format(
                         config_dir, ex,
                     )
@@ -164,14 +157,14 @@ class Config:
                 with open(flavor_file, "w") as infile:
                     infile.write("{}\n".format(flavor))
             except Exception as ex:
-                raise Error(
+                raise Exception(
                     "Can't write flavor file ({}): {}".format(
                         flavor_file, ex
                     )
                 )
 
         if flavor not in ["test", "jenkins"]:
-            raise Error("Invalid flavor '{}'".format(flavor))
+            raise Exception("Invalid flavor '{}'".format(flavor))
 
         return flavor
 
@@ -188,7 +181,7 @@ class Config:
                     if not infile.readline().strip():
                         raise ValueError
             except Exception as ex:
-                raise Error(
+                raise Exception(
                     "Missing or invalid vault password file ({}): {}".format(
                         vault_pass_file, ex
                     )
@@ -204,7 +197,7 @@ class Config:
                 if not infile.readline().strip():
                     raise ValueError
         except Exception as ex:
-            raise Error(
+            raise Exception(
                 "Missing or invalid root password file ({}): {}".format(
                     root_pass_file, ex
                 )
@@ -224,7 +217,7 @@ class Inventory:
             parser.read(ansible_cfg_path)
             inventory_path = parser.get("defaults", "inventory")
         except Exception as ex:
-            raise Error(
+            raise Exception(
                 "Can't read inventory location in ansible.cfg: {}".format(ex))
 
         inventory_path = os.path.join(base, inventory_path)
@@ -239,7 +232,7 @@ class Inventory:
                     host = line.strip()
                     self._facts[host] = {}
         except Exception as ex:
-            raise Error(
+            raise Exception(
                 "Missing or invalid inventory ({}): {}".format(
                     inventory_path, ex
                 )
@@ -250,7 +243,8 @@ class Inventory:
                 self._facts[host] = self._read_all_facts(host)
                 self._facts[host]["inventory_hostname"] = host
             except Exception as ex:
-                raise Error("Can't load facts for '{}': {}".format(host, ex))
+                raise Exception("Can't load facts for '{}': {}".format(
+                    host, ex))
 
     @staticmethod
     def _add_facts_from_file(facts, yaml_path):
@@ -302,7 +296,7 @@ class Projects:
                 mappings = yaml.load(infile)
                 self._mappings = mappings["mappings"]
         except Exception as ex:
-            raise Error("Can't load mappings: {}".format(ex))
+            raise Exception("Can't load mappings: {}".format(ex))
 
         source = os.path.join(base, "vars", "projects")
 
@@ -321,7 +315,7 @@ class Projects:
                     packages = yaml.load(infile)
                     self._packages[project] = packages["packages"]
             except Exception as ex:
-                raise Error(
+                raise Exception(
                     "Can't load packages for '{}': {}".format(project, ex))
 
     def expand_pattern(self, pattern):
@@ -434,7 +428,7 @@ class Application:
         if git_revision is not None:
             tokens = git_revision.split("/")
             if len(tokens) < 2:
-                raise Error(
+                raise Exception(
                     "Missing or invalid git revision '{}'".format(git_revision)
                 )
             git_remote = tokens[0]
@@ -477,7 +471,7 @@ class Application:
         try:
             subprocess.check_call(cmd)
         except Exception as ex:
-            raise Error(
+            raise Exception(
                 "Failed to run {} on '{}': {}".format(playbook, hosts, ex))
 
     def _action_hosts(self, args):
@@ -519,7 +513,7 @@ class Application:
             elif facts["os_name"] in ["CentOS", "Fedora"]:
                 install_config = "kickstart.cfg"
             else:
-                raise Error(
+                raise Exception(
                     "Host {} doesn't support installation".format(host)
                 )
             initrd_inject = os.path.join(base, "configs", install_config)
@@ -558,7 +552,7 @@ class Application:
             try:
                 subprocess.check_call(cmd)
             except Exception as ex:
-                raise Error("Failed to install '{}': {}".format(host, ex))
+                raise Exception("Failed to install '{}': {}".format(host, ex))
 
     def _action_update(self, args):
         self._execute_playbook("update", args.hosts, args.projects,
@@ -573,7 +567,7 @@ class Application:
 
         hosts = self._inventory.expand_pattern(args.hosts)
         if len(hosts) > 1:
-            raise Error("Can't generate Dockerfile for multiple hosts")
+            raise Exception("Can't generate Dockerfile for multiple hosts")
         host = hosts[0]
 
         facts = self._inventory.get_facts(host)
@@ -583,18 +577,18 @@ class Application:
         os_full = os_name + os_version
 
         if package_format not in ["deb", "rpm"]:
-            raise Error("Host {} doesn't support Dockerfiles".format(host))
+            raise Exception("Host {} doesn't support Dockerfiles".format(host))
         if args.cross_arch:
             if os_name != "Debian":
-                raise Error("Cannot cross compile on {}".format(os_name))
+                raise Exception("Cannot cross compile on {}".format(os_name))
             if args.cross_arch == self._native_arch:
-                raise Error("Cross arch {} should differ from native {}".
-                            format(args.cross_arch, self._native_arch))
+                raise Exception("Cross arch {} should differ from native {}".
+                                format(args.cross_arch, self._native_arch))
 
         projects = self._projects.expand_pattern(args.projects)
         for project in projects:
             if project not in facts["projects"]:
-                raise Error(
+                raise Exception(
                     "Host {} doesn't support project {}".format(
                         host,
                         project,
@@ -620,8 +614,9 @@ class Application:
                     if key in mappings[package]:
                         cross_policy = mappings[package][key]
                 if cross_policy not in ["native", "foreign", "skip"]:
-                    raise Error("Unexpected cross arch policy {} for {}".format
-                                (cross_policy, package))
+                    raise Exception(
+                        "Unexpected cross arch policy {} for {}".format
+                        (cross_policy, package))
 
                 for key in keys:
                     if key in mappings[package]:
@@ -702,6 +697,6 @@ class Application:
 if __name__ == "__main__":
     try:
         Application().run()
-    except Error as err:
-        sys.stderr.write("{}: {}\n".format(sys.argv[0], err.message))
+    except Exception as err:
+        sys.stderr.write("{}: {}\n".format(sys.argv[0], err))
         sys.exit(1)
