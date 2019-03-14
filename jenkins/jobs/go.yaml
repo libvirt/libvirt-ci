@@ -45,7 +45,7 @@
     publishers:
       - email:
           recipients: '{obj:spam}'
-          notify-every-unstable-build: true
+          notify-every-unstable-build: false
           send-to-individuals: false
 
 - job-template:
@@ -83,5 +83,5 @@
     publishers:
       - email:
           recipients: '{obj:spam}'
-          notify-every-unstable-build: true
+          notify-every-unstable-build: false
           send-to-individuals: false
