@@ -102,6 +102,13 @@ class Util:
         return archmap[native_arch]
 
     @staticmethod
+    def native_arch_to_lib(native_arch):
+        arch = Util.native_arch_to_abi(native_arch)
+        if arch == "i686-linux-gnu":
+            arch = "i386-linux-gnu"
+        return arch
+
+    @staticmethod
     def native_arch_to_deb_arch(native_arch):
         archmap = {
             "aarch64": "arm64",
@@ -640,12 +647,14 @@ class Application:
             if args.cross_arch:
                 deb_arch = Util.native_arch_to_deb_arch(args.cross_arch)
                 abi = Util.native_arch_to_abi(args.cross_arch)
+                lib = Util.native_arch_to_lib(args.cross_arch)
                 gcc = "gcc-" + abi
                 varmap["cross_arch"] = deb_arch
                 pkg_names = [p + ":" + deb_arch for p in cross_pkgs.values()]
                 pkg_names.append(gcc)
                 varmap["cross_pkgs"] = " \\\n            ".join(sorted(set(pkg_names)))
                 varmap["cross_abi"] = abi
+                varmap["cross_lib"] = lib
 
             sys.stdout.write(textwrap.dedent("""
                 RUN export DEBIAN_FRONTEND=noninteractive && \\
@@ -673,7 +682,7 @@ class Application:
                     ENV ABI "{cross_abi}"
                     ENV CONFIGURE_OPTS "--host={cross_abi} \\
                                         --target={cross_abi}"
-                    ENV PKG_CONFIG_LIBDIR "/usr/lib/{cross_abi}/pkgconfig"
+                    ENV PKG_CONFIG_LIBDIR "/usr/lib/{cross_lib}/pkgconfig"
                 """).format(**varmap))
         elif package_format == "rpm":
             if os_name == "Fedora" and os_version == "Rawhide":
