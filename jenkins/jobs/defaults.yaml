@@ -71,4 +71,4 @@
         default: https://github.com/virt-manager/virt-manager.git
       virt-viewer:
         default: https://pagure.io/virt-viewer.git
-    spam: ymankad@redhat.com libvirt-ci@redhat.com
+    spam: libvirt-ci@redhat.com
