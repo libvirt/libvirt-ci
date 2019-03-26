@@ -13,6 +13,19 @@
       $MAKE install OSINFO_DB_TARGET="--system"
 - include: '{{ playbook_base }}/jobs/generic-check-job.yml'
   vars:
+    # osinfo-db tests are Python 3 only, so they can't be ran on CentOS 7;
+    machines:
+      - libvirt-debian-8
+      - libvirt-debian-9
+      - libvirt-debian-sid
+      - libvirt-fedora-28
+      - libvirt-fedora-29
+      - libvirt-fedora-rawhide
+      - libvirt-freebsd-11
+      - libvirt-freebsd-12
+      - libvirt-freebsd-current
+      - libvirt-ubuntu-16
+      - libvirt-ubuntu-18
     command: |
       $MAKE check
 - include: '{{ playbook_base }}/jobs/generic-rpm-job.yml'
