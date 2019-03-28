@@ -190,7 +190,6 @@ mappings:
     deb: libglusterfs-dev
     rpm: glusterfs-api-devel
     Debian9: glusterfs-common
-    Ubuntu16: glusterfs-common
     Ubuntu18: glusterfs-common
     cross-policy-deb: foreign
 
@@ -225,7 +224,6 @@ mappings:
 
   gtk-update-icon-cache:
     default: gtk-update-icon-cache
-    Ubuntu16: libgtk2.0-bin
 
   gtk-vnc2:
     deb: libgtk-vnc-2.0-dev
@@ -799,7 +797,6 @@ mappings:
     default: python3-libxml2
     FreeBSD: py36-libxml2
     CentOS7:
-    Ubuntu16:
 
   python3-lxml:
     default: python3-lxml
