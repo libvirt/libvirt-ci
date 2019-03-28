@@ -1,26 +1,4 @@
 ---
-- name: Enable jessie-backports repository
-  template:
-    src: '{{ playbook_base }}/templates/jessie-backports.sources.j2'
-    dest: /etc/apt/sources.list.d/jessie-backports.list
-    owner: root
-    group: root
-  when:
-    - os_name == 'Debian'
-    - os_version == '8'
-    - flavor == 'jenkins'
-
-- name: Configure APT pinning for jessie-backports
-  template:
-    src: '{{ playbook_base }}/templates/jessie-backports.preferences.j2'
-    dest: /etc/apt/preferences.d/jessie-backports
-    owner: root
-    group: root
-  when:
-    - os_name == 'Debian'
-    - os_version == '8'
-    - flavor == 'jenkins'
-
 - name: Enable fedora-rawhide-kernel-nodebug repository
   template:
     src: '{{ playbook_base }}/templates/fedora-rawhide-kernel-nodebug.repo.j2'

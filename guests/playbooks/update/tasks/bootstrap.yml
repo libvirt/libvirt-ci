@@ -13,12 +13,6 @@
     - os_name == 'CentOS'
     - os_version == '7'
 
-- set_fact:
-    python: python
-  when:
-    - os_name == 'Debian'
-    - os_version == '8'
-
 - name: Bootstrap Ansible
   raw: 'yum install -y {{ python }}'
   when:

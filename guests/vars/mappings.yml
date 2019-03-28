@@ -153,7 +153,6 @@ mappings:
     pkg: py36-flake8
     rpm: python3-flake8
     CentOS7:
-    Debian8:
 
   fuse:
     deb: libfuse-dev
@@ -190,7 +189,6 @@ mappings:
   glusterfs:
     deb: libglusterfs-dev
     rpm: glusterfs-api-devel
-    Debian8: glusterfs-common
     Debian9: glusterfs-common
     Ubuntu16: glusterfs-common
     Ubuntu18: glusterfs-common
@@ -227,7 +225,6 @@ mappings:
 
   gtk-update-icon-cache:
     default: gtk-update-icon-cache
-    Debian8: libgtk2.0-bin
     Ubuntu16: libgtk2.0-bin
 
   gtk-vnc2:
@@ -324,7 +321,6 @@ mappings:
   libgovirt:
     rpm: libgovirt-devel
     Debian: libgovirt-dev
-    Debian8:
     cross-policy-deb: foreign
 
   libiscsi:
@@ -610,7 +606,6 @@ mappings:
   numad:
     default: numad
     FreeBSD:
-    Debian8:
 
   ocaml:
     default: ocaml
@@ -804,7 +799,6 @@ mappings:
     default: python3-libxml2
     FreeBSD: py36-libxml2
     CentOS7:
-    Debian8:
     Ubuntu16:
 
   python3-lxml:
@@ -906,7 +900,6 @@ mappings:
   wireshark:
     deb: wireshark-dev
     Fedora: wireshark-devel
-    Debian8:
     cross-policy-deb: skip
 
   xen:
