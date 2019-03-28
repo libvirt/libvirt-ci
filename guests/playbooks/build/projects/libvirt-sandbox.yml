@@ -10,7 +10,6 @@
       - libvirt-fedora-28
       - libvirt-fedora-29
       - libvirt-fedora-rawhide
-      - libvirt-ubuntu-16
       - libvirt-ubuntu-18
     archive_format: gz
     git_url: '{{ git_urls["libvirt-sandbox"][git_remote] }}'

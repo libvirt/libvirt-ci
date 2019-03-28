@@ -9,7 +9,6 @@ all_machines:
   - libvirt-freebsd-11
   - libvirt-freebsd-12
   - libvirt-freebsd-current
-  - libvirt-ubuntu-16
   - libvirt-ubuntu-18
 rpm_machines:
   - libvirt-centos-7

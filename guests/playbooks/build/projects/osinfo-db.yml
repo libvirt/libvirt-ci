@@ -23,7 +23,6 @@
       - libvirt-freebsd-11
       - libvirt-freebsd-12
       - libvirt-freebsd-current
-      - libvirt-ubuntu-16
       - libvirt-ubuntu-18
     command: |
       $MAKE check
