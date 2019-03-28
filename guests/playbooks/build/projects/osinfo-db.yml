@@ -15,7 +15,6 @@
   vars:
     # osinfo-db tests are Python 3 only, so they can't be ran on CentOS 7;
     machines:
-      - libvirt-debian-8
       - libvirt-debian-9
       - libvirt-debian-sid
       - libvirt-fedora-28

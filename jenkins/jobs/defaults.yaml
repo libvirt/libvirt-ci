@@ -4,7 +4,6 @@
     node: libvirt
     all_machines:
       - libvirt-centos-7
-      - libvirt-debian-8
       - libvirt-debian-9
       - libvirt-fedora-28
       - libvirt-fedora-29

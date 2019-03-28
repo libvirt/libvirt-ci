@@ -2,7 +2,6 @@
 - set_fact:
     name: libvirt-go
     machines:
-      - libvirt-debian-8
       - libvirt-debian-9
       - libvirt-debian-sid
       - libvirt-fedora-28

@@ -1,7 +1,6 @@
 ---
 - set_fact:
     name: libvirt-dbus
-    # Debian 8 doesn't have a recent enough GLib
     machines:
       - libvirt-centos-7
       - libvirt-debian-9

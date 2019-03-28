@@ -2,7 +2,6 @@
 - project:
     name: libvirt-go
     machines:
-      - libvirt-debian-8
       - libvirt-debian-9
       - libvirt-fedora-28
       - libvirt-fedora-29

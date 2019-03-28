@@ -13,7 +13,6 @@
     # commands with more arguments than FreeBSD supports
     machines:
       - libvirt-centos-7
-      - libvirt-debian-8
       - libvirt-debian-9
       - libvirt-debian-sid
       - libvirt-fedora-28

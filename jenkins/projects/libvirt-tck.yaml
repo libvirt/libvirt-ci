@@ -4,7 +4,6 @@
     # CentOS 7 doesn't include perl-generators, which is necessary to
     # build libvirt-tck
     machines:
-      - libvirt-debian-8
       - libvirt-debian-9
       - libvirt-fedora-28
       - libvirt-fedora-29

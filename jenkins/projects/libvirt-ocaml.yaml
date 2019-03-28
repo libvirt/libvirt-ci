@@ -1,7 +1,6 @@
 ---
 - project:
     name: libvirt-ocaml
-    # Debian 8 doesn't have a recent enough OCaml
     machines:
       - libvirt-centos-7
       - libvirt-debian-9
