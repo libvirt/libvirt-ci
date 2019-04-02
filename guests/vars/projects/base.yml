@@ -10,16 +10,20 @@ packages:
   - chrony
   - cppi
   - gcc
+  - gdb
   - gettext
   - git
   - glibc
   - libtool
   - libtoolize
+  - lsof
+  - net-tools
   - make
   - patch
   - perl
   - pkg-config
   - rpmbuild
   - screen
+  - strace
   - sudo
   - vim

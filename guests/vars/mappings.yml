@@ -168,6 +168,9 @@ mappings:
     default: gcc
     FreeBSD:
 
+  gdb:
+    default: gdb
+
   gettext:
     default: gettext
 
@@ -429,6 +432,9 @@ mappings:
     rpm: libxslt-devel
     cross-policy-deb: foreign
 
+  lsof:
+    default: lsof
+
   lvm2:
     default: lvm2
     FreeBSD:
@@ -604,6 +610,10 @@ mappings:
     deb: libnetcf-dev
     rpm: netcf-devel
     cross-policy-deb: skip
+
+  net-tools:
+    default: net-tools
+    FreeBSD:
 
   numad:
     default: numad
@@ -871,6 +881,10 @@ mappings:
     pkg: spice-gtk
     rpm: spice-gtk3-devel
     cross-policy-deb: foreign
+
+  strace:
+    default: strace
+    FreeBSD:
 
   sudo:
     default: sudo
