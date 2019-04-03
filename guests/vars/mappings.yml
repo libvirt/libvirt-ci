@@ -99,6 +99,10 @@ mappings:
   bash-completion:
     default: bash-completion
 
+  ca-certificates:
+    default: ca-certificates
+    FreeBSD: ca_root_nss
+
   ccache:
     default: ccache
     CentOS:

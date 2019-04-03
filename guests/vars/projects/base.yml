@@ -5,6 +5,7 @@ packages:
   - autopoint
   - bash
   - bash-completion
+  - ca-certificates
   - ccache
   - chrony
   - cppi
