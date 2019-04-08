@@ -1,7 +1,6 @@
 ---
 packages:
   - glib2
-  - intltool
   - json-glib
   - libarchive
   - libxml2
