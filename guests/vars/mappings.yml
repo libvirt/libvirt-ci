@@ -200,9 +200,6 @@ mappings:
     Ubuntu18: glusterfs-common
     cross-policy-deb: foreign
 
-  gnome-common:
-    default: gnome-common
-
   gnutls:
     deb: libgnutls28-dev
     pkg: gnutls
