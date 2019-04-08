@@ -1,7 +1,6 @@
 ---
 packages:
   - glib2
-  - gnome-common
   - intltool
   - json-glib
   - libarchive
