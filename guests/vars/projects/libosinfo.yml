@@ -2,7 +2,6 @@
 packages:
   - check
   - glib2
-  - gnome-common
   - gobject-introspection
   - gtk-doc
   - intltool
