@@ -12,6 +12,18 @@
           parent_jobs: 'osinfo-db-tools-build'
       - autotools-check-job:
           parent_jobs: 'osinfo-db-tools-syntax-check'
+          # osinfo-db-tools tests are Python 3 only, so they can't be ran on
+          # CentOS 7;
+          machines:
+            - libvirt-debian-9
+            - libvirt-debian-sid
+            - libvirt-fedora-28
+            - libvirt-fedora-29
+            - libvirt-fedora-rawhide
+            - libvirt-freebsd-11
+            - libvirt-freebsd-12
+            - libvirt-freebsd-current
+            - libvirt-ubuntu-18
       - autotools-rpm-job:
           parent_jobs: 'osinfo-db-tools-check'
           machines: '{rpm_machines}'
