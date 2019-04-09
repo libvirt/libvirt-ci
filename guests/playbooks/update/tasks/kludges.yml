@@ -1,18 +1,4 @@
 ---
-# libvirt can't detect these automatically at the moment, so a kludge
-# is required. Can be dropped it as soon as libvirt has been fixed
-- name: Create compatibility symlinks
-  file:
-    src: '/usr/local/{{ item }}'
-    dest: '/usr/{{ item }}'
-    state: link
-    force: yes
-  with_items:
-    - include/readline
-    - lib/libreadline.so
-  when:
-    - os_name == 'FreeBSD'
-
 # FreeBSD compiles bash without defining SSH_SOURCE_BASHRC, which means
 # it won't try to detect when it's spawned by ssh and source ~/.bashrc
 # when that's the case. Our workaround is setting $BASH_ENV globally
