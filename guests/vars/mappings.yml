@@ -603,6 +603,14 @@ mappings:
   nano:
     default: nano
 
+  ncurses:
+    deb: libncurses-dev
+    pkg: ncurses
+    rpm: ncurses-devel
+    Debian9: libncurses5-dev
+    Ubuntu18: libncurses5-dev
+    cross-policy-deb: foreign
+
   netcf:
     deb: libnetcf-dev
     rpm: netcf-devel
