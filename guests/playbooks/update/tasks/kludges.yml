@@ -10,10 +10,8 @@
   with_items:
     - include/readline
     - include/sasl
-    - include/yajl
     - lib/libreadline.so
     - lib/libsasl2.so
-    - lib/libyajl.so
   when:
     - os_name == 'FreeBSD'
 
