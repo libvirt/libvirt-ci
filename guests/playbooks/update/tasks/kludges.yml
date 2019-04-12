@@ -9,9 +9,7 @@
     force: yes
   with_items:
     - include/readline
-    - include/sasl
     - lib/libreadline.so
-    - lib/libsasl2.so
   when:
     - os_name == 'FreeBSD'
 
