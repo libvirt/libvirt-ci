@@ -1,0 +1,24 @@
+---
+projects:
+  - libosinfo
+  - libvirt
+  - libvirt-cim
+  - libvirt-dbus
+  - libvirt-glib
+  - libvirt-go
+  - libvirt-go-xml
+  - libvirt-ocaml
+  - libvirt-perl
+  - libvirt-python
+  - libvirt-sandbox
+  - libvirt-tck
+  - osinfo-db
+  - osinfo-db-tools
+  - virt-manager
+  - virt-viewer
+
+package_format: 'rpm'
+os_name: 'Fedora'
+os_version: '30'
+
+ansible_python_interpreter: /usr/bin/python3
