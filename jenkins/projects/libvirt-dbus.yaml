@@ -6,6 +6,7 @@
       - libvirt-debian-9
       - libvirt-fedora-28
       - libvirt-fedora-29
+      - libvirt-fedora-30
       - libvirt-fedora-rawhide
       - libvirt-freebsd-11
       - libvirt-freebsd-12
@@ -24,6 +25,7 @@
             - libvirt-debian-9
             - libvirt-fedora-28
             - libvirt-fedora-29
+            - libvirt-fedora-30
             - libvirt-fedora-rawhide
       - autotools-check-job:
           parent_jobs: 'libvirt-dbus-syntax-check'
@@ -33,6 +35,7 @@
             - libvirt-debian-9
             - libvirt-fedora-28
             - libvirt-fedora-29
+            - libvirt-fedora-30
             - libvirt-fedora-rawhide
             - libvirt-freebsd-11
             - libvirt-freebsd-12

@@ -8,6 +8,7 @@
       - libvirt-debian-9
       - libvirt-fedora-28
       - libvirt-fedora-29
+      - libvirt-fedora-30
       - libvirt-fedora-rawhide
     title: Libvirt Sandbox
     archive_format: gz
@@ -25,4 +26,5 @@
           machines:
             - libvirt-fedora-28
             - libvirt-fedora-29
+            - libvirt-fedora-30
             - libvirt-fedora-rawhide
