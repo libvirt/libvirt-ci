@@ -127,7 +127,6 @@ mappings:
   dbus-daemon:
     default: dbus
     Fedora: dbus-daemon
-    Fedora28: dbus
 
   device-mapper:
     deb: libdevmapper-dev
