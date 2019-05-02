@@ -336,6 +336,12 @@ mappings:
     OpenSUSE: dbus-1-devel
     cross-policy-deb: foreign
 
+  libgcrypt:
+    deb: libgcrypt20-dev
+    pkg: libgcrypt
+    rpm: libgcrypt-devel
+    cross-policy-deb: foreign
+
   libgovirt:
     rpm: libgovirt-devel
     CentOS8:
@@ -526,6 +532,9 @@ mappings:
   mingw32-libarchive:
     Fedora: mingw32-libarchive
 
+  mingw32-libgcrypt:
+    Fedora: mingw32-libgcrypt
+
   mingw32-libgovirt:
     Fedora: mingw32-libgovirt
 
@@ -606,6 +615,9 @@ mappings:
 
   mingw64-libarchive:
     Fedora: mingw64-libarchive
+
+  mingw64-libgcrypt:
+    Fedora: mingw64-libgcrypt
 
   mingw64-libgovirt:
     Fedora: mingw64-libgovirt
