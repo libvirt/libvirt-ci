@@ -245,13 +245,6 @@ mappings:
     default: gtk-update-icon-cache
     Ubuntu1604: libgtk2.0-bin
 
-  gtk-vnc2:
-    deb: libgtk-vnc-2.0-dev
-    pkg: gtk-vnc
-    rpm: gtk-vnc2-devel
-    CentOS8:
-    cross-policy-deb: foreign
-
   hal:
     FreeBSD: hal
 
@@ -532,9 +525,6 @@ mappings:
   mingw32-gtk3:
     Fedora: mingw32-gtk3
 
-  mingw32-gtk-vnc2:
-    Fedora: mingw32-gtk-vnc2
-
   mingw32-json-glib:
     Fedora: mingw32-json-glib
 
@@ -618,9 +608,6 @@ mappings:
 
   mingw64-gtk3:
     Fedora: mingw64-gtk3
-
-  mingw64-gtk-vnc2:
-    Fedora: mingw64-gtk-vnc2
 
   mingw64-json-glib:
     Fedora: mingw64-json-glib
