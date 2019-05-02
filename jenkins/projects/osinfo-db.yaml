@@ -16,7 +16,6 @@
           # osinfo-db tests are Python 3 only, so they can't be ran on CentOS 7;
           machines:
             - libvirt-debian-9
-            - libvirt-fedora-28
             - libvirt-fedora-29
             - libvirt-fedora-30
             - libvirt-fedora-rawhide

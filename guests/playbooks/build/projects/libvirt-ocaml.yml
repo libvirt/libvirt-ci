@@ -5,7 +5,6 @@
       - libvirt-centos-7
       - libvirt-debian-9
       - libvirt-debian-sid
-      - libvirt-fedora-28
       - libvirt-fedora-29
       - libvirt-fedora-30
       - libvirt-fedora-rawhide

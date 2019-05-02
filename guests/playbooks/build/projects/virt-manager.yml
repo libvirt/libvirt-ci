@@ -5,7 +5,6 @@
     machines:
       - libvirt-debian-9
       - libvirt-debian-sid
-      - libvirt-fedora-28
       - libvirt-fedora-29
       - libvirt-fedora-30
       - libvirt-fedora-rawhide
@@ -29,7 +28,6 @@
     machines:
       - libvirt-debian-9
       - libvirt-debian-sid
-      - libvirt-fedora-28
       - libvirt-fedora-29
       - libvirt-fedora-30
       - libvirt-fedora-rawhide
@@ -37,7 +35,6 @@
 - include: '{{ playbook_base }}/jobs/python-distutils-rpm-job.yml'
   vars:
     machines:
-      - libvirt-fedora-28
       - libvirt-fedora-29
       - libvirt-fedora-30
       - libvirt-fedora-rawhide
