@@ -42,6 +42,8 @@
     mingw64_autogen_args: --host=x86_64-w64-mingw32
     mingw64_meson_args: --cross-file=/usr/share/mingw/toolchain-mingw64.meson
     git_urls:
+      gtk-vnc:
+        default: https://gitlab.gnome.org/GNOME/gtk-vnc.git
       libosinfo:
         default: https://gitlab.com/libosinfo/libosinfo.git
       libvirt-cim:

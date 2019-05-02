@@ -1,0 +1,19 @@
+---
+- set_fact:
+    name: gtk-vnc
+    machines: '{{ all_machines }}'
+    archive_format: xz
+    git_url: '{{ git_urls["gtk-vnc"][git_remote] }}'
+
+- include: '{{ playbook_base }}/jobs/prepare.yml'
+- include: '{{ playbook_base }}/jobs/meson-build-job.yml'
+- include: '{{ playbook_base }}/jobs/meson-check-job.yml'
+- include: '{{ playbook_base }}/jobs/meson-rpm-job.yml'
+  vars:
+    # RPM build is still not possible on CentOS7 as it does not
+    # have the needed RPM macros for meson.
+    machines:
+      - libvirt-centos-8
+      - libvirt-fedora-30
+      - libvirt-fedora-31
+      - libvirt-fedora-rawhide

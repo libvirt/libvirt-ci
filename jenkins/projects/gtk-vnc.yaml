@@ -1,0 +1,21 @@
+---
+- project:
+    name: gtk-vnc
+    machines: '{all_machines}'
+    title: GTK-VNC
+    archive_format: xz
+    git_url: '{git_urls[gtk-vnc][default]}'
+    jobs:
+      - meson-build-job:
+          parent_jobs:
+      - meson-check-job:
+          parent_jobs: 'gtk-vnc-build'
+      - meson-rpm-job:
+          parent_jobs: 'gtk-vnc-check'
+          # RPM build is still not possible on CentOS7 as it does not
+          # have the needed RPM macros for meson.
+          machines:
+            - libvirt-centos-8
+            - libvirt-fedora-30
+            - libvirt-fedora-31
+            - libvirt-fedora-rawhide
