@@ -32,6 +32,7 @@ strip_buildrequires: |
   sed -i -e 's/BuildRequires: *libvirt.*//' *.spec*
   sed -i -e 's/BuildRequires: *osinfo-db.*//' *.spec*
   sed -i -e 's/BuildRequires: *perl(Sys::Virt).*//' *.spec*
+  sed -i -e 's/BuildRequires: *pkgconfig(gtk-vnc-.*).*//' *.spec*
   sed -i -e 's/BuildRequires: *pkgconfig(libvirt.*).*//' *.spec*
 mingw32_local_env: |
   export VIRT_PREFIX="$VIRT_PREFIX/i686-w64-mingw32/sys-root/mingw"

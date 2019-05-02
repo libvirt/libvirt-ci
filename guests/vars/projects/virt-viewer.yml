@@ -1,7 +1,6 @@
 ---
 packages:
   - glib2
-  - gtk-vnc2
   - gtk3
   - libgovirt
   - libxml2

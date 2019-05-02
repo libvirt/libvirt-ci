@@ -7,6 +7,8 @@
     git_url: '{git_urls[virt-viewer][default]}'
     jobs:
       - autotools-build-job:
-          parent_jobs: 'libvirt-glib+mingw32-build'
+          parent_jobs:
+            - 'libvirt-glib+mingw32-build'
+            - 'gtk-vnc+mingw32-build'
           local_env: '{mingw32_local_env}'
           autogen_args: '{mingw32_autogen_args}'

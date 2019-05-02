@@ -7,7 +7,9 @@
     git_url: '{git_urls[virt-viewer][default]}'
     jobs:
       - autotools-build-job:
-          parent_jobs: 'libvirt-glib-build'
+          parent_jobs:
+            - 'libvirt-glib-build'
+            - 'gtk-vnc-build'
       - autotools-syntax-check-job:
           parent_jobs: 'virt-viewer-build'
       - autotools-check-job:
