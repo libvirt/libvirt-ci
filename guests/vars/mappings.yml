@@ -833,6 +833,11 @@ mappings:
     default: polkit
     deb: policykit-1
 
+  pulseaudio:
+    deb: libpulse-dev
+    rpm: pulseaudio-libs-devel
+    cross-policy-deb: foreign
+
   python3-docutils:
     default: python3-docutils
     CentOS7: python36-docutils
