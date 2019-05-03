@@ -256,7 +256,7 @@ class Inventory:
     @staticmethod
     def _add_facts_from_file(facts, yaml_path):
         with open(yaml_path, "r") as infile:
-            some_facts = yaml.load(infile)
+            some_facts = yaml.safe_load(infile)
             for fact in some_facts:
                 facts[fact] = some_facts[fact]
 
@@ -300,7 +300,7 @@ class Projects:
 
         try:
             with open(mappings_path, "r") as infile:
-                mappings = yaml.load(infile)
+                mappings = yaml.safe_load(infile)
                 self._mappings = mappings["mappings"]
         except Exception as ex:
             raise Exception("Can't load mappings: {}".format(ex))
@@ -319,7 +319,7 @@ class Projects:
 
             try:
                 with open(yaml_path, "r") as infile:
-                    packages = yaml.load(infile)
+                    packages = yaml.safe_load(infile)
                     self._packages[project] = packages["packages"]
             except Exception as ex:
                 raise Exception(
