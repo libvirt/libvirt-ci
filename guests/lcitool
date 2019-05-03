@@ -30,9 +30,9 @@ import yaml
 
 # This is necessary to maintain Python 2.7 compatibility
 try:
-    import configparser
+    from configparser import ConfigParser
 except ImportError:
-    import ConfigParser as configparser
+    from ConfigParser import SafeConfigParser as ConfigParser
 
 
 class Util:
@@ -220,7 +220,7 @@ class Inventory:
         ansible_cfg_path = os.path.join(base, "ansible.cfg")
 
         try:
-            parser = configparser.SafeConfigParser()
+            parser = ConfigParser()
             parser.read(ansible_cfg_path)
             inventory_path = parser.get("defaults", "inventory")
         except Exception as ex:
