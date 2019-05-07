@@ -28,7 +28,7 @@
     - os_version == 'Rawhide'
 
 - name: Update installed packages
-  command: dnf update --refresh --exclude 'kernel*' -y
+  command: '{{ package_manager }} update --refresh --exclude "kernel*" -y'
   args:
     warn: no
   when:
@@ -36,7 +36,7 @@
     - os_version == 'Rawhide'
 
 - name: Update installed packages
-  command: dnf update --disablerepo='*' --enablerepo=fedora-rawhide-kernel-nodebug 'kernel*' -y
+  command: '{{ package_manager }} update --disablerepo="*" --enablerepo=fedora-rawhide-kernel-nodebug "kernel*" -y'
   args:
     warn: no
   when:
@@ -51,19 +51,19 @@
     - package_format == 'deb'
 
 - name: Update installed packages
-  shell: pkg update && pkg upgrade -y
+  shell: '{{ package_manager }} update && {{ package_manager }} upgrade -y'
   when:
     - package_format == 'pkg'
 
 - name: Clean up packages after update
-  command: yum clean packages -y
+  command: '{{ package_manager }} clean packages -y'
   args:
     warn: no
   when:
     - package_format == 'rpm'
 
 - name: Clean up packages after update
-  command: yum autoremove -y
+  command: '{{ package_manager }} autoremove -y'
   args:
     warn: no
   when:
@@ -77,7 +77,7 @@
     - package_format == 'deb'
 
 - name: Clean up packages after update
-  shell: pkg clean -y && pkg autoremove -y
+  shell: '{{ package_manager }} clean -y && {{ package_manager }} autoremove -y'
   when:
     - package_format == 'pkg'
 
