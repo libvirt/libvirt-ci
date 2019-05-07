@@ -13,6 +13,7 @@ projects:
   - virt-viewer
 
 package_format: 'rpm'
+package_manager: 'yum'
 os_name: 'CentOS'
 os_version: '7'
 

@@ -18,6 +18,7 @@ projects:
   - virt-viewer
 
 package_format: 'rpm'
+package_manager: 'dnf'
 os_name: 'Fedora'
 os_version: '29'
 
