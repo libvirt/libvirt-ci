@@ -649,11 +649,13 @@ class Application:
                 if pkgs[package] is None or cross_policy in ["skip", "foreign"]:
                     del pkgs[package]
 
+        pkg_align = " \\\n" + (" " * len("RUN " + package_manager + " "))
+
         print("FROM {}".format(facts["docker_base"]))
 
         varmap = {}
         varmap["package_manager"] = package_manager
-        varmap["pkgs"] = " \\\n            ".join(sorted(set(pkgs.values())))
+        varmap["pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkgs.values())))
         if package_format == "deb":
             if args.cross_arch:
                 deb_arch = Util.native_arch_to_deb_arch(args.cross_arch)
@@ -663,7 +665,7 @@ class Application:
                 varmap["cross_arch"] = deb_arch
                 pkg_names = [p + ":" + deb_arch for p in cross_pkgs.values()]
                 pkg_names.append(gcc)
-                varmap["cross_pkgs"] = " \\\n            ".join(sorted(set(pkg_names)))
+                varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkg_names)))
                 varmap["cross_abi"] = abi
                 varmap["cross_lib"] = lib
 
@@ -671,8 +673,7 @@ class Application:
                 RUN export DEBIAN_FRONTEND=noninteractive && \\
                     {package_manager} update && \\
                     {package_manager} dist-upgrade -y && \\
-                    {package_manager} install --no-install-recommends -y \\
-                            {pkgs} && \\
+                    {package_manager} install --no-install-recommends -y {pkgs} && \\
                     {package_manager} autoremove -y && \\
                     {package_manager} autoclean -y
             """).format(**varmap))
@@ -685,8 +686,7 @@ class Application:
                         dpkg --add-architecture {cross_arch} && \\
                         {package_manager} update && \\
                         {package_manager} dist-upgrade -y && \\
-                        {package_manager} install --no-install-recommends -y \\
-                                {cross_pkgs} && \\
+                        {package_manager} install --no-install-recommends -y {cross_pkgs} && \\
                         {package_manager} autoremove -y && \\
                         {package_manager} autoclean -y
 
