@@ -1,0 +1,7 @@
+---
+packages:
+  - mingw64-gdk-pixbuf
+  - mingw64-glib2
+  - mingw64-gnutls
+  - mingw64-gtk3
+  - mingw64-libgcrypt

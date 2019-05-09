@@ -1,5 +1,6 @@
 ---
 projects:
+  - gtk-vnc
   - libosinfo
   - libvirt
   - libvirt-cim

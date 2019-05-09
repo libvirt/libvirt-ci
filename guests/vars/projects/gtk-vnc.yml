@@ -1,0 +1,12 @@
+---
+packages:
+  - cyrus-sasl
+  - gdk-pixbuf
+  - glib2
+  - gnutls
+  - gobject-introspection
+  - gtk3
+  - intltool
+  - libgcrypt
+  - pulseaudio
+  - vala
