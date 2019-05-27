@@ -52,11 +52,15 @@
 
 - name: Update installed packages
   shell: '{{ package_manager }} update && {{ package_manager }} upgrade -y'
+  args:
+    warn: no
   when:
     - package_format == 'pkg'
 
 - name: Clean up packages after update
   shell: '{{ package_manager }} clean packages -y && {{ package_manager }} autoremove -y'
+  args:
+    warn: no
   when:
     - package_format == 'rpm'
 
@@ -69,6 +73,8 @@
 
 - name: Clean up packages after update
   shell: '{{ package_manager }} clean -y && {{ package_manager }} autoremove -y'
+  args:
+    warn: no
   when:
     - package_format == 'pkg'
 
