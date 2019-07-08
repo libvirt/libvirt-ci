@@ -4,6 +4,7 @@
     machines:
       - libvirt-centos-7
       - libvirt-debian-9
+      - libvirt-debian-10
       - libvirt-fedora-29
       - libvirt-fedora-30
       - libvirt-fedora-rawhide
@@ -22,6 +23,7 @@
           # respectively) are not compatible
           machines:
             - libvirt-debian-9
+            - libvirt-debian-10
             - libvirt-fedora-29
             - libvirt-fedora-30
             - libvirt-fedora-rawhide
@@ -31,6 +33,7 @@
           # 16.04 is too old
           machines:
             - libvirt-debian-9
+            - libvirt-debian-10
             - libvirt-fedora-29
             - libvirt-fedora-30
             - libvirt-fedora-rawhide
