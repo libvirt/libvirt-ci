@@ -871,10 +871,10 @@ mappings:
     FreeBSD: diskscrub
 
   sheepdog:
-    default: sheepdog
-    CentOS:
-    FreeBSD:
-    DebianSid:
+    default:
+    Fedora: sheepdog
+    Ubuntu: sheepdog
+    Debian9: sheepdog
 
   showmount:
     deb: nfs-common
