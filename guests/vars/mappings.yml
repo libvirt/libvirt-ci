@@ -664,10 +664,10 @@ mappings:
     Fedora: perl-Config-Record
 
   perl-Digest:
-    deb: libdigest-perl
+    deb: perl
     pkg: p5-Digest
     rpm: perl-Digest
-    DebianSid: perl
+    Debian9: libdigest-perl
 
   perl-Digest-MD5:
     deb: libdigest-perl-md5-perl
