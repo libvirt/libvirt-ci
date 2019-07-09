@@ -261,7 +261,6 @@ mappings:
     deb: openjdk-8-jre-headless
     pkg: openjdk8-jre
     rpm: java-1.8.0-openjdk-headless
-    Ubuntu:
 
   json-glib:
     deb: libjson-glib-dev
