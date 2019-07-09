@@ -16,6 +16,7 @@ projects:
   - virt-viewer
 
 package_format: 'deb'
+package_manager: 'apt-get'
 os_name: 'Ubuntu'
 os_version: '16'
 
