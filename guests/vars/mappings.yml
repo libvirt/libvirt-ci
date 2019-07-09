@@ -258,9 +258,11 @@ mappings:
     FreeBSD: cdrkit
 
   java:
-    deb: openjdk-8-jre-headless
-    pkg: openjdk8-jre
-    rpm: java-1.8.0-openjdk-headless
+    deb: openjdk-11-jre-headless
+    pkg: openjdk11
+    rpm: java-11-openjdk-headless
+    Debian9: openjdk-8-jre-headless
+    Ubuntu16: openjdk-8-jre-headless
 
   json-glib:
     deb: libjson-glib-dev
