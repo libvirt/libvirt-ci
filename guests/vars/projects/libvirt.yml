@@ -31,6 +31,7 @@ packages:
   - libparted
   - libpcap
   - libpciaccess
+  - libprlsdk
   - librbd
   - libselinux
   - libssh
