@@ -21,6 +21,31 @@
   package:
     name: epel-release
     state: latest
+
+- name: Create OpenVZ key
+  template:
+    src: '{{ playbook_base }}/templates/openvz.key'
+    dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-OpenVZ
+    owner: root
+    group: root
+  when:
+    - os_name == 'CentOS'
+    - os_version == '7'
+
+- name: Import OpenVZ key
+  command: 'rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-OpenVZ'
+  args:
+    warn: no
+  when:
+    - os_name == 'CentOS'
+    - os_version == '7'
+
+- name: Enable OpenVZ repository
+  template:
+    src: '{{ playbook_base }}/templates/openvz.repo.j2'
+    dest: /etc/yum.repos.d/openvz.repo
+    owner: root
+    group: root
   when:
     - os_name == 'CentOS'
 
