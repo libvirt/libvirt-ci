@@ -377,6 +377,10 @@ mappings:
     rpm: libpciaccess-devel
     cross-policy-deb: foreign
 
+  libprlsdk:
+    default:
+    CentOS7: libprlsdk-devel
+
   librbd:
     deb: librbd-dev
     Fedora: librbd-devel
