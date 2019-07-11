@@ -1,4 +1,18 @@
 ---
+# FreeBSD allows multiple versions of OpenJDK to be installed and used
+# in parallel, which is neat but also means they must all live outside
+# of $PATH. Create a symlink so that we can still find the main Java
+# executable.
+- name: Create java symlink
+  file:
+    src: /usr/local/openjdk11/bin/java
+    dest: /usr/local/bin/java
+    state: link
+    owner: root
+    group: wheel
+  when:
+    - os_name == 'FreeBSD'
+
 # FreeBSD compiles bash without defining SSH_SOURCE_BASHRC, which means
 # it won't try to detect when it's spawned by ssh and source ~/.bashrc
 # when that's the case. Our workaround is setting $BASH_ENV globally
