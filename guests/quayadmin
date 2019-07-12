@@ -19,6 +19,7 @@
 # with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import argparse
+import pprint
 import requests
 import sys
 
@@ -28,26 +29,42 @@ clientsecret = "xxx"
 token= "xxx"
 
 
-def request(endpoint, method, payload=None, params=None):
+def request(endpoint, method, payload=None, params=None, debug=False):
     url = baseurl + endpoint
 
     headers = {
         "Authorization": "Bearer {}".format(token)
     }
 
-    return method(url, headers=headers, json=payload, params=params)
+    if debug:
+        print("=> {")
+        print("  url={}".format(url))
+        print("  params={}".format(pprint.pformat(params)))
+        print("  payload={}".format(pprint.pformat(payload)))
+        print("}")
+
+    res = method(url, headers=headers, json=payload, params=params)
+
+    if debug:
+        print("<= {")
+        print("  status_code={}".format(res.status_code))
+        if res.text is not None and len(res.text) > 0:
+            print("  json={}".format(pprint.pformat(res.json())))
+        print("}")
+
+    return res
 
 
-def get(endpoint, params=None):
-    return request(endpoint, method=requests.get, params=params)
+def get(endpoint, params=None, debug=False):
+    return request(endpoint, method=requests.get, params=params, debug=debug)
 
 
-def delete(endpoint, payload=None):
-    return request(endpoint, method=requests.delete, payload=payload)
+def delete(endpoint, payload=None, debug=False):
+    return request(endpoint, method=requests.delete, payload=payload, debug=debug)
 
 
-def post(endpoint, payload=None):
-    return request(endpoint, method=requests.post, payload=payload)
+def post(endpoint, payload=None, debug=False):
+    return request(endpoint, method=requests.post, payload=payload, debug=debug)
 
 
 def has_error(quiet, res, expected, message):
@@ -71,7 +88,7 @@ def run_list_repos(args):
         "namespace": args.namespace,
     }
 
-    res = get(endpoint, params=params)
+    res = get(endpoint, params=params, debug=args.debug)
 
     if has_error(args.quiet, res, 200, "Cannot list repositories"):
         return 1
@@ -85,7 +102,7 @@ def run_list_repos(args):
 def run_show_repo(args):
     endpoint = "/repository/{}/{}".format(args.namespace, args.repo)
 
-    res = get(endpoint)
+    res = get(endpoint, debug=args.debug)
 
     if has_error(args.quiet, res, 200, "Cannot query repository {}/{}"
                  .format(args.namespace, args.repo)):
@@ -112,7 +129,7 @@ def run_create_repo(args):
         "description": args.desc,
     }
 
-    res = post(endpoint, payload=payload)
+    res = post(endpoint, payload=payload, debug=args.debug)
 
     if has_error(args.quiet, res, 201, "Cannot create repository {}/{}"
                  .format(args.namespace, args.repo)):
@@ -127,7 +144,7 @@ def run_create_repo(args):
 def run_delete_repo(args):
     endpoint = "/repository/{}/{}".format(args.namespace, args.repo)
 
-    res = delete(endpoint)
+    res = delete(endpoint, debug=args.debug)
 
     if has_error(args.quiet, res, 204, "Cannot delete repository {}/{}"
                  .format(args.namespace, args.repo)):
