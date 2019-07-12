@@ -1,0 +1,198 @@
+#!/usr/bin/python3
+# -*- python -*-
+#
+# quayadmin - client for quay.io
+#
+# Copyright (C) 2019 Red Hat, Inc.
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation; either version 2 of the License, or (at your
+# option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+# Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program. If not, see <https://www.gnu.org/licenses/>.
+
+import argparse
+import requests
+import sys
+
+baseurl = "https://quay.io/api/v1"
+clientid = "xxx"
+clientsecret = "xxx"
+token= "xxx"
+
+
+def request(endpoint, method, payload=None, params=None):
+    url = baseurl + endpoint
+
+    headers = {
+        "Authorization": "Bearer {}".format(token)
+    }
+
+    return method(url, headers=headers, json=payload, params=params)
+
+
+def get(endpoint, params=None):
+    return request(endpoint, method=requests.get, params=params)
+
+
+def delete(endpoint, payload=None):
+    return request(endpoint, method=requests.delete, payload=payload)
+
+
+def post(endpoint, payload=None):
+    return request(endpoint, method=requests.post, payload=payload)
+
+
+def has_error(quiet, res, expected, message):
+    if res.status_code == expected:
+        return False
+
+    if res.status_code >= 400 and res.status_code < 500:
+        info = res.json()
+        err = info["error_message"]
+    else:
+        err = res.content
+
+    if not quiet:
+        print("{}: {} ({})".format(message, err, res.status_code))
+    return True
+
+
+def run_list_repos(args):
+    res = get("/repository", params={"namespace": args.namespace})
+
+    if has_error(args.quiet, res, 200, "Cannot list repositories"):
+        return 1
+
+    info = res.json()
+    for repo in info["repositories"]:
+        print ("{}/{}".format(repo["namespace"], repo["name"]))
+
+
+def run_show_repo(args):
+    res = get("/repository/{}/{}".format(args.namespace, args.repo))
+
+    if has_error(args.quiet, res, 200, "Cannot query repository {}/{}"
+                 .format(args.namespace, args.repo)):
+        return 1
+
+    info = res.json()
+    if not args.quiet:
+        print("{}/{}: {}".format(args.namespace, args.repo, info["description"]))
+
+
+def run_create_repo(args):
+    res = post("/repository", payload={
+        "repo_kind": "image",
+        "namespace": args.namespace,
+        "visibility": "public",
+        "repository": args.repo,
+        "description": args.desc,
+    })
+
+    if has_error(args.quiet, res, 201, "Cannot create repository {}/{}"
+                 .format(args.namespace, args.repo)):
+        return 1
+
+    if not args.quiet:
+        print("Repository {}/{} created".format(args.namespace, args.repo))
+
+
+def run_delete_repo(args):
+    res = delete("/repository/{}/{}".format(args.namespace, args.repo))
+
+    if has_error(args.quiet, res, 204, "Cannot delete repository {}/{}"
+                 .format(args.namespace, args.repo)):
+        return 1
+
+    if not args.quiet:
+        print("Repository {}/{} deleted".format(args.namespace, args.repo))
+
+
+def add_arg_namespace(parser):
+    parser.add_argument("namespace", help="Organization or user name")
+
+
+def add_arg_repo(parser):
+    parser.add_argument("repo", help="Repository name")
+
+
+def add_arg_desc(parser):
+    parser.add_argument("desc", help="Repository description")
+
+
+def build_parser_list_repos(subparser):
+    parser = subparser.add_parser("list-repos", help="List container repositories")
+
+    parser.set_defaults(func=run_list_repos)
+
+    add_arg_namespace(parser)
+
+
+def build_parser_create_repo(subparser):
+    parser = subparser.add_parser("create-repo", help="Create a new repository")
+
+    parser.set_defaults(func=run_create_repo)
+
+    add_arg_namespace(parser)
+    add_arg_repo(parser)
+    add_arg_desc(parser)
+
+
+def build_parser_show_repo(subparser):
+    parser = subparser.add_parser("show-repo", help="Show repository info")
+
+    parser.set_defaults(func=run_show_repo)
+
+    add_arg_namespace(parser)
+    add_arg_repo(parser)
+
+
+def build_parser_delete_repo(subparser):
+    parser = subparser.add_parser("delete-repo", help="Delete an existing repository")
+
+    parser.set_defaults(func=run_create_repo)
+
+    add_arg_namespace(parser)
+    add_arg_repo(parser)
+    add_arg_desc(parser)
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(
+        description="quay.io client admin tool"
+    )
+
+    parser.add_argument("--debug", '-d', action="store_true", help="Print debugging information")
+    parser.add_argument("--quiet", '-q', action="store_true", help="Display minimal information")
+
+    subparser = parser.add_subparsers(metavar="COMMAND")
+    subparser.required = True
+
+    build_parser_list_repos(subparser)
+    build_parser_show_repo(subparser)
+    build_parser_create_repo(subparser)
+    build_parser_delete_repo(subparser)
+
+    return parser
+
+def main():
+    parser = build_parser()
+    args = parser.parse_args()
+
+    try:
+        res = args.func(args)
+        sys.exit(res)
+    except Exception as ex:
+        sys.stderr.write("{}: {}\n".format(sys.argv[0], ex))
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
