@@ -66,18 +66,26 @@ def has_error(quiet, res, expected, message):
 
 
 def run_list_repos(args):
-    res = get("/repository", params={"namespace": args.namespace})
+    endpoint = "/repository"
+    params = {
+        "namespace": args.namespace,
+    }
+
+    res = get(endpoint, params=params)
 
     if has_error(args.quiet, res, 200, "Cannot list repositories"):
         return 1
 
     info = res.json()
+
     for repo in info["repositories"]:
         print ("{}".format(repo["name"]))
 
 
 def run_show_repo(args):
-    res = get("/repository/{}/{}".format(args.namespace, args.repo))
+    endpoint = "/repository/{}/{}".format(args.namespace, args.repo)
+
+    res = get(endpoint)
 
     if has_error(args.quiet, res, 200, "Cannot query repository {}/{}"
                  .format(args.namespace, args.repo)):
@@ -95,13 +103,16 @@ def run_show_repo(args):
 
 
 def run_create_repo(args):
-    res = post("/repository", payload={
+    endpoint = "/repository"
+    payload = {
         "repo_kind": "image",
         "namespace": args.namespace,
         "visibility": "public",
         "repository": args.repo,
         "description": args.desc,
-    })
+    }
+
+    res = post(endpoint, payload=payload)
 
     if has_error(args.quiet, res, 201, "Cannot create repository {}/{}"
                  .format(args.namespace, args.repo)):
@@ -114,7 +125,9 @@ def run_create_repo(args):
 
 
 def run_delete_repo(args):
-    res = delete("/repository/{}/{}".format(args.namespace, args.repo))
+    endpoint = "/repository/{}/{}".format(args.namespace, args.repo)
+
+    res = delete(endpoint)
 
     if has_error(args.quiet, res, 204, "Cannot delete repository {}/{}"
                  .format(args.namespace, args.repo)):
