@@ -196,6 +196,31 @@ def run_list_triggers(config, args):
         print(trigger["id"])
 
 
+def run_show_trigger(config, args):
+    endpoint = "/repository/{}/{}/trigger/{}".format(args.namespace,
+                                                     args.repo, args.trigger)
+
+    res = get(config, endpoint, debug=args.debug)
+
+    if has_error(args.quiet, res, 200,
+                 "Cannot query trigger {} for repository {}/{}"
+                 .format(args.trigger, args.namespace, args.repo)):
+        return 1
+
+    if args.quiet:
+        return 0
+
+    info = res.json()
+
+    print("trigger:")
+    print("  namespace: {}".format(args.namespace))
+    print("  repo: {}".format(args.repo))
+    print("  id: {}".format(args.trigger))
+    print("  source_repo: {}".format(info["config"]["build_source"]))
+    print("  source_path: {}".format(info["config"]["dockerfile_path"]))
+    print("  activatable: {}".format(info["can_invoke"]))
+
+
 def add_arg_namespace(parser):
     parser.add_argument("namespace", help="Organization or user name")
 
@@ -206,6 +231,10 @@ def add_arg_repo(parser):
 
 def add_arg_desc(parser):
     parser.add_argument("desc", help="Repository description")
+
+
+def add_arg_trigger(parser):
+    parser.add_argument("trigger", help="Trigger ID")
 
 
 def build_parser_list_repos(subparser):
@@ -253,6 +282,16 @@ def build_parser_list_triggers(subparser):
     add_arg_repo(parser)
 
 
+def build_parser_show_trigger(subparser):
+    parser = subparser.add_parser("show-trigger", help="Show trigger information")
+
+    parser.set_defaults(func=run_show_trigger)
+
+    add_arg_namespace(parser)
+    add_arg_repo(parser)
+    add_arg_trigger(parser)
+
+
 def build_parser():
     parser = argparse.ArgumentParser(
         description="quay.io client admin tool"
@@ -270,6 +309,7 @@ def build_parser():
     build_parser_delete_repo(subparser)
 
     build_parser_list_triggers(subparser)
+    build_parser_show_trigger(subparser)
 
     return parser
 
