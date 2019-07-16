@@ -24,8 +24,6 @@ import requests
 import sys
 
 baseurl = "https://quay.io/api/v1"
-clientid = "xxx"
-clientsecret = "xxx"
 token= "xxx"
 
 
