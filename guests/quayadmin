@@ -221,6 +221,30 @@ def run_show_trigger(config, args):
     print("  activatable: {}".format(info["can_invoke"]))
 
 
+def run_activate_trigger(config, args):
+    endpoint = "/repository/{}/{}/trigger/{}/start".format(args.namespace,
+                                                           args.repo,
+                                                           args.trigger)
+    payload = {
+        "commit_sha": args.commit,
+    }
+
+    res = post(config, endpoint, payload=payload, debug=args.debug)
+
+    if has_error(args.quiet, res, 201,
+                 "Cannot activate trigger {} for repository {}/{}"
+                 .format(args.trigger, args.namespace, args.repo)):
+        return 1
+
+    if args.quiet:
+        return 0
+
+    info = res.json()
+
+    print("Build {} for {}/{} created".format(info["id"],
+                                              args.namespace, args.repo))
+
+
 def add_arg_namespace(parser):
     parser.add_argument("namespace", help="Organization or user name")
 
@@ -235,6 +259,10 @@ def add_arg_desc(parser):
 
 def add_arg_trigger(parser):
     parser.add_argument("trigger", help="Trigger ID")
+
+
+def add_arg_commit(parser):
+    parser.add_argument("commit", help="Git commit hash")
 
 
 def build_parser_list_repos(subparser):
@@ -292,6 +320,17 @@ def build_parser_show_trigger(subparser):
     add_arg_trigger(parser)
 
 
+def build_parser_activate_trigger(subparser):
+    parser = subparser.add_parser("activate-trigger", help="Start build from trigger")
+
+    parser.set_defaults(func=run_activate_trigger)
+
+    add_arg_namespace(parser)
+    add_arg_repo(parser)
+    add_arg_trigger(parser)
+    add_arg_commit(parser)
+
+
 def build_parser():
     parser = argparse.ArgumentParser(
         description="quay.io client admin tool"
@@ -310,6 +349,7 @@ def build_parser():
 
     build_parser_list_triggers(subparser)
     build_parser_show_trigger(subparser)
+    build_parser_activate_trigger(subparser)
 
     return parser
 
