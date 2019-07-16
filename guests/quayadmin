@@ -88,7 +88,10 @@ def run_show_repo(args):
 
     info = res.json()
 
-    print("{}/{}: {}".format(args.namespace, args.repo, info["description"]))
+    print("repo:")
+    print("  namespace: {}".format(args.namespace))
+    print("  repo: {}".format(args.repo))
+    print("  description: {}".format(info["description"]))
 
 
 def run_create_repo(args):
