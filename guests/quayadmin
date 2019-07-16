@@ -196,6 +196,30 @@ def run_list_builds(config, args):
         print(build["id"])
 
 
+def run_show_build(config, args):
+    endpoint = "/repository/{}/{}/build/{}".format(args.namespace,
+                                                   args.repo, args.build)
+
+    res = get(config, endpoint, debug=args.debug)
+
+    if has_error(args.quiet, res, 200,
+                 "Cannot query build {} for repository {}/{}"
+                 .format(args.build, args.namespace, args.repo)):
+        return 1
+
+    if args.quiet:
+        return 0
+
+    info = res.json()
+
+    print("build:")
+    print("  namespace: {}".format(args.namespace))
+    print("  repo: {}".format(args.repo))
+    print("  id: {}".format(args.build))
+    print("  phase: {}".format(info["phase"]))
+    print("  started: {}".format(info["started"]))
+
+
 def run_list_triggers(config, args):
     endpoint = "/repository/{}/{}/trigger".format(args.namespace, args.repo)
 
@@ -281,6 +305,10 @@ def add_arg_commit(parser):
     parser.add_argument("commit", help="Git commit hash")
 
 
+def add_arg_build(parser):
+    parser.add_argument("build", help="Build ID")
+
+
 def build_parser_list_repos(subparser):
     parser = subparser.add_parser("list-repos", help="List container repositories")
 
@@ -324,6 +352,16 @@ def build_parser_list_builds(subparser):
 
     add_arg_namespace(parser)
     add_arg_repo(parser)
+
+
+def build_parser_show_build(subparser):
+    parser = subparser.add_parser("show-build", help="Show build info")
+
+    parser.set_defaults(func=run_show_build)
+
+    add_arg_namespace(parser)
+    add_arg_repo(parser)
+    add_arg_build(parser)
 
 
 def build_parser_list_triggers(subparser):
@@ -373,6 +411,7 @@ def build_parser():
     build_parser_delete_repo(subparser)
 
     build_parser_list_builds(subparser)
+    build_parser_show_build(subparser)
 
     build_parser_list_triggers(subparser)
     build_parser_show_trigger(subparser)
