@@ -23,15 +23,20 @@ import pprint
 import requests
 import sys
 
-baseurl = "https://quay.io/api/v1"
-token= "xxx"
+def get_config():
+    config = {
+        "baseurl": "https://quay.io/api/v1",
+        "token": "xxx",
+    }
+
+    return config
 
 
-def request(endpoint, method, payload=None, params=None, debug=False):
-    url = baseurl + endpoint
+def request(config, endpoint, method, payload=None, params=None, debug=False):
+    url = config["baseurl"] + endpoint
 
     headers = {
-        "Authorization": "Bearer {}".format(token)
+        "Authorization": "Bearer {}".format(config["token"])
     }
 
     if debug:
@@ -53,16 +58,16 @@ def request(endpoint, method, payload=None, params=None, debug=False):
     return res
 
 
-def get(endpoint, params=None, debug=False):
-    return request(endpoint, method=requests.get, params=params, debug=debug)
+def get(config, endpoint, params=None, debug=False):
+    return request(config, endpoint, method=requests.get, params=params, debug=debug)
 
 
-def delete(endpoint, payload=None, debug=False):
-    return request(endpoint, method=requests.delete, payload=payload, debug=debug)
+def delete(config, endpoint, payload=None, debug=False):
+    return request(config, endpoint, method=requests.delete, payload=payload, debug=debug)
 
 
-def post(endpoint, payload=None, debug=False):
-    return request(endpoint, method=requests.post, payload=payload, debug=debug)
+def post(config, endpoint, payload=None, debug=False):
+    return request(config, endpoint, method=requests.post, payload=payload, debug=debug)
 
 
 def has_error(quiet, res, expected, message):
@@ -80,13 +85,13 @@ def has_error(quiet, res, expected, message):
     return True
 
 
-def run_list_repos(args):
+def run_list_repos(config, args):
     endpoint = "/repository"
     params = {
         "namespace": args.namespace,
     }
 
-    res = get(endpoint, params=params, debug=args.debug)
+    res = get(config, endpoint, params=params, debug=args.debug)
 
     if has_error(args.quiet, res, 200, "Cannot list repositories"):
         return 1
@@ -97,10 +102,10 @@ def run_list_repos(args):
         print ("{}".format(repo["name"]))
 
 
-def run_show_repo(args):
+def run_show_repo(config, args):
     endpoint = "/repository/{}/{}".format(args.namespace, args.repo)
 
-    res = get(endpoint, debug=args.debug)
+    res = get(config, endpoint, debug=args.debug)
 
     if has_error(args.quiet, res, 200, "Cannot query repository {}/{}"
                  .format(args.namespace, args.repo)):
@@ -117,7 +122,7 @@ def run_show_repo(args):
     print("  description: {}".format(info["description"]))
 
 
-def run_create_repo(args):
+def run_create_repo(config, args):
     endpoint = "/repository"
     payload = {
         "repo_kind": "image",
@@ -127,7 +132,7 @@ def run_create_repo(args):
         "description": args.desc,
     }
 
-    res = post(endpoint, payload=payload, debug=args.debug)
+    res = post(config, endpoint, payload=payload, debug=args.debug)
 
     if has_error(args.quiet, res, 201, "Cannot create repository {}/{}"
                  .format(args.namespace, args.repo)):
@@ -139,10 +144,10 @@ def run_create_repo(args):
     print("Repository {}/{} created".format(args.namespace, args.repo))
 
 
-def run_delete_repo(args):
+def run_delete_repo(config, args):
     endpoint = "/repository/{}/{}".format(args.namespace, args.repo)
 
-    res = delete(endpoint, debug=args.debug)
+    res = delete(config, endpoint, debug=args.debug)
 
     if has_error(args.quiet, res, 204, "Cannot delete repository {}/{}"
                  .format(args.namespace, args.repo)):
@@ -225,7 +230,7 @@ def main():
     args = parser.parse_args()
 
     try:
-        res = args.func(args)
+        res = args.func(get_config(), args)
         sys.exit(res)
     except Exception as ex:
         sys.stderr.write("{}: {}\n".format(sys.argv[0], ex))
