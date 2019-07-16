@@ -19,15 +19,32 @@
 # with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import argparse
+import configparser
+import os
 import pprint
 import requests
 import sys
 
 def get_config():
-    config = {
-        "baseurl": "https://quay.io/api/v1",
-        "token": "xxx",
-    }
+    try:
+        path = os.environ["XDG_CONFIG_HOME"]
+    except KeyError:
+        path = os.path.join(os.environ["HOME"], ".config")
+    path = os.path.join(os.path.join(path, "quayadmin"), "config.ini")
+
+    try:
+        parser = configparser.ConfigParser()
+        parser.read_file(open(path))
+    except Exception as ex:
+        raise Exception("Cannot load config: {}".format(ex))
+
+    try:
+        config = {
+            "baseurl": "https://quay.io/api/v1",
+            "token": parser["DEFAULT"]["token"],
+        }
+    except KeyError:
+        raise Exception("Token not found in {}".format(path))
 
     return config
 
