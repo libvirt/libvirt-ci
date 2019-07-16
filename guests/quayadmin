@@ -158,11 +158,10 @@ def build_parser_show_repo(subparser):
 def build_parser_delete_repo(subparser):
     parser = subparser.add_parser("delete-repo", help="Delete an existing repository")
 
-    parser.set_defaults(func=run_create_repo)
+    parser.set_defaults(func=run_delete_repo)
 
     add_arg_namespace(parser)
     add_arg_repo(parser)
-    add_arg_desc(parser)
 
 
 def build_parser():
