@@ -87,6 +87,10 @@ def post(config, endpoint, payload=None, debug=False):
     return request(config, endpoint, method=requests.post, payload=payload, debug=debug)
 
 
+def put(config, endpoint, payload=None, debug=False):
+    return request(config, endpoint, method=requests.put, payload=payload, debug=debug)
+
+
 def has_error(quiet, res, expected, message):
     if res.status_code == expected:
         return False
