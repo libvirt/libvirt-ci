@@ -259,6 +259,25 @@ def run_create_tag(config, args):
                                                       args.repo))
 
 
+def run_delete_tag(config, args):
+    endpoint = "/repository/{}/{}/tag/{}".format(args.namespace, args.repo,
+                                                 args.tag)
+
+    res = delete(config, endpoint, debug=args.debug)
+
+    if has_error(args.quiet, res, 204,
+                 "Cannot delete tag {} from repository {}/{}"
+                 .format(args.tag, args.namespace, args.repo)):
+        return 1
+
+    if args.quiet:
+        return 0
+
+    print("Tag {} deleted from repository {}/{}".format(args.tag,
+                                                        args.namespace,
+                                                        args.repo))
+
+
 def run_list_builds(config, args):
     endpoint = "/repository/{}/{}/build".format(args.namespace, args.repo)
 
@@ -462,6 +481,16 @@ def build_parser_create_tag(subparser):
     add_arg_image(parser)
 
 
+def build_parser_delete_tag(subparser):
+    parser = subparser.add_parser("delete-tag", help="Delete an existing tag")
+
+    parser.set_defaults(func=run_delete_tag)
+
+    add_arg_namespace(parser)
+    add_arg_repo(parser)
+    add_arg_tag(parser)
+
+
 def build_parser_list_builds(subparser):
     parser = subparser.add_parser("list-builds", help="List repository builds")
 
@@ -530,6 +559,7 @@ def build_parser():
     build_parser_list_tags(subparser)
     build_parser_show_tag(subparser)
     build_parser_create_tag(subparser)
+    build_parser_delete_tag(subparser)
 
     build_parser_list_builds(subparser)
     build_parser_show_build(subparser)
