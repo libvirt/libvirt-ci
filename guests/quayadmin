@@ -83,9 +83,12 @@ def run_show_repo(args):
                  .format(args.namespace, args.repo)):
         return 1
 
+    if args.quiet:
+        return 0
+
     info = res.json()
-    if not args.quiet:
-        print("{}/{}: {}".format(args.namespace, args.repo, info["description"]))
+
+    print("{}/{}: {}".format(args.namespace, args.repo, info["description"]))
 
 
 def run_create_repo(args):
@@ -101,8 +104,10 @@ def run_create_repo(args):
                  .format(args.namespace, args.repo)):
         return 1
 
-    if not args.quiet:
-        print("Repository {}/{} created".format(args.namespace, args.repo))
+    if args.quiet:
+        return 0
+
+    print("Repository {}/{} created".format(args.namespace, args.repo))
 
 
 def run_delete_repo(args):
@@ -112,8 +117,10 @@ def run_delete_repo(args):
                  .format(args.namespace, args.repo)):
         return 1
 
-    if not args.quiet:
-        print("Repository {}/{} deleted".format(args.namespace, args.repo))
+    if args.quiet:
+        return 0
+
+    print("Repository {}/{} deleted".format(args.namespace, args.repo))
 
 
 def add_arg_namespace(parser):
