@@ -237,6 +237,28 @@ def run_show_tag(config, args):
     print("  image: {}".format(image))
 
 
+def run_create_tag(config, args):
+    endpoint = "/repository/{}/{}/tag/{}".format(args.namespace, args.repo,
+                                                 args.tag)
+    payload = {
+        "image": args.image,
+    }
+
+    res = put(config, endpoint, payload=payload, debug=args.debug)
+
+    if has_error(args.quiet, res, 201,
+                 "Cannot create tag {} for repository {}/{}"
+                 .format(args.tag, args.namespace, args.repo)):
+        return 1
+
+    if args.quiet:
+        return 0
+
+    print("Tag {} created in repository {}/{}".format(args.tag,
+                                                      args.namespace,
+                                                      args.repo))
+
+
 def run_list_builds(config, args):
     endpoint = "/repository/{}/{}/build".format(args.namespace, args.repo)
 
@@ -370,6 +392,10 @@ def add_arg_tag(parser):
     parser.add_argument("tag", help="Tag ID")
 
 
+def add_arg_image(parser):
+    parser.add_argument("image", help="Image ID")
+
+
 def build_parser_list_repos(subparser):
     parser = subparser.add_parser("list-repos", help="List container repositories")
 
@@ -423,6 +449,17 @@ def build_parser_show_tag(subparser):
     add_arg_namespace(parser)
     add_arg_repo(parser)
     add_arg_tag(parser)
+
+
+def build_parser_create_tag(subparser):
+    parser = subparser.add_parser("create-tag", help="Create a new tag")
+
+    parser.set_defaults(func=run_create_tag)
+
+    add_arg_namespace(parser)
+    add_arg_repo(parser)
+    add_arg_tag(parser)
+    add_arg_image(parser)
 
 
 def build_parser_list_builds(subparser):
@@ -492,6 +529,7 @@ def build_parser():
 
     build_parser_list_tags(subparser)
     build_parser_show_tag(subparser)
+    build_parser_create_tag(subparser)
 
     build_parser_list_builds(subparser)
     build_parser_show_build(subparser)
