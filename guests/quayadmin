@@ -200,6 +200,43 @@ def run_list_tags(config, args):
         print ("{}".format(tag["name"]))
 
 
+def run_show_tag(config, args):
+    endpoint = "/repository/{}/{}/tag".format(args.namespace, args.repo)
+    params = {
+        "onlyActiveTags": True,
+        "limit": 100,
+    }
+
+    res = get(config, endpoint, params=params, debug=args.debug)
+
+    if has_error(args.quiet, res, 200,
+                 "Cannot list tags for repository {}/{}"
+                 .format(args.namespace, args.repo)):
+        return 1
+
+    info = res.json()
+
+    image = None
+    for tag in info["tags"]:
+        if tag["name"] == args.tag:
+            image = tag["image_id"]
+            break
+
+    if image is None:
+        print("Cannot query tag {} for repository {}/{}: Not Found (404)"
+              .format(args.tag, args.namespace, args.repo))
+        return 1
+
+    if args.quiet:
+        return 0
+
+    print("tag:")
+    print("  namespace: {}".format(args.namespace))
+    print("  repo: {}".format(args.repo))
+    print("  id: {}".format(args.tag))
+    print("  image: {}".format(image))
+
+
 def run_list_builds(config, args):
     endpoint = "/repository/{}/{}/build".format(args.namespace, args.repo)
 
@@ -329,6 +366,10 @@ def add_arg_build(parser):
     parser.add_argument("build", help="Build ID")
 
 
+def add_arg_tag(parser):
+    parser.add_argument("tag", help="Tag ID")
+
+
 def build_parser_list_repos(subparser):
     parser = subparser.add_parser("list-repos", help="List container repositories")
 
@@ -372,6 +413,16 @@ def build_parser_list_tags(subparser):
 
     add_arg_namespace(parser)
     add_arg_repo(parser)
+
+
+def build_parser_show_tag(subparser):
+    parser = subparser.add_parser("show-tag", help="Show tag information")
+
+    parser.set_defaults(func=run_show_tag)
+
+    add_arg_namespace(parser)
+    add_arg_repo(parser)
+    add_arg_tag(parser)
 
 
 def build_parser_list_builds(subparser):
@@ -440,6 +491,7 @@ def build_parser():
     build_parser_delete_repo(subparser)
 
     build_parser_list_tags(subparser)
+    build_parser_show_tag(subparser)
 
     build_parser_list_builds(subparser)
     build_parser_show_build(subparser)
