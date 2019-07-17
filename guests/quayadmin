@@ -73,7 +73,7 @@ def run_list_repos(args):
 
     info = res.json()
     for repo in info["repositories"]:
-        print ("{}/{}".format(repo["namespace"], repo["name"]))
+        print ("{}".format(repo["name"]))
 
 
 def run_show_repo(args):
