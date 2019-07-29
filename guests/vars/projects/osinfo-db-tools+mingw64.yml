@@ -3,5 +3,6 @@ packages:
   - mingw64-glib2
   - mingw64-json-glib
   - mingw64-libarchive
+  - mingw64-libsoup
   - mingw64-libxml2
   - mingw64-libxslt

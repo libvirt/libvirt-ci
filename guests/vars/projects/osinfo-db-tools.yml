@@ -3,6 +3,7 @@ packages:
   - glib2
   - json-glib
   - libarchive
+  - libsoup
   - libxml2
   - libxslt
   - python3
