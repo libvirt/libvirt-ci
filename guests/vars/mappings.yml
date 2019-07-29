@@ -487,6 +487,9 @@ mappings:
   mingw32-libgovirt:
     FedoraRawhide: mingw32-libgovirt
 
+  mingw32-libsoup:
+    FedoraRawhide: mingw32-libsoup
+
   mingw32-libssh2:
     FedoraRawhide: mingw32-libssh2
 
@@ -564,6 +567,9 @@ mappings:
 
   mingw64-libgovirt:
     FedoraRawhide: mingw64-libgovirt
+
+  mingw64-libsoup:
+    FedoraRawhide: mingw64-libsoup
 
   mingw64-libssh2:
     FedoraRawhide: mingw64-libssh2
