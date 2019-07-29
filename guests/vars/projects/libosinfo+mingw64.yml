@@ -2,6 +2,7 @@
 packages:
   - mingw64-curl
   - mingw64-glib2
+  - mingw64-libsoup
   - mingw64-libxml2
   - mingw64-libxslt
   - wget
