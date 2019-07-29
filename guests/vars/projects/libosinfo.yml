@@ -4,7 +4,6 @@ packages:
   - glib2
   - gobject-introspection
   - gtk-doc
-  - libcurl
   - libsoup
   - libxml2
   - libxslt
