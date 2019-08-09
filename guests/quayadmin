@@ -181,7 +181,7 @@ def run_delete_repo(config, args):
 
 
 def run_list_tags(config, args):
-    endpoint = "/repository/{}/{}/tag".format(args.namespace, args.repo)
+    endpoint = "/repository/{}/{}/tag/".format(args.namespace, args.repo)
     params = {
         "onlyActiveTags": True,
         "limit": 100,
@@ -201,7 +201,7 @@ def run_list_tags(config, args):
 
 
 def run_show_tag(config, args):
-    endpoint = "/repository/{}/{}/tag".format(args.namespace, args.repo)
+    endpoint = "/repository/{}/{}/tag/".format(args.namespace, args.repo)
     params = {
         "onlyActiveTags": True,
         "limit": 100,
@@ -279,7 +279,7 @@ def run_delete_tag(config, args):
 
 
 def run_list_builds(config, args):
-    endpoint = "/repository/{}/{}/build".format(args.namespace, args.repo)
+    endpoint = "/repository/{}/{}/build/".format(args.namespace, args.repo)
 
     res = get(config, endpoint, debug=args.debug)
 
@@ -319,7 +319,7 @@ def run_show_build(config, args):
 
 
 def run_list_triggers(config, args):
-    endpoint = "/repository/{}/{}/trigger".format(args.namespace, args.repo)
+    endpoint = "/repository/{}/{}/trigger/".format(args.namespace, args.repo)
 
     res = get(config, endpoint, debug=args.debug)
 
