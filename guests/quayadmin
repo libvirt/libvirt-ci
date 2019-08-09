@@ -318,6 +318,29 @@ def run_show_build(config, args):
     print("  started: {}".format(info["started"]))
 
 
+def run_create_build(config, args):
+    endpoint = "/repository/{}/{}/build/".format(args.namespace, args.repo)
+    payload = {
+        "archive_url": args.archive_url,
+    }
+
+    res = post(config, endpoint, payload=payload, debug=args.debug)
+
+    if has_error(args.quiet, res, 201,
+                 "Cannot create build for repository {}/{}"
+                 .format(args.namespace, args.repo)):
+        return 1
+
+    if args.quiet:
+        return 0
+
+    info = res.json()
+
+    print("Build {} created in repository {}/{}".format(info["id"],
+                                                        args.namespace,
+                                                        args.repo))
+
+
 def run_list_triggers(config, args):
     endpoint = "/repository/{}/{}/trigger/".format(args.namespace, args.repo)
 
@@ -415,6 +438,10 @@ def add_arg_image(parser):
     parser.add_argument("image", help="Image ID")
 
 
+def add_arg_archive_url(parser):
+    parser.add_argument("archive_url", help="Archive URL")
+
+
 def build_parser_list_repos(subparser):
     parser = subparser.add_parser("list-repos", help="List container repositories")
 
@@ -510,6 +537,16 @@ def build_parser_show_build(subparser):
     add_arg_build(parser)
 
 
+def build_parser_create_build(subparser):
+    parser = subparser.add_parser("create-build", help="Create a new build")
+
+    parser.set_defaults(func=run_create_build)
+
+    add_arg_namespace(parser)
+    add_arg_repo(parser)
+    add_arg_archive_url(parser)
+
+
 def build_parser_list_triggers(subparser):
     parser = subparser.add_parser("list-triggers", help="List repository triggers")
 
@@ -563,6 +600,7 @@ def build_parser():
 
     build_parser_list_builds(subparser)
     build_parser_show_build(subparser)
+    build_parser_create_build(subparser)
 
     build_parser_list_triggers(subparser)
     build_parser_show_trigger(subparser)
