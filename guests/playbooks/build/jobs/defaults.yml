@@ -18,7 +18,7 @@ rpm_machines:
   - libvirt-fedora-30
   - libvirt-fedora-rawhide
 mingw_machines:
-  - libvirt-fedora-rawhide
+  - libvirt-fedora-30
 global_env: ''
 local_env: ''
 autogen_args: ''
