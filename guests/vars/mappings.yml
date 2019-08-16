@@ -443,166 +443,166 @@ mappings:
     FreeBSD: gmake
 
   mingw32-curl:
-    FedoraRawhide: mingw32-curl
+    Fedora: mingw32-curl
 
   mingw32-dbus:
-    FedoraRawhide: mingw32-dbus
+    Fedora: mingw32-dbus
 
   mingw32-dlfcn:
-    FedoraRawhide: mingw32-dlfcn
+    Fedora: mingw32-dlfcn
 
   mingw32-gcc:
-    FedoraRawhide: mingw32-gcc
+    Fedora: mingw32-gcc
 
   mingw32-gettext:
-    FedoraRawhide: mingw32-gettext
+    Fedora: mingw32-gettext
 
   mingw32-glib2:
-    FedoraRawhide: mingw32-glib2
+    Fedora: mingw32-glib2
 
   mingw32-glib-networking:
-    FedoraRawhide: mingw32-glib-networking
+    Fedora: mingw32-glib-networking
 
   mingw32-gnutls:
-    FedoraRawhide: mingw32-gnutls
+    Fedora: mingw32-gnutls
 
   mingw32-gstreamer1-plugins-bad-free:
-    FedoraRawhide: mingw32-gstreamer1-plugins-bad-free
+    Fedora: mingw32-gstreamer1-plugins-bad-free
 
   mingw32-gstreamer1-plugins-good:
-    FedoraRawhide: mingw32-gstreamer1-plugins-good
+    Fedora: mingw32-gstreamer1-plugins-good
 
   mingw32-gtk3:
-    FedoraRawhide: mingw32-gtk3
+    Fedora: mingw32-gtk3
 
   mingw32-gtk-vnc2:
-    FedoraRawhide: mingw32-gtk-vnc2
+    Fedora: mingw32-gtk-vnc2
 
   mingw32-json-glib:
-    FedoraRawhide: mingw32-json-glib
+    Fedora: mingw32-json-glib
 
   mingw32-libarchive:
-    FedoraRawhide: mingw32-libarchive
+    Fedora: mingw32-libarchive
 
   mingw32-libgovirt:
-    FedoraRawhide: mingw32-libgovirt
+    Fedora: mingw32-libgovirt
 
   mingw32-libsoup:
-    FedoraRawhide: mingw32-libsoup
+    Fedora: mingw32-libsoup
 
   mingw32-libssh2:
-    FedoraRawhide: mingw32-libssh2
+    Fedora: mingw32-libssh2
 
   mingw32-libusbx:
-    FedoraRawhide: mingw32-libusbx
+    Fedora: mingw32-libusbx
 
   mingw32-libxml2:
-    FedoraRawhide: mingw32-libxml2
+    Fedora: mingw32-libxml2
 
   mingw32-libxslt:
-    FedoraRawhide: mingw32-libxslt
+    Fedora: mingw32-libxslt
 
   mingw32-openssl:
-    FedoraRawhide: mingw32-openssl
+    Fedora: mingw32-openssl
 
   mingw32-pkg-config:
-    FedoraRawhide: mingw32-pkg-config
+    Fedora: mingw32-pkg-config
 
   mingw32-portablexdr:
-    FedoraRawhide: mingw32-portablexdr
+    Fedora: mingw32-portablexdr
 
   mingw32-readline:
-    FedoraRawhide: mingw32-readline
+    Fedora: mingw32-readline
 
   mingw32-rest:
-    FedoraRawhide: mingw32-rest
+    Fedora: mingw32-rest
 
   mingw32-spice-gtk3:
-    FedoraRawhide: mingw32-spice-gtk3
+    Fedora: mingw32-spice-gtk3
 
   mingw32-usbredir:
-    FedoraRawhide: mingw32-usbredir
+    Fedora: mingw32-usbredir
 
   mingw64-curl:
-    FedoraRawhide: mingw64-curl
+    Fedora: mingw64-curl
 
   mingw64-dbus:
-    FedoraRawhide: mingw64-dbus
+    Fedora: mingw64-dbus
 
   mingw64-dlfcn:
-    FedoraRawhide: mingw64-dlfcn
+    Fedora: mingw64-dlfcn
 
   mingw64-gcc:
-    FedoraRawhide: mingw64-gcc
+    Fedora: mingw64-gcc
 
   mingw64-gettext:
-    FedoraRawhide: mingw64-gettext
+    Fedora: mingw64-gettext
 
   mingw64-glib2:
-    FedoraRawhide: mingw64-glib2
+    Fedora: mingw64-glib2
 
   mingw64-glib-networking:
-    FedoraRawhide: mingw64-glib-networking
+    Fedora: mingw64-glib-networking
 
   mingw64-gnutls:
-    FedoraRawhide: mingw64-gnutls
+    Fedora: mingw64-gnutls
 
   mingw64-gstreamer1-plugins-bad-free:
-    FedoraRawhide: mingw64-gstreamer1-plugins-bad-free
+    Fedora: mingw64-gstreamer1-plugins-bad-free
 
   mingw64-gstreamer1-plugins-good:
-    FedoraRawhide: mingw64-gstreamer1-plugins-good
+    Fedora: mingw64-gstreamer1-plugins-good
 
   mingw64-gtk3:
-    FedoraRawhide: mingw64-gtk3
+    Fedora: mingw64-gtk3
 
   mingw64-gtk-vnc2:
-    FedoraRawhide: mingw64-gtk-vnc2
+    Fedora: mingw64-gtk-vnc2
 
   mingw64-json-glib:
-    FedoraRawhide: mingw64-json-glib
+    Fedora: mingw64-json-glib
 
   mingw64-libarchive:
-    FedoraRawhide: mingw64-libarchive
+    Fedora: mingw64-libarchive
 
   mingw64-libgovirt:
-    FedoraRawhide: mingw64-libgovirt
+    Fedora: mingw64-libgovirt
 
   mingw64-libsoup:
-    FedoraRawhide: mingw64-libsoup
+    Fedora: mingw64-libsoup
 
   mingw64-libssh2:
-    FedoraRawhide: mingw64-libssh2
+    Fedora: mingw64-libssh2
 
   mingw64-libusbx:
-    FedoraRawhide: mingw64-libusbx
+    Fedora: mingw64-libusbx
 
   mingw64-libxml2:
-    FedoraRawhide: mingw64-libxml2
+    Fedora: mingw64-libxml2
 
   mingw64-libxslt:
-    FedoraRawhide: mingw64-libxslt
+    Fedora: mingw64-libxslt
 
   mingw64-openssl:
-    FedoraRawhide: mingw64-openssl
+    Fedora: mingw64-openssl
 
   mingw64-pkg-config:
-    FedoraRawhide: mingw64-pkg-config
+    Fedora: mingw64-pkg-config
 
   mingw64-portablexdr:
-    FedoraRawhide: mingw64-portablexdr
+    Fedora: mingw64-portablexdr
 
   mingw64-readline:
-    FedoraRawhide: mingw64-readline
+    Fedora: mingw64-readline
 
   mingw64-rest:
-    FedoraRawhide: mingw64-rest
+    Fedora: mingw64-rest
 
   mingw64-spice-gtk3:
-    FedoraRawhide: mingw64-spice-gtk3
+    Fedora: mingw64-spice-gtk3
 
   mingw64-usbredir:
-    FedoraRawhide: mingw64-usbredir
+    Fedora: mingw64-usbredir
 
   modprobe:
     default: kmod
