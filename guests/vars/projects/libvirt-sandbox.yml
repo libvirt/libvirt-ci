@@ -4,7 +4,6 @@ packages:
   - glibc-static
   - gobject-introspection
   - gtk-doc
-  - intltool
   - libcap-ng
   - libselinux
   - libxml2

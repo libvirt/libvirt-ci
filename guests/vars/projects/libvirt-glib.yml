@@ -3,6 +3,5 @@ packages:
   - glib2
   - gobject-introspection
   - gtk-doc
-  - intltool
   - libxml2
   - vala
