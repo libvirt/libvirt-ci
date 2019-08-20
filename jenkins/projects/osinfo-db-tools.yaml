@@ -14,12 +14,12 @@
     archive_format: xz
     git_url: '{git_urls[osinfo-db-tools][default]}'
     jobs:
-      - autotools-build-job:
+      - meson-build-job:
           parent_jobs:
-      - autotools-syntax-check-job:
+      - meson-syntax-check-job:
           parent_jobs: 'osinfo-db-tools-build'
-      - autotools-check-job:
+      - meson-check-job:
           parent_jobs: 'osinfo-db-tools-syntax-check'
-      - autotools-rpm-job:
+      - meson-rpm-job:
           parent_jobs: 'osinfo-db-tools-check'
           machines: '{rpm_machines}'
