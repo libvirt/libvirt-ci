@@ -9,7 +9,6 @@ projects:
   - libvirt-perl
   - libvirt-python
   - osinfo-db
-  - osinfo-db-tools
   - virt-viewer
 
 package_format: 'rpm'

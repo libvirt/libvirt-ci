@@ -1,7 +1,15 @@
 ---
 - project:
     name: osinfo-db-tools
-    machines: '{all_machines}'
+    # osinfo-db-tools requires meson 0.49.0, which is not available on
+    # CentOS 7 and Debian 9;
+    machines:
+      - libvirt-debian-10
+      - libvirt-fedora-29
+      - libvirt-fedora-30
+      - libvirt-fedora-rawhide
+      - libvirt-freebsd-11
+      - libvirt-freebsd-12
     title: osinfo database tools
     archive_format: gz
     git_url: '{git_urls[osinfo-db-tools][default]}'
@@ -12,16 +20,6 @@
           parent_jobs: 'osinfo-db-tools-build'
       - autotools-check-job:
           parent_jobs: 'osinfo-db-tools-syntax-check'
-          # osinfo-db-tools tests are Python 3 only, so they can't be ran on
-          # CentOS 7;
-          machines:
-            - libvirt-debian-9
-            - libvirt-debian-10
-            - libvirt-fedora-29
-            - libvirt-fedora-30
-            - libvirt-fedora-rawhide
-            - libvirt-freebsd-11
-            - libvirt-freebsd-12
       - autotools-rpm-job:
           parent_jobs: 'osinfo-db-tools-check'
           machines: '{rpm_machines}'

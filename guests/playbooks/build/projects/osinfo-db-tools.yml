@@ -1,19 +1,9 @@
 ---
 - set_fact:
     name: osinfo-db-tools
-    machines: '{{ all_machines }}'
-    archive_format: gz
-    git_url: '{{ git_urls["osinfo-db-tools"][git_remote] }}'
-
-- include: '{{ playbook_base }}/jobs/prepare.yml'
-- include: '{{ playbook_base }}/jobs/autotools-build-job.yml'
-- include: '{{ playbook_base }}/jobs/autotools-syntax-check-job.yml'
-- include: '{{ playbook_base }}/jobs/autotools-check-job.yml'
-  vars:
-    # osinfo-db-tools tests are Python 3 only, so they can't be ran on
-    # CentOS 7;
+    # osinfo-db-tools depends on meson 0.49.0, which is not available on
+    # CentOS 7, Debian 9, Ubuntu 18;
     machines:
-      - libvirt-debian-9
       - libvirt-debian-10
       - libvirt-debian-sid
       - libvirt-fedora-29
@@ -22,7 +12,13 @@
       - libvirt-freebsd-11
       - libvirt-freebsd-12
       - libvirt-freebsd-current
-      - libvirt-ubuntu-18
+    archive_format: gz
+    git_url: '{{ git_urls["osinfo-db-tools"][git_remote] }}'
+
+- include: '{{ playbook_base }}/jobs/prepare.yml'
+- include: '{{ playbook_base }}/jobs/autotools-build-job.yml'
+- include: '{{ playbook_base }}/jobs/autotools-syntax-check-job.yml'
+- include: '{{ playbook_base }}/jobs/autotools-check-job.yml'
 - include: '{{ playbook_base }}/jobs/autotools-rpm-job.yml'
   vars:
     machines: '{{ rpm_machines }}'

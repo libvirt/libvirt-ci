@@ -12,7 +12,6 @@ projects:
   - libvirt-sandbox
   - libvirt-tck
   - osinfo-db
-  - osinfo-db-tools
   - virt-viewer
 
 package_format: 'deb'
