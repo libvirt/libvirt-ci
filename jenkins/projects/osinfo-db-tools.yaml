@@ -11,7 +11,7 @@
       - libvirt-freebsd-11
       - libvirt-freebsd-12
     title: osinfo database tools
-    archive_format: gz
+    archive_format: xz
     git_url: '{git_urls[osinfo-db-tools][default]}'
     jobs:
       - autotools-build-job:

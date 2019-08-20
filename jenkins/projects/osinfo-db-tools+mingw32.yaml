@@ -3,7 +3,7 @@
     name: osinfo-db-tools+mingw32
     machines: '{mingw_machines}'
     title: osinfo database tools MinGW (32-bit)
-    archive_format: gz
+    archive_format: xz
     git_url: '{git_urls[osinfo-db-tools][default]}'
     jobs:
       - autotools-build-job:

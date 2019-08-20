@@ -2,7 +2,7 @@
 - set_fact:
     name: osinfo-db-tools+mingw32
     machines: '{{ mingw_machines }}'
-    archive_format: gz
+    archive_format: xz
     git_url: '{{ git_urls["osinfo-db-tools"][git_remote] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
