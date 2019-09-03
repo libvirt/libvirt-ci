@@ -21,4 +21,7 @@
 - include: '{{ playbook_base }}/jobs/meson-check-job.yml'
 - include: '{{ playbook_base }}/jobs/meson-rpm-job.yml'
   vars:
-    machines: '{{ rpm_machines }}'
+    machines:
+      - libvirt-fedora-29
+      - libvirt-fedora-30
+      - libvirt-fedora-rawhide
