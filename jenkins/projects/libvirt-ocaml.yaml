@@ -21,3 +21,7 @@
             ./configure --prefix=$VIRT_PREFIX
             $MAKE
             $MAKE opt
+      - generic-check-job:
+          parent_jobs: 'libvirt-ocaml-build'
+          command: |
+            $MAKE check-manifest

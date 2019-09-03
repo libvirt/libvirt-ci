@@ -25,3 +25,7 @@
       ./configure --prefix=$VIRT_PREFIX
       $MAKE
       $MAKE opt
+- include: '{{ playbook_base }}/jobs/generic-check-job.yml'
+  vars:
+    command: |
+      $MAKE check-manifest
