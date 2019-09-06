@@ -431,6 +431,12 @@ mappings:
     rpm: libxslt-devel
     cross-policy-deb: foreign
 
+  locales:
+    CentOS7: glibc-common
+    deb: locales
+    Fedora: glibc-langpack-en
+    FreeBSD:
+
   lsof:
     default: lsof
 

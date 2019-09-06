@@ -16,6 +16,7 @@ packages:
   - glibc
   - libtool
   - libtoolize
+  - locales
   - lsof
   - net-tools
   - make
