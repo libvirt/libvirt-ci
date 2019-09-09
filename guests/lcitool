@@ -675,7 +675,9 @@ class Application:
                     {package_manager} dist-upgrade -y && \\
                     {package_manager} install --no-install-recommends -y {pkgs} && \\
                     {package_manager} autoremove -y && \\
-                    {package_manager} autoclean -y
+                    {package_manager} autoclean -y && \\
+                    sed -Ei 's,^# (en_US\.UTF-8 .*)$,\\1,' /etc/locale.gen && \\
+                    dpkg-reconfigure locales
             """).format(**varmap))
             if args.cross_arch:
                 # Intentionally a separate RUN command from the above
