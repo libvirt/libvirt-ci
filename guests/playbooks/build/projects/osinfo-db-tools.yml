@@ -17,7 +17,6 @@
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
 - include: '{{ playbook_base }}/jobs/meson-build-job.yml'
-- include: '{{ playbook_base }}/jobs/meson-syntax-check-job.yml'
 - include: '{{ playbook_base }}/jobs/meson-check-job.yml'
 - include: '{{ playbook_base }}/jobs/meson-rpm-job.yml'
   vars:

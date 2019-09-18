@@ -16,10 +16,8 @@
     jobs:
       - meson-build-job:
           parent_jobs:
-      - meson-syntax-check-job:
-          parent_jobs: 'osinfo-db-tools-build'
       - meson-check-job:
-          parent_jobs: 'osinfo-db-tools-syntax-check'
+          parent_jobs: 'osinfo-db-tools-build'
       - meson-rpm-job:
           parent_jobs: 'osinfo-db-tools-check'
           machines:
