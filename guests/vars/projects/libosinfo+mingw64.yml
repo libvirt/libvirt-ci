@@ -1,5 +1,6 @@
 ---
 packages:
+  - meson
   - mingw64-glib2
   - mingw64-libsoup
   - mingw64-libxml2
