@@ -12,7 +12,7 @@
       - libvirt-freebsd-11
       - libvirt-freebsd-12
       - libvirt-freebsd-current
-    archive_format: gz
+    archive_format: xz
     git_url: '{{ git_urls["libosinfo"][git_remote] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'

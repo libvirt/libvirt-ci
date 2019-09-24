@@ -3,7 +3,7 @@
     name: libosinfo+mingw64
     machines: '{mingw_machines}'
     title: libosinfo MinGW (64-bit)
-    archive_format: gz
+    archive_format: xz
     git_url: '{git_urls[libosinfo][default]}'
     jobs:
       - autotools-build-job:

@@ -12,7 +12,7 @@
       - libvirt-freebsd-11
       - libvirt-freebsd-12
     title: libosinfo
-    archive_format: gz
+    archive_format: xz
     git_url: '{git_urls[libosinfo][default]}'
     jobs:
       - autotools-build-job:
