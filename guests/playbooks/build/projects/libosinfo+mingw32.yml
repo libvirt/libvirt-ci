@@ -6,7 +6,7 @@
     git_url: '{{ git_urls["libosinfo"][git_remote] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
-- include: '{{ playbook_base }}/jobs/autotools-build-job.yml'
+- include: '{{ playbook_base }}/jobs/meson-build-job.yml'
   vars:
     local_env: '{{ mingw32_local_env }}'
-    autogen_args: '{{ mingw32_autogen_args }}'
+    meson_args: '{{ mingw32_meson_args }}'

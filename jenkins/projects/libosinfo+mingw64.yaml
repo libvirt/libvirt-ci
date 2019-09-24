@@ -6,7 +6,7 @@
     archive_format: xz
     git_url: '{git_urls[libosinfo][default]}'
     jobs:
-      - autotools-build-job:
+      - meson-build-job:
           parent_jobs: 'osinfo-db-tools+mingw64-build'
           local_env: '{mingw64_local_env}'
-          autogen_args: '{mingw64_autogen_args}'
+          meson_args: '{mingw64_meson_args}'

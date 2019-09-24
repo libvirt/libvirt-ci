@@ -15,13 +15,11 @@
     archive_format: xz
     git_url: '{git_urls[libosinfo][default]}'
     jobs:
-      - autotools-build-job:
+      - meson-build-job:
           parent_jobs: 'osinfo-db-build'
-      - autotools-syntax-check-job:
+      - meson-check-job:
           parent_jobs: 'libosinfo-build'
-      - autotools-check-job:
-          parent_jobs: 'libosinfo-syntax-check'
-      - autotools-rpm-job:
+      - meson-rpm-job:
           parent_jobs: 'libosinfo-check'
           machines:
             - libvirt-fedora-29
