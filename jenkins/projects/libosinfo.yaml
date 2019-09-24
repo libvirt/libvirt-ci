@@ -1,7 +1,16 @@
 ---
 - project:
     name: libosinfo
-    machines: '{all_machines}'
+    # libosinfo depends on meson 0.49.0, which is not available on
+    # CentOS 7, Debian 9, Ubuntu 18;
+    machines:
+      - libvirt-debian-10
+      - libvirt-debian-sid
+      - libvirt-fedora-29
+      - libvirt-fedora-30
+      - libvirt-fedora-rawhide
+      - libvirt-freebsd-11
+      - libvirt-freebsd-12
     title: libosinfo
     archive_format: gz
     git_url: '{git_urls[libosinfo][default]}'
@@ -14,4 +23,7 @@
           parent_jobs: 'libosinfo-syntax-check'
       - autotools-rpm-job:
           parent_jobs: 'libosinfo-check'
-          machines: '{rpm_machines}'
+          machines:
+            - libvirt-fedora-29
+            - libvirt-fedora-30
+            - libvirt-fedora-rawhide

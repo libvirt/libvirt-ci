@@ -1,6 +1,5 @@
 ---
 projects:
-  - libosinfo
   - libvirt
   - libvirt-cim
   - libvirt-dbus
