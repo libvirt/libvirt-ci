@@ -1,6 +1,5 @@
 ---
 packages:
-  - meson
   - mingw64-glib2
   - mingw64-json-glib
   - mingw64-libarchive

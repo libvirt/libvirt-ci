@@ -18,6 +18,7 @@ packages:
   - libtoolize
   - locales
   - lsof
+  - meson
   - net-tools
   - make
   - patch

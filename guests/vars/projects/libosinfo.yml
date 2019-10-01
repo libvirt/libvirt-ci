@@ -7,7 +7,6 @@ packages:
   - libsoup
   - libxml2
   - libxslt
-  - meson
   - pci-ids
   - usb-ids
   - vala

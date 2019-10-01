@@ -1,6 +1,5 @@
 ---
 packages:
-  - meson
   - mingw32-glib2
   - mingw32-libsoup
   - mingw32-libxml2
