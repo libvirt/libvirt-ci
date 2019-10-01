@@ -450,6 +450,10 @@ mappings:
 
   meson:
     default: meson
+    CentOS7:
+    Debian9:
+    Ubuntu16:
+    Ubuntu18:
 
   mingw32-curl:
     Fedora: mingw32-curl
