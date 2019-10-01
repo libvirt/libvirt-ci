@@ -18,10 +18,10 @@ packages:
   - libtoolize
   - locales
   - lsof
+  - make
   - meson
   - net-tools
   - ninja
-  - make
   - patch
   - perl
   - pkg-config
