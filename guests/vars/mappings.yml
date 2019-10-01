@@ -810,7 +810,6 @@ mappings:
 
   python3:
     default: python3
-    CentOS7:
 
   python3-dbus:
     default: python3-dbus
