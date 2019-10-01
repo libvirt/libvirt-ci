@@ -9,6 +9,14 @@
     - os_name == 'Fedora'
     - os_version == 'Rawhide'
 
+- name: Enable EPEL repository
+  package:
+    name: epel-release
+    state: latest
+  when:
+    - os_name == 'CentOS'
+    - os_version == '7'
+
 - name: Update installed packages
   package:
     name: '*'
