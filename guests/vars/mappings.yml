@@ -455,6 +455,10 @@ mappings:
     Ubuntu16:
     Ubuntu18:
 
+  ninja:
+   default: ninja-build
+   FreeBSD: ninja
+
   mingw32-curl:
     Fedora: mingw32-curl
 
