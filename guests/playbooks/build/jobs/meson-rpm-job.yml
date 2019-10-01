@@ -9,7 +9,7 @@
     cd build
     {{ strip_buildrequires }}
     rm -f meson-dist/*.tar.{{ archive_format }}
-    ninja dist
+    $NINJA dist
     rpmbuild --clean --define "_topdir `pwd`/rpmbuild" -ta meson-dist/*.tar.{{ archive_format }}
   when:
     - inventory_hostname in machines

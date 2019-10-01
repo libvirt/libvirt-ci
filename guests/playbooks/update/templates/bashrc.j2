@@ -1,6 +1,7 @@
 export PS1="[\u@\h \w]\$ "
 
 export MAKE="{{ make }}"
+export NINJA="{{ ninja }}"
 export PYTHON="{{ ansible_python_interpreter }}"
 
 export MAKEFLAGS="-j{{ install_vcpus|int + 1 }}"

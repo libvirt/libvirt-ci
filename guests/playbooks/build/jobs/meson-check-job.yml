@@ -7,7 +7,7 @@
     {{ global_env }}
     {{ local_env }}
     cd build
-    if ! ninja test
+    if ! $NINJA test
     then
         cat meson-logs/testlog.txt || true
         exit 1

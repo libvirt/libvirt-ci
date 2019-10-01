@@ -12,6 +12,8 @@
     - gmake
     - java
     - make
+    - ninja
+    - ninja-build
     - su
 
 - name: 'Look for files'
@@ -52,3 +54,16 @@
     make: '{{ commands["make"] }}'
   when:
     - make is undefined
+
+# Prefer ninja, fall back to ninja-build
+- name: 'Export paths'
+  set_fact:
+    ninja: '{{ commands["ninja"] }}'
+  when:
+    - commands["ninja"] != ''
+
+- name: 'Export paths'
+  set_fact:
+    ninja: '{{ commands["ninja-build"] }}'
+  when:
+    - ninja is undefined

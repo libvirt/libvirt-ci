@@ -10,7 +10,7 @@
     mkdir build
     cd build
     meson .. . --prefix=$VIRT_PREFIX {{ meson_args }}
-    ninja
-    ninja install
+    $NINJA
+    $NINJA install
   when:
     - inventory_hostname in machines

@@ -45,8 +45,8 @@
           mkdir build
           cd build
           meson .. . --prefix=$VIRT_PREFIX {meson_args}
-          ninja
-          ninja install
+          $NINJA
+          $NINJA install
     publishers:
       - email:
           recipients: '{obj:spam}'
@@ -85,7 +85,7 @@
           {global_env}
           {local_env}
           cd build
-          if ! ninja test
+          if ! $NINJA test
           then
               cat meson-logs/testlog.txt || true
               exit 1
@@ -130,7 +130,7 @@
           cd build
           {strip_buildrequires}
           rm -f meson-dist/*.tar.{archive_format}
-          ninja dist
+          $NINJA dist
           rpmbuild --clean --define "_topdir `pwd`/rpmbuild" -ta meson-dist/*.tar.{archive_format}
     publishers:
       - email:
