@@ -814,19 +814,20 @@ mappings:
   python3-dbus:
     default: python3-dbus
     FreeBSD: py36-dbus
-    CentOS7:
+    CentOS7: python36-dbus
 
   python3-devel:
     deb: python3-dev
     pkg: python3
     Fedora: python3-devel
+    CentOS7: python36-devel
     cross-policy-deb: foreign
 
   python3-gi:
     deb: python3-gi
     pkg: py36-gobject3
     rpm: python3-gobject
-    CentOS7:
+    CentOS7: python36-gobject
 
   python3-libxml2:
     default: python3-libxml2
@@ -837,22 +838,22 @@ mappings:
   python3-lxml:
     default: python3-lxml
     FreeBSD: py36-lxml
-    CentOS7:
+    CentOS7: python36-lxml
 
   python3-nose:
     default: python3-nose
     FreeBSD: py36-nose
-    CentOS7:
+    CentOS7: python36-nose
 
   python3-pytest:
     default: python3-pytest
     FreeBSD: py36-pytest
-    CentOS7:
+    CentOS7: python36-pytest
 
   python3-requests:
     default: python3-requests
     FreeBSD: py36-requests
-    CentOS7:
+    CentOS7: python36-requests
 
   qemu-img:
     default: qemu-utils
