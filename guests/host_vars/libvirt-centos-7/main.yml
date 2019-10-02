@@ -7,7 +7,6 @@ projects:
   - libvirt-ocaml
   - libvirt-perl
   - libvirt-python
-  - osinfo-db
   - virt-viewer
 
 package_format: 'rpm'

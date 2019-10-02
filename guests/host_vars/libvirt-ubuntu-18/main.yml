@@ -10,8 +10,6 @@ projects:
   - libvirt-python
   - libvirt-sandbox
   - libvirt-tck
-  - osinfo-db
-  - virt-manager
   - virt-viewer
 
 package_format: 'deb'
