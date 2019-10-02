@@ -1,7 +1,13 @@
 ---
 - project:
     name: osinfo-db
-    machines: '{all_machines}'
+    machines:
+      - libvirt-debian-10
+      - libvirt-fedora-29
+      - libvirt-fedora-30
+      - libvirt-fedora-rawhide
+      - libvirt-freebsd-11
+      - libvirt-freebsd-12
     title: osinfo database
     archive_format: xz
     git_url: '{git_urls[osinfo-db][default]}'
@@ -13,19 +19,14 @@
             $MAKE install OSINFO_DB_TARGET="--system"
       - generic-check-job:
           parent_jobs: 'osinfo-db-build'
-          # osinfo-db tests are Python 3 only, so they can't be ran on CentOS 7;
-          machines:
-            - libvirt-debian-10
-            - libvirt-fedora-29
-            - libvirt-fedora-30
-            - libvirt-fedora-rawhide
-            - libvirt-freebsd-11
-            - libvirt-freebsd-12
           command: |
             $MAKE check
       - generic-rpm-job:
           parent_jobs: 'osinfo-db-check'
-          machines: '{rpm_machines}'
+          machines:
+            - libvirt-fedora-29
+            - libvirt-fedora-30
+            - libvirt-fedora-rawhide
           command: |
             {strip_buildrequires}
             rpmbuild --clean --define "_topdir `pwd`/rpmbuild" --define "_sourcedir `pwd`" -ba osinfo-db.spec
