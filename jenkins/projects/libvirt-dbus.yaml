@@ -1,15 +1,7 @@
 ---
 - project:
     name: libvirt-dbus
-    machines:
-      - libvirt-centos-7
-      - libvirt-debian-9
-      - libvirt-debian-10
-      - libvirt-fedora-29
-      - libvirt-fedora-30
-      - libvirt-fedora-rawhide
-      - libvirt-freebsd-11
-      - libvirt-freebsd-12
+    machines: '{all_machines}'
     title: Libvirt D-Bus
     archive_format: xz
     git_url: '{git_urls[libvirt-dbus][default]}'
