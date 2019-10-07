@@ -10,6 +10,7 @@ packages:
   - dwarves
   - ebtables
   - fuse
+  - glib2
   - glusterfs
   - gnutls
   - hal

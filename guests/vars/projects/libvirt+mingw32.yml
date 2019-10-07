@@ -5,6 +5,7 @@ packages:
   - mingw32-dlfcn
   - mingw32-gcc
   - mingw32-gettext
+  - mingw32-glib2
   - mingw32-gnutls
   - mingw32-libssh2
   - mingw32-libxml2

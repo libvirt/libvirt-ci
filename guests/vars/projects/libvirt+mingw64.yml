@@ -5,6 +5,7 @@ packages:
   - mingw64-dlfcn
   - mingw64-gcc
   - mingw64-gettext
+  - mingw64-glib2
   - mingw64-gnutls
   - mingw64-libssh2
   - mingw64-libxml2
