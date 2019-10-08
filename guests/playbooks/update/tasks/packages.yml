@@ -100,3 +100,48 @@
   package:
     name: '{{ flattened|sort }}'
     state: '{{ state }}'
+
+- set_fact:
+    pip_temp: {}
+
+- name: '{{ project }}: Verify pip mappings'
+  fail:
+    msg: 'No mappings defined for {{ item }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - mappings[item] is undefined
+    - pip_mappings[item] is undefined
+
+- name: '{{ project }}: Look up pip mappings (default)'
+  set_fact:
+    pip_temp: '{{ pip_temp|combine({ item: pip_mappings[item]["default"] }) }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - pip_mappings[item]["default"] is defined
+
+- set_fact:
+    pip_flattened: []
+
+- name: '{{ project }}: Flatten pip package list'
+  set_fact:
+    pip_flattened: '{{ pip_flattened }} + [ "{{ pip_temp[item] }}" ]'
+  with_items:
+    '{{ pip_temp }}'
+  when:
+    - pip_temp[item] != None
+    - pip_temp[item] not in pip_flattened
+
+- name: '{{ project }}: Install packages from pip (state={{ state }})'
+  pip:
+    name: '{{ pip_flattened|sort }}'
+    executable: pip3
+    state: '{{ state }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - temp[item] is defined
+    - temp[item] == None
+    - pip_temp[item] is defined
+    - pip_temp[item] != None
