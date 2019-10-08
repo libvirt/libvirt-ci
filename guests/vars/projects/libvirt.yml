@@ -9,6 +9,7 @@ packages:
   - dtrace
   - dwarves
   - ebtables
+  - flake8
   - fuse
   - glib2
   - glusterfs
