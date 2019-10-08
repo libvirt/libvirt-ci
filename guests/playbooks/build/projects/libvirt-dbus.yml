@@ -6,23 +6,11 @@
     git_url: '{{ git_urls["libvirt-dbus"][git_remote] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
-- include: '{{ playbook_base }}/jobs/autotools-build-job.yml'
-- include: '{{ playbook_base }}/jobs/autotools-syntax-check-job.yml'
+- include: '{{ playbook_base }}/jobs/meson-build-job.yml'
+- include: '{{ playbook_base }}/jobs/meson-check-job.yml'
   vars:
     # flake8 and pyflakes versions currently available on FreeBSD
     # (3.5.0 and 2.0.0 respectively) are not compatible.
-    machines:
-      - libvirt-centos-7
-      - libvirt-debian-9
-      - libvirt-debian-10
-      - libvirt-debian-sid
-      - libvirt-fedora-29
-      - libvirt-fedora-30
-      - libvirt-fedora-rawhide
-      - libvirt-ubuntu-16
-      - libvirt-ubuntu-18
-- include: '{{ playbook_base }}/jobs/autotools-check-job.yml'
-  vars:
     # Python3 version in Ubuntu 16.04 and python3-pytest version
     # in CentOS 7 are too old.
     machines:
@@ -32,10 +20,12 @@
       - libvirt-fedora-29
       - libvirt-fedora-30
       - libvirt-fedora-rawhide
-      - libvirt-freebsd-11
-      - libvirt-freebsd-12
-      - libvirt-freebsd-current
       - libvirt-ubuntu-18
-- include: '{{ playbook_base }}/jobs/autotools-rpm-job.yml'
+- include: '{{ playbook_base }}/jobs/meson-rpm-job.yml'
   vars:
-    machines: '{{ rpm_machines }}'
+    # RPM build is still not possible on CentOS7 as it does not
+    # have the needed RPM macros for meson.
+    machines:
+      - libvirt-fedora-29
+      - libvirt-fedora-30
+      - libvirt-fedora-rawhide
