@@ -1,17 +1,7 @@
 ---
 - set_fact:
     name: libosinfo
-    # libosinfo depends on meson 0.49.0, which is not available on
-    # CentOS 7, Debian 9, Ubuntu 18;
-    machines:
-      - libvirt-debian-10
-      - libvirt-debian-sid
-      - libvirt-fedora-29
-      - libvirt-fedora-30
-      - libvirt-fedora-rawhide
-      - libvirt-freebsd-11
-      - libvirt-freebsd-12
-      - libvirt-freebsd-current
+    machines: '{{ all_machines }}'
     archive_format: xz
     git_url: '{{ git_urls["libosinfo"][git_remote] }}'
 
@@ -20,6 +10,8 @@
 - include: '{{ playbook_base }}/jobs/meson-check-job.yml'
 - include: '{{ playbook_base }}/jobs/meson-rpm-job.yml'
   vars:
+    # RPM build is still not possible on CentOS7 as it does not
+    # have the needed RPM macros for meson.
     machines:
       - libvirt-fedora-29
       - libvirt-fedora-30
