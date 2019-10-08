@@ -25,6 +25,7 @@ packages:
   - patch
   - perl
   - pkg-config
+  - python2-setuptools
   - rpmbuild
   - screen
   - strace
