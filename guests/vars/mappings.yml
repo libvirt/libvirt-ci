@@ -816,6 +816,9 @@ mappings:
     Fedora: python2-nose
     FreeBSD: py27-nose
 
+  python2-setuptools:
+    CentOS7: python2-setuptools
+
   python3:
     default: python3
 
