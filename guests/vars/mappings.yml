@@ -856,6 +856,12 @@ mappings:
     FreeBSD: py36-nose
     CentOS7: python36-nose
 
+  python3-pip:
+    CentOS7: python3-pip
+    Debian9: python3-pip
+    Ubuntu16: python3-pip
+    Ubuntu18: python3-pip
+
   python3-pytest:
     default: python3-pytest
     FreeBSD: py36-pytest
