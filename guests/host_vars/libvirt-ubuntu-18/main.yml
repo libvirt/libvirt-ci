@@ -13,6 +13,7 @@ projects:
   - libvirt-tck
   - osinfo-db
   - osinfo-db-tools
+  - virt-manager
   - virt-viewer
 
 package_format: 'deb'
