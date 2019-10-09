@@ -26,6 +26,7 @@ packages:
   - perl
   - pkg-config
   - python2-setuptools
+  - python3
   - python3-pip
   - rpmbuild
   - screen

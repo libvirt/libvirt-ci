@@ -4,7 +4,6 @@ packages:
   - python2-devel
   - python2-lxml
   - python2-nose
-  - python3
   - python3-devel
   - python3-lxml
   - python3-nose
