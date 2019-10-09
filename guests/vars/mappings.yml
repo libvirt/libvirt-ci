@@ -872,6 +872,10 @@ mappings:
     FreeBSD: py36-requests
     CentOS7: python36-requests
 
+  python3-setuptools:
+    default: python3-setuptools
+    FreeBSD: py36-setuptools
+
   qemu-img:
     default: qemu-utils
     rpm: qemu-img
