@@ -705,18 +705,6 @@ class Application:
                         {package_manager} autoremove -y && \\
                         {package_manager} autoclean -y
                 """).format(**varmap))
-
-                if pip_pkgs:
-                    sys.stdout.write(textwrap.dedent("""
-                        RUN pip3 install {pip_pkgs}
-                    """).format(**varmap))
-
-                sys.stdout.write(textwrap.dedent("""
-                    ENV ABI "{cross_abi}"
-                    ENV CONFIGURE_OPTS "--host={cross_abi} \\
-                                        --target={cross_abi}"
-                    ENV PKG_CONFIG_LIBDIR "/usr/lib/{cross_lib}/pkgconfig"
-                """).format(**varmap))
         elif package_format == "rpm":
             if os_name == "Fedora" and os_version == "Rawhide":
                 sys.stdout.write(textwrap.dedent("""
@@ -734,10 +722,18 @@ class Application:
                         {package_manager} clean all -y
                 """).format(**varmap))
 
-            if pip_pkgs:
-                sys.stdout.write(textwrap.dedent("""
-                    RUN pip3 install {pip_pkgs}
-                """).format(**varmap))
+        if pip_pkgs:
+            sys.stdout.write(textwrap.dedent("""
+                RUN pip3 install {pip_pkgs}
+            """).format(**varmap))
+
+        if args.cross_arch:
+            sys.stdout.write(textwrap.dedent("""
+                ENV ABI "{cross_abi}"
+                ENV CONFIGURE_OPTS "--host={cross_abi} \\
+                                    --target={cross_abi}"
+                ENV PKG_CONFIG_LIBDIR "/usr/lib/{cross_lib}/pkgconfig"
+            """).format(**varmap))
 
     def run(self):
         args = self._parser.parse_args()
