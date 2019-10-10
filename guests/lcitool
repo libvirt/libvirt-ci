@@ -735,6 +735,10 @@ class Application:
                 RUN pip3 install {pip_pkgs}
             """).format(**varmap))
 
+        sys.stdout.write(textwrap.dedent("""
+            ENV LANG "en_US.UTF-8"
+        """).format(**varmap))
+
         if args.cross_arch:
             sys.stdout.write(textwrap.dedent("""
                 ENV ABI "{cross_abi}"
