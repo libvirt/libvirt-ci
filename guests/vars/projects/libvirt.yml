@@ -46,6 +46,7 @@ packages:
   - openwsman
   - parted
   - polkit
+  - python3-docutils
   - qemu-img
   - radvd
   - readline

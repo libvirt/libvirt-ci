@@ -795,6 +795,11 @@ mappings:
     default: polkit
     deb: policykit-1
 
+  python3-docutils:
+    default: python3-docutils
+    CentOS7: python36-docutils
+    FreeBSD: py36-docutils
+
   python2:
     default: python
     Fedora: python2
