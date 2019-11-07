@@ -17,7 +17,6 @@
           # RPM build is still not possible on CentOS7 as it does not
           # have the needed RPM macros for meson.
           machines:
-            - libvirt-fedora-29
             - libvirt-fedora-30
             - libvirt-fedora-31
             - libvirt-fedora-rawhide
