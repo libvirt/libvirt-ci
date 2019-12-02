@@ -18,9 +18,15 @@
     line: 'PermitRootLogin without-password'
     state: present
 
+- name: '{{ flavor }}: Create group'
+  group:
+    name: '{{ flavor }}'
+    state: present
+
 - name: '{{ flavor }}: Create user account'
   user:
     name: '{{ flavor }}'
+    group: '{{ flavor }}'
     comment: '{{ flavor }}'
     password: '*'
     shell: '{{ bash }}'
