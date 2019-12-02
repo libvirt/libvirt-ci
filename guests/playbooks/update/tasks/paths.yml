@@ -17,7 +17,7 @@
     - su
 
 - name: 'Look for files'
-  shell: 'find /etc /usr/local/etc -name {{ item }} 2>/dev/null'
+  shell: '(find /usr/local/etc -name {{ item }}; find /etc -name {{ item }}) 2>/dev/null'
   register: find
   with_items:
     - sudoers
