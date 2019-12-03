@@ -540,7 +540,9 @@ class Application:
             # preseed files must use a well-known name to be picked up by
             # d-i; for kickstart files, we can use whatever name we please
             # but we need to point anaconda in the right direction through
-            # a kernel argument
+            # the 'ks' kernel parameter. We can use 'ks' unconditionally
+            # for simplicity's sake, because distributions that don't use
+            # kickstart for unattended installation will simply ignore it
             extra_arg = "console=ttyS0 ks=file:/{}".format(install_config)
 
             virt_install = distutils.spawn.find_executable("virt-install")
