@@ -800,30 +800,6 @@ mappings:
     CentOS7: python36-docutils
     FreeBSD: py36-docutils
 
-  python2:
-    default: python
-    Fedora: python2
-    FreeBSD: python2
-
-  python2-devel:
-    deb: python-dev
-    pkg: python2
-    rpm: python2-devel
-    cross-policy-deb: foreign
-
-  python2-lxml:
-    default: python-lxml
-    Fedora: python2-lxml
-    FreeBSD: py27-lxml
-
-  python2-nose:
-    default: python-nose
-    Fedora: python2-nose
-    FreeBSD: py27-nose
-
-  python2-setuptools:
-    CentOS7: python2-setuptools
-
   python3:
     default: python3
 
