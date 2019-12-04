@@ -14,6 +14,7 @@
     - make
     - ninja
     - ninja-build
+    - python3
     - su
 
 - name: 'Look for files'
@@ -39,6 +40,7 @@
     bash: '{{ commands["bash"] }}'
     ccache: '{{ commands["ccache"] }}'
     java: '{{ commands["java"] }}'
+    python: '{{ commands["python3"] }}'
     su: '{{ commands["su"] }}'
     sudoers: '{{ files["sudoers"] }}'
 
