@@ -19,10 +19,10 @@
 #   - deb, pkg, rpm
 #
 # Valid OS names are:
-#   - CentOS, Debian, Fedora, FreeBSD, Ubuntu
+#   - CentOS, Debian, Fedora, FreeBSD, OpenSUSE, Ubuntu
 #
 # Valid OS versions are:
-#   - CentOS7, Debian9, FedoraRawhide, Ubuntu18 and so on
+#   - CentOS7, Debian9, FedoraRawhide, OpenSUSE151, Ubuntu18 and so on
 #
 # The arch specific rules use a prefix "$ARCH-" where  $ARCH
 # is a libvirt arch name.
@@ -70,6 +70,7 @@ mappings:
 
   apparmor:
     deb: libapparmor-dev
+    OpenSUSE: libapparmor-devel
     cross-policy-deb: foreign
 
   augeas:
@@ -117,6 +118,7 @@ mappings:
   cppi:
     Fedora: cppi
     FreeBSD: cppi
+    OpenSUSE: cppi
 
   cyrus-sasl:
     deb: libsasl2-dev
@@ -196,6 +198,7 @@ mappings:
     deb: libglusterfs-dev
     rpm: glusterfs-api-devel
     Debian9: glusterfs-common
+    OpenSUSE: glusterfs-devel
     Ubuntu16: glusterfs-common
     Ubuntu18: glusterfs-common
     cross-policy-deb: foreign
@@ -204,6 +207,7 @@ mappings:
     deb: libgnutls28-dev
     pkg: gnutls
     rpm: gnutls-devel
+    OpenSUSE: libgnutls-devel
     cross-policy-deb: foreign
 
   go:
@@ -248,10 +252,12 @@ mappings:
   ip:
     deb: iproute2
     rpm: iproute
+    OpenSUSE: iproute2
 
   iscsiadm:
     deb: open-iscsi
     rpm: iscsi-initiator-utils
+    OpenSUSE: open-iscsi
 
   isoinfo:
     default: genisoimage
@@ -289,6 +295,7 @@ mappings:
   libaudit:
     deb: libaudit-dev
     rpm: audit-libs-devel
+    OpenSUSE: audit-devel
     cross-policy-deb: foreign
 
   libblkid:
@@ -320,6 +327,7 @@ mappings:
     deb: libdbus-1-dev
     pkg: dbus
     rpm: dbus-devel
+    OpenSUSE: dbus-1-devel
     cross-policy-deb: foreign
 
   libgovirt:
@@ -347,6 +355,7 @@ mappings:
     rpm: numactl-devel
     armv6l-deb:
     armv7l-deb:
+    OpenSUSE: libnuma-devel
     cross-policy-deb: foreign
 
   libparted:
@@ -370,6 +379,7 @@ mappings:
     deb: librbd-dev
     Fedora: librbd-devel
     CentOS7: librbd1-devel
+    OpenSUSE: librbd-devel
     cross-policy-deb: foreign
 
   libselinux:
@@ -436,6 +446,7 @@ mappings:
     deb: locales
     Fedora: glibc-langpack-en
     FreeBSD:
+    OpenSUSE: glibc-locale
 
   lsof:
     default: lsof
@@ -458,6 +469,7 @@ mappings:
   ninja:
    default: ninja-build
    FreeBSD: ninja
+   OpenSUSE: ninja
 
   mingw32-curl:
     Fedora: mingw32-curl
@@ -639,6 +651,7 @@ mappings:
   netcf:
     deb: libnetcf-dev
     rpm: netcf-devel
+    OpenSUSE:
     cross-policy-deb: skip
 
   net-tools:
@@ -860,6 +873,7 @@ mappings:
   qemu-img:
     default: qemu-utils
     rpm: qemu-img
+    OpenSUSE: qemu-tools
 
   radvd:
     default: radvd
@@ -918,6 +932,7 @@ mappings:
     deb: iproute2
     rpm: iproute-tc
     CentOS7: iproute
+    OpenSUSE: iproute2
 
   unzip:
     default: unzip
@@ -939,11 +954,13 @@ mappings:
 
   wireshark:
     deb: wireshark-dev
-    Fedora: wireshark-devel
+    rpm: wireshark-devel
+    CentOS:
     cross-policy-deb: skip
 
   xen:
-    Fedora: xen-devel
+    rpm: xen-devel
+    CentOS:
     x86_64-deb: libxen-dev
     armv7l-deb: libxen-dev
     aarch64-deb: libxen-dev
@@ -976,12 +993,14 @@ mappings:
     deb: libyajl-dev
     pkg: yajl
     rpm: yajl-devel
+    OpenSUSE: libyajl-devel
     cross-policy-deb: foreign
 
   zfs:
     default: zfs-fuse
     CentOS:
     FreeBSD:
+    OpenSUSE:
 
   zlib:
     deb: zlib1g-dev

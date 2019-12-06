@@ -531,6 +531,8 @@ class Application:
                 install_config = "preseed.cfg"
             elif facts["os_name"] in ["CentOS", "Fedora"]:
                 install_config = "kickstart.cfg"
+            elif facts["os_name"] == "OpenSUSE":
+                install_config = "autoinst.xml"
             else:
                 raise Exception(
                     "Host {} doesn't support installation".format(host)

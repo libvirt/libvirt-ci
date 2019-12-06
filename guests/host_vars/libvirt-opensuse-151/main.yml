@@ -1,0 +1,10 @@
+---
+projects:
+  - libvirt
+
+package_format: 'rpm'
+package_manager: 'zypper'
+os_name: 'OpenSUSE'
+os_version: '151'
+
+ansible_python_interpreter: /usr/bin/python3

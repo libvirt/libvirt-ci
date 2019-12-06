@@ -65,12 +65,27 @@
   when:
     - package_format == 'pkg'
 
+- name: Update installed packages
+  command: '{{ package_manager }} update -y -l --force-resolution --no-recommends'
+  args:
+    warn: no
+  when:
+    - os_name == 'OpenSUSE'
+
 - name: Clean up packages after update
   shell: '{{ package_manager }} clean packages -y && {{ package_manager }} autoremove -y'
   args:
     warn: no
   when:
     - package_format == 'rpm'
+    - os_name != 'OpenSUSE'
+
+- name: Clean up packages after update
+  shell: '{{ package_manager }} clean'
+  args:
+    warn: no
+  when:
+    - os_name == 'OpenSUSE'
 
 - name: Clean up packages after update
   apt:
