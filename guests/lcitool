@@ -542,9 +542,18 @@ class Application:
 
             # Unattended install scripts are being generated on the fly, based
             # on the templates present in guests/configs/
+            unattended_options = [
+                "install_url",
+            ]
+
             initrd_template = os.path.join(base, "configs", install_config)
             with open(initrd_template, 'r') as template:
                 content = template.read()
+                for option in unattended_options:
+                    content = content.replace(
+                        "{{ " + option + " }}",
+                        facts[option]
+                    )
 
                 tempdir = tempfile.mkdtemp()
                 initrd_inject = os.path.join(tempdir, install_config)
