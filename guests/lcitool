@@ -748,7 +748,7 @@ class Application:
                         {package_manager} autoremove -y && \\
                         {package_manager} clean all -y
                 """).format(**varmap))
-            elif os_name == "CentOS" and os_version == "7":
+            elif os_name == "CentOS":
                 sys.stdout.write(textwrap.dedent("""
                     RUN {package_manager} update -y && \\
                         {package_manager} install -y epel-release && \\
