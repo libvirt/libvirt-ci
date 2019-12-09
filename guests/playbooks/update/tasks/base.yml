@@ -9,6 +9,14 @@
     - os_name == 'Fedora'
     - os_version == 'Rawhide'
 
+- name: Enable PowerTools repository
+  command: '{{ package_manager }} config-manager --set-enabled PowerTools -y'
+  args:
+    warn: no
+  when:
+    - os_name == 'CentOS'
+    - os_version == '8'
+
 - name: Enable EPEL repository
   package:
     name: epel-release
