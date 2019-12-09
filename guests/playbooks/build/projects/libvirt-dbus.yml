@@ -19,7 +19,7 @@
       - libvirt-debian-sid
       - libvirt-fedora-30
       - libvirt-fedora-rawhide
-      - libvirt-ubuntu-18
+      - libvirt-ubuntu-1804
 - include: '{{ playbook_base }}/jobs/meson-rpm-job.yml'
   vars:
     # RPM build is still not possible on CentOS7 as it does not

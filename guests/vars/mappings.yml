@@ -22,7 +22,7 @@
 #   - CentOS, Debian, Fedora, FreeBSD, OpenSUSE, Ubuntu
 #
 # Valid OS versions are:
-#   - CentOS7, Debian9, FedoraRawhide, OpenSUSE151, Ubuntu18 and so on
+#   - CentOS7, Debian9, FedoraRawhide, OpenSUSE151, Ubuntu1804 and so on
 #
 # The arch specific rules use a prefix "$ARCH-" where  $ARCH
 # is a libvirt arch name.
@@ -199,8 +199,8 @@ mappings:
     rpm: glusterfs-api-devel
     Debian9: glusterfs-common
     OpenSUSE: glusterfs-devel
-    Ubuntu16: glusterfs-common
-    Ubuntu18: glusterfs-common
+    Ubuntu1604: glusterfs-common
+    Ubuntu1804: glusterfs-common
     cross-policy-deb: foreign
 
   gnutls:
@@ -232,7 +232,7 @@ mappings:
 
   gtk-update-icon-cache:
     default: gtk-update-icon-cache
-    Ubuntu16: libgtk2.0-bin
+    Ubuntu1604: libgtk2.0-bin
 
   gtk-vnc2:
     deb: libgtk-vnc-2.0-dev
@@ -268,7 +268,7 @@ mappings:
     pkg: openjdk11
     rpm: java-11-openjdk-headless
     Debian9: openjdk-8-jre-headless
-    Ubuntu16: openjdk-8-jre-headless
+    Ubuntu1604: openjdk-8-jre-headless
 
   json-glib:
     deb: libjson-glib-dev
@@ -463,8 +463,8 @@ mappings:
     default: meson
     CentOS7:
     Debian9:
-    Ubuntu16:
-    Ubuntu18:
+    Ubuntu1604:
+    Ubuntu1804:
 
   ninja:
    default: ninja-build
@@ -645,7 +645,7 @@ mappings:
     pkg: ncurses
     rpm: ncurses-devel
     Debian9: libncurses5-dev
-    Ubuntu18: libncurses5-dev
+    Ubuntu1804: libncurses5-dev
     cross-policy-deb: foreign
 
   netcf:
@@ -838,7 +838,7 @@ mappings:
     default: python3-libxml2
     FreeBSD: py36-libxml2
     CentOS7:
-    Ubuntu16:
+    Ubuntu1604:
 
   python3-lxml:
     default: python3-lxml
@@ -853,8 +853,8 @@ mappings:
   python3-pip:
     CentOS7: python3-pip
     Debian9: python3-pip
-    Ubuntu16: python3-pip
-    Ubuntu18: python3-pip
+    Ubuntu1604: python3-pip
+    Ubuntu1804: python3-pip
 
   python3-pytest:
     default: python3-pytest

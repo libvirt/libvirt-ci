@@ -11,8 +11,8 @@
       - libvirt-freebsd-11
       - libvirt-freebsd-12
       - libvirt-freebsd-current
-      - libvirt-ubuntu-16
-      - libvirt-ubuntu-18
+      - libvirt-ubuntu-1604
+      - libvirt-ubuntu-1804
     archive_format: gz
     git_url: '{{ git_urls["libvirt-tck"][git_remote] }}'
 

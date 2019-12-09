@@ -19,6 +19,6 @@ projects:
 package_format: 'deb'
 package_manager: 'apt-get'
 os_name: 'Ubuntu'
-os_version: '18'
+os_version: '1804'
 
 ansible_python_interpreter: /usr/bin/python3
