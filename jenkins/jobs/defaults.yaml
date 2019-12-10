@@ -4,6 +4,7 @@
     node: libvirt
     all_machines:
       - libvirt-centos-7
+      - libvirt-centos-8
       - libvirt-debian-9
       - libvirt-debian-10
       - libvirt-fedora-30
@@ -13,6 +14,7 @@
       - libvirt-freebsd-12
     rpm_machines:
       - libvirt-centos-7
+      - libvirt-centos-8
       - libvirt-fedora-30
       - libvirt-fedora-31
       - libvirt-fedora-rawhide

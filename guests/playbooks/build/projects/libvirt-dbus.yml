@@ -14,6 +14,7 @@
     # Python3 version in Ubuntu 16.04 and python3-pytest version
     # in CentOS 7 are too old.
     machines:
+      - libvirt-centos-8
       - libvirt-debian-9
       - libvirt-debian-10
       - libvirt-debian-sid
@@ -25,6 +26,7 @@
     # RPM build is still not possible on CentOS7 as it does not
     # have the needed RPM macros for meson.
     machines:
+      - libvirt-centos-8
       - libvirt-fedora-30
       - libvirt-fedora-31
       - libvirt-fedora-rawhide

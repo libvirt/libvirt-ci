@@ -1,6 +1,7 @@
 ---
 all_machines:
   - libvirt-centos-7
+  - libvirt-centos-8
   - libvirt-debian-9
   - libvirt-debian-10
   - libvirt-debian-sid
@@ -15,6 +16,7 @@ all_machines:
   - libvirt-ubuntu-1804
 rpm_machines:
   - libvirt-centos-7
+  - libvirt-centos-8
   - libvirt-fedora-30
   - libvirt-fedora-31
   - libvirt-fedora-rawhide
