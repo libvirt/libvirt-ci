@@ -5,6 +5,8 @@ projects:
   - libvirt-cim
   - libvirt-dbus
   - libvirt-glib
+  - libvirt-go
+  - libvirt-go-xml
   - libvirt-ocaml
   - libvirt-perl
   - libvirt-python
