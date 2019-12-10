@@ -1,14 +1,7 @@
 ---
 - project:
     name: libvirt-go
-    machines:
-      - libvirt-debian-9
-      - libvirt-debian-10
-      - libvirt-fedora-30
-      - libvirt-fedora-31
-      - libvirt-fedora-rawhide
-      - libvirt-freebsd-11
-      - libvirt-freebsd-12
+    machines: '{all_machines}'
     title: Libvirt Go
     archive_format: gz
     git_url: '{git_urls[libvirt-go][default]}'
