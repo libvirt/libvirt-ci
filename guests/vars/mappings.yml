@@ -238,6 +238,7 @@ mappings:
     deb: libgtk-vnc-2.0-dev
     pkg: gtk-vnc
     rpm: gtk-vnc2-devel
+    CentOS8:
     cross-policy-deb: foreign
 
   hal:
@@ -332,6 +333,7 @@ mappings:
 
   libgovirt:
     rpm: libgovirt-devel
+    CentOS8:
     Debian: libgovirt-dev
     cross-policy-deb: foreign
 
@@ -379,6 +381,7 @@ mappings:
     deb: librbd-dev
     Fedora: librbd-devel
     CentOS7: librbd1-devel
+    CentOS8: librbd-devel
     OpenSUSE: librbd-devel
     cross-policy-deb: foreign
 
@@ -404,6 +407,7 @@ mappings:
     deb: libssh2-1-dev
     pkg: libssh2
     rpm: libssh2-devel
+    CentOS8:
     cross-policy-deb: foreign
 
   libtirpc:
