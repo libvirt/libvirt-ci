@@ -1,9 +1,7 @@
 ---
 - set_fact:
     name: virt-manager
-    # virt-manager is Python 3 only, so it can't be built on CentOS 7;
-    # Ubuntu 16.04 has Python 3 but not the libxml2 bindings, so it can't
-    # build the project either
+    # CentOS 7 and Ubuntu 16.04 have Python 3 but not the libxml2 bindings
     machines:
       - libvirt-debian-9
       - libvirt-debian-10
