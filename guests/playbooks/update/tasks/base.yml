@@ -21,6 +21,8 @@
   package:
     name: epel-release
     state: latest
+  when:
+    - os_name == 'CentOS'
 
 - name: Create OpenVZ key
   template:
