@@ -793,9 +793,19 @@ class Application:
             commands.extend([
                 "{package_manager} update -y",
                 "{package_manager} install -y {pkgs}",
-                "{package_manager} autoremove -y",
-                "{package_manager} clean all -y",
             ])
+
+            # openSUSE doesn't seem to have a convenient way to remove all
+            # unnecessary packages, but CentOS and Fedora do
+            if os_name == "OpenSUSE":
+                commands.extend([
+                    "{package_manager} clean --all",
+                ])
+            else:
+                commands.extend([
+                    "{package_manager} autoremove -y",
+                    "{package_manager} clean all -y",
+                ])
 
             script = "\nRUN " + (" && \\\n    ".join(commands)) + "\n"
 
