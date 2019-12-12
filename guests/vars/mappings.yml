@@ -189,11 +189,6 @@ mappings:
     rpm: glibc-devel
     cross-policy-deb: foreign
 
-  glibc-langpack-en:
-    rpm: glibc-langpack-en
-    CentOS7:
-    OpenSUSE:
-
   glibc-static:
     deb: libc6-dev
     rpm: glibc-static
@@ -451,9 +446,9 @@ mappings:
     cross-policy-deb: foreign
 
   locales:
-    CentOS7: glibc-common
     deb: locales
-    Fedora: glibc-langpack-en
+    rpm: glibc-langpack-en
+    CentOS7: glibc-common
     FreeBSD:
     OpenSUSE: glibc-locale
 

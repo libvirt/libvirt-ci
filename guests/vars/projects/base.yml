@@ -14,7 +14,6 @@ packages:
   - gettext
   - git
   - glibc
-  - glibc-langpack-en
   - libtool
   - libtoolize
   - locales
