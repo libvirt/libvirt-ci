@@ -44,7 +44,6 @@
     <patterns config:type="list">
       <pattern>base</pattern>
       <pattern>minimal_base</pattern>
-      <pattern>yast2_basis</pattern>
     </patterns>
     <packages config:type="list">
       <package>openssh</package>
