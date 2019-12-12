@@ -77,6 +77,11 @@ mappings:
     default: augeas
     deb: augeas-tools
 
+  augeas-lenses:
+    default: augeas
+    deb: augeas-lenses
+    OpenSUSE: augeas-lenses
+
   autoconf:
     default: autoconf
 
