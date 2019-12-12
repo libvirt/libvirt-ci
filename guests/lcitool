@@ -740,40 +740,40 @@ class Application:
                         {package_manager} autoclean -y
                 """).format(**varmap))
         elif package_format == "rpm":
+            commands = []
+
+            # Rawhide needs this because the keys used to sign packages are
+            # cycled from time to time
             if os_name == "Fedora" and os_version == "Rawhide":
-                sys.stdout.write(textwrap.dedent("""
-                    RUN {package_manager} update -y --nogpgcheck fedora-gpg-keys && \\
-                        {package_manager} update -y && \\
-                        {package_manager} install -y {pkgs} && \\
-                        {package_manager} autoremove -y && \\
-                        {package_manager} clean all -y
-                """).format(**varmap))
-            elif os_name == "CentOS":
-                if os_version == "7":
-                    sys.stdout.write(textwrap.dedent("""
-                        RUN {package_manager} install -y epel-release && \\
-                            {package_manager} update -y && \\
-                            {package_manager} install -y {pkgs} && \\
-                            {package_manager} autoremove -y && \\
-                            {package_manager} clean all -y
-                    """).format(**varmap))
-                else:
-                    sys.stdout.write(textwrap.dedent("""
-                        RUN {package_manager} install 'dnf-command(config-manager)' -y && \\
-                            {package_manager} config-manager --set-enabled PowerTools -y && \\
-                            {package_manager} install -y epel-release && \\
-                            {package_manager} update -y && \\
-                            {package_manager} install -y {pkgs} && \\
-                            {package_manager} autoremove -y && \\
-                            {package_manager} clean all -y
-                    """).format(**varmap))
-            else:
-                sys.stdout.write(textwrap.dedent("""
-                    RUN {package_manager} update -y && \\
-                        {package_manager} install -y {pkgs} && \\
-                        {package_manager} autoremove -y && \\
-                        {package_manager} clean all -y
-                """).format(**varmap))
+                commands.extend([
+                    "{package_manager} update -y --nogpgcheck fedora-gpg-keys"
+                ])
+
+            if os_name == "CentOS":
+                # Starting with CentOS 8, most -devel packages are shipped in
+                # the PowerTools repository, which is not enabled by default
+                if os_version != "7":
+                    commands.extend([
+                        "{package_manager} install 'dnf-command(config-manager)' -y",
+                        "{package_manager} config-manager --set-enabled PowerTools -y",
+                    ])
+
+                # Some of the packages we need are not part of CentOS proper
+                # and are only available through EPEL
+                commands.extend([
+                    "{package_manager} install -y epel-release",
+                ])
+
+            commands.extend([
+                "{package_manager} update -y",
+                "{package_manager} install -y {pkgs}",
+                "{package_manager} autoremove -y",
+                "{package_manager} clean all -y",
+            ])
+
+            script = "\nRUN " + (" && \\\n    ".join(commands)) + "\n"
+
+            sys.stdout.write(script.format(**varmap))
 
         if pip_pkgs:
             sys.stdout.write(textwrap.dedent("""
