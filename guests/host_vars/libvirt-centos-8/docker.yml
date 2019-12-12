@@ -1,2 +1,2 @@
 ---
-docker_base: centos:centos8
+docker_base: centos:8

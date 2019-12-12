@@ -1,2 +1,2 @@
 ---
-docker_base: centos:centos7
+docker_base: centos:7
