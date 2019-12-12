@@ -2,6 +2,7 @@
 packages:
   - apparmor
   - augeas
+  - augeas-lenses
   - avahi
   - cyrus-sasl
   - device-mapper
