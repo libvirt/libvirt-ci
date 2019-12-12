@@ -24,9 +24,6 @@
       $PYTHON ./setup.py configure --prefix=$VIRT_PREFIX
 - include: '{{ playbook_base }}/jobs/python-distutils-check-job.yml'
   vars:
-    # libxml2's Python 3 bindings don't work properly on FreeBSD,
-    # so skip the test suite there for the time being. See
-    # https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=224902
     machines:
       - libvirt-centos-8
       - libvirt-debian-9
@@ -35,6 +32,9 @@
       - libvirt-fedora-30
       - libvirt-fedora-31
       - libvirt-fedora-rawhide
+      - libvirt-freebsd-11
+      - libvirt-freebsd-12
+      - libvirt-freebsd-current
       - libvirt-ubuntu-1804
 - include: '{{ playbook_base }}/jobs/python-distutils-rpm-job.yml'
   vars:
