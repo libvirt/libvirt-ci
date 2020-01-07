@@ -137,6 +137,37 @@ FreeBSD
 Installation of FreeBSD guests must be performed manually; alternatively,
 the official qcow2 images can be used to quickly bring up such guests.
 
+    $ MAJOR=12
+    $ MINOR=1
+    $ VER=$MAJOR.$MINOR-RELEASE
+    $ sudo wget -O /var/lib/libvirt/images/libvirt-freebsd-$MAJOR.qcow2.xz \
+      https://download.freebsd.org/ftp/releases/VM-IMAGES/$VER/amd64/Latest/FreeBSD-$VER-amd64.qcow2.xz
+    $ sudo unxz /var/lib/libvirt/images/libvirt-freebsd-$MAJOR.qcow2.xz
+    $ virt-install \
+      --import \
+      --name libvirt-freebsd-$MAJOR \
+      --vcpus 2 \
+      --graphics vnc \
+      --noautoconsole \
+      --console pty \
+      --sound none \
+      --rng device=/dev/urandom,model=virtio \
+      --memory 2048 \
+      --os-variant freebsd$MAJOR.0 \
+      --disk /var/lib/libvirt/images/libvirt-freebsd-$MAJOR.qcow2
+
+The default qcow2 images are sized too small to be usable. To enlarge
+them do
+
+   $ virsh blockresize libvirt-freebsd-$MAJOR \
+     /var/lib/libvirt/images/libvirt-freebsd-$MAJOR.qcow2 15G
+
+Then inside the guest, as root, enlarge the 3rd partition & filesystem
+to consume all new space:
+
+   # gpart resize -i 3 vtbd0
+   # service growfs onestart
+
 Some manual tweaking will be needed, in particular:
 
 * `/etc/ssh/sshd_config` must contain the `PermitRootLogin yes` directive;
