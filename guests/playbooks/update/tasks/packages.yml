@@ -143,7 +143,8 @@
     - pip_resolved[item] not in pip_flattened
 
 - name: '{{ project }}: Install packages from pip (state={{ state }})'
-  pip:
-    name: '{{ pip_flattened|sort }}'
-    executable: pip3
-    state: '{{ state }}'
+  command: 'pip3 install {{ item }}'
+  args:
+    warn: no
+  with_items:
+    '{{ pip_flattened|sort }}'
