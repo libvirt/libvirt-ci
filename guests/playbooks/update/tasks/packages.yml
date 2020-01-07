@@ -121,6 +121,15 @@
   when:
     - pip_mappings[item]["default"] is defined
 
+- name: '{{ project }}: Remove unwanted pip mappings'
+  set_fact:
+    pip_resolved: '{{ pip_resolved|combine({ item: None }) }}'
+  with_items:
+    '{{ packages }}'
+  when:
+    - resolved[item] is defined
+    - resolved[item] != None
+
 - set_fact:
     pip_flattened: []
 
@@ -138,10 +147,3 @@
     name: '{{ pip_flattened|sort }}'
     executable: pip3
     state: '{{ state }}'
-  with_items:
-    '{{ packages }}'
-  when:
-    - resolved[item] is defined
-    - resolved[item] == None
-    - pip_resolved[item] is defined
-    - pip_resolved[item] != None
