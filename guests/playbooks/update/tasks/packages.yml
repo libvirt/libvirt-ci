@@ -10,7 +10,7 @@
     file: '{{ base }}/vars/projects/{{ project }}.yml'
 
 - set_fact:
-    temp: {}
+    resolved: {}
 
 - name: '{{ project }}: Verify mappings'
   fail:
@@ -22,7 +22,7 @@
 
 - name: '{{ project }}: Look up mappings (default)'
   set_fact:
-    temp: '{{ temp|combine({ item: mappings[item]["default"] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item]["default"] }) }}'
   with_items:
     '{{ packages }}'
   when:
@@ -30,7 +30,7 @@
 
 - name: '{{ project }}: Look up mappings (package format)'
   set_fact:
-    temp: '{{ temp|combine({ item: mappings[item][package_format] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item][package_format] }) }}'
   with_items:
     '{{ packages }}'
   when:
@@ -38,7 +38,7 @@
 
 - name: '{{ project }}: Look up mappings (OS name)'
   set_fact:
-    temp: '{{ temp|combine({ item: mappings[item][os_name] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item][os_name] }) }}'
   with_items:
     '{{ packages }}'
   when:
@@ -46,7 +46,7 @@
 
 - name: '{{ project }}: Look up mappings (OS version)'
   set_fact:
-    temp: '{{ temp|combine({ item: mappings[item][os_name + os_version] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item][os_name + os_version] }) }}'
   with_items:
     '{{ packages }}'
   when:
@@ -54,7 +54,7 @@
 
 - name: '{{ project }}: Look up mappings (arch with default)'
   set_fact:
-    temp: '{{ temp|combine({ item: mappings[item]["x86_64" + "-" + "default"] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + "default"] }) }}'
   with_items:
     '{{ packages }}'
   when:
@@ -62,7 +62,7 @@
 
 - name: '{{ project }}: Look up mappings (arch with package format)'
   set_fact:
-    temp: '{{ temp|combine({ item: mappings[item]["x86_64" + "-" + package_format] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + package_format] }) }}'
   with_items:
     '{{ packages }}'
   when:
@@ -70,7 +70,7 @@
 
 - name: '{{ project }}: Look up mappings (arch with OS name)'
   set_fact:
-    temp: '{{ temp|combine({ item: mappings[item]["x86_64" + "-" + os_name] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + os_name] }) }}'
   with_items:
     '{{ packages }}'
   when:
@@ -78,7 +78,7 @@
 
 - name: '{{ project }}: Look up mappings (arch with OS version)'
   set_fact:
-    temp: '{{ temp|combine({ item: mappings[item]["x86_64" + "-" + os_name + os_version] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + os_name + os_version] }) }}'
   with_items:
     '{{ packages }}'
   when:
@@ -89,12 +89,12 @@
 
 - name: '{{ project }}: Flatten package list'
   set_fact:
-    flattened: '{{ flattened }} + [ "{{ temp[item] }}" ]'
+    flattened: '{{ flattened }} + [ "{{ resolved[item] }}" ]'
   with_items:
-    '{{ temp }}'
+    '{{ resolved }}'
   when:
-    - temp[item] != None
-    - temp[item] not in flattened
+    - resolved[item] != None
+    - resolved[item] not in flattened
 
 - name: '{{ project }}: Install/remove packages (state={{ state }})'
   package:
@@ -102,7 +102,7 @@
     state: '{{ state }}'
 
 - set_fact:
-    pip_temp: {}
+    pip_resolved: {}
 
 - name: '{{ project }}: Verify pip mappings'
   fail:
@@ -115,7 +115,7 @@
 
 - name: '{{ project }}: Look up pip mappings (default)'
   set_fact:
-    pip_temp: '{{ pip_temp|combine({ item: pip_mappings[item]["default"] }) }}'
+    pip_resolved: '{{ pip_resolved|combine({ item: pip_mappings[item]["default"] }) }}'
   with_items:
     '{{ packages }}'
   when:
@@ -126,12 +126,12 @@
 
 - name: '{{ project }}: Flatten pip package list'
   set_fact:
-    pip_flattened: '{{ pip_flattened }} + [ "{{ pip_temp[item] }}" ]'
+    pip_flattened: '{{ pip_flattened }} + [ "{{ pip_resolved[item] }}" ]'
   with_items:
-    '{{ pip_temp }}'
+    '{{ pip_resolved }}'
   when:
-    - pip_temp[item] != None
-    - pip_temp[item] not in pip_flattened
+    - pip_resolved[item] != None
+    - pip_resolved[item] not in pip_flattened
 
 - name: '{{ project }}: Install packages from pip (state={{ state }})'
   pip:
@@ -141,7 +141,7 @@
   with_items:
     '{{ packages }}'
   when:
-    - temp[item] is defined
-    - temp[item] == None
-    - pip_temp[item] is defined
-    - pip_temp[item] != None
+    - resolved[item] is defined
+    - resolved[item] == None
+    - pip_resolved[item] is defined
+    - pip_resolved[item] != None
