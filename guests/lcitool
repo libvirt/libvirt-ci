@@ -394,11 +394,20 @@ class Application:
                 help="target architecture for cross compiler",
             )
 
+        def add_wait_arg(parser):
+            parser.add_argument(
+                "-w", "--wait",
+                help="wait for installation to complete",
+                default=False,
+                action="store_true",
+            )
+
         installparser = subparsers.add_parser(
             "install", help="perform unattended host installation")
         installparser.set_defaults(func=self._action_install)
 
         add_hosts_arg(installparser)
+        add_wait_arg(installparser)
 
         updateparser = subparsers.add_parser(
             "update", help="prepare hosts and keep them updated")
@@ -597,8 +606,10 @@ class Application:
                 "--rng", "device=/dev/urandom,model=virtio",
                 "--initrd-inject", initrd_inject,
                 "--extra-args", extra_arg,
-                "--wait", "0",
             ]
+
+            if not args.wait:
+                cmd.append("--noautoconsole")
 
             # Only configure autostart for the guest for the jenkins flavor
             if flavor == "jenkins":
