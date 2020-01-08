@@ -159,14 +159,14 @@ the official qcow2 images can be used to quickly bring up such guests.
 The default qcow2 images are sized too small to be usable. To enlarge
 them do
 
-   $ virsh blockresize libvirt-freebsd-$MAJOR \
-     /var/lib/libvirt/images/libvirt-freebsd-$MAJOR.qcow2 15G
+    $ virsh blockresize libvirt-freebsd-$MAJOR \
+      /var/lib/libvirt/images/libvirt-freebsd-$MAJOR.qcow2 15G
 
 Then inside the guest, as root, enlarge the 3rd partition & filesystem
 to consume all new space:
 
-   # gpart resize -i 3 vtbd0
-   # service growfs onestart
+    # gpart resize -i 3 vtbd0
+    # service growfs onestart
 
 Some manual tweaking will be needed, in particular:
 
