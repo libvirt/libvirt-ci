@@ -9,7 +9,7 @@
     cd build
     if ! $MAKE check
     then
-        find -name test-suite.log -exec cat {} \;
+        find -name test-suite.log | xargs cat
         exit 1
     fi
   when:
