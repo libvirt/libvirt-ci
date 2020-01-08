@@ -27,6 +27,8 @@
             after: true
           skip-tag: true
           wipe-workspace: false
+          submodule:
+            recursive: true
     triggers:
       - reverse:
           jobs: '{obj:parent_jobs}'
