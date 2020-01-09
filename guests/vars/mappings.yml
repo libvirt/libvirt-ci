@@ -481,6 +481,7 @@ mappings:
     default: meson
     CentOS7:
     Debian9:
+    OpenSUSE151:
     Ubuntu1604:
     Ubuntu1804:
 
@@ -882,6 +883,7 @@ mappings:
   python3-pip:
     CentOS7: python3-pip
     Debian9: python3-pip
+    OpenSUSE151: python3-pip
     Ubuntu1604: python3-pip
     Ubuntu1804: python3-pip
 
