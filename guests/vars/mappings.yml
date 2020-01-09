@@ -134,6 +134,7 @@ mappings:
   dbus-daemon:
     default: dbus
     Fedora: dbus-daemon
+    OpenSUSE: dbus-1
 
   device-mapper:
     deb: libdevmapper-dev
@@ -181,6 +182,7 @@ mappings:
     rpm: gdk-pixbuf2-devel
     deb: libgdk-pixbuf2.0-dev
     pkg: gdk-pixbuf2
+    OpenSUSE: gdk-pixbuf-devel
     cross-policy-deb: foreign
 
   gettext:
@@ -224,6 +226,7 @@ mappings:
   go:
     default: golang
     FreeBSD: go
+    OpenSUSE: go
 
   gobject-introspection:
     deb: libgirepository1.0-dev
@@ -243,6 +246,7 @@ mappings:
 
   gtk-update-icon-cache:
     default: gtk-update-icon-cache
+    OpenSUSE: gtk3-tools
     Ubuntu1604: libgtk2.0-bin
 
   hal:
@@ -267,6 +271,7 @@ mappings:
   isoinfo:
     default: genisoimage
     FreeBSD: cdrkit
+    OpenSUSE: mkisofs
 
   java:
     deb: openjdk-11-jre-headless
@@ -800,6 +805,7 @@ mappings:
     deb: libtime-hr-perl
     pkg: p5-Time-HiRes
     rpm: perl-Time-HiRes
+    OpenSUSE: perl
 
   perl-XML-Twig:
     deb: libxml-twig-perl
@@ -823,6 +829,7 @@ mappings:
 
   perl-generators:
     rpm: perl-generators
+    OpenSUSE:
     CentOS7:
 
   pkg-config:
@@ -836,6 +843,7 @@ mappings:
   pulseaudio:
     deb: libpulse-dev
     rpm: pulseaudio-libs-devel
+    OpenSUSE: libpulse-devel
     cross-policy-deb: foreign
 
   python3-docutils:
@@ -849,12 +857,14 @@ mappings:
   python3-dbus:
     default: python3-dbus
     FreeBSD: py37-dbus
+    OpenSUSE: python3-dbus-python
     CentOS7: python36-dbus
 
   python3-devel:
     deb: python3-dev
     pkg: python3
     Fedora: python3-devel
+    OpenSUSE: python3-devel
     CentOS7: python36-devel
     cross-policy-deb: foreign
 
@@ -867,6 +877,7 @@ mappings:
   python3-libxml2:
     default: python3-libxml2
     FreeBSD: py37-libxml2
+    OpenSUSE: python3-libxml2-python
     CentOS7:
     Ubuntu1604:
 
@@ -950,6 +961,7 @@ mappings:
     deb: libspice-client-gtk-3.0-dev
     pkg: spice-gtk
     rpm: spice-gtk3-devel
+    OpenSUSE: spice-gtk-devel
     cross-policy-deb: foreign
 
   strace:
@@ -1018,6 +1030,7 @@ mappings:
   xz-static:
     deb: liblzma-dev
     Fedora: xz-static
+    OpenSUSE: xz-static-devel
     cross-policy-deb: foreign
 
   yajl:
@@ -1041,6 +1054,7 @@ mappings:
   zlib-static:
     deb: zlib1g-dev
     rpm: zlib-static
+    OpenSUSE: zlib-devel-static
     cross-policy-deb: foreign
 
 
