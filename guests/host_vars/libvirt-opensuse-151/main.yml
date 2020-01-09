@@ -1,6 +1,20 @@
 ---
 projects:
+  - gtk-vnc
+  - libosinfo
   - libvirt
+  - libvirt-dbus
+  - libvirt-glib
+  - libvirt-go
+  - libvirt-go-xml
+  - libvirt-ocaml
+  - libvirt-perl
+  - libvirt-python
+  - libvirt-sandbox
+  - osinfo-db
+  - osinfo-db-tools
+  - virt-manager
+  - virt-viewer
 
 package_format: 'rpm'
 package_manager: 'zypper'
