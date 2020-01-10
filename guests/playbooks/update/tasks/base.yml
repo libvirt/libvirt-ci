@@ -101,6 +101,13 @@
     - package_format == 'pkg'
 
 - name: Clean up packages after update
+  command: '{{ package_manager }} mark install "kernel*"'
+  args:
+    warn: no
+  when:
+    - os_name == 'Fedora'
+
+- name: Clean up packages after update
   shell: '{{ package_manager }} clean packages -y && {{ package_manager }} autoremove -y'
   args:
     warn: no
