@@ -864,8 +864,7 @@ mappings:
   python3-devel:
     deb: python3-dev
     pkg: python3
-    Fedora: python3-devel
-    OpenSUSE: python3-devel
+    rpm: python3-devel
     CentOS7: python36-devel
     cross-policy-deb: foreign
 
