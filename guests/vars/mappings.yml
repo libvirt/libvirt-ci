@@ -398,10 +398,8 @@ mappings:
 
   librbd:
     deb: librbd-dev
-    Fedora: librbd-devel
+    rpm: librbd-devel
     CentOS7: librbd1-devel
-    CentOS8: librbd-devel
-    OpenSUSE: librbd-devel
     cross-policy-deb: foreign
 
   libselinux:
