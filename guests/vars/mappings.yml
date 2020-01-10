@@ -400,6 +400,9 @@ mappings:
     deb: librbd-dev
     rpm: librbd-devel
     CentOS7: librbd1-devel
+    mipsel-deb:
+    mipsel-Debian9: librbd-dev
+    mipsel-Debian10: librbd-dev
     cross-policy-deb: foreign
 
   libselinux:
