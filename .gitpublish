@@ -1,4 +1,4 @@
 [gitpublishprofile "default"]
 base = master
 to = libvir-list@redhat.com
-prefix = jenkins-ci PATCH
+prefix = libvirt-jenkins-ci PATCH
