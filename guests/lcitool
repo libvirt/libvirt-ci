@@ -657,15 +657,16 @@ class Application:
         os_name = facts["os_name"]
         os_version = facts["os_version"]
         os_full = os_name + os_version
+        cross_arch = args.cross_arch
 
         if package_format not in ["deb", "rpm"]:
             raise Exception("Host {} doesn't support Dockerfiles".format(host))
-        if args.cross_arch:
+        if cross_arch:
             if os_name != "Debian":
                 raise Exception("Cannot cross compile on {}".format(os_name))
-            if args.cross_arch == self._native_arch:
+            if cross_arch == self._native_arch:
                 raise Exception("Cross arch {} should differ from native {}".
-                                format(args.cross_arch, self._native_arch))
+                                format(cross_arch, self._native_arch))
 
         projects = self._projects.expand_pattern(args.projects)
         for project in projects:
@@ -682,8 +683,8 @@ class Application:
         pip_pkgs = {}
         base_keys = ["default", package_format, os_name, os_full]
         cross_keys = []
-        if args.cross_arch:
-            keys = base_keys + [args.cross_arch + "-" + k for k in base_keys]
+        if cross_arch:
+            keys = base_keys + [cross_arch + "-" + k for k in base_keys]
             cross_keys = ["cross-policy-" + k for k in base_keys]
         else:
             keys = base_keys + [self._native_arch + "-" + k for k in base_keys]
@@ -727,10 +728,10 @@ class Application:
         varmap["pip_pkgs"] = pip_pkg_align[1:] + pip_pkg_align.join(sorted(set(pip_pkgs.values())))
 
         if package_format == "deb":
-            if args.cross_arch:
-                deb_arch = Util.native_arch_to_deb_arch(args.cross_arch)
-                abi = Util.native_arch_to_abi(args.cross_arch)
-                lib = Util.native_arch_to_lib(args.cross_arch)
+            if cross_arch:
+                deb_arch = Util.native_arch_to_deb_arch(cross_arch)
+                abi = Util.native_arch_to_abi(cross_arch)
+                lib = Util.native_arch_to_lib(cross_arch)
                 gcc = "gcc-" + abi
                 varmap["cross_arch"] = deb_arch
                 pkg_names = [p + ":" + deb_arch for p in cross_pkgs.values()]
@@ -749,7 +750,7 @@ class Application:
                     sed -Ei 's,^# (en_US\\.UTF-8 .*)$,\\1,' /etc/locale.gen && \\
                     dpkg-reconfigure locales
             """).format(**varmap))
-            if args.cross_arch:
+            if cross_arch:
                 # Intentionally a separate RUN command from the above
                 # so that the common packages of all cross-built images
                 # share a Docker image layer.
@@ -831,7 +832,7 @@ class Application:
             ENV LANG "en_US.UTF-8"
         """).format(**varmap))
 
-        if args.cross_arch:
+        if cross_arch:
             sys.stdout.write(textwrap.dedent("""
                 ENV ABI "{cross_abi}"
                 ENV CONFIGURE_OPTS "--host={cross_abi} \\
