@@ -725,7 +725,9 @@ class Application:
         varmap = {}
         varmap["package_manager"] = package_manager
         varmap["pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkgs.values())))
-        varmap["pip_pkgs"] = pip_pkg_align[1:] + pip_pkg_align.join(sorted(set(pip_pkgs.values())))
+
+        if pip_pkgs:
+            varmap["pip_pkgs"] = pip_pkg_align[1:] + pip_pkg_align.join(sorted(set(pip_pkgs.values())))
 
         if package_format == "deb":
             if cross_arch:
@@ -823,7 +825,7 @@ class Application:
 
             sys.stdout.write(script.format(**varmap))
 
-        if pip_pkgs:
+        if "pip_pkgs" in varmap:
             sys.stdout.write(textwrap.dedent("""
                 RUN pip3 install {pip_pkgs}
             """).format(**varmap))
