@@ -93,6 +93,8 @@ class Util:
             "armv6l": "arm-linux-gnueabi",
             "armv7l": "arm-linux-gnueabihf",
             "i686": "i686-linux-gnu",
+            "mingw32": "i686-w64-mingw32",
+            "mingw64": "x86_64-w64-mingw32",
             "mips": "mips-linux-gnu",
             "mipsel": "mipsel-linux-gnu",
             "mips64el": "mips64el-linux-gnuabi64",
@@ -726,6 +728,7 @@ class Application:
         os_full = os_name + os_version
 
         pkgs = {}
+        cross_pkgs = {}
         pip_pkgs = {}
         keys = ["default", package_format, os_name, os_full]
 
@@ -746,12 +749,34 @@ class Application:
                 if pkgs[package] is None:
                     del pkgs[package]
 
+        if cross_arch:
+            cross_projects = []
+            for project in projects:
+                cross_project = project + "+" + cross_arch
+                if cross_project in facts["projects"]:
+                    cross_projects.extend([cross_project])
+
+            for project in cross_projects:
+                for package in self._projects.get_packages(project):
+                    for key in keys:
+                        if key in mappings[package]:
+                            cross_pkgs[package] = mappings[package][key]
+
+                    if package not in cross_pkgs:
+                        continue
+                    if cross_pkgs[package] is None:
+                        del cross_pkgs[package]
+
         pkg_align = " \\\n" + (" " * len("RUN " + package_manager + " "))
         pip_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
 
         varmap = {}
         varmap["package_manager"] = package_manager
         varmap["pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkgs.values())))
+
+        if cross_arch:
+            varmap["cross_abi"] = Util.native_arch_to_abi(cross_arch)
+            varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(cross_pkgs.values())))
 
         if pip_pkgs:
             varmap["pip_pkgs"] = pip_pkg_align[1:] + pip_pkg_align.join(sorted(set(pip_pkgs.values())))
@@ -850,6 +875,15 @@ class Application:
 
             sys.stdout.write(script.format(**varmap))
 
+            if cross_arch:
+                # Intentionally a separate RUN command from the above
+                # so that the common packages of all cross-built images
+                # share a Docker image layer.
+                sys.stdout.write(textwrap.dedent("""
+                    RUN {package_manager} install -y {cross_pkgs} && \\
+                        {package_manager} clean all -y
+                """).format(**varmap))
+
         if "pip_pkgs" in varmap:
             sys.stdout.write(textwrap.dedent("""
                 RUN pip3 install {pip_pkgs}
@@ -859,12 +893,20 @@ class Application:
             ENV LANG "en_US.UTF-8"
         """).format(**varmap))
 
-        if cross_arch:
+        if cross_arch and package_format == "deb":
             sys.stdout.write(textwrap.dedent("""
                 ENV ABI "{cross_abi}"
                 ENV CONFIGURE_OPTS "--host={cross_abi} \\
                                     --target={cross_abi}"
                 ENV PKG_CONFIG_LIBDIR "/usr/lib/{cross_lib}/pkgconfig"
+            """).format(**varmap))
+
+        if cross_arch and package_format == "rpm":
+            sys.stdout.write(textwrap.dedent("""
+                ENV ABI "{cross_abi}"
+                ENV CONFIGURE_OPTS "--host={cross_abi} \\
+                                    --target={cross_abi}"
+                ENV PKG_CONFIG_LIBDIR "/usr/{cross_abi}/sys-root/mingw/lib/pkgconfig:/usr/{cross_abi}/sys-root/mingw/share/pkgconfig"
             """).format(**varmap))
 
     def _action_dockerfile(self, args):
@@ -887,7 +929,7 @@ class Application:
         if package_format not in ["deb", "rpm"]:
             raise Exception("Host {} doesn't support Dockerfiles".format(host))
         if cross_arch:
-            if os_name != "Debian":
+            if os_name not in ["Debian", "Fedora"]:
                 raise Exception("Cannot cross compile on {}".format(os_name))
             if cross_arch == self._native_arch:
                 raise Exception("Cross arch {} should differ from native {}".
