@@ -720,8 +720,6 @@ class Application:
         pkg_align = " \\\n" + (" " * len("RUN " + package_manager + " "))
         pip_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
 
-        print("FROM {}".format(facts["docker_base"]))
-
         varmap = {}
         varmap["package_manager"] = package_manager
         varmap["pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkgs.values())))
@@ -729,19 +727,21 @@ class Application:
         if pip_pkgs:
             varmap["pip_pkgs"] = pip_pkg_align[1:] + pip_pkg_align.join(sorted(set(pip_pkgs.values())))
 
-        if package_format == "deb":
-            if cross_arch:
-                deb_arch = Util.native_arch_to_deb_arch(cross_arch)
-                abi = Util.native_arch_to_abi(cross_arch)
-                lib = Util.native_arch_to_lib(cross_arch)
-                gcc = "gcc-" + abi
-                varmap["cross_arch"] = deb_arch
-                pkg_names = [p + ":" + deb_arch for p in cross_pkgs.values()]
-                pkg_names.append(gcc)
-                varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkg_names)))
-                varmap["cross_abi"] = abi
-                varmap["cross_lib"] = lib
+        if package_format == "deb" and args.cross_arch:
+            deb_arch = Util.native_arch_to_deb_arch(args.cross_arch)
+            abi = Util.native_arch_to_abi(args.cross_arch)
+            lib = Util.native_arch_to_lib(args.cross_arch)
+            gcc = "gcc-" + abi
+            varmap["cross_arch"] = deb_arch
+            pkg_names = [p + ":" + deb_arch for p in cross_pkgs.values()]
+            pkg_names.append(gcc)
+            varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkg_names)))
+            varmap["cross_abi"] = abi
+            varmap["cross_lib"] = lib
 
+        print("FROM {}".format(facts["docker_base"]))
+
+        if package_format == "deb":
             sys.stdout.write(textwrap.dedent("""
                 RUN export DEBIAN_FRONTEND=noninteractive && \\
                     {package_manager} update && \\
