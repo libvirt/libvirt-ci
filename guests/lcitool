@@ -931,12 +931,28 @@ class Application:
         if cross_arch:
             if os_name not in ["Debian", "Fedora"]:
                 raise Exception("Cannot cross compile on {}".format(os_name))
+            if os_name == "Debian" and cross_arch.startswith("mingw"):
+                raise Exception(
+                    "Cannot cross compile for {} on {}".format(
+                        cross_arch,
+                        os_name,
+                    )
+                )
+            if os_name == "Fedora" and not cross_arch.startswith("mingw"):
+                raise Exception(
+                    "Cannot cross compile for {} on {}".format(
+                        cross_arch,
+                        os_name,
+                    )
+                )
             if cross_arch == self._native_arch:
                 raise Exception("Cross arch {} should differ from native {}".
                                 format(cross_arch, self._native_arch))
 
         projects = self._projects.expand_pattern(args.projects)
         for project in projects:
+            if project.rfind("+mingw") >= 0:
+                raise Exception("Obsolete syntax, please use --cross-arch")
             if project not in facts["projects"]:
                 raise Exception(
                     "Host {} doesn't support project {}".format(
