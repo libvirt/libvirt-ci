@@ -643,6 +643,12 @@ class Application:
             return r.read().rstrip()
 
     def _dockerfile_build_varmap(self, facts, mappings, pip_mappings, projects, cross_arch):
+        if facts["package_format"] == "deb":
+            return self._dockerfile_build_varmap_deb(facts, mappings, pip_mappings, projects, cross_arch)
+        if facts["package_format"] == "rpm":
+            return self._dockerfile_build_varmap_rpm(facts, mappings, pip_mappings, projects, cross_arch)
+
+    def _dockerfile_build_varmap_deb(self, facts, mappings, pip_mappings, projects, cross_arch):
         package_format = facts["package_format"]
         package_manager = facts["package_manager"]
         os_name = facts["os_name"]
@@ -695,7 +701,7 @@ class Application:
         varmap["package_manager"] = package_manager
         varmap["pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkgs.values())))
 
-        if package_format == "deb" and cross_arch:
+        if cross_arch:
             deb_arch = Util.native_arch_to_deb_arch(cross_arch)
             abi = Util.native_arch_to_abi(cross_arch)
             lib = Util.native_arch_to_lib(cross_arch)
@@ -706,6 +712,46 @@ class Application:
             varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkg_names)))
             varmap["cross_abi"] = abi
             varmap["cross_lib"] = lib
+
+        if pip_pkgs:
+            varmap["pip_pkgs"] = pip_pkg_align[1:] + pip_pkg_align.join(sorted(set(pip_pkgs.values())))
+
+        return varmap
+
+    def _dockerfile_build_varmap_rpm(self, facts, mappings, pip_mappings, projects, cross_arch):
+        package_format = facts["package_format"]
+        package_manager = facts["package_manager"]
+        os_name = facts["os_name"]
+        os_version = facts["os_version"]
+        os_full = os_name + os_version
+
+        pkgs = {}
+        pip_pkgs = {}
+        keys = ["default", package_format, os_name, os_full]
+
+        # We need to add the base project manually here: the standard
+        # machinery hides it because it's an implementation detail
+        for project in projects + ["base"]:
+            for package in self._projects.get_packages(project):
+                for key in keys:
+                    if key in mappings[package]:
+                        pkgs[package] = mappings[package][key]
+                    if package in pip_mappings and key in pip_mappings[package]:
+                        pip_pkgs[package] = pip_mappings[package][key]
+
+                if package not in pkgs:
+                    continue
+                if package in pip_pkgs and pkgs[package] is not None:
+                    del pip_pkgs[package]
+                if pkgs[package] is None:
+                    del pkgs[package]
+
+        pkg_align = " \\\n" + (" " * len("RUN " + package_manager + " "))
+        pip_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
+
+        varmap = {}
+        varmap["package_manager"] = package_manager
+        varmap["pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkgs.values())))
 
         if pip_pkgs:
             varmap["pip_pkgs"] = pip_pkg_align[1:] + pip_pkg_align.join(sorted(set(pip_pkgs.values())))
