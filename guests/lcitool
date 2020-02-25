@@ -894,14 +894,7 @@ class Application:
             ENV LANG "en_US.UTF-8"
         """).format(**varmap))
 
-        if cross_arch and package_format == "deb":
-            sys.stdout.write(textwrap.dedent("""
-                ENV ABI "{cross_abi}"
-                ENV CONFIGURE_OPTS "--host={cross_abi} \\
-                                    --target={cross_abi}"
-            """).format(**varmap))
-
-        if cross_arch and package_format == "rpm":
+        if cross_arch:
             sys.stdout.write(textwrap.dedent("""
                 ENV ABI "{cross_abi}"
                 ENV CONFIGURE_OPTS "--host={cross_abi} \\
