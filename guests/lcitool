@@ -899,7 +899,6 @@ class Application:
                 ENV ABI "{cross_abi}"
                 ENV CONFIGURE_OPTS "--host={cross_abi} \\
                                     --target={cross_abi}"
-                ENV PKG_CONFIG_LIBDIR "/usr/lib/{cross_lib}/pkgconfig"
             """).format(**varmap))
 
         if cross_arch and package_format == "rpm":
@@ -907,7 +906,6 @@ class Application:
                 ENV ABI "{cross_abi}"
                 ENV CONFIGURE_OPTS "--host={cross_abi} \\
                                     --target={cross_abi}"
-                ENV PKG_CONFIG_LIBDIR "/usr/{cross_abi}/sys-root/mingw/lib/pkgconfig:/usr/{cross_abi}/sys-root/mingw/share/pkgconfig"
             """).format(**varmap))
 
     def _action_dockerfile(self, args):

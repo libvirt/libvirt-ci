@@ -37,13 +37,11 @@ strip_buildrequires: |
 mingw32_local_env: |
   export VIRT_PREFIX="$VIRT_PREFIX/i686-w64-mingw32/sys-root/mingw"
   export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
-  export PKG_CONFIG_LIBDIR="/usr/i686-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/i686-w64-mingw32/sys-root/mingw/share/pkgconfig"
 mingw32_autogen_args: --host=i686-w64-mingw32
 mingw32_meson_args: --cross-file=/usr/share/mingw/toolchain-mingw32.meson
 mingw64_local_env: |
   export VIRT_PREFIX="$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw"
   export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
-  export PKG_CONFIG_LIBDIR="/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig:/usr/x86_64-w64-mingw32/sys-root/mingw/share/pkgconfig"
 mingw64_autogen_args: --host=x86_64-w64-mingw32
 mingw64_meson_args: --cross-file=/usr/share/mingw/toolchain-mingw64.meson
 git_urls:
