@@ -897,8 +897,7 @@ class Application:
         if cross_arch:
             sys.stdout.write(textwrap.dedent("""
                 ENV ABI "{cross_abi}"
-                ENV CONFIGURE_OPTS "--host={cross_abi} \\
-                                    --target={cross_abi}"
+                ENV CONFIGURE_OPTS "--host={cross_abi}"
             """).format(**varmap))
 
     def _action_dockerfile(self, args):
