@@ -811,6 +811,7 @@ class Application:
                         dpkg --add-architecture {cross_arch} && \\
                         {package_manager} update && \\
                         {package_manager} dist-upgrade -y && \\
+                        {package_manager} install --no-install-recommends -y dpkg-dev && \\
                         {package_manager} install --no-install-recommends -y {cross_pkgs} && \\
                         {package_manager} autoremove -y && \\
                         {package_manager} autoclean -y
