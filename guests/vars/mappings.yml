@@ -111,7 +111,6 @@ mappings:
 
   ccache:
     default: ccache
-    CentOS:
 
   check:
     default: check
@@ -152,7 +151,6 @@ mappings:
 
   dwarves:
     default: dwarves
-    CentOS:
     FreeBSD:
 
   ebtables:
