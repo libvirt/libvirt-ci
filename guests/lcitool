@@ -175,7 +175,7 @@ class Config:
                     )
                 )
 
-        if flavor not in ["test", "jenkins"]:
+        if flavor not in ["test", "jenkins", "gitlab"]:
             raise Exception("Invalid flavor '{}'".format(flavor))
 
         return flavor
@@ -185,7 +185,7 @@ class Config:
 
         # The vault password is only needed for the jenkins flavor, but in
         # that case we want to make sure there's *something* in there
-        if self.get_flavor() != "test":
+        if self.get_flavor() == "jenkins":
             vault_pass_file = self._get_config_file("vault-password")
 
             try:
@@ -216,6 +216,44 @@ class Config:
             )
 
         return root_pass_file
+
+    def get_gitlab_runner_token_file(self):
+        if self.get_flavor() != "gitlab":
+            return None
+
+        gitlab_runner_token_file = self._get_config_file("gitlab-runner-token")
+
+        try:
+            with open(gitlab_runner_token_file, "r") as infile:
+                if not infile.readline().strip():
+                    raise ValueError
+        except Exception as ex:
+            raise Exception(
+                "Missing or invalid GitLab runner token file ({}): {}".format(
+                    gitlab_runner_token_file, ex
+                )
+            )
+
+        return gitlab_runner_token_file
+
+    def get_gitlab_url_file(self):
+        if self.get_flavor() != "gitlab":
+            return None
+
+        gitlab_url_file = self._get_config_file("gitlab-url")
+
+        try:
+            with open(gitlab_url_file, "r") as infile:
+                if not infile.readline().strip():
+                    raise ValueError
+        except Exception as ex:
+            raise Exception(
+                "Missing or invalid GitLab url file ({}): {}".format(
+                    gitlab_url_file, ex
+                )
+            )
+
+        return gitlab_url_file
 
 
 class Inventory:
@@ -449,6 +487,8 @@ class Application:
         flavor = self._config.get_flavor()
         vault_pass_file = self._config.get_vault_password_file()
         root_pass_file = self._config.get_root_password_file()
+        gitlab_url_file = self._config.get_gitlab_url_file()
+        gitlab_runner_token_file = self._config.get_gitlab_runner_token_file()
 
         ansible_hosts = ",".join(self._inventory.expand_pattern(hosts))
         selected_projects = self._projects.expand_pattern(projects)
@@ -477,6 +517,8 @@ class Application:
             "selected_projects": selected_projects,
             "git_remote": git_remote,
             "git_branch": git_branch,
+            "gitlab_url_file": gitlab_url_file,
+            "gitlab_runner_token_file": gitlab_runner_token_file,
         })
 
         ansible_playbook = distutils.spawn.find_executable("ansible-playbook")
