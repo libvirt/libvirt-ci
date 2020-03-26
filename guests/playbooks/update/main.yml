@@ -58,3 +58,8 @@
     - include: '{{ playbook_base }}/tasks/jenkins.yml'
       when:
         - flavor == 'jenkins'
+
+    # Install the Gitlab runner agent
+    - include: '{{ playbook_base }}/tasks/gitlab.yml'
+      when:
+        - flavor == 'gitlab'
