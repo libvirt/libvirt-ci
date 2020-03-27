@@ -23,6 +23,7 @@ os_name: 'Debian'
 os_version: '10'
 
 bash: /bin/bash
+cc: /usr/bin/gcc
 ccache: /usr/bin/ccache
 java: /usr/bin/java
 make: /usr/bin/make

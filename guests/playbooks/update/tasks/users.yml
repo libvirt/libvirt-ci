@@ -79,24 +79,7 @@
     group: '{{ flavor }}'
   with_items:
     - cc
-    - clang
-  when:
-    - ccache != ''
-    - os_name == 'FreeBSD'
-
-- name: '{{ flavor }}: Create ccache wrappers'
-  file:
-    src: '{{ ccache }}'
-    dest: /home/{{ flavor }}/.ccache/bin/{{ item }}
-    state: link
-    owner: '{{ flavor }}'
-    group: '{{ flavor }}'
-  with_items:
-    - cc
-    - gcc
-  when:
-    - ccache != ''
-    - os_name != 'FreeBSD'
+    - '{{ cc | basename }}'
 
 - name: '{{ flavor }}: Create shell profile'
   template:

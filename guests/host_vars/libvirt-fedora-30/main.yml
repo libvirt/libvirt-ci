@@ -36,6 +36,7 @@ os_name: 'Fedora'
 os_version: '30'
 
 bash: /bin/bash
+cc: /usr/bin/gcc
 ccache: /usr/bin/ccache
 java: /usr/bin/java
 make: /usr/bin/make

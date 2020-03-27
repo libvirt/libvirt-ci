@@ -21,6 +21,7 @@ os_name: 'CentOS'
 os_version: '7'
 
 bash: /bin/bash
+cc: /usr/bin/gcc
 ccache: /usr/bin/ccache
 java: /usr/bin/java
 make: /usr/bin/make

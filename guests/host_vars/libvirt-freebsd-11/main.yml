@@ -22,6 +22,7 @@ os_name: 'FreeBSD'
 os_version: '11'
 
 bash: /usr/local/bin/bash
+cc: /usr/bin/clang
 ccache: /usr/local/bin/ccache
 java: /usr/local/bin/java
 make: /usr/local/bin/gmake

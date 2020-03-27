@@ -23,6 +23,7 @@ os_name: 'Ubuntu'
 os_version: '1804'
 
 bash: /bin/bash
+cc: /usr/bin/gcc
 ccache: /usr/bin/ccache
 java: /usr/bin/java
 make: /usr/bin/make
