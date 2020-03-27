@@ -63,13 +63,6 @@
     - ccache
     - ccache/bin
 
-- name: '{{ flavor }}: Configure ccache'
-  template:
-    src: '{{ playbook_base }}/templates/ccache.conf.j2'
-    dest: /home/{{ flavor }}/.ccache/ccache.conf
-    owner: '{{ flavor }}'
-    group: '{{ flavor }}'
-
 - name: '{{ flavor }}: Create ccache wrappers'
   file:
     src: '{{ ccache }}'

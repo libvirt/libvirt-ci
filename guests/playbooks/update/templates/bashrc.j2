@@ -5,6 +5,7 @@ export NINJA="{{ ninja }}"
 export PYTHON="{{ python }}"
 
 export MAKEFLAGS="-j{{ install_vcpus|int + 1 }}"
+export CCACHE_MAXSIZE="2G"
 
 export VIRT_PREFIX="$HOME/build/libvirt"
 export PATH="$VIRT_PREFIX/bin:$HOME/.ccache/bin:$PATH"
