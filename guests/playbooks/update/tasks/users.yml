@@ -53,27 +53,6 @@
   when:
     - flavor == 'test'
 
-- name: '{{ flavor }}: Configure ccache'
-  file:
-    path: /home/{{ flavor }}/.{{ item }}
-    state: directory
-    owner: '{{ flavor }}'
-    group: '{{ flavor }}'
-  with_items:
-    - ccache
-    - ccache/bin
-
-- name: '{{ flavor }}: Create ccache wrappers'
-  file:
-    src: '{{ ccache }}'
-    dest: /home/{{ flavor }}/.ccache/bin/{{ item }}
-    state: link
-    owner: '{{ flavor }}'
-    group: '{{ flavor }}'
-  with_items:
-    - cc
-    - '{{ cc | basename }}'
-
 - name: '{{ flavor }}: Create shell profile'
   template:
     src: '{{ playbook_base }}/templates/{{ item }}.j2'

@@ -8,7 +8,7 @@ export MAKEFLAGS="-j{{ install_vcpus|int + 1 }}"
 export CCACHE_MAXSIZE="2G"
 
 export VIRT_PREFIX="$HOME/build/libvirt"
-export PATH="$VIRT_PREFIX/bin:$HOME/.ccache/bin:$PATH"
+export PATH="$VIRT_PREFIX/bin:$PATH"
 export C_INCLUDE_PATH="$VIRT_PREFIX/include"
 export LD_LIBRARY_PATH="$VIRT_PREFIX/lib"
 export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
@@ -45,6 +45,12 @@ if $PYTHON -c 'import sys; print("\n".join(sys.path))' | grep -q lib64; then
 fi
 pyver=$($PYTHON -c 'import sys; print(".".join(map(lambda x: str(sys.version_info[x]), [0,1])))')
 export PYTHONPATH="$VIRT_PREFIX/$pylib/python$pyver/site-packages"
+
+# Use ccache by default. The directory we're adding to $PATH contains
+# symlinks that make it possible to invoke the (cross) compiler using
+# the usual name and have it transparently go through ccache
+export CCACHE_WRAPPERSDIR="/usr/libexec/ccache-wrappers"
+export PATH="$CCACHE_WRAPPERSDIR:$PATH"
 
 # Enable bash completion. Only needed on FreeBSD, the system-wide
 # shell profile will take care of it for us everywhere else
