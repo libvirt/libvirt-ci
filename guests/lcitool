@@ -646,9 +646,16 @@ class Application:
 
     def _dockerfile_build_varmap(self, facts, mappings, pip_mappings, projects, cross_arch):
         if facts["package_format"] == "deb":
-            return self._dockerfile_build_varmap_deb(facts, mappings, pip_mappings, projects, cross_arch)
+            varmap = self._dockerfile_build_varmap_deb(facts, mappings, pip_mappings, projects, cross_arch)
         if facts["package_format"] == "rpm":
-            return self._dockerfile_build_varmap_rpm(facts, mappings, pip_mappings, projects, cross_arch)
+            varmap = self._dockerfile_build_varmap_rpm(facts, mappings, pip_mappings, projects, cross_arch)
+
+        varmap["package_manager"] = facts["package_manager"]
+
+        if cross_arch:
+            varmap["cross_abi"] = Util.native_arch_to_abi(cross_arch)
+
+        return varmap
 
     def _dockerfile_build_varmap_deb(self, facts, mappings, pip_mappings, projects, cross_arch):
         package_format = facts["package_format"]
@@ -700,7 +707,6 @@ class Application:
         pip_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
 
         varmap = {}
-        varmap["package_manager"] = package_manager
         varmap["pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkgs.values())))
 
         if cross_arch:
@@ -712,7 +718,6 @@ class Application:
             pkg_names = [p + ":" + deb_arch for p in cross_pkgs.values()]
             pkg_names.append(gcc)
             varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkg_names)))
-            varmap["cross_abi"] = abi
             varmap["cross_lib"] = lib
 
         if pip_pkgs:
@@ -771,11 +776,9 @@ class Application:
         pip_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
 
         varmap = {}
-        varmap["package_manager"] = package_manager
         varmap["pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkgs.values())))
 
         if cross_arch:
-            varmap["cross_abi"] = Util.native_arch_to_abi(cross_arch)
             varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(cross_pkgs.values())))
 
         if pip_pkgs:
