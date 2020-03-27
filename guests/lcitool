@@ -651,6 +651,9 @@ class Application:
             varmap = self._dockerfile_build_varmap_rpm(facts, mappings, pip_mappings, projects, cross_arch)
 
         varmap["package_manager"] = facts["package_manager"]
+        varmap["make"] = facts["make"]
+        varmap["ninja"] = facts["ninja"]
+        varmap["python"] = facts["python"]
 
         if cross_arch:
             varmap["cross_abi"] = Util.native_arch_to_abi(cross_arch)
@@ -895,6 +898,10 @@ class Application:
 
         sys.stdout.write(textwrap.dedent("""
             ENV LANG "en_US.UTF-8"
+
+            ENV MAKE "{make}"
+            ENV NINJA "{ninja}"
+            ENV PYTHON "{python}"
         """).format(**varmap))
 
         if cross_arch:
