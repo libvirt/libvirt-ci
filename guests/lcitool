@@ -797,20 +797,20 @@ class Application:
 
         print("FROM {}".format(facts["docker_base"]))
 
-        if package_format == "deb":
-            sys.stdout.write(textwrap.dedent("""
-                RUN export DEBIAN_FRONTEND=noninteractive && \\
-                    {package_manager} update && \\
-                    {package_manager} dist-upgrade -y && \\
-                    {package_manager} install --no-install-recommends -y {pkgs} && \\
-                    {package_manager} autoremove -y && \\
-                    {package_manager} autoclean -y && \\
-                    sed -Ei 's,^# (en_US\\.UTF-8 .*)$,\\1,' /etc/locale.gen && \\
-                    dpkg-reconfigure locales
-            """).format(**varmap))
-        elif package_format == "rpm":
-            commands = []
+        commands = []
 
+        if package_format == "deb":
+            commands.extend([
+                "export DEBIAN_FRONTEND=noninteractive",
+                "{package_manager} update",
+                "{package_manager} dist-upgrade -y",
+                "{package_manager} install --no-install-recommends -y {pkgs}",
+                "{package_manager} autoremove -y",
+                "{package_manager} autoclean -y",
+                "sed -Ei 's,^# (en_US\\.UTF-8 .*)$,\\1,' /etc/locale.gen",
+                "dpkg-reconfigure locales",
+            ])
+        elif package_format == "rpm":
             # Rawhide needs this because the keys used to sign packages are
             # cycled from time to time
             if os_name == "Fedora" and os_version == "Rawhide":
@@ -864,9 +864,8 @@ class Application:
                     "{package_manager} clean all -y",
                 ])
 
-            script = "\nRUN " + (" && \\\n    ".join(commands)) + "\n"
-
-            sys.stdout.write(script.format(**varmap))
+        script = "\nRUN " + (" && \\\n    ".join(commands)) + "\n"
+        sys.stdout.write(script.format(**varmap))
 
         if cross_arch:
             # Intentionally a separate RUN command from the above
