@@ -651,6 +651,8 @@ class Application:
             varmap = self._dockerfile_build_varmap_rpm(facts, mappings, pip_mappings, projects, cross_arch)
 
         varmap["package_manager"] = facts["package_manager"]
+        varmap["cc"] = facts["cc"]
+        varmap["ccache"] = facts["ccache"]
         varmap["make"] = facts["make"]
         varmap["ninja"] = facts["ninja"]
         varmap["python"] = facts["python"]
@@ -864,6 +866,21 @@ class Application:
                     "{package_manager} clean all -y",
                 ])
 
+        commands.extend([
+            "mkdir -p /usr/libexec/ccache-wrappers",
+        ])
+
+        if cross_arch:
+            commands.extend([
+                "ln -s {ccache} /usr/libexec/ccache-wrappers/{cross_abi}-cc",
+                "ln -s {ccache} /usr/libexec/ccache-wrappers/{cross_abi}-$(basename {cc})",
+            ])
+        else:
+            commands.extend([
+                "ln -s {ccache} /usr/libexec/ccache-wrappers/cc",
+                "ln -s {ccache} /usr/libexec/ccache-wrappers/$(basename {cc})",
+            ])
+
         script = "\nRUN " + (" && \\\n    ".join(commands)) + "\n"
         sys.stdout.write(script.format(**varmap))
 
@@ -904,6 +921,8 @@ class Application:
             ENV MAKE "{make}"
             ENV NINJA "{ninja}"
             ENV PYTHON "{python}"
+
+            ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
         """).format(**varmap))
 
         if cross_arch:
