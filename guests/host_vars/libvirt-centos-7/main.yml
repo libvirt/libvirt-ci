@@ -20,4 +20,13 @@ package_manager: 'yum'
 os_name: 'CentOS'
 os_version: '7'
 
+bash: /bin/bash
+ccache: /usr/bin/ccache
+java: /usr/bin/java
+make: /usr/bin/make
+ninja: /usr/bin/ninja-build
+python: /usr/bin/python3
+su: /bin/su
+sudoers: /etc/sudoers
+
 ansible_python_interpreter: /usr/bin/python2

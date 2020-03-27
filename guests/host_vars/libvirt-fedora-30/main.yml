@@ -35,4 +35,13 @@ package_manager: 'dnf'
 os_name: 'Fedora'
 os_version: '30'
 
+bash: /bin/bash
+ccache: /usr/bin/ccache
+java: /usr/bin/java
+make: /usr/bin/make
+ninja: /usr/bin/ninja
+python: /usr/bin/python3
+su: /bin/su
+sudoers: /etc/sudoers
+
 ansible_python_interpreter: /usr/bin/python3

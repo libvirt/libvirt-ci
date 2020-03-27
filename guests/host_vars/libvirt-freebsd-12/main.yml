@@ -21,4 +21,13 @@ package_manager: 'pkg'
 os_name: 'FreeBSD'
 os_version: '12'
 
+bash: /usr/local/bin/bash
+ccache: /usr/local/bin/ccache
+java: /usr/local/bin/java
+make: /usr/local/bin/gmake
+ninja: /usr/local/bin/ninja
+python: /usr/local/bin/python3
+su: /usr/bin/su
+sudoers: /usr/local/etc/sudoers
+
 ansible_python_interpreter: /usr/local/bin/python3
