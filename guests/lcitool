@@ -808,20 +808,6 @@ class Application:
                     sed -Ei 's,^# (en_US\\.UTF-8 .*)$,\\1,' /etc/locale.gen && \\
                     dpkg-reconfigure locales
             """).format(**varmap))
-            if cross_arch:
-                # Intentionally a separate RUN command from the above
-                # so that the common packages of all cross-built images
-                # share a Docker image layer.
-                sys.stdout.write(textwrap.dedent("""
-                    RUN export DEBIAN_FRONTEND=noninteractive && \\
-                        dpkg --add-architecture {cross_arch} && \\
-                        {package_manager} update && \\
-                        {package_manager} dist-upgrade -y && \\
-                        {package_manager} install --no-install-recommends -y dpkg-dev && \\
-                        {package_manager} install --no-install-recommends -y {cross_pkgs} && \\
-                        {package_manager} autoremove -y && \\
-                        {package_manager} autoclean -y
-                """).format(**varmap))
         elif package_format == "rpm":
             commands = []
 
@@ -882,10 +868,22 @@ class Application:
 
             sys.stdout.write(script.format(**varmap))
 
-            if cross_arch:
-                # Intentionally a separate RUN command from the above
-                # so that the common packages of all cross-built images
-                # share a Docker image layer.
+        if cross_arch:
+            # Intentionally a separate RUN command from the above
+            # so that the common packages of all cross-built images
+            # share a Docker image layer.
+            if package_format == "deb":
+                sys.stdout.write(textwrap.dedent("""
+                    RUN export DEBIAN_FRONTEND=noninteractive && \\
+                        dpkg --add-architecture {cross_arch} && \\
+                        {package_manager} update && \\
+                        {package_manager} dist-upgrade -y && \\
+                        {package_manager} install --no-install-recommends -y dpkg-dev && \\
+                        {package_manager} install --no-install-recommends -y {cross_pkgs} && \\
+                        {package_manager} autoremove -y && \\
+                        {package_manager} autoclean -y
+                """).format(**varmap))
+            elif package_format == "rpm":
                 sys.stdout.write(textwrap.dedent("""
                     RUN {package_manager} install -y {cross_pkgs} && \\
                         {package_manager} clean all -y
