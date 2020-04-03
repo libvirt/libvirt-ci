@@ -4,14 +4,5 @@
   when:
     - package_format == 'pkg'
 
-- set_fact:
-    python: python3
-
-- set_fact:
-    python: python2
-  when:
-    - os_name == 'CentOS'
-    - os_version == '7'
-
 - name: Bootstrap Ansible
-  raw: '{{ package_manager }} install -y {{ python }}'
+  raw: '{{ package_manager }} install -y {{ ansible_python_package }}'

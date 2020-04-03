@@ -30,4 +30,5 @@ python: /usr/bin/python3
 su: /bin/su
 sudoers: /etc/sudoers
 
+ansible_python_package: python2
 ansible_python_interpreter: /usr/bin/python2
