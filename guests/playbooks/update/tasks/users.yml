@@ -63,9 +63,10 @@
     - bash_profile
     - bashrc
 
-- name: '{{ flavor }}: Remove existing shell profile'
+- name: '{{ flavor }}: Remove unnecessary home skeleton files'
   file:
     path: /home/{{ flavor }}/.{{ item }}
     state: absent
   with_items:
     - profile
+    - bash_logout
