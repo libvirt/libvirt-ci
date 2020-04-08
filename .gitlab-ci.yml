@@ -1,0 +1,39 @@
+
+stages:
+  - containers
+  - postbuild
+
+.build_container_template: &build_container_definition
+  image: docker:stable
+  stage: containers
+  services:
+    - docker:dind
+  before_script:
+    - docker info
+    - docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+  script:
+    - docker build --tag ${CI_REGISTRY_IMAGE}/${NAME}:${CI_COMMIT_REF_SLUG} ${NAME}
+    - docker push ${CI_REGISTRY_IMAGE}/${NAME}:${CI_COMMIT_REF_SLUG}
+  after_script:
+    - docker logout
+
+build-dco:
+  <<: *build_container_definition
+  variables:
+    NAME: check-dco
+
+# Check that all commits are signed-off for the DCO. Skip
+# on master branch and -maint branches, since we only need
+# to test developer's personal branches.
+check-dco:
+  # In most projects we'd put this in a "prebuild", but this
+  # repo is a special case as we need to actually build the
+  # container first!
+  stage: postbuild
+  image: ${CI_REGISTRY_IMAGE}/check-dco:${CI_COMMIT_REF_SLUG}
+  script:
+    - /check-dco
+  only:
+    - branches
+  except:
+    - master
