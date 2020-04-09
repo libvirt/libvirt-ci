@@ -80,7 +80,7 @@ you'll want to use the `libvirt_guest` variant of the plugin.
 To keep guests up to date over time, it's recommended to have an entry
 along the lines of
 
-    0 0 * * * ~/libvirt-jenkins-ci/guests/lcitool update all all
+    0 0 * * * ~/libvirt-ci/guests/lcitool update all all
 
 in your crontab.
 
