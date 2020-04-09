@@ -15,7 +15,7 @@ issues:
 
     We kindly request that new issues are reported to
 
-      https://gitlab.com/libvirt/libvirt-jenkins-ci/-/issues/new
+      https://gitlab.com/libvirt/libvirt-ci/-/issues/new
 
     Thank you for your time and understanding.
 
@@ -27,10 +27,10 @@ pulls:
 
     We kindly request that contributors fork the project at
 
-      https://gitlab.com/libvirt/libvirt-jenkins-ci/
+      https://gitlab.com/libvirt/libvirt-ci/
 
     push changes to the fork, and then open a new merge request at
 
-      https://gitlab.com/libvirt/libvirt-jenkins-ci/-/merge_requests/new
+      https://gitlab.com/libvirt/libvirt-ci/-/merge_requests/new
 
     Thank you for your time and understanding.
