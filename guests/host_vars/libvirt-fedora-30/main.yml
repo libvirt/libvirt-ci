@@ -4,16 +4,10 @@ projects:
   - gtk-vnc+mingw32
   - gtk-vnc+mingw64
   - libosinfo
-  - libosinfo+mingw32
-  - libosinfo+mingw64
   - libvirt
-  - libvirt+mingw32
-  - libvirt+mingw64
   - libvirt-cim
   - libvirt-dbus
   - libvirt-glib
-  - libvirt-glib+mingw32
-  - libvirt-glib+mingw64
   - libvirt-go
   - libvirt-go-xml
   - libvirt-ocaml
@@ -23,12 +17,8 @@ projects:
   - libvirt-tck
   - osinfo-db
   - osinfo-db-tools
-  - osinfo-db-tools+mingw32
-  - osinfo-db-tools+mingw64
   - virt-manager
   - virt-viewer
-  - virt-viewer+mingw32
-  - virt-viewer+mingw64
 
 os:
   name: 'Fedora'
