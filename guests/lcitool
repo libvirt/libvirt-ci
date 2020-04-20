@@ -24,7 +24,6 @@ import json
 import os
 import platform
 import random
-import shutil
 import string
 import subprocess
 import sys
@@ -610,8 +609,8 @@ class Application:
                         facts[option]
                     )
 
-            tempdir = tempfile.mkdtemp()
-            initrd_inject = os.path.join(tempdir, install_config)
+            tempdir = tempfile.TemporaryDirectory(prefix="lcitool")
+            initrd_inject = os.path.join(tempdir.name, install_config)
 
             with open(initrd_inject, "w") as inject:
                 inject.write(content)
@@ -665,8 +664,8 @@ class Application:
                 subprocess.check_call(cmd)
             except Exception as ex:
                 raise Exception("Failed to install '{}': {}".format(host, ex))
-
-            shutil.rmtree(tempdir, ignore_errors=True)
+            finally:
+                tempdir.cleanup()
 
     def _action_update(self, args):
         self._execute_playbook("update", args.hosts, args.projects,
