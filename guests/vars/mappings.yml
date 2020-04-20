@@ -425,7 +425,6 @@ mappings:
     deb: libssh2-1-dev
     pkg: libssh2
     rpm: libssh2-devel
-    CentOS8:
     cross-policy-deb: foreign
 
   libtirpc:
@@ -996,7 +995,6 @@ mappings:
   wireshark:
     deb: wireshark-dev
     rpm: wireshark-devel
-    CentOS:
     cross-policy-deb: skip
 
   xen:
