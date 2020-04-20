@@ -18,7 +18,7 @@ There are two steps to bringing up a guest:
   post-installation configuration steps required to make the newly-created
   guest usable and ready to be used for building `$project`;
 
-Once those steps have been performed, maintainance will involve running:
+Once those steps have been performed, maintenance will involve running:
 
     lcitool update $guest $project
 
