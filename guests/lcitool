@@ -610,11 +610,11 @@ class Application:
                         facts[option]
                     )
 
-                tempdir = tempfile.mkdtemp()
-                initrd_inject = os.path.join(tempdir, install_config)
+            tempdir = tempfile.mkdtemp()
+            initrd_inject = os.path.join(tempdir, install_config)
 
-                with open(initrd_inject, "w") as inject:
-                    inject.write(content)
+            with open(initrd_inject, "w") as inject:
+                inject.write(content)
 
             # preseed files must use a well-known name to be picked up by
             # d-i; for kickstart files, we can use whatever name we please
