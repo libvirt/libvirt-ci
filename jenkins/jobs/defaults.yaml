@@ -17,7 +17,7 @@
       - libvirt-fedora-31
       - libvirt-fedora-rawhide
     mingw_machines:
-      - libvirt-fedora-30
+      - libvirt-fedora-rawhide
     global_env: ''
     local_env: ''
     autogen_args: ''
