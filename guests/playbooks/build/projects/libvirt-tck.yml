@@ -1,7 +1,7 @@
 ---
 - set_fact:
-    # CentOS 7 doesn't include perl-generators, which is necessary to
-    # build libvirt-tck
+    # CentOS 7 and CentOS 8 are missing a number of Perl modules, so we
+    # can't build libvirt-tck there
     name: libvirt-tck
     machines:
       - libvirt-debian-9
