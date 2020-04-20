@@ -506,11 +506,14 @@ class Application:
             git_remote = "default"
             git_branch = "master"
 
+        tempdir = tempfile.TemporaryDirectory(prefix="lcitool")
+
         ansible_cfg_path = os.path.join(base, "ansible.cfg")
         playbook_base = os.path.join(base, "playbooks", playbook)
         playbook_path = os.path.join(playbook_base, "main.yml")
+        extra_vars_path = os.path.join(tempdir.name, "extra_vars.json")
 
-        extra_vars = json.dumps({
+        extra_vars = {
             "base": base,
             "playbook_base": playbook_base,
             "root_password_file": root_pass_file,
@@ -520,7 +523,10 @@ class Application:
             "git_branch": git_branch,
             "gitlab_url_file": gitlab_url_file,
             "gitlab_runner_token_file": gitlab_runner_token_file,
-        })
+        }
+
+        with open(extra_vars_path, "w") as fp:
+            json.dump(extra_vars, fp)
 
         ansible_playbook = distutils.spawn.find_executable("ansible-playbook")
         if ansible_playbook is None:
@@ -529,7 +535,7 @@ class Application:
         cmd = [
             ansible_playbook,
             "--limit", ansible_hosts,
-            "--extra-vars", extra_vars,
+            "--extra-vars", "@" + extra_vars_path,
         ]
 
         # Provide the vault password if available
@@ -548,6 +554,8 @@ class Application:
         except Exception as ex:
             raise Exception(
                 "Failed to run {} on '{}': {}".format(playbook, hosts, ex))
+        finally:
+            tempdir.cleanup()
 
     def _action_hosts(self, args):
         for host in self._inventory.expand_pattern("all"):
