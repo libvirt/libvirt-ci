@@ -252,22 +252,6 @@ class Config:
 
         return vault_pass_file
 
-    def get_root_password_file(self):
-        root_pass_file = self._get_config_file("root-password")
-
-        try:
-            with open(root_pass_file, "r") as infile:
-                if not infile.readline().strip():
-                    raise ValueError
-        except Exception as ex:
-            raise Exception(
-                "Missing or invalid root password file ({}): {}".format(
-                    root_pass_file, ex
-                )
-            )
-
-        return root_pass_file
-
     def get_gitlab_runner_token_file(self):
         if self.values["install"]["flavor"] != "gitlab":
             return None
@@ -543,7 +527,6 @@ class Application:
         base = Util.get_base()
 
         vault_pass_file = self._config.get_vault_password_file()
-        root_pass_file = self._config.get_root_password_file()
         gitlab_url_file = self._config.get_gitlab_url_file()
         gitlab_runner_token_file = self._config.get_gitlab_runner_token_file()
 
