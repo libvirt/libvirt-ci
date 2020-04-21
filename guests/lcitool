@@ -231,37 +231,12 @@ class Config:
         if values.get("gitlab") is not None:
             self.values["gitlab"].update(values["gitlab"])
 
-    def get_flavor(self):
-        flavor_file = self._get_config_file("flavor")
-
-        try:
-            with open(flavor_file, "r") as infile:
-                flavor = infile.readline().strip()
-        except Exception:
-            # If the flavor has not been configured, we choose the default
-            # and store it on disk to ensure consistent behavior from now on
-            flavor = "test"
-            try:
-                with open(flavor_file, "w") as infile:
-                    infile.write("{}\n".format(flavor))
-            except Exception as ex:
-                raise Exception(
-                    "Can't write flavor file ({}): {}".format(
-                        flavor_file, ex
-                    )
-                )
-
-        if flavor not in ["test", "jenkins", "gitlab"]:
-            raise Exception("Invalid flavor '{}'".format(flavor))
-
-        return flavor
-
     def get_vault_password_file(self):
         vault_pass_file = None
 
         # The vault password is only needed for the jenkins flavor, but in
         # that case we want to make sure there's *something* in there
-        if self.get_flavor() == "jenkins":
+        if self.values["install"]["flavor"] == "jenkins":
             vault_pass_file = self._get_config_file("vault-password")
 
             try:
@@ -294,7 +269,7 @@ class Config:
         return root_pass_file
 
     def get_gitlab_runner_token_file(self):
-        if self.get_flavor() != "gitlab":
+        if self.values["install"]["flavor"] != "gitlab":
             return None
 
         gitlab_runner_token_file = self._get_config_file("gitlab-runner-token")
@@ -313,7 +288,7 @@ class Config:
         return gitlab_runner_token_file
 
     def get_gitlab_url_file(self):
-        if self.get_flavor() != "gitlab":
+        if self.values["install"]["flavor"] != "gitlab":
             return None
 
         gitlab_url_file = self._get_config_file("gitlab-url")
@@ -567,7 +542,6 @@ class Application:
     def _execute_playbook(self, playbook, hosts, projects, git_revision):
         base = Util.get_base()
 
-        flavor = self._config.get_flavor()
         vault_pass_file = self._config.get_vault_password_file()
         root_pass_file = self._config.get_root_password_file()
         gitlab_url_file = self._config.get_gitlab_url_file()
@@ -646,8 +620,6 @@ class Application:
 
     def _action_install(self, args):
         base = Util.get_base()
-
-        flavor = self._config.get_flavor()
 
         for host in self._inventory.expand_pattern(args.hosts):
             facts = self._inventory.get_facts(host)
@@ -744,7 +716,7 @@ class Application:
                 cmd.append("--noautoconsole")
 
             # Only configure autostart for the guest for the jenkins flavor
-            if flavor == "jenkins":
+            if self._config.values["install"]["flavor"] == "jenkins":
                 cmd += ["--autostart"]
 
             try:
