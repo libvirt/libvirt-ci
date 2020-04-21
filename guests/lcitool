@@ -128,6 +128,30 @@ class Util:
 
 class Config:
 
+    def __init__(self):
+
+        # Load the template config containing the defaults first, this must
+        # always succeed.
+        # NOTE: we should load this from /usr/share once we start packaging
+        # lcitool
+        base = Util.get_base()
+        with open(os.path.join(base, "config.yaml"), "r") as fp:
+            self.values = yaml.safe_load(fp)
+
+        try:
+            with open(self._get_config_file("config.yaml"), "r") as fp:
+                user_config = yaml.safe_load(fp)
+        except Exception as e:
+            raise Exception("Missing or invalid config.yaml file: {}".format(e))
+
+        if user_config is None:
+            raise Exception("Missing or invalid config.yaml file")
+
+        # Validate the user provided config and use it to override the default
+        # settings
+        self._validate(user_config)
+        self._update(user_config)
+
     @staticmethod
     def _get_config_file(name):
         try:
@@ -148,6 +172,64 @@ class Config:
                 )
 
         return os.path.join(config_dir, name)
+
+    @staticmethod
+    def _remove_unknown_keys(_dict, known_keys):
+        keys = list(_dict.keys())
+
+        for k in keys:
+            if k not in known_keys:
+                del _dict[k]
+
+    def _validate_section(self, config, section, mandatory_keys):
+        # remove keys we don't recognize
+        self._remove_unknown_keys(config[section], self.values[section].keys())
+
+        # check that the mandatory keys are present and non-empty
+        for key in mandatory_keys:
+            if config.get(section).get(key) is None:
+                raise Exception(("Missing or empty value for mandatory key"
+                                 "'{}.{}'").format(section, key))
+
+        # check that all keys have values assigned and of the right type
+        for key in config[section].keys():
+
+            # mandatory keys were already checked, so this covers optional keys
+            if config[section][key] is None:
+                raise Exception(
+                    "Missing value for '{}.{}'".format(section, key)
+                )
+
+            if not isinstance(config[section][key], (str, int)):
+                raise Exception(
+                    "Invalid type for key '{}.{}'".format(section, key)
+                )
+
+    def _validate(self, config):
+        # delete sections we don't recognize
+        self._remove_unknown_keys(config, self.values.keys())
+
+        if "install" not in config:
+            raise Exception("Missing mandatory section 'install'")
+
+        self._validate_section(config, "install", ["root_password"])
+
+        # we only need this for the gitlab check below, if 'flavor' is missing
+        # that's okay, we'll provide a default later
+        flavor = config["install"].get("flavor")
+        if flavor is not None and flavor not in ["test", "jenkins", "gitlab"]:
+            raise Exception(
+                "Invalid value '{}' for 'install.flavor'".format(flavor)
+            )
+
+        if flavor == "gitlab":
+            self._validate_section(config, "gitlab", ["runner_secret"])
+
+    def _update(self, values):
+        self.values["install"].update(values["install"])
+
+        if values.get("gitlab") is not None:
+            self.values["gitlab"].update(values["gitlab"])
 
     def get_flavor(self):
         flavor_file = self._get_config_file("flavor")
