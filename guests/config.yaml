@@ -1,0 +1,25 @@
+---
+# Configuration file for lcitool
+
+install:
+
+  # Installation flavor determining the target environment for the VM:
+  #
+  # test - VMs suitable for local testing (the 'test' user has sudo privileges)
+  # jenkins - VMs ready to be plugged into a Jenkins environment
+  # gitlab - VMs ready to be plugged into a GitLab environment
+  flavor: test
+
+  # Root password for the VM. This password will only be necessary for serial
+  # console access in case something goes horribly wrong, for all other use
+  # cases, SSH key authentication will be used instead. (Mandatory)
+  root_password:
+
+# GitLab-related options (only apply to the 'gitlab' flavor)
+gitlab:
+
+  # GitLab connection URL
+  url: https://gitlab.com
+
+  # GitLab runner registration token. (Mandatory)
+  runner_secret:
