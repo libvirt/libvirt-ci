@@ -252,44 +252,6 @@ class Config:
 
         return vault_pass_file
 
-    def get_gitlab_runner_token_file(self):
-        if self.values["install"]["flavor"] != "gitlab":
-            return None
-
-        gitlab_runner_token_file = self._get_config_file("gitlab-runner-token")
-
-        try:
-            with open(gitlab_runner_token_file, "r") as infile:
-                if not infile.readline().strip():
-                    raise ValueError
-        except Exception as ex:
-            raise Exception(
-                "Missing or invalid GitLab runner token file ({}): {}".format(
-                    gitlab_runner_token_file, ex
-                )
-            )
-
-        return gitlab_runner_token_file
-
-    def get_gitlab_url_file(self):
-        if self.values["install"]["flavor"] != "gitlab":
-            return None
-
-        gitlab_url_file = self._get_config_file("gitlab-url")
-
-        try:
-            with open(gitlab_url_file, "r") as infile:
-                if not infile.readline().strip():
-                    raise ValueError
-        except Exception as ex:
-            raise Exception(
-                "Missing or invalid GitLab url file ({}): {}".format(
-                    gitlab_url_file, ex
-                )
-            )
-
-        return gitlab_url_file
-
 
 class Inventory:
 
@@ -527,8 +489,6 @@ class Application:
         base = Util.get_base()
 
         vault_pass_file = self._config.get_vault_password_file()
-        gitlab_url_file = self._config.get_gitlab_url_file()
-        gitlab_runner_token_file = self._config.get_gitlab_runner_token_file()
 
         ansible_hosts = ",".join(self._inventory.expand_pattern(hosts))
         selected_projects = self._projects.expand_pattern(projects)
