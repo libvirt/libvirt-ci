@@ -64,13 +64,15 @@ branches out of those with
 Host setup
 ----------
 
-Ansible and `virt-install` need to be available on the host.
+`ansible` and `virt-install` need to be available on the host, the former can
+be either installed system-wide using your package manager or using `pip`
+(see the provided requirements.txt file). The latter can only be installed with
+your package manager as `virt-install` is not distributed via PyPI.
 
-Before you can start bringing up guests, you'll have to store your
-site-specific root password in the `~/.config/lcitool/root-password` file.
-This password will only be necessary for serial console access in case
-something goes horribly wrong; for day to day operations, SSH key
-authentication will be used instead.
+Before you can start bringing up guests, you need to create
+~/.config/lcitool/config.yaml, ideally by copying the `config.yaml` template,
+and set at least the options marked as "(mandatory)" depending on the flavor
+(`test`, `jenkins`, `gitlab`) you wish to use with your machines.
 
 Ansible expects to be able to connect to the guests by name: installing and
 enabling the [libvirt NSS plugin](https://wiki.libvirt.org/page/NSS_module)
@@ -123,8 +125,8 @@ Jenkins CI use
 --------------
 
 You'll need to configure `lcitool` to use the `jenkins` flavor for
-guests: to do so, just write `jenkins` in the `~/.config/lcitool/flavor`
-file.
+guests. To do so, simply set the `install.flavor` to `jenkins` in
+`~/.config/lcitool/config.yaml`.
 
 Once a guest has been prepared, you'll be able to log in as root either
 via SSH (your public key will have been authorized) or on the serial
