@@ -563,6 +563,7 @@ class Application:
 
     def _action_install(self, args):
         base = Util.get_base()
+        config = self._config
 
         for host in self._inventory.expand_pattern(args.hosts):
             facts = self._inventory.get_facts(host)
@@ -570,16 +571,16 @@ class Application:
             # Both memory size and disk size are stored as GiB in the
             # inventory, but virt-install expects the disk size in GiB
             # and the memory size in *MiB*, so perform conversion here
-            memory_arg = str(int(facts["install_memory_size"]) * 1024)
+            memory_arg = str(config.values["install"]["memory_size"] * 1024)
 
-            vcpus_arg = str(facts["install_vcpus"])
+            vcpus_arg = str(config.values["install"]["vcpus"])
 
             disk_arg = "size={},pool={},bus=virtio".format(
-                facts["install_disk_size"],
-                facts["install_storage_pool"],
+                config.values["install"]["disk_size"],
+                config.values["install"]["storage_pool"],
             )
             network_arg = "network={},model=virtio".format(
-                facts["install_network"],
+                config.values["install"]["network"],
             )
 
             # Different operating systems require different configuration
@@ -639,10 +640,10 @@ class Application:
                 virt_install,
                 "--name", host,
                 "--location", facts["install_url"],
-                "--virt-type", facts["install_virt_type"],
-                "--arch", facts["install_arch"],
-                "--machine", facts["install_machine"],
-                "--cpu", facts["install_cpu_model"],
+                "--virt-type", config.values["install"]["virt_type"],
+                "--arch", config.values["install"]["arch"],
+                "--machine", config.values["install"]["machine"],
+                "--cpu", config.values["install"]["cpu_model"],
                 "--vcpus", vcpus_arg,
                 "--memory", memory_arg,
                 "--disk", disk_arg,
@@ -659,7 +660,7 @@ class Application:
                 cmd.append("--noautoconsole")
 
             # Only configure autostart for the guest for the jenkins flavor
-            if self._config.values["install"]["flavor"] == "jenkins":
+            if config.values["install"]["flavor"] == "jenkins":
                 cmd += ["--autostart"]
 
             try:
