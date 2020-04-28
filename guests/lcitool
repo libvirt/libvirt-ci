@@ -582,11 +582,11 @@ class Application:
             # Different operating systems require different configuration
             # files for unattended installation to work, but some operating
             # systems simply don't support unattended installation at all
-            if facts["os_name"] in ["Debian", "Ubuntu"]:
+            if facts["os"]["name"] in ["Debian", "Ubuntu"]:
                 install_config = "preseed.cfg"
-            elif facts["os_name"] in ["CentOS", "Fedora"]:
+            elif facts["os"]["name"] in ["CentOS", "Fedora"]:
                 install_config = "kickstart.cfg"
-            elif facts["os_name"] == "OpenSUSE":
+            elif facts["os"]["name"] == "OpenSUSE":
                 install_config = "autoinst.xml"
             else:
                 raise Exception(
@@ -707,9 +707,6 @@ class Application:
     def _dockerfile_build_varmap_deb(self, facts, mappings, pip_mappings, projects, cross_arch):
         package_format = facts["package_format"]
         package_manager = facts["package_manager"]
-        os_name = facts["os_name"]
-        os_version = facts["os_version"]
-        os_full = os_name + os_version
 
         pkgs = {}
         cross_pkgs = {}
@@ -717,8 +714,8 @@ class Application:
         base_keys = [
             "default",
             package_format,
-            os_name,
-            os_full,
+            facts["os"]["name"],
+            facts["os"]["name"] + facts["os"]["version"],
         ]
         cross_keys = []
         if cross_arch:
@@ -780,9 +777,6 @@ class Application:
     def _dockerfile_build_varmap_rpm(self, facts, mappings, pip_mappings, projects, cross_arch):
         package_format = facts["package_format"]
         package_manager = facts["package_manager"]
-        os_name = facts["os_name"]
-        os_version = facts["os_version"]
-        os_full = os_name + os_version
 
         pkgs = {}
         cross_pkgs = {}
@@ -790,8 +784,8 @@ class Application:
         keys = [
             "default",
             package_format,
-            os_name,
-            os_full,
+            facts["os"]["name"],
+            facts["os"]["name"] + facts["os"]["version"],
         ]
 
         # We need to add the base project manually here: the standard
@@ -846,8 +840,6 @@ class Application:
     def _dockerfile_format(self, facts, cross_arch, varmap):
         package_format = facts["package_format"]
         package_manager = facts["package_manager"]
-        os_name = facts["os_name"]
-        os_version = facts["os_version"]
 
         print("FROM {}".format(facts["docker_base"]))
 
@@ -867,15 +859,15 @@ class Application:
         elif package_format == "rpm":
             # Rawhide needs this because the keys used to sign packages are
             # cycled from time to time
-            if os_name == "Fedora" and os_version == "Rawhide":
+            if facts["os"]["name"] == "Fedora" and facts["os"]["version"] == "Rawhide":
                 commands.extend([
                     "{package_manager} update -y --nogpgcheck fedora-gpg-keys"
                 ])
 
-            if os_name == "CentOS":
+            if facts["os"]["name"] == "CentOS":
                 # Starting with CentOS 8, most -devel packages are shipped in
                 # the PowerTools repository, which is not enabled by default
-                if os_version != "7":
+                if facts["os"]["version"] != "7":
                     commands.extend([
                         "{package_manager} install 'dnf-command(config-manager)' -y",
                         "{package_manager} config-manager --set-enabled PowerTools -y",
@@ -883,7 +875,7 @@ class Application:
 
                 # VZ development packages are only available for CentOS/RHEL-7
                 # right now and need a 3rd party repository enabled
-                if os_version == "7":
+                if facts["os"]["version"] == "7":
                     repo = self._get_openvz_repo()
                     varmap["vzrepo"] = "\\n\\\n".join(repo.split("\n"))
                     key = self._get_openvz_key()
@@ -908,7 +900,7 @@ class Application:
 
             # openSUSE doesn't seem to have a convenient way to remove all
             # unnecessary packages, but CentOS and Fedora do
-            if os_name == "OpenSUSE":
+            if facts["os"]["name"] == "OpenSUSE":
                 commands.extend([
                     "{package_manager} clean --all",
                 ])
@@ -995,28 +987,27 @@ class Application:
         facts = self._inventory.get_facts(host)
         package_format = facts["package_format"]
         package_manager = facts["package_manager"]
-        os_name = facts["os_name"]
-        os_version = facts["os_version"]
-        os_full = os_name + os_version
         cross_arch = args.cross_arch
 
         if package_format not in ["deb", "rpm"]:
             raise Exception("Host {} doesn't support Dockerfiles".format(host))
         if cross_arch:
-            if os_name not in ["Debian", "Fedora"]:
-                raise Exception("Cannot cross compile on {}".format(os_name))
-            if os_name == "Debian" and cross_arch.startswith("mingw"):
+            if facts["os"]["name"] not in ["Debian", "Fedora"]:
+                raise Exception("Cannot cross compile on {}".format(
+                    facts["os"]["name"],
+                ))
+            if facts["os"]["name"] == "Debian" and cross_arch.startswith("mingw"):
                 raise Exception(
                     "Cannot cross compile for {} on {}".format(
                         cross_arch,
-                        os_name,
+                        facts["os"]["name"],
                     )
                 )
-            if os_name == "Fedora" and not cross_arch.startswith("mingw"):
+            if facts["os"]["name"] == "Fedora" and not cross_arch.startswith("mingw"):
                 raise Exception(
                     "Cannot cross compile for {} on {}".format(
                         cross_arch,
-                        os_name,
+                        facts["os"]["name"],
                     )
                 )
             if cross_arch == self._native_arch:

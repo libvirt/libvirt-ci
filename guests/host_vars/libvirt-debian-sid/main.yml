@@ -17,10 +17,12 @@ projects:
   - virt-manager
   - virt-viewer
 
+os:
+  name: 'Debian'
+  version: 'Sid'
+
 package_format: 'deb'
 package_manager: 'apt-get'
-os_name: 'Debian'
-os_version: 'Sid'
 
 bash: /bin/bash
 cc: /usr/bin/gcc

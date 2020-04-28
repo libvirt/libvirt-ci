@@ -38,19 +38,19 @@
 
 - name: '{{ project }}: Look up mappings (OS name)'
   set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item][os_name] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item][os.name] }) }}'
   with_items:
     '{{ packages }}'
   when:
-    - mappings[item][os_name] is defined
+    - mappings[item][os.name] is defined
 
 - name: '{{ project }}: Look up mappings (OS version)'
   set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item][os_name + os_version] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item][os.name + os.version] }) }}'
   with_items:
     '{{ packages }}'
   when:
-    - mappings[item][os_name + os_version] is defined
+    - mappings[item][os.name + os.version] is defined
 
 - name: '{{ project }}: Look up mappings (arch with default)'
   set_fact:
@@ -70,19 +70,19 @@
 
 - name: '{{ project }}: Look up mappings (arch with OS name)'
   set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + os_name] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + os.name] }) }}'
   with_items:
     '{{ packages }}'
   when:
-    - mappings[item]["x86_64" + "-" + os_name] is defined
+    - mappings[item]["x86_64" + "-" + os.name] is defined
 
 - name: '{{ project }}: Look up mappings (arch with OS version)'
   set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + os_name + os_version] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + os.name + os.version] }) }}'
   with_items:
     '{{ packages }}'
   when:
-    - mappings[item]["x86_64" + "-" + os_name + os_version] is defined
+    - mappings[item]["x86_64" + "-" + os.name + os.version] is defined
 
 - set_fact:
     flattened: []

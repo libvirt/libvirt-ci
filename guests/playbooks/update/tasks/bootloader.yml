@@ -48,4 +48,4 @@
     - { key: 'console', value: 'comconsole' }
     - { key: 'autoboot_delay', value: '1' }
   when:
-    - os_name == 'FreeBSD'
+    - os.name == 'FreeBSD'

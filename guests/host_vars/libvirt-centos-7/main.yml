@@ -15,10 +15,12 @@ projects:
   - osinfo-db-tools
   - virt-viewer
 
+os:
+  name: 'CentOS'
+  version: '7'
+
 package_format: 'rpm'
 package_manager: 'yum'
-os_name: 'CentOS'
-os_version: '7'
 
 bash: /bin/bash
 cc: /usr/bin/gcc

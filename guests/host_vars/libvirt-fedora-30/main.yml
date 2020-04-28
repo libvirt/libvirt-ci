@@ -30,10 +30,12 @@ projects:
   - virt-viewer+mingw32
   - virt-viewer+mingw64
 
+os:
+  name: 'Fedora'
+  version: '30'
+
 package_format: 'rpm'
 package_manager: 'dnf'
-os_name: 'Fedora'
-os_version: '30'
 
 bash: /bin/bash
 cc: /usr/bin/gcc

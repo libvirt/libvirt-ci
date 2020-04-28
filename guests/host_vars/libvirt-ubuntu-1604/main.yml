@@ -16,10 +16,12 @@ projects:
   - osinfo-db-tools
   - virt-viewer
 
+os:
+  name: 'Ubuntu'
+  version: '1604'
+
 package_format: 'deb'
 package_manager: 'apt-get'
-os_name: 'Ubuntu'
-os_version: '1604'
 
 bash: /bin/bash
 cc: /usr/bin/gcc

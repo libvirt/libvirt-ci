@@ -6,23 +6,23 @@
     owner: root
     group: root
   when:
-    - os_name == 'Fedora'
-    - os_version == 'Rawhide'
+    - os.name == 'Fedora'
+    - os.version == 'Rawhide'
 
 - name: Enable PowerTools repository
   command: '{{ package_manager }} config-manager --set-enabled PowerTools -y'
   args:
     warn: no
   when:
-    - os_name == 'CentOS'
-    - os_version == '8'
+    - os.name == 'CentOS'
+    - os.version == '8'
 
 - name: Enable EPEL repository
   package:
     name: epel-release
     state: latest
   when:
-    - os_name == 'CentOS'
+    - os.name == 'CentOS'
 
 - name: Create OpenVZ key
   template:
@@ -31,16 +31,16 @@
     owner: root
     group: root
   when:
-    - os_name == 'CentOS'
-    - os_version == '7'
+    - os.name == 'CentOS'
+    - os.version == '7'
 
 - name: Import OpenVZ key
   command: 'rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-OpenVZ'
   args:
     warn: no
   when:
-    - os_name == 'CentOS'
-    - os_version == '7'
+    - os.name == 'CentOS'
+    - os.version == '7'
 
 - name: Enable OpenVZ repository
   template:
@@ -49,8 +49,8 @@
     owner: root
     group: root
   when:
-    - os_name == 'CentOS'
-    - os_version == '7'
+    - os.name == 'CentOS'
+    - os.version == '7'
 
 - name: Update installed packages
   package:
@@ -58,8 +58,8 @@
     state: latest
   when:
     - package_format == 'rpm'
-    - not ( os_name == 'Fedora' and
-            os_version == 'Rawhide' )
+    - not ( os.name == 'Fedora' and
+            os.version == 'Rawhide' )
 
 - name: Update installed packages
   package:
@@ -67,24 +67,24 @@
     state: latest
     disable_gpg_check: yes
   when:
-    - os_name == 'Fedora'
-    - os_version == 'Rawhide'
+    - os.name == 'Fedora'
+    - os.version == 'Rawhide'
 
 - name: Update installed packages
   command: '{{ package_manager }} update --refresh --exclude "kernel*" -y'
   args:
     warn: no
   when:
-    - os_name == 'Fedora'
-    - os_version == 'Rawhide'
+    - os.name == 'Fedora'
+    - os.version == 'Rawhide'
 
 - name: Update installed packages
   command: '{{ package_manager }} update --disablerepo="*" --enablerepo=fedora-rawhide-kernel-nodebug "kernel*" -y'
   args:
     warn: no
   when:
-    - os_name == 'Fedora'
-    - os_version == 'Rawhide'
+    - os.name == 'Fedora'
+    - os.version == 'Rawhide'
 
 - name: Update installed packages
   apt:
@@ -105,7 +105,7 @@
   args:
     warn: no
   when:
-    - os_name == 'Fedora'
+    - os.name == 'Fedora'
 
 - name: Clean up packages after update
   shell: '{{ package_manager }} clean packages -y && {{ package_manager }} autoremove -y'
@@ -113,14 +113,14 @@
     warn: no
   when:
     - package_format == 'rpm'
-    - os_name != 'OpenSUSE'
+    - os.name != 'OpenSUSE'
 
 - name: Clean up packages after update
   shell: '{{ package_manager }} clean'
   args:
     warn: no
   when:
-    - os_name == 'OpenSUSE'
+    - os.name == 'OpenSUSE'
 
 - name: Clean up packages after update
   apt:

@@ -17,10 +17,12 @@ projects:
   - virt-manager
   - virt-viewer
 
+os:
+  name: 'Ubuntu'
+  version: '1804'
+
 package_format: 'deb'
 package_manager: 'apt-get'
-os_name: 'Ubuntu'
-os_version: '1804'
 
 bash: /bin/bash
 cc: /usr/bin/gcc

@@ -15,10 +15,12 @@ projects:
   - virt-manager
   - virt-viewer
 
+os:
+  name: 'CentOS'
+  version: '8'
+
 package_format: 'rpm'
 package_manager: 'dnf'
-os_name: 'CentOS'
-os_version: '8'
 
 bash: /bin/bash
 cc: /usr/bin/gcc

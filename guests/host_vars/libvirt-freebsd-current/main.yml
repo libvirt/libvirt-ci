@@ -16,10 +16,12 @@ projects:
   - virt-manager
   - virt-viewer
 
+os:
+  name: 'FreeBSD'
+  version: 'Current'
+
 package_format: 'pkg'
 package_manager: 'pkg'
-os_name: 'FreeBSD'
-os_version: 'Current'
 
 bash: /usr/local/bin/bash
 cc: /usr/bin/clang

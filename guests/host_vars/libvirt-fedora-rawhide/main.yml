@@ -18,10 +18,12 @@ projects:
   - virt-manager
   - virt-viewer
 
+os:
+  name: 'Fedora'
+  version: 'Rawhide'
+
 package_format: 'rpm'
 package_manager: 'dnf'
-os_name: 'Fedora'
-os_version: 'Rawhide'
 
 bash: /bin/bash
 cc: /usr/bin/gcc

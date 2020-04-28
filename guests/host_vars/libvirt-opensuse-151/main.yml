@@ -16,10 +16,12 @@ projects:
   - virt-manager
   - virt-viewer
 
+os:
+  name: 'OpenSUSE'
+  version: '151'
+
 package_format: 'rpm'
 package_manager: 'zypper'
-os_name: 'OpenSUSE'
-os_version: '151'
 
 bash: /bin/bash
 cc: /usr/bin/gcc

@@ -18,10 +18,12 @@ projects:
   - virt-manager
   - virt-viewer
 
+os:
+  name: 'Fedora'
+  version: '31'
+
 package_format: 'rpm'
 package_manager: 'dnf'
-os_name: 'Fedora'
-os_version: '31'
 
 bash: /bin/bash
 cc: /usr/bin/gcc

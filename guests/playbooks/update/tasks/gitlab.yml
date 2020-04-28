@@ -14,7 +14,7 @@
     force: yes
 
 - name: Register the gitlab-runner agent
-  shell: 'gitlab-runner register --non-interactive --config "{{ gitlab_runner_config_dir }}/config.toml" --registration-token "{{ gitlab_runner_secret }}" --url "{{ gitlab_url }}" --executor shell --tag-list "{{ os_name|lower }}-{{ os_version }}"'
+  shell: 'gitlab-runner register --non-interactive --config "{{ gitlab_runner_config_dir }}/config.toml" --registration-token "{{ gitlab_runner_secret }}" --url "{{ gitlab_url }}" --executor shell --tag-list "{{ os.name|lower }}-{{ os.version }}"'
   args:
     creates: '{{ gitlab_runner_config_dir }}/config.toml'
 

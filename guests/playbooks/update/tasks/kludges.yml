@@ -11,7 +11,7 @@
     owner: root
     group: wheel
   when:
-    - os_name == 'FreeBSD'
+    - os.name == 'FreeBSD'
     - flavor == "jenkins"
 
 # FreeBSD compiles bash without defining SSH_SOURCE_BASHRC, which means
@@ -24,7 +24,7 @@
     replace: '\1:setenv=BASH_ENV=~/.bashrc,\3:\\'
   register: loginconf
   when:
-    - os_name == 'FreeBSD'
+    - os.name == 'FreeBSD'
 
 - name: Enable ~/.bashrc
   command: cap_mkdb /etc/login.conf
@@ -41,7 +41,7 @@
     path: /usr/local/bin/intltool-update
   register: intltoolupdate
   when:
-    - os_name == 'FreeBSD'
+    - os.name == 'FreeBSD'
 
 - name: Fix intltool-update
   replace:
@@ -49,5 +49,5 @@
     regexp: '^(.*) !~ /\\\$\{\?\$2\}\?/;$'
     replace: '\1 !~ /\\$\\{?$2}?/;'
   when:
-    - os_name == 'FreeBSD'
+    - os.name == 'FreeBSD'
     - intltoolupdate.stat.exists
