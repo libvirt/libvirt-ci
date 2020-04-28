@@ -20,8 +20,9 @@ os:
   name: 'OpenSUSE'
   version: '151'
 
-package_format: 'rpm'
-package_manager: 'zypper'
+packaging:
+  format: 'rpm'
+  command: 'zypper'
 
 bash: /bin/bash
 cc: /usr/bin/gcc

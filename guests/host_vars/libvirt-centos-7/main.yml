@@ -19,8 +19,9 @@ os:
   name: 'CentOS'
   version: '7'
 
-package_format: 'rpm'
-package_manager: 'yum'
+packaging:
+  format: rpm
+  command: yum
 
 bash: /bin/bash
 cc: /usr/bin/gcc

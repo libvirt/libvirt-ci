@@ -20,8 +20,9 @@ os:
   name: 'FreeBSD'
   version: 'Current'
 
-package_format: 'pkg'
-package_manager: 'pkg'
+packaging:
+  format: 'pkg'
+  command: 'pkg'
 
 bash: /usr/local/bin/bash
 cc: /usr/bin/clang

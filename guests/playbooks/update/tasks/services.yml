@@ -5,7 +5,7 @@
 - set_fact:
     chrony: chronyd
   when:
-    - package_format != 'deb'
+    - packaging.format != 'deb'
 
 - name: 'Enable services'
   service:

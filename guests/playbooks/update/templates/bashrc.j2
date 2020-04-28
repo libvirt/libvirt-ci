@@ -19,13 +19,13 @@ export OSINFO_SYSTEM_DIR="$VIRT_PREFIX/share/osinfo"
 # These search paths need to encode the OS architecture in some way
 # in order to work, so use the appropriate tool to obtain this
 # information and adjust them accordingly
-package_format="{{ package_format }}"
-if test "$package_format" = "deb"; then
+packaging_format="{{ packaging.format }}"
+if test "$packaging_format" = "deb"; then
     multilib=$(dpkg-architecture -q DEB_TARGET_MULTIARCH)
     export LD_LIBRARY_PATH="$VIRT_PREFIX/lib/$multilib:$LD_LIBRARY_PATH"
     export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/$multilib/pkgconfig:$PKG_CONFIG_PATH"
     export GI_TYPELIB_PATH="$VIRT_PREFIX/lib/$multilib/girepository-1.0:$GI_TYPELIB_PATH"
-elif test "$package_format" = "rpm"; then
+elif test "$packaging_format" = "rpm"; then
     multilib=$(rpm --eval '%{_lib}')
     export LD_LIBRARY_PATH="$VIRT_PREFIX/$multilib:$LD_LIBRARY_PATH"
     export PKG_CONFIG_PATH="$VIRT_PREFIX/$multilib/pkgconfig:$PKG_CONFIG_PATH"

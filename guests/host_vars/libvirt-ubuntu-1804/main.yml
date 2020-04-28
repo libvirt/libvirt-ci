@@ -21,8 +21,9 @@ os:
   name: 'Ubuntu'
   version: '1804'
 
-package_format: 'deb'
-package_manager: 'apt-get'
+packaging:
+  format: 'deb'
+  command: 'apt-get'
 
 bash: /bin/bash
 cc: /usr/bin/gcc

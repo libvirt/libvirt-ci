@@ -30,11 +30,11 @@
 
 - name: '{{ project }}: Look up mappings (package format)'
   set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item][package_format] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item][packaging.format] }) }}'
   with_items:
     '{{ packages }}'
   when:
-    - mappings[item][package_format] is defined
+    - mappings[item][packaging.format] is defined
 
 - name: '{{ project }}: Look up mappings (OS name)'
   set_fact:
@@ -62,11 +62,11 @@
 
 - name: '{{ project }}: Look up mappings (arch with package format)'
   set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + package_format] }) }}'
+    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + packaging.format] }) }}'
   with_items:
     '{{ packages }}'
   when:
-    - mappings[item]["x86_64" + "-" + package_format] is defined
+    - mappings[item]["x86_64" + "-" + packaging.format] is defined
 
 - name: '{{ project }}: Look up mappings (arch with OS name)'
   set_fact:

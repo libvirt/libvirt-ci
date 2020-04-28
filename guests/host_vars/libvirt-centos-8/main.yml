@@ -19,8 +19,9 @@ os:
   name: 'CentOS'
   version: '8'
 
-package_format: 'rpm'
-package_manager: 'dnf'
+packaging:
+  format: 'rpm'
+  command: 'dnf'
 
 bash: /bin/bash
 cc: /usr/bin/gcc

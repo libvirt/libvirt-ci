@@ -687,12 +687,12 @@ class Application:
             return r.read().rstrip()
 
     def _dockerfile_build_varmap(self, facts, mappings, pip_mappings, projects, cross_arch):
-        if facts["package_format"] == "deb":
+        if facts["packaging"]["format"] == "deb":
             varmap = self._dockerfile_build_varmap_deb(facts, mappings, pip_mappings, projects, cross_arch)
-        if facts["package_format"] == "rpm":
+        if facts["packaging"]["format"] == "rpm":
             varmap = self._dockerfile_build_varmap_rpm(facts, mappings, pip_mappings, projects, cross_arch)
 
-        varmap["package_manager"] = facts["package_manager"]
+        varmap["packaging_command"] = facts["packaging"]["command"]
         varmap["cc"] = facts["cc"]
         varmap["ccache"] = facts["ccache"]
         varmap["make"] = facts["make"]
@@ -705,15 +705,12 @@ class Application:
         return varmap
 
     def _dockerfile_build_varmap_deb(self, facts, mappings, pip_mappings, projects, cross_arch):
-        package_format = facts["package_format"]
-        package_manager = facts["package_manager"]
-
         pkgs = {}
         cross_pkgs = {}
         pip_pkgs = {}
         base_keys = [
             "default",
-            package_format,
+            facts["packaging"]["format"],
             facts["os"]["name"],
             facts["os"]["name"] + facts["os"]["version"],
         ]
@@ -752,7 +749,7 @@ class Application:
                 if pkgs[package] is None or cross_policy in ["skip", "foreign"]:
                     del pkgs[package]
 
-        pkg_align = " \\\n" + (" " * len("RUN " + package_manager + " "))
+        pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
         pip_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
 
         varmap = {}
@@ -775,15 +772,12 @@ class Application:
         return varmap
 
     def _dockerfile_build_varmap_rpm(self, facts, mappings, pip_mappings, projects, cross_arch):
-        package_format = facts["package_format"]
-        package_manager = facts["package_manager"]
-
         pkgs = {}
         cross_pkgs = {}
         pip_pkgs = {}
         keys = [
             "default",
-            package_format,
+            facts["packaging"]["format"],
             facts["os"]["name"],
             facts["os"]["name"] + facts["os"]["version"],
         ]
@@ -823,7 +817,7 @@ class Application:
                     if cross_pkgs[package] is None:
                         del cross_pkgs[package]
 
-        pkg_align = " \\\n" + (" " * len("RUN " + package_manager + " "))
+        pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["format"] + " "))
         pip_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
 
         varmap = {}
@@ -838,30 +832,27 @@ class Application:
         return varmap
 
     def _dockerfile_format(self, facts, cross_arch, varmap):
-        package_format = facts["package_format"]
-        package_manager = facts["package_manager"]
-
         print("FROM {}".format(facts["docker_base"]))
 
         commands = []
 
-        if package_format == "deb":
+        if facts["packaging"]["format"] == "deb":
             commands.extend([
                 "export DEBIAN_FRONTEND=noninteractive",
-                "{package_manager} update",
-                "{package_manager} dist-upgrade -y",
-                "{package_manager} install --no-install-recommends -y {pkgs}",
-                "{package_manager} autoremove -y",
-                "{package_manager} autoclean -y",
+                "{packaging_command} update",
+                "{packaging_command} dist-upgrade -y",
+                "{packaging_command} install --no-install-recommends -y {pkgs}",
+                "{packaging_command} autoremove -y",
+                "{packaging_command} autoclean -y",
                 "sed -Ei 's,^# (en_US\\.UTF-8 .*)$,\\1,' /etc/locale.gen",
                 "dpkg-reconfigure locales",
             ])
-        elif package_format == "rpm":
+        elif facts["packaging"]["format"] == "rpm":
             # Rawhide needs this because the keys used to sign packages are
             # cycled from time to time
             if facts["os"]["name"] == "Fedora" and facts["os"]["version"] == "Rawhide":
                 commands.extend([
-                    "{package_manager} update -y --nogpgcheck fedora-gpg-keys"
+                    "{packaging_command} update -y --nogpgcheck fedora-gpg-keys"
                 ])
 
             if facts["os"]["name"] == "CentOS":
@@ -869,8 +860,8 @@ class Application:
                 # the PowerTools repository, which is not enabled by default
                 if facts["os"]["version"] != "7":
                     commands.extend([
-                        "{package_manager} install 'dnf-command(config-manager)' -y",
-                        "{package_manager} config-manager --set-enabled PowerTools -y",
+                        "{packaging_command} install 'dnf-command(config-manager)' -y",
+                        "{packaging_command} config-manager --set-enabled PowerTools -y",
                     ])
 
                 # VZ development packages are only available for CentOS/RHEL-7
@@ -890,24 +881,24 @@ class Application:
                 # Some of the packages we need are not part of CentOS proper
                 # and are only available through EPEL
                 commands.extend([
-                    "{package_manager} install -y epel-release",
+                    "{packaging_command} install -y epel-release",
                 ])
 
             commands.extend([
-                "{package_manager} update -y",
-                "{package_manager} install -y {pkgs}",
+                "{packaging_command} update -y",
+                "{packaging_command} install -y {pkgs}",
             ])
 
             # openSUSE doesn't seem to have a convenient way to remove all
             # unnecessary packages, but CentOS and Fedora do
             if facts["os"]["name"] == "OpenSUSE":
                 commands.extend([
-                    "{package_manager} clean --all",
+                    "{packaging_command} clean --all",
                 ])
             else:
                 commands.extend([
-                    "{package_manager} autoremove -y",
-                    "{package_manager} clean all -y",
+                    "{packaging_command} autoremove -y",
+                    "{packaging_command} clean all -y",
                 ])
 
         commands.extend([
@@ -934,21 +925,21 @@ class Application:
             # Intentionally a separate RUN command from the above
             # so that the common packages of all cross-built images
             # share a Docker image layer.
-            if package_format == "deb":
+            if facts["packaging"]["format"] == "deb":
                 cross_commands.extend([
                     "export DEBIAN_FRONTEND=noninteractive",
                     "dpkg --add-architecture {cross_arch}",
-                    "{package_manager} update",
-                    "{package_manager} dist-upgrade -y",
-                    "{package_manager} install --no-install-recommends -y dpkg-dev",
-                    "{package_manager} install --no-install-recommends -y {cross_pkgs}",
-                    "{package_manager} autoremove -y",
-                    "{package_manager} autoclean -y",
+                    "{packaging_command} update",
+                    "{packaging_command} dist-upgrade -y",
+                    "{packaging_command} install --no-install-recommends -y dpkg-dev",
+                    "{packaging_command} install --no-install-recommends -y {cross_pkgs}",
+                    "{packaging_command} autoremove -y",
+                    "{packaging_command} autoclean -y",
                 ])
-            elif package_format == "rpm":
+            elif facts["packaging"]["format"] == "rpm":
                 cross_commands.extend([
-                    "{package_manager} install -y {cross_pkgs}",
-                    "{package_manager} clean all -y",
+                    "{packaging_command} install -y {cross_pkgs}",
+                    "{packaging_command} clean all -y",
                 ])
 
             cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands)) + "\n"
@@ -985,11 +976,9 @@ class Application:
         host = hosts[0]
 
         facts = self._inventory.get_facts(host)
-        package_format = facts["package_format"]
-        package_manager = facts["package_manager"]
         cross_arch = args.cross_arch
 
-        if package_format not in ["deb", "rpm"]:
+        if facts["packaging"]["format"] not in ["deb", "rpm"]:
             raise Exception("Host {} doesn't support Dockerfiles".format(host))
         if cross_arch:
             if facts["os"]["name"] not in ["Debian", "Fedora"]:

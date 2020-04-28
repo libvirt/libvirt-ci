@@ -22,8 +22,9 @@ os:
   name: 'Fedora'
   version: '31'
 
-package_format: 'rpm'
-package_manager: 'dnf'
+packaging:
+  format: 'rpm'
+  command: 'dnf'
 
 bash: /bin/bash
 cc: /usr/bin/gcc
