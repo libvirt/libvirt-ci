@@ -24,7 +24,7 @@
     path: /etc/rc.local
     create: yes
     regexp: '^nohup.*jenkins.*java.*slave\.jar.*&$'
-    line: "nohup {{ su }} - jenkins -c '{{ java }} -jar /home/jenkins/slave.jar -jnlpUrl \"{{ jenkins_url }}\" -secret \"{{ jenkins_secret }}\"' >/var/log/jenkins.log 2>&1 &"
+    line: "nohup {{ paths.su }} - jenkins -c '{{ paths.java }} -jar /home/jenkins/slave.jar -jnlpUrl \"{{ jenkins_url }}\" -secret \"{{ jenkins_secret }}\"' >/var/log/jenkins.log 2>&1 &"
     insertbefore: '^exit .*$'
   when:
     - jenkins_secret is defined

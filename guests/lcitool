@@ -693,11 +693,11 @@ class Application:
             varmap = self._dockerfile_build_varmap_rpm(facts, mappings, pip_mappings, projects, cross_arch)
 
         varmap["packaging_command"] = facts["packaging"]["command"]
-        varmap["cc"] = facts["cc"]
-        varmap["ccache"] = facts["ccache"]
-        varmap["make"] = facts["make"]
-        varmap["ninja"] = facts["ninja"]
-        varmap["python"] = facts["python"]
+        varmap["paths_cc"] = facts["paths"]["cc"]
+        varmap["paths_ccache"] = facts["paths"]["ccache"]
+        varmap["paths_make"] = facts["paths"]["make"]
+        varmap["paths_ninja"] = facts["paths"]["ninja"]
+        varmap["paths_python"] = facts["paths"]["python"]
 
         if cross_arch:
             varmap["cross_abi"] = Util.native_arch_to_abi(cross_arch)
@@ -907,13 +907,13 @@ class Application:
 
         if cross_arch:
             commands.extend([
-                "ln -s {ccache} /usr/libexec/ccache-wrappers/{cross_abi}-cc",
-                "ln -s {ccache} /usr/libexec/ccache-wrappers/{cross_abi}-$(basename {cc})",
+                "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/{cross_abi}-cc",
+                "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/{cross_abi}-$(basename {paths_cc})",
             ])
         else:
             commands.extend([
-                "ln -s {ccache} /usr/libexec/ccache-wrappers/cc",
-                "ln -s {ccache} /usr/libexec/ccache-wrappers/$(basename {cc})",
+                "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/cc",
+                "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/$(basename {paths_cc})",
             ])
 
         script = "\nRUN " + (" && \\\n    ".join(commands)) + "\n"
@@ -953,9 +953,9 @@ class Application:
         sys.stdout.write(textwrap.dedent("""
             ENV LANG "en_US.UTF-8"
 
-            ENV MAKE "{make}"
-            ENV NINJA "{ninja}"
-            ENV PYTHON "{python}"
+            ENV MAKE "{paths_make}"
+            ENV NINJA "{paths_ninja}"
+            ENV PYTHON "{paths_python}"
 
             ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
         """).format(**varmap))

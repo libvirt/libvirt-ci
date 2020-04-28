@@ -23,15 +23,16 @@ packaging:
   format: rpm
   command: yum
 
-bash: /bin/bash
-cc: /usr/bin/gcc
-ccache: /usr/bin/ccache
-java: /usr/bin/java
-make: /usr/bin/make
-ninja: /usr/bin/ninja-build
-python: /usr/bin/python3
-su: /bin/su
-sudoers: /etc/sudoers
+paths:
+  bash: /bin/bash
+  cc: /usr/bin/gcc
+  ccache: /usr/bin/ccache
+  java: /usr/bin/java
+  make: /usr/bin/make
+  ninja: /usr/bin/ninja-build
+  python: /usr/bin/python3
+  su: /bin/su
+  sudoers: /etc/sudoers
 
 ansible_python_package: python2
 ansible_python_interpreter: /usr/bin/python2

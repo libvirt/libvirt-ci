@@ -24,15 +24,16 @@ packaging:
   format: 'pkg'
   command: 'pkg'
 
-bash: /usr/local/bin/bash
-cc: /usr/bin/clang
-ccache: /usr/local/bin/ccache
-java: /usr/local/bin/java
-make: /usr/local/bin/gmake
-ninja: /usr/local/bin/ninja
-python: /usr/local/bin/python3
-su: /usr/bin/su
-sudoers: /usr/local/etc/sudoers
+paths:
+  bash: /usr/local/bin/bash
+  cc: /usr/bin/clang
+  ccache: /usr/local/bin/ccache
+  java: /usr/local/bin/java
+  make: /usr/local/bin/gmake
+  ninja: /usr/local/bin/ninja
+  python: /usr/local/bin/python3
+  su: /usr/bin/su
+  sudoers: /usr/local/etc/sudoers
 
 ansible_python_package: python3
 ansible_python_interpreter: /usr/local/bin/python3

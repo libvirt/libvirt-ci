@@ -6,9 +6,9 @@
 
 - name: 'Create ccache wrappers'
   file:
-    src: '{{ ccache }}'
+    src: '{{ paths.ccache }}'
     dest: /usr/libexec/ccache-wrappers/{{ item }}
     state: link
   with_items:
     - cc
-    - '{{ cc | basename }}'
+    - '{{ paths.cc | basename }}'

@@ -38,15 +38,16 @@ packaging:
   format: 'rpm'
   command: 'dnf'
 
-bash: /bin/bash
-cc: /usr/bin/gcc
-ccache: /usr/bin/ccache
-java: /usr/bin/java
-make: /usr/bin/make
-ninja: /usr/bin/ninja
-python: /usr/bin/python3
-su: /bin/su
-sudoers: /etc/sudoers
+paths:
+  bash: /bin/bash
+  cc: /usr/bin/gcc
+  ccache: /usr/bin/ccache
+  java: /usr/bin/java
+  make: /usr/bin/make
+  ninja: /usr/bin/ninja
+  python: /usr/bin/python3
+  su: /bin/su
+  sudoers: /etc/sudoers
 
 ansible_python_package: python3
 ansible_python_interpreter: /usr/bin/python3

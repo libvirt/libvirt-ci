@@ -1,8 +1,8 @@
 export PS1="[\u@\h \w]\$ "
 
-export MAKE="{{ make }}"
-export NINJA="{{ ninja }}"
-export PYTHON="{{ python }}"
+export MAKE="{{ paths.make }}"
+export NINJA="{{ paths.ninja }}"
+export PYTHON="{{ paths.python }}"
 
 export MAKEFLAGS="-j{{ install_vcpus|int + 1 }}"
 export CCACHE_MAXSIZE="2G"

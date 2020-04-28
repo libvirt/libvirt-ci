@@ -28,7 +28,7 @@
     group: '{{ flavor }}'
     comment: '{{ flavor }}'
     password: '*'
-    shell: '{{ bash }}'
+    shell: '{{ paths.bash }}'
 
 - name: '{{ flavor }}: Set password'
   user:
@@ -45,7 +45,7 @@
 
 - name: '{{ flavor }}: Grant passwordless sudo access'
   lineinfile:
-    path: '{{ sudoers }}'
+    path: '{{ paths.sudoers }}'
     line: '{{ flavor }} ALL=(ALL) NOPASSWD: ALL'
     state: present
     validate: 'visudo -cf %s'
