@@ -714,7 +714,12 @@ class Application:
         pkgs = {}
         cross_pkgs = {}
         pip_pkgs = {}
-        base_keys = ["default", package_format, os_name, os_full]
+        base_keys = [
+            "default",
+            package_format,
+            os_name,
+            os_full,
+        ]
         cross_keys = []
         if cross_arch:
             keys = base_keys + [cross_arch + "-" + k for k in base_keys]
@@ -782,7 +787,12 @@ class Application:
         pkgs = {}
         cross_pkgs = {}
         pip_pkgs = {}
-        keys = ["default", package_format, os_name, os_full]
+        keys = [
+            "default",
+            package_format,
+            os_name,
+            os_full,
+        ]
 
         # We need to add the base project manually here: the standard
         # machinery hides it because it's an implementation detail
