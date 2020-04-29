@@ -15,6 +15,7 @@
       - libvirt-freebsd-current
       - libvirt-opensuse-151
       - libvirt-ubuntu-1804
+      - libvirt-ubuntu-2004
     archive_format: gz
     git_url: '{{ git_urls["virt-manager"][git_remote] }}'
 
@@ -38,6 +39,7 @@
       - libvirt-freebsd-current
       - libvirt-opensuse-151
       - libvirt-ubuntu-1804
+      - libvirt-ubuntu-2004
 - include: '{{ playbook_base }}/jobs/python-distutils-rpm-job.yml'
   vars:
     machines:
