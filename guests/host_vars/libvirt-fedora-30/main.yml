@@ -1,8 +1,6 @@
 ---
 projects:
   - gtk-vnc
-  - gtk-vnc+mingw32
-  - gtk-vnc+mingw64
   - libosinfo
   - libvirt
   - libvirt-cim
