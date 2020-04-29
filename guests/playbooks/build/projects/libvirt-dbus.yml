@@ -11,8 +11,7 @@
   vars:
     # flake8 and pyflakes versions currently available on FreeBSD
     # (3.5.0 and 2.0.0 respectively) are not compatible.
-    # Python3 version in Ubuntu 16.04 and python3-pytest version
-    # in CentOS 7 are too old.
+    # The python3-pytest version in CentOS 7 is too old.
     machines:
       - libvirt-centos-8
       - libvirt-debian-9

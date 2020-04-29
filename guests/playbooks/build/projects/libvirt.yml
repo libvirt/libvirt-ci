@@ -21,7 +21,6 @@
       - libvirt-fedora-32
       - libvirt-fedora-rawhide
       - libvirt-opensuse-151
-      - libvirt-ubuntu-1604
       - libvirt-ubuntu-1804
       - libvirt-ubuntu-2004
 - include: '{{ playbook_base }}/jobs/autotools-check-job.yml'

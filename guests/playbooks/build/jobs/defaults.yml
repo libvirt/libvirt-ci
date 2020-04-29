@@ -12,7 +12,6 @@ all_machines:
   - libvirt-freebsd-12
   - libvirt-freebsd-current
   - libvirt-opensuse-151
-  - libvirt-ubuntu-1604
   - libvirt-ubuntu-1804
   - libvirt-ubuntu-2004
 rpm_machines:

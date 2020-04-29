@@ -13,7 +13,6 @@
       - libvirt-freebsd-11
       - libvirt-freebsd-12
       - libvirt-freebsd-current
-      - libvirt-ubuntu-1604
       - libvirt-ubuntu-1804
       - libvirt-ubuntu-2004
     archive_format: gz
