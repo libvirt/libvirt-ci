@@ -6,7 +6,6 @@
     machines:
       - libvirt-debian-9
       - libvirt-debian-10
-      - libvirt-fedora-30
       - libvirt-fedora-31
       - libvirt-fedora-32
       - libvirt-fedora-rawhide
@@ -23,7 +22,6 @@
       - perl-modulebuild-rpm-job:
           parent_jobs: 'libvirt-tck-check'
           machines:
-            - libvirt-fedora-30
             - libvirt-fedora-31
             - libvirt-fedora-32
             - libvirt-fedora-rawhide

@@ -18,7 +18,6 @@
       - libvirt-debian-9
       - libvirt-debian-10
       - libvirt-debian-sid
-      - libvirt-fedora-30
       - libvirt-fedora-31
       - libvirt-fedora-32
       - libvirt-fedora-rawhide
@@ -30,7 +29,6 @@
     # have the needed RPM macros for meson.
     machines:
       - libvirt-centos-8
-      - libvirt-fedora-30
       - libvirt-fedora-31
       - libvirt-fedora-32
       - libvirt-fedora-rawhide

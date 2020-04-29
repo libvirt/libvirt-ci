@@ -7,7 +7,6 @@
       - libvirt-debian-9
       - libvirt-debian-10
       - libvirt-debian-sid
-      - libvirt-fedora-30
       - libvirt-fedora-31
       - libvirt-fedora-32
       - libvirt-fedora-rawhide
@@ -25,7 +24,6 @@
 - include: '{{ playbook_base }}/jobs/perl-modulebuild-rpm-job.yml'
   vars:
     machines:
-      - libvirt-fedora-30
       - libvirt-fedora-31
       - libvirt-fedora-32
       - libvirt-fedora-rawhide

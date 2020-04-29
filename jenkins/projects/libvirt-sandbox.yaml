@@ -7,7 +7,6 @@
     machines:
       - libvirt-debian-9
       - libvirt-debian-10
-      - libvirt-fedora-30
       - libvirt-fedora-31
       - libvirt-fedora-32
       - libvirt-fedora-rawhide
@@ -25,7 +24,6 @@
       - autotools-rpm-job:
           parent_jobs: 'libvirt-sandbox-check'
           machines:
-            - libvirt-fedora-30
             - libvirt-fedora-31
             - libvirt-fedora-32
             - libvirt-fedora-rawhide
