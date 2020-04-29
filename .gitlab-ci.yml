@@ -12,7 +12,7 @@ stages:
     - docker info
     - docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
   script:
-    - docker build --tag ${CI_REGISTRY_IMAGE}/${NAME}:${CI_COMMIT_REF_SLUG} ${NAME}
+    - docker build --tag ${CI_REGISTRY_IMAGE}/${NAME}:${CI_COMMIT_REF_SLUG} containers/${NAME}
     - docker push ${CI_REGISTRY_IMAGE}/${NAME}:${CI_COMMIT_REF_SLUG}
   after_script:
     - docker logout
