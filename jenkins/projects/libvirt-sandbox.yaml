@@ -25,5 +25,5 @@
           parent_jobs: 'libvirt-sandbox-check'
           machines:
             - libvirt-fedora-30
-            - libvirt-fedora-rawhide
             - libvirt-fedora-31
+            - libvirt-fedora-rawhide
