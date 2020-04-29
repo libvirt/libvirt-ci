@@ -20,6 +20,7 @@
       - libvirt-debian-sid
       - libvirt-fedora-30
       - libvirt-fedora-31
+      - libvirt-fedora-32
       - libvirt-fedora-rawhide
       - libvirt-opensuse-151
       - libvirt-ubuntu-1804
@@ -31,4 +32,5 @@
       - libvirt-centos-8
       - libvirt-fedora-30
       - libvirt-fedora-31
+      - libvirt-fedora-32
       - libvirt-fedora-rawhide

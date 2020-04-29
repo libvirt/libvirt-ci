@@ -8,6 +8,7 @@
       - libvirt-debian-10
       - libvirt-fedora-30
       - libvirt-fedora-31
+      - libvirt-fedora-32
       - libvirt-fedora-rawhide
       - libvirt-freebsd-11
       - libvirt-freebsd-12
@@ -15,6 +16,7 @@
       - libvirt-centos-7
       - libvirt-fedora-30
       - libvirt-fedora-31
+      - libvirt-fedora-32
       - libvirt-fedora-rawhide
     mingw_machines:
       - libvirt-fedora-rawhide

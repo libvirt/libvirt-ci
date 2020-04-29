@@ -16,4 +16,5 @@
       - libvirt-centos-8
       - libvirt-fedora-30
       - libvirt-fedora-31
+      - libvirt-fedora-32
       - libvirt-fedora-rawhide

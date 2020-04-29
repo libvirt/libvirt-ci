@@ -7,6 +7,7 @@
       - libvirt-debian-10
       - libvirt-fedora-30
       - libvirt-fedora-31
+      - libvirt-fedora-32
       - libvirt-fedora-rawhide
       - libvirt-freebsd-11
       - libvirt-freebsd-12
@@ -27,6 +28,7 @@
             - libvirt-debian-10
             - libvirt-fedora-30
             - libvirt-fedora-31
+            - libvirt-fedora-32
             - libvirt-fedora-rawhide
             - libvirt-freebsd-11
             - libvirt-freebsd-12
@@ -35,4 +37,5 @@
           machines:
             - libvirt-fedora-30
             - libvirt-fedora-31
+            - libvirt-fedora-32
             - libvirt-fedora-rawhide
