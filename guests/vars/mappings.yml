@@ -210,7 +210,6 @@ mappings:
     rpm: glusterfs-api-devel
     Debian9: glusterfs-common
     OpenSUSE: glusterfs-devel
-    Ubuntu1604: glusterfs-common
     Ubuntu1804: glusterfs-common
     cross-policy-deb: foreign
 
@@ -245,7 +244,6 @@ mappings:
   gtk-update-icon-cache:
     default: gtk-update-icon-cache
     OpenSUSE: gtk3-tools
-    Ubuntu1604: libgtk2.0-bin
 
   hal:
     FreeBSD: hal
@@ -276,7 +274,6 @@ mappings:
     pkg: openjdk11
     rpm: java-11-openjdk-headless
     Debian9: openjdk-8-jre-headless
-    Ubuntu1604: openjdk-8-jre-headless
 
   json-glib:
     deb: libjson-glib-dev
@@ -490,7 +487,6 @@ mappings:
     CentOS7:
     Debian9:
     OpenSUSE151:
-    Ubuntu1604:
     Ubuntu1804:
 
   ninja:
@@ -881,7 +877,6 @@ mappings:
     FreeBSD: py37-libxml2
     OpenSUSE: python3-libxml2-python
     CentOS7:
-    Ubuntu1604:
 
   python3-lxml:
     default: python3-lxml
@@ -897,7 +892,6 @@ mappings:
     CentOS7: python3-pip
     Debian9: python3-pip
     OpenSUSE151: python3-pip
-    Ubuntu1604: python3-pip
     Ubuntu1804: python3-pip
 
   python3-pytest:
@@ -957,7 +951,6 @@ mappings:
     default:
     Fedora: sheepdog
     Debian9: sheepdog
-    Ubuntu1604: sheepdog
     Ubuntu1804: sheepdog
 
   showmount:
