@@ -956,8 +956,9 @@ mappings:
   sheepdog:
     default:
     Fedora: sheepdog
-    Ubuntu: sheepdog
     Debian9: sheepdog
+    Ubuntu1604: sheepdog
+    Ubuntu1804: sheepdog
 
   showmount:
     deb: nfs-common
