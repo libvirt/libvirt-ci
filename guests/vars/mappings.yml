@@ -909,6 +909,10 @@ mappings:
     default: python3-setuptools
     FreeBSD: py37-setuptools
 
+  python3-wheel:
+    default: python3-wheel
+    FreeBSD: py37-wheel
+
   qemu-img:
     default: qemu-utils
     rpm: qemu-img
