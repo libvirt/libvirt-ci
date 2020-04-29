@@ -1,0 +1,12 @@
+---
+packages:
+  - glib2
+  - gnutls
+  - libnl3
+  - libnlroute3
+  - libtirpc
+  - libxml2
+  - python3-docutils
+  - rpcgen
+  - xmllint
+  - xsltproc

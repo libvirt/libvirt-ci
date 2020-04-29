@@ -450,6 +450,11 @@ mappings:
     rpm: libuuid-devel
     cross-policy-deb: foreign
 
+  libvirt:
+    deb: libvirt-dev
+    pkg: libvirt
+    rpm: libvirt-devel
+
   libxml2:
     deb: libxml2-dev
     pkg: libxml2

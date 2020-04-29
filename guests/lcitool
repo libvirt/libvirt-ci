@@ -1007,13 +1007,6 @@ class Application:
         for project in projects:
             if project.rfind("+mingw") >= 0:
                 raise Exception("Obsolete syntax, please use --cross-arch")
-            if project not in facts["projects"]:
-                raise Exception(
-                    "Host {} doesn't support project {}".format(
-                        host,
-                        project,
-                    )
-                )
 
         varmap = self._dockerfile_build_varmap(facts, mappings, pip_mappings, projects, cross_arch)
         self._dockerfile_format(facts, cross_arch, varmap)
