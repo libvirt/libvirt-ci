@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# ci-job.py: validate all commits are signed off
+# check-dco.py: validate all commits are signed off
 #
 # Copyright (C) 2020 Red Hat, Inc.
 #
