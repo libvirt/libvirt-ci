@@ -27,17 +27,17 @@ cwd = os.getcwd()
 reponame = os.path.basename(cwd)
 repourl = "https://gitlab.com/libvirt/%s.git" % reponame
 
-subprocess.check_call(["git", "remote", "add", "dcocheck", repourl])
-subprocess.check_call(["git", "fetch", "dcocheck", "master"],
+subprocess.check_call(["git", "remote", "add", "check-dco", repourl])
+subprocess.check_call(["git", "fetch", "check-dco", "master"],
                       stdout=subprocess.DEVNULL,
                       stderr=subprocess.DEVNULL)
 
-ancestor = subprocess.check_output(["git", "merge-base", "dcocheck/master", "HEAD"],
+ancestor = subprocess.check_output(["git", "merge-base", "check-dco/master", "HEAD"],
                                    universal_newlines=True)
 
 ancestor = ancestor.strip()
 
-subprocess.check_call(["git", "remote", "rm", "dcocheck"])
+subprocess.check_call(["git", "remote", "rm", "check-dco"])
 
 errors = False
 
