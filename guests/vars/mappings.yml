@@ -890,6 +890,12 @@ mappings:
     OpenSUSE: libpulse-devel
     cross-policy-deb: foreign
 
+  publican:
+    default: publican
+    pkg:
+    OpenSUSE:
+    CentOS8:
+
   python3-docutils:
     default: python3-docutils
     FreeBSD: py37-docutils
