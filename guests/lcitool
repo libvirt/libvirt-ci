@@ -817,7 +817,7 @@ class Application:
                     if cross_pkgs[package] is None:
                         del cross_pkgs[package]
 
-        pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["format"] + " "))
+        pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
         pip_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
 
         varmap = {}
