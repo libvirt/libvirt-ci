@@ -23,9 +23,13 @@ import os.path
 import sys
 import subprocess
 
+namespace = "libvirt"
+if len(sys.argv) >= 2:
+    namespace = sys.argv[1]
+
 cwd = os.getcwd()
 reponame = os.path.basename(cwd)
-repourl = "https://gitlab.com/libvirt/%s.git" % reponame
+repourl = "https://gitlab.com/%s/%s.git" % (namespace, reponame)
 
 subprocess.check_call(["git", "remote", "add", "check-dco", repourl])
 subprocess.check_call(["git", "fetch", "check-dco", "master"],
