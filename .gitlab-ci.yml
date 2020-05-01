@@ -22,6 +22,11 @@ check-dco-container:
   variables:
     NAME: check-dco
 
+go-fmt-container:
+  <<: *build_container_definition
+  variables:
+    NAME: go-fmt
+
 # Check that all commits are signed-off for the DCO. Skip
 # on master branch and -maint branches, since we only need
 # to test developer's personal branches.
