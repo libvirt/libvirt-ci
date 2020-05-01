@@ -17,7 +17,7 @@ stages:
   after_script:
     - docker logout
 
-build-dco:
+check-dco-container:
   <<: *build_container_definition
   variables:
     NAME: check-dco
