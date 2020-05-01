@@ -27,6 +27,11 @@ go-fmt-container:
   variables:
     NAME: go-fmt
 
+cargo-fmt-container:
+  <<: *build_container_definition
+  variables:
+    NAME: cargo-fmt
+
 # Check that all commits are signed-off for the DCO. Skip
 # on master branch and -maint branches, since we only need
 # to test developer's personal branches.
