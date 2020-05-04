@@ -1,0 +1,6 @@
+---
+packages:
+  - php
+  - php-imagick
+  - xmllint
+  - xsltproc

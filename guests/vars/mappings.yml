@@ -831,6 +831,18 @@ mappings:
     OpenSUSE:
     CentOS7:
 
+  php:
+    deb: php-dev
+    rpm: php-devel
+    pkg: php74
+
+  php-imagick:
+    deb: php-imagick
+    rpm: php-pecl-imagick
+    pkg: php74-pecl-imagick
+    OpenSUSE: php-imagick
+    CentOS8:
+
   pkg-config:
     default: pkgconf
     rpm: pkgconfig
