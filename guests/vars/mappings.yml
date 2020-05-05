@@ -109,6 +109,10 @@ mappings:
     default: ca-certificates
     FreeBSD: ca_root_nss
 
+  cargo:
+    default: cargo
+    pkg:
+
   ccache:
     default: ccache
 
@@ -946,6 +950,10 @@ mappings:
 
   rpmbuild:
     rpm: rpm-build
+
+  rust:
+    default: rust
+    deb: rustc
 
   sanlock:
     deb: libsanlock-dev
