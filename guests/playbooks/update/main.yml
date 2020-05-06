@@ -47,6 +47,13 @@
       when:
         - install.flavor == "jenkins"
 
+    # Install packages needed for enabling cloud-init
+    - include: '{{ playbook_base }}/tasks/packages.yml'
+      vars:
+        project: cloud-init
+      when:
+        - install.cloud_init
+
     # Configure environment. Needs to happen after installing packages
     - include: '{{ playbook_base }}/tasks/kludges.yml'
     - include: '{{ playbook_base }}/tasks/bootloader.yml'
@@ -63,3 +70,8 @@
     - include: '{{ playbook_base }}/tasks/gitlab.yml'
       when:
         - install.flavor == 'gitlab'
+
+    # Configure cloud-init
+    - include: '{{ playbook_base }}/tasks/cloud-init.yml'
+      when:
+        - install.cloud_init

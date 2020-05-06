@@ -137,6 +137,14 @@ mappings:
   chrony:
     default: chrony
 
+  cloud-init:
+    default: cloud-init
+    FreeBSD: py37-cloud-init
+
+  cloud-init-growpart:
+    deb: cloud-guest-utils
+    rpm: cloud-utils-growpart
+
   cppi:
     Fedora: cppi
     FreeBSD: cppi
