@@ -691,6 +691,14 @@ mappings:
     default: kmod
     FreeBSD:
 
+  mono:
+    Fedora: mono-devel
+    Debian9: mono-devel
+
+  monodevelop:
+    Fedora: monodevelop
+    Debian9: monodevelop
+
   nano:
     default: nano
 
