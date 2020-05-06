@@ -939,6 +939,10 @@ mappings:
   radvd:
     default: radvd
 
+  rake:
+    default: rubygem-rake
+    deb: rake
+
   readline:
     deb: libreadline-dev
     pkg: readline
@@ -953,6 +957,11 @@ mappings:
 
   rpmbuild:
     rpm: rpm-build
+
+  ruby:
+    deb: ruby-dev
+    pkg: ruby
+    rpm: ruby-devel
 
   rust:
     default: rust
@@ -1067,6 +1076,9 @@ mappings:
     CentOS:
     FreeBSD:
     OpenSUSE:
+
+  zip:
+    default: zip
 
   zlib:
     deb: zlib1g-dev

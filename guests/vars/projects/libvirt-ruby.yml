@@ -1,0 +1,5 @@
+---
+packages:
+  - rake
+  - ruby
+  - zip
