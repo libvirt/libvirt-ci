@@ -595,20 +595,17 @@ class Application:
         playbook_path = os.path.join(playbook_base, "main.yml")
         extra_vars_path = os.path.join(tempdir.name, "extra_vars.json")
 
-        extra_vars = {
+        extra_vars = self._config.values
+        extra_vars.update({
             "base": base,
             "playbook_base": playbook_base,
-            "root_password_file": root_pass_file,
-            "flavor": flavor,
             "selected_projects": selected_projects,
             "git_remote": git_remote,
             "git_branch": git_branch,
-            "gitlab_url_file": gitlab_url_file,
-            "gitlab_runner_token_file": gitlab_runner_token_file,
-        }
+        })
 
         with open(extra_vars_path, "w") as fp:
-            json.dump(extra_vars, fp)
+            json.dump(self._config.values, fp)
 
         ansible_playbook = distutils.spawn.find_executable("ansible-playbook")
         if ansible_playbook is None:

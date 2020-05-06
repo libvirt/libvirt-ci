@@ -1,8 +1,6 @@
 ---
 - name: Define gitlab-related facts
   set_fact:
-    gitlab_url: '{{ lookup("file", gitlab_url_file) }}'
-    gitlab_runner_secret: '{{ lookup("file", gitlab_runner_token_file) }}'
     gitlab_runner_download_url: https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-{{ ansible_system|lower }}-amd64
     gitlab_runner_config_dir: '/etc/gitlab-runner'
 
@@ -14,7 +12,7 @@
     force: yes
 
 - name: Register the gitlab-runner agent
-  shell: 'gitlab-runner register --non-interactive --config "{{ gitlab_runner_config_dir }}/config.toml" --registration-token "{{ gitlab_runner_secret }}" --url "{{ gitlab_url }}" --executor shell --tag-list "{{ os.name|lower }}-{{ os.version }}"'
+  shell: 'gitlab-runner register --non-interactive --config "{{ gitlab_runner_config_dir }}/config.toml" --registration-token "{{ gitlab.runner_secret }}" --url "{{ gitlab.url }}" --executor shell --tag-list "{{ os.name|lower }}-{{ os.version }}"'
   args:
     creates: '{{ gitlab_runner_config_dir }}/config.toml'
 

@@ -12,7 +12,7 @@
     group: wheel
   when:
     - os.name == 'FreeBSD'
-    - flavor == "jenkins"
+    - install.flavor == "jenkins"
 
 # FreeBSD compiles bash without defining SSH_SOURCE_BASHRC, which means
 # it won't try to detect when it's spawned by ssh and source ~/.bashrc

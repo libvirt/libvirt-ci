@@ -45,7 +45,7 @@
       vars:
         project: jenkins
       when:
-        - flavor == "jenkins"
+        - install.flavor == "jenkins"
 
     # Configure environment. Needs to happen after installing packages
     - include: '{{ playbook_base }}/tasks/kludges.yml'
@@ -57,9 +57,9 @@
     # Configure the Jenkins agent
     - include: '{{ playbook_base }}/tasks/jenkins.yml'
       when:
-        - flavor == 'jenkins'
+        - install.flavor == 'jenkins'
 
     # Install the Gitlab runner agent
     - include: '{{ playbook_base }}/tasks/gitlab.yml'
       when:
-        - flavor == 'gitlab'
+        - install.flavor == 'gitlab'

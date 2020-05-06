@@ -2,7 +2,7 @@
 - name: 'root: Set password'
   user:
     name: root
-    password: '{{ lookup("file", root_password_file)|password_hash("sha512") }}'
+    password: '{{ install.root_password|password_hash("sha512") }}'
 
 - name: 'root: Configure ssh access'
   authorized_key:
@@ -17,54 +17,54 @@
     line: 'PermitRootLogin without-password'
     state: present
 
-- name: '{{ flavor }}: Create group'
+- name: '{{ install.flavor }}: Create group'
   group:
-    name: '{{ flavor }}'
+    name: '{{ install.flavor }}'
     state: present
 
-- name: '{{ flavor }}: Create user account'
+- name: '{{ install.flavor }}: Create user account'
   user:
-    name: '{{ flavor }}'
-    group: '{{ flavor }}'
-    comment: '{{ flavor }}'
+    name: '{{ install.flavor }}'
+    group: '{{ install.flavor }}'
+    comment: '{{ install.flavor }}'
     password: '*'
     shell: '{{ paths.bash }}'
 
-- name: '{{ flavor }}: Set password'
+- name: '{{ install.flavor }}: Set password'
   user:
-    name: '{{ flavor }}'
+    name: '{{ install.flavor }}'
     password: '{{ "test"|password_hash("sha512") }}'
   when:
-    - flavor == 'test'
+    - install.flavor == 'test'
 
-- name: '{{ flavor }}: Configure ssh access'
+- name: '{{ install.flavor }}: Configure ssh access'
   authorized_key:
-    user: '{{ flavor }}'
+    user: '{{ install.flavor }}'
     key: '{{ lookup("file", lookup("env", "HOME") + "/.ssh/id_rsa.pub") }}'
     state: present
 
-- name: '{{ flavor }}: Grant passwordless sudo access'
+- name: '{{ install.flavor }}: Grant passwordless sudo access'
   lineinfile:
     path: '{{ paths.sudoers }}'
-    line: '{{ flavor }} ALL=(ALL) NOPASSWD: ALL'
+    line: '{{ install.flavor }} ALL=(ALL) NOPASSWD: ALL'
     state: present
     validate: 'visudo -cf %s'
   when:
-    - flavor == 'test'
+    - install.flavor == 'test'
 
-- name: '{{ flavor }}: Create shell profile'
+- name: '{{ install.flavor }}: Create shell profile'
   template:
     src: '{{ playbook_base }}/templates/{{ item }}.j2'
-    dest: /home/{{ flavor }}/.{{ item }}
-    owner: '{{ flavor }}'
-    group: '{{ flavor }}'
+    dest: /home/{{ install.flavor }}/.{{ item }}
+    owner: '{{ install.flavor }}'
+    group: '{{ install.flavor }}'
   with_items:
     - bash_profile
     - bashrc
 
-- name: '{{ flavor }}: Remove unnecessary home skeleton files'
+- name: '{{ install.flavor }}: Remove unnecessary home skeleton files'
   file:
-    path: /home/{{ flavor }}/.{{ item }}
+    path: /home/{{ install.flavor }}/.{{ item }}
     state: absent
   with_items:
     - profile
