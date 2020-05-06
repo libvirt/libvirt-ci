@@ -73,6 +73,20 @@ mappings:
     OpenSUSE: libapparmor-devel
     cross-policy-deb: foreign
 
+  ant:
+    default: ant
+    pkg: apache-ant
+
+  ant-junit:
+    deb: ant-optional
+    pkg: apache-ant
+    rpm: ant-junit
+    CentOS8:
+
+  junit:
+    default: junit
+    CentOS8:
+
   augeas:
     default: augeas
     deb: augeas-tools
@@ -281,6 +295,10 @@ mappings:
     pkg: openjdk11
     rpm: java-11-openjdk-headless
     Debian9: openjdk-8-jre-headless
+
+  jna:
+    default: jna
+    deb: libjna-java
 
   json-glib:
     deb: libjson-glib-dev
