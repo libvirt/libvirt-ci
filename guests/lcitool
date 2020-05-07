@@ -385,15 +385,9 @@ class Projects:
         return self._packages[project]
 
 
-class Application:
+class CommandLine:
 
     def __init__(self):
-        self._config = Config()
-        self._inventory = Inventory()
-        self._projects = Projects()
-
-        self._native_arch = Util.get_native_arch()
-
         self._parser = argparse.ArgumentParser(
             conflict_handler="resolve",
             description="libvirt CI guest management tool",
@@ -439,14 +433,14 @@ class Application:
 
         installparser = subparsers.add_parser(
             "install", help="perform unattended host installation")
-        installparser.set_defaults(func=self._action_install)
+        installparser.set_defaults(func=Application._action_install)
 
         add_hosts_arg(installparser)
         add_wait_arg(installparser)
 
         updateparser = subparsers.add_parser(
             "update", help="prepare hosts and keep them updated")
-        updateparser.set_defaults(func=self._action_update)
+        updateparser.set_defaults(func=Application._action_update)
 
         add_hosts_arg(updateparser)
         add_projects_arg(updateparser)
@@ -454,7 +448,7 @@ class Application:
 
         buildparser = subparsers.add_parser(
             "build", help="build projects on hosts")
-        buildparser.set_defaults(func=self._action_build)
+        buildparser.set_defaults(func=Application._action_build)
 
         add_hosts_arg(buildparser)
         add_projects_arg(buildparser)
@@ -462,19 +456,32 @@ class Application:
 
         hostsparser = subparsers.add_parser(
             "hosts", help="list all known hosts")
-        hostsparser.set_defaults(func=self._action_hosts)
+        hostsparser.set_defaults(func=Application._action_hosts)
 
         projectsparser = subparsers.add_parser(
             "projects", help="list all known projects")
-        projectsparser.set_defaults(func=self._action_projects)
+        projectsparser.set_defaults(func=Application._action_projects)
 
         dockerfileparser = subparsers.add_parser(
             "dockerfile", help="generate Dockerfile (doesn't access the host)")
-        dockerfileparser.set_defaults(func=self._action_dockerfile)
+        dockerfileparser.set_defaults(func=Application._action_dockerfile)
 
         add_hosts_arg(dockerfileparser)
         add_projects_arg(dockerfileparser)
         add_cross_arch_arg(dockerfileparser)
+
+    def parse(self):
+        return self._parser.parse_args()
+
+
+class Application:
+
+    def __init__(self):
+        self._config = Config()
+        self._inventory = Inventory()
+        self._projects = Projects()
+
+        self._native_arch = Util.get_native_arch()
 
     def _execute_playbook(self, playbook, hosts, projects, git_revision):
         base = Util.get_base()
@@ -1006,17 +1013,18 @@ class Application:
         varmap = self._dockerfile_build_varmap(facts, mappings, pip_mappings, projects, cross_arch)
         self._dockerfile_format(facts, cross_arch, varmap)
 
-    def run(self):
-        args = self._parser.parse_args()
-        if args.debug:
-            args.func(args)
-        else:
-            try:
-                args.func(args)
-            except Exception as err:
-                sys.stderr.write("{}: {}\n".format(sys.argv[0], err))
-                sys.exit(1)
+    def run(self, args):
+        args.func(self, args)
 
 
 if __name__ == "__main__":
-    Application().run()
+    args = CommandLine().parse()
+
+    if args.debug:
+        Application().run(args)
+    else:
+        try:
+            Application().run(args)
+        except Exception as err:
+            sys.stderr.write("{}: {}\n".format(sys.argv[0], err))
+            sys.exit(1)
