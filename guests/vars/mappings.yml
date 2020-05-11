@@ -291,10 +291,10 @@ mappings:
     default: itstool
 
   java:
-    deb: openjdk-11-jre-headless
+    deb: openjdk-11-jdk-headless
     pkg: openjdk11
     rpm: java-11-openjdk-headless
-    Debian9: openjdk-8-jre-headless
+    Debian9: openjdk-8-jdk-headless
 
   jna:
     default: jna
