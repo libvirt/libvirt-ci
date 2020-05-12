@@ -273,6 +273,9 @@ mappings:
     FreeBSD: cdrkit
     OpenSUSE: mkisofs
 
+  itstool:
+    default: itstool
+
   java:
     deb: openjdk-11-jre-headless
     pkg: openjdk11
