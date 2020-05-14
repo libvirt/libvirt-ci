@@ -522,7 +522,7 @@ class Application:
         })
 
         with open(extra_vars_path, "w") as fp:
-            json.dump(self._config.values, fp)
+            json.dump(extra_vars, fp)
 
         ansible_playbook = distutils.spawn.find_executable("ansible-playbook")
         if ansible_playbook is None:
