@@ -1,6 +1,7 @@
 ---
 packages:
   - gettext
+  - intltool
   - itstool
   - python3-lxml
   - python3-pytest
