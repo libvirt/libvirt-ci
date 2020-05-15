@@ -131,18 +131,23 @@ class Config:
         with open(os.path.join(base, "config.yaml"), "r") as fp:
             self.values = yaml.safe_load(fp)
 
+        user_config_path = self._get_config_file("config.yaml")
+        if not os.path.exists(user_config_path):
+            return
+
         try:
-            with open(self._get_config_file("config.yaml"), "r") as fp:
+            with open(user_config_path, "r") as fp:
                 user_config = yaml.safe_load(fp)
         except Exception as e:
-            raise Exception("Missing or invalid config.yaml file: {}".format(e))
+            raise Exception("Invalid config.yaml file: {}".format(e))
 
         if user_config is None:
-            raise Exception("Missing or invalid config.yaml file")
+            raise Exception("Invalid config.yaml file")
 
-        # Validate the user provided config and use it to override the default
-        # settings
-        self._validate(user_config)
+        # delete user params we don't recognize
+        self._remove_all_unknown_keys(user_config)
+
+        # Override the default settings with user config
         self._update(user_config)
 
     @staticmethod
@@ -174,54 +179,52 @@ class Config:
             if k not in known_keys:
                 del _dict[k]
 
-    def _validate_section(self, config, section, mandatory_keys):
+    def _remove_all_unknown_keys(self, config):
         # remove keys we don't recognize
-        self._remove_unknown_keys(config[section], self.values[section].keys())
+        self._remove_unknown_keys(config, self.values.keys())
+        for section in ["install", "gitlab"]:
+            if section in config:
+                self._remove_unknown_keys(config[section], self.values[section].keys())
 
+    def _validate_section(self, section, mandatory_keys):
         # check that the mandatory keys are present and non-empty
         for key in mandatory_keys:
-            if config.get(section).get(key) is None:
+            if self.values.get(section).get(key) is None:
                 raise Exception(("Missing or empty value for mandatory key "
                                  "'{}.{}'").format(section, key))
 
         # check that all keys have values assigned and of the right type
-        for key in config[section].keys():
+        for key in self.values[section].keys():
 
             # mandatory keys were already checked, so this covers optional keys
-            if config[section][key] is None:
+            if self.values[section][key] is None:
                 raise Exception(
                     "Missing value for '{}.{}'".format(section, key)
                 )
 
-            if not isinstance(config[section][key], (str, int)):
+            if not isinstance(self.values[section][key], (str, int)):
                 raise Exception(
                     "Invalid type for key '{}.{}'".format(section, key)
                 )
 
-    def _validate(self, config):
-        # delete sections we don't recognize
-        self._remove_unknown_keys(config, self.values.keys())
+    # Validate that parameters needed for VM install are present
+    def validate_vm_settings(self):
+        self._validate_section("install", ["root_password"])
 
-        if "install" not in config:
-            raise Exception("Missing mandatory section 'install'")
-
-        self._validate_section(config, "install", ["root_password"])
-
-        # we only need this for the gitlab check below, if 'flavor' is missing
-        # that's okay, we'll provide a default later
-        flavor = config["install"].get("flavor")
-        if flavor is not None and flavor not in ["test", "jenkins", "gitlab"]:
+        flavor = self.values["install"].get("flavor")
+        if flavor not in ["test", "jenkins", "gitlab"]:
             raise Exception(
                 "Invalid value '{}' for 'install.flavor'".format(flavor)
             )
 
         if flavor == "gitlab":
-            self._validate_section(config, "gitlab", ["runner_secret"])
+            self._validate_section("gitlab", ["runner_secret"])
 
     def _update(self, values):
-        self.values["install"].update(values["install"])
+        if "install" in values:
+            self.values["install"].update(values["install"])
 
-        if values.get("gitlab") is not None:
+        if "gitlab" in values:
             self.values["gitlab"].update(values["gitlab"])
 
     def get_vault_password_file(self):
@@ -558,6 +561,8 @@ class Application:
         base = Util.get_base()
         config = self._config
 
+        config.validate_vm_settings()
+
         for host in self._inventory.expand_pattern(args.hosts):
             facts = self._inventory.get_facts(host)
 
@@ -664,10 +669,14 @@ class Application:
                 tempdir.cleanup()
 
     def _action_update(self, args):
+        self._config.validate_vm_settings()
+
         self._execute_playbook("update", args.hosts, args.projects,
                                args.git_revision)
 
     def _action_build(self, args):
+        self._config.validate_vm_settings()
+
         self._execute_playbook("build", args.hosts, args.projects,
                                args.git_revision)
 
