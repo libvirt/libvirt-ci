@@ -40,7 +40,8 @@
         state: started
         enabled: yes
         daemon_reload: yes
-  when: ansible_service_mgr == 'systemd'
+  when:
+    - ansible_service_mgr == 'systemd'
 
 - block:
     - name: Install the gitlab_runner rc service script
@@ -54,4 +55,5 @@
         name: gitlab_runner
         state: started
         enabled: yes
-  when: ansible_service_mgr != 'systemd'
+  when:
+    - ansible_service_mgr != 'systemd'

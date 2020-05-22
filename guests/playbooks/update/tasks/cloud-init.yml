@@ -8,11 +8,13 @@
     - cloud-init-local
     - cloud-config
     - cloud-final
-  when: os.name != 'FreeBSD'
+  when:
+    - os.name != 'FreeBSD'
 
 - name: Enable cloud-init services
   service:
     name: cloudinit
     enabled: yes
-  when: os.name == 'FreeBSD'
+  when:
+    - os.name == 'FreeBSD'
 
