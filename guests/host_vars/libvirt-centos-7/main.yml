@@ -36,3 +36,9 @@ paths:
 
 ansible_python_package: python2
 ansible_python_interpreter: /usr/bin/python2
+
+install:
+  url: http://mirror.centos.org/centos/7/os/x86_64/
+
+docker:
+  base: centos:7

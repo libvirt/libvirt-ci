@@ -38,3 +38,6 @@ paths:
 
 ansible_python_package: python3
 ansible_python_interpreter: /usr/bin/python3
+
+docker:
+  base: ubuntu:20.04

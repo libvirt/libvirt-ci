@@ -599,9 +599,9 @@ class Application:
 
             # Unattended install scripts are being generated on the fly, based
             # on the templates present in guests/configs/
-            unattended_options = [
-                "install_url",
-            ]
+            unattended_options = {
+                "install.url": facts["install"]["url"],
+            }
 
             initrd_template = os.path.join(base, "configs", install_config)
             with open(initrd_template, 'r') as template:
@@ -609,7 +609,7 @@ class Application:
                 for option in unattended_options:
                     content = content.replace(
                         "{{ " + option + " }}",
-                        facts[option]
+                        unattended_options[option],
                     )
 
             tempdir = tempfile.TemporaryDirectory(prefix="lcitool")
@@ -629,7 +629,7 @@ class Application:
             # not pass the URL correctly when installing openSUSE guests
             extra_arg = "console=ttyS0 ks=file:/{} install={}".format(
                 install_config,
-                facts["install_url"],
+                facts["install"]["url"],
             )
 
             virt_install = distutils.spawn.find_executable("virt-install")
@@ -639,7 +639,7 @@ class Application:
             cmd = [
                 virt_install,
                 "--name", host,
-                "--location", facts["install_url"],
+                "--location", facts["install"]["url"],
                 "--virt-type", config.values["install"]["virt_type"],
                 "--arch", config.values["install"]["arch"],
                 "--machine", config.values["install"]["machine"],
@@ -836,7 +836,7 @@ class Application:
         return varmap
 
     def _dockerfile_format(self, facts, cross_arch, varmap):
-        print("FROM {}".format(facts["docker_base"]))
+        print("FROM {}".format(facts["docker"]["base"]))
 
         commands = []
 

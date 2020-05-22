@@ -36,3 +36,9 @@ paths:
 
 ansible_python_package: python3
 ansible_python_interpreter: /usr/bin/python3
+
+install:
+  url: http://mirror.centos.org/centos-8/8/BaseOS/x86_64/os/
+
+docker:
+  base: centos:8

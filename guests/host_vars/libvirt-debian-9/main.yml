@@ -38,3 +38,9 @@ paths:
 
 ansible_python_package: python3
 ansible_python_interpreter: /usr/bin/python3
+
+install:
+  url: http://deb.debian.org/debian/dists/stretch/main/installer-amd64/
+
+docker:
+  base: debian:9
