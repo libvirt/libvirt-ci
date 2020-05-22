@@ -697,6 +697,7 @@ class Application:
         varmap["paths_python"] = facts["paths"]["python"]
 
         if cross_arch:
+            varmap["cross_arch"] = cross_arch
             varmap["cross_abi"] = Util.native_arch_to_abi(cross_arch)
 
         return varmap
@@ -960,6 +961,11 @@ class Application:
                 "ENV ABI \"{cross_abi}\"",
                 "ENV CONFIGURE_OPTS \"--host={cross_abi}\"",
             ]
+
+            if cross_arch.startswith("mingw"):
+                cross_vars.append(
+                    "ENV MESON_OPTS \"--cross-file=/usr/share/mingw/toolchain-{cross_arch}.meson\""
+                )
 
             cross_env = "\n" + "\n".join(cross_vars) + "\n"
             sys.stdout.write(cross_env.format(**varmap))
