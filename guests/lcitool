@@ -101,13 +101,6 @@ class Util:
         return archmap[native_arch]
 
     @staticmethod
-    def native_arch_to_lib(native_arch):
-        arch = Util.native_arch_to_abi(native_arch)
-        if arch == "i686-linux-gnu":
-            arch = "i386-linux-gnu"
-        return arch
-
-    @staticmethod
     def native_arch_to_deb_arch(native_arch):
         archmap = {
             "aarch64": "arm64",
@@ -762,13 +755,11 @@ class Application:
         if cross_arch:
             deb_arch = Util.native_arch_to_deb_arch(cross_arch)
             abi = Util.native_arch_to_abi(cross_arch)
-            lib = Util.native_arch_to_lib(cross_arch)
             gcc = "gcc-" + abi
             varmap["cross_arch"] = deb_arch
             pkg_names = [p + ":" + deb_arch for p in cross_pkgs.values()]
             pkg_names.append(gcc)
             varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkg_names)))
-            varmap["cross_lib"] = lib
 
         if pip_pkgs:
             varmap["pip_pkgs"] = pip_pkg_align[1:] + pip_pkg_align.join(sorted(set(pip_pkgs.values())))
