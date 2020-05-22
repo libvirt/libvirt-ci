@@ -33,7 +33,7 @@
 
     # Install build dependencies for each project
     - include: '{{ playbook_base }}/tasks/packages.yml'
-      with_items:
+      loop:
         '{{ selected_projects }}'
       loop_control:
         loop_var: project

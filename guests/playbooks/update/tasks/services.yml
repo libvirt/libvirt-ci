@@ -11,5 +11,5 @@
   service:
     name: '{{ item }}'
     enabled: yes
-  with_items:
+  loop:
     - '{{ chrony }}'

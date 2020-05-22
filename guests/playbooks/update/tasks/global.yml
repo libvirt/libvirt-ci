@@ -9,6 +9,6 @@
     src: '{{ paths.ccache }}'
     dest: /usr/libexec/ccache-wrappers/{{ item }}
     state: link
-  with_items:
+  loop:
     - cc
     - '{{ paths.cc | basename }}'

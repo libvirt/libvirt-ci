@@ -58,7 +58,7 @@
     dest: /home/{{ install.flavor }}/.{{ item }}
     owner: '{{ install.flavor }}'
     group: '{{ install.flavor }}'
-  with_items:
+  loop:
     - bash_profile
     - bashrc
 
@@ -66,6 +66,6 @@
   file:
     path: /home/{{ install.flavor }}/.{{ item }}
     state: absent
-  with_items:
+  loop:
     - profile
     - bash_logout

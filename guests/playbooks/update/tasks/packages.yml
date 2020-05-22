@@ -15,7 +15,7 @@
 - name: '{{ project }}: Verify mappings'
   fail:
     msg: 'No mappings defined for {{ item }}'
-  with_items:
+  loop:
     '{{ packages }}'
   when:
     - mappings[item] is undefined
@@ -23,7 +23,7 @@
 - name: '{{ project }}: Look up mappings (default)'
   set_fact:
     resolved: '{{ resolved|combine({ item: mappings[item]["default"] }) }}'
-  with_items:
+  loop:
     '{{ packages }}'
   when:
     - mappings[item]["default"] is defined
@@ -31,7 +31,7 @@
 - name: '{{ project }}: Look up mappings (package format)'
   set_fact:
     resolved: '{{ resolved|combine({ item: mappings[item][packaging.format] }) }}'
-  with_items:
+  loop:
     '{{ packages }}'
   when:
     - mappings[item][packaging.format] is defined
@@ -39,7 +39,7 @@
 - name: '{{ project }}: Look up mappings (OS name)'
   set_fact:
     resolved: '{{ resolved|combine({ item: mappings[item][os.name] }) }}'
-  with_items:
+  loop:
     '{{ packages }}'
   when:
     - mappings[item][os.name] is defined
@@ -47,7 +47,7 @@
 - name: '{{ project }}: Look up mappings (OS version)'
   set_fact:
     resolved: '{{ resolved|combine({ item: mappings[item][os.name + os.version] }) }}'
-  with_items:
+  loop:
     '{{ packages }}'
   when:
     - mappings[item][os.name + os.version] is defined
@@ -55,7 +55,7 @@
 - name: '{{ project }}: Look up mappings (arch with default)'
   set_fact:
     resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + "default"] }) }}'
-  with_items:
+  loop:
     '{{ packages }}'
   when:
     - mappings[item]["x86_64" + "-" + "default"] is defined
@@ -63,7 +63,7 @@
 - name: '{{ project }}: Look up mappings (arch with package format)'
   set_fact:
     resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + packaging.format] }) }}'
-  with_items:
+  loop:
     '{{ packages }}'
   when:
     - mappings[item]["x86_64" + "-" + packaging.format] is defined
@@ -71,7 +71,7 @@
 - name: '{{ project }}: Look up mappings (arch with OS name)'
   set_fact:
     resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + os.name] }) }}'
-  with_items:
+  loop:
     '{{ packages }}'
   when:
     - mappings[item]["x86_64" + "-" + os.name] is defined
@@ -79,7 +79,7 @@
 - name: '{{ project }}: Look up mappings (arch with OS version)'
   set_fact:
     resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + os.name + os.version] }) }}'
-  with_items:
+  loop:
     '{{ packages }}'
   when:
     - mappings[item]["x86_64" + "-" + os.name + os.version] is defined
@@ -90,8 +90,8 @@
 - name: '{{ project }}: Flatten package list'
   set_fact:
     flattened: '{{ flattened }} + [ "{{ resolved[item] }}" ]'
-  with_items:
-    '{{ resolved }}'
+  loop:
+    '{{ resolved|flatten(levels=1) }}'
   when:
     - resolved[item] != None
     - resolved[item] not in flattened
@@ -107,7 +107,7 @@
 - name: '{{ project }}: Verify pip mappings'
   fail:
     msg: 'No mappings defined for {{ item }}'
-  with_items:
+  loop:
     '{{ packages }}'
   when:
     - mappings[item] is undefined
@@ -116,7 +116,7 @@
 - name: '{{ project }}: Look up pip mappings (default)'
   set_fact:
     pip_resolved: '{{ pip_resolved|combine({ item: pip_mappings[item]["default"] }) }}'
-  with_items:
+  loop:
     '{{ packages }}'
   when:
     - pip_mappings[item]["default"] is defined
@@ -124,7 +124,7 @@
 - name: '{{ project }}: Remove unwanted pip mappings'
   set_fact:
     pip_resolved: '{{ pip_resolved|combine({ item: None }) }}'
-  with_items:
+  loop:
     '{{ packages }}'
   when:
     - resolved[item] is defined
@@ -136,8 +136,8 @@
 - name: '{{ project }}: Flatten pip package list'
   set_fact:
     pip_flattened: '{{ pip_flattened }} + [ "{{ pip_resolved[item] }}" ]'
-  with_items:
-    '{{ pip_resolved }}'
+  loop:
+    '{{ pip_resolved|flatten(levels=1) }}'
   when:
     - pip_resolved[item] != None
     - pip_resolved[item] not in pip_flattened
@@ -146,5 +146,5 @@
   command: 'pip3 install {{ item }}'
   args:
     warn: no
-  with_items:
+  loop:
     '{{ pip_flattened|sort }}'

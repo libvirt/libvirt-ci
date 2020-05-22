@@ -19,7 +19,7 @@
     path: /etc/default/grub
     regexp: '^{{ item.key }}=.*$'
     line: '{{ item.key }}="{{ item.value }}"'
-  with_items:
+  loop:
     - { key: 'GRUB_TIMEOUT', value: '1' }
     - { key: 'GRUB_CMDLINE_LINUX_DEFAULT', value: 'console=ttyS0' }
     - { key: 'GRUB_CMDLINE_LINUX', value: 'console=ttyS0' }
@@ -44,7 +44,7 @@
     regexp: '^{{ item.key }}=.*$'
     line: '{{ item.key }}="{{ item.value }}"'
     create: yes
-  with_items:
+  loop:
     - { key: 'console', value: 'comconsole' }
     - { key: 'autoboot_delay', value: '1' }
   when:
