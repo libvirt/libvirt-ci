@@ -753,12 +753,12 @@ class Application:
         varmap["pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkgs.values())))
 
         if cross_arch:
-            deb_arch = Util.native_arch_to_deb_arch(cross_arch)
-            abi = Util.native_arch_to_abi(cross_arch)
-            gcc = "gcc-" + abi
-            varmap["cross_arch"] = deb_arch
-            pkg_names = [p + ":" + deb_arch for p in cross_pkgs.values()]
-            pkg_names.append(gcc)
+            cross_arch_deb = Util.native_arch_to_deb_arch(cross_arch)
+            cross_abi = Util.native_arch_to_abi(cross_arch)
+            cross_gcc = "gcc-" + cross_abi
+            pkg_names = [p + ":" + cross_arch_deb for p in cross_pkgs.values()]
+            pkg_names.append(cross_gcc)
+            varmap["cross_arch_deb"] = cross_arch_deb
             varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkg_names)))
 
         if pip_pkgs:
@@ -923,7 +923,7 @@ class Application:
             if facts["packaging"]["format"] == "deb":
                 cross_commands.extend([
                     "export DEBIAN_FRONTEND=noninteractive",
-                    "dpkg --add-architecture {cross_arch}",
+                    "dpkg --add-architecture {cross_arch_deb}",
                     "{packaging_command} update",
                     "{packaging_command} dist-upgrade -y",
                     "{packaging_command} install --no-install-recommends -y dpkg-dev",
