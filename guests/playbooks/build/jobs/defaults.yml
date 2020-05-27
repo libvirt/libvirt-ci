@@ -50,27 +50,27 @@ git_urls:
   libosinfo:
     default: https://gitlab.com/libosinfo/libosinfo.git
   libvirt-cim:
-    default: https://github.com/libvirt/libvirt-cim.git
+    default: https://gitlab.com/libvirt/libvirt-cim.git
   libvirt-dbus:
-    default: https://github.com/libvirt/libvirt-dbus.git
+    default: https://gitlab.com/libvirt/libvirt-dbus.git
   libvirt-glib:
-    default: https://github.com/libvirt/libvirt-glib.git
+    default: https://gitlab.com/libvirt/libvirt-glib.git
   libvirt-go-xml:
-    default: https://github.com/libvirt/libvirt-go-xml.git
+    default: https://gitlab.com/libvirt/libvirt-go-xml.git
   libvirt-go:
-    default: https://github.com/libvirt/libvirt-go.git
+    default: https://gitlab.com/libvirt/libvirt-go.git
   libvirt-ocaml:
-    default: https://github.com/libvirt/libvirt-ocaml.git
+    default: https://gitlab.com/libvirt/libvirt-ocaml.git
   libvirt-perl:
-    default: https://github.com/libvirt/libvirt-perl.git
+    default: https://gitlab.com/libvirt/libvirt-perl.git
   libvirt-python:
-    default: https://github.com/libvirt/libvirt-python.git
+    default: https://gitlab.com/libvirt/libvirt-python.git
   libvirt-sandbox:
-    default: https://github.com/libvirt/libvirt-sandbox.git
+    default: https://gitlab.com/libvirt/libvirt-sandbox.git
   libvirt-tck:
-    default: https://github.com/libvirt/libvirt-tck.git
+    default: https://gitlab.com/libvirt/libvirt-tck.git
   libvirt:
-    default: https://github.com/libvirt/libvirt.git
+    default: https://gitlab.com/libvirt/libvirt.git
   osinfo-db-tools:
     default: https://gitlab.com/libosinfo/osinfo-db-tools.git
   osinfo-db:
@@ -78,4 +78,4 @@ git_urls:
   virt-manager:
     default: https://github.com/virt-manager/virt-manager.git
   virt-viewer:
-    default: https://pagure.io/virt-viewer.git
+    default: https://gitlab.com/virt-viewer/virt-viewer.git
