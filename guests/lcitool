@@ -188,7 +188,7 @@ class Config:
         # check that the mandatory keys are present and non-empty
         for key in mandatory_keys:
             if config.get(section).get(key) is None:
-                raise Exception(("Missing or empty value for mandatory key"
+                raise Exception(("Missing or empty value for mandatory key "
                                  "'{}.{}'").format(section, key))
 
         # check that all keys have values assigned and of the right type
