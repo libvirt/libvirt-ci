@@ -956,10 +956,13 @@ class Application:
         """).format(**varmap))
 
         if cross_arch:
-            sys.stdout.write(textwrap.dedent("""
-                ENV ABI "{cross_abi}"
-                ENV CONFIGURE_OPTS "--host={cross_abi}"
-            """).format(**varmap))
+            cross_vars = [
+                "ENV ABI \"{cross_abi}\"",
+                "ENV CONFIGURE_OPTS \"--host={cross_abi}\"",
+            ]
+
+            cross_env = "\n" + "\n".join(cross_vars) + "\n"
+            sys.stdout.write(cross_env.format(**varmap))
 
     def _action_dockerfile(self, args):
         mappings = self._projects.get_mappings()
