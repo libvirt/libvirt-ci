@@ -4,6 +4,7 @@
     # CentOS 7 has Python 3 but not the libxml2 bindings
     machines:
       - libvirt-centos-8
+      - libvirt-centos-stream
       - libvirt-debian-9
       - libvirt-debian-10
       - libvirt-debian-sid
@@ -28,6 +29,7 @@
   vars:
     machines:
       - libvirt-centos-8
+      - libvirt-centos-stream
       - libvirt-debian-9
       - libvirt-debian-10
       - libvirt-debian-sid
@@ -44,6 +46,7 @@
   vars:
     machines:
       - libvirt-centos-8
+      - libvirt-centos-stream
       - libvirt-fedora-31
       - libvirt-fedora-32
       - libvirt-fedora-rawhide
