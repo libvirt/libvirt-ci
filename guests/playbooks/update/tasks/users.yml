@@ -69,3 +69,12 @@
   loop:
     - profile
     - bash_logout
+
+- name: '{{ install.flavor }}: Install global gitconfig'
+  template:
+    src: '{{ playbook_base }}/templates/gitconfig.j2'
+    dest: /home/{{ install.flavor }}/.gitconfig
+    owner: '{{ install.flavor }}'
+    group: '{{ install.flavor }}'
+  when:
+    - install.flavor == 'test'
