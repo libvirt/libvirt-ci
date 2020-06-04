@@ -17,6 +17,20 @@
     - os.name == 'CentOS'
     - os.version == '8'
 
+- block:
+    - name: Install the Stream release repositories
+      package:
+        name: centos-release-stream
+        state: latest
+
+    - name: Enable Stream-PowerTools repository
+      command: '{{ packaging.command }} config-manager --set-enabled Stream-PowerTools -y'
+      args:
+        warn: no
+  when:
+    - os.name == 'CentOS'
+    - os.version == 'Stream'
+
 - name: Enable EPEL repository
   package:
     name: epel-release

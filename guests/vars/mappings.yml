@@ -82,10 +82,12 @@ mappings:
     pkg: apache-ant
     rpm: ant-junit
     CentOS8:
+    CentOSStream:
 
   junit:
     default: junit
     CentOS8:
+    CentOSStream:
 
   augeas:
     default: augeas
@@ -378,6 +380,7 @@ mappings:
     rpm: libgovirt-devel
     Debian: libgovirt-dev
     CentOS8:
+    CentOSStream:
     cross-policy-deb: foreign
 
   libiscsi:
@@ -883,6 +886,7 @@ mappings:
     pkg: php74-pecl-imagick
     OpenSUSE: php-imagick
     CentOS8:
+    CentOSStream:
 
   pkg-config:
     default: pkgconf
@@ -903,6 +907,7 @@ mappings:
     pkg:
     OpenSUSE:
     CentOS8:
+    CentOSStream:
 
   python3-docutils:
     default: python3-docutils
