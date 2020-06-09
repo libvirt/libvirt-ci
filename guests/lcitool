@@ -61,12 +61,12 @@ class Util:
             partial_matches = []
             for item in source:
                 if fnmatch.fnmatch(item, partial_pattern):
-                    partial_matches += [item]
+                    partial_matches.append(item)
 
             if not partial_matches:
                 raise Exception("Invalid {} list '{}'".format(name, pattern))
 
-            matches += partial_matches
+            matches.extend(partial_matches)
 
         return sorted(set(matches))
 
@@ -532,9 +532,12 @@ class Application:
 
         # Provide the vault password if available
         if vault_pass_file is not None:
-            cmd += ["--vault-password-file", vault_pass_file]
+            cmd.extend([
+                "--vault-password-file",
+                vault_pass_file,
+            ])
 
-        cmd += [playbook_path]
+        cmd.append(playbook_path)
 
         # We need to point Ansible to the correct configuration file,
         # and for some reason this has to be done using the environment
@@ -659,7 +662,7 @@ class Application:
 
             # Only configure autostart for the guest for the jenkins flavor
             if config.values["install"]["flavor"] == "jenkins":
-                cmd += ["--autostart"]
+                cmd.append("--autostart")
 
             try:
                 subprocess.check_call(cmd)
