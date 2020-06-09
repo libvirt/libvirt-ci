@@ -470,8 +470,11 @@ class Application:
 
     def _execute_playbook(self, playbook, hosts, projects, git_revision):
         base = Util.get_base()
+        config = self._config
 
-        vault_pass_file = self._config.get_vault_password_file()
+        config.validate_vm_settings()
+
+        vault_pass_file = config.get_vault_password_file()
 
         ansible_hosts = ",".join(self._inventory.expand_pattern(hosts))
         selected_projects = self._projects.expand_pattern(projects)
@@ -495,7 +498,7 @@ class Application:
         playbook_path = os.path.join(playbook_base, "main.yml")
         extra_vars_path = os.path.join(tempdir.name, "extra_vars.json")
 
-        extra_vars = self._config.values
+        extra_vars = config.values
         extra_vars.update({
             "base": base,
             "playbook_base": playbook_base,
@@ -659,14 +662,10 @@ class Application:
                 tempdir.cleanup()
 
     def _action_update(self, args):
-        self._config.validate_vm_settings()
-
         self._execute_playbook("update", args.hosts, args.projects,
                                args.git_revision)
 
     def _action_build(self, args):
-        self._config.validate_vm_settings()
-
         self._execute_playbook("build", args.hosts, args.projects,
                                args.git_revision)
 
