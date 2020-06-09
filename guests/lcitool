@@ -857,7 +857,7 @@ class Application:
             # cycled from time to time
             if facts["os"]["name"] == "Fedora" and facts["os"]["version"] == "Rawhide":
                 commands.extend([
-                    "{packaging_command} update -y --nogpgcheck fedora-gpg-keys"
+                    "{packaging_command} update -y --nogpgcheck fedora-gpg-keys",
                 ])
 
             if facts["os"]["name"] == "CentOS":
@@ -880,7 +880,7 @@ class Application:
 
                     commands.extend([
                         "{packaging_command} install 'dnf-command(config-manager)' -y",
-                        "{packaging_command} config-manager --set-enabled -y " + powertools
+                        "{packaging_command} config-manager --set-enabled -y " + powertools,
                     ])
 
                 # VZ development packages are only available for CentOS/RHEL-7
@@ -894,7 +894,7 @@ class Application:
                     commands.extend([
                         "echo -e '{vzrepo}' > /etc/yum.repos.d/openvz.repo",
                         "echo -e '{vzkey}' > /etc/pki/rpm-gpg/RPM-GPG-KEY-OpenVZ",
-                        "rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-OpenVZ"
+                        "rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-OpenVZ",
                     ])
 
                 # Some of the packages we need are not part of CentOS proper
