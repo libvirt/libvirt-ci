@@ -44,3 +44,9 @@ gitlab:
 
   # GitLab runner registration token. (Mandatory)
   runner_secret:
+
+# Jenkins-related options (only apply to the 'jenkins' flavor)
+jenkins:
+
+  # Password for the Ansible vault containing Jenkins secrets. (Mandatory)
+  vault_password:
