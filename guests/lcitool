@@ -158,17 +158,6 @@ class Config:
             config_dir = os.path.join(os.environ["HOME"], ".config")
         config_dir = os.path.join(config_dir, "lcitool")
 
-        # Create the directory if it doesn't already exist
-        if not os.path.exists(config_dir):
-            try:
-                os.mkdir(config_dir)
-            except Exception as ex:
-                raise Exception(
-                    "Can't create configuration directory ({}): {}".format(
-                        config_dir, ex,
-                    )
-                )
-
         return os.path.join(config_dir, name)
 
     @staticmethod
