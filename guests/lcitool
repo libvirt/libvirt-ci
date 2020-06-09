@@ -171,7 +171,7 @@ class Config:
     def _remove_all_unknown_keys(self, config):
         # remove keys we don't recognize
         self._remove_unknown_keys(config, self.values.keys())
-        for section in ["install", "gitlab"]:
+        for section in self.values.keys():
             if section in config:
                 self._remove_unknown_keys(config[section], self.values[section].keys())
 
@@ -210,11 +210,9 @@ class Config:
             self._validate_section("gitlab", ["runner_secret"])
 
     def _update(self, values):
-        if "install" in values:
-            self.values["install"].update(values["install"])
-
-        if "gitlab" in values:
-            self.values["gitlab"].update(values["gitlab"])
+        for section in self.values.keys():
+            if section in values:
+                self.values[section].update(values[section])
 
     def get_vault_password_file(self):
         vault_pass_file = None
