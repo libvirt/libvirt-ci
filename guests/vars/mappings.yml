@@ -488,6 +488,12 @@ mappings:
     pkg: libvirt
     rpm: libvirt-devel
 
+  libvirt-glib:
+    deb: libvirt-glib-1.0-dev
+    pkg: libvirt-glib
+    rpm: libvirt-gobject-devel
+    OpenSUSE: libvirt-glib-devel
+
   libxml2:
     deb: libxml2-dev
     pkg: libxml2
