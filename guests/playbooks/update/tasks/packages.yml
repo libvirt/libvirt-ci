@@ -110,5 +110,9 @@
     - name: pip
       command: '{{ paths.pip3 }} install '
       mappings: '{{ pip_mappings }}'
+
+    - name: CPAN
+      command: 'cpanm --notest '
+      mappings: '{{ cpan_mappings }}'
   loop_control:
     loop_var: pm
