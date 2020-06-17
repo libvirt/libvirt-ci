@@ -712,6 +712,11 @@ mappings:
     pkg: p5-Module-Build
     rpm: perl-Module-Build
 
+  perl-NetAddr-IP:
+    deb: libnetaddr-ip-perl
+    pkg: p5-NetAddr-IP
+    rpm: perl-NetAddr-IP
+
   perl-Sub-Uplevel:
     deb: libsub-uplevel-perl
     pkg: p5-Sub-Uplevel

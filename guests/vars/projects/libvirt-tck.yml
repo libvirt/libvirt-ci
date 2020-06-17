@@ -8,6 +8,7 @@ packages:
   - perl-IO-Compress-Bzip2
   - perl-IO-String
   - perl-Module-Build
+  - perl-NetAddr-IP
   - perl-Sub-Uplevel
   - perl-TAP-Formatter-HTML
   - perl-TAP-Formatter-JUnit
