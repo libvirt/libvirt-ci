@@ -101,50 +101,14 @@
     name: '{{ flattened|sort }}'
     state: '{{ state }}'
 
-- set_fact:
-    pip_resolved: {}
-
-- name: '{{ project }}: Verify pip mappings'
-  fail:
-    msg: 'No mappings defined for {{ item }}'
+- include: '{{ playbook_base }}/tasks/packages-language-specific.yml'
+  vars:
+    pm_command: '{{ pm.command }}'
+    pm_mappings: '{{ pm.mappings }}'
+    pm_name: '{{ pm.name }}'
   loop:
-    '{{ packages }}'
-  when:
-    - mappings[item] is undefined
-    - pip_mappings[item] is undefined
-
-- name: '{{ project }}: Look up pip mappings (default)'
-  set_fact:
-    pip_resolved: '{{ pip_resolved|combine({ item: pip_mappings[item]["default"] }) }}'
-  loop:
-    '{{ packages }}'
-  when:
-    - pip_mappings[item]["default"] is defined
-
-- name: '{{ project }}: Remove unwanted pip mappings'
-  set_fact:
-    pip_resolved: '{{ pip_resolved|combine({ item: None }) }}'
-  loop:
-    '{{ packages }}'
-  when:
-    - resolved[item] is defined
-    - resolved[item] != None
-
-- set_fact:
-    pip_flattened: []
-
-- name: '{{ project }}: Flatten pip package list'
-  set_fact:
-    pip_flattened: '{{ pip_flattened }} + [ "{{ pip_resolved[item] }}" ]'
-  loop:
-    '{{ pip_resolved|flatten(levels=1) }}'
-  when:
-    - pip_resolved[item] != None
-    - pip_resolved[item] not in pip_flattened
-
-- name: '{{ project }}: Install packages from pip (state={{ state }})'
-  command: 'pip3 install {{ item }}'
-  args:
-    warn: no
-  loop:
-    '{{ pip_flattened|sort }}'
+    - name: pip
+      command: '{{ paths.pip3 }} install '
+      mappings: '{{ pip_mappings }}'
+  loop_control:
+    loop_var: pm

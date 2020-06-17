@@ -1,0 +1,47 @@
+---
+- set_fact:
+    pm_resolved: {}
+
+- name: '{{ project }}: Verify {{ pm_name }} mappings'
+  fail:
+    msg: 'No mappings defined for {{ item }}'
+  loop:
+    '{{ packages }}'
+  when:
+    - mappings[item] is undefined
+    - pm_mappings[item] is undefined
+
+- name: '{{ project }}: Look up {{ pm_name }} mappings (default)'
+  set_fact:
+    pm_resolved: '{{ pm_resolved|combine({ item: pm_mappings[item]["default"] }) }}'
+  loop:
+    '{{ packages }}'
+  when:
+    - pm_mappings[item]["default"] is defined
+
+- name: '{{ project }}: Remove unwanted {{ pm_name }} mappings'
+  set_fact:
+    pm_resolved: '{{ pm_resolved|combine({ item: None }) }}'
+  loop:
+    '{{ packages }}'
+  when:
+    - resolved[item] is defined
+    - resolved[item] != None
+
+- set_fact:
+    pm_flattened: []
+
+- name: '{{ project }}: Flatten {{ pm_name }} package list'
+  set_fact:
+    pm_flattened: '{{ pm_flattened }} + [ "{{ pm_resolved[item] }}" ]'
+  loop:
+    '{{ pm_resolved|flatten(levels=1) }}'
+  when:
+    - pm_resolved[item] != None
+    - pm_resolved[item] not in pm_flattened
+
+- name: '{{ project }}: Install packages from {{ pm_name }} (state={{ state }})'
+  command: '{{ pm_command }} {{ item }}'
+  args:
+    warn: no
+  loop: '{{ pm_flattened|sort }}'
