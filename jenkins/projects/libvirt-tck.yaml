@@ -1,9 +1,10 @@
 ---
 - project:
     name: libvirt-tck
-    # CentOS 7 and CentOS 8 are missing a number of Perl modules, so we
-    # can't build libvirt-tck there
     machines:
+      - libvirt-centos-7
+      - libvirt-centos-8
+      - libvirt-centos-Stream
       - libvirt-debian-9
       - libvirt-debian-10
       - libvirt-fedora-31
@@ -19,6 +20,9 @@
           parent_jobs: 'libvirt-perl-build'
       - perl-modulebuild-check-job:
           parent_jobs: 'libvirt-tck-build'
+
+      # CentOS 7, 8, and Stream are missing a number of RPM Perl modules, so we
+      # can't do the rpmbuild there
       - perl-modulebuild-rpm-job:
           parent_jobs: 'libvirt-tck-check'
           machines:
