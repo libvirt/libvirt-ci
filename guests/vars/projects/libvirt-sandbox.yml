@@ -6,7 +6,9 @@ packages:
   - gtk-doc
   - libcap-ng
   - libselinux
+  - libtirpc
   - libxml2
+  - rpcgen
   - xz
   - xz-static
   - zlib
