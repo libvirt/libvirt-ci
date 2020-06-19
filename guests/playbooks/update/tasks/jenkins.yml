@@ -11,8 +11,8 @@
 
 - name: Download Jenkins agent
   get_url:
-    url: https://ci.centos.org/jnlpJars/slave.jar
-    dest: /home/jenkins/slave.jar
+    url: https://ci.centos.org/jnlpJars/agent.jar
+    dest: /home/jenkins/agent.jar
     owner: jenkins
     group: jenkins
     force: yes
@@ -23,8 +23,8 @@
   lineinfile:
     path: /etc/rc.local
     create: yes
-    regexp: '^nohup.*jenkins.*java.*slave\.jar.*&$'
-    line: "nohup {{ paths.su }} - jenkins -c '{{ paths.java }} -jar /home/jenkins/slave.jar -jnlpUrl \"{{ jenkins_url }}\" -secret \"{{ jenkins_secret }}\"' >/var/log/jenkins.log 2>&1 &"
+    regexp: '^nohup.*jenkins.*java.*agent\.jar.*&$'
+    line: "nohup {{ paths.su }} - jenkins -c '{{ paths.java }} -jar /home/jenkins/agent.jar -jnlpUrl \"{{ jenkins_url }}\" -secret \"{{ jenkins_secret }}\"' >/var/log/jenkins.log 2>&1 &"
     insertbefore: '^exit .*$'
   when:
     - jenkins_secret is defined

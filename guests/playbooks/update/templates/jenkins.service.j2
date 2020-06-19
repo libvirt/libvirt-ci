@@ -4,7 +4,7 @@ Wants=network.target
 After=network.target
 
 [Service]
-ExecStart={{ paths.bash }} -l -c '{{ paths.java }} -jar /home/jenkins/slave.jar -jnlpUrl "{{ jenkins_url }}" -secret "{{ jenkins_secret }}"'
+ExecStart={{ paths.bash }} -l -c '{{ paths.java }} -jar /home/jenkins/agent.jar -jnlpUrl "{{ jenkins_url }}" -secret "{{ jenkins_secret }}"'
 User=jenkins
 Group=jenkins
 WorkingDirectory=/home/jenkins
