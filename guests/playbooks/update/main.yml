@@ -25,10 +25,10 @@
       vars:
         project: base
 
-    # Remove blacklisted packages
+    # Remove unwanted packages
     - include: '{{ playbook_base }}/tasks/packages.yml'
       vars:
-        project: blacklist
+        project: unwanted
         state: absent
 
     # Install build dependencies for each project

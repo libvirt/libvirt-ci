@@ -336,7 +336,7 @@ class Projects:
 
         # Some projects are internal implementation details and should
         # not be exposed to the user
-        for project in ["base", "blacklist", "jenkins", "cloud-init"]:
+        for project in ["base", "unwanted", "jenkins", "cloud-init"]:
             if project in projects:
                 projects.remove(project)
 
