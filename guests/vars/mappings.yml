@@ -273,6 +273,11 @@ mappings:
     default: gtk-update-icon-cache
     OpenSUSE: gtk3-tools
 
+  gtk-vnc:
+    deb: libgtk-vnc-2.0-dev
+    pkg: gtk-vnc
+    rpm: gtk-vnc2-devel
+
   hal:
     FreeBSD: hal
 
