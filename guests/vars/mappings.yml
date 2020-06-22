@@ -71,7 +71,7 @@ mappings:
   apparmor:
     deb: libapparmor-dev
     OpenSUSE: libapparmor-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   ant:
     default: ant
@@ -113,7 +113,7 @@ mappings:
     deb: libavahi-client-dev
     pkg: avahi
     rpm: avahi-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   bash:
     default: bash
@@ -156,7 +156,7 @@ mappings:
     deb: libsasl2-dev
     pkg: cyrus-sasl
     rpm: cyrus-sasl-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   dbus-daemon:
     default: dbus
@@ -166,7 +166,7 @@ mappings:
   device-mapper:
     deb: libdevmapper-dev
     rpm: device-mapper-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   dnsmasq:
     default: dnsmasq
@@ -175,7 +175,7 @@ mappings:
   dtrace:
     deb: systemtap-sdt-dev
     rpm: systemtap-sdt-devel
-    cross-policy-deb: skip
+    cross-policy-default: skip
 
   dwarves:
     default: dwarves
@@ -195,7 +195,7 @@ mappings:
     deb: libfuse-dev
     pkg: fusefs-libs
     rpm: fuse-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   gcc:
     default: gcc
@@ -209,7 +209,7 @@ mappings:
     deb: libgdk-pixbuf2.0-dev
     pkg: gdk-pixbuf2
     OpenSUSE: gdk-pixbuf-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   gettext:
     default: gettext
@@ -221,17 +221,17 @@ mappings:
     deb: libglib2.0-dev
     pkg: glib
     rpm: glib2-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   glibc:
     deb: libc6-dev
     rpm: glibc-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   glibc-static:
     deb: libc6-dev
     rpm: glibc-static
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   glusterfs:
     deb: libglusterfs-dev
@@ -239,14 +239,14 @@ mappings:
     Debian9: glusterfs-common
     OpenSUSE: glusterfs-devel
     Ubuntu1804: glusterfs-common
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   gnutls:
     deb: libgnutls28-dev
     pkg: gnutls
     rpm: gnutls-devel
     OpenSUSE: libgnutls-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   go:
     default: golang
@@ -257,13 +257,13 @@ mappings:
     deb: libgirepository1.0-dev
     pkg: gobject-introspection
     rpm: gobject-introspection-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   gtk3:
     deb: libgtk-3-dev
     pkg: gtk3
     rpm: gtk3-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   gtk-doc:
     default: gtk-doc
@@ -319,39 +319,39 @@ mappings:
     deb: libjson-glib-dev
     pkg: json-glib
     rpm: json-glib-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libacl:
     deb: libacl1-dev
     rpm: libacl-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libarchive:
     deb: libarchive-dev
     pkg: libarchive
     rpm: libarchive-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libattr:
     deb: libattr1-dev
     rpm: libattr-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libaudit:
     deb: libaudit-dev
     rpm: audit-libs-devel
     OpenSUSE: audit-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libblkid:
     deb: libblkid-dev
     rpm: libblkid-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libcap-ng:
     deb: libcap-ng-dev
     rpm: libcap-ng-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libcmpiutil:
     rpm: libcmpiutil-devel
@@ -360,48 +360,48 @@ mappings:
     deb: libconfig-dev
     pkg: libconfig
     rpm: libconfig-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libcurl:
     deb: libcurl4-gnutls-dev
     pkg: curl
     rpm: libcurl-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libdbus:
     deb: libdbus-1-dev
     pkg: dbus
     rpm: dbus-devel
     OpenSUSE: dbus-1-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libgcrypt:
     deb: libgcrypt20-dev
     pkg: libgcrypt
     rpm: libgcrypt-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libgovirt:
     rpm: libgovirt-devel
     Debian: libgovirt-dev
     CentOS8:
     CentOSStream:
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libiscsi:
     deb: libiscsi-dev
     rpm: libiscsi-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libnl3:
     deb: libnl-3-dev
     rpm: libnl3-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libnlroute3:
     deb: libnl-route-3-dev
     rpm: libnl3-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libnuma:
     deb: libnuma-dev
@@ -409,24 +409,24 @@ mappings:
     OpenSUSE: libnuma-devel
     armv6l-deb:
     armv7l-deb:
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libparted:
     deb: libparted-dev
     rpm: parted-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libpcap:
     deb: libpcap0.8-dev
     pkg: libpcap
     rpm: libpcap-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libpciaccess:
     deb: libpciaccess-dev
     pkg: libpciaccess
     rpm: libpciaccess-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libprlsdk:
     default:
@@ -439,36 +439,36 @@ mappings:
     mipsel-deb:
     mipsel-Debian9: librbd-dev
     mipsel-Debian10: librbd-dev
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libselinux:
     deb: libselinux1-dev
     rpm: libselinux-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libsoup:
     deb: libsoup2.4-dev
     pkg: libsoup
     rpm: libsoup-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libssh:
     pkg: libssh
     rpm: libssh-devel
     Debian: libssh-gcrypt-dev
     Ubuntu: libssh-dev
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libssh2:
     deb: libssh2-1-dev
     pkg: libssh2
     rpm: libssh2-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libtirpc:
     deb: libtirpc-dev
     rpm: libtirpc-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libtool:
     default: libtool
@@ -480,13 +480,13 @@ mappings:
   libudev:
     deb: libudev-dev
     rpm: libudev-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libuuid:
     deb: uuid-dev
     pkg: e2fsprogs-libuuid
     rpm: libuuid-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libvirt:
     deb: libvirt-dev
@@ -503,13 +503,13 @@ mappings:
     deb: libxml2-dev
     pkg: libxml2
     rpm: libxml2-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   libxslt:
     deb: libxslt1-dev
     pkg: libxslt
     rpm: libxslt-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   locales:
     deb: locales
@@ -730,13 +730,13 @@ mappings:
     rpm: ncurses-devel
     Debian9: libncurses5-dev
     Ubuntu1804: libncurses5-dev
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   netcf:
     deb: libnetcf-dev
     rpm: netcf-devel
     OpenSUSE:
-    cross-policy-deb: skip
+    cross-policy-default: skip
 
   net-tools:
     default: net-tools
@@ -911,7 +911,7 @@ mappings:
     deb: libpulse-dev
     rpm: pulseaudio-libs-devel
     OpenSUSE: libpulse-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   publican:
     default: publican
@@ -939,7 +939,7 @@ mappings:
     pkg: python3
     rpm: python3-devel
     CentOS7: python36-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   python3-gi:
     deb: python3-gi
@@ -1003,7 +1003,7 @@ mappings:
     deb: libreadline-dev
     pkg: readline
     rpm: readline-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   rpcgen:
     deb: libc-dev-bin
@@ -1026,7 +1026,7 @@ mappings:
   sanlock:
     deb: libsanlock-dev
     rpm: sanlock-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   screen:
     default: screen
@@ -1050,7 +1050,7 @@ mappings:
     pkg: spice-gtk
     rpm: spice-gtk3-devel
     OpenSUSE: spice-gtk-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   strace:
     default: strace
@@ -1086,7 +1086,7 @@ mappings:
   wireshark:
     deb: wireshark-dev
     rpm: wireshark-devel
-    cross-policy-deb: skip
+    cross-policy-default: skip
 
   xen:
     rpm: xen-devel
@@ -1094,12 +1094,12 @@ mappings:
     aarch64-deb: libxen-dev
     armv7l-deb: libxen-dev
     x86_64-deb: libxen-dev
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   xfsprogs:
     deb: xfslibs-dev
     rpm: xfsprogs-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   xmllint:
     default: libxml2
@@ -1112,20 +1112,20 @@ mappings:
   xz:
     deb: liblzma-dev
     rpm: xz-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   xz-static:
     deb: liblzma-dev
     Fedora: xz-static
     OpenSUSE: xz-static-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   yajl:
     deb: libyajl-dev
     pkg: yajl
     rpm: yajl-devel
     OpenSUSE: libyajl-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   zfs:
     default: zfs-fuse
@@ -1139,13 +1139,13 @@ mappings:
   zlib:
     deb: zlib1g-dev
     rpm: zlib-devel
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
   zlib-static:
     deb: zlib1g-dev
     rpm: zlib-static
     OpenSUSE: zlib-devel-static
-    cross-policy-deb: foreign
+    cross-policy-default: foreign
 
 
 # Pip mappings are used to map the generic packages name used to define
