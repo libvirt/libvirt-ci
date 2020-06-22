@@ -441,6 +441,15 @@ mappings:
     mipsel-Debian10: librbd-dev
     cross-policy-default: foreign
 
+  librest:
+    deb: librest-dev
+    rpm: rest-devel
+    pkg: rest
+    OpenSUSE: librest-devel
+    CentOS8:
+    CentOSStream:
+    cross-policy-default: foreign
+
   libselinux:
     deb: libselinux1-dev
     rpm: libselinux-devel

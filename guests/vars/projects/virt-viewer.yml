@@ -3,6 +3,7 @@ packages:
   - glib2
   - gtk3
   - libgovirt
+  - librest
   - libxml2
   - spice-gtk3
   - xmllint
