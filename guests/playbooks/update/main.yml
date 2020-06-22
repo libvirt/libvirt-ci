@@ -37,8 +37,6 @@
         '{{ selected_projects }}'
       loop_control:
         loop_var: project
-      when:
-        - project in projects
 
     # Install packages needed for the Jenkins agent
     - include: '{{ playbook_base }}/tasks/packages.yml'
