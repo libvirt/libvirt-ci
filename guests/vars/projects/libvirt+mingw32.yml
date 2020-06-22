@@ -9,7 +9,6 @@ packages:
   - mingw32-gnutls
   - mingw32-libssh2
   - mingw32-libxml2
-  - mingw32-openssl
   - mingw32-pkg-config
   - mingw32-portablexdr
   - mingw32-readline

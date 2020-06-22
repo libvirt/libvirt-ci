@@ -604,9 +604,6 @@ mappings:
   mingw32-libxslt:
     Fedora: mingw32-libxslt
 
-  mingw32-openssl:
-    Fedora: mingw32-openssl
-
   mingw32-pkg-config:
     Fedora: mingw32-pkg-config
 
@@ -687,9 +684,6 @@ mappings:
 
   mingw64-libxslt:
     Fedora: mingw64-libxslt
-
-  mingw64-openssl:
-    Fedora: mingw64-openssl
 
   mingw64-pkg-config:
     Fedora: mingw64-pkg-config

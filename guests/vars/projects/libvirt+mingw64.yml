@@ -9,7 +9,6 @@ packages:
   - mingw64-gnutls
   - mingw64-libssh2
   - mingw64-libxml2
-  - mingw64-openssl
   - mingw64-pkg-config
   - mingw64-portablexdr
   - mingw64-readline
