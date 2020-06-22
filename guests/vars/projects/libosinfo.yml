@@ -10,4 +10,5 @@ packages:
   - pci-ids
   - usb-ids
   - vala
+  - wget
   - xmllint

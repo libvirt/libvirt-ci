@@ -4,6 +4,7 @@ packages:
   - gstreamer-plugins-bad-free
   - gstreamer-plugins-good
   - gtk3
+  - icoutils
   - libgovirt
   - librest
   - libxml2
