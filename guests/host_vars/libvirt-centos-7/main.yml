@@ -1,20 +1,4 @@
 ---
-projects:
-  - gtk-vnc
-  - libosinfo
-  - libvirt
-  - libvirt-cim
-  - libvirt-dbus
-  - libvirt-glib
-  - libvirt-go
-  - libvirt-go-xml
-  - libvirt-ocaml
-  - libvirt-perl
-  - libvirt-python
-  - osinfo-db
-  - osinfo-db-tools
-  - virt-viewer
-
 os:
   name: 'CentOS'
   version: '7'

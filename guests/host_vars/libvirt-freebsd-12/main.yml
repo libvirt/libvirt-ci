@@ -1,21 +1,4 @@
 ---
-projects:
-  - gtk-vnc
-  - libosinfo
-  - libvirt
-  - libvirt-dbus
-  - libvirt-glib
-  - libvirt-go
-  - libvirt-go-xml
-  - libvirt-ocaml
-  - libvirt-perl
-  - libvirt-python
-  - libvirt-tck
-  - osinfo-db
-  - osinfo-db-tools
-  - virt-manager
-  - virt-viewer
-
 os:
   name: 'FreeBSD'
   version: '12'
