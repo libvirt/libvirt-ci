@@ -22,8 +22,6 @@ rpm_machines:
   - libvirt-fedora-31
   - libvirt-fedora-32
   - libvirt-fedora-rawhide
-mingw_machines:
-  - libvirt-fedora-rawhide
 global_env: ''
 local_env: ''
 autogen_args: ''
@@ -36,16 +34,6 @@ strip_buildrequires: |
   sed -i -e 's/BuildRequires: *perl(Sys::Virt).*//' *.spec*
   sed -i -e 's/BuildRequires: *pkgconfig(gtk-vnc-.*).*//' *.spec*
   sed -i -e 's/BuildRequires: *pkgconfig(libvirt.*).*//' *.spec*
-mingw32_local_env: |
-  export VIRT_PREFIX="$VIRT_PREFIX/i686-w64-mingw32/sys-root/mingw"
-  export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
-mingw32_autogen_args: --host=i686-w64-mingw32
-mingw32_meson_args: --cross-file=/usr/share/mingw/toolchain-mingw32.meson
-mingw64_local_env: |
-  export VIRT_PREFIX="$VIRT_PREFIX/x86_64-w64-mingw32/sys-root/mingw"
-  export PKG_CONFIG_PATH="$VIRT_PREFIX/lib/pkgconfig"
-mingw64_autogen_args: --host=x86_64-w64-mingw32
-mingw64_meson_args: --cross-file=/usr/share/mingw/toolchain-mingw64.meson
 git_urls:
   gtk-vnc:
     default: https://gitlab.gnome.org/GNOME/gtk-vnc.git

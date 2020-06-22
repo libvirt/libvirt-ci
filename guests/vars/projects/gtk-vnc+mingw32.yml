@@ -1,7 +1,0 @@
----
-packages:
-  - mingw32-gdk-pixbuf
-  - mingw32-glib2
-  - mingw32-gnutls
-  - mingw32-gtk3
-  - mingw32-libgcrypt
