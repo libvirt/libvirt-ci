@@ -168,6 +168,12 @@ mappings:
     rpm: device-mapper-devel
     cross-policy-default: foreign
 
+  dlfcn:
+    default:
+    mingw32-rpm: mingw32-dlfcn
+    mingw64-rpm: mingw64-dlfcn
+    cross-policy-default: foreign
+
   dnsmasq:
     default: dnsmasq
     deb: dnsmasq-base
@@ -209,10 +215,16 @@ mappings:
     deb: libgdk-pixbuf2.0-dev
     pkg: gdk-pixbuf2
     OpenSUSE: gdk-pixbuf-devel
+    mingw32-rpm: mingw32-gdk-pixbuf
+    mingw64-rpm: mingw64-gdk-pixbuf
     cross-policy-default: foreign
 
   gettext:
     default: gettext
+    mingw32-rpm: mingw32-gettext
+    mingw64-rpm: mingw64-gettext
+    cross-policy-default: native
+    cross-policy-rpm: foreign
 
   git:
     default: git
@@ -221,11 +233,15 @@ mappings:
     deb: libglib2.0-dev
     pkg: glib
     rpm: glib2-devel
+    mingw32-rpm: mingw32-glib2
+    mingw64-rpm: mingw64-glib2
     cross-policy-default: foreign
 
   glibc:
     deb: libc6-dev
     rpm: glibc-devel
+    mingw32-rpm: mingw32-headers
+    mingw64-rpm: mingw64-headers
     cross-policy-default: foreign
 
   glibc-static:
@@ -246,6 +262,8 @@ mappings:
     pkg: gnutls
     rpm: gnutls-devel
     OpenSUSE: libgnutls-devel
+    mingw32-rpm: mingw32-gnutls
+    mingw64-rpm: mingw64-gnutls
     cross-policy-default: foreign
 
   go:
@@ -259,10 +277,24 @@ mappings:
     rpm: gobject-introspection-devel
     cross-policy-default: foreign
 
+  gstreamer-plugins-bad-free:
+    default:
+    mingw32-rpm: mingw32-gstreamer1-plugins-bad-free
+    mingw64-rpm: mingw64-gstreamer1-plugins-bad-free
+    cross-policy-default: foreign
+
+  gstreamer-plugins-good:
+    default:
+    mingw32-rpm: mingw32-gstreamer1-plugins-good
+    mingw64-rpm: mingw64-gstreamer1-plugins-good
+    cross-policy-default: foreign
+
   gtk3:
     deb: libgtk-3-dev
     pkg: gtk3
     rpm: gtk3-devel
+    mingw32-rpm: mingw32-gtk3
+    mingw64-rpm: mingw64-gtk3
     cross-policy-default: foreign
 
   gtk-doc:
@@ -319,6 +351,8 @@ mappings:
     deb: libjson-glib-dev
     pkg: json-glib
     rpm: json-glib-devel
+    mingw32-rpm: mingw32-json-glib
+    mingw64-rpm: mingw64-json-glib
     cross-policy-default: foreign
 
   libacl:
@@ -330,6 +364,8 @@ mappings:
     deb: libarchive-dev
     pkg: libarchive
     rpm: libarchive-devel
+    mingw32-rpm: mingw32-libarchive
+    mingw64-rpm: mingw64-libarchive
     cross-policy-default: foreign
 
   libattr:
@@ -366,6 +402,8 @@ mappings:
     deb: libcurl4-gnutls-dev
     pkg: curl
     rpm: libcurl-devel
+    mingw32-rpm: mingw32-curl
+    mingw64-rpm: mingw64-curl
     cross-policy-default: foreign
 
   libdbus:
@@ -373,12 +411,16 @@ mappings:
     pkg: dbus
     rpm: dbus-devel
     OpenSUSE: dbus-1-devel
+    mingw32-rpm: mingw32-dbus
+    mingw64-rpm: mingw64-dbus
     cross-policy-default: foreign
 
   libgcrypt:
     deb: libgcrypt20-dev
     pkg: libgcrypt
     rpm: libgcrypt-devel
+    mingw32-rpm: mingw32-libgcrypt
+    mingw64-rpm: mingw64-libgcrypt
     cross-policy-default: foreign
 
   libgovirt:
@@ -386,6 +428,8 @@ mappings:
     Debian: libgovirt-dev
     CentOS8:
     CentOSStream:
+    mingw32-rpm: mingw32-libgovirt
+    mingw64-rpm: mingw64-libgovirt
     cross-policy-default: foreign
 
   libiscsi:
@@ -448,6 +492,8 @@ mappings:
     OpenSUSE: librest-devel
     CentOS8:
     CentOSStream:
+    mingw32-rpm: mingw32-rest
+    mingw64-rpm: mingw64-rest
     cross-policy-default: foreign
 
   libselinux:
@@ -459,6 +505,8 @@ mappings:
     deb: libsoup2.4-dev
     pkg: libsoup
     rpm: libsoup-devel
+    mingw32-rpm: mingw32-libsoup
+    mingw64-rpm: mingw64-libsoup
     cross-policy-default: foreign
 
   libssh:
@@ -472,6 +520,8 @@ mappings:
     deb: libssh2-1-dev
     pkg: libssh2
     rpm: libssh2-devel
+    mingw32-rpm: mingw32-libssh2
+    mingw64-rpm: mingw64-libssh2
     cross-policy-default: foreign
 
   libtirpc:
@@ -512,12 +562,16 @@ mappings:
     deb: libxml2-dev
     pkg: libxml2
     rpm: libxml2-devel
+    mingw32-rpm: mingw32-libxml2
+    mingw64-rpm: mingw64-libxml2
     cross-policy-default: foreign
 
   libxslt:
     deb: libxslt1-dev
     pkg: libxslt
     rpm: libxslt-devel
+    mingw32-rpm: mingw32-libxslt
+    mingw64-rpm: mingw64-libxslt
     cross-policy-default: foreign
 
   locales:
@@ -549,150 +603,6 @@ mappings:
    default: ninja-build
    FreeBSD: ninja
    OpenSUSE: ninja
-
-  mingw32-curl:
-    Fedora: mingw32-curl
-
-  mingw32-dbus:
-    Fedora: mingw32-dbus
-
-  mingw32-dlfcn:
-    Fedora: mingw32-dlfcn
-
-  mingw32-gcc:
-    Fedora: mingw32-gcc
-
-  mingw32-gdk-pixbuf:
-    Fedora: mingw32-gdk-pixbuf
-
-  mingw32-gettext:
-    Fedora: mingw32-gettext
-
-  mingw32-glib2:
-    Fedora: mingw32-glib2
-
-  mingw32-gnutls:
-    Fedora: mingw32-gnutls
-
-  mingw32-gstreamer1-plugins-bad-free:
-    Fedora: mingw32-gstreamer1-plugins-bad-free
-
-  mingw32-gstreamer1-plugins-good:
-    Fedora: mingw32-gstreamer1-plugins-good
-
-  mingw32-gtk3:
-    Fedora: mingw32-gtk3
-
-  mingw32-json-glib:
-    Fedora: mingw32-json-glib
-
-  mingw32-libarchive:
-    Fedora: mingw32-libarchive
-
-  mingw32-libgcrypt:
-    Fedora: mingw32-libgcrypt
-
-  mingw32-libgovirt:
-    Fedora: mingw32-libgovirt
-
-  mingw32-libsoup:
-    Fedora: mingw32-libsoup
-
-  mingw32-libssh2:
-    Fedora: mingw32-libssh2
-
-  mingw32-libxml2:
-    Fedora: mingw32-libxml2
-
-  mingw32-libxslt:
-    Fedora: mingw32-libxslt
-
-  mingw32-pkg-config:
-    Fedora: mingw32-pkg-config
-
-  mingw32-portablexdr:
-    Fedora: mingw32-portablexdr
-
-  mingw32-readline:
-    Fedora: mingw32-readline
-
-  mingw32-rest:
-    Fedora: mingw32-rest
-
-  mingw32-spice-gtk3:
-    Fedora: mingw32-spice-gtk3
-
-  mingw64-curl:
-    Fedora: mingw64-curl
-
-  mingw64-dbus:
-    Fedora: mingw64-dbus
-
-  mingw64-dlfcn:
-    Fedora: mingw64-dlfcn
-
-  mingw64-gcc:
-    Fedora: mingw64-gcc
-
-  mingw64-gdk-pixbuf:
-    Fedora: mingw64-gdk-pixbuf
-
-  mingw64-gettext:
-    Fedora: mingw64-gettext
-
-  mingw64-glib2:
-    Fedora: mingw64-glib2
-
-  mingw64-gnutls:
-    Fedora: mingw64-gnutls
-
-  mingw64-gstreamer1-plugins-bad-free:
-    Fedora: mingw64-gstreamer1-plugins-bad-free
-
-  mingw64-gstreamer1-plugins-good:
-    Fedora: mingw64-gstreamer1-plugins-good
-
-  mingw64-gtk3:
-    Fedora: mingw64-gtk3
-
-  mingw64-json-glib:
-    Fedora: mingw64-json-glib
-
-  mingw64-libarchive:
-    Fedora: mingw64-libarchive
-
-  mingw64-libgcrypt:
-    Fedora: mingw64-libgcrypt
-
-  mingw64-libgovirt:
-    Fedora: mingw64-libgovirt
-
-  mingw64-libsoup:
-    Fedora: mingw64-libsoup
-
-  mingw64-libssh2:
-    Fedora: mingw64-libssh2
-
-  mingw64-libxml2:
-    Fedora: mingw64-libxml2
-
-  mingw64-libxslt:
-    Fedora: mingw64-libxslt
-
-  mingw64-pkg-config:
-    Fedora: mingw64-pkg-config
-
-  mingw64-portablexdr:
-    Fedora: mingw64-portablexdr
-
-  mingw64-readline:
-    Fedora: mingw64-readline
-
-  mingw64-rest:
-    Fedora: mingw64-rest
-
-  mingw64-spice-gtk3:
-    Fedora: mingw64-spice-gtk3
 
   modprobe:
     default: kmod
@@ -887,10 +797,20 @@ mappings:
   pkg-config:
     default: pkgconf
     rpm: pkgconfig
+    mingw32-rpm: mingw32-pkg-config
+    mingw64-rpm: mingw64-pkg-config
+    cross-policy-default: native
+    cross-policy-rpm: foreign
 
   polkit:
     default: polkit
     deb: policykit-1
+
+  portablexdr:
+    default:
+    mingw32-rpm: mingw32-portablexdr
+    mingw64-rpm: mingw64-portablexdr
+    cross-policy-default: foreign
 
   pulseaudio:
     deb: libpulse-dev
@@ -988,6 +908,8 @@ mappings:
     deb: libreadline-dev
     pkg: readline
     rpm: readline-devel
+    mingw32-rpm: mingw32-readline
+    mingw64-rpm: mingw64-readline
     cross-policy-default: foreign
 
   rpcgen:
@@ -1035,6 +957,8 @@ mappings:
     pkg: spice-gtk
     rpm: spice-gtk3-devel
     OpenSUSE: spice-gtk-devel
+    mingw32-rpm: mingw32-spice-gtk3
+    mingw64-rpm: mingw64-spice-gtk3
     cross-policy-default: foreign
 
   strace:

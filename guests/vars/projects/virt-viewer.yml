@@ -1,6 +1,8 @@
 ---
 packages:
   - glib2
+  - gstreamer-plugins-bad-free
+  - gstreamer-plugins-good
   - gtk3
   - libgovirt
   - librest

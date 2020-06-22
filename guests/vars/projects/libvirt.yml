@@ -6,6 +6,7 @@ packages:
   - avahi
   - cyrus-sasl
   - device-mapper
+  - dlfcn
   - dnsmasq
   - dtrace
   - dwarves
@@ -48,6 +49,7 @@ packages:
   - openwsman
   - parted
   - polkit
+  - portablexdr
   - python3-docutils
   - qemu-img
   - radvd
