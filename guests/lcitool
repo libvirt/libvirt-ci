@@ -696,10 +696,10 @@ class Application:
             facts["os"]["name"],
             facts["os"]["name"] + facts["os"]["version"],
         ]
-        cross_keys = []
+        cross_policy_keys = []
         if cross_arch:
             keys = base_keys + [cross_arch + "-" + k for k in base_keys]
-            cross_keys = ["cross-policy-" + k for k in base_keys]
+            cross_policy_keys = ["cross-policy-" + k for k in base_keys]
         else:
             keys = base_keys + [self._native_arch + "-" + k for k in base_keys]
 
@@ -708,27 +708,43 @@ class Application:
         for project in projects + ["base"]:
             for package in self._projects.get_packages(project):
                 cross_policy = "native"
-                for key in cross_keys:
-                    if key in mappings[package]:
-                        cross_policy = mappings[package][key]
+
+                if package not in mappings and package not in pip_mappings:
+                    raise Exception(
+                        "No mapping defined for {}".format(package)
+                    )
+
+                if package in mappings:
+                    for key in keys:
+                        if key in mappings[package]:
+                            pkgs[package] = mappings[package][key]
+                    for key in cross_policy_keys:
+                        if key in mappings[package]:
+                            cross_policy = mappings[package][key]
+
+                if package in pip_mappings:
+                    for key in keys:
+                        if key in pip_mappings[package]:
+                            pip_pkgs[package] = pip_mappings[package][key]
+
+                if package in pkgs and pkgs[package] is None:
+                    del pkgs[package]
+                if package in pip_pkgs and pip_pkgs[package] is None:
+                    del pip_pkgs[package]
+                if package in pip_pkgs and package in pkgs:
+                    del pip_pkgs[package]
+
+                if package not in pkgs and package not in pip_pkgs:
+                    continue
+
                 if cross_policy not in ["native", "foreign", "skip"]:
                     raise Exception(
                         "Unexpected cross arch policy {} for {}".format
                         (cross_policy, package))
 
-                for key in keys:
-                    if key in mappings[package]:
-                        pkgs[package] = mappings[package][key]
-                    if package in pip_mappings and key in pip_mappings[package]:
-                        pip_pkgs[package] = pip_mappings[package][key]
-
-                if package not in pkgs:
-                    continue
-                if package in pip_pkgs and pkgs[package] is not None:
-                    del pip_pkgs[package]
-                if cross_policy == "foreign" and pkgs[package] is not None:
+                if package in pkgs and cross_policy == "foreign":
                     cross_pkgs[package] = pkgs[package]
-                if pkgs[package] is None or cross_policy in ["skip", "foreign"]:
+                if package in pkgs and cross_policy in ["skip", "foreign"]:
                     del pkgs[package]
 
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
@@ -755,47 +771,70 @@ class Application:
         pkgs = {}
         cross_pkgs = {}
         pip_pkgs = {}
-        keys = [
+        base_keys = [
             "default",
             facts["packaging"]["format"],
             facts["os"]["name"],
             facts["os"]["name"] + facts["os"]["version"],
         ]
+        cross_keys = []
+        cross_policy_keys = []
+        if cross_arch:
+            keys = base_keys
+            cross_keys = [cross_arch + "-" + k for k in base_keys]
+            cross_policy_keys = ["cross-policy-" + k for k in base_keys]
+        else:
+            keys = base_keys + [self._native_arch + "-" + k for k in base_keys]
 
         # We need to add the base project manually here: the standard
         # machinery hides it because it's an implementation detail
         for project in projects + ["base"]:
             for package in self._projects.get_packages(project):
-                for key in keys:
-                    if key in mappings[package]:
-                        pkgs[package] = mappings[package][key]
-                    if package in pip_mappings and key in pip_mappings[package]:
-                        pip_pkgs[package] = pip_mappings[package][key]
+                cross_policy = "native"
 
-                if package not in pkgs:
-                    continue
-                if package in pip_pkgs and pkgs[package] is not None:
-                    del pip_pkgs[package]
-                if pkgs[package] is None:
-                    del pkgs[package]
+                if package not in mappings and package not in pip_mappings:
+                    raise Exception(
+                        "No mapping defined for {}".format(package)
+                    )
 
-        if cross_arch:
-            cross_projects = []
-            for project in projects:
-                cross_project = project + "+" + cross_arch
-                if cross_project in facts["projects"]:
-                    cross_projects.extend([cross_project])
-
-            for project in cross_projects:
-                for package in self._projects.get_packages(project):
-                    for key in keys:
+                if package in mappings:
+                    for key in cross_policy_keys:
                         if key in mappings[package]:
-                            cross_pkgs[package] = mappings[package][key]
+                            cross_policy = mappings[package][key]
 
-                    if package not in cross_pkgs:
-                        continue
-                    if cross_pkgs[package] is None:
-                        del cross_pkgs[package]
+                    if cross_policy not in ["native", "foreign", "skip"]:
+                        raise Exception(
+                            "Unexpected cross arch policy {} for {}".format
+                            (cross_policy, package))
+
+                    if cross_arch and cross_policy == "foreign":
+                        for key in cross_keys:
+                            if key in mappings[package]:
+                                pkgs[package] = mappings[package][key]
+                    else:
+                        for key in keys:
+                            if key in mappings[package]:
+                                pkgs[package] = mappings[package][key]
+
+                if package in pip_mappings:
+                    for key in keys:
+                        if key in pip_mappings[package]:
+                            pip_pkgs[package] = pip_mappings[package][key]
+
+                if package in pkgs and pkgs[package] is None:
+                    del pkgs[package]
+                if package in pip_pkgs and pip_pkgs[package] is None:
+                    del pip_pkgs[package]
+                if package in pip_pkgs and package in pkgs:
+                    del pip_pkgs[package]
+
+                if package not in pkgs and package not in pip_pkgs:
+                    continue
+
+                if package in pkgs and cross_policy == "foreign":
+                    cross_pkgs[package] = pkgs[package]
+                if package in pkgs and cross_policy in ["skip", "foreign"]:
+                    del pkgs[package]
 
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
         pip_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
@@ -804,6 +843,7 @@ class Application:
         varmap["pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkgs.values())))
 
         if cross_arch:
+            cross_pkgs["gcc"] = cross_arch + "-gcc"
             varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(cross_pkgs.values())))
 
         if pip_pkgs:
