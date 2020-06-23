@@ -562,9 +562,6 @@ mappings:
   mingw32-glib2:
     Fedora: mingw32-glib2
 
-  mingw32-glib-networking:
-    Fedora: mingw32-glib-networking
-
   mingw32-gnutls:
     Fedora: mingw32-gnutls
 
@@ -595,9 +592,6 @@ mappings:
   mingw32-libssh2:
     Fedora: mingw32-libssh2
 
-  mingw32-libusbx:
-    Fedora: mingw32-libusbx
-
   mingw32-libxml2:
     Fedora: mingw32-libxml2
 
@@ -619,9 +613,6 @@ mappings:
   mingw32-spice-gtk3:
     Fedora: mingw32-spice-gtk3
 
-  mingw32-usbredir:
-    Fedora: mingw32-usbredir
-
   mingw64-curl:
     Fedora: mingw64-curl
 
@@ -642,9 +633,6 @@ mappings:
 
   mingw64-glib2:
     Fedora: mingw64-glib2
-
-  mingw64-glib-networking:
-    Fedora: mingw64-glib-networking
 
   mingw64-gnutls:
     Fedora: mingw64-gnutls
@@ -676,9 +664,6 @@ mappings:
   mingw64-libssh2:
     Fedora: mingw64-libssh2
 
-  mingw64-libusbx:
-    Fedora: mingw64-libusbx
-
   mingw64-libxml2:
     Fedora: mingw64-libxml2
 
@@ -699,9 +684,6 @@ mappings:
 
   mingw64-spice-gtk3:
     Fedora: mingw64-spice-gtk3
-
-  mingw64-usbredir:
-    Fedora: mingw64-usbredir
 
   modprobe:
     default: kmod

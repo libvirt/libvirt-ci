@@ -2,12 +2,9 @@
 packages:
   - icoutils
   - mingw32-glib2
-  - mingw32-glib-networking
   - mingw32-gstreamer1-plugins-bad-free
   - mingw32-gstreamer1-plugins-good
   - mingw32-gtk3
   - mingw32-libgovirt
-  - mingw32-libusbx
   - mingw32-rest
   - mingw32-spice-gtk3
-  - mingw32-usbredir
