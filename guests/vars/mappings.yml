@@ -666,6 +666,11 @@ mappings:
     default: perl
     FreeBSD: perl5
 
+  perl-App-cpanminus:
+    deb: cpanminus
+    pkg: p5-App-cpanminus
+    rpm: perl-App-cpanminus
+
   perl-Archive-Tar:
     deb: perl
     pkg: perl5
