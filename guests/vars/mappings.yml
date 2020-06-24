@@ -869,10 +869,8 @@ mappings:
     CentOS7: python36-nose
 
   python3-pip:
-    CentOS7: python3-pip
-    Debian9: python3-pip
-    OpenSUSE151: python3-pip
-    Ubuntu1804: python3-pip
+    default: python3-pip
+    FreeBSD: py37-pip
 
   python3-pytest:
     default: python3-pytest
