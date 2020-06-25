@@ -745,10 +745,10 @@ class Application:
                     del pkgs[package]
                 if package in pip_pkgs and pip_pkgs[package] is None:
                     del pip_pkgs[package]
-                if package in pip_pkgs and package in pkgs:
-                    del pip_pkgs[package]
                 if package in cpan_pkgs and cpan_pkgs[package] is None:
                     del cpan_pkgs[package]
+                if package in pip_pkgs and package in pkgs:
+                    del pip_pkgs[package]
                 if package in cpan_pkgs and package in pkgs:
                     del cpan_pkgs[package]
 
@@ -864,10 +864,10 @@ class Application:
                     del pkgs[package]
                 if package in pip_pkgs and pip_pkgs[package] is None:
                     del pip_pkgs[package]
-                if package in pip_pkgs and package in pkgs:
-                    del pip_pkgs[package]
                 if package in cpan_pkgs and cpan_pkgs[package] is None:
                     del cpan_pkgs[package]
+                if package in pip_pkgs and package in pkgs:
+                    del pip_pkgs[package]
                 if package in cpan_pkgs and package in pkgs:
                     del cpan_pkgs[package]
 

@@ -40,7 +40,7 @@
     - pm_resolved[item] != None
     - pm_resolved[item] not in pm_flattened
 
-- name: '{{ project }}: Install packages from {{ pm_name }} (state={{ state }})'
+- name: '{{ project }}: Install {{ pm_name }} packages (state={{ state }})'
   command: '{{ pm_command }} {{ item }}'
   args:
     warn: no

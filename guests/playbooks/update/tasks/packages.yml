@@ -108,11 +108,11 @@
     pm_name: '{{ pm.name }}'
   loop:
     - name: pip
-      command: '{{ paths.pip3 }} install '
+      command: '{{ paths.pip3 }} install'
       mappings: '{{ pip_mappings }}'
 
     - name: CPAN
-      command: 'cpanm --notest '
+      command: 'cpanm --notest'
       mappings: '{{ cpan_mappings }}'
   loop_control:
     loop_var: pm
