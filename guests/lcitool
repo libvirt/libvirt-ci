@@ -732,14 +732,12 @@ class Application:
                             cross_policy = mappings[package][key]
 
                 if package in pip_mappings:
-                    for key in keys:
-                        if key in pip_mappings[package]:
-                            pip_pkgs[package] = pip_mappings[package][key]
+                    if "default" in pip_mappings[package]:
+                        pip_pkgs[package] = pip_mappings[package]["default"]
 
                 if package in cpan_mappings:
-                    for key in keys:
-                        if key in cpan_mappings[package]:
-                            cpan_pkgs[package] = cpan_mappings[package][key]
+                    if "default" in cpan_mappings[package]:
+                        cpan_pkgs[package] = cpan_mappings[package]["default"]
 
                 if package in pkgs and pkgs[package] is None:
                     del pkgs[package]
@@ -851,14 +849,12 @@ class Application:
                                 pkgs[package] = mappings[package][key]
 
                 if package in pip_mappings:
-                    for key in keys:
-                        if key in pip_mappings[package]:
-                            pip_pkgs[package] = pip_mappings[package][key]
+                    if "default" in pip_mappings[package]:
+                        pip_pkgs[package] = pip_mappings[package]["default"]
 
                 if package in cpan_mappings:
-                    for key in keys:
-                        if key in cpan_mappings[package]:
-                            cpan_pkgs[package] = cpan_mappings[package][key]
+                    if "default" in cpan_mappings[package]:
+                        cpan_pkgs[package] = cpan_mappings[package]["default"]
 
                 if package in pkgs and pkgs[package] is None:
                     del pkgs[package]
