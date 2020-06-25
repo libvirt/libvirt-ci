@@ -4,5 +4,6 @@ packages:
   - flake8
   - glib2
   - python3-dbus
+  - python3-docutils
   - python3-gi
   - python3-pytest
