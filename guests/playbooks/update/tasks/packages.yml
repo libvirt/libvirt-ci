@@ -107,9 +107,9 @@
     pm_mappings: '{{ pm.mappings }}'
     pm_name: '{{ pm.name }}'
   loop:
-    - name: pip
+    - name: PyPi
       command: '{{ paths.pip3 }} install'
-      mappings: '{{ pip_mappings }}'
+      mappings: '{{ pypi_mappings }}'
 
     - name: CPAN
       command: 'cpanm --notest'

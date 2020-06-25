@@ -304,7 +304,7 @@ class Projects:
             with open(mappings_path, "r") as infile:
                 mappings = yaml.safe_load(infile)
                 self._mappings = mappings["mappings"]
-                self._pip_mappings = mappings["pip_mappings"]
+                self._pypi_mappings = mappings["pypi_mappings"]
                 self._cpan_mappings = mappings["cpan_mappings"]
         except Exception as ex:
             raise Exception("Can't load mappings: {}".format(ex))
@@ -343,8 +343,8 @@ class Projects:
     def get_mappings(self):
         return self._mappings
 
-    def get_pip_mappings(self):
-        return self._pip_mappings
+    def get_pypi_mappings(self):
+        return self._pypi_mappings
 
     def get_cpan_mappings(self):
         return self._cpan_mappings
@@ -653,7 +653,7 @@ class Application:
 
     def _dockerfile_build_varmap(self, facts,
                                  mappings,
-                                 pip_mappings,
+                                 pypi_mappings,
                                  cpan_mappings,
                                  projects,
                                  cross_arch):
@@ -661,14 +661,14 @@ class Application:
         if facts["packaging"]["format"] == "deb":
             varmap = self._dockerfile_build_varmap_deb(facts,
                                                        mappings,
-                                                       pip_mappings,
+                                                       pypi_mappings,
                                                        cpan_mappings,
                                                        projects,
                                                        cross_arch)
         if facts["packaging"]["format"] == "rpm":
             varmap = self._dockerfile_build_varmap_rpm(facts,
                                                        mappings,
-                                                       pip_mappings,
+                                                       pypi_mappings,
                                                        cpan_mappings,
                                                        projects,
                                                        cross_arch)
@@ -689,13 +689,13 @@ class Application:
     def _dockerfile_build_varmap_deb(self,
                                      facts,
                                      mappings,
-                                     pip_mappings,
+                                     pypi_mappings,
                                      cpan_mappings,
                                      projects,
                                      cross_arch):
         pkgs = {}
         cross_pkgs = {}
-        pip_pkgs = {}
+        pypi_pkgs = {}
         cpan_pkgs = {}
         base_keys = [
             "default",
@@ -717,7 +717,7 @@ class Application:
                 cross_policy = "native"
 
                 if (package not in mappings and
-                    package not in pip_mappings and
+                    package not in pypi_mappings and
                     package not in cpan_mappings):
                     raise Exception(
                         "No mapping defined for {}".format(package)
@@ -731,9 +731,9 @@ class Application:
                         if key in mappings[package]:
                             cross_policy = mappings[package][key]
 
-                if package in pip_mappings:
-                    if "default" in pip_mappings[package]:
-                        pip_pkgs[package] = pip_mappings[package]["default"]
+                if package in pypi_mappings:
+                    if "default" in pypi_mappings[package]:
+                        pypi_pkgs[package] = pypi_mappings[package]["default"]
 
                 if package in cpan_mappings:
                     if "default" in cpan_mappings[package]:
@@ -741,17 +741,17 @@ class Application:
 
                 if package in pkgs and pkgs[package] is None:
                     del pkgs[package]
-                if package in pip_pkgs and pip_pkgs[package] is None:
-                    del pip_pkgs[package]
+                if package in pypi_pkgs and pypi_pkgs[package] is None:
+                    del pypi_pkgs[package]
                 if package in cpan_pkgs and cpan_pkgs[package] is None:
                     del cpan_pkgs[package]
-                if package in pip_pkgs and package in pkgs:
-                    del pip_pkgs[package]
+                if package in pypi_pkgs and package in pkgs:
+                    del pypi_pkgs[package]
                 if package in cpan_pkgs and package in pkgs:
                     del cpan_pkgs[package]
 
                 if (package not in pkgs and
-                    package not in pip_pkgs and
+                    package not in pypi_pkgs and
                     package not in cpan_pkgs):
                     continue
 
@@ -766,7 +766,7 @@ class Application:
                     del pkgs[package]
 
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
-        pip_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
+        pypi_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
         cpan_pkg_align = " \\\n" + (" " * len("RUN cpanm "))
 
         varmap = {}
@@ -781,8 +781,8 @@ class Application:
             varmap["cross_arch_deb"] = cross_arch_deb
             varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(pkg_names)))
 
-        if pip_pkgs:
-            varmap["pip_pkgs"] = pip_pkg_align[1:] + pip_pkg_align.join(sorted(set(pip_pkgs.values())))
+        if pypi_pkgs:
+            varmap["pypi_pkgs"] = pypi_pkg_align[1:] + pypi_pkg_align.join(sorted(set(pypi_pkgs.values())))
 
         if cpan_pkgs:
             varmap["cpan_pkgs"] = cpan_pkg_align[1:] + cpan_pkg_align.join(sorted(set(cpan_pkgs.values())))
@@ -792,14 +792,14 @@ class Application:
     def _dockerfile_build_varmap_rpm(self,
                                      facts,
                                      mappings,
-                                     pip_mappings,
+                                     pypi_mappings,
                                      cpan_mappings,
                                      projects,
                                      cross_arch):
 
         pkgs = {}
         cross_pkgs = {}
-        pip_pkgs = {}
+        pypi_pkgs = {}
         cpan_pkgs = {}
         base_keys = [
             "default",
@@ -823,7 +823,7 @@ class Application:
                 cross_policy = "native"
 
                 if (package not in mappings and
-                    package not in pip_mappings and
+                    package not in pypi_mappings and
                     package not in cpan_mappings):
                     raise Exception(
                         "No mapping defined for {}".format(package)
@@ -848,9 +848,9 @@ class Application:
                             if key in mappings[package]:
                                 pkgs[package] = mappings[package][key]
 
-                if package in pip_mappings:
-                    if "default" in pip_mappings[package]:
-                        pip_pkgs[package] = pip_mappings[package]["default"]
+                if package in pypi_mappings:
+                    if "default" in pypi_mappings[package]:
+                        pypi_pkgs[package] = pypi_mappings[package]["default"]
 
                 if package in cpan_mappings:
                     if "default" in cpan_mappings[package]:
@@ -858,17 +858,17 @@ class Application:
 
                 if package in pkgs and pkgs[package] is None:
                     del pkgs[package]
-                if package in pip_pkgs and pip_pkgs[package] is None:
-                    del pip_pkgs[package]
+                if package in pypi_pkgs and pypi_pkgs[package] is None:
+                    del pypi_pkgs[package]
                 if package in cpan_pkgs and cpan_pkgs[package] is None:
                     del cpan_pkgs[package]
-                if package in pip_pkgs and package in pkgs:
-                    del pip_pkgs[package]
+                if package in pypi_pkgs and package in pkgs:
+                    del pypi_pkgs[package]
                 if package in cpan_pkgs and package in pkgs:
                     del cpan_pkgs[package]
 
                 if (package not in pkgs and
-                    package not in pip_pkgs and
+                    package not in pypi_pkgs and
                     package not in cpan_pkgs):
                     continue
 
@@ -878,7 +878,7 @@ class Application:
                     del pkgs[package]
 
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
-        pip_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
+        pypi_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
         cpan_pkg_align = " \\\n" + (" " * len("RUN cpanm "))
 
         varmap = {}
@@ -888,8 +888,8 @@ class Application:
             cross_pkgs["gcc"] = cross_arch + "-gcc"
             varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(sorted(set(cross_pkgs.values())))
 
-        if pip_pkgs:
-            varmap["pip_pkgs"] = pip_pkg_align[1:] + pip_pkg_align.join(sorted(set(pip_pkgs.values())))
+        if pypi_pkgs:
+            varmap["pypi_pkgs"] = pypi_pkg_align[1:] + pypi_pkg_align.join(sorted(set(pypi_pkgs.values())))
 
         if cpan_pkgs:
             varmap["cpan_pkgs"] = cpan_pkg_align[1:] + cpan_pkg_align.join(sorted(set(cpan_pkgs.values())))
@@ -1024,9 +1024,9 @@ class Application:
             cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands)) + "\n"
             sys.stdout.write(cross_script.format(**varmap))
 
-        if "pip_pkgs" in varmap:
+        if "pypi_pkgs" in varmap:
             sys.stdout.write(textwrap.dedent("""
-                RUN pip3 install {pip_pkgs}
+                RUN pip3 install {pypi_pkgs}
             """).format(**varmap))
 
         if "cpan_pkgs" in varmap:
@@ -1060,7 +1060,7 @@ class Application:
 
     def _action_dockerfile(self, args):
         mappings = self._projects.get_mappings()
-        pip_mappings = self._projects.get_pip_mappings()
+        pypi_mappings = self._projects.get_pypi_mappings()
         cpan_mappings = self._projects.get_cpan_mappings()
 
         hosts = self._inventory.expand_pattern(args.hosts)
@@ -1103,7 +1103,7 @@ class Application:
 
         varmap = self._dockerfile_build_varmap(facts,
                                                mappings,
-                                               pip_mappings,
+                                               pypi_mappings,
                                                cpan_mappings,
                                                projects,
                                                cross_arch)
