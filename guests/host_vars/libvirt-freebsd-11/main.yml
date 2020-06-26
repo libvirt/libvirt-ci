@@ -16,7 +16,6 @@ paths:
   ninja: /usr/local/bin/ninja
   pip3: /usr/local/bin/pip-3.7
   python: /usr/local/bin/python3
-  su: /usr/bin/su
   sudoers: /usr/local/etc/sudoers
 
 ansible_python_package: python3

@@ -16,7 +16,6 @@ paths:
   ninja: /usr/bin/ninja-build
   pip3: /usr/bin/pip3
   python: /usr/bin/python3
-  su: /bin/su
   sudoers: /etc/sudoers
 
 ansible_python_package: python2
