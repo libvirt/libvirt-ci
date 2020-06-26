@@ -657,142 +657,6 @@ class Application:
                                  cpan_mappings,
                                  projects,
                                  cross_arch):
-
-        if facts["packaging"]["format"] == "deb":
-            varmap = self._dockerfile_build_varmap_deb(facts,
-                                                       mappings,
-                                                       pypi_mappings,
-                                                       cpan_mappings,
-                                                       projects,
-                                                       cross_arch)
-        if facts["packaging"]["format"] == "rpm":
-            varmap = self._dockerfile_build_varmap_rpm(facts,
-                                                       mappings,
-                                                       pypi_mappings,
-                                                       cpan_mappings,
-                                                       projects,
-                                                       cross_arch)
-
-        varmap["packaging_command"] = facts["packaging"]["command"]
-        varmap["paths_cc"] = facts["paths"]["cc"]
-        varmap["paths_ccache"] = facts["paths"]["ccache"]
-        varmap["paths_make"] = facts["paths"]["make"]
-        varmap["paths_ninja"] = facts["paths"]["ninja"]
-        varmap["paths_python"] = facts["paths"]["python"]
-
-        if cross_arch:
-            varmap["cross_arch"] = cross_arch
-            varmap["cross_abi"] = Util.native_arch_to_abi(cross_arch)
-
-        return varmap
-
-    def _dockerfile_build_varmap_deb(self,
-                                     facts,
-                                     mappings,
-                                     pypi_mappings,
-                                     cpan_mappings,
-                                     projects,
-                                     cross_arch):
-        pkgs = {}
-        cross_pkgs = {}
-        pypi_pkgs = {}
-        cpan_pkgs = {}
-        base_keys = [
-            "default",
-            facts["packaging"]["format"],
-            facts["os"]["name"],
-            facts["os"]["name"] + facts["os"]["version"],
-        ]
-        cross_policy_keys = []
-        if cross_arch:
-            keys = base_keys + [cross_arch + "-" + k for k in base_keys]
-            cross_policy_keys = ["cross-policy-" + k for k in base_keys]
-        else:
-            keys = base_keys + [self._native_arch + "-" + k for k in base_keys]
-
-        # We need to add the base project manually here: the standard
-        # machinery hides it because it's an implementation detail
-        for project in projects + ["base"]:
-            for package in self._projects.get_packages(project):
-                cross_policy = "native"
-
-                if (package not in mappings and
-                    package not in pypi_mappings and
-                    package not in cpan_mappings):
-                    raise Exception(
-                        "No mapping defined for {}".format(package)
-                    )
-
-                if package in mappings:
-                    for key in keys:
-                        if key in mappings[package]:
-                            pkgs[package] = mappings[package][key]
-                    for key in cross_policy_keys:
-                        if key in mappings[package]:
-                            cross_policy = mappings[package][key]
-
-                if package in pypi_mappings:
-                    if "default" in pypi_mappings[package]:
-                        pypi_pkgs[package] = pypi_mappings[package]["default"]
-
-                if package in cpan_mappings:
-                    if "default" in cpan_mappings[package]:
-                        cpan_pkgs[package] = cpan_mappings[package]["default"]
-
-                if package in pkgs and pkgs[package] is None:
-                    del pkgs[package]
-                if package in pypi_pkgs and pypi_pkgs[package] is None:
-                    del pypi_pkgs[package]
-                if package in cpan_pkgs and cpan_pkgs[package] is None:
-                    del cpan_pkgs[package]
-                if package in pypi_pkgs and package in pkgs:
-                    del pypi_pkgs[package]
-                if package in cpan_pkgs and package in pkgs:
-                    del cpan_pkgs[package]
-
-                if (package not in pkgs and
-                    package not in pypi_pkgs and
-                    package not in cpan_pkgs):
-                    continue
-
-                if cross_policy not in ["native", "foreign", "skip"]:
-                    raise Exception(
-                        "Unexpected cross arch policy {} for {}".format
-                        (cross_policy, package))
-
-                if package in pkgs and cross_policy == "foreign":
-                    cross_pkgs[package] = pkgs[package]
-                if package in pkgs and cross_policy in ["skip", "foreign"]:
-                    del pkgs[package]
-
-        varmap = {}
-
-        varmap["pkgs"] = sorted(set(pkgs.values()))
-
-        if cross_arch:
-            cross_arch_deb = Util.native_arch_to_deb_arch(cross_arch)
-            cross_abi = Util.native_arch_to_abi(cross_arch)
-            cross_gcc = "gcc-" + cross_abi
-            pkg_names = [p + ":" + cross_arch_deb for p in cross_pkgs.values()]
-            pkg_names.append(cross_gcc)
-            varmap["cross_arch_deb"] = cross_arch_deb
-            varmap["cross_pkgs"] = sorted(set(pkg_names))
-
-        if pypi_pkgs:
-            varmap["pypi_pkgs"] = sorted(set(pypi_pkgs.values()))
-        if cpan_pkgs:
-            varmap["cpan_pkgs"] = sorted(set(cpan_pkgs.values()))
-
-        return varmap
-
-    def _dockerfile_build_varmap_rpm(self,
-                                     facts,
-                                     mappings,
-                                     pypi_mappings,
-                                     cpan_mappings,
-                                     projects,
-                                     cross_arch):
-
         pkgs = {}
         cross_pkgs = {}
         pypi_pkgs = {}
@@ -807,7 +671,19 @@ class Application:
         cross_policy_keys = []
         if cross_arch:
             keys = base_keys
-            cross_keys = [cross_arch + "-" + k for k in base_keys]
+            if facts["packaging"]["format"] == "deb":
+                # For Debian-based distros, the name of the foreign package
+                # is usually the same as the native package, but there might
+                # be architecture-specific overrides, so we have to look both
+                # at the neutral keys and at the specific ones
+                cross_keys = base_keys + [cross_arch + "-" + k for k in base_keys]
+            elif facts["packaging"]["format"] == "rpm":
+                # For RPM-based distros, the name of the foreign package is
+                # usually very different from the native one, so we should
+                # only look at the keys that are specific to cross-building
+                # because otherwise we'd also pick up a bunch of native
+                # packages we don't actually need
+                cross_keys = [cross_arch + "-" + k for k in base_keys]
             cross_policy_keys = ["cross-policy-" + k for k in base_keys]
         else:
             keys = base_keys + [self._native_arch + "-" + k for k in base_keys]
@@ -873,13 +749,35 @@ class Application:
                 if package in pkgs and cross_policy in ["skip", "foreign"]:
                     del pkgs[package]
 
-        varmap = {}
+        varmap = {
+            "packaging_command": facts["packaging"]["command"],
+            "paths_cc": facts["paths"]["cc"],
+            "paths_ccache": facts["paths"]["ccache"],
+            "paths_make": facts["paths"]["make"],
+            "paths_ninja": facts["paths"]["ninja"],
+            "paths_python": facts["paths"]["python"],
+        }
 
         varmap["pkgs"] = sorted(set(pkgs.values()))
 
         if cross_arch:
-            cross_pkgs["gcc"] = cross_arch + "-gcc"
-            varmap["cross_pkgs"] = sorted(set(cross_pkgs.values()))
+            varmap["cross_arch"] = cross_arch
+            varmap["cross_abi"] = Util.native_arch_to_abi(cross_arch)
+
+            if facts["packaging"]["format"] == "deb":
+                # For Debian-based distros, the name of the foreign package
+                # is obtained by appending the foreign architecture (in
+                # Debian format) to the name of the native package
+                cross_arch_deb = Util.native_arch_to_deb_arch(cross_arch)
+                cross_pkgs = [p + ":" + cross_arch_deb for p in set(cross_pkgs.values())]
+                cross_pkgs.append("gcc-" + varmap["cross_abi"])
+                varmap["cross_arch_deb"] = cross_arch_deb
+                varmap["cross_pkgs"] = sorted(cross_pkgs)
+            elif facts["packaging"]["format"] == "rpm":
+                # For RPM-based distros, all mappings have already been
+                # resolved and we just need to add the cross-compiler
+                cross_pkgs["gcc"] = cross_arch + "-gcc"
+                varmap["cross_pkgs"] = sorted(set(cross_pkgs.values()))
 
         if pypi_pkgs:
             varmap["pypi_pkgs"] = sorted(set(pypi_pkgs.values()))
