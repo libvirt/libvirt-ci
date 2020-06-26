@@ -2,14 +2,16 @@
 libvirt CI
 ==========
 
-This repository contains all information necessary to keep the Jenkins-based
-`libvirt CI <https://ci.centos.org/view/libvirt/>`_ environment, hosted on the
-CentOS CI infrastructure, running.
+This repository provides tools and configuration for managing the CI needs of
+libvirt and related projects. The current primary focus is on integration with
+GitLab as the primary CI platform. For most platforms, containers are used for
+the primary build environment, however, the tools are also able to build VM
+images. This allows for use of custom runners for scenarios not served by the
+GitLab container based shared runners.
 
-Configuration for the Jenkins jobs themselves can be found in the ``jenkins/``
-directory, while tools for creating and managing the virtual machines such
-jobs ultimately run on are in the ``guests/`` directory.
+The ``guests/`` directory provides the tooling and configuration for creating
+container and VM images to serve as the build and test environment for projects.
 
-If you're a developer looking to reproduce and debug a failure reported by
-the libvirt CI locally, then the ``guests/`` directory is what you're looking
-for.
+The ``containers/`` directory provides a handful of helper images for performing
+common tasks that are not project specific, such as integrating with Cirrus CI
+for non-Linux builds, running code style checks and validating commit signoff.
