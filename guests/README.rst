@@ -3,7 +3,7 @@ libvirt CI - guest management tools
 ===================================
 
 The tools contained in this directory simplify and automate the management
-of the guests used by the Jenkins-based libvirt CI environment.
+of the container and VM images used by the libvirt CI infrastructure.
 
 
 Usage and examples
@@ -87,7 +87,7 @@ with your package manager as ``virt-install`` is not distributed via PyPI.
 Before you can start bringing up guests, you need to create
 ``~/.config/lcitool/config.yaml``, ideally by copying the ``config.yaml``
 template, and set at least the options marked as "(mandatory)" depending on
-the flavor (``test``, ``jenkins``, ``gitlab``) you wish to use with your
+the flavor (``test``, ``gitlab``) you wish to use with your
 machines.
 
 Ansible expects to be able to connect to the guests by name: installing and
@@ -139,18 +139,6 @@ single time you want to connect. Just add
        UserKnownHostsFile /dev/null
 
 to your ``~/.ssh/config`` file to achieve all of the above.
-
-
-Jenkins CI use
-==============
-
-You'll need to configure ``lcitool`` to use the ``jenkins`` flavor for
-guests. To do so, simply set the ``install.flavor`` to ``jenkins`` in
-``~/.config/lcitool/config.yaml``.
-
-Once a guest has been prepared, you'll be able to log in as root either
-via SSH (your public key will have been authorized) or on the serial
-console (using the password configured earlier).
 
 
 Cloud-init

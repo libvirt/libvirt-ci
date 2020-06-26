@@ -201,16 +201,13 @@ class Config:
         self._validate_section("install", ["root_password"])
 
         flavor = self.values["install"].get("flavor")
-        if flavor not in ["test", "jenkins", "gitlab"]:
+        if flavor not in ["test", "gitlab"]:
             raise Exception(
                 "Invalid value '{}' for 'install.flavor'".format(flavor)
             )
 
         if flavor == "gitlab":
             self._validate_section("gitlab", ["runner_secret"])
-
-        if flavor == "jenkins":
-            self._validate_section("jenkins", ["vault_password"])
 
     def _update(self, values):
         for section in self.values.keys():
@@ -337,7 +334,7 @@ class Projects:
 
         # Some projects are internal implementation details and should
         # not be exposed to the user
-        for project in ["base", "unwanted", "jenkins", "cloud-init"]:
+        for project in ["base", "unwanted", "cloud-init"]:
             if project in projects:
                 projects.remove(project)
 
@@ -504,19 +501,6 @@ class Application:
             "--extra-vars", "@" + extra_vars_path,
         ]
 
-        # For the jenkins flavor the playbook additionally needs access to
-        # the vault, so let's provide the corresponding password
-        if config.values["install"]["flavor"] == "jenkins":
-            vault_password_path = os.path.join(tempdir.name, "vault_password")
-
-            with open(vault_password_path, "w") as fp:
-                fp.write(config.values["jenkins"]["vault_password"])
-
-            cmd.extend([
-                "--vault-password-file",
-                vault_password_path,
-            ])
-
         cmd.append(playbook_path)
 
         # We need to point Ansible to the correct configuration file,
@@ -639,10 +623,6 @@ class Application:
 
             if not args.wait:
                 cmd.append("--noautoconsole")
-
-            # Only configure autostart for the guest for the jenkins flavor
-            if config.values["install"]["flavor"] == "jenkins":
-                cmd.append("--autostart")
 
             try:
                 subprocess.check_call(cmd)

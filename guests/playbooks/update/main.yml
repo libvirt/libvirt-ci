@@ -38,13 +38,6 @@
       loop_control:
         loop_var: project
 
-    # Install packages needed for the Jenkins agent
-    - include: '{{ playbook_base }}/tasks/packages.yml'
-      vars:
-        project: jenkins
-      when:
-        - install.flavor == "jenkins"
-
     # Install packages needed for enabling cloud-init
     - include: '{{ playbook_base }}/tasks/packages.yml'
       vars:
@@ -58,11 +51,6 @@
     - include: '{{ playbook_base }}/tasks/services.yml'
     - include: '{{ playbook_base }}/tasks/global.yml'
     - include: '{{ playbook_base }}/tasks/users.yml'
-
-    # Configure the Jenkins agent
-    - include: '{{ playbook_base }}/tasks/jenkins.yml'
-      when:
-        - install.flavor == 'jenkins'
 
     # Install the Gitlab runner agent
     - include: '{{ playbook_base }}/tasks/gitlab.yml'

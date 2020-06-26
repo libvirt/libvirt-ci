@@ -6,7 +6,6 @@ install:
   # Installation flavor determining the target environment for the VM:
   #
   # test - VMs suitable for local testing (the 'test' user has sudo privileges)
-  # jenkins - VMs ready to be plugged into a Jenkins environment
   # gitlab - VMs ready to be plugged into a GitLab environment
   flavor: test
 
@@ -44,9 +43,3 @@ gitlab:
 
   # GitLab runner registration token. (Mandatory)
   runner_secret:
-
-# Jenkins-related options (only apply to the 'jenkins' flavor)
-jenkins:
-
-  # Password for the Ansible vault containing Jenkins secrets. (Mandatory)
-  vault_password:
