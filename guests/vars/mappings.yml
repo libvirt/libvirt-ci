@@ -103,6 +103,7 @@ mappings:
     deb: autopoint
     pkg: gettext-tools
     rpm: gettext-devel
+    MacOS: gettext
 
   avahi:
     deb: libavahi-client-dev
@@ -119,10 +120,12 @@ mappings:
   ca-certificates:
     default: ca-certificates
     FreeBSD: ca_root_nss
+    MacOS:
 
   cargo:
     default: cargo
-    pkg:
+    FreeBSD:
+    MacOS: rust
 
   ccache:
     default: ccache
@@ -133,10 +136,12 @@ mappings:
 
   chrony:
     default: chrony
+    MacOS:
 
   cloud-init:
     default: cloud-init
     FreeBSD: py37-cloud-init
+    MacOS:
 
   cloud-init-growpart:
     deb: cloud-guest-utils
@@ -145,6 +150,7 @@ mappings:
   cppi:
     Fedora: cppi
     FreeBSD: cppi
+    MacOS: cppi
     OpenSUSE: cppi
 
   cyrus-sasl:
@@ -180,13 +186,15 @@ mappings:
   dwarves:
     default: dwarves
     FreeBSD:
+    MacOS:
 
   ebtables:
     default: ebtables
     FreeBSD:
+    MacOS:
 
   flake8:
-    deb: flake8
+    default: flake8
     pkg: py37-flake8
     rpm: python3-flake8
     CentOS7:
@@ -200,6 +208,7 @@ mappings:
   gcc:
     default: gcc
     FreeBSD:
+    MacOS:
 
   gdb:
     default: gdb
@@ -208,6 +217,7 @@ mappings:
     rpm: gdk-pixbuf2-devel
     deb: libgdk-pixbuf2.0-dev
     pkg: gdk-pixbuf2
+    MacOS: gdk-pixbuf
     OpenSUSE: gdk-pixbuf-devel
     mingw32-rpm: mingw32-gdk-pixbuf
     mingw64-rpm: mingw64-gdk-pixbuf
@@ -224,8 +234,8 @@ mappings:
     default: git
 
   glib2:
+    default: glib
     deb: libglib2.0-dev
-    pkg: glib
     rpm: glib2-devel
     mingw32-rpm: mingw32-glib2
     mingw64-rpm: mingw64-glib2
@@ -252,8 +262,8 @@ mappings:
     cross-policy-default: foreign
 
   gnutls:
+    default: gnutls
     deb: libgnutls28-dev
-    pkg: gnutls
     rpm: gnutls-devel
     OpenSUSE: libgnutls-devel
     mingw32-rpm: mingw32-gnutls
@@ -266,8 +276,8 @@ mappings:
     OpenSUSE: go
 
   gobject-introspection:
+    default: gobject-introspection
     deb: libgirepository1.0-dev
-    pkg: gobject-introspection
     rpm: gobject-introspection-devel
     cross-policy-default: foreign
 
@@ -285,6 +295,7 @@ mappings:
     deb: libgtk-3-dev
     pkg: gtk3
     rpm: gtk3-devel
+    MacOS: gtk+3
     mingw32-rpm: mingw32-gtk3
     mingw64-rpm: mingw64-gtk3
     cross-policy-default: foreign
@@ -295,11 +306,12 @@ mappings:
 
   gtk-update-icon-cache:
     default: gtk-update-icon-cache
+    MacOS: gtk+3
     OpenSUSE: gtk3-tools
 
   gtk-vnc:
+    default: gtk-vnc
     deb: libgtk-vnc-2.0-dev
-    pkg: gtk-vnc
     rpm: gtk-vnc2-devel
 
   hal:
@@ -324,6 +336,7 @@ mappings:
   isoinfo:
     default: genisoimage
     FreeBSD: cdrkit
+    MacOS: cdrtools
     OpenSUSE: mkisofs
 
   itstool:
@@ -333,15 +346,17 @@ mappings:
     deb: openjdk-11-jdk-headless
     pkg: openjdk11
     rpm: java-11-openjdk-headless
+    MacOS: openjdk
     Debian9: openjdk-8-jdk-headless
 
   jna:
     default: jna
     deb: libjna-java
+    MacOS:
 
   json-glib:
+    default: json-glib
     deb: libjson-glib-dev
-    pkg: json-glib
     rpm: json-glib-devel
     mingw32-rpm: mingw32-json-glib
     mingw64-rpm: mingw64-json-glib
@@ -349,6 +364,7 @@ mappings:
 
   junit:
     default: junit
+    MacOS:
     CentOS8:
     CentOSStream:
 
@@ -358,8 +374,8 @@ mappings:
     cross-policy-default: foreign
 
   libarchive:
+    default: libarchive
     deb: libarchive-dev
-    pkg: libarchive
     rpm: libarchive-devel
     mingw32-rpm: mingw32-libarchive
     mingw64-rpm: mingw64-libarchive
@@ -390,22 +406,22 @@ mappings:
     rpm: libcmpiutil-devel
 
   libconfig:
+    default: libconfig
     deb: libconfig-dev
-    pkg: libconfig
     rpm: libconfig-devel
     cross-policy-default: foreign
 
   libcurl:
+    default: curl
     deb: libcurl4-gnutls-dev
-    pkg: curl
     rpm: libcurl-devel
     mingw32-rpm: mingw32-curl
     mingw64-rpm: mingw64-curl
     cross-policy-default: foreign
 
   libdbus:
+    default: dbus
     deb: libdbus-1-dev
-    pkg: dbus
     rpm: dbus-devel
     OpenSUSE: dbus-1-devel
     mingw32-rpm: mingw32-dbus
@@ -413,8 +429,8 @@ mappings:
     cross-policy-default: foreign
 
   libgcrypt:
+    default: libgcrypt
     deb: libgcrypt20-dev
-    pkg: libgcrypt
     rpm: libgcrypt-devel
     mingw32-rpm: mingw32-libgcrypt
     mingw64-rpm: mingw64-libgcrypt
@@ -432,6 +448,7 @@ mappings:
   libiscsi:
     deb: libiscsi-dev
     rpm: libiscsi-devel
+    MacOS: libiscsi
     cross-policy-default: foreign
 
   liblzma:
@@ -469,8 +486,8 @@ mappings:
     cross-policy-default: foreign
 
   libpcap:
+    default: libpcap
     deb: libpcap0.8-dev
-    pkg: libpcap
     rpm: libpcap-devel
     cross-policy-default: foreign
 
@@ -496,6 +513,7 @@ mappings:
     deb: librest-dev
     rpm: rest-devel
     pkg: rest
+    MacOS: librest
     OpenSUSE: librest-devel
     CentOS8:
     CentOSStream:
@@ -509,23 +527,23 @@ mappings:
     cross-policy-default: foreign
 
   libsoup:
+    default: libsoup
     deb: libsoup2.4-dev
-    pkg: libsoup
     rpm: libsoup-devel
     mingw32-rpm: mingw32-libsoup
     mingw64-rpm: mingw64-libsoup
     cross-policy-default: foreign
 
   libssh:
-    pkg: libssh
+    default: libssh
     rpm: libssh-devel
     Debian: libssh-gcrypt-dev
     Ubuntu: libssh-dev
     cross-policy-default: foreign
 
   libssh2:
+    default: libssh2
     deb: libssh2-1-dev
-    pkg: libssh2
     rpm: libssh2-devel
     mingw32-rpm: mingw32-libssh2
     mingw64-rpm: mingw64-libssh2
@@ -555,27 +573,27 @@ mappings:
     cross-policy-default: foreign
 
   libvirt:
+    default: libvirt
     deb: libvirt-dev
-    pkg: libvirt
     rpm: libvirt-devel
 
   libvirt-glib:
+    default: libvirt-glib
     deb: libvirt-glib-1.0-dev
-    pkg: libvirt-glib
     rpm: libvirt-gobject-devel
     OpenSUSE: libvirt-glib-devel
 
   libxml2:
+    default: libxml2
     deb: libxml2-dev
-    pkg: libxml2
     rpm: libxml2-devel
     mingw32-rpm: mingw32-libxml2
     mingw64-rpm: mingw64-libxml2
     cross-policy-default: foreign
 
   libxslt:
+    default: libxslt
     deb: libxslt1-dev
-    pkg: libxslt
     rpm: libxslt-devel
     mingw32-rpm: mingw32-libxslt
     mingw64-rpm: mingw64-libxslt
@@ -585,6 +603,7 @@ mappings:
     deb: locales
     rpm: glibc-langpack-en
     FreeBSD:
+    MacOS:
     OpenSUSE: glibc-locale
     CentOS7: glibc-common
 
@@ -594,6 +613,7 @@ mappings:
   lvm2:
     default: lvm2
     FreeBSD:
+    MacOS:
 
   make:
     default: make
@@ -609,6 +629,7 @@ mappings:
   modprobe:
     default: kmod
     FreeBSD:
+    MacOS:
 
   mono:
     Fedora: mono-devel
@@ -620,10 +641,11 @@ mappings:
 
   nano:
     default: nano
+    MacOS:
 
   ncurses:
+    default: ncurses
     deb: libncurses-dev
-    pkg: ncurses
     rpm: ncurses-devel
     Debian9: libncurses5-dev
     Ubuntu1804: libncurses5-dev
@@ -638,15 +660,18 @@ mappings:
   net-tools:
     default: net-tools
     FreeBSD:
+    MacOS:
 
   ninja:
     default: ninja-build
     FreeBSD: ninja
+    MacOS: ninja
     OpenSUSE: ninja
 
   numad:
     default: numad
     FreeBSD:
+    MacOS:
 
   ocaml:
     default: ocaml
@@ -661,13 +686,16 @@ mappings:
   parted:
     default: parted
     FreeBSD:
+    MacOS:
 
   patch:
     default: patch
+    MacOS: gpatch
 
   pci-ids:
     default: hwdata
     FreeBSD: pciids
+    MacOS:
 
   perl:
     default: perl
@@ -677,6 +705,7 @@ mappings:
     deb: cpanminus
     pkg: p5-App-cpanminus
     rpm: perl-App-cpanminus
+    MacOS: cpanminus
 
   perl-Archive-Tar:
     deb: perl
@@ -814,6 +843,7 @@ mappings:
   pkg-config:
     default: pkgconf
     rpm: pkgconfig
+    MacOS: pkg-config
     mingw32-rpm: mingw32-pkg-config
     mingw64-rpm: mingw64-pkg-config
     cross-policy-default: native
@@ -822,6 +852,7 @@ mappings:
   polkit:
     default: polkit
     deb: policykit-1
+    MacOS:
 
   portablexdr:
     mingw32-rpm: mingw32-portablexdr
@@ -830,7 +861,8 @@ mappings:
 
   publican:
     default: publican
-    pkg:
+    FreeBSD:
+    MacOS:
     OpenSUSE:
     CentOS8:
     CentOSStream:
@@ -847,12 +879,13 @@ mappings:
   python3-dbus:
     default: python3-dbus
     FreeBSD: py37-dbus
+    MacOS:
     OpenSUSE: python3-dbus-python
     CentOS7: python36-dbus
 
   python3-devel:
+    default: python3
     deb: python3-dev
-    pkg: python3
     rpm: python3-devel
     CentOS7: python36-devel
     cross-policy-default: foreign
@@ -860,6 +893,7 @@ mappings:
   python3-docutils:
     default: python3-docutils
     FreeBSD: py37-docutils
+    MacOS: docutils
     CentOS7: python36-docutils
 
   python3-gobject:
@@ -871,64 +905,75 @@ mappings:
   python3-libxml2:
     default: python3-libxml2
     FreeBSD: py37-libxml2
+    MacOS:
     OpenSUSE: python3-libxml2-python
     CentOS7:
 
   python3-lxml:
     default: python3-lxml
     FreeBSD: py37-lxml
+    MacOS:
     CentOS7: python36-lxml
 
   python3-nose:
     default: python3-nose
     FreeBSD: py37-nose
+    MacOS:
     CentOS7: python36-nose
 
   python3-pip:
     default: python3-pip
     FreeBSD: py37-pip
+    MacOS: python3
 
   python3-pytest:
     default: python3-pytest
     FreeBSD: py37-pytest
+    MacOS:
     CentOS7: python36-pytest
 
   python3-requests:
     default: python3-requests
     FreeBSD: py37-requests
+    MacOS:
     CentOS7: python36-requests
 
   python3-setuptools:
     default: python3-setuptools
     FreeBSD: py37-setuptools
+    MacOS: python3
 
   python3-wheel:
     default: python3-wheel
     FreeBSD: py37-wheel
+    MacOS: python3
 
   qemu-img:
     default: qemu-utils
     rpm: qemu-img
+    MacOS: qemu
     OpenSUSE: qemu-tools
 
   radvd:
     default: radvd
+    MacOS:
 
   rake:
     default: rubygem-rake
     deb: rake
+    MacOS: ruby
 
   readline:
+    default: readline
     deb: libreadline-dev
-    pkg: readline
     rpm: readline-devel
     mingw32-rpm: mingw32-readline
     mingw64-rpm: mingw64-readline
     cross-policy-default: foreign
 
   rpcgen:
+    default: rpcgen
     deb: libc-dev-bin
-    rpm: rpcgen
     FreeBSD:
     CentOS7: glibc-common
 
@@ -936,8 +981,8 @@ mappings:
     rpm: rpm-build
 
   ruby:
+    default: ruby
     deb: ruby-dev
-    pkg: ruby
     rpm: ruby-devel
 
   rust:
@@ -966,8 +1011,8 @@ mappings:
     rpm: nfs-utils
 
   spice-gtk3:
+    default: spice-gtk
     deb: libspice-client-gtk-3.0-dev
-    pkg: spice-gtk
     rpm: spice-gtk3-devel
     OpenSUSE: spice-gtk-devel
     mingw32-rpm: mingw32-spice-gtk3
@@ -977,9 +1022,11 @@ mappings:
   strace:
     default: strace
     FreeBSD:
+    MacOS:
 
   sudo:
     default: sudo
+    MacOS:
 
   tc:
     deb: iproute2
@@ -994,6 +1041,7 @@ mappings:
   usb-ids:
     default: hwdata
     FreeBSD: usbids
+    MacOS:
 
   vala:
     default: vala
@@ -1037,8 +1085,8 @@ mappings:
     FreeBSD:
 
   yajl:
+    default: yajl
     deb: libyajl-dev
-    pkg: yajl
     rpm: yajl-devel
     OpenSUSE: libyajl-devel
     cross-policy-default: foreign
@@ -1047,14 +1095,17 @@ mappings:
     default: zfs-fuse
     CentOS:
     FreeBSD:
+    MacOS:
     OpenSUSE:
 
   zip:
     default: zip
 
   zlib:
+    default: zlib
     deb: zlib1g-dev
     rpm: zlib-devel
+    FreeBSD:
     cross-policy-default: foreign
 
   zlib-static:
@@ -1080,14 +1131,64 @@ pypi_mappings:
   meson:
     default: meson==0.49.0
 
+  python3-dbus:
+    default: dbus-python
+
+  python3-gobject:
+    default: PyGObject
+
+  python3-libxml2:
+    default: libxml2-python3
+
+  python3-lxml:
+    default: lxml
+
+  python3-nose:
+    default: nose
+
+  python3-pytest:
+    default: pytest
+
+  python3-requests:
+    default: requests
 
 # CPAN mappings work like PyPi mappings, the only difference being that
 # installing a specific version of a CPAN package is not supported.
 
 cpan_mappings:
 
+  perl-Archive-Tar:
+    default: Archive::Tar
+
+  perl-CPAN-Changes:
+    default: CPAN::Changes
+
   perl-Config-Record:
     default: Config::Record
+
+  perl-Digest:
+    default: Digest
+
+  perl-Digest-MD5:
+    default: Digest::MD5
+
+  perl-File-Slurp:
+    default: File::Slurp
+
+  perl-IO-Compress-Bzip2:
+    default: IO::Compress::Bzip2
+
+  perl-IO-String:
+    default: IO::String
+
+  perl-Module-Build:
+    default: Module::Build
+
+  perl-NetAddr-IP:
+    default: NetAddr::IP
+
+  perl-Sub-Uplevel:
+    default: Sub::Uplevel
 
   perl-TAP-Formatter-HTML:
     default: TAP::Formatter::HTML
@@ -1098,5 +1199,29 @@ cpan_mappings:
   perl-TAP-Harness-Archive:
     default: TAP::Harness::Archive
 
+  perl-Test-Exception:
+    default: Test::Exception
+
   perl-Test-LWP-UserAgent:
     default: LWP::UserAgent
+
+  perl-Test-Pod:
+    default: Test::Pod
+
+  perl-Test-Pod-Coverage:
+    default: Test::Pod::Coverage
+
+  perl-Time-HiRes:
+    default: Time::HiRes
+
+  perl-XML-Twig:
+    default: XML::Twig
+
+  perl-XML-Writer:
+    default: XML::Writer
+
+  perl-XML-XPath:
+    default: XML::XPath
+
+  perl-accessors:
+    default: accessors
