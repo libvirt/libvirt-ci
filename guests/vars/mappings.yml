@@ -1031,6 +1031,11 @@ mappings:
     default: libxslt
     deb: xsltproc
 
+  xz:
+    default: xz
+    deb: xz-utils
+    FreeBSD:
+
   yajl:
     deb: libyajl-dev
     pkg: yajl
