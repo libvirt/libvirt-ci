@@ -68,11 +68,6 @@
 
 mappings:
 
-  apparmor:
-    deb: libapparmor-dev
-    OpenSUSE: libapparmor-devel
-    cross-policy-default: foreign
-
   ant:
     default: ant
     pkg: apache-ant
@@ -84,10 +79,10 @@ mappings:
     CentOS8:
     CentOSStream:
 
-  junit:
-    default: junit
-    CentOS8:
-    CentOSStream:
+  apparmor:
+    deb: libapparmor-dev
+    OpenSUSE: libapparmor-devel
+    cross-policy-default: foreign
 
   augeas:
     default: augeas
@@ -355,6 +350,11 @@ mappings:
     mingw64-rpm: mingw64-json-glib
     cross-policy-default: foreign
 
+  junit:
+    default: junit
+    CentOS8:
+    CentOSStream:
+
   libacl:
     deb: libacl1-dev
     rpm: libacl-devel
@@ -599,11 +599,6 @@ mappings:
     OpenSUSE151:
     Ubuntu1804:
 
-  ninja:
-    default: ninja-build
-    FreeBSD: ninja
-    OpenSUSE: ninja
-
   modprobe:
     default: kmod
     FreeBSD:
@@ -636,6 +631,11 @@ mappings:
   net-tools:
     default: net-tools
     FreeBSD:
+
+  ninja:
+    default: ninja-build
+    FreeBSD: ninja
+    OpenSUSE: ninja
 
   numad:
     default: numad
@@ -822,12 +822,6 @@ mappings:
     mingw64-rpm: mingw64-portablexdr
     cross-policy-default: foreign
 
-  pulseaudio:
-    deb: libpulse-dev
-    rpm: pulseaudio-libs-devel
-    OpenSUSE: libpulse-devel
-    cross-policy-default: foreign
-
   publican:
     default: publican
     pkg:
@@ -835,10 +829,11 @@ mappings:
     CentOS8:
     CentOSStream:
 
-  python3-docutils:
-    default: python3-docutils
-    FreeBSD: py37-docutils
-    CentOS7: python36-docutils
+  pulseaudio:
+    deb: libpulse-dev
+    rpm: pulseaudio-libs-devel
+    OpenSUSE: libpulse-devel
+    cross-policy-default: foreign
 
   python3:
     default: python3
@@ -855,6 +850,11 @@ mappings:
     rpm: python3-devel
     CentOS7: python36-devel
     cross-policy-default: foreign
+
+  python3-docutils:
+    default: python3-docutils
+    FreeBSD: py37-docutils
+    CentOS7: python36-docutils
 
   python3-gi:
     deb: python3-gi
@@ -1087,17 +1087,17 @@ pypi_mappings:
 
 cpan_mappings:
 
+  perl-Config-Record:
+    default: Config::Record
+
   perl-TAP-Formatter-HTML:
     default: TAP::Formatter::HTML
 
   perl-TAP-Formatter-JUnit:
     default: TAP::Formatter::JUnit
 
-  perl-Config-Record:
-    default: Config::Record
+  perl-TAP-Harness-Archive:
+    default: TAP::Harness::Archive
 
   perl-Test-LWP-UserAgent:
     default: LWP::UserAgent
-
-  perl-TAP-Harness-Archive:
-    default: TAP::Harness::Archive
