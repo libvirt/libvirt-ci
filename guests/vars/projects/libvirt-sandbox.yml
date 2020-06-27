@@ -5,11 +5,11 @@ packages:
   - gobject-introspection
   - gtk-doc
   - libcap-ng
+  - liblzma
+  - liblzma-static
   - libselinux
   - libtirpc
   - libxml2
   - rpcgen
-  - xz
-  - xz-static
   - zlib
   - zlib-static

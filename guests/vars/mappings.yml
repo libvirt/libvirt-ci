@@ -434,6 +434,17 @@ mappings:
     rpm: libiscsi-devel
     cross-policy-default: foreign
 
+  liblzma:
+    deb: liblzma-dev
+    rpm: xz-devel
+    cross-policy-default: foreign
+
+  liblzma-static:
+    deb: liblzma-dev
+    Fedora: xz-static
+    OpenSUSE: xz-static-devel
+    cross-policy-default: foreign
+
   libnl3:
     deb: libnl-3-dev
     rpm: libnl3-devel
@@ -1019,17 +1030,6 @@ mappings:
   xsltproc:
     default: libxslt
     deb: xsltproc
-
-  xz:
-    deb: liblzma-dev
-    rpm: xz-devel
-    cross-policy-default: foreign
-
-  xz-static:
-    deb: liblzma-dev
-    Fedora: xz-static
-    OpenSUSE: xz-static-devel
-    cross-policy-default: foreign
 
   yajl:
     deb: libyajl-dev
