@@ -164,7 +164,6 @@ mappings:
     cross-policy-default: foreign
 
   dlfcn:
-    default:
     mingw32-rpm: mingw32-dlfcn
     mingw64-rpm: mingw64-dlfcn
     cross-policy-default: foreign
@@ -273,13 +272,11 @@ mappings:
     cross-policy-default: foreign
 
   gstreamer-plugins-bad-free:
-    default:
     mingw32-rpm: mingw32-gstreamer1-plugins-bad-free
     mingw64-rpm: mingw64-gstreamer1-plugins-bad-free
     cross-policy-default: foreign
 
   gstreamer-plugins-good:
-    default:
     mingw32-rpm: mingw32-gstreamer1-plugins-good
     mingw64-rpm: mingw64-gstreamer1-plugins-good
     cross-policy-default: foreign
@@ -473,7 +470,6 @@ mappings:
     cross-policy-default: foreign
 
   libprlsdk:
-    default:
     CentOS7: libprlsdk-devel
 
   librbd:
@@ -817,7 +813,6 @@ mappings:
     deb: policykit-1
 
   portablexdr:
-    default:
     mingw32-rpm: mingw32-portablexdr
     mingw64-rpm: mingw64-portablexdr
     cross-policy-default: foreign
@@ -951,7 +946,6 @@ mappings:
     FreeBSD: diskscrub
 
   sheepdog:
-    default:
     Fedora: sheepdog
     Debian9: sheepdog
     Ubuntu1804: sheepdog
