@@ -11,7 +11,6 @@ paths:
   bash: /bin/bash
   cc: /usr/bin/gcc
   ccache: /usr/bin/ccache
-  java: /usr/bin/java
   make: /usr/bin/make
   ninja: /usr/bin/ninja-build
   pip3: /usr/bin/pip3
