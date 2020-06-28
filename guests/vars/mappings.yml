@@ -851,7 +851,7 @@ mappings:
     FreeBSD: py37-docutils
     CentOS7: python36-docutils
 
-  python3-gi:
+  python3-gobject:
     deb: python3-gi
     pkg: py37-gobject3
     rpm: python3-gobject

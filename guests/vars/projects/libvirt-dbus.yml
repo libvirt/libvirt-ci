@@ -5,5 +5,5 @@ packages:
   - glib2
   - python3-dbus
   - python3-docutils
-  - python3-gi
+  - python3-gobject
   - python3-pytest

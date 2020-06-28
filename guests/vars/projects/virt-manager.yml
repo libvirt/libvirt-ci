@@ -3,7 +3,7 @@ packages:
   - gtk-update-icon-cache
   - intltool
   - isoinfo
-  - python3-gi
+  - python3-gobject
   - python3-libxml2
   - python3-requests
   - unzip
