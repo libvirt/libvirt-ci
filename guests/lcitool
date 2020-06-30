@@ -651,12 +651,13 @@ class Application:
         with open(keyfile, "r") as r:
             return r.read().rstrip()
 
-    def _dockerfile_build_varmap(self, facts,
-                                 mappings,
-                                 pypi_mappings,
-                                 cpan_mappings,
-                                 projects,
-                                 cross_arch):
+    def _generator_build_varmap(self,
+                                facts,
+                                mappings,
+                                pypi_mappings,
+                                cpan_mappings,
+                                projects,
+                                cross_arch):
         pkgs = {}
         cross_pkgs = {}
         pypi_pkgs = {}
@@ -1004,12 +1005,12 @@ class Application:
             if project.rfind("+mingw") >= 0:
                 raise Exception("Obsolete syntax, please use --cross-arch")
 
-        varmap = self._dockerfile_build_varmap(facts,
-                                               mappings,
-                                               pypi_mappings,
-                                               cpan_mappings,
-                                               projects,
-                                               cross_arch)
+        varmap = self._generator_build_varmap(facts,
+                                              mappings,
+                                              pypi_mappings,
+                                              cpan_mappings,
+                                              projects,
+                                              cross_arch)
         self._dockerfile_format(facts, cross_arch, varmap)
 
     def run(self, args):
