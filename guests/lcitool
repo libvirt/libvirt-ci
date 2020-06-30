@@ -810,7 +810,9 @@ class Application:
         facts = self._inventory.get_facts(host)
         cross_arch = args.cross_arch
 
-        if facts["packaging"]["format"] not in ["deb", "rpm"]:
+        # We can only generate Dockerfiles for Linux
+        if (name == "dockerfile" and
+            facts["packaging"]["format"] not in ["deb", "rpm"]):
             raise Exception(
                 "Host {} doesn't support '{}' generator".format(host, name)
             )
