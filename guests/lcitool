@@ -787,6 +787,61 @@ class Application:
 
         return varmap
 
+    def _generator_prepare(self, name, args):
+        mappings = self._projects.get_mappings()
+        pypi_mappings = self._projects.get_pypi_mappings()
+        cpan_mappings = self._projects.get_cpan_mappings()
+
+        hosts = self._inventory.expand_pattern(args.hosts)
+        if len(hosts) > 1:
+            raise Exception(
+                "Can't use '{}' use generator on multiple hosts".format(name)
+            )
+        host = hosts[0]
+
+        facts = self._inventory.get_facts(host)
+        cross_arch = args.cross_arch
+
+        if facts["packaging"]["format"] not in ["deb", "rpm"]:
+            raise Exception(
+                "Host {} doesn't support '{}' generator".format(host, name)
+            )
+        if cross_arch:
+            if facts["os"]["name"] not in ["Debian", "Fedora"]:
+                raise Exception("Cannot cross compile on {}".format(
+                    facts["os"]["name"],
+                ))
+            if facts["os"]["name"] == "Debian" and cross_arch.startswith("mingw"):
+                raise Exception(
+                    "Cannot cross compile for {} on {}".format(
+                        cross_arch,
+                        facts["os"]["name"],
+                    )
+                )
+            if facts["os"]["name"] == "Fedora" and not cross_arch.startswith("mingw"):
+                raise Exception(
+                    "Cannot cross compile for {} on {}".format(
+                        cross_arch,
+                        facts["os"]["name"],
+                    )
+                )
+            if cross_arch == self._native_arch:
+                raise Exception("Cross arch {} should differ from native {}".
+                                format(cross_arch, self._native_arch))
+
+        projects = self._projects.expand_pattern(args.projects)
+        for project in projects:
+            if project.rfind("+mingw") >= 0:
+                raise Exception("Obsolete syntax, please use --cross-arch")
+
+        varmap = self._generator_build_varmap(facts,
+                                              mappings,
+                                              pypi_mappings,
+                                              cpan_mappings,
+                                              projects,
+                                              cross_arch)
+        return facts, cross_arch, varmap
+
     def _dockerfile_format(self, facts, cross_arch, varmap):
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
         pypi_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
@@ -961,61 +1016,6 @@ class Application:
 
             cross_env = "\n" + "\n".join(cross_vars) + "\n"
             sys.stdout.write(cross_env.format(**varmap))
-
-    def _generator_prepare(self, name, args):
-        mappings = self._projects.get_mappings()
-        pypi_mappings = self._projects.get_pypi_mappings()
-        cpan_mappings = self._projects.get_cpan_mappings()
-
-        hosts = self._inventory.expand_pattern(args.hosts)
-        if len(hosts) > 1:
-            raise Exception(
-                "Can't use '{}' use generator on multiple hosts".format(name)
-            )
-        host = hosts[0]
-
-        facts = self._inventory.get_facts(host)
-        cross_arch = args.cross_arch
-
-        if facts["packaging"]["format"] not in ["deb", "rpm"]:
-            raise Exception(
-                "Host {} doesn't support '{}' generator".format(host, name)
-            )
-        if cross_arch:
-            if facts["os"]["name"] not in ["Debian", "Fedora"]:
-                raise Exception("Cannot cross compile on {}".format(
-                    facts["os"]["name"],
-                ))
-            if facts["os"]["name"] == "Debian" and cross_arch.startswith("mingw"):
-                raise Exception(
-                    "Cannot cross compile for {} on {}".format(
-                        cross_arch,
-                        facts["os"]["name"],
-                    )
-                )
-            if facts["os"]["name"] == "Fedora" and not cross_arch.startswith("mingw"):
-                raise Exception(
-                    "Cannot cross compile for {} on {}".format(
-                        cross_arch,
-                        facts["os"]["name"],
-                    )
-                )
-            if cross_arch == self._native_arch:
-                raise Exception("Cross arch {} should differ from native {}".
-                                format(cross_arch, self._native_arch))
-
-        projects = self._projects.expand_pattern(args.projects)
-        for project in projects:
-            if project.rfind("+mingw") >= 0:
-                raise Exception("Obsolete syntax, please use --cross-arch")
-
-        varmap = self._generator_build_varmap(facts,
-                                              mappings,
-                                              pypi_mappings,
-                                              cpan_mappings,
-                                              projects,
-                                              cross_arch)
-        return facts, cross_arch, varmap
 
     def _action_dockerfile(self, args):
         facts, cross_arch, varmap = self._generator_prepare("dockerfile", args)
