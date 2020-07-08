@@ -13,8 +13,6 @@ import fnmatch
 import json
 import os
 import platform
-import random
-import string
 import subprocess
 import sys
 import tempfile
@@ -27,12 +25,6 @@ class Util:
     @staticmethod
     def get_base():
         return os.path.dirname(os.path.abspath(__file__))
-
-    @staticmethod
-    def mksalt():
-        alphabeth = string.ascii_letters + string.digits
-        salt = "".join(random.choice(alphabeth) for x in range(0, 16))
-        return "$6${}$".format(salt)
 
     @staticmethod
     def expand_pattern(pattern, source, name):
