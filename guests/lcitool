@@ -18,13 +18,14 @@ import sys
 import tempfile
 import textwrap
 import yaml
+from pathlib import Path
 
 
 class Util:
 
     @staticmethod
     def get_base():
-        return os.path.dirname(os.path.abspath(__file__))
+        return Path(__file__).parent.resolve().as_posix()
 
     @staticmethod
     def expand_pattern(pattern, source, name):
@@ -110,11 +111,11 @@ class Config:
         # NOTE: we should load this from /usr/share once we start packaging
         # lcitool
         base = Util.get_base()
-        with open(os.path.join(base, "configs", "config.yaml"), "r") as fp:
+        with open(Path(base, "configs", "config.yaml"), "r") as fp:
             self.values = yaml.safe_load(fp)
 
         user_config_path = self._get_config_file("config.yaml")
-        if not os.path.exists(user_config_path):
+        if not user_config_path.exists():
             return
 
         try:
@@ -135,12 +136,11 @@ class Config:
     @staticmethod
     def _get_config_file(name):
         try:
-            config_dir = os.environ["XDG_CONFIG_HOME"]
+            config_dir = Path(os.environ["XDG_CONFIG_HOME"])
         except KeyError:
-            config_dir = os.path.join(os.environ["HOME"], ".config")
-        config_dir = os.path.join(config_dir, "lcitool")
+            config_dir = Path(os.environ["HOME"], ".config")
 
-        return os.path.join(config_dir, name)
+        return Path(config_dir, "lcitool", name)
 
     @staticmethod
     def _remove_unknown_keys(_dict, known_keys):
@@ -201,7 +201,7 @@ class Inventory:
 
     def __init__(self):
         base = Util.get_base()
-        ansible_cfg_path = os.path.join(base, "ansible.cfg")
+        ansible_cfg_path = Path(base, "ansible.cfg")
 
         try:
             parser = configparser.ConfigParser()
@@ -211,7 +211,7 @@ class Inventory:
             raise Exception(
                 "Can't read inventory location in ansible.cfg: {}".format(ex))
 
-        inventory_path = os.path.join(base, inventory_path)
+        inventory_path = Path(base, inventory_path)
 
         self._facts = {}
         try:
@@ -248,8 +248,8 @@ class Inventory:
         base = Util.get_base()
 
         sources = [
-            os.path.join(base, "group_vars", "all"),
-            os.path.join(base, "host_vars", host),
+            Path(base, "group_vars", "all"),
+            Path(base, "host_vars", host),
         ]
 
         facts = {}
@@ -258,11 +258,11 @@ class Inventory:
         # files alphabetically; doing so should result in our view of
         # the facts matching Ansible's
         for source in sources:
-            for item in sorted(os.listdir(source)):
-                yaml_path = os.path.join(source, item)
-                if not os.path.isfile(yaml_path):
+            for item in sorted(source.iterdir()):
+                yaml_path = Path(source, item)
+                if not yaml_path.is_file():
                     continue
-                if not yaml_path.endswith(".yml"):
+                if yaml_path.suffix != ".yml":
                     continue
                 self._add_facts_from_file(facts, yaml_path)
 
@@ -280,7 +280,7 @@ class Projects:
     def __init__(self):
         base = Util.get_base()
 
-        mappings_path = os.path.join(base, "vars", "mappings.yml")
+        mappings_path = Path(base, "vars", "mappings.yml")
 
         try:
             with open(mappings_path, "r") as infile:
@@ -291,17 +291,17 @@ class Projects:
         except Exception as ex:
             raise Exception("Can't load mappings: {}".format(ex))
 
-        source = os.path.join(base, "vars", "projects")
+        source = Path(base, "vars", "projects")
 
         self._packages = {}
-        for item in os.listdir(source):
-            yaml_path = os.path.join(source, item)
-            if not os.path.isfile(yaml_path):
+        for item in source.iterdir():
+            yaml_path = Path(source, item)
+            if not yaml_path.is_file():
                 continue
-            if not yaml_path.endswith(".yml"):
+            if yaml_path.suffix != ".yml":
                 continue
 
-            project = os.path.splitext(item)[0]
+            project = item.stem
 
             try:
                 with open(yaml_path, "r") as infile:
@@ -464,10 +464,10 @@ class Application:
 
         tempdir = tempfile.TemporaryDirectory(prefix="lcitool")
 
-        ansible_cfg_path = os.path.join(base, "ansible.cfg")
-        playbook_base = os.path.join(base, "playbooks", playbook)
-        playbook_path = os.path.join(playbook_base, "main.yml")
-        extra_vars_path = os.path.join(tempdir.name, "extra_vars.json")
+        ansible_cfg_path = Path(base, "ansible.cfg").as_posix()
+        playbook_base = Path(base, "playbooks", playbook).as_posix()
+        playbook_path = Path(playbook_base, "main.yml").as_posix()
+        extra_vars_path = Path(tempdir.name, "extra_vars.json").as_posix()
 
         extra_vars = config.values
         extra_vars.update({
@@ -558,8 +558,7 @@ class Application:
                 "install.url": facts["install"]["url"],
             }
 
-            initrd_template = os.path.join(base, "configs", install_config)
-            with open(initrd_template, 'r') as template:
+            with open(Path(base, "configs", install_config), 'r') as template:
                 content = template.read()
                 for option in unattended_options:
                     content = content.replace(
@@ -568,7 +567,7 @@ class Application:
                     )
 
             tempdir = tempfile.TemporaryDirectory(prefix="lcitool")
-            initrd_inject = os.path.join(tempdir.name, install_config)
+            initrd_inject = Path(tempdir.name, install_config).as_posix()
 
             with open(initrd_inject, "w") as inject:
                 inject.write(content)
@@ -632,19 +631,20 @@ class Application:
     def _get_meson_cross(self, cross_abi):
         base = Util.get_base()
         cross_name = "{}.meson".format(cross_abi)
-        cross_file = os.path.join(base, "cross", cross_name)
-        with open(cross_file, "r") as c:
+        with open(Path(base, "cross", cross_name), "r") as c:
             return c.read().rstrip()
 
     def _get_openvz_repo(self):
         base = Util.get_base()
-        repofile = os.path.join(base, "playbooks", "update", "templates", "openvz.repo.j2")
+        repofile = Path(base, "playbooks", "update", "templates", "openvz.repo.j2")
+
         with open(repofile, "r") as r:
             return r.read().rstrip()
 
     def _get_openvz_key(self):
         base = Util.get_base()
-        keyfile = os.path.join(base, "playbooks", "update", "templates", "openvz.key")
+        keyfile = Path(base, "playbooks", "update", "templates", "openvz.key")
+
         with open(keyfile, "r") as r:
             return r.read().rstrip()
 
