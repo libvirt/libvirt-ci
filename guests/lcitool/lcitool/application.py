@@ -17,6 +17,7 @@ import lcitool.util as Util
 from lcitool.config import Config
 from lcitool.inventory import Inventory
 from lcitool.projects import Projects
+from lcitool.formatters import VariablesFormatter
 
 
 class Application:
@@ -415,22 +416,9 @@ class Application:
                                               cross_arch)
         return facts, cross_arch, varmap
 
-    def _variables_format(self, varmap):
-        for key in varmap:
-            if key == "pkgs" or key.endswith("_pkgs"):
-                name = key
-                value = " ".join(varmap[key])
-            elif key.startswith("paths_"):
-                name = key[len("paths_"):]
-                value = varmap[key]
-            else:
-                name = key
-                value = varmap[key]
-            print("{}='{}'".format(name.upper(), value))
-
     def _action_variables(self, args):
         facts, cross_arch, varmap = self._generator_prepare("variables", args)
-        self._variables_format(varmap)
+        VariablesFormatter().format(varmap)
 
     def _dockerfile_format(self, facts, cross_arch, varmap):
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))

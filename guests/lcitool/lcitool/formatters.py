@@ -38,5 +38,16 @@ class VariablesFormatter(Formatter):
     def __init__(self):
         pass
 
-    def format(self):
-        pass
+    def format(self, varmap):
+
+        for key in varmap:
+            if key == "pkgs" or key.endswith("_pkgs"):
+                name = key
+                value = " ".join(varmap[key])
+            elif key.startswith("paths_"):
+                name = key[len("paths_"):]
+                value = varmap[key]
+            else:
+                name = key
+                value = varmap[key]
+            print("{}='{}'".format(name.upper(), value))
