@@ -36,6 +36,200 @@ class Formatter(metaclass=abc.ABCMeta):
         with open(Path(base, "cross", cross_name), "r") as c:
             return c.read().rstrip()
 
+    def _generator_build_varmap(self,
+                                facts,
+                                mappings,
+                                pypi_mappings,
+                                cpan_mappings,
+                                projects,
+                                cross_arch):
+        pkgs = {}
+        cross_pkgs = {}
+        pypi_pkgs = {}
+        cpan_pkgs = {}
+        base_keys = [
+            "default",
+            facts["packaging"]["format"],
+            facts["os"]["name"],
+            facts["os"]["name"] + facts["os"]["version"],
+        ]
+        cross_keys = []
+        cross_policy_keys = []
+        if cross_arch:
+            keys = base_keys
+            if facts["packaging"]["format"] == "deb":
+                # For Debian-based distros, the name of the foreign package
+                # is usually the same as the native package, but there might
+                # be architecture-specific overrides, so we have to look both
+                # at the neutral keys and at the specific ones
+                cross_keys = base_keys + [cross_arch + "-" + k for k in base_keys]
+            elif facts["packaging"]["format"] == "rpm":
+                # For RPM-based distros, the name of the foreign package is
+                # usually very different from the native one, so we should
+                # only look at the keys that are specific to cross-building
+                # because otherwise we'd also pick up a bunch of native
+                # packages we don't actually need
+                cross_keys = [cross_arch + "-" + k for k in base_keys]
+            cross_policy_keys = ["cross-policy-" + k for k in base_keys]
+        else:
+            keys = base_keys + [self._native_arch + "-" + k for k in base_keys]
+
+        # We need to add the base project manually here: the standard
+        # machinery hides it because it's an implementation detail
+        for project in projects + ["base"]:
+            for package in self._projects.get_packages(project):
+                cross_policy = "native"
+
+                if (package not in mappings and
+                    package not in pypi_mappings and
+                    package not in cpan_mappings):
+                    raise Exception(
+                        "No mapping defined for {}".format(package)
+                    )
+
+                if package in mappings:
+                    for key in cross_policy_keys:
+                        if key in mappings[package]:
+                            cross_policy = mappings[package][key]
+
+                    if cross_policy not in ["native", "foreign", "skip"]:
+                        raise Exception(
+                            "Unexpected cross arch policy {} for {}".format
+                            (cross_policy, package))
+
+                    if cross_arch and cross_policy == "foreign":
+                        for key in cross_keys:
+                            if key in mappings[package]:
+                                pkgs[package] = mappings[package][key]
+                    else:
+                        for key in keys:
+                            if key in mappings[package]:
+                                pkgs[package] = mappings[package][key]
+
+                if package in pypi_mappings:
+                    if "default" in pypi_mappings[package]:
+                        pypi_pkgs[package] = pypi_mappings[package]["default"]
+
+                if package in cpan_mappings:
+                    if "default" in cpan_mappings[package]:
+                        cpan_pkgs[package] = cpan_mappings[package]["default"]
+
+                if package in pkgs and pkgs[package] is None:
+                    del pkgs[package]
+                if package in pypi_pkgs and pypi_pkgs[package] is None:
+                    del pypi_pkgs[package]
+                if package in cpan_pkgs and cpan_pkgs[package] is None:
+                    del cpan_pkgs[package]
+                if package in pypi_pkgs and package in pkgs:
+                    del pypi_pkgs[package]
+                if package in cpan_pkgs and package in pkgs:
+                    del cpan_pkgs[package]
+
+                if (package not in pkgs and
+                    package not in pypi_pkgs and
+                    package not in cpan_pkgs):
+                    continue
+
+                if package in pkgs and cross_policy == "foreign":
+                    cross_pkgs[package] = pkgs[package]
+                if package in pkgs and cross_policy in ["skip", "foreign"]:
+                    del pkgs[package]
+
+        varmap = {
+            "packaging_command": facts["packaging"]["command"],
+            "paths_cc": facts["paths"]["cc"],
+            "paths_ccache": facts["paths"]["ccache"],
+            "paths_make": facts["paths"]["make"],
+            "paths_ninja": facts["paths"]["ninja"],
+            "paths_python": facts["paths"]["python"],
+            "paths_pip3": facts["paths"]["pip3"],
+        }
+
+        varmap["pkgs"] = sorted(set(pkgs.values()))
+
+        if cross_arch:
+            varmap["cross_arch"] = cross_arch
+            varmap["cross_abi"] = Util.native_arch_to_abi(cross_arch)
+
+            if facts["packaging"]["format"] == "deb":
+                # For Debian-based distros, the name of the foreign package
+                # is obtained by appending the foreign architecture (in
+                # Debian format) to the name of the native package
+                cross_arch_deb = Util.native_arch_to_deb_arch(cross_arch)
+                cross_pkgs = [p + ":" + cross_arch_deb for p in set(cross_pkgs.values())]
+                cross_pkgs.append("gcc-" + varmap["cross_abi"])
+                varmap["cross_arch_deb"] = cross_arch_deb
+                varmap["cross_pkgs"] = sorted(cross_pkgs)
+            elif facts["packaging"]["format"] == "rpm":
+                # For RPM-based distros, all mappings have already been
+                # resolved and we just need to add the cross-compiler
+                cross_pkgs["gcc"] = cross_arch + "-gcc"
+                varmap["cross_pkgs"] = sorted(set(cross_pkgs.values()))
+
+        if pypi_pkgs:
+            varmap["pypi_pkgs"] = sorted(set(pypi_pkgs.values()))
+        if cpan_pkgs:
+            varmap["cpan_pkgs"] = sorted(set(cpan_pkgs.values()))
+
+        return varmap
+
+    def _generator_prepare(self, name, args):
+        mappings = self._projects.get_mappings()
+        pypi_mappings = self._projects.get_pypi_mappings()
+        cpan_mappings = self._projects.get_cpan_mappings()
+
+        hosts = self._inventory.expand_pattern(args.hosts)
+        if len(hosts) > 1:
+            raise Exception(
+                "Can't use '{}' use generator on multiple hosts".format(name)
+            )
+        host = hosts[0]
+
+        facts = self._inventory.get_facts(host)
+        cross_arch = args.cross_arch
+
+        # We can only generate Dockerfiles for Linux
+        if (name == "dockerfile" and
+            facts["packaging"]["format"] not in ["deb", "rpm"]):
+            raise Exception(
+                "Host {} doesn't support '{}' generator".format(host, name)
+            )
+        if cross_arch:
+            if facts["os"]["name"] not in ["Debian", "Fedora"]:
+                raise Exception("Cannot cross compile on {}".format(
+                    facts["os"]["name"],
+                ))
+            if (facts["os"]["name"] == "Debian" and cross_arch.startswith("mingw")):
+                raise Exception(
+                    "Cannot cross compile for {} on {}".format(
+                        cross_arch,
+                        facts["os"]["name"],
+                    )
+                )
+            if (facts["os"]["name"] == "Fedora" and not cross_arch.startswith("mingw")):
+                raise Exception(
+                    "Cannot cross compile for {} on {}".format(
+                        cross_arch,
+                        facts["os"]["name"],
+                    )
+                )
+            if cross_arch == self._native_arch:
+                raise Exception("Cross arch {} should differ from native {}".
+                                format(cross_arch, self._native_arch))
+
+        projects = self._projects.expand_pattern(args.projects)
+        for project in projects:
+            if project.rfind("+mingw") >= 0:
+                raise Exception("Obsolete syntax, please use --cross-arch")
+
+        varmap = self._generator_build_varmap(facts,
+                                              mappings,
+                                              pypi_mappings,
+                                              cpan_mappings,
+                                              projects,
+                                              cross_arch)
+        return facts, cross_arch, varmap
+
 
 class DockerfileFormatter(Formatter):
     def __init__(self, projects, inventory):
@@ -43,7 +237,10 @@ class DockerfileFormatter(Formatter):
         self._projects = projects
         self._inventory = inventory
 
-    def format(self, facts, cross_arch, varmap):
+    def format(self, args):
+
+        facts, cross_arch, varmap = self._generator_prepare("dockerfile", args)
+
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
         pypi_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
         cpan_pkg_align = " \\\n" + (" " * len("RUN cpanm "))
@@ -238,7 +435,9 @@ class VariablesFormatter(Formatter):
         self._projects = projects
         self._inventory = inventory
 
-    def format(self, varmap):
+    def format(self, args):
+
+        _, _, varmap = self._generator_prepare("variables", args)
 
         for key in varmap:
             if key == "pkgs" or key.endswith("_pkgs"):
