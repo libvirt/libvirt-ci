@@ -86,3 +86,19 @@ def native_arch_to_deb_arch(native_arch):
     if native_arch not in archmap:
         raise Exception("Unsupported architecture {}".format(native_arch))
     return archmap[native_arch]
+
+
+def get_openvz_repo():
+    base = Path(get_base(), "ansible")
+    repofile = Path(base, "playbooks", "update", "templates", "openvz.repo.j2")
+
+    with open(repofile, "r") as r:
+        return r.read().rstrip()
+
+
+def get_openvz_key():
+    base = Path(get_base(), "ansible")
+    keyfile = Path(base, "playbooks", "update", "templates", "openvz.key")
+
+    with open(keyfile, "r") as r:
+        return r.read().rstrip()

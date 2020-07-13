@@ -553,20 +553,6 @@ class Application:
         with open(Path(base, "cross", cross_name), "r") as c:
             return c.read().rstrip()
 
-    def _get_openvz_repo(self):
-        base = Path(Util.get_base(), "ansible")
-        repofile = Path(base, "playbooks", "update", "templates", "openvz.repo.j2")
-
-        with open(repofile, "r") as r:
-            return r.read().rstrip()
-
-    def _get_openvz_key(self):
-        base = Path(Util.get_base(), "ansible")
-        keyfile = Path(base, "playbooks", "update", "templates", "openvz.key")
-
-        with open(keyfile, "r") as r:
-            return r.read().rstrip()
-
     def _generator_build_varmap(self,
                                 facts,
                                 mappings,
@@ -841,9 +827,9 @@ class Application:
                 # VZ development packages are only available for CentOS/RHEL-7
                 # right now and need a 3rd party repository enabled
                 if facts["os"]["version"] == "7":
-                    repo = self._get_openvz_repo()
+                    repo = Util.get_openvz_repo()
                     varmap["vzrepo"] = "\\n\\\n".join(repo.split("\n"))
-                    key = self._get_openvz_key()
+                    key = Util.get_openvz_key()
                     varmap["vzkey"] = "\\n\\\n".join(key.split("\n"))
 
                     commands.extend([
