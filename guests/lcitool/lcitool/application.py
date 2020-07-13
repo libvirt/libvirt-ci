@@ -410,11 +410,13 @@ class Application:
 
     def _action_variables(self, args):
         facts, cross_arch, varmap = self._generator_prepare("variables", args)
-        VariablesFormatter().format(varmap)
+        VariablesFormatter(self._projects, self._inventory).format(varmap)
 
     def _action_dockerfile(self, args):
         facts, cross_arch, varmap = self._generator_prepare("dockerfile", args)
-        DockerfileFormatter().format(facts, cross_arch, varmap)
+        DockerfileFormatter(self._projects, self._inventory).format(facts,
+                                                                    cross_arch,
+                                                                    varmap)
 
     def run(self, args):
         args.func(self, args)

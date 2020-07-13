@@ -38,8 +38,10 @@ class Formatter(metaclass=abc.ABCMeta):
 
 
 class DockerfileFormatter(Formatter):
-    def __init__(self):
-        pass
+    def __init__(self, projects, inventory):
+        self._native_arch = Util.get_native_arch()
+        self._projects = projects
+        self._inventory = inventory
 
     def format(self, facts, cross_arch, varmap):
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
@@ -231,8 +233,10 @@ class DockerfileFormatter(Formatter):
 
 
 class VariablesFormatter(Formatter):
-    def __init__(self):
-        pass
+    def __init__(self, projects, inventory):
+        self._native_arch = Util.get_native_arch()
+        self._projects = projects
+        self._inventory = inventory
 
     def format(self, varmap):
 
