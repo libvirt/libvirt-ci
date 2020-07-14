@@ -474,8 +474,6 @@ mappings:
     deb: libnuma-dev
     rpm: numactl-devel
     OpenSUSE: libnuma-devel
-    armv6l-deb:
-    armv7l-deb:
     cross-policy-default: foreign
 
   libparted:
