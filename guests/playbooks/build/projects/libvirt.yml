@@ -6,8 +6,8 @@
     git_url: '{{ git_urls["libvirt"][git_remote] }}'
 
 - include: '{{ playbook_base }}/jobs/prepare.yml'
-- include: '{{ playbook_base }}/jobs/autotools-build-job.yml'
-- include: '{{ playbook_base }}/jobs/autotools-syntax-check-job.yml'
+- include: '{{ playbook_base }}/jobs/meson-build-job.yml'
+- include: '{{ playbook_base }}/jobs/meson-syntax-check-job.yml'
   vars:
     # We limit syntax-check to Linux platforms because it calls some
     # commands with more arguments than FreeBSD supports
@@ -23,7 +23,7 @@
       - libvirt-opensuse-151
       - libvirt-ubuntu-1804
       - libvirt-ubuntu-2004
-- include: '{{ playbook_base }}/jobs/autotools-check-job.yml'
+- include: '{{ playbook_base }}/jobs/meson-check-job.yml'
   vars:
     local_env: |
       # gnulib's test-poll is broken on FreeBSD, so disable expensive
@@ -32,6 +32,6 @@
         export VIR_TEST_EXPENSIVE=1
       fi
       export VIR_TEST_DEBUG=2
-- include: '{{ playbook_base }}/jobs/autotools-rpm-job.yml'
+- include: '{{ playbook_base }}/jobs/meson-rpm-job.yml'
   vars:
     machines: '{{ rpm_machines }}'
