@@ -647,6 +647,13 @@ class Application:
         self._execute_playbook("build", args.hosts, args.projects,
                                args.git_revision)
 
+    def _get_meson_cross(self, cross_abi):
+        base = Util.get_base()
+        cross_name = "{}.meson".format(cross_abi)
+        cross_file = os.path.join(base, "cross", cross_name)
+        with open(cross_file, "r") as c:
+            return c.read().rstrip()
+
     def _get_openvz_repo(self):
         base = Util.get_base()
         repofile = os.path.join(base, "playbooks", "update", "templates", "openvz.repo.j2")
@@ -1007,6 +1014,15 @@ class Application:
                     "{packaging_command} clean all -y",
                 ])
 
+            if not cross_arch.startswith("mingw"):
+                cross_commands.extend([
+                    "mkdir -p /usr/local/share/meson/cross",
+                    "echo \"{cross_meson}\" > /usr/local/share/meson/cross/{cross_abi}",
+                ])
+
+                cross_meson = self._get_meson_cross(varmap["cross_abi"])
+                varmap["cross_meson"] = cross_meson.replace("\n", "\\n\\\n")
+
             cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands)) + "\n"
             sys.stdout.write(cross_script.format(**varmap))
 
@@ -1039,6 +1055,10 @@ class Application:
             if cross_arch.startswith("mingw"):
                 cross_vars.append(
                     "ENV MESON_OPTS \"--cross-file=/usr/share/mingw/toolchain-{cross_arch}.meson\""
+                )
+            else:
+                cross_vars.append(
+                    "ENV MESON_OPTS \"--cross-file={cross_abi}\"",
                 )
 
             cross_env = "\n" + "\n".join(cross_vars) + "\n"
