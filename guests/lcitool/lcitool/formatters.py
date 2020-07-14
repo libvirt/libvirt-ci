@@ -5,8 +5,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import abc
-import sys
-import textwrap
 from pathlib import Path
 
 import lcitool.util as Util
@@ -238,9 +236,8 @@ class DockerfileFormatter(Formatter):
         self._projects = projects
         self._inventory = inventory
 
-    def format(self, args):
-
-        facts, cross_arch, varmap = self._generator_prepare(args)
+    def _format_dockerfile(self, facts, cross_arch, varmap):
+        strings = []
 
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
         pypi_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
@@ -255,7 +252,7 @@ class DockerfileFormatter(Formatter):
         if "cpan_pkgs" in varmap:
             varmap["cpan_pkgs"] = cpan_pkg_align[1:] + cpan_pkg_align.join(varmap["cpan_pkgs"])
 
-        print("FROM {}".format(facts["docker"]["base"]))
+        strings.append("FROM {}".format(facts["docker"]["base"]))
 
         commands = []
 
@@ -353,8 +350,8 @@ class DockerfileFormatter(Formatter):
                 "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/$(basename {paths_cc})",
             ])
 
-        script = "\nRUN " + (" && \\\n    ".join(commands)) + "\n"
-        sys.stdout.write(script.format(**varmap))
+        script = "\nRUN " + (" && \\\n    ".join(commands))
+        strings.append(script.format(**varmap))
 
         if cross_arch:
             cross_commands = []
@@ -388,28 +385,26 @@ class DockerfileFormatter(Formatter):
                 cross_meson = self._get_meson_cross(varmap["cross_abi"])
                 varmap["cross_meson"] = cross_meson.replace("\n", "\\n\\\n")
 
-            cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands)) + "\n"
-            sys.stdout.write(cross_script.format(**varmap))
+            cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands))
+            strings.append(cross_script.format(**varmap))
 
         if "pypi_pkgs" in varmap:
-            sys.stdout.write(textwrap.dedent("""
-                RUN pip3 install {pypi_pkgs}
-            """).format(**varmap))
+            strings.append("\nRUN pip3 install {pypi_pkgs}".format(**varmap))
 
         if "cpan_pkgs" in varmap:
-            sys.stdout.write(textwrap.dedent("""
-                RUN cpanm --notest {cpan_pkgs}
-            """).format(**varmap))
+            strings.append("\nRUN cpanm --notest {cpan_pkgs}".format(**varmap))
 
-        sys.stdout.write(textwrap.dedent("""
-            ENV LANG "en_US.UTF-8"
-
-            ENV MAKE "{paths_make}"
-            ENV NINJA "{paths_ninja}"
-            ENV PYTHON "{paths_python}"
-
-            ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
-        """).format(**varmap))
+        common_vars = [
+            "ENV LANG \"en_US.UTF-8\"",
+            "",
+            "ENV MAKE \"{paths_make}\"",
+            "ENV NINJA \"{paths_ninja}\"",
+            "ENV PYTHON \"{paths_python}\"",
+            "",
+            "ENV CCACHE_WRAPPERSDIR \"/usr/libexec/ccache-wrappers\"",
+        ]
+        common_env = "\n" + "\n".join(common_vars)
+        strings.append(common_env.format(**varmap))
 
         if cross_arch:
             cross_vars = [
@@ -426,8 +421,16 @@ class DockerfileFormatter(Formatter):
                     "ENV MESON_OPTS \"--cross-file={cross_abi}\"",
                 )
 
-            cross_env = "\n" + "\n".join(cross_vars) + "\n"
-            sys.stdout.write(cross_env.format(**varmap))
+            cross_env = "\n" + "\n".join(cross_vars)
+            strings.append(cross_env.format(**varmap))
+
+        return strings
+
+    def format(self, args):
+
+        facts, cross_arch, varmap = self._generator_prepare(args)
+
+        return '\n'.join(self._format_dockerfile(facts, cross_arch, varmap))
 
 
 class VariablesFormatter(Formatter):

@@ -218,7 +218,8 @@ class Application:
         print(VariablesFormatter(self._projects, self._inventory).format(args))
 
     def _action_dockerfile(self, args):
-        DockerfileFormatter(self._projects, self._inventory).format(args)
+        print(DockerfileFormatter(self._projects,
+                                  self._inventory).format(args))
 
     def run(self, args):
         args.func(self, args)
