@@ -1077,11 +1077,8 @@ mappings:
     cross-policy-default: foreign
 
   zfs:
-    default: zfs-fuse
-    CentOS:
-    FreeBSD:
-    MacOS:
-    OpenSUSE:
+    deb: zfs-fuse
+    Fedora: zfs-fuse
 
   zip:
     default: zip
