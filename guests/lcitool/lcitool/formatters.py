@@ -53,6 +53,8 @@ class Formatter(metaclass=abc.ABCMeta):
         ]
         cross_keys = []
         cross_policy_keys = []
+        native_arch = Util.get_native_arch()
+
         if cross_arch:
             keys = base_keys
             if facts["packaging"]["format"] == "deb":
@@ -70,7 +72,7 @@ class Formatter(metaclass=abc.ABCMeta):
                 cross_keys = [cross_arch + "-" + k for k in base_keys]
             cross_policy_keys = ["cross-policy-" + k for k in base_keys]
         else:
-            keys = base_keys + [self._native_arch + "-" + k for k in base_keys]
+            keys = base_keys + [native_arch + "-" + k for k in base_keys]
 
         # We need to add the base project manually here: the standard
         # machinery hides it because it's an implementation detail
@@ -176,6 +178,7 @@ class Formatter(metaclass=abc.ABCMeta):
         mappings = self._projects.get_mappings()
         pypi_mappings = self._projects.get_pypi_mappings()
         cpan_mappings = self._projects.get_cpan_mappings()
+        native_arch = Util.get_native_arch()
 
         hosts = self._inventory.expand_pattern(args.hosts)
         if len(hosts) > 1:
@@ -212,9 +215,9 @@ class Formatter(metaclass=abc.ABCMeta):
                         facts["os"]["name"],
                     )
                 )
-            if cross_arch == self._native_arch:
+            if cross_arch == native_arch:
                 raise Exception("Cross arch {} should differ from native {}".
-                                format(cross_arch, self._native_arch))
+                                format(cross_arch, native_arch))
 
         projects = self._projects.expand_pattern(args.projects)
         for project in projects:
@@ -232,7 +235,6 @@ class Formatter(metaclass=abc.ABCMeta):
 
 class DockerfileFormatter(Formatter):
     def __init__(self, projects, inventory):
-        self._native_arch = Util.get_native_arch()
         self._projects = projects
         self._inventory = inventory
 
@@ -435,7 +437,6 @@ class DockerfileFormatter(Formatter):
 
 class VariablesFormatter(Formatter):
     def __init__(self, projects, inventory):
-        self._native_arch = Util.get_native_arch()
         self._projects = projects
         self._inventory = inventory
 
