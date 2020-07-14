@@ -728,6 +728,7 @@ mappings:
     deb: libio-compress-perl
     pkg: p5-IO-Compress
     rpm: perl-IO-Compress-Bzip2
+    OpenSUSE:
 
   perl-IO-String:
     deb: libio-string-perl
