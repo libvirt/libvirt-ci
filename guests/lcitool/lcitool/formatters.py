@@ -173,7 +173,8 @@ class Formatter(metaclass=abc.ABCMeta):
 
         return varmap
 
-    def _generator_prepare(self, name, args):
+    def _generator_prepare(self, args):
+        name = self.__class__.__name__.lower()
         mappings = self._projects.get_mappings()
         pypi_mappings = self._projects.get_pypi_mappings()
         cpan_mappings = self._projects.get_cpan_mappings()
@@ -189,7 +190,7 @@ class Formatter(metaclass=abc.ABCMeta):
         cross_arch = args.cross_arch
 
         # We can only generate Dockerfiles for Linux
-        if (name == "dockerfile" and
+        if (name == "dockerfileformatter" and
             facts["packaging"]["format"] not in ["deb", "rpm"]):
             raise Exception(
                 "Host {} doesn't support '{}' generator".format(host, name)
@@ -239,7 +240,7 @@ class DockerfileFormatter(Formatter):
 
     def format(self, args):
 
-        facts, cross_arch, varmap = self._generator_prepare("dockerfile", args)
+        facts, cross_arch, varmap = self._generator_prepare(args)
 
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
         pypi_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
@@ -437,7 +438,7 @@ class VariablesFormatter(Formatter):
 
     def format(self, args):
 
-        _, _, varmap = self._generator_prepare("variables", args)
+        _, _, varmap = self._generator_prepare(args)
 
         for key in varmap:
             if key == "pkgs" or key.endswith("_pkgs"):
