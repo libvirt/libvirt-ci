@@ -436,9 +436,9 @@ class VariablesFormatter(Formatter):
         self._projects = projects
         self._inventory = inventory
 
-    def format(self, args):
-
-        _, _, varmap = self._generator_prepare(args)
+    @staticmethod
+    def _format_variables(varmap):
+        strings = []
 
         for key in varmap:
             if key == "pkgs" or key.endswith("_pkgs"):
@@ -450,4 +450,11 @@ class VariablesFormatter(Formatter):
             else:
                 name = key
                 value = varmap[key]
-            print("{}='{}'".format(name.upper(), value))
+            strings.append("{}='{}'".format(name.upper(), value))
+        return strings
+
+    def format(self, args):
+
+        _, _, varmap = self._generator_prepare(args)
+
+        return '\n'.join(self._format_variables(varmap))

@@ -215,7 +215,7 @@ class Application:
                                args.git_revision)
 
     def _action_variables(self, args):
-        VariablesFormatter(self._projects, self._inventory).format(args)
+        print(VariablesFormatter(self._projects, self._inventory).format(args))
 
     def _action_dockerfile(self, args):
         DockerfileFormatter(self._projects, self._inventory).format(args)
