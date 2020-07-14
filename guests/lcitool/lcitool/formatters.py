@@ -39,7 +39,7 @@ class Formatter(metaclass=abc.ABCMeta):
                                 mappings,
                                 pypi_mappings,
                                 cpan_mappings,
-                                projects,
+                                selected_projects,
                                 cross_arch):
         pkgs = {}
         cross_pkgs = {}
@@ -76,7 +76,7 @@ class Formatter(metaclass=abc.ABCMeta):
 
         # We need to add the base project manually here: the standard
         # machinery hides it because it's an implementation detail
-        for project in projects + ["base"]:
+        for project in selected_projects + ["base"]:
             for package in self._projects.get_packages(project):
                 cross_policy = "native"
 
@@ -219,8 +219,8 @@ class Formatter(metaclass=abc.ABCMeta):
                 raise Exception("Cross arch {} should differ from native {}".
                                 format(cross_arch, native_arch))
 
-        projects = self._projects.expand_pattern(args.projects)
-        for project in projects:
+        selected_projects = self._projects.expand_pattern(args.projects)
+        for project in selected_projects:
             if project.rfind("+mingw") >= 0:
                 raise Exception("Obsolete syntax, please use --cross-arch")
 
@@ -228,7 +228,7 @@ class Formatter(metaclass=abc.ABCMeta):
                                               mappings,
                                               pypi_mappings,
                                               cpan_mappings,
-                                              projects,
+                                              selected_projects,
                                               cross_arch)
         return facts, cross_arch, varmap
 
