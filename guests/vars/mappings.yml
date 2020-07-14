@@ -595,8 +595,6 @@ mappings:
   locales:
     deb: locales
     rpm: glibc-langpack-en
-    FreeBSD:
-    MacOS:
     OpenSUSE: glibc-locale
     CentOS7: glibc-common
 
