@@ -502,8 +502,6 @@ mappings:
     deb: librbd-dev
     rpm: librbd-devel
     CentOS7: librbd1-devel
-    mipsel-deb:
-    mipsel-Debian10: librbd-dev
     cross-policy-default: foreign
 
   librest:
