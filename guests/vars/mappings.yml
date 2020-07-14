@@ -256,7 +256,6 @@ mappings:
   glusterfs:
     deb: libglusterfs-dev
     rpm: glusterfs-api-devel
-    Debian9: glusterfs-common
     OpenSUSE: glusterfs-devel
     Ubuntu1804: glusterfs-common
     cross-policy-default: foreign
@@ -347,7 +346,6 @@ mappings:
     pkg: openjdk11
     rpm: java-11-openjdk-headless
     MacOS: openjdk
-    Debian9: openjdk-8-jdk-headless
 
   jna:
     default: jna
@@ -505,7 +503,6 @@ mappings:
     rpm: librbd-devel
     CentOS7: librbd1-devel
     mipsel-deb:
-    mipsel-Debian9: librbd-dev
     mipsel-Debian10: librbd-dev
     cross-policy-default: foreign
 
@@ -622,7 +619,6 @@ mappings:
   meson:
     default: meson
     CentOS7:
-    Debian9:
     OpenSUSE151:
     Ubuntu1804:
 
@@ -633,11 +629,9 @@ mappings:
 
   mono:
     Fedora: mono-devel
-    Debian9: mono-devel
 
   monodevelop:
     Fedora: monodevelop
-    Debian9: monodevelop
 
   nano:
     default: nano
@@ -647,7 +641,6 @@ mappings:
     default: ncurses
     deb: libncurses-dev
     rpm: ncurses-devel
-    Debian9: libncurses5-dev
     Ubuntu1804: libncurses5-dev
     cross-policy-default: foreign
 
@@ -726,7 +719,6 @@ mappings:
     deb: perl
     pkg: p5-Digest
     rpm: perl-Digest
-    Debian9: libdigest-perl
 
   perl-Digest-MD5:
     deb: libdigest-perl-md5-perl
@@ -1003,7 +995,6 @@ mappings:
 
   sheepdog:
     Fedora: sheepdog
-    Debian9: sheepdog
     Ubuntu1804: sheepdog
 
   showmount:

@@ -3,7 +3,6 @@ all_machines:
   - libvirt-centos-7
   - libvirt-centos-8
   - libvirt-centos-stream
-  - libvirt-debian-9
   - libvirt-debian-10
   - libvirt-debian-sid
   - libvirt-fedora-31
