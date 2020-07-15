@@ -772,6 +772,7 @@ class Application:
             "paths_make": facts["paths"]["make"],
             "paths_ninja": facts["paths"]["ninja"],
             "paths_python": facts["paths"]["python"],
+            "paths_pip3": facts["paths"]["pip3"],
         }
 
         varmap["pkgs"] = sorted(set(pkgs.values()))
