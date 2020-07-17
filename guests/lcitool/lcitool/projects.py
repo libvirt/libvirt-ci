@@ -7,13 +7,13 @@
 import yaml
 from pathlib import Path
 
-import lcitool.util as Util
+from lcitool import util
 
 
 class Projects:
 
     def __init__(self):
-        base = Path(Util.get_base(), "ansible")
+        base = Path(util.get_base(), "ansible")
 
         mappings_path = Path(base, "vars", "mappings.yml")
 
@@ -47,7 +47,7 @@ class Projects:
                     "Can't load packages for '{}': {}".format(project, ex))
 
     def expand_pattern(self, pattern):
-        projects = Util.expand_pattern(pattern, self._packages, "project")
+        projects = util.expand_pattern(pattern, self._packages, "project")
 
         # Some projects are internal implementation details and should
         # not be exposed to the user

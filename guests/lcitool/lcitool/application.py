@@ -11,7 +11,7 @@ import distutils.spawn
 import tempfile
 from pathlib import Path
 
-import lcitool.util as Util
+from lcitool import util
 from lcitool.config import Config
 from lcitool.inventory import Inventory
 from lcitool.projects import Projects
@@ -25,10 +25,10 @@ class Application:
         self._inventory = Inventory()
         self._projects = Projects()
 
-        self._native_arch = Util.get_native_arch()
+        self._native_arch = util.get_native_arch()
 
     def _execute_playbook(self, playbook, hosts, projects, git_revision):
-        base = Path(Util.get_base(), "ansible").as_posix()
+        base = Path(util.get_base(), "ansible").as_posix()
         config = self._config
 
         config.validate_vm_settings()
@@ -101,7 +101,7 @@ class Application:
             print(project)
 
     def _action_install(self, args):
-        base = Util.get_base()
+        base = util.get_base()
         config = self._config
 
         config.validate_vm_settings()

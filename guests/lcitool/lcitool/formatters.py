@@ -7,7 +7,7 @@
 import abc
 from pathlib import Path
 
-import lcitool.util as Util
+from lcitool import util
 
 
 class Formatter(metaclass=abc.ABCMeta):
@@ -29,7 +29,7 @@ class Formatter(metaclass=abc.ABCMeta):
         pass
 
     def _get_meson_cross(self, cross_abi):
-        base = Util.get_base()
+        base = util.get_base()
         cross_name = "{}.meson".format(cross_abi)
         with open(Path(base, "cross", cross_name), "r") as c:
             return c.read().rstrip()
@@ -53,7 +53,7 @@ class Formatter(metaclass=abc.ABCMeta):
         ]
         cross_keys = []
         cross_policy_keys = []
-        native_arch = Util.get_native_arch()
+        native_arch = util.get_native_arch()
 
         if cross_arch:
             keys = base_keys
@@ -149,13 +149,13 @@ class Formatter(metaclass=abc.ABCMeta):
 
         if cross_arch:
             varmap["cross_arch"] = cross_arch
-            varmap["cross_abi"] = Util.native_arch_to_abi(cross_arch)
+            varmap["cross_abi"] = util.native_arch_to_abi(cross_arch)
 
             if facts["packaging"]["format"] == "deb":
                 # For Debian-based distros, the name of the foreign package
                 # is obtained by appending the foreign architecture (in
                 # Debian format) to the name of the native package
-                cross_arch_deb = Util.native_arch_to_deb_arch(cross_arch)
+                cross_arch_deb = util.native_arch_to_deb_arch(cross_arch)
                 cross_pkgs = [p + ":" + cross_arch_deb for p in set(cross_pkgs.values())]
                 cross_pkgs.append("gcc-" + varmap["cross_abi"])
                 varmap["cross_arch_deb"] = cross_arch_deb
@@ -178,7 +178,7 @@ class Formatter(metaclass=abc.ABCMeta):
         mappings = self._projects.get_mappings()
         pypi_mappings = self._projects.get_pypi_mappings()
         cpan_mappings = self._projects.get_cpan_mappings()
-        native_arch = Util.get_native_arch()
+        native_arch = util.get_native_arch()
 
         hosts = self._inventory.expand_pattern(args.hosts)
         if len(hosts) > 1:
@@ -303,9 +303,9 @@ class DockerfileFormatter(Formatter):
                 # VZ development packages are only available for CentOS/RHEL-7
                 # right now and need a 3rd party repository enabled
                 if facts["os"]["version"] == "7":
-                    repo = Util.get_openvz_repo()
+                    repo = util.get_openvz_repo()
                     varmap["vzrepo"] = "\\n\\\n".join(repo.split("\n"))
-                    key = Util.get_openvz_key()
+                    key = util.get_openvz_key()
                     varmap["vzkey"] = "\\n\\\n".join(key.split("\n"))
 
                     commands.extend([

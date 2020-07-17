@@ -8,7 +8,7 @@ import os
 import yaml
 from pathlib import Path
 
-import lcitool.util as Util
+from lcitool import util
 
 
 class Config:
@@ -19,7 +19,7 @@ class Config:
         # always succeed.
         # NOTE: we should load this from /usr/share once we start packaging
         # lcitool
-        base = Util.get_base()
+        base = util.get_base()
         with open(Path(base, "configs", "config.yaml"), "r") as fp:
             self.values = yaml.safe_load(fp)
 

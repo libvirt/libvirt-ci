@@ -8,13 +8,13 @@ import configparser
 import yaml
 from pathlib import Path
 
-import lcitool.util as Util
+from lcitool import util
 
 
 class Inventory:
 
     def __init__(self):
-        base = Path(Util.get_base(), "ansible")
+        base = Path(util.get_base(), "ansible")
         ansible_cfg_path = Path(base, "ansible.cfg")
 
         try:
@@ -59,7 +59,7 @@ class Inventory:
                 facts[fact] = some_facts[fact]
 
     def _read_all_facts(self, host):
-        base = Path(Util.get_base(), "ansible")
+        base = Path(util.get_base(), "ansible")
 
         sources = [
             Path(base, "group_vars", "all"),
@@ -83,7 +83,7 @@ class Inventory:
         return facts
 
     def expand_pattern(self, pattern):
-        return Util.expand_pattern(pattern, self._facts, "host")
+        return util.expand_pattern(pattern, self._facts, "host")
 
     def get_facts(self, host):
         return self._facts[host]
