@@ -235,6 +235,16 @@ class Formatter(metaclass=abc.ABCMeta):
 
 class DockerfileFormatter(Formatter):
     def __init__(self, projects, inventory):
+        """
+        Initialize an instance
+
+        Saves a reference to a list of projects and a machine inventory
+        which are crucial for the formatting process.
+
+        :param projects: instance of the Projects class
+        :param inventory: instance of the Inventory class
+        """
+
         self._projects = projects
         self._inventory = inventory
 
@@ -429,6 +439,17 @@ class DockerfileFormatter(Formatter):
         return strings
 
     def format(self, args):
+        """
+        Generates and formats a Dockerfile.
+
+        Given the application commandline arguments, this function will take
+        the projects and inventory attributes and generate a Dockerfile
+        describing an environment for doing a project build on a given
+        inventory platform.
+
+        :param args: Application class' command line arguments
+        :returns: String represented Dockerfile
+        """
 
         facts, cross_arch, varmap = self._generator_prepare(args)
 
@@ -437,6 +458,16 @@ class DockerfileFormatter(Formatter):
 
 class VariablesFormatter(Formatter):
     def __init__(self, projects, inventory):
+        """
+        Initialize an instance
+
+        Saves a reference to a list of projects and a machine inventory
+        which are crucial for the formatting process.
+
+        :param projects: instance of the Projects class
+        :param inventory: instance of the Inventory class
+        """
+
         self._projects = projects
         self._inventory = inventory
 
@@ -458,6 +489,16 @@ class VariablesFormatter(Formatter):
         return strings
 
     def format(self, args):
+        """
+        Generates and formats environment variables as KEY=VAL pairs.
+
+        Given the commandline arguments, this function will take take the
+        projects and inventory attributes and generate a KEY=VAL encoded list
+        of environment variables that can be consumed by various CI backends.
+
+        :param args: Application class' command line arguments
+        :returns: String represented list of environment variables
+        """
 
         _, _, varmap = self._generator_prepare(args)
 
