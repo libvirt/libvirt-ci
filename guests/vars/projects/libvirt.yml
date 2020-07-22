@@ -43,7 +43,6 @@ packages:
   - libxml2
   - lvm2
   - modprobe
-  - ncurses
   - netcf
   - numad
   - openwsman
