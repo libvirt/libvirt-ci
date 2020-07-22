@@ -631,13 +631,6 @@ mappings:
     default: nano
     MacOS:
 
-  ncurses:
-    default: ncurses
-    deb: libncurses-dev
-    rpm: ncurses-devel
-    Ubuntu1804: libncurses5-dev
-    cross-policy-default: foreign
-
   netcf:
     deb: libnetcf-dev
     rpm: netcf-devel
