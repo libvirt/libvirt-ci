@@ -138,6 +138,11 @@ mappings:
     default: chrony
     MacOS:
 
+  clang:
+    default: clang
+    FreeBSD:
+    MacOS:
+
   cloud-init:
     default: cloud-init
     FreeBSD: py37-cloud-init
