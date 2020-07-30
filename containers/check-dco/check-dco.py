@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2020 Red Hat, Inc.
 #
-# SPDX-License-Identifier: LGPL-2.1-or-later
+# SPDX-License-Identifier: GPL-2.0-or-later
 
 import os
 import os.path
