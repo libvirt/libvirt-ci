@@ -144,7 +144,7 @@ class Application:
                 "install.url": facts["install"]["url"],
             }
 
-            with open(Path(base, "configs", install_config), 'r') as template:
+            with open(Path(base, "configs", "install", install_config), 'r') as template:
                 content = template.read()
                 for option in unattended_options:
                     content = content.replace(
