@@ -5,7 +5,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import abc
-from pathlib import Path
+
+from pkg_resources import resource_filename
 
 from lcitool import util
 
@@ -29,9 +30,9 @@ class Formatter(metaclass=abc.ABCMeta):
         pass
 
     def _get_meson_cross(self, cross_abi):
-        base = util.get_base()
-        cross_name = "{}.meson".format(cross_abi)
-        with open(Path(base, "cross", cross_name), "r") as c:
+        cross_name = resource_filename(__name__,
+                                       "cross/{}.meson".format(cross_abi))
+        with open(cross_name, "r") as c:
             return c.read().rstrip()
 
     def _generator_build_varmap(self,
