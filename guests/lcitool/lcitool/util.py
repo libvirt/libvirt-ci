@@ -7,11 +7,7 @@
 import fnmatch
 import platform
 
-from pathlib import Path
-
-
-def get_base():
-    return Path(__file__).parents[1].resolve().as_posix()
+from pkg_resources import resource_filename
 
 
 def expand_pattern(pattern, source, name):
@@ -89,16 +85,16 @@ def native_arch_to_deb_arch(native_arch):
 
 
 def get_openvz_repo():
-    base = Path(get_base(), "ansible")
-    repofile = Path(base, "playbooks", "update", "templates", "openvz.repo.j2")
+    repofile_res = "ansible/playbooks/update/templates/openvz.repo.j2"
+    repofile = resource_filename(__name__, repofile_res)
 
     with open(repofile, "r") as r:
         return r.read().rstrip()
 
 
 def get_openvz_key():
-    base = Path(get_base(), "ansible")
-    keyfile = Path(base, "playbooks", "update", "templates", "openvz.key")
+    keyfile_res = "ansible/playbooks/update/templates/openvz.key"
+    keyfile = resource_filename(__name__, keyfile_res)
 
     with open(keyfile, "r") as r:
         return r.read().rstrip()
