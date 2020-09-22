@@ -2,6 +2,89 @@
 lcitool - libvirt CI guest management tool
 ==========================================
 
+Installation
+============
+
+Installing dependencies
+-----------------------
+
+``virt-install`` need to be available on the host. Since it is not distributed
+via PyPI, this needs to be installed with your package manager.
+
+You need to install also a few Python dependencies using your package manager
+or using ``pip3`` (see the provided ``requirements.txt`` file). You can install
+to the Python user install directory
+
+::
+
+   $ pip3 install --user -r requirements.txt
+
+or, system-wide
+
+::
+
+   $ sudo pip3 install -r requirements.txt
+
+.. note:: If you prefer you can try to find those requirements in your package
+   manager as well.
+
+
+Installing lcitool
+------------------
+
+This is standard python package. And again, you can install it on your local
+user
+
+::
+
+   $ python3 setup.py install --user
+
+Or, you can install it system-wide with
+
+::
+
+   $ sudo python3 setup.py install
+
+If you prefer, you can have it inside a virtual-env too.
+
+For development mode you can do
+
+::
+
+   $ python3 setup.py develop --user
+
+This will create packages links to your working dir and you don't need
+to re-install after every change.
+
+If you don't want to install this tool in your environment, and want to
+run it directly, just run the `lcitool` script that is located at the
+root of this repository.
+
+Configuration
+=============
+
+Before you can start bringing up guests, you need to create
+``~/.config/lcitool/config.yaml``, ideally by copying the
+``config.yaml`` template, and set at least the options marked as
+"(mandatory)" depending on the flavor (``test``, ``gitlab``) you wish to
+use with your machines.
+
+Ansible expects to be able to connect to the guests by name: installing
+and enabling the `libvirt NSS plugin
+<https://wiki.libvirt.org/page/NSS_module>`_ on the host is the easiest
+way to make sure that works. More specifically, you'll want to use the
+``libvirt_guest`` variant of the plugin.
+
+To keep guests up to date over time, it's recommended to have an entry
+along the lines of
+
+::
+
+   0 0 * * * lcitool update all all
+
+in your crontab.
+
+
 Usage and examples
 ==================
 
@@ -70,35 +153,6 @@ branches out of those with
 ::
 
    $ lcitool build -g github/cool-feature all libvirt
-
-
-Host setup
-==========
-
-``ansible`` and ``virt-install`` need to be available on the host, the former
-can be either installed system-wide using your package manager or using ``pip``
-(see the provided ``requirements.txt`` file). The latter can only be installed
-with your package manager as ``virt-install`` is not distributed via PyPI.
-
-Before you can start bringing up guests, you need to create
-``~/.config/lcitool/config.yaml``, ideally by copying the ``config.yaml``
-template, and set at least the options marked as "(mandatory)" depending on
-the flavor (``test``, ``gitlab``) you wish to use with your
-machines.
-
-Ansible expects to be able to connect to the guests by name: installing and
-enabling the `libvirt NSS plugin <https://wiki.libvirt.org/page/NSS_module>`_
-on the host is the easiest way to make sure that works. More specifically,
-you'll want to use the ``libvirt_guest`` variant of the plugin.
-
-To keep guests up to date over time, it's recommended to have an entry
-along the lines of
-
-::
-
-   0 0 * * * ~/libvirt-ci/guests/lcitool update all all
-
-in your crontab.
 
 
 Test use
