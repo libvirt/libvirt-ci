@@ -7,7 +7,6 @@
 import json
 import os
 import subprocess
-import distutils.spawn
 import tempfile
 
 from pathlib import Path
@@ -69,12 +68,8 @@ class Application:
         with open(extra_vars_path, "w") as fp:
             json.dump(extra_vars, fp)
 
-        ansible_playbook = distutils.spawn.find_executable("ansible-playbook")
-        if ansible_playbook is None:
-            raise Exception("Cannot find ansible-playbook in $PATH")
-
         cmd = [
-            ansible_playbook,
+            "ansible-playbook",
             "--limit", ansible_hosts,
             "--extra-vars", "@" + extra_vars_path,
         ]
@@ -175,12 +170,8 @@ class Application:
                 facts["install"]["url"],
             )
 
-            virt_install = distutils.spawn.find_executable("virt-install")
-            if virt_install is None:
-                raise Exception("Cannot find virt-install in $PATH")
-
             cmd = [
-                virt_install,
+                "virt-install",
                 "--name", host,
                 "--location", facts["install"]["url"],
                 "--virt-type", config.values["install"]["virt_type"],
