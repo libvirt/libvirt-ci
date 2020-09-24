@@ -9,7 +9,9 @@ import os
 import subprocess
 import distutils.spawn
 import tempfile
+
 from pathlib import Path
+from pkg_resources import resource_filename
 
 from lcitool import util
 from lcitool.config import Config
@@ -101,7 +103,6 @@ class Application:
             print(project)
 
     def _action_install(self, args):
-        base = util.get_base()
         config = self._config
 
         config.validate_vm_settings()
@@ -139,12 +140,14 @@ class Application:
                 )
 
             # Unattended install scripts are being generated on the fly, based
-            # on the templates present in guests/configs/
+            # on the templates present in lcitool/configs/
             unattended_options = {
                 "install.url": facts["install"]["url"],
             }
 
-            with open(Path(base, "configs", "install", install_config), 'r') as template:
+            filename = resource_filename(__name__,
+                                         "configs/install/{}".format(install_config))
+            with open(filename, "r") as template:
                 content = template.read()
                 for option in unattended_options:
                     content = content.replace(

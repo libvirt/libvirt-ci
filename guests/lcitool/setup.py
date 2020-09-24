@@ -34,7 +34,8 @@ setup(
     packages=["lcitool"],
     scripts=["bin/lcitool"],
     package_data={
-        "lcitool": get_recursive_datafiles(["lcitool/etc"]),
+        "lcitool": get_recursive_datafiles(["lcitool/etc",
+                                            "lcitool/configs/install"]),
     },
     author="libvirt team",
     author_email="libvir-list@redhat.com",
