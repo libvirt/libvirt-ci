@@ -5,7 +5,9 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import yaml
+
 from pathlib import Path
+from pkg_resources import resource_filename
 
 from lcitool import util
 
@@ -13,9 +15,8 @@ from lcitool import util
 class Projects:
 
     def __init__(self):
-        base = Path(util.get_base(), "ansible")
-
-        mappings_path = Path(base, "vars", "mappings.yml")
+        mappings_path = resource_filename(__name__,
+                                          "ansible/vars/mappings.yml")
 
         try:
             with open(mappings_path, "r") as infile:
@@ -26,7 +27,7 @@ class Projects:
         except Exception as ex:
             raise Exception("Can't load mappings: {}".format(ex))
 
-        source = Path(base, "vars", "projects")
+        source = Path(resource_filename(__name__, "ansible/vars/projects"))
 
         self._packages = {}
         for item in source.iterdir():

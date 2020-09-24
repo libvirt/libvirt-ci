@@ -36,7 +36,8 @@ setup(
     package_data={
         "lcitool": get_recursive_datafiles(["lcitool/etc",
                                             "lcitool/configs/install",
-                                            "lcitool/cross"]),
+                                            "lcitool/cross",
+                                            "lcitool/ansible"]),
     },
     author="libvirt team",
     author_email="libvir-list@redhat.com",

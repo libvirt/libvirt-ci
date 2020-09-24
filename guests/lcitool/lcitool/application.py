@@ -30,7 +30,7 @@ class Application:
         self._native_arch = util.get_native_arch()
 
     def _execute_playbook(self, playbook, hosts, projects, git_revision):
-        base = Path(util.get_base(), "ansible").as_posix()
+        base = resource_filename(__name__, "ansible")
         config = self._config
 
         config.validate_vm_settings()

@@ -6,7 +6,9 @@
 
 import configparser
 import yaml
+
 from pathlib import Path
+from pkg_resources import resource_filename
 
 from lcitool import util
 
@@ -14,8 +16,7 @@ from lcitool import util
 class Inventory:
 
     def __init__(self):
-        base = Path(util.get_base(), "ansible")
-        ansible_cfg_path = Path(base, "ansible.cfg")
+        ansible_cfg_path = resource_filename(__name__, "ansible/ansible.cfg")
 
         try:
             parser = configparser.ConfigParser()
@@ -25,8 +26,8 @@ class Inventory:
             raise Exception(
                 "Can't read inventory location in ansible.cfg: {}".format(ex))
 
-        inventory_path = Path(base, inventory_path)
-
+        posix_path = Path("ansible", inventory_path).as_posix()
+        inventory_path = resource_filename(__name__, posix_path)
         self._facts = {}
         try:
             # We can only deal with trivial inventories, but that's
@@ -59,11 +60,9 @@ class Inventory:
                 facts[fact] = some_facts[fact]
 
     def _read_all_facts(self, host):
-        base = Path(util.get_base(), "ansible")
-
         sources = [
-            Path(base, "group_vars", "all"),
-            Path(base, "host_vars", host),
+            resource_filename(__name__, "ansible/group_vars/all"),
+            resource_filename(__name__, "ansible/host_vars/{}".format(host))
         ]
 
         facts = {}
@@ -72,7 +71,7 @@ class Inventory:
         # files alphabetically; doing so should result in our view of
         # the facts matching Ansible's
         for source in sources:
-            for item in sorted(source.iterdir()):
+            for item in sorted(Path(source).iterdir()):
                 yaml_path = Path(source, item)
                 if not yaml_path.is_file():
                     continue
