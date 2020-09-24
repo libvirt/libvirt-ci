@@ -8,8 +8,7 @@ import os
 import yaml
 
 from pathlib import Path
-
-from lcitool import util
+from pkg_resources import resource_filename
 
 
 class Config:
@@ -18,10 +17,9 @@ class Config:
 
         # Load the template config containing the defaults first, this must
         # always succeed.
-        # NOTE: we should load this from /usr/share once we start packaging
-        # lcitool
-        base = util.get_base()
-        with open(Path(base, "etc", "config.yaml"), "r") as fp:
+
+        default_config = resource_filename(__name__, "etc/config.yaml")
+        with open(default_config, "r") as fp:
             self.values = yaml.safe_load(fp)
 
         user_config_path = self._get_config_file("config.yaml")
