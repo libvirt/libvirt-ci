@@ -3,6 +3,17 @@ import os
 from setuptools import setup, Command
 
 
+def get_recursive_datafiles(directories):
+    """Getting data files recursively."""
+
+    paths = []
+    for directory in directories:
+        for (path, _, filenames) in os.walk(directory):
+            for filename in filenames:
+                paths.append(os.path.join('..', path, filename))
+    return paths
+
+
 class CleanCommand(Command):
     """Custom clean command to tidy up the project root."""
     user_options = []
