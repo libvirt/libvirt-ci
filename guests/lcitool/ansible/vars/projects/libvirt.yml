@@ -12,6 +12,7 @@ packages:
   - dtrace
   - dwarves
   - ebtables
+  - firewalld-filesystem
   - flake8
   - fuse
   - glib2

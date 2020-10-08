@@ -198,6 +198,10 @@ mappings:
     FreeBSD:
     MacOS:
 
+  firewalld-filesystem:
+    rpm: firewalld-filesystem
+    OpenSUSE:
+
   flake8:
     default: flake8
     pkg: py37-flake8
