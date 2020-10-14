@@ -651,6 +651,11 @@ mappings:
     OpenSUSE:
     cross-policy-default: skip
 
+  net-snmp:
+    default: net-snmp
+    deb: libsnmp-dev
+    rpm: net-snmp-devel
+
   net-tools:
     default: net-tools
     FreeBSD:
@@ -751,6 +756,11 @@ mappings:
     deb: libnetaddr-ip-perl
     pkg: p5-NetAddr-IP
     rpm: perl-NetAddr-IP
+
+  perl-Net-SNMP:
+    deb: libnet-snmp-perl
+    pkg: p5-Net-SNMP
+    rpm: perl-Net-SNMP
 
   perl-Sub-Uplevel:
     deb: libsub-uplevel-perl
@@ -1176,6 +1186,9 @@ cpan_mappings:
 
   perl-NetAddr-IP:
     default: NetAddr::IP
+
+  perl-Net-SNMP:
+    default: Net::SNMP
 
   perl-Sub-Uplevel:
     default: Sub::Uplevel
