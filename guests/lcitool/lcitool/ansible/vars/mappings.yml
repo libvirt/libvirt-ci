@@ -68,6 +68,12 @@
 
 mappings:
 
+  alsa:
+    default: alsa-lib
+    deb: libasound2-dev
+    rpm: alsa-lib-devel
+    cross-policy-default: foreign
+
   ant:
     default: ant
     pkg: apache-ant
@@ -117,10 +123,40 @@ mappings:
   bash-completion:
     default: bash-completion
 
+  bc:
+    default: bc
+    pkg:
+
+  brlapi:
+    deb: libbrlapi-dev
+    rpm: brlapi-devel
+    cross-policy-default: foreign
+
+  bzip2:
+    default: bzip2
+
+  bzip2-libs:
+    deb: libbz2-dev
+    pkg: bzip2
+    rpm: bzip2-devel
+    MacOS: bzip2
+    OpenSUSE: libbz2-devel
+    mingw32-rpm: mingw32-bzip2
+    mingw64-rpm: mingw64-bzip2
+    cross-policy-default: foreign
+
   ca-certificates:
     default: ca-certificates
     FreeBSD: ca_root_nss
     MacOS:
+
+  capstone:
+    deb: libcapstone-dev
+    rpm: capstone-devel
+    pkg: capstone4
+    OpenSUSE:
+    MacOS: capstone
+    cross-policy-default: foreign
 
   cargo:
     default: cargo
@@ -142,6 +178,8 @@ mappings:
     default: clang
     FreeBSD:
     MacOS:
+    cross-policy-default: native
+    cross-policy-rpm: foreign
 
   cloud-init:
     default: cloud-init
@@ -164,6 +202,12 @@ mappings:
     rpm: cyrus-sasl-devel
     cross-policy-default: foreign
 
+  daxctl:
+    deb: libdaxctl-dev
+    rpm: daxctl-devel
+    OpenSUSE: libndctl-devel
+    cross-policy-default: foreign
+
   dbus-daemon:
     default: dbus
     rpm: dbus-daemon
@@ -173,6 +217,12 @@ mappings:
   device-mapper:
     deb: libdevmapper-dev
     rpm: device-mapper-devel
+    cross-policy-default: foreign
+
+  device-mapper-multipath:
+    deb: multipath-tools
+    rpm: device-mapper-multipath-devel
+    OpenSUSE:
     cross-policy-default: foreign
 
   diffutils:
@@ -202,6 +252,11 @@ mappings:
     FreeBSD:
     MacOS:
 
+  findutils:
+    default: findutils
+    FreeBSD:
+    MacOS:
+
   firewalld-filesystem:
     rpm: firewalld-filesystem
     OpenSUSE:
@@ -218,10 +273,24 @@ mappings:
     rpm: fuse-devel
     cross-policy-default: foreign
 
+  g++:
+    deb: g++
+    pkg: gcc
+    rpm: gcc-c++
+    MacOS: gcc
+    mingw32-rpm: mingw32-gcc-c++
+    mingw64-rpm: mingw64-gcc-c++
+    cross-policy-default: native
+    cross-policy-rpm: foreign
+
   gcc:
     default: gcc
     FreeBSD:
     MacOS:
+    mingw32-rpm: mingw32-gcc
+    mingw64-rpm: mingw64-gcc
+    cross-policy-default: native
+    cross-policy-rpm: foreign
 
   gdb:
     default: gdb
@@ -235,6 +304,12 @@ mappings:
     mingw32-rpm: mingw32-gdk-pixbuf
     mingw64-rpm: mingw64-gdk-pixbuf
     cross-policy-default: foreign
+
+  genisoimage:
+    default: genisoimage
+    pkg: cdrkit-genisoimage
+    OpenSUSE:
+    MacOS:
 
   gettext:
     default: gettext
@@ -329,6 +404,11 @@ mappings:
   hal:
     FreeBSD: hal
 
+  hostname:
+    default: hostname
+    FreeBSD:
+    MacOS:
+
   icoutils:
     default: icoutils
 
@@ -384,12 +464,27 @@ mappings:
     rpm: libacl-devel
     cross-policy-default: foreign
 
+  libaio:
+    deb: libaio-dev
+    rpm: libaio-devel
+    cross-policy-default: foreign
+
   libarchive:
     default: libarchive
     deb: libarchive-dev
     rpm: libarchive-devel
     mingw32-rpm: mingw32-libarchive
     mingw64-rpm: mingw64-libarchive
+    cross-policy-default: foreign
+
+  libasan:
+    deb: libasan5
+    rpm: libasan
+    mips-deb:
+    mips64-deb:
+    mips64el-deb:
+    mipsel-deb:
+    OpenSUSE: libasan6
     cross-policy-default: foreign
 
   libattr:
@@ -406,6 +501,11 @@ mappings:
   libblkid:
     deb: libblkid-dev
     rpm: libblkid-devel
+    cross-policy-default: foreign
+
+  libcacard:
+    deb: libcacard-dev
+    rpm: libcacard-devel
     cross-policy-default: foreign
 
   libcap-ng:
@@ -439,6 +539,22 @@ mappings:
     mingw64-rpm: mingw64-dbus
     cross-policy-default: foreign
 
+  libdrm:
+    deb: libdrm-dev
+    rpm: libdrm-devel
+    cross-policy-default: foreign
+
+  libepoxy:
+    default: libepoxy
+    deb: libepoxy-dev
+    rpm: libepoxy-devel
+    cross-policy-default: foreign
+
+  libfdt:
+    deb: libfdt-dev
+    rpm: libfdt-devel
+    cross-policy-default: foreign
+
   libgcrypt:
     default: libgcrypt
     deb: libgcrypt20-dev
@@ -456,10 +572,32 @@ mappings:
     mingw64-rpm: mingw64-libgovirt
     cross-policy-default: foreign
 
+  libibverbs:
+    deb: libibverbs-dev
+    rpm: rdma-core-devel
+    cross-policy-default: foreign
+
   libiscsi:
     deb: libiscsi-dev
     rpm: libiscsi-devel
     MacOS: libiscsi
+    cross-policy-default: foreign
+
+  libjemalloc:
+    deb: libjemalloc-dev
+    rpm: jemalloc-devel
+    CentOS7:
+    MacOS: jemalloc
+    cross-policy-default: foreign
+
+  libjpeg:
+    deb: libjpeg62-turbo-dev
+    pkg: libjpeg-turbo
+    rpm: libjpeg-devel
+    Ubuntu: libjpeg-turbo8-dev
+    MacOS: jpeg-turbo
+    mingw32-rpm: mingw32-libjpeg-turbo
+    mingw64-rpm: mingw64-libjpeg-turbo
     cross-policy-default: foreign
 
   liblzma:
@@ -471,6 +609,12 @@ mappings:
     deb: liblzma-dev
     Fedora: xz-static
     OpenSUSE: xz-static-devel
+    cross-policy-default: foreign
+
+  libnfs:
+    default: libnfs
+    deb: libnfs-dev
+    rpm: libnfs-devel
     cross-policy-default: foreign
 
   libnl3:
@@ -506,6 +650,22 @@ mappings:
     rpm: libpciaccess-devel
     cross-policy-default: foreign
 
+  libpmem:
+    pkg:
+    rpm: libpmem-devel
+    x86_64-deb: libpmem-dev
+    MacOS:
+    cross-policy-default: foreign
+
+  libpng:
+    deb: libpng-dev
+    rpm: libpng-devel
+    pkg: png
+    MacOS: libpng
+    mingw32-rpm: mingw32-libpng
+    mingw64-rpm: mingw64-libpng
+    cross-policy-default: foreign
+
   libprlsdk:
     CentOS7: libprlsdk-devel
 
@@ -513,6 +673,11 @@ mappings:
     deb: librbd-dev
     rpm: librbd-devel
     CentOS7: librbd1-devel
+    cross-policy-default: foreign
+
+  librdmacm:
+    deb: librdmacm-dev
+    rpm: rdma-core-devel
     cross-policy-default: foreign
 
   librest:
@@ -527,9 +692,24 @@ mappings:
     mingw64-rpm: mingw64-rest
     cross-policy-default: foreign
 
+  libseccomp:
+    deb: libseccomp-dev
+    rpm: libseccomp-devel
+    cross-policy-default: foreign
+
   libselinux:
     deb: libselinux1-dev
     rpm: libselinux-devel
+    cross-policy-default: foreign
+
+  libslirp:
+    deb: libslirp-dev
+    rpm: libslirp-devel
+    Debian10:
+    Ubuntu1804:
+    CentOS7:
+    MacOS: libslirp
+    OpenSUSE:
     cross-policy-default: foreign
 
   libsoup:
@@ -555,6 +735,14 @@ mappings:
     mingw64-rpm: mingw64-libssh2
     cross-policy-default: foreign
 
+  libtasn1:
+    default: libtasn1
+    deb: libtasn1-6-dev
+    rpm: libtasn1-devel
+    mingw32-rpm: mingw32-libtasn1
+    mingw64-rpm: mingw64-libtasn1
+    cross-policy-default: foreign
+
   libtirpc:
     deb: libtirpc-dev
     rpm: libtirpc-devel
@@ -567,9 +755,34 @@ mappings:
   libtoolize:
     default: libtool
 
+  libubsan:
+    deb: libubsan1
+    rpm: libubsan
+    mips-deb:
+    mips64-deb:
+    mips64el-deb:
+    mipsel-deb:
+    CentOS7:
+    OpenSUSE: libubsan1
+    cross-policy-default: foreign
+
   libudev:
     deb: libudev-dev
     rpm: libudev-devel
+    cross-policy-default: foreign
+
+  liburing:
+    rpm: liburing-devel
+    CentOS:
+    OpenSUSE:
+    cross-policy-default: foreign
+
+  libusbx:
+    deb: libusb-1.0-0-dev
+    pkg: linux_libusb
+    rpm: libusbx-devel
+    MacOS: libusb
+    OpenSUSE: libusb-1_0-devel
     cross-policy-default: foreign
 
   libuuid:
@@ -578,16 +791,23 @@ mappings:
     rpm: libuuid-devel
     cross-policy-default: foreign
 
+  libvdeplug:
+    deb: libvdeplug-dev
+    MacOS: vde
+    cross-policy-default: foreign
+
   libvirt:
     default: libvirt
     deb: libvirt-dev
     rpm: libvirt-devel
+    cross-policy-default: foreign
 
   libvirt-glib:
     default: libvirt-glib
     deb: libvirt-glib-1.0-dev
     rpm: libvirt-gobject-devel
     OpenSUSE: libvirt-glib-devel
+    cross-policy-default: foreign
 
   libxml2:
     default: libxml2
@@ -605,6 +825,12 @@ mappings:
     mingw64-rpm: mingw64-libxslt
     cross-policy-default: foreign
 
+  libzstd:
+    default: zstd
+    deb: libzstd-dev
+    rpm: libzstd-devel
+    cross-policy-default: foreign
+
   locales:
     deb: locales
     rpm: glibc-langpack-en
@@ -614,14 +840,34 @@ mappings:
   lsof:
     default: lsof
 
+  lttng-ust:
+    deb: liblttng-ust-dev
+    rpm: lttng-ust-devel
+    pkg: lttng-ust
+    CentOS:
+    cross-policy-default: foreign
+
   lvm2:
     default: lvm2
     FreeBSD:
     MacOS:
 
+  lzo:
+    deb: liblzo2-dev
+    pkg: lzo2
+    rpm: lzo-devel
+    MacOS: lzo
+    cross-policy-default: foreign
+
   make:
     default: make
     FreeBSD: gmake
+
+  mesa-libgbm:
+    deb: libgbm-dev
+    rpm: mesa-libgbm-devel
+    OpenSUSE: Mesa-devel
+    cross-policy-default: foreign
 
   meson:
     default: meson
@@ -648,6 +894,18 @@ mappings:
     default: nano
     MacOS:
 
+  ncursesw:
+    default: ncurses
+    deb: libncursesw5-dev
+    rpm: ncurses-devel
+    cross-policy-default: foreign
+
+  netcat:
+    deb: ncat
+    rpm: nmap-ncat
+    OpenSUSE: ncat
+    Ubuntu1804: netcat-openbsd
+
   netcf:
     deb: libnetcf-dev
     rpm: netcf-devel
@@ -664,11 +922,24 @@ mappings:
     FreeBSD:
     MacOS:
 
+  nettle:
+    default: nettle
+    deb: nettle-dev
+    rpm: nettle-devel
+    mingw32-rpm: mingw32-nettle
+    mingw64-rpm: mingw64-nettle
+    OpenSUSE: libnettle-devel
+    cross-policy-default: foreign
+
   ninja:
     default: ninja-build
     FreeBSD: ninja
     MacOS: ninja
     OpenSUSE: ninja
+
+  nsis:
+    mingw32-rpm: mingw32-nsis
+    cross-policy-default: foreign
 
   numad:
     default: numad
@@ -688,6 +959,11 @@ mappings:
   osinfo-db-tools:
     default: osinfo-db-tools
     MacOS:
+
+  pam:
+    deb: libpam0g-dev
+    rpm: pam-devel
+    cross-policy-default: foreign
 
   parted:
     default: parted
@@ -788,6 +1064,11 @@ mappings:
     pkg: p5-Test-Exception
     rpm: perl-Test-Exception
 
+  perl-Test-Harness:
+    deb: libtest-harness-perl
+    pkg: p5-Test-Harness
+    rpm: perl-Test-Harness
+
   perl-Test-LWP-UserAgent:
     deb: libtest-lwp-useragent-perl
     pkg: p5-Test-LWP-UserAgent
@@ -847,6 +1128,15 @@ mappings:
     CentOS8:
     CentOSStream:
 
+  pixman:
+    default: pixman
+    deb: libpixman-1-dev
+    rpm: pixman-devel
+    OpenSUSE: libpixman-1-0-devel
+    mingw32-rpm: mingw32-pixman
+    mingw64-rpm: mingw64-pixman
+    cross-policy-default: foreign
+
   pkg-config:
     default: pkgconf
     rpm: pkgconfig
@@ -882,6 +1172,12 @@ mappings:
 
   python3:
     default: python3
+
+  python3-PyYAML:
+    deb: python3-yaml
+    pkg: py37-yaml
+    rpm: python3-PyYAML
+    MacOS:
 
   python3-dbus:
     default: python3-dbus
@@ -928,6 +1224,24 @@ mappings:
     MacOS:
     CentOS7: python36-nose
 
+  python3-numpy:
+    default: python3-numpy
+    pkg: py37-numpy
+    MacOS:
+
+  python3-opencv:
+    default: python3-opencv
+    pkg: py37-opencv
+    CentOS:
+    MacOS:
+
+  python3-pillow:
+    deb: python3-pil
+    pkg: py37-pillow
+    rpm: python3-pillow
+    OpenSUSE: python3-Pillow
+    MacOS:
+
   python3-pip:
     default: python3-pip
     FreeBSD: py37-pip
@@ -949,6 +1263,18 @@ mappings:
     default: python3-setuptools
     FreeBSD: py37-setuptools
     MacOS: python3
+
+  python3-sphinx:
+    default: python3-sphinx
+    pkg: py37-sphinx
+    MacOS:
+    OpenSUSE: python3-Sphinx
+
+  python3-virtualenv:
+    deb: python3-venv
+    pkg: py37-virtualenv
+    rpm: python3-virtualenv
+    MacOS:
 
   python3-wheel:
     default: python3-wheel
@@ -984,6 +1310,10 @@ mappings:
     FreeBSD:
     CentOS7: glibc-common
 
+  rpm2cpio:
+    default: rpm2cpio
+    rpm: rpm
+
   rpmbuild:
     rpm: rpm-build
 
@@ -1008,6 +1338,19 @@ mappings:
     default: scrub
     FreeBSD: diskscrub
 
+  sdl2:
+    default: sdl2
+    deb: libsdl2-dev
+    rpm: SDL2-devel
+    mingw32-rpm: mingw32-SDL2
+    mingw64-rpm: mingw64-SDL2
+    cross-policy-default: foreign
+
+  sed:
+    default: sed
+    pkg: gsed
+    MacOS: gnu-sed
+
   sheepdog:
     Fedora: sheepdog
     Ubuntu1804: sheepdog
@@ -1015,6 +1358,17 @@ mappings:
   showmount:
     deb: nfs-common
     rpm: nfs-utils
+
+  snappy:
+    default: snappy
+    deb: libsnappy-dev
+    rpm: snappy-devel
+    cross-policy-default: foreign
+
+  sparse:
+    default: sparse
+    CentOS:
+    pkg:
 
   spice-gtk3:
     default: spice-gtk
@@ -1025,13 +1379,42 @@ mappings:
     mingw64-rpm: mingw64-spice-gtk3
     cross-policy-default: foreign
 
+  spice-protocol:
+    default: spice-protocol
+    deb: libspice-protocol-dev
+    OpenSUSE: spice-protocol-devel
+
+  spice-server:
+    deb: libspice-server-dev
+    pkg: libspice-server
+    rpm: spice-server-devel
+    s390x-deb:
+    mips-deb:
+    OpenSUSE: libspice-server-devel
+    cross-policy-default: foreign
+
+  ssh-client:
+    deb: openssh-client
+    rpm: openssh-clients
+    OpenSUSE: openssh
+
   strace:
     default: strace
     FreeBSD:
     MacOS:
 
+  systemd:
+    deb: libsystemd-dev
+    rpm: systemd-devel
+    cross-policy-default: foreign
+
   sudo:
     default: sudo
+    MacOS:
+
+  tar:
+    default: tar
+    pkg:
     MacOS:
 
   tc:
@@ -1039,6 +1422,22 @@ mappings:
     rpm: iproute-tc
     OpenSUSE: iproute2
     CentOS7: iproute
+
+  tesseract:
+    default: tesseract
+    deb: tesseract-ocr
+    CentOS:
+    OpenSUSE: tesseract-ocr
+
+  tesseract-eng:
+    deb: tesseract-ocr-eng
+    rpm: tesseract-langpack-eng
+    CentOS:
+    MacOS: tesseract
+    OpenSUSE: tesseract-ocr-traineddata-english
+
+  texinfo:
+    default: texinfo
 
   unzip:
     default: unzip
@@ -1048,6 +1447,12 @@ mappings:
     default: hwdata
     FreeBSD: usbids
     MacOS:
+
+  usbredir:
+    default: usbredir
+    deb: libusbredirhost-dev
+    rpm: usbredir-devel
+    cross-policy-default: foreign
 
   vala:
     default: vala
@@ -1059,8 +1464,26 @@ mappings:
     rpm: vim-minimal
     OpenSUSE: vim-small
 
+  virglrenderer:
+    deb: libvirglrenderer-dev
+    pkg: virglrenderer
+    rpm: virglrenderer-devel
+    CentOS7:
+    cross-policy-default: foreign
+
+  vte:
+    default: vte3
+    deb: libvte-2.91-dev
+    rpm: vte291-devel
+    OpenSUSE: vte-devel
+    cross-policy-default: foreign
+
   wget:
     default: wget
+
+  which:
+    deb: debianutils
+    rpm: which
 
   wireshark:
     deb: wireshark-dev
@@ -1137,6 +1560,9 @@ pypi_mappings:
   meson:
     default: meson==0.54.0
 
+  python3-PyYAML:
+    default: PyYAML
+
   python3-dbus:
     default: dbus-python
 
@@ -1152,11 +1578,24 @@ pypi_mappings:
   python3-nose:
     default: nose
 
+  python3-numpy:
+    default: numpy
+
+  python3-pillow:
+    default: pillow
+
   python3-pytest:
     default: pytest
 
   python3-requests:
     default: requests
+
+  python3-sphinx:
+    default: sphinx
+
+  python3-virtualenv:
+    default: virtualenv
+
 
 # CPAN mappings work like PyPi mappings, the only difference being that
 # installing a specific version of a CPAN package is not supported.
@@ -1210,6 +1649,9 @@ cpan_mappings:
 
   perl-Test-Exception:
     default: Test::Exception
+
+  perl-Test-Harness:
+    default: Test::Harness
 
   perl-Test-LWP-UserAgent:
     default: LWP::UserAgent
