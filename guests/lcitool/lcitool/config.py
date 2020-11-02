@@ -18,22 +18,27 @@ class Config:
         # Load the template config containing the defaults first, this must
         # always succeed.
 
-        default_config = resource_filename(__name__, "etc/config.yaml")
+        default_config = resource_filename(__name__, "etc/config.yml")
         with open(default_config, "r") as fp:
             self.values = yaml.safe_load(fp)
 
-        user_config_path = self._get_config_file("config.yaml")
-        if not user_config_path.exists():
+        user_config_path = None
+        for fname in ["config.yml", "config.yaml"]:
+            user_config_path = self._get_config_file(fname)
+
+            if user_config_path.exists():
+                break
+        else:
             return
 
         try:
             with open(user_config_path, "r") as fp:
                 user_config = yaml.safe_load(fp)
         except Exception as e:
-            raise Exception("Invalid config.yaml file: {}".format(e))
+            raise Exception("Invalid '{}': {}".format(user_config_path.name, e))
 
         if user_config is None:
-            raise Exception("Invalid config.yaml file")
+            raise Exception("Invalid '{}'".format(user_config_path.name))
 
         # delete user params we don't recognize
         self._remove_all_unknown_keys(user_config)
