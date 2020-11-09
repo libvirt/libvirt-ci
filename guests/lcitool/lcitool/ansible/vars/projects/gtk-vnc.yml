@@ -8,5 +8,7 @@ packages:
   - gtk3
   - intltool
   - libgcrypt
+  - meson
+  - ninja
   - pulseaudio
   - vala

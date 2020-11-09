@@ -44,7 +44,9 @@ packages:
   - libudev
   - libxml2
   - lvm2
+  - meson
   - modprobe
+  - ninja
   - netcf
   - numad
   - openwsman

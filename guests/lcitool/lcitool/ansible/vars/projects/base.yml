@@ -19,9 +19,7 @@ packages:
   - locales
   - lsof
   - make
-  - meson
   - net-tools
-  - ninja
   - patch
   - perl
   - perl-App-cpanminus

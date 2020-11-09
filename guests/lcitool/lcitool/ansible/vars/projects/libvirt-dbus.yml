@@ -3,6 +3,8 @@ packages:
   - dbus-daemon
   - flake8
   - glib2
+  - meson
+  - ninja
   - python3-dbus
   - python3-docutils
   - python3-gobject

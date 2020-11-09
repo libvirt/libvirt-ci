@@ -6,5 +6,7 @@ packages:
   - libsoup
   - libxml2
   - libxslt
+  - meson
+  - ninja
   - python3-pytest
   - python3-requests
