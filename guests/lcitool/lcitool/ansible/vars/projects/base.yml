@@ -5,7 +5,6 @@ packages:
   - ca-certificates
   - ccache
   - chrony
-  - cppi
   - gcc
   - gdb
   - gettext

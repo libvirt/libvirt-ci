@@ -5,6 +5,7 @@ packages:
   - augeas-lenses
   - avahi
   - clang
+  - cppi
   - cyrus-sasl
   - device-mapper
   - dlfcn
