@@ -4,7 +4,6 @@ packages:
   - bash-completion
   - ca-certificates
   - ccache
-  - chrony
   - gcc
   - gettext
   - git
@@ -19,5 +18,3 @@ packages:
   - python3-setuptools
   - python3-wheel
   - rpmbuild
-  - screen
-  - sudo
