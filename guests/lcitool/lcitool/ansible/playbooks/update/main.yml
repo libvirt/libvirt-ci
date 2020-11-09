@@ -22,8 +22,11 @@
 
     # Install base packages
     - include: '{{ playbook_base }}/tasks/packages.yml'
-      vars:
-        project: base
+      loop:
+        - base
+        - developer
+      loop_control:
+        loop_var: project
 
     # Remove unwanted packages
     - include: '{{ playbook_base }}/tasks/packages.yml'
