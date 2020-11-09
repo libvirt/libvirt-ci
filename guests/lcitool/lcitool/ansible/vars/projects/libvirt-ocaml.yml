@@ -1,5 +1,11 @@
 ---
 packages:
+  - autoconf
+  - automake
+  - autopoint
+  - libtool
+  - libtoolize
+  - make
   - ocaml
   - ocaml-findlib
   - perl

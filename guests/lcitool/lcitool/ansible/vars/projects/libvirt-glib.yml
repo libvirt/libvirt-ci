@@ -1,7 +1,13 @@
 ---
 packages:
+  - autoconf
+  - automake
+  - autopoint
   - glib2
   - gobject-introspection
   - gtk-doc
+  - libtool
+  - libtoolize
   - libxml2
+  - make
   - vala

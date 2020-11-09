@@ -1,8 +1,5 @@
 ---
 packages:
-  - autoconf
-  - automake
-  - autopoint
   - bash
   - bash-completion
   - ca-certificates
@@ -14,11 +11,8 @@ packages:
   - gettext
   - git
   - glibc
-  - libtool
-  - libtoolize
   - locales
   - lsof
-  - make
   - net-tools
   - patch
   - perl

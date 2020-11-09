@@ -1,5 +1,8 @@
 ---
 packages:
+  - autoconf
+  - automake
+  - autopoint
   - glib2
   - gstreamer-plugins-bad-free
   - gstreamer-plugins-good
@@ -7,6 +10,9 @@ packages:
   - icoutils
   - libgovirt
   - librest
+  - libtool
+  - libtoolize
   - libxml2
+  - make
   - spice-gtk3
   - xmllint

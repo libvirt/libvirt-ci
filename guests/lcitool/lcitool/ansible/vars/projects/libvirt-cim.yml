@@ -1,8 +1,14 @@
 ---
 packages:
+  - autoconf
+  - automake
+  - autopoint
   - libcmpiutil
   - libconfig
+  - libtool
+  - libtoolize
   - libuuid
   - libxml2
   - libxslt
+  - make
   - wget

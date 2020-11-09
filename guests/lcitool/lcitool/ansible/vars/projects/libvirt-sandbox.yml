@@ -1,5 +1,8 @@
 ---
 packages:
+  - autoconf
+  - automake
+  - autopoint
   - glib2
   - glibc-static
   - gobject-introspection
@@ -9,7 +12,10 @@ packages:
   - liblzma-static
   - libselinux
   - libtirpc
+  - libtool
+  - libtoolize
   - libxml2
+  - make
   - rpcgen
   - zlib
   - zlib-static

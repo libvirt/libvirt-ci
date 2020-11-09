@@ -1,6 +1,12 @@
 ---
 packages:
+  - autoconf
+  - automake
+  - autopoint
+  - libtool
+  - libtoolize
   - libxml2
+  - make
   - php
   - php-imagick
   - xmllint
