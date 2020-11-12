@@ -311,6 +311,12 @@ class DockerfileFormatter(Formatter):
                         "{packaging_command} config-manager --set-enabled -y " + powertools,
                     ])
 
+                    # Not all of the virt related -devel packages are provided by
+                    # virt:rhel module so we have to enable AV repository as well.
+                    commands.extend([
+                        "{packaging_command} install -y centos-release-advanced-virtualization",
+                    ])
+
                 # VZ development packages are only available for CentOS/RHEL-7
                 # right now and need a 3rd party repository enabled
                 if facts["os"]["version"] == "7":

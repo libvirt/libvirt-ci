@@ -38,6 +38,14 @@
   when:
     - os.name == 'CentOS'
 
+- name: Enable Advanced Virtualization repository
+  package:
+    name: centos-release-advanced-virtualization
+    state: latest
+  when:
+    - os.name == 'CentOS'
+    - os.version == '8' or os.version == 'Stream'
+
 - name: Create OpenVZ key
   template:
     src: '{{ playbook_base }}/templates/openvz.key'
