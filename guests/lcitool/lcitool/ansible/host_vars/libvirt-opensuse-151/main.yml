@@ -23,5 +23,5 @@ ansible_python_interpreter: /usr/bin/python3
 install:
   url: http://download.opensuse.org/distribution/leap/15.1/repo/oss/
 
-docker:
+containers:
   base: opensuse/leap:15.1

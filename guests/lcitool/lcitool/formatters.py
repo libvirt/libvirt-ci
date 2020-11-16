@@ -265,7 +265,7 @@ class DockerfileFormatter(Formatter):
         if "cpan_pkgs" in varmap:
             varmap["cpan_pkgs"] = cpan_pkg_align[1:] + cpan_pkg_align.join(varmap["cpan_pkgs"])
 
-        strings.append("FROM {}".format(facts["docker"]["base"]))
+        strings.append("FROM {}".format(facts["containers"]["base"]))
 
         commands = []
 

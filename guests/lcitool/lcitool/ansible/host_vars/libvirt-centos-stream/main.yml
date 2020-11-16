@@ -23,5 +23,5 @@ ansible_python_interpreter: /usr/bin/python3
 install:
   url: http://mirror.centos.org/centos-8/8/BaseOS/x86_64/os/
 
-docker:
+containers:
   base: centos:8

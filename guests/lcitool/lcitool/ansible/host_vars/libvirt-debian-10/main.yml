@@ -23,5 +23,5 @@ ansible_python_interpreter: /usr/bin/python3
 install:
   url: http://deb.debian.org/debian/dists/buster/main/installer-amd64/
 
-docker:
+containers:
   base: debian:10
