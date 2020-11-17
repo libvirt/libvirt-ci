@@ -3,6 +3,8 @@ packages:
   - autoconf
   - automake
   - autopoint
+  - ccache
+  - gcc
   - glib2
   - glibc-static
   - gobject-introspection

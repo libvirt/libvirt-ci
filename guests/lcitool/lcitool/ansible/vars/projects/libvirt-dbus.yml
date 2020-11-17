@@ -1,7 +1,9 @@
 ---
 packages:
+  - ccache
   - dbus-daemon
   - flake8
+  - gcc
   - glib2
   - make
   - meson

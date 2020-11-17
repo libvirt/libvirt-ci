@@ -1,5 +1,7 @@
 ---
 packages:
+  - ccache
+  - gcc
   - make
   - rake
   - ruby

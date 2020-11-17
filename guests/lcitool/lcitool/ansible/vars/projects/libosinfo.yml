@@ -1,6 +1,8 @@
 ---
 packages:
   - check
+  - ccache
+  - gcc
   - glib2
   - gobject-introspection
   - gtk-doc

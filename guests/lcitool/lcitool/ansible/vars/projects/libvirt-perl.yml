@@ -1,5 +1,7 @@
 ---
 packages:
+  - ccache
+  - gcc
   - perl-Archive-Tar
   - perl-CPAN-Changes
   - perl-Module-Build

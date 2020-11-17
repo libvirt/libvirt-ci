@@ -3,6 +3,8 @@ packages:
   - autoconf
   - automake
   - autopoint
+  - ccache
+  - gcc
   - libtool
   - libtoolize
   - libxml2

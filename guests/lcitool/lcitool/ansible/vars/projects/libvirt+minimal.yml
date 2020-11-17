@@ -1,5 +1,7 @@
 ---
 packages:
+  - ccache
+  - gcc
   - glib2
   - gnutls
   - libnl3

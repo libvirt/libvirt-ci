@@ -1,6 +1,8 @@
 ---
 packages:
   - cyrus-sasl
+  - ccache
+  - gcc
   - gdk-pixbuf
   - glib2
   - gnutls

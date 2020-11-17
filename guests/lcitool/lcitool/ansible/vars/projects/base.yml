@@ -3,8 +3,6 @@ packages:
   - bash
   - bash-completion
   - ca-certificates
-  - ccache
-  - gcc
   - gettext
   - git
   - glibc

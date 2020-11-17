@@ -3,6 +3,8 @@ packages:
   - autoconf
   - automake
   - autopoint
+  - ccache
+  - gcc
   - glib2
   - gstreamer-plugins-bad-free
   - gstreamer-plugins-good

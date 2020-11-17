@@ -4,6 +4,7 @@ packages:
   - augeas
   - augeas-lenses
   - avahi
+  - ccache
   - clang
   - cppi
   - cyrus-sasl
@@ -16,6 +17,7 @@ packages:
   - firewalld-filesystem
   - flake8
   - fuse
+  - gcc
   - glib2
   - glusterfs
   - gnutls
