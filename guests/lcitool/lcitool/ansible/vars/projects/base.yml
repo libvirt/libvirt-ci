@@ -1,7 +1,5 @@
 ---
 packages:
-  - bash
-  - bash-completion
   - ca-certificates
   - git
   - locales

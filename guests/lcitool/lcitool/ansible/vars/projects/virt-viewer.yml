@@ -3,6 +3,7 @@ packages:
   - autoconf
   - automake
   - autopoint
+  - bash-completion
   - ccache
   - gcc
   - glib2

@@ -4,6 +4,7 @@ packages:
   - augeas
   - augeas-lenses
   - avahi
+  - bash-completion
   - ccache
   - clang
   - cppi
