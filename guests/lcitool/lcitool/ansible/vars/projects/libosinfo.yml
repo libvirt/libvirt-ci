@@ -3,6 +3,7 @@ packages:
   - check
   - ccache
   - gcc
+  - gettext
   - glib2
   - gobject-introspection
   - gtk-doc

@@ -3,7 +3,6 @@ packages:
   - bash
   - bash-completion
   - ca-certificates
-  - gettext
   - git
   - locales
   - pkg-config

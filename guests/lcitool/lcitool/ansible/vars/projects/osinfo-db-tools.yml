@@ -2,6 +2,7 @@
 packages:
   - ccache
   - gcc
+  - gettext
   - glib2
   - json-glib
   - libarchive

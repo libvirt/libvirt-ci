@@ -4,6 +4,7 @@ packages:
   - ccache
   - gcc
   - gdk-pixbuf
+  - gettext
   - glib2
   - gnutls
   - gobject-introspection

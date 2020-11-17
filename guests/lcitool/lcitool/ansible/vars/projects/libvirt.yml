@@ -18,6 +18,7 @@ packages:
   - flake8
   - fuse
   - gcc
+  - gettext
   - glib2
   - glibc
   - glusterfs

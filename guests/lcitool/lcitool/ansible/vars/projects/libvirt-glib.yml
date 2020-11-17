@@ -5,6 +5,7 @@ packages:
   - autopoint
   - ccache
   - gcc
+  - gettext
   - glib2
   - gobject-introspection
   - gtk-doc
