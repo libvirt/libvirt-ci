@@ -6,4 +6,5 @@ packages:
   - python3-gobject
   - python3-libxml2
   - python3-requests
+  - python3-setuptools
   - unzip
