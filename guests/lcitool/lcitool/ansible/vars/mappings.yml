@@ -690,10 +690,6 @@ mappings:
     FreeBSD:
     MacOS:
 
-  patch:
-    default: patch
-    MacOS: gpatch
-
   pci-ids:
     default: hwdata
     FreeBSD: pciids

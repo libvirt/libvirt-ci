@@ -6,7 +6,6 @@ packages:
   - gettext
   - git
   - locales
-  - patch
   - pkg-config
   - python3
   - rpmbuild
