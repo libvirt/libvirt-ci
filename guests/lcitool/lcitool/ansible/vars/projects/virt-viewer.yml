@@ -16,5 +16,6 @@ packages:
   - libtoolize
   - libxml2
   - make
+  - pkg-config
   - spice-gtk3
   - xmllint

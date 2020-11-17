@@ -19,6 +19,7 @@ packages:
   - libtoolize
   - libxml2
   - make
+  - pkg-config
   - rpcgen
   - zlib
   - zlib-static

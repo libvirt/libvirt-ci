@@ -13,4 +13,5 @@ packages:
   - libtoolize
   - libxml2
   - make
+  - pkg-config
   - vala

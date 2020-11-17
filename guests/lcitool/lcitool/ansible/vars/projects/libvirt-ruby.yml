@@ -4,6 +4,7 @@ packages:
   - gcc
   - glibc
   - make
+  - pkg-config
   - rake
   - ruby
   - zip

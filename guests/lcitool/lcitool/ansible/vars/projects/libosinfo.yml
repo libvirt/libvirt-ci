@@ -13,6 +13,7 @@ packages:
   - meson
   - ninja
   - pci-ids
+  - pkg-config
   - usb-ids
   - vala
   - wget

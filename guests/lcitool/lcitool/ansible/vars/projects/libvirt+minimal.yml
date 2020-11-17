@@ -14,6 +14,7 @@ packages:
   - meson
   - ninja
   - perl
+  - pkg-config
   - python3-docutils
   - rpcgen
   - xmllint

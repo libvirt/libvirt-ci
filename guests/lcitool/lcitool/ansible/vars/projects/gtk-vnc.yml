@@ -11,6 +11,7 @@ packages:
   - gtk3
   - intltool
   - libgcrypt
+  - pkg-config
   - meson
   - ninja
   - pulseaudio

@@ -11,3 +11,4 @@ packages:
   - ocaml
   - ocaml-findlib
   - perl
+  - pkg-config

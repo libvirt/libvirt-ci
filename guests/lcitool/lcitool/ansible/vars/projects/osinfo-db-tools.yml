@@ -12,5 +12,6 @@ packages:
   - make
   - meson
   - ninja
+  - pkg-config
   - python3-pytest
   - python3-requests

@@ -7,3 +7,4 @@ packages:
   - make
   - net-snmp
   - perl-Net-SNMP
+  - pkg-config

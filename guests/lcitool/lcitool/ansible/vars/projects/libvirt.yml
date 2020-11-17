@@ -58,6 +58,7 @@ packages:
   - openwsman
   - parted
   - perl
+  - pkg-config
   - polkit
   - portablexdr
   - python3-docutils

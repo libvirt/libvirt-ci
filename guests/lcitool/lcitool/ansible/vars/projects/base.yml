@@ -5,6 +5,5 @@ packages:
   - ca-certificates
   - git
   - locales
-  - pkg-config
   - python3
   - rpmbuild

@@ -8,6 +8,7 @@ packages:
   - make
   - meson
   - ninja
+  - pkg-config
   - python3-dbus
   - python3-docutils
   - python3-gobject

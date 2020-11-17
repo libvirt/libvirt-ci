@@ -4,3 +4,4 @@ packages:
   - gcc
   - glibc
   - go
+  - pkg-config
