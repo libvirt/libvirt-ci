@@ -13,23 +13,23 @@
     # (3.5.0 and 2.0.0 respectively) are not compatible.
     # The python3-pytest version in CentOS 7 is too old.
     machines:
-      - libvirt-centos-8
-      - libvirt-centos-stream
-      - libvirt-debian-10
-      - libvirt-debian-sid
-      - libvirt-fedora-32
-      - libvirt-fedora-33
-      - libvirt-fedora-rawhide
-      - libvirt-opensuse-151
-      - libvirt-ubuntu-1804
-      - libvirt-ubuntu-2004
+      - centos-8
+      - centos-stream
+      - debian-10
+      - debian-sid
+      - fedora-32
+      - fedora-33
+      - fedora-rawhide
+      - opensuse-151
+      - ubuntu-1804
+      - ubuntu-2004
 - include: '{{ playbook_base }}/jobs/meson-rpm-job.yml'
   vars:
     # RPM build is still not possible on CentOS7 as it does not
     # have the needed RPM macros for meson.
     machines:
-      - libvirt-centos-8
-      - libvirt-centos-stream
-      - libvirt-fedora-32
-      - libvirt-fedora-33
-      - libvirt-fedora-rawhide
+      - centos-8
+      - centos-stream
+      - fedora-32
+      - fedora-33
+      - fedora-rawhide

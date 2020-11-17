@@ -12,17 +12,17 @@
     # We limit syntax-check to Linux platforms because it calls some
     # commands with more arguments than FreeBSD supports
     machines:
-      - libvirt-centos-7
-      - libvirt-centos-8
-      - libvirt-centos-stream
-      - libvirt-debian-10
-      - libvirt-debian-sid
-      - libvirt-fedora-32
-      - libvirt-fedora-33
-      - libvirt-fedora-rawhide
-      - libvirt-opensuse-151
-      - libvirt-ubuntu-1804
-      - libvirt-ubuntu-2004
+      - centos-7
+      - centos-8
+      - centos-stream
+      - debian-10
+      - debian-sid
+      - fedora-32
+      - fedora-33
+      - fedora-rawhide
+      - opensuse-151
+      - ubuntu-1804
+      - ubuntu-2004
 - include: '{{ playbook_base }}/jobs/meson-check-job.yml'
   vars:
     local_env: |
@@ -43,6 +43,6 @@
       #   Disable RPM builds on CentOS for the time being and revert it back
       #   once libvirt resolves
       #   https://www.redhat.com/archives/libvir-list/2020-August/msg00262.html
-      - libvirt-fedora-32
-      - libvirt-fedora-33
-      - libvirt-fedora-rawhide
+      - fedora-32
+      - fedora-33
+      - fedora-rawhide

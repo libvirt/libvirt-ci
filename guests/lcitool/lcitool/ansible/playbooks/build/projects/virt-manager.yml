@@ -3,19 +3,19 @@
     name: virt-manager
     # CentOS 7 has Python 3 but not the libxml2 bindings
     machines:
-      - libvirt-centos-8
-      - libvirt-centos-stream
-      - libvirt-debian-10
-      - libvirt-debian-sid
-      - libvirt-fedora-32
-      - libvirt-fedora-33
-      - libvirt-fedora-rawhide
-      - libvirt-freebsd-11
-      - libvirt-freebsd-12
-      - libvirt-freebsd-current
-      - libvirt-opensuse-151
-      - libvirt-ubuntu-1804
-      - libvirt-ubuntu-2004
+      - centos-8
+      - centos-stream
+      - debian-10
+      - debian-sid
+      - fedora-32
+      - fedora-33
+      - fedora-rawhide
+      - freebsd-11
+      - freebsd-12
+      - freebsd-current
+      - opensuse-151
+      - ubuntu-1804
+      - ubuntu-2004
     archive_format: gz
     git_url: '{{ git_urls["virt-manager"][git_remote] }}'
 
@@ -27,24 +27,24 @@
 - include: '{{ playbook_base }}/jobs/python-distutils-check-job.yml'
   vars:
     machines:
-      - libvirt-centos-8
-      - libvirt-centos-stream
-      - libvirt-debian-10
-      - libvirt-debian-sid
-      - libvirt-fedora-32
-      - libvirt-fedora-33
-      - libvirt-fedora-rawhide
-      - libvirt-freebsd-11
-      - libvirt-freebsd-12
-      - libvirt-freebsd-current
-      - libvirt-opensuse-151
-      - libvirt-ubuntu-1804
-      - libvirt-ubuntu-2004
+      - centos-8
+      - centos-stream
+      - debian-10
+      - debian-sid
+      - fedora-32
+      - fedora-33
+      - fedora-rawhide
+      - freebsd-11
+      - freebsd-12
+      - freebsd-current
+      - opensuse-151
+      - ubuntu-1804
+      - ubuntu-2004
 - include: '{{ playbook_base }}/jobs/python-distutils-rpm-job.yml'
   vars:
     machines:
-      - libvirt-centos-8
-      - libvirt-centos-stream
-      - libvirt-fedora-32
-      - libvirt-fedora-33
-      - libvirt-fedora-rawhide
+      - centos-8
+      - centos-stream
+      - fedora-32
+      - fedora-33
+      - fedora-rawhide
