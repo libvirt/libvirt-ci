@@ -43,6 +43,7 @@ class Formatter(metaclass=abc.ABCMeta):
                                 selected_projects,
                                 cross_arch):
         pkgs = {}
+        mapped_pkgs = {}
         cross_pkgs = {}
         pypi_pkgs = {}
         cpan_pkgs = {}
@@ -170,6 +171,7 @@ class Formatter(metaclass=abc.ABCMeta):
         }
 
         varmap["pkgs"] = sorted(set(pkgs.values()))
+        varmap["mappings"] = sorted(set(list(pkgs.keys()) + list(pypi_pkgs.keys()) + list(cpan_pkgs.keys())))
 
         if cross_arch:
             varmap["cross_arch"] = cross_arch
@@ -377,20 +379,21 @@ class DockerfileFormatter(Formatter):
                     "{packaging_command} clean all -y",
                 ])
 
-        commands.extend([
-            "mkdir -p /usr/libexec/ccache-wrappers",
-        ])
+        if "ccache" in varmap["mappings"]:
+            commands.extend([
+                "mkdir -p /usr/libexec/ccache-wrappers",
+            ])
 
-        if cross_arch:
-            commands.extend([
-                "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/{cross_abi}-cc",
-                "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/{cross_abi}-$(basename {paths_cc})",
-            ])
-        else:
-            commands.extend([
-                "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/cc",
-                "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/$(basename {paths_cc})",
-            ])
+            if cross_arch:
+                commands.extend([
+                    "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/{cross_abi}-cc",
+                    "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/{cross_abi}-$(basename {paths_cc})",
+                ])
+            else:
+                commands.extend([
+                    "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/cc",
+                    "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/$(basename {paths_cc})",
+                ])
 
         script = "\nRUN " + (" && \\\n    ".join(commands))
         strings.append(script.format(**varmap))
@@ -436,15 +439,16 @@ class DockerfileFormatter(Formatter):
         if "cpan_pkgs" in varmap:
             strings.append("\nRUN cpanm --notest {cpan_pkgs}".format(**varmap))
 
-        common_vars = [
-            "ENV LANG \"en_US.UTF-8\"",
-            "",
-            "ENV MAKE \"{paths_make}\"",
-            "ENV NINJA \"{paths_ninja}\"",
-            "ENV PYTHON \"{paths_python}\"",
-            "",
-            "ENV CCACHE_WRAPPERSDIR \"/usr/libexec/ccache-wrappers\"",
-        ]
+        common_vars = ["ENV LANG \"en_US.UTF-8\""]
+        if "make" in varmap["mappings"]:
+            common_vars += ["ENV MAKE \"{paths_make}\""]
+        if "meson" in varmap["mappings"]:
+            common_vars += ["ENV NINJA \"{paths_ninja}\""]
+        if "python3" in varmap["mappings"]:
+            common_vars += ["ENV PYTHON \"{paths_python}\""]
+        if "ccache" in varmap["mappings"]:
+            common_vars += ["ENV CCACHE_WRAPPERSDIR \"/usr/libexec/ccache-wrappers\""]
+
         common_env = "\n" + "\n".join(common_vars)
         strings.append(common_env.format(**varmap))
 
@@ -506,6 +510,9 @@ class VariablesFormatter(Formatter):
         strings = []
 
         for key in varmap:
+            if key == "mappings":
+                # For internal use only
+                continue
             if key == "pkgs" or key.endswith("_pkgs"):
                 name = key
                 value = " ".join(varmap[key])
