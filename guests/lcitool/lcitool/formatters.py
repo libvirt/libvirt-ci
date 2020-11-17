@@ -136,6 +136,29 @@ class Formatter(metaclass=abc.ABCMeta):
                 if package in pkgs and cross_policy in ["skip", "foreign"]:
                     del pkgs[package]
 
+        extra_projects = []
+        if pypi_pkgs:
+            extra_projects += ["python-pip"]
+        if cpan_pkgs:
+            extra_projects += ["perl-cpan"]
+        for project in extra_projects:
+            for package in self._projects.get_packages(project):
+                cross_policy = "native"
+
+                if package not in mappings:
+                    raise Exception(
+                        "No mapping defined for {}".format(package)
+                    )
+
+                for key in keys:
+                    if key in mappings[package]:
+                        pkgs[package] = mappings[package][key]
+
+                if pkgs[package] is None:
+                    raise Exception(
+                        "No package for {}".format(package)
+                    )
+
         varmap = {
             "packaging_command": facts["packaging"]["command"],
             "paths_cc": facts["paths"]["cc"],

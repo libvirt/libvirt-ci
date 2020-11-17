@@ -56,6 +56,8 @@ class Projects:
             "base",
             "cloud-init"
             "developer",
+            "perl-cpan",
+            "python-pip",
             "unwanted",
             "vm",
         ]

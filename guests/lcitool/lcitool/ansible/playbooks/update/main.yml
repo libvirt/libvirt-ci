@@ -25,6 +25,8 @@
       loop:
         - base
         - developer
+        - perl-cpan
+        - python-pip
         - vm
       loop_control:
         loop_var: project
