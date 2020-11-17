@@ -24,4 +24,4 @@ install:
   url: https://download.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os
 
 containers:
-  base: fedora:32
+  base: registry.fedoraproject.org/fedora:32

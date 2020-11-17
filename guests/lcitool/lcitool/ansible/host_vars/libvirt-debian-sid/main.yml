@@ -24,4 +24,4 @@ install:
   url: http://deb.debian.org/debian/dists/sid/main/installer-amd64/
 
 containers:
-  base: debian:sid
+  base: docker.io/library/debian:sid

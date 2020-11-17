@@ -24,4 +24,4 @@ install:
   url: http://deb.debian.org/debian/dists/buster/main/installer-amd64/
 
 containers:
-  base: debian:10
+  base: docker.io/library/debian:10

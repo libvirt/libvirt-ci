@@ -24,4 +24,4 @@ install:
   url: http://download.opensuse.org/distribution/leap/15.1/repo/oss/
 
 containers:
-  base: opensuse/leap:15.1
+  base: registry.opensuse.org/opensuse/leap:15.1

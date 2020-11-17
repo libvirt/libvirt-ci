@@ -24,4 +24,4 @@ install:
   url: http://archive.ubuntu.com/ubuntu/dists/bionic-updates/main/installer-amd64/
 
 containers:
-  base: ubuntu:18.04
+  base: docker.io/library/ubuntu:18.04

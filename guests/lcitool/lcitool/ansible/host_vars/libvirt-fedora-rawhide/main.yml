@@ -24,4 +24,4 @@ install:
   url: https://download.fedoraproject.org/pub/fedora/linux/development/rawhide/Everything/x86_64/os
 
 containers:
-  base: fedora:rawhide
+  base: registry.fedoraproject.org/fedora:rawhide
