@@ -5,7 +5,6 @@ all_machines:
   - libvirt-centos-stream
   - libvirt-debian-10
   - libvirt-debian-sid
-  - libvirt-fedora-31
   - libvirt-fedora-32
   - libvirt-fedora-33
   - libvirt-fedora-rawhide
@@ -19,7 +18,6 @@ rpm_machines:
   - libvirt-centos-7
   - libvirt-centos-8
   - libvirt-centos-stream
-  - libvirt-fedora-31
   - libvirt-fedora-32
   - libvirt-fedora-33
   - libvirt-fedora-rawhide

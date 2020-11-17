@@ -17,7 +17,6 @@
       - libvirt-centos-stream
       - libvirt-debian-10
       - libvirt-debian-sid
-      - libvirt-fedora-31
       - libvirt-fedora-32
       - libvirt-fedora-33
       - libvirt-fedora-rawhide
@@ -44,7 +43,6 @@
       #   Disable RPM builds on CentOS for the time being and revert it back
       #   once libvirt resolves
       #   https://www.redhat.com/archives/libvir-list/2020-August/msg00262.html
-      - libvirt-fedora-31
       - libvirt-fedora-32
       - libvirt-fedora-33
       - libvirt-fedora-rawhide

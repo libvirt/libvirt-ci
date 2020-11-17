@@ -15,7 +15,6 @@
     machines:
       - libvirt-centos-8
       - libvirt-centos-stream
-      - libvirt-fedora-31
       - libvirt-fedora-32
       - libvirt-fedora-33
       - libvirt-fedora-rawhide
