@@ -7,7 +7,6 @@ packages:
   - git
   - locales
   - patch
-  - perl
   - pkg-config
   - python3
   - rpmbuild

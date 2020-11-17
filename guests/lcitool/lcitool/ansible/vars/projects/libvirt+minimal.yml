@@ -12,6 +12,7 @@ packages:
   - make
   - meson
   - ninja
+  - perl
   - python3-docutils
   - rpcgen
   - xmllint

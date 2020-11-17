@@ -2,6 +2,7 @@
 packages:
   - ccache
   - gcc
+  - perl
   - perl-Archive-Tar
   - perl-CPAN-Changes
   - perl-Module-Build

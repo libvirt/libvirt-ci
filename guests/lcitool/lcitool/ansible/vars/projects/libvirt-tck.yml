@@ -1,5 +1,6 @@
 ---
 packages:
+  - perl
   - perl-Archive-Tar
   - perl-Config-Record
   - perl-Digest
