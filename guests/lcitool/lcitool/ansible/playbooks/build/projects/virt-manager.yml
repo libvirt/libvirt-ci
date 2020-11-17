@@ -9,6 +9,7 @@
       - libvirt-debian-sid
       - libvirt-fedora-31
       - libvirt-fedora-32
+      - libvirt-fedora-33
       - libvirt-fedora-rawhide
       - libvirt-freebsd-11
       - libvirt-freebsd-12
@@ -33,6 +34,7 @@
       - libvirt-debian-sid
       - libvirt-fedora-31
       - libvirt-fedora-32
+      - libvirt-fedora-33
       - libvirt-fedora-rawhide
       - libvirt-freebsd-11
       - libvirt-freebsd-12
@@ -47,4 +49,5 @@
       - libvirt-centos-stream
       - libvirt-fedora-31
       - libvirt-fedora-32
+      - libvirt-fedora-33
       - libvirt-fedora-rawhide
