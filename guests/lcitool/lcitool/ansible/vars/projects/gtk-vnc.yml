@@ -12,6 +12,7 @@ packages:
   - intltool
   - libgcrypt
   - pkg-config
+  - python3
   - meson
   - ninja
   - pulseaudio

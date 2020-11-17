@@ -4,6 +4,7 @@ packages:
   - itstool
   - make
   - pkg-config
+  - python3
   - python3-lxml
   - python3-pytest
   - python3-requests

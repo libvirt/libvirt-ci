@@ -63,6 +63,7 @@ packages:
   - pkg-config
   - polkit
   - portablexdr
+  - python3
   - python3-docutils
   - qemu-img
   - radvd

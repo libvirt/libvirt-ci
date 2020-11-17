@@ -3,4 +3,3 @@ packages:
   - ca-certificates
   - git
   - locales
-  - python3

@@ -13,6 +13,7 @@ packages:
   - meson
   - ninja
   - pkg-config
+  - python3
   - python3-pytest
   - python3-requests
   - rpmbuild
