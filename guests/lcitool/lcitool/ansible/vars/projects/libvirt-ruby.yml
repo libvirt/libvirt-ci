@@ -6,5 +6,6 @@ packages:
   - make
   - pkg-config
   - rake
+  - rpmbuild
   - ruby
   - zip

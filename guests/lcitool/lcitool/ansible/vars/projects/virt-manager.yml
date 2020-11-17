@@ -7,4 +7,5 @@ packages:
   - python3-libxml2
   - python3-requests
   - python3-setuptools
+  - rpmbuild
   - unzip

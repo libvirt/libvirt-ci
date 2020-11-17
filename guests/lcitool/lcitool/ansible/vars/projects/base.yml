@@ -6,4 +6,3 @@ packages:
   - git
   - locales
   - python3
-  - rpmbuild

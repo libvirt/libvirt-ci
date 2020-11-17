@@ -12,3 +12,4 @@ packages:
   - perl-XML-XPath
   - perl-generators
   - pkg-config
+  - rpmbuild

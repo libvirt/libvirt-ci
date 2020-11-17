@@ -12,5 +12,6 @@ packages:
   - php
   - php-imagick
   - pkg-config
+  - rpmbuild
   - xmllint
   - xsltproc

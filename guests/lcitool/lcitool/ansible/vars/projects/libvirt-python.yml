@@ -7,3 +7,4 @@ packages:
   - python3-lxml
   - python3-nose
   - python3-setuptools
+  - rpmbuild

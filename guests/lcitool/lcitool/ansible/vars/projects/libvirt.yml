@@ -67,6 +67,7 @@ packages:
   - radvd
   - readline
   - rpcgen
+  - rpmbuild
   - sanlock
   - scrub
   - sheepdog

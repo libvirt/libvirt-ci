@@ -14,6 +14,7 @@ packages:
   - ninja
   - pci-ids
   - pkg-config
+  - rpmbuild
   - usb-ids
   - vala
   - wget

@@ -18,4 +18,5 @@ packages:
   - make
   - pkg-config
   - spice-gtk3
+  - rpmbuild
   - xmllint

@@ -23,3 +23,4 @@ packages:
   - perl-XML-XPath
   - perl-accessors
   - perl-generators
+  - rpmbuild
