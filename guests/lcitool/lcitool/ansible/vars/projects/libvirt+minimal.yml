@@ -6,6 +6,9 @@ packages:
   - libnlroute3
   - libtirpc
   - libxml2
+  - make
+  - meson
+  - ninja
   - python3-docutils
   - rpcgen
   - xmllint
