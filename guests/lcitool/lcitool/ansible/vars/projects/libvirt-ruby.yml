@@ -1,5 +1,6 @@
 ---
 packages:
+  - make
   - rake
   - ruby
   - zip
