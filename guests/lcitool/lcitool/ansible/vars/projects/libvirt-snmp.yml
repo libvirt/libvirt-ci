@@ -1,4 +1,7 @@
 ---
 packages:
+  - autoconf
+  - automake
+  - make
   - net-snmp
   - perl-Net-SNMP
