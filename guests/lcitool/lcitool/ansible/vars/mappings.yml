@@ -174,6 +174,9 @@ mappings:
     rpm: device-mapper-devel
     cross-policy-default: foreign
 
+  diffutils:
+    default: diffutils
+
   dlfcn:
     mingw32-rpm: mingw32-dlfcn
     mingw64-rpm: mingw64-dlfcn

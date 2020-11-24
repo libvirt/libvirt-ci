@@ -4,6 +4,7 @@ packages:
   - automake
   - autopoint
   - ccache
+  - diffutils
   - gcc
   - libtool
   - libtoolize

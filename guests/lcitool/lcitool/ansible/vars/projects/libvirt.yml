@@ -9,6 +9,7 @@ packages:
   - cppi
   - cyrus-sasl
   - device-mapper
+  - diffutils
   - dlfcn
   - dnsmasq
   - dtrace
