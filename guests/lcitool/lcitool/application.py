@@ -215,11 +215,16 @@ class Application:
                                args.git_revision)
 
     def _action_variables(self, args):
-        print(VariablesFormatter(self._projects, self._inventory).format(args))
+        print(VariablesFormatter(self._projects,
+                                 self._inventory).format(args.hosts,
+                                                         args.projects,
+                                                         None))
 
     def _action_dockerfile(self, args):
         print(DockerfileFormatter(self._projects,
-                                  self._inventory).format(args))
+                                  self._inventory).format(args.hosts,
+                                                          args.projects,
+                                                          args.cross_arch))
 
     def run(self, args):
         args.func(self, args)

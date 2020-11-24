@@ -199,14 +199,14 @@ class Formatter(metaclass=abc.ABCMeta):
 
         return varmap
 
-    def _generator_prepare(self, args):
+    def _generator_prepare(self, hosts, projects, cross_arch):
         name = self.__class__.__name__.lower()
         mappings = self._projects.get_mappings()
         pypi_mappings = self._projects.get_pypi_mappings()
         cpan_mappings = self._projects.get_cpan_mappings()
         native_arch = util.get_native_arch()
 
-        hosts = self._inventory.expand_pattern(args.hosts)
+        hosts = self._inventory.expand_pattern(hosts)
         if len(hosts) > 1:
             raise Exception(
                 "Can't use '{}' use generator on multiple hosts".format(name)
@@ -214,7 +214,6 @@ class Formatter(metaclass=abc.ABCMeta):
         host = hosts[0]
 
         facts = self._inventory.get_facts(host)
-        cross_arch = args.cross_arch
 
         # We can only generate Dockerfiles for Linux
         if (name == "dockerfileformatter" and
@@ -245,7 +244,7 @@ class Formatter(metaclass=abc.ABCMeta):
                 raise Exception("Cross arch {} should differ from native {}".
                                 format(cross_arch, native_arch))
 
-        selected_projects = self._projects.expand_pattern(args.projects)
+        selected_projects = self._projects.expand_pattern(projects)
         for project in selected_projects:
             if project.rfind("+mingw") >= 0:
                 raise Exception("Obsolete syntax, please use --cross-arch")
@@ -530,7 +529,7 @@ class DockerfileFormatter(Formatter):
 
         return strings
 
-    def format(self, args):
+    def format(self, hosts, projects, cross_arch):
         """
         Generates and formats a Dockerfile.
 
@@ -543,9 +542,9 @@ class DockerfileFormatter(Formatter):
         :returns: String represented Dockerfile
         """
 
-        facts, cross_arch, varmap = self._generator_prepare(args)
+        facts, cross_arch, varmap = self._generator_prepare(hosts, projects, cross_arch)
 
-        return '\n'.join(self._format_dockerfile(args.hosts, args.projects, facts, cross_arch, varmap))
+        return '\n'.join(self._format_dockerfile(hosts, projects, facts, cross_arch, varmap))
 
 
 class VariablesFormatter(Formatter):
@@ -583,7 +582,7 @@ class VariablesFormatter(Formatter):
             strings.append("{}='{}'".format(name.upper(), value))
         return strings
 
-    def format(self, args):
+    def format(self, hosts, projects, cross_arch):
         """
         Generates and formats environment variables as KEY=VAL pairs.
 
@@ -595,6 +594,6 @@ class VariablesFormatter(Formatter):
         :returns: String represented list of environment variables
         """
 
-        _, _, varmap = self._generator_prepare(args)
+        _, _, varmap = self._generator_prepare(hosts, projects, cross_arch)
 
         return '\n'.join(self._format_variables(varmap))
