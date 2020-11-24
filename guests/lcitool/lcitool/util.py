@@ -7,6 +7,7 @@
 import fnmatch
 import git
 import logging
+from pathlib import Path
 import platform
 import textwrap
 
@@ -117,3 +118,13 @@ def generate_file_header(cliargv):
 
         """
     )
+
+
+def atomic_write(filepath, content):
+    tmpfilepath = Path(filepath.as_posix() + ".tmp")
+    try:
+        tmpfilepath.write_text(content)
+        tmpfilepath.replace(filepath)
+    except Exception as ex:
+        tmpfilepath.unlink()
+        raise

@@ -45,6 +45,21 @@ class CommandLine:
             action="store_true",
         )
 
+        manifestopt = argparse.ArgumentParser(add_help=False)
+        manifestopt.add_argument(
+            "manifest",
+            metavar="PATH",
+            type=argparse.FileType('r'),
+            help="path to CI manifest file",
+        )
+
+        dryrunopt = argparse.ArgumentParser(add_help=False)
+        dryrunopt.add_argument(
+            "-n", "--dry-run",
+            action="store_true",
+            help="print what files would be generated",
+        )
+
         # Main parser
         self._parser = argparse.ArgumentParser(
             conflict_handler="resolve",
@@ -108,6 +123,12 @@ class CommandLine:
             parents=[hostsopt, projectsopt, crossarchopt],
         )
         dockerfileparser.set_defaults(func=Application._action_dockerfile)
+
+        manifestparser = subparsers.add_parser(
+            "manifest",
+            help="apply the CI manifest (doesn't access the host)",
+            parents=[manifestopt, dryrunopt])
+        manifestparser.set_defaults(func=Application._action_manifest)
 
     def parse(self):
         return self._parser.parse_args()

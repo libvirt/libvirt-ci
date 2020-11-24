@@ -20,6 +20,7 @@ from lcitool.inventory import Inventory, InventoryError
 from lcitool.projects import Projects, ProjectError
 from lcitool.formatters import DockerfileFormatter, VariablesFormatter, FormatterError
 from lcitool.singleton import Singleton
+from lcitool.manifest import Manifest
 
 log = logging.getLogger(__name__)
 
@@ -279,6 +280,10 @@ class Application(metaclass=Singleton):
         header = util.generate_file_header(cliargv)
 
         print(header + dockerfile)
+
+    def _action_manifest(self, args):
+        manifest = Manifest(args.manifest)
+        manifest.generate(args.dry_run)
 
     def run(self, args):
         try:
