@@ -681,6 +681,10 @@ mappings:
     rpm: libwsman-devel
     Ubuntu: libopenwsman-dev
 
+  osinfo-db-tools:
+    default: osinfo-db-tools
+    MacOS:
+
   parted:
     default: parted
     FreeBSD:
