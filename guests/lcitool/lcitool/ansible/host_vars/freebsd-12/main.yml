@@ -19,3 +19,8 @@ paths:
 
 ansible_python_package: python3
 ansible_python_interpreter: /usr/local/bin/python3
+
+cirrus:
+  instance_type: freebsd_instance
+  image_selector: image_family
+  image_name: freebsd-12-2
