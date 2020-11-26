@@ -52,7 +52,14 @@ class Projects:
 
         # Some projects are internal implementation details and should
         # not be exposed to the user
-        for project in ["base", "developer", "vm", "unwanted", "cloud-init"]:
+        internal_projects = [
+            "base",
+            "cloud-init"
+            "developer",
+            "unwanted",
+            "vm",
+        ]
+        for project in internal_projects:
             if project in projects:
                 projects.remove(project)
 
