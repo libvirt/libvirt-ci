@@ -294,24 +294,44 @@ class DockerfileFormatter(Formatter):
 
         commands = []
 
+        varmap["nosync"] = ""
         if facts["packaging"]["format"] == "deb":
+            varmap["nosync"] = "eatmydata "
             commands.extend([
                 "export DEBIAN_FRONTEND=noninteractive",
                 "{packaging_command} update",
-                "{packaging_command} dist-upgrade -y",
-                "{packaging_command} install --no-install-recommends -y {pkgs}",
-                "{packaging_command} autoremove -y",
-                "{packaging_command} autoclean -y",
+                "{packaging_command} install -y eatmydata",
+                "{nosync}{packaging_command} dist-upgrade -y",
+                "{nosync}{packaging_command} install --no-install-recommends -y {pkgs}",
+                "{nosync}{packaging_command} autoremove -y",
+                "{nosync}{packaging_command} autoclean -y",
                 "sed -Ei 's,^# (en_US\\.UTF-8 .*)$,\\1,' /etc/locale.gen",
                 "dpkg-reconfigure locales",
                 "dpkg-query --showformat '${{Package}}_${{Version}}_${{Architecture}}\\n' --show > /packages.txt",
             ])
         elif facts["packaging"]["format"] == "rpm":
+            if facts["os"]["name"] == "Fedora":
+                varmap["nosync"] = "nosync "
+                nosyncsh = [
+                    "#!/bin/sh",
+                    "if test -d /usr/lib64",
+                    "then",
+                    "    export LD_PRELOAD=/usr/lib64/nosync/nosync.so",
+                    "else",
+                    "    export LD_PRELOAD=/usr/lib/nosync/nosync.so",
+                    "fi",
+                    "exec \"$@\""
+                ]
+                commands.extend([
+                    "{packaging_command} install -y nosync",
+                    "echo -e '%s' > /usr/bin/nosync" % "\\n\\\n".join(nosyncsh),
+                    "chmod +x /usr/bin/nosync"])
+
             # Rawhide needs this because the keys used to sign packages are
             # cycled from time to time
             if facts["os"]["name"] == "Fedora" and facts["os"]["version"] == "Rawhide":
                 commands.extend([
-                    "{packaging_command} update -y --nogpgcheck fedora-gpg-keys",
+                    "{nosync}{packaging_command} update -y --nogpgcheck fedora-gpg-keys",
                 ])
 
             if facts["os"]["name"] == "CentOS":
@@ -319,7 +339,7 @@ class DockerfileFormatter(Formatter):
                 # repositories
                 if facts["os"]["version"] == "Stream":
                     commands.append(
-                        "{packaging_command} install -y centos-release-stream"
+                        "{nosync}{packaging_command} install -y centos-release-stream"
                     )
 
                 # Starting with CentOS 8, most -devel packages are shipped in
@@ -333,14 +353,14 @@ class DockerfileFormatter(Formatter):
                         powertools = "Stream-PowerTools"
 
                     commands.extend([
-                        "{packaging_command} install 'dnf-command(config-manager)' -y",
-                        "{packaging_command} config-manager --set-enabled -y " + powertools,
+                        "{nosync}{packaging_command} install 'dnf-command(config-manager)' -y",
+                        "{nosync}{packaging_command} config-manager --set-enabled -y " + powertools,
                     ])
 
                     # Not all of the virt related -devel packages are provided by
                     # virt:rhel module so we have to enable AV repository as well.
                     commands.extend([
-                        "{packaging_command} install -y centos-release-advanced-virtualization",
+                        "{nosync}{packaging_command} install -y centos-release-advanced-virtualization",
                     ])
 
                 if facts["os"]["version"] == "7":
@@ -364,30 +384,30 @@ class DockerfileFormatter(Formatter):
                 # Some of the packages we need are not part of CentOS proper
                 # and are only available through EPEL
                 commands.extend([
-                    "{packaging_command} install -y epel-release",
+                    "{nosync}{packaging_command} install -y epel-release",
                 ])
 
                 if (facts["os"]["version"] == "7" and
                     "xen" in varmap["mappings"]):
                     commands.extend([
-                        "{packaging_command} install -y centos-release-xen-48",
+                        "{nosync}{packaging_command} install -y centos-release-xen-48",
                     ])
 
             commands.extend([
-                "{packaging_command} update -y",
-                "{packaging_command} install -y {pkgs}",
+                "{nosync}{packaging_command} update -y",
+                "{nosync}{packaging_command} install -y {pkgs}",
             ])
 
             # openSUSE doesn't seem to have a convenient way to remove all
             # unnecessary packages, but CentOS and Fedora do
             if facts["os"]["name"] == "OpenSUSE":
                 commands.extend([
-                    "{packaging_command} clean --all",
+                    "{nosync}{packaging_command} clean --all",
                 ])
             else:
                 commands.extend([
-                    "{packaging_command} autoremove -y",
-                    "{packaging_command} clean all -y",
+                    "{nosync}{packaging_command} autoremove -y",
+                    "{nosync}{packaging_command} clean all -y",
                 ])
 
             commands.extend(["rpm -qa | sort > /packages.txt"])
@@ -421,17 +441,17 @@ class DockerfileFormatter(Formatter):
                 cross_commands.extend([
                     "export DEBIAN_FRONTEND=noninteractive",
                     "dpkg --add-architecture {cross_arch_deb}",
-                    "{packaging_command} update",
-                    "{packaging_command} dist-upgrade -y",
-                    "{packaging_command} install --no-install-recommends -y dpkg-dev",
-                    "{packaging_command} install --no-install-recommends -y {cross_pkgs}",
-                    "{packaging_command} autoremove -y",
-                    "{packaging_command} autoclean -y",
+                    "{nosync}{packaging_command} update",
+                    "{nosync}{packaging_command} dist-upgrade -y",
+                    "{nosync}{packaging_command} install --no-install-recommends -y dpkg-dev",
+                    "{nosync}{packaging_command} install --no-install-recommends -y {cross_pkgs}",
+                    "{nosync}{packaging_command} autoremove -y",
+                    "{nosync}{packaging_command} autoclean -y",
                 ])
             elif facts["packaging"]["format"] == "rpm":
                 cross_commands.extend([
-                    "{packaging_command} install -y {cross_pkgs}",
-                    "{packaging_command} clean all -y",
+                    "{nosync}{packaging_command} install -y {cross_pkgs}",
+                    "{nosync}{packaging_command} clean all -y",
                 ])
 
             if not cross_arch.startswith("mingw"):
