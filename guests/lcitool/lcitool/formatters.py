@@ -304,6 +304,7 @@ class DockerfileFormatter(Formatter):
                 "{packaging_command} autoclean -y",
                 "sed -Ei 's,^# (en_US\\.UTF-8 .*)$,\\1,' /etc/locale.gen",
                 "dpkg-reconfigure locales",
+                "dpkg-query --showformat '${{Package}}_${{Version}}_${{Architecture}}\\n' --show > /packages.txt",
             ])
         elif facts["packaging"]["format"] == "rpm":
             # Rawhide needs this because the keys used to sign packages are
@@ -378,6 +379,8 @@ class DockerfileFormatter(Formatter):
                     "{packaging_command} autoremove -y",
                     "{packaging_command} clean all -y",
                 ])
+
+            commands.extend(["rpm -qa | sort > /packages.txt"])
 
         if "ccache" in varmap["mappings"]:
             commands.extend([
