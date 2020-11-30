@@ -466,19 +466,19 @@ class DockerfileFormatter(Formatter):
         strings.append(common_env.format(**varmap))
 
         if cross_arch:
-            cross_vars = [
-                "ENV ABI \"{cross_abi}\"",
-                "ENV CONFIGURE_OPTS \"--host={cross_abi}\"",
-            ]
+            cross_vars = ["ENV ABI \"{cross_abi}\""]
+            if "autoconf" in varmap["mappings"]:
+                cross_vars.append("ENV CONFIGURE_OPTS \"--host={cross_abi}\"")
 
-            if cross_arch.startswith("mingw"):
-                cross_vars.append(
-                    "ENV MESON_OPTS \"--cross-file=/usr/share/mingw/toolchain-{cross_arch}.meson\""
-                )
-            else:
-                cross_vars.append(
-                    "ENV MESON_OPTS \"--cross-file={cross_abi}\"",
-                )
+            if "meson" in varmap["mappings"]:
+                if cross_arch.startswith("mingw"):
+                    cross_vars.append(
+                        "ENV MESON_OPTS \"--cross-file=/usr/share/mingw/toolchain-{cross_arch}.meson\""
+                    )
+                else:
+                    cross_vars.append(
+                        "ENV MESON_OPTS \"--cross-file={cross_abi}\"",
+                    )
 
             cross_env = "\n" + "\n".join(cross_vars)
             strings.append(cross_env.format(**varmap))
