@@ -364,6 +364,12 @@ class DockerfileFormatter(Formatter):
                     "{packaging_command} install -y epel-release",
                 ])
 
+                if (facts["os"]["version"] == "7" and
+                    "xen" in varmap["mappings"]):
+                    commands.extend([
+                        "{packaging_command} install -y centos-release-xen-48",
+                    ])
+
             commands.extend([
                 "{packaging_command} update -y",
                 "{packaging_command} install -y {pkgs}",

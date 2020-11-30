@@ -1065,7 +1065,7 @@ mappings:
 
   xen:
     rpm: xen-devel
-    CentOS:
+    CentOS8:
     aarch64-deb: libxen-dev
     armv7l-deb: libxen-dev
     x86_64-deb: libxen-dev
