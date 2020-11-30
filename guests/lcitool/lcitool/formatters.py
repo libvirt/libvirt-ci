@@ -343,19 +343,20 @@ class DockerfileFormatter(Formatter):
                         "{packaging_command} install -y centos-release-advanced-virtualization",
                     ])
 
-                # VZ development packages are only available for CentOS/RHEL-7
-                # right now and need a 3rd party repository enabled
                 if facts["os"]["version"] == "7":
-                    repo = util.get_openvz_repo()
-                    varmap["vzrepo"] = "\\n\\\n".join(repo.split("\n"))
-                    key = util.get_openvz_key()
-                    varmap["vzkey"] = "\\n\\\n".join(key.split("\n"))
+                    # VZ development packages are only available for CentOS/RHEL-7
+                    # right now and need a 3rd party repository enabled
+                    if "libprlsdk" in varmap["mappings"]:
+                        repo = util.get_openvz_repo()
+                        varmap["vzrepo"] = "\\n\\\n".join(repo.split("\n"))
+                        key = util.get_openvz_key()
+                        varmap["vzkey"] = "\\n\\\n".join(key.split("\n"))
 
-                    commands.extend([
-                        "echo -e '{vzrepo}' > /etc/yum.repos.d/openvz.repo",
-                        "echo -e '{vzkey}' > /etc/pki/rpm-gpg/RPM-GPG-KEY-OpenVZ",
-                        "rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-OpenVZ",
-                    ])
+                        commands.extend([
+                            "echo -e '{vzrepo}' > /etc/yum.repos.d/openvz.repo",
+                            "echo -e '{vzkey}' > /etc/pki/rpm-gpg/RPM-GPG-KEY-OpenVZ",
+                            "rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-OpenVZ",
+                        ])
 
                 # Some of the packages we need are not part of CentOS proper
                 # and are only available through EPEL
