@@ -274,8 +274,22 @@ class DockerfileFormatter(Formatter):
         self._projects = projects
         self._inventory = inventory
 
-    def _format_dockerfile(self, facts, cross_arch, varmap):
-        strings = []
+    def _format_dockerfile(self, host, project, facts, cross_arch, varmap):
+        cli_args = []
+        if cross_arch:
+            cli_args.extend("--cross", cross_arch)
+        cli_args.extend([host, project])
+        commit = util.git_commit()
+        url = "https://gitlab.com/libvirt/libvirt-ci"
+        if commit is not None:
+            url = url + "/-/commit/" + commit
+        strings = [
+            "# THIS FILE WAS AUTO-GENERATED",
+            "#",
+            "#  $ lcitool dockerfile %s" % " ".join(cli_args),
+            "#",
+            "# %s" % url
+        ]
 
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
         pypi_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
@@ -520,7 +534,7 @@ class DockerfileFormatter(Formatter):
 
         facts, cross_arch, varmap = self._generator_prepare(args)
 
-        return '\n'.join(self._format_dockerfile(facts, cross_arch, varmap))
+        return '\n'.join(self._format_dockerfile(args.hosts, args.projects, facts, cross_arch, varmap))
 
 
 class VariablesFormatter(Formatter):

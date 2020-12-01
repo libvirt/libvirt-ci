@@ -6,9 +6,17 @@
 
 import fnmatch
 import platform
+import git
 
 from pkg_resources import resource_filename
 
+
+def git_commit():
+    try:
+        repo = git.Repo(search_parent_directories=True)
+        return repo.head.object.hexsha
+    except git.InvalidGitRepositoryError as ex:
+        return None
 
 def expand_pattern(pattern, source, name):
     if pattern is None:
