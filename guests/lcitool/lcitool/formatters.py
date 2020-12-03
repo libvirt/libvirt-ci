@@ -344,6 +344,9 @@ class DockerfileFormatter(Formatter):
                     ])
 
                 if facts["os"]["version"] == "7":
+                    # Ensure we get errors if the package doesn't exist
+                    commands.extend(["echo 'skip_missing_names_on_install=0' >> /etc/yum.conf"])
+
                     # VZ development packages are only available for CentOS/RHEL-7
                     # right now and need a 3rd party repository enabled
                     if "libprlsdk" in varmap["mappings"]:
