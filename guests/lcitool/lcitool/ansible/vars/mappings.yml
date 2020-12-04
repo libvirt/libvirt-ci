@@ -1055,6 +1055,9 @@ mappings:
 
   vim:
     default: vim
+    deb: vim-nox
+    rpm: vim-minimal
+    OpenSUSE: vim-small
 
   wget:
     default: wget
