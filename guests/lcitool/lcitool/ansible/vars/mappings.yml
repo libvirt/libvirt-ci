@@ -166,7 +166,8 @@ mappings:
 
   dbus-daemon:
     default: dbus
-    Fedora: dbus-daemon
+    rpm: dbus-daemon
+    CentOS7: dbus
     OpenSUSE: dbus-1
 
   device-mapper:
