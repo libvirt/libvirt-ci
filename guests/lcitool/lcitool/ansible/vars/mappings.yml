@@ -895,7 +895,7 @@ mappings:
     deb: python3-dev
     rpm: python3-devel
     CentOS7: python36-devel
-    cross-policy-default: foreign
+    cross-policy-default: native
 
   python3-docutils:
     default: python3-docutils
