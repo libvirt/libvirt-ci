@@ -8,12 +8,14 @@ import fnmatch
 import platform
 import git
 
+from pathlib import Path
 from pkg_resources import resource_filename
 
 
 def git_commit():
     try:
-        repo = git.Repo(search_parent_directories=True)
+        lci_dir = Path(__file__).resolve().parent
+        repo = git.Repo(lci_dir, search_parent_directories=True)
         return repo.head.object.hexsha
     except git.InvalidGitRepositoryError as ex:
         return None
