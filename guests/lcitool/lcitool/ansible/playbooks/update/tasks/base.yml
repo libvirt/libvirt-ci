@@ -10,7 +10,7 @@
     - os.version == 'Rawhide'
 
 - name: Enable PowerTools repository
-  command: '{{ packaging.command }} config-manager --set-enabled PowerTools -y'
+  command: '{{ packaging.command }} config-manager --set-enabled powertools -y'
   args:
     warn: no
   when:

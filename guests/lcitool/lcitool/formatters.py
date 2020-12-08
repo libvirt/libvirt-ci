@@ -362,7 +362,7 @@ class DockerfileFormatter(Formatter):
                 # Starting with CentOS 8, most -devel packages are shipped in
                 # the PowerTools repository, which is not enabled by default
                 if facts["os"]["version"] != "7":
-                    powertools = "PowerTools"
+                    powertools = "powertools"
 
                     # for the Stream release, we want the Stream-Powertools
                     # version of the repository
