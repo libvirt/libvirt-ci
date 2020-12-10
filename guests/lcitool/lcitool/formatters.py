@@ -277,7 +277,7 @@ class DockerfileFormatter(Formatter):
     def _format_dockerfile(self, host, project, facts, cross_arch, varmap):
         cli_args = []
         if cross_arch:
-            cli_args.extend("--cross", cross_arch)
+            cli_args.extend(["--cross", cross_arch])
         cli_args.extend([host, project])
         commit = util.git_commit()
         url = "https://gitlab.com/libvirt/libvirt-ci"
