@@ -1493,6 +1493,7 @@ mappings:
   xen:
     rpm: xen-devel
     CentOS8:
+    CentOSStream:
     aarch64-deb: libxen-dev
     armv7l-deb: libxen-dev
     x86_64-deb: libxen-dev
