@@ -348,6 +348,9 @@ class DockerfileFormatter(Formatter):
                     "{nosync}{packaging_command} update -y --nogpgcheck fedora-gpg-keys",
                 ])
 
+            # First we need to run update, then config and install
+            commands.extend(["{nosync}{packaging_command} update -y"])
+
             if facts["os"]["name"] == "CentOS":
                 # For the Stream release we need to install the Stream
                 # repositories
@@ -407,10 +410,7 @@ class DockerfileFormatter(Formatter):
                         "{nosync}{packaging_command} install -y centos-release-xen-48",
                     ])
 
-            commands.extend([
-                "{nosync}{packaging_command} update -y",
-                "{nosync}{packaging_command} install -y {pkgs}",
-            ])
+            commands.extend(["{nosync}{packaging_command} install -y {pkgs}"])
 
             # openSUSE doesn't seem to have a convenient way to remove all
             # unnecessary packages, but CentOS and Fedora do
