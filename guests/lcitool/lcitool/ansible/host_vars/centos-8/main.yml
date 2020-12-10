@@ -24,4 +24,4 @@ install:
   url: http://mirror.centos.org/centos-8/8/BaseOS/x86_64/os/
 
 containers:
-  base: registry.centos.org/centos:8
+  base: docker.io/library/centos:8
