@@ -315,7 +315,19 @@ class DockerfileFormatter(Formatter):
                 "export DEBIAN_FRONTEND=noninteractive",
                 "{packaging_command} update",
                 "{packaging_command} install -y eatmydata",
-                "{nosync}{packaging_command} dist-upgrade -y",
+                "{nosync}{packaging_command} dist-upgrade -y"])
+
+            # JDK fails to install in -slim images due to
+            # a postin script failing to run update-alternatives.
+            # Create the missing dir until a fix is decided for
+            # either the tool that does container minimization:
+            #   https://github.com/debuerreotype/debuerreotype/issues/10
+            # or the JDK package
+            #   https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=955619
+            if facts["os"]["name"] == "Debian" and "java" in varmap["mappings"]:
+                commands.extend(["mkdir -p /usr/share/man/man1"])
+
+            commands.extend([
                 "{nosync}{packaging_command} install --no-install-recommends -y {pkgs}",
                 "{nosync}{packaging_command} autoremove -y",
                 "{nosync}{packaging_command} autoclean -y",
