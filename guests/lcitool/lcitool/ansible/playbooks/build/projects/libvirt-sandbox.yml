@@ -11,6 +11,7 @@
       - fedora-33
       - fedora-rawhide
       - opensuse-151
+      - opensuse-152
       - ubuntu-1804
       - ubuntu-2004
     archive_format: gz
