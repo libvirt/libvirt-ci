@@ -1284,6 +1284,7 @@ mappings:
   qemu-img:
     default: qemu-utils
     rpm: qemu-img
+    FreeBSD: qemu
     MacOS: qemu
     OpenSUSE: qemu-tools
 
