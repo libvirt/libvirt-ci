@@ -1462,8 +1462,8 @@ mappings:
   vim:
     default: vim
     deb: vim-nox
-    rpm: vim-minimal
-    OpenSUSE: vim-small
+    CentOS: vim-minimal
+    Fedora: vim-minimal
 
   virglrenderer:
     deb: libvirglrenderer-dev
