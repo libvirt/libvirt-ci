@@ -22,7 +22,7 @@
 #   - CentOS, Debian, Fedora, FreeBSD, OpenSUSE, Ubuntu
 #
 # Valid OS versions are:
-#   - CentOS7, Debian9, FedoraRawhide, OpenSUSE151, Ubuntu1804 and so on
+#   - CentOS7, Debian9, FedoraRawhide, OpenSUSE152, Ubuntu1804 and so on
 #
 # The arch specific rules use a prefix "$ARCH-" where  $ARCH
 # is a libvirt arch name.
@@ -875,7 +875,7 @@ mappings:
     CentOS8:
     CentOSStream:
     Debian10:
-    OpenSUSE151:
+    OpenSUSE152:
     Ubuntu1804:
     Ubuntu2004:
 
