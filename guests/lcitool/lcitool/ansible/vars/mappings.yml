@@ -313,6 +313,7 @@ mappings:
 
   gettext:
     default: gettext
+    OpenSUSE: gettext-runtime
     mingw32-rpm: mingw32-gettext
     mingw64-rpm: mingw64-gettext
     cross-policy-default: native
@@ -594,6 +595,7 @@ mappings:
     deb: libjpeg62-turbo-dev
     pkg: libjpeg-turbo
     rpm: libjpeg-devel
+    OpenSUSE: libjpeg8-devel
     Ubuntu: libjpeg-turbo8-dev
     MacOS: jpeg-turbo
     mingw32-rpm: mingw32-libjpeg-turbo
@@ -662,6 +664,7 @@ mappings:
     rpm: libpng-devel
     pkg: png
     MacOS: libpng
+    OpenSUSE: libpng16-devel
     mingw32-rpm: mingw32-libpng
     mingw64-rpm: mingw64-libpng
     cross-policy-default: foreign
@@ -1343,6 +1346,7 @@ mappings:
     default: sdl2
     deb: libsdl2-dev
     rpm: SDL2-devel
+    OpenSUSE: libSDL2-devel
     mingw32-rpm: mingw32-SDL2
     mingw64-rpm: mingw64-SDL2
     cross-policy-default: foreign
