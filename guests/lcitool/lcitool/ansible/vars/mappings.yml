@@ -1175,6 +1175,7 @@ mappings:
 
   python3:
     default: python3
+    OpenSUSE: python3-base
 
   python3-PyYAML:
     deb: python3-yaml
