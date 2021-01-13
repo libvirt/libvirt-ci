@@ -405,6 +405,7 @@ mappings:
     default: gtk-vnc
     deb: libgtk-vnc-2.0-dev
     rpm: gtk-vnc2-devel
+    OpenSUSE: gtk-vnc-devel
 
   hal:
     FreeBSD: hal
