@@ -24,4 +24,4 @@ install:
   url: http://mirror.centos.org/centos/7/os/x86_64/
 
 containers:
-  base: registry.centos.org/centos:7
+  base: docker.io/library/centos:7
