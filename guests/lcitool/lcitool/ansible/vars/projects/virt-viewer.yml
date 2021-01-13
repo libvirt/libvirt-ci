@@ -1,8 +1,5 @@
 ---
 packages:
-  - autoconf
-  - automake
-  - autopoint
   - bash-completion
   - ccache
   - gcc
@@ -17,6 +14,8 @@ packages:
   - libtoolize
   - libxml2
   - make
+  - meson
+  - ninja
   - pkg-config
   - spice-gtk3
   - rpmbuild
