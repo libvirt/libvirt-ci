@@ -1352,6 +1352,16 @@ mappings:
     mingw64-rpm: mingw64-SDL2
     cross-policy-default: foreign
 
+  sdl2-image:
+    default: sdl2_image
+    deb: libsdl2-image-dev
+    rpm: SDL2_image-devel
+    CentOS:
+    OpenSUSE: libSDL2_image-devel
+    mingw32-rpm: mingw32-SDL2_image
+    mingw64-rpm: mingw64-SDL2_image
+    cross-policy-default: foreign
+
   sed:
     default: sed
     pkg: gsed

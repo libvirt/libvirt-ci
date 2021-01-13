@@ -81,6 +81,7 @@ packages:
  - python3-virtualenv
  - rpm2cpio
  - sdl2
+ - sdl2-image
  - sed
  - snappy
  - sparse
