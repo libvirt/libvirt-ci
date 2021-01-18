@@ -367,23 +367,17 @@ class DockerfileFormatter(Formatter):
                 # For the Stream release we need to install the Stream
                 # repositories
                 if facts["os"]["version"] == "Stream":
-                    commands.append(
-                        "{nosync}{packaging_command} install -y centos-release-stream"
-                    )
+                    commands.extend([
+                        "{nosync}{packaging_command} install -y centos-release-stream",
+                        "{nosync}{packaging_command} install -y centos-stream-release",
+                    ])
 
                 # Starting with CentOS 8, most -devel packages are shipped in
                 # the PowerTools repository, which is not enabled by default
                 if facts["os"]["version"] != "7":
-                    powertools = "powertools"
-
-                    # for the Stream release, we want the Stream-Powertools
-                    # version of the repository
-                    if facts["os"]["version"] == "Stream":
-                        powertools = "Stream-PowerTools"
-
                     commands.extend([
                         "{nosync}{packaging_command} install 'dnf-command(config-manager)' -y",
-                        "{nosync}{packaging_command} config-manager --set-enabled -y " + powertools,
+                        "{nosync}{packaging_command} config-manager --set-enabled -y powertools",
                     ])
 
                     # Not all of the virt related -devel packages are provided by
