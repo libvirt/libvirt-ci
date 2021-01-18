@@ -360,9 +360,8 @@ class DockerfileFormatter(Formatter):
                     "{nosync}{packaging_command} update -y --nogpgcheck fedora-gpg-keys",
                 ])
 
-            # First we need to run update, then config and install
-            commands.extend(["{nosync}{packaging_command} update -y"])
-
+            # Stream needs the Stream repos enabled first before running an
+            # update or install
             if facts["os"]["name"] == "CentOS":
                 # For the Stream release we need to install the Stream
                 # repositories
@@ -372,6 +371,10 @@ class DockerfileFormatter(Formatter):
                         "{nosync}{packaging_command} install -y centos-stream-release",
                     ])
 
+            # First we need to run update, then config and install
+            commands.extend(["{nosync}{packaging_command} update -y"])
+
+            if facts["os"]["name"] == "CentOS":
                 # Starting with CentOS 8, most -devel packages are shipped in
                 # the PowerTools repository, which is not enabled by default
                 if facts["os"]["version"] != "7":
