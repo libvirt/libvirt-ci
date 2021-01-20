@@ -244,7 +244,7 @@ mappings:
   dtrace:
     deb: systemtap-sdt-dev
     rpm: systemtap-sdt-devel
-    cross-policy-default: skip
+    cross-policy-default: foreign
 
   dwarves:
     default: dwarves
