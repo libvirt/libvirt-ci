@@ -198,7 +198,7 @@ mappings:
 
   ctags:
     default: ctags
-    Debian: exuberant-ctags
+    deb: exuberant-ctags
 
   cyrus-sasl:
     deb: libsasl2-dev
