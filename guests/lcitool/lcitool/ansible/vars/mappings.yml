@@ -1304,6 +1304,7 @@ mappings:
     default: rubygem-rake
     deb: rake
     MacOS: ruby
+    OpenSUSE: ruby
 
   readline:
     default: readline
