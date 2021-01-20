@@ -95,7 +95,6 @@ packages:
  - tesseract-eng
  - texinfo
  - usbredir
- - vim
  - virglrenderer
  - vte
  - which
