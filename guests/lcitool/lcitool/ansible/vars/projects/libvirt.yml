@@ -27,6 +27,7 @@ packages:
   - gnutls
   - hal
   - ip
+  - iptables
   - iscsiadm
   - libacl
   - libattr

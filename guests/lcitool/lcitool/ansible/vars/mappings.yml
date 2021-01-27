@@ -426,6 +426,11 @@ mappings:
     rpm: iproute
     OpenSUSE: iproute2
 
+  iptables:
+    default: iptables
+    FreeBSD:
+    MacOS:
+
   iscsiadm:
     deb: open-iscsi
     rpm: iscsi-initiator-utils
