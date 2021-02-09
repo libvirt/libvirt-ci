@@ -1,9 +1,3 @@
-FROM golang:1.14
-
-RUN export DEBIAN_FRONTEND=noninteractive && \
-    apt-get update && \
-    apt-get install --no-install-recommends -y \
-            diffstat && \
-    apt-get autoclean -y
+FROM docker.io/library/golang:1.15-alpine
 
 COPY go-fmt.sh /go-fmt

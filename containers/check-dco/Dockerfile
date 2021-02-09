@@ -1,6 +1,5 @@
-FROM centos:8
+FROM docker.io/library/python:3.9-alpine
 
-RUN dnf -y install python3 git && \
-    dnf -y clean all
+RUN apk add git
 
 COPY check-dco.py /check-dco

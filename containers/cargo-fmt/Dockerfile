@@ -1,10 +1,5 @@
-FROM rust:1.43
+FROM docker.io/library/rust:1.49-alpine
 
-RUN export DEBIAN_FRONTEND=noninteractive && \
-    apt-get update && \
-    apt-get install --no-install-recommends -y \
-            diffstat && \
-    apt-get autoclean -y && \
-    rustup component add rustfmt
+RUN rustup component add rustfmt
 
 COPY cargo-fmt.sh /cargo-fmt
