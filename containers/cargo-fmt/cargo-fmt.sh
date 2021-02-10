@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cargo fmt -v -- --check > cargo-fmt.patch
+cargo fmt -- --check > cargo-fmt.patch
 
 if test -s cargo-fmt.patch
 then
