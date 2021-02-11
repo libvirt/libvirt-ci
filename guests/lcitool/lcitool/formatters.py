@@ -338,6 +338,13 @@ class DockerfileFormatter(Formatter):
                 "dpkg-query --showformat '${{Package}}_${{Version}}_${{Architecture}}\\n' --show > /packages.txt",
             ])
         elif facts["packaging"]["format"] == "rpm":
+            # Rawhide needs this because the keys used to sign packages are
+            # cycled from time to time
+            if facts["os"]["name"] == "Fedora" and facts["os"]["version"] == "Rawhide":
+                commands.extend([
+                    "{packaging_command} update -y --nogpgcheck fedora-gpg-keys",
+                ])
+
             if facts["os"]["name"] == "Fedora":
                 varmap["nosync"] = "nosync "
                 nosyncsh = [
@@ -354,13 +361,6 @@ class DockerfileFormatter(Formatter):
                     "{packaging_command} install -y nosync",
                     "echo -e '%s' > /usr/bin/nosync" % "\\n\\\n".join(nosyncsh),
                     "chmod +x /usr/bin/nosync"])
-
-            # Rawhide needs this because the keys used to sign packages are
-            # cycled from time to time
-            if facts["os"]["name"] == "Fedora" and facts["os"]["version"] == "Rawhide":
-                commands.extend([
-                    "{nosync}{packaging_command} update -y --nogpgcheck fedora-gpg-keys",
-                ])
 
             # Stream needs the Stream repos enabled first before running an
             # update or install
