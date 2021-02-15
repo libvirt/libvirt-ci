@@ -32,6 +32,11 @@ cargo-fmt-container:
   variables:
     NAME: cargo-fmt
 
+clang-format-container:
+  <<: *build_container_definition
+  variables:
+    NAME: clang-format
+
 cirrus-run-container:
   <<: *build_container_definition
   variables:
