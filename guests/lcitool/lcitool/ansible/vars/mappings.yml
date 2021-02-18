@@ -968,6 +968,7 @@ mappings:
   openwsman:
     rpm: libwsman-devel
     Ubuntu: libopenwsman-dev
+    cross-policy-default: foreign
 
   osinfo-db-tools:
     default: osinfo-db-tools
