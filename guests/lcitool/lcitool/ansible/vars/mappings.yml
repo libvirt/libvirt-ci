@@ -1587,7 +1587,7 @@ mappings:
 pypi_mappings:
 
   meson:
-    default: meson==0.54.0
+    default: meson==0.55.3
 
   python3-PyYAML:
     default: PyYAML
