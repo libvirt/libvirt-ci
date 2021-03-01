@@ -11,6 +11,9 @@ import platform
 import textwrap
 
 from pathlib import Path
+from tempfile import TemporaryDirectory
+
+_tempdir = None
 
 log = logging.getLogger(__name__)
 
@@ -127,3 +130,11 @@ def atomic_write(filepath, content):
     except Exception:
         tmpfilepath.unlink()
         raise
+
+
+def get_temp_dir():
+    global _tempdir
+
+    if not _tempdir:
+        _tempdir = TemporaryDirectory(prefix="lcitool")
+    return Path(_tempdir.name)

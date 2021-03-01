@@ -9,7 +9,6 @@ import logging
 import os
 import subprocess
 import sys
-import tempfile
 
 from pathlib import Path
 from pkg_resources import resource_filename
@@ -68,12 +67,10 @@ class Application(metaclass=Singleton):
             git_remote = "default"
             git_branch = "master"
 
-        tempdir = tempfile.TemporaryDirectory(prefix="lcitool")
-
         ansible_cfg_path = Path(base, "ansible.cfg").as_posix()
         playbook_base = Path(base, "playbooks", playbook).as_posix()
         playbook_path = Path(playbook_base, "main.yml").as_posix()
-        extra_vars_path = Path(tempdir.name, "extra_vars.json").as_posix()
+        extra_vars_path = Path(util.get_temp_dir(), "extra_vars.json").as_posix()
 
         extra_vars = config.values
         extra_vars.update({
@@ -107,8 +104,6 @@ class Application(metaclass=Singleton):
             raise ApplicationError(
                 f"Failed to run {playbook} on '{hosts}': {ex}"
             )
-        finally:
-            tempdir.cleanup()
 
     def _action_hosts(self, args):
         self._entrypoint_debug(args)
@@ -183,8 +178,7 @@ class Application(metaclass=Singleton):
                         unattended_options[option],
                     )
 
-            tempdir = tempfile.TemporaryDirectory(prefix="lcitool")
-            initrd_inject = Path(tempdir.name, install_config).as_posix()
+            initrd_inject = Path(util.get_temp_dir(), install_config).as_posix()
 
             with open(initrd_inject, "w") as inject:
                 inject.write(content)
@@ -230,8 +224,6 @@ class Application(metaclass=Singleton):
                 subprocess.check_call(cmd)
             except Exception as ex:
                 raise ApplicationError(f"Failed to install '{host}': {ex}")
-            finally:
-                tempdir.cleanup()
 
     def _action_update(self, args):
         self._entrypoint_debug(args)
