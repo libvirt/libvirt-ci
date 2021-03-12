@@ -8,6 +8,7 @@ import ansible_runner
 import logging
 
 from pathlib import Path
+from pkg_resources import resource_filename
 from tempfile import TemporaryDirectory
 
 from lcitool import util
@@ -45,9 +46,13 @@ class AnsibleWrapper():
         self._private_data_dir = Path(self._tempdir.name)
 
     def _get_default_params(self):
+        ansible_cfg_path = resource_filename(__name__, "ansible/ansible.cfg")
+
         default_params = {
             "private_data_dir": self._private_data_dir,
             "envvars": {
+                "ANSIBLE_CONFIG": ansible_cfg_path,
+
                 # Group names officially cannot contain dashes, because those
                 # characters are invalid in Python identifiers and it caused
                 # issues in some Ansible scenarios like using the dot notation,

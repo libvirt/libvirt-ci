@@ -4,9 +4,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-import json
 import logging
-import os
 import subprocess
 import sys
 
@@ -14,6 +12,7 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util
+from lcitool.ansible_wrapper import AnsibleWrapper
 from lcitool.config import Config, ConfigError
 from lcitool.inventory import Inventory, InventoryError
 from lcitool.projects import Projects, ProjectError
@@ -55,7 +54,6 @@ class Application(metaclass=Singleton):
         inventory = Inventory()
 
         hosts_expanded = inventory.expand_hosts(hosts)
-        ansible_hosts = ",".join(hosts_expanded)
         selected_projects = Projects().expand_pattern(projects)
 
         if git_revision is not None:
@@ -71,43 +69,23 @@ class Application(metaclass=Singleton):
             git_remote = "default"
             git_branch = "master"
 
-        ansible_cfg_path = Path(base, "ansible.cfg").as_posix()
-        playbook_base = Path(base, "playbooks", playbook).as_posix()
-        playbook_path = Path(playbook_base, "main.yml").as_posix()
-        extra_vars_path = Path(util.get_temp_dir(), "extra_vars.json").as_posix()
+        playbook_base = Path(base, "playbooks", playbook)
+        playbook_path = Path(playbook_base, "main.yml")
 
         extra_vars = config.values
         extra_vars.update({
             "base": base,
-            "playbook_base": playbook_base,
+            "playbook_base": playbook_base.as_posix(),
             "selected_projects": selected_projects,
             "git_remote": git_remote,
             "git_branch": git_branch,
         })
 
-        with open(extra_vars_path, "w") as fp:
-            json.dump(extra_vars, fp)
-
-        cmd = [
-            "ansible-playbook",
-            "--limit", ansible_hosts,
-            "--extra-vars", "@" + extra_vars_path,
-        ]
-
-        cmd.append(playbook_path)
-
-        # We need to point Ansible to the correct configuration file,
-        # and for some reason this has to be done using the environment
-        # rather than through the command line
-        os.environ["ANSIBLE_CONFIG"] = ansible_cfg_path
-
-        log.debug(f"Running {cmd}")
-        try:
-            subprocess.check_call(cmd)
-        except Exception as ex:
-            raise ApplicationError(
-                f"Failed to run {playbook} on '{hosts}': {ex}"
-            )
+        log.debug(f"Running Ansible with playbook '{playbook_path.name}'")
+        ansible_runner = AnsibleWrapper()
+        ansible_runner.run_playbook(playbook_path,
+                                    limit=hosts_expanded,
+                                    extravars=extra_vars)
 
     def _action_hosts(self, args):
         self._entrypoint_debug(args)
