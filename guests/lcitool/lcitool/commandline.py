@@ -51,8 +51,11 @@ class CommandLine:
             description="libvirt CI guest management tool",
         )
 
-        self._parser.add_argument("--debug", action="store_true",
-                                  help="display debugging information")
+        self._parser.add_argument(
+            "--debug",
+            help="display debugging information",
+            action="store_true",
+        )
 
         subparsers = self._parser.add_subparsers(metavar="ACTION")
         subparsers.required = True
@@ -60,40 +63,49 @@ class CommandLine:
         # lcitool subcommand parsers
         installparser = subparsers.add_parser(
             "install",
+            help="perform unattended host installation",
             parents=[hostsopt, waitopt],
-            help="perform unattended host installation")
+        )
         installparser.set_defaults(func=Application._action_install)
 
         updateparser = subparsers.add_parser(
             "update",
+            help="prepare hosts and keep them updated",
             parents=[hostsopt, projectsopt, gitrevopt],
-            help="prepare hosts and keep them updated")
+        )
         updateparser.set_defaults(func=Application._action_update)
 
         buildparser = subparsers.add_parser(
             "build",
+            help="build projects on hosts",
             parents=[hostsopt, projectsopt, gitrevopt],
-            help="build projects on hosts")
+        )
         buildparser.set_defaults(func=Application._action_build)
 
         hostsparser = subparsers.add_parser(
-            "hosts", help="list all known hosts")
+            "hosts",
+            help="list all known hosts",
+        )
         hostsparser.set_defaults(func=Application._action_hosts)
 
         projectsparser = subparsers.add_parser(
-            "projects", help="list all known projects")
+            "projects",
+            help="list all known projects",
+        )
         projectsparser.set_defaults(func=Application._action_projects)
 
         variablesparser = subparsers.add_parser(
             "variables",
+            help="generate variables (doesn't access the host)",
             parents=[hostsopt, projectsopt, crossarchopt],
-            help="generate variables (doesn't access the host)")
+        )
         variablesparser.set_defaults(func=Application._action_variables)
 
         dockerfileparser = subparsers.add_parser(
             "dockerfile",
+            help="generate Dockerfile (doesn't access the host)",
             parents=[hostsopt, projectsopt, crossarchopt],
-            help="generate Dockerfile (doesn't access the host)")
+        )
         dockerfileparser.set_defaults(func=Application._action_dockerfile)
 
     def parse(self):
