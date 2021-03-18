@@ -35,10 +35,10 @@ class Config:
             with open(user_config_path, "r") as fp:
                 user_config = yaml.safe_load(fp)
         except Exception as e:
-            raise Exception("Invalid '{}': {}".format(user_config_path.name, e))
+            raise Exception(f"Invalid '{user_config_path.name}': {e}")
 
         if user_config is None:
-            raise Exception("Invalid '{}'".format(user_config_path.name))
+            raise Exception(f"Invalid '{user_config_path.name}'")
 
         # delete user params we don't recognize
         self._remove_all_unknown_keys(user_config)
@@ -74,22 +74,18 @@ class Config:
         # check that the mandatory keys are present and non-empty
         for key in mandatory_keys:
             if self.values.get(section).get(key) is None:
-                raise Exception(("Missing or empty value for mandatory key "
-                                 "'{}.{}'").format(section, key))
+                raise Exception(f"Missing or empty value for mandatory key "
+                                f"'{section}.{key}'")
 
         # check that all keys have values assigned and of the right type
         for key in self.values[section].keys():
 
             # mandatory keys were already checked, so this covers optional keys
             if self.values[section][key] is None:
-                raise Exception(
-                    "Missing value for '{}.{}'".format(section, key)
-                )
+                raise Exception(f"Missing value for '{section}.{key}'")
 
             if not isinstance(self.values[section][key], (str, int)):
-                raise Exception(
-                    "Invalid type for key '{}.{}'".format(section, key)
-                )
+                raise Exception(f"Invalid type for key '{section}.{key}'")
 
     # Validate that parameters needed for VM install are present
     def validate_vm_settings(self):
@@ -97,9 +93,7 @@ class Config:
 
         flavor = self.values["install"].get("flavor")
         if flavor not in ["test", "gitlab"]:
-            raise Exception(
-                "Invalid value '{}' for 'install.flavor'".format(flavor)
-            )
+            raise Exception(f"Invalid value '{flavor}' for 'install.flavor'")
 
         if flavor == "gitlab":
             self._validate_section("gitlab", ["runner_secret"])

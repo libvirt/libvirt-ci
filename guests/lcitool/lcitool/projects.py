@@ -25,7 +25,7 @@ class Projects:
                 self._pypi_mappings = mappings["pypi_mappings"]
                 self._cpan_mappings = mappings["cpan_mappings"]
         except Exception as ex:
-            raise Exception("Can't load mappings: {}".format(ex))
+            raise Exception(f"Can't load mappings: {ex}")
 
         source = Path(resource_filename(__name__, "ansible/vars/projects"))
 
@@ -44,8 +44,7 @@ class Projects:
                     packages = yaml.safe_load(infile)
                     self._packages[project] = packages["packages"]
             except Exception as ex:
-                raise Exception(
-                    "Can't load packages for '{}': {}".format(project, ex))
+                raise Exception(f"Can't load packages for '{project}': {ex}")
 
     def expand_pattern(self, pattern):
         projects = util.expand_pattern(pattern, self._packages, "project")

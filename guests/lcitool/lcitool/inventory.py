@@ -24,7 +24,8 @@ class Inventory:
             inventory_path = parser.get("defaults", "inventory")
         except Exception as ex:
             raise Exception(
-                "Can't read inventory location in ansible.cfg: {}".format(ex))
+                f"Can't read inventory location in ansible.cfg: {ex}"
+            )
 
         posix_path = Path("ansible", inventory_path).as_posix()
         inventory_path = resource_filename(__name__, posix_path)
@@ -39,9 +40,7 @@ class Inventory:
                     self._facts[host] = {}
         except Exception as ex:
             raise Exception(
-                "Missing or invalid inventory ({}): {}".format(
-                    inventory_path, ex
-                )
+                f"Missing or invalid inventory ({inventory_path}): {ex}"
             )
 
         for host in self._facts:
@@ -49,8 +48,7 @@ class Inventory:
                 self._facts[host] = self._read_all_facts(host)
                 self._facts[host]["inventory_hostname"] = host
             except Exception as ex:
-                raise Exception("Can't load facts for '{}': {}".format(
-                    host, ex))
+                raise Exception(f"Can't load facts for '{host}': {ex}")
 
     @staticmethod
     def _add_facts_from_file(facts, yaml_path):
@@ -62,7 +60,7 @@ class Inventory:
     def _read_all_facts(self, host):
         sources = [
             resource_filename(__name__, "ansible/group_vars/all"),
-            resource_filename(__name__, "ansible/host_vars/{}".format(host))
+            resource_filename(__name__, f"ansible/host_vars/{host}")
         ]
 
         facts = {}

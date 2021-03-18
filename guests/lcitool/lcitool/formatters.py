@@ -31,7 +31,7 @@ class Formatter(metaclass=abc.ABCMeta):
 
     def _get_meson_cross(self, cross_abi):
         cross_name = resource_filename(__name__,
-                                       "cross/{}.meson".format(cross_abi))
+                                       f"cross/{cross_abi}.meson")
         with open(cross_name, "r") as c:
             return c.read().rstrip()
 
@@ -79,9 +79,7 @@ class Formatter(metaclass=abc.ABCMeta):
                 if (package not in mappings and
                     package not in pypi_mappings and
                     package not in cpan_mappings):
-                    raise Exception(
-                        "No mapping defined for {}".format(package)
-                    )
+                    raise Exception(f"No mapping defined for {package}")
 
                 if package in mappings:
                     for key in cross_policy_keys:
@@ -90,8 +88,9 @@ class Formatter(metaclass=abc.ABCMeta):
 
                     if cross_policy not in ["native", "foreign", "skip"]:
                         raise Exception(
-                            "Unexpected cross arch policy {} for {}".format
-                            (cross_policy, package))
+                            f"Unexpected cross arch policy {cross_policy} for "
+                            f"{package}"
+                        )
 
                     if cross_arch and cross_policy == "foreign":
                         for key in cross_keys:
@@ -139,18 +138,14 @@ class Formatter(metaclass=abc.ABCMeta):
         for project in extra_projects:
             for package in self._projects.get_packages(project):
                 if package not in mappings:
-                    raise Exception(
-                        "No mapping defined for {}".format(package)
-                    )
+                    raise Exception(f"No mapping defined for {package}")
 
                 for key in native_keys:
                     if key in mappings[package]:
                         pkgs[package] = mappings[package][key]
 
                 if pkgs[package] is None:
-                    raise Exception(
-                        "No package for {}".format(package)
-                    )
+                    raise Exception(f"No package for {package}")
 
         varmap = {
             "packaging_command": facts["packaging"]["command"],
@@ -206,9 +201,7 @@ class Formatter(metaclass=abc.ABCMeta):
         native_arch = util.get_native_arch()
 
         if len(hosts) > 1:
-            raise Exception(
-                "Can't use '{}' use generator on multiple hosts".format(name)
-            )
+            raise Exception(f"Can't use '{name}' generator on multiple hosts")
         host = hosts[0]
 
         facts = self._inventory.get_facts(host)
@@ -216,30 +209,24 @@ class Formatter(metaclass=abc.ABCMeta):
         # We can only generate Dockerfiles for Linux
         if (name == "dockerfileformatter" and
             facts["packaging"]["format"] not in ["deb", "rpm"]):
-            raise Exception(
-                "Host {} doesn't support '{}' generator".format(host, name)
-            )
+            raise Exception(f"Host {host} doesn't support '{name}' generator")
         if cross_arch:
             osname = facts["os"]["name"]
             if osname not in ["Debian", "Fedora"]:
-                raise Exception("Cannot cross compile on {}".format(osname))
+                raise Exception(f"Cannot cross compile on {osname}")
             if (osname == "Debian" and cross_arch.startswith("mingw")):
                 raise Exception(
-                    "Cannot cross compile for {} on {}".format(
-                        cross_arch,
-                        osname,
-                    )
+                    f"Cannot cross compile for {cross_arch} on {osname}"
                 )
             if (osname == "Fedora" and not cross_arch.startswith("mingw")):
                 raise Exception(
-                    "Cannot cross compile for {} on {}".format(
-                        cross_arch,
-                        osname,
-                    )
+                    f"Cannot cross compile for {cross_arch} on {osname}"
                 )
             if cross_arch == native_arch:
-                raise Exception("Cross arch {} should differ from native {}".
-                                format(cross_arch, native_arch))
+                raise Exception(
+                    f"Cross arch {cross_arch} should differ from native "
+                    f"{native_arch}"
+                )
 
         for project in projects:
             if project.rfind("+mingw") >= 0:
@@ -284,7 +271,8 @@ class DockerfileFormatter(Formatter):
         if "cpan_pkgs" in varmap:
             varmap["cpan_pkgs"] = cpan_pkg_align[1:] + cpan_pkg_align.join(varmap["cpan_pkgs"])
 
-        strings.append("FROM {}".format(facts["containers"]["base"]))
+        base = facts["containers"]["base"]
+        strings.append(f"FROM {base}")
 
         commands = []
 
@@ -567,7 +555,8 @@ class VariablesFormatter(Formatter):
             else:
                 name = key
                 value = varmap[key]
-            strings.append("{}='{}'".format(name.upper(), value))
+            uppername = name.upper()
+            strings.append(f"{uppername}='{value}'")
         return strings
 
     def format(self, hosts, projects, cross_arch):

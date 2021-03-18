@@ -43,7 +43,7 @@ class Application:
         try:
             return obj.expand_pattern(pattern)
         except Exception as ex:
-            raise Exception("Failed to expand '{}': {}".format(pattern, ex))
+            raise Exception(f"Failed to expand '{pattern}': {ex}")
 
     def _execute_playbook(self, playbook, hosts, projects, git_revision):
         base = resource_filename(__name__, "ansible")
@@ -59,7 +59,7 @@ class Application:
             tokens = git_revision.split("/")
             if len(tokens) < 2:
                 raise Exception(
-                    "Missing or invalid git revision '{}'".format(git_revision)
+                    f"Missing or invalid git revision '{git_revision}'"
                 )
             git_remote = tokens[0]
             git_branch = "/".join(tokens[1:])
@@ -102,8 +102,7 @@ class Application:
         try:
             subprocess.check_call(cmd)
         except Exception as ex:
-            raise Exception(
-                "Failed to run {} on '{}': {}".format(playbook, hosts, ex))
+            raise Exception(f"Failed to run {playbook} on '{hosts}': {ex}")
         finally:
             tempdir.cleanup()
 
@@ -133,13 +132,12 @@ class Application:
 
             vcpus_arg = str(config.values["install"]["vcpus"])
 
-            disk_arg = "size={},pool={},bus=virtio".format(
-                config.values["install"]["disk_size"],
-                config.values["install"]["storage_pool"],
-            )
-            network_arg = "network={},model=virtio".format(
-                config.values["install"]["network"],
-            )
+            conf_size = config.values["install"]["disk_size"]
+            conf_pool = config.values["install"]["storage_pool"]
+            disk_arg = f"size={conf_size},pool={conf_pool},bus=virtio"
+
+            conf_network = config.values["install"]["network"]
+            network_arg = f"network={conf_network},model=virtio"
 
             # Different operating systems require different configuration
             # files for unattended installation to work, but some operating
@@ -151,23 +149,19 @@ class Application:
             elif facts["os"]["name"] == "OpenSUSE":
                 install_config = "autoinst.xml"
             else:
-                raise Exception(
-                    "Host {} doesn't support installation".format(host)
-                )
+                raise Exception(f"Host {host} doesn't support installation")
 
             try:
                 unattended_options = {
                     "install.url": facts["install"]["url"],
                 }
             except KeyError:
-                raise Exception(
-                    "Host {} doesn't support installation".format(host)
-                )
+                raise Exception(f"Host {host} doesn't support installation")
 
             # Unattended install scripts are being generated on the fly, based
             # on the templates present in lcitool/configs/
             filename = resource_filename(__name__,
-                                         "configs/install/{}".format(install_config))
+                                         f"configs/install/{install_config}")
             with open(filename, "r") as template:
                 content = template.read()
                 for option in unattended_options:
@@ -191,10 +185,9 @@ class Application:
             # ignore it. We do the same with the 'install' argument in order
             # to workaround a bug which causes old virt-install versions to not
             # pass the URL correctly when installing openSUSE guests
-            extra_arg = "console=ttyS0 inst.ks=file:/{} install={}".format(
-                install_config,
-                facts["install"]["url"],
-            )
+            conf_url = facts["install"]["url"]
+            ks = install_config
+            extra_arg = f"console=ttyS0 inst.ks=file:/{ks} install={conf_url}"
 
             cmd = [
                 "virt-install",
@@ -222,7 +215,7 @@ class Application:
             try:
                 subprocess.check_call(cmd)
             except Exception as ex:
-                raise Exception("Failed to install '{}': {}".format(host, ex))
+                raise Exception(f"Failed to install '{host}': {ex}")
             finally:
                 tempdir.cleanup()
 

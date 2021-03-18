@@ -24,7 +24,7 @@ def git_commit():
 
 def expand_pattern(pattern, source, name):
     if pattern is None:
-        raise Exception("Missing {} list".format(name))
+        raise Exception(f"Missing {name} list")
 
     if pattern == "all":
         pattern = "*"
@@ -41,7 +41,7 @@ def expand_pattern(pattern, source, name):
                 partial_matches.append(item)
 
         if not partial_matches:
-            raise Exception("Invalid {} list '{}'".format(name, pattern))
+            raise Exception(f"Invalid {name} list '{pattern}'")
 
         matches.extend(partial_matches)
 
@@ -74,7 +74,7 @@ def native_arch_to_abi(native_arch):
         "x86_64": "x86_64-linux-gnu",
     }
     if native_arch not in archmap:
-        raise Exception("Unsupported architecture {}".format(native_arch))
+        raise Exception(f"Unsupported architecture {native_arch}")
     return archmap[native_arch]
 
 
@@ -92,7 +92,7 @@ def native_arch_to_deb_arch(native_arch):
         "x86_64": "amd64",
     }
     if native_arch not in archmap:
-        raise Exception("Unsupported architecture {}".format(native_arch))
+        raise Exception(f"Unsupported architecture {native_arch}")
     return archmap[native_arch]
 
 
@@ -117,19 +117,21 @@ def generate_file_header(action, hosts, projects, cross_arch):
     if cross_arch:
         cli_args.extend(["--cross", cross_arch])
     cli_args.extend([hosts, projects])
+    cli_args_formatted = " ".join(cli_args)
+
     commit = git_commit()
     url = "https://gitlab.com/libvirt/libvirt-ci"
     if commit is not None:
         url = url + "/-/commit/" + commit
 
     header = textwrap.dedent(
-        """\
+        f"""\
         # THIS FILE WAS AUTO-GENERATED
         #
-        #  $ lcitool {} {}
+        #  $ lcitool {action} {cli_args_formatted}
         #
-        # {}
+        # {url}
 
         """
     )
-    return header.format(action, " ".join(cli_args), url)
+    return header
