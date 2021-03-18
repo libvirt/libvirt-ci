@@ -159,13 +159,13 @@ class Application:
             # preseed files must use a well-known name to be picked up by
             # d-i; for kickstart files, we can use whatever name we please
             # but we need to point anaconda in the right direction through
-            # the 'ks' kernel parameter. We can use 'ks' unconditionally
-            # for simplicity's sake, because distributions that don't use
-            # kickstart for unattended installation will simply ignore it.
-            # We do the same with the 'install' argument in order to
-            # workaround a bug which causes old virt-install versions to
-            # not pass the URL correctly when installing openSUSE guests
-            extra_arg = "console=ttyS0 ks=file:/{} install={}".format(
+            # the 'inst.ks' kernel parameter. We can use 'inst.ks'
+            # unconditionally for simplicity's sake, because distributions that
+            # don't use kickstart for unattended installation will simply
+            # ignore it. We do the same with the 'install' argument in order
+            # to workaround a bug which causes old virt-install versions to not
+            # pass the URL correctly when installing openSUSE guests
+            extra_arg = "console=ttyS0 inst.ks=file:/{} install={}".format(
                 install_config,
                 facts["install"]["url"],
             )
