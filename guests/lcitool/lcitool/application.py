@@ -7,6 +7,7 @@
 import json
 import os
 import subprocess
+import sys
 import tempfile
 
 from pathlib import Path
@@ -22,9 +23,13 @@ from lcitool.formatters import DockerfileFormatter, VariablesFormatter
 class Application:
 
     def __init__(self):
-        self._config = Config()
-        self._inventory = Inventory()
-        self._projects = Projects()
+        try:
+            self._config = Config()
+            self._inventory = Inventory()
+            self._projects = Projects()
+        except Exception as ex:
+            print(f"Failed to initialize application: {ex}", file=sys.stderr)
+            sys.exit(1)
 
         self._native_arch = util.get_native_arch()
 
@@ -43,13 +48,18 @@ class Application:
         try:
             return obj.expand_pattern(pattern)
         except Exception as ex:
-            raise Exception(f"Failed to expand '{pattern}': {ex}")
+            print(f"Failed to expand '{pattern}': {ex}", file=sys.stderr)
+            sys.exit(1)
 
     def _execute_playbook(self, playbook, hosts, projects, git_revision):
         base = resource_filename(__name__, "ansible")
         config = self._config
 
-        config.validate_vm_settings()
+        try:
+            config.validate_vm_settings()
+        except Exception as ex:
+            print(f"Failed to validate config: {ex}", file=sys.stderr)
+            sys.exit(1)
 
         hosts_expanded = self._expand_pattern(self._inventory, hosts)
         ansible_hosts = ",".join(hosts_expanded)
@@ -58,9 +68,10 @@ class Application:
         if git_revision is not None:
             tokens = git_revision.split("/")
             if len(tokens) < 2:
-                raise Exception(
-                    f"Missing or invalid git revision '{git_revision}'"
-                )
+                print(f"Missing or invalid git revision '{git_revision}'",
+                      file=sys.stderr)
+                sys.exit(1)
+
             git_remote = tokens[0]
             git_branch = "/".join(tokens[1:])
         else:
@@ -102,7 +113,9 @@ class Application:
         try:
             subprocess.check_call(cmd)
         except Exception as ex:
-            raise Exception(f"Failed to run {playbook} on '{hosts}': {ex}")
+            print(f"Failed to run {playbook} on '{hosts}': {ex}",
+                  file=sys.stderr)
+            sys.exit(1)
         finally:
             tempdir.cleanup()
 
@@ -119,7 +132,11 @@ class Application:
     def _action_install(self, args):
         config = self._config
 
-        config.validate_vm_settings()
+        try:
+            config.validate_vm_settings()
+        except Exception as ex:
+            print(f"Failed to validate config: {ex}", file=sys.stderr)
+            sys.exit(1)
 
         hosts_expanded = self._expand_pattern(self._inventory, args.hosts)
         for host in hosts_expanded:
@@ -149,14 +166,18 @@ class Application:
             elif facts["os"]["name"] == "OpenSUSE":
                 install_config = "autoinst.xml"
             else:
-                raise Exception(f"Host {host} doesn't support installation")
+                print(f"Host {host} doesn't support installation",
+                      file=sys.stderr)
+                sys.exit(1)
 
             try:
                 unattended_options = {
                     "install.url": facts["install"]["url"],
                 }
             except KeyError:
-                raise Exception(f"Host {host} doesn't support installation")
+                print(f"Host {host} doesn't support installation",
+                      file=sys.stderr)
+                sys.exit(1)
 
             # Unattended install scripts are being generated on the fly, based
             # on the templates present in lcitool/configs/
@@ -215,7 +236,8 @@ class Application:
             try:
                 subprocess.check_call(cmd)
             except Exception as ex:
-                raise Exception(f"Failed to install '{host}': {ex}")
+                print(f"Failed to install '{host}': {ex}", file=sys.stderr)
+                sys.exit(1)
             finally:
                 tempdir.cleanup()
 
@@ -232,7 +254,12 @@ class Application:
         projects_expanded = self._expand_pattern(self._projects, args.projects)
 
         vfmt = VariablesFormatter(self._projects, self._inventory)
-        variables = vfmt.format(hosts_expanded, projects_expanded, None)
+
+        try:
+            variables = vfmt.format(hosts_expanded, projects_expanded, None)
+        except Exception as ex:
+            print(f"Failed to format variables: {ex}", file=sys.stderr)
+            sys.exit(1)
 
         header = util.generate_file_header(args.action,
                                            args.hosts,
@@ -245,9 +272,14 @@ class Application:
         projects_expanded = self._expand_pattern(self._projects, args.projects)
 
         dfmt = DockerfileFormatter(self._projects, self._inventory)
-        dockerfile = dfmt.format(hosts_expanded,
-                                 projects_expanded,
-                                 args.cross_arch)
+
+        try:
+            dockerfile = dfmt.format(hosts_expanded,
+                                     projects_expanded,
+                                     args.cross_arch)
+        except Exception as ex:
+            print(f"Failed to format Dockerfile: {ex}", file=sys.stderr)
+            sys.exit(1)
 
         header = util.generate_file_header(args.action,
                                            args.hosts,
