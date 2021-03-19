@@ -4,12 +4,16 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+import logging
+import sys
 import yaml
 
 from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util
+
+log = logging.getLogger(__name__)
 
 
 class Projects:
@@ -39,6 +43,7 @@ class Projects:
 
             project = item.stem
 
+            log.debug(f"Loading mapppings for project '{project}'")
             try:
                 with open(yaml_path, "r") as infile:
                     packages = yaml.safe_load(infile)

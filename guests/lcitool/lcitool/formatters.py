@@ -5,10 +5,14 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import abc
+import logging
+import sys
 
 from pkg_resources import resource_filename
 
 from lcitool import util
+
+log = logging.getLogger(__name__)
 
 
 class Formatter(metaclass=abc.ABCMeta):
@@ -191,9 +195,15 @@ class Formatter(metaclass=abc.ABCMeta):
         if cpan_pkgs:
             varmap["cpan_pkgs"] = sorted(set(cpan_pkgs.values()))
 
+        log.debug(f"Generated varmap: {varmap}")
         return varmap
 
     def _generator_prepare(self, hosts, projects, cross_arch):
+        log.debug(f"Generating varmap for "
+                  f"hosts='{hosts}', "
+                  f"projects='{projects}', "
+                  f"cross_arch='{cross_arch}'")
+
         name = self.__class__.__name__.lower()
         mappings = self._projects.get_mappings()
         pypi_mappings = self._projects.get_pypi_mappings()
@@ -518,6 +528,9 @@ class DockerfileFormatter(Formatter):
         :returns: String represented Dockerfile
         """
 
+        log.debug(f"Generating Dockerfile for projects '{projects}' on host "
+                  f"'{hosts}' (cross_arch={cross_arch})")
+
         facts, cross_arch, varmap = self._generator_prepare(hosts, projects, cross_arch)
 
         return '\n'.join(self._format_dockerfile(hosts, projects, facts, cross_arch, varmap))
@@ -570,6 +583,9 @@ class VariablesFormatter(Formatter):
         :param args: Application class' command line arguments
         :returns: String represented list of environment variables
         """
+
+        log.debug(f"Generating variables for projects '{projects} on host "
+                  f"'{host}' (cross_arch={cross_arch})")
 
         _, _, varmap = self._generator_prepare(hosts, projects, cross_arch)
 

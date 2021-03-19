@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import json
+import logging
 import os
 import subprocess
 import sys
@@ -19,6 +20,8 @@ from lcitool.inventory import Inventory
 from lcitool.projects import Projects
 from lcitool.formatters import DockerfileFormatter, VariablesFormatter
 
+log = logging.getLogger(__name__)
+
 
 class Application:
 
@@ -32,6 +35,14 @@ class Application:
             sys.exit(1)
 
         self._native_arch = util.get_native_arch()
+
+    @staticmethod
+    def _entrypoint_debug(args):
+        cli_args = {}
+        for arg, val in vars(args).items():
+            if arg not in ['func', 'debug']:
+                cli_args[arg] = val
+        log.debug(f"Cmdline args={cli_args}")
 
     @staticmethod
     def _expand_pattern(obj, pattern):
@@ -52,6 +63,9 @@ class Application:
             sys.exit(1)
 
     def _execute_playbook(self, playbook, hosts, projects, git_revision):
+        log.debug(f"Executing playbook '{playbook}': hosts={hosts} "
+                  f"projects={projects} gitrev={git_revision}")
+
         base = resource_filename(__name__, "ansible")
         config = self._config
 
@@ -110,6 +124,7 @@ class Application:
         # rather than through the command line
         os.environ["ANSIBLE_CONFIG"] = ansible_cfg_path
 
+        log.debug(f"Running {cmd}")
         try:
             subprocess.check_call(cmd)
         except Exception as ex:
@@ -120,16 +135,22 @@ class Application:
             tempdir.cleanup()
 
     def _action_hosts(self, args):
+        self._entrypoint_debug(args)
+
         hosts_expanded = self._expand_pattern(self._inventory, "all")
         for host in hosts_expanded:
             print(host)
 
     def _action_projects(self, args):
+        self._entrypoint_debug(args)
+
         projects_expanded = self._expand_pattern(self._projects, "all")
         for project in projects_expanded:
             print(project)
 
     def _action_install(self, args):
+        self._entrypoint_debug(args)
+
         config = self._config
 
         try:
@@ -233,6 +254,7 @@ class Application:
             if not args.wait:
                 cmd.append("--noautoconsole")
 
+            log.debug(f"Running {cmd}")
             try:
                 subprocess.check_call(cmd)
             except Exception as ex:
@@ -242,14 +264,20 @@ class Application:
                 tempdir.cleanup()
 
     def _action_update(self, args):
+        self._entrypoint_debug(args)
+
         self._execute_playbook("update", args.hosts, args.projects,
                                args.git_revision)
 
     def _action_build(self, args):
+        self._entrypoint_debug(args)
+
         self._execute_playbook("build", args.hosts, args.projects,
                                args.git_revision)
 
     def _action_variables(self, args):
+        self._entrypoint_debug(args)
+
         hosts_expanded = self._expand_pattern(self._inventory, args.hosts)
         projects_expanded = self._expand_pattern(self._projects, args.projects)
 
@@ -268,6 +296,8 @@ class Application:
         print(header + variables)
 
     def _action_dockerfile(self, args):
+        self._entrypoint_debug(args)
+
         hosts_expanded = self._expand_pattern(self._inventory, args.hosts)
         projects_expanded = self._expand_pattern(self._projects, args.projects)
 

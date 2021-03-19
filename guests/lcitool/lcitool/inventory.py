@@ -5,12 +5,16 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import configparser
+import logging
+import sys
 import yaml
 
 from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util
+
+log = logging.getLogger(__name__)
 
 
 class Inventory:
@@ -30,6 +34,8 @@ class Inventory:
         posix_path = Path("ansible", inventory_path).as_posix()
         inventory_path = resource_filename(__name__, posix_path)
         self._facts = {}
+
+        log.debug(f"Loading inventory '{inventory_path}'")
         try:
             # We can only deal with trivial inventories, but that's
             # all we need right now and we can expand support further
@@ -75,6 +81,8 @@ class Inventory:
                     continue
                 if yaml_path.suffix != ".yml":
                     continue
+
+                log.debug(f"Loading facts from '{yaml_path}'")
                 self._add_facts_from_file(facts, yaml_path)
 
         return facts

@@ -4,11 +4,15 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+import logging
 import os
+import sys
 import yaml
 
 from pathlib import Path
 from pkg_resources import resource_filename
+
+log = logging.getLogger(__name__)
 
 
 class Config:
@@ -31,6 +35,8 @@ class Config:
         else:
             return
 
+        user_config_path_str = user_config_path.as_posix()
+        log.debug(f"Loading configuration from '{user_config_path_str}'")
         try:
             with open(user_config_path, "r") as fp:
                 user_config = yaml.safe_load(fp)
@@ -61,6 +67,8 @@ class Config:
 
         for k in keys:
             if k not in known_keys:
+                log.debug(f"Removing unknown key '{k}' from config")
+
                 del _dict[k]
 
     def _remove_all_unknown_keys(self, config):
@@ -71,6 +79,9 @@ class Config:
                 self._remove_unknown_keys(config[section], self.values[section].keys())
 
     def _validate_section(self, section, mandatory_keys):
+        log.debug(f"Validating section='[{section}]' "
+                  f"against keys='{mandatory_keys}'")
+
         # check that the mandatory keys are present and non-empty
         for key in mandatory_keys:
             if self.values.get(section).get(key) is None:
@@ -101,4 +112,6 @@ class Config:
     def _update(self, values):
         for section in self.values.keys():
             if section in values:
+                log.debug(f"Applying user values: '{values[section]}'")
+
                 self.values[section].update(values[section])

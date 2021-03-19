@@ -6,11 +6,15 @@
 
 import fnmatch
 import git
+import logging
 import platform
+import sys
 import textwrap
 
 from pathlib import Path
 from pkg_resources import resource_filename
+
+log = logging.getLogger(__name__)
 
 
 def git_commit():
@@ -23,6 +27,9 @@ def git_commit():
 
 
 def expand_pattern(pattern, source, name):
+    collection = list(source.keys())
+    log.debug(f"Expanding {name} pattern '{pattern}' on '{collection}'")
+
     if pattern is None:
         raise Exception(f"Missing {name} list")
 
