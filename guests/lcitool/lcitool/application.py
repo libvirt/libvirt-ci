@@ -134,9 +134,15 @@ class Application:
                     "Host {} doesn't support installation".format(host)
                 )
 
-            unattended_options = {
-                "install.url": facts["install"]["url"],
-            }
+            try:
+                unattended_options = {
+                    "install.url": facts["install"]["url"],
+                }
+            except KeyError:
+                raise Exception(
+                    "Host {} doesn't support installation".format(host)
+                )
+
 
             # Unattended install scripts are being generated on the fly, based
             # on the templates present in lcitool/configs/
