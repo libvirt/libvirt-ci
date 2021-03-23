@@ -407,9 +407,6 @@ mappings:
     rpm: gtk-vnc2-devel
     OpenSUSE: gtk-vnc-devel
 
-  hal:
-    FreeBSD: hal
-
   hostname:
     default: hostname
     FreeBSD:

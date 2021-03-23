@@ -25,7 +25,6 @@ packages:
   - glibc
   - glusterfs
   - gnutls
-  - hal
   - ip
   - iptables
   - iscsiadm
