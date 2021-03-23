@@ -134,12 +134,12 @@ class Application:
                     "Host {} doesn't support installation".format(host)
                 )
 
-            # Unattended install scripts are being generated on the fly, based
-            # on the templates present in lcitool/configs/
             unattended_options = {
                 "install.url": facts["install"]["url"],
             }
 
+            # Unattended install scripts are being generated on the fly, based
+            # on the templates present in lcitool/configs/
             filename = resource_filename(__name__,
                                          "configs/install/{}".format(install_config))
             with open(filename, "r") as template:
