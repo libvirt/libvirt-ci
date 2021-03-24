@@ -373,6 +373,10 @@ mappings:
     rpm: gobject-introspection-devel
     cross-policy-default: foreign
 
+  grep:
+    default: grep
+    pkg: gnugrep
+
   gstreamer-plugins-bad-free:
     mingw32-rpm: mingw32-gstreamer1-plugins-bad-free
     mingw64-rpm: mingw64-gstreamer1-plugins-bad-free
