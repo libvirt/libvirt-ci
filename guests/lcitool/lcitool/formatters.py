@@ -220,22 +220,21 @@ class Formatter(metaclass=abc.ABCMeta):
                 "Host {} doesn't support '{}' generator".format(host, name)
             )
         if cross_arch:
-            if facts["os"]["name"] not in ["Debian", "Fedora"]:
-                raise Exception("Cannot cross compile on {}".format(
-                    facts["os"]["name"],
-                ))
-            if (facts["os"]["name"] == "Debian" and cross_arch.startswith("mingw")):
+            osname = facts["os"]["name"]
+            if osname not in ["Debian", "Fedora"]:
+                raise Exception("Cannot cross compile on {}".format(osname))
+            if (osname == "Debian" and cross_arch.startswith("mingw")):
                 raise Exception(
                     "Cannot cross compile for {} on {}".format(
                         cross_arch,
-                        facts["os"]["name"],
+                        osname,
                     )
                 )
-            if (facts["os"]["name"] == "Fedora" and not cross_arch.startswith("mingw")):
+            if (osname == "Fedora" and not cross_arch.startswith("mingw")):
                 raise Exception(
                     "Cannot cross compile for {} on {}".format(
                         cross_arch,
-                        facts["os"]["name"],
+                        osname,
                     )
                 )
             if cross_arch == native_arch:
