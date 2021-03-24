@@ -25,6 +25,7 @@ packages:
   - glibc
   - glusterfs
   - gnutls
+  - grep
   - ip
   - iptables
   - iscsiadm
@@ -72,6 +73,7 @@ packages:
   - rpmbuild
   - sanlock
   - scrub
+  - sed
   - sheepdog
   - showmount
   - tc
