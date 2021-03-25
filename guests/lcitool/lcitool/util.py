@@ -5,8 +5,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import fnmatch
-import platform
 import git
+import platform
 import textwrap
 
 from pathlib import Path
