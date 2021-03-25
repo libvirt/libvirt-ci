@@ -28,14 +28,32 @@ class Application:
 
         self._native_arch = util.get_native_arch()
 
+    @staticmethod
+    def _expand_pattern(obj, pattern):
+        """
+        Helper to expand fn pattern on objects that implement expansion.
+
+        The helper exists solely to avoid the need to wrap all expand_pattern
+        calls with a try-except block all around the code individually.
+
+        :param obj: instance of a class that implements .expand_pattern()
+        :return: list of items that match @pattern
+        """
+
+        try:
+            return obj.expand_pattern(pattern)
+        except Exception as ex:
+            raise Exception("Failed to expand '{}': {}".format(pattern, ex))
+
     def _execute_playbook(self, playbook, hosts, projects, git_revision):
         base = resource_filename(__name__, "ansible")
         config = self._config
 
         config.validate_vm_settings()
 
-        ansible_hosts = ",".join(self._inventory.expand_pattern(hosts))
-        selected_projects = self._projects.expand_pattern(projects)
+        hosts_expanded = self._expand_pattern(self._inventory, hosts)
+        ansible_hosts = ",".join(hosts_expanded)
+        selected_projects = self._expand_pattern(self._projects, projects)
 
         if git_revision is not None:
             tokens = git_revision.split("/")
@@ -90,11 +108,13 @@ class Application:
             tempdir.cleanup()
 
     def _action_hosts(self, args):
-        for host in self._inventory.expand_pattern("all"):
+        hosts_expanded = self._expand_pattern(self._inventory, "all")
+        for host in hosts_expanded:
             print(host)
 
     def _action_projects(self, args):
-        for project in self._projects.expand_pattern("all"):
+        projects_expanded = self._expand_pattern(self._projects, "all")
+        for project in projects_expanded:
             print(project)
 
     def _action_install(self, args):
@@ -102,7 +122,8 @@ class Application:
 
         config.validate_vm_settings()
 
-        for host in self._inventory.expand_pattern(args.hosts):
+        hosts_expanded = self._expand_pattern(self._inventory, args.hosts)
+        for host in hosts_expanded:
             facts = self._inventory.get_facts(host)
 
             # Both memory size and disk size are stored as GiB in the
@@ -214,8 +235,8 @@ class Application:
                                args.git_revision)
 
     def _action_variables(self, args):
-        hosts_expanded = self._inventory.expand_pattern(args.hosts)
-        projects_expanded = self._projects.expand_pattern(args.projects)
+        hosts_expanded = self._expand_pattern(self._inventory, args.hosts)
+        projects_expanded = self._expand_pattern(self._projects, args.projects)
 
         vfmt = VariablesFormatter(self._projects, self._inventory)
         variables = vfmt.format(hosts_expanded, projects_expanded, None)
@@ -227,8 +248,8 @@ class Application:
         print(header + variables)
 
     def _action_dockerfile(self, args):
-        hosts_expanded = self._inventory.expand_pattern(args.hosts)
-        projects_expanded = self._projects.expand_pattern(args.projects)
+        hosts_expanded = self._expand_pattern(self._inventory, args.hosts)
+        projects_expanded = self._expand_pattern(self._projects, args.projects)
 
         dfmt = DockerfileFormatter(self._projects, self._inventory)
         dockerfile = dfmt.format(hosts_expanded,
