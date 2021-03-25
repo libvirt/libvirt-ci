@@ -206,7 +206,6 @@ class Formatter(metaclass=abc.ABCMeta):
         cpan_mappings = self._projects.get_cpan_mappings()
         native_arch = util.get_native_arch()
 
-        hosts = self._inventory.expand_pattern(hosts)
         if len(hosts) > 1:
             raise Exception(
                 "Can't use '{}' use generator on multiple hosts".format(name)
@@ -244,8 +243,7 @@ class Formatter(metaclass=abc.ABCMeta):
                 raise Exception("Cross arch {} should differ from native {}".
                                 format(cross_arch, native_arch))
 
-        selected_projects = self._projects.expand_pattern(projects)
-        for project in selected_projects:
+        for project in projects:
             if project.rfind("+mingw") >= 0:
                 raise Exception("Obsolete syntax, please use --cross-arch")
 
@@ -253,7 +251,7 @@ class Formatter(metaclass=abc.ABCMeta):
                                               mappings,
                                               pypi_mappings,
                                               cpan_mappings,
-                                              selected_projects,
+                                              projects,
                                               cross_arch)
         return facts, cross_arch, varmap
 
