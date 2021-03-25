@@ -17,8 +17,9 @@ def git_commit():
         lci_dir = Path(__file__).resolve().parent
         repo = git.Repo(lci_dir, search_parent_directories=True)
         return repo.head.object.hexsha
-    except git.InvalidGitRepositoryError as ex:
+    except git.InvalidGitRepositoryError:
         return None
+
 
 def expand_pattern(pattern, source, name):
     if pattern is None:

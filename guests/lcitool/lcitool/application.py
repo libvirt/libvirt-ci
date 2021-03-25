@@ -143,7 +143,6 @@ class Application:
                     "Host {} doesn't support installation".format(host)
                 )
 
-
             # Unattended install scripts are being generated on the fly, based
             # on the templates present in lcitool/configs/
             filename = resource_filename(__name__,
