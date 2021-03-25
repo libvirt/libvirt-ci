@@ -57,7 +57,8 @@ class CommandLine:
             action="store_true",
         )
 
-        subparsers = self._parser.add_subparsers(metavar="ACTION")
+        subparsers = self._parser.add_subparsers(metavar="ACTION",
+                                                 dest="action")
         subparsers.required = True
 
         # lcitool subcommand parsers
