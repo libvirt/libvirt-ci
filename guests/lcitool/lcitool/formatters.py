@@ -274,9 +274,7 @@ class DockerfileFormatter(Formatter):
         self._inventory = inventory
 
     def _format_dockerfile(self, host, project, facts, cross_arch, varmap):
-        header = util.generate_file_header("dockerfile", host,
-                                           project, cross_arch)
-        strings = [header]
+        strings = []
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
         pypi_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
         cpan_pkg_align = " \\\n" + (" " * len("RUN cpanm "))

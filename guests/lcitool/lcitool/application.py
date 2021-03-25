@@ -214,16 +214,26 @@ class Application:
                                args.git_revision)
 
     def _action_variables(self, args):
-        print(VariablesFormatter(self._projects,
-                                 self._inventory).format(args.hosts,
-                                                         args.projects,
-                                                         None))
+        vfmt = VariablesFormatter(self._projects, self._inventory)
+        variables = vfmt.format(args.hosts, args.projects, None)
+
+        header = util.generate_file_header(args.action,
+                                           args.hosts,
+                                           args.projects,
+                                           args.cross_arch)
+        print(header + variables)
 
     def _action_dockerfile(self, args):
-        print(DockerfileFormatter(self._projects,
-                                  self._inventory).format(args.hosts,
-                                                          args.projects,
-                                                          args.cross_arch))
+        dfmt = DockerfileFormatter(self._projects, self._inventory)
+        dockerfile = dfmt.format(args.hosts,
+                                 args.projects,
+                                 args.cross_arch)
+
+        header = util.generate_file_header(args.action,
+                                           args.hosts,
+                                           args.projects,
+                                           args.cross_arch)
+        print(header + dockerfile)
 
     def run(self, args):
         args.func(self, args)
