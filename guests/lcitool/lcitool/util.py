@@ -112,7 +112,7 @@ def get_openvz_key():
         return r.read().rstrip()
 
 
-def generate_file_header(hosts, projects, cross_arch):
+def generate_file_header(action, hosts, projects, cross_arch):
     cli_args = []
     if cross_arch:
         cli_args.extend(["--cross", cross_arch])
@@ -126,10 +126,10 @@ def generate_file_header(hosts, projects, cross_arch):
         """\
         # THIS FILE WAS AUTO-GENERATED
         #
-        #  $ lcitool dockerfile {}
+        #  $ lcitool {} {}
         #
         # {}
 
         """
     )
-    return header.format(" ".join(cli_args), url)
+    return header.format(action, " ".join(cli_args), url)
