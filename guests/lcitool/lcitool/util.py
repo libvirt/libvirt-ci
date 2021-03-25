@@ -7,6 +7,7 @@
 import fnmatch
 import platform
 import git
+import textwrap
 
 from pathlib import Path
 from pkg_resources import resource_filename
@@ -109,3 +110,26 @@ def get_openvz_key():
 
     with open(keyfile, "r") as r:
         return r.read().rstrip()
+
+
+def generate_file_header(hosts, projects, cross_arch):
+    cli_args = []
+    if cross_arch:
+        cli_args.extend(["--cross", cross_arch])
+    cli_args.extend([hosts, projects])
+    commit = git_commit()
+    url = "https://gitlab.com/libvirt/libvirt-ci"
+    if commit is not None:
+        url = url + "/-/commit/" + commit
+
+    header = textwrap.dedent(
+        """\
+        # THIS FILE WAS AUTO-GENERATED
+        #
+        #  $ lcitool dockerfile {}
+        #
+        # {}
+
+        """
+    )
+    return header.format(" ".join(cli_args), url)
