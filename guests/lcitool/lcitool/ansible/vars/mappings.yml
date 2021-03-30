@@ -316,6 +316,19 @@ mappings:
     rpm: fuse-devel
     cross-policy-default: foreign
 
+  fuse3:
+    deb: libfuse3-dev
+    pkg: fusefs-libs3
+    rpm: fuse3-devel
+    Ubuntu1804:
+    cross-policy-default: foreign
+
+  fusermount:
+    default: fuse3
+    pkg: fusefs-libs3
+    MacOS:
+    Ubuntu1804:
+
   g++:
     deb: g++
     rpm: gcc-c++
@@ -421,6 +434,12 @@ mappings:
     cross-mingw64-rpm: mingw64-gnutls
     cross-policy-default: foreign
 
+  gnutls-utils:
+    default: gnutls
+    deb: gnutls-bin
+    rpm: gnutls-utils
+    OpenSUSE: gnutls
+
   go:
     default: golang
     FreeBSD: go
@@ -470,6 +489,13 @@ mappings:
     rpm: gtk-vnc2-devel
     OpenSUSE: gtk-vnc-devel
 
+  hexdump:
+    deb: bsdextrautils
+    rpm: util-linux
+    Debian10: bsdmainutils
+    Ubuntu1804: bsdmainutils
+    Ubuntu2004: bsdmainutils
+
   hostname:
     default: hostname
     FreeBSD:
@@ -515,6 +541,9 @@ mappings:
     default: jna
     deb: libjna-java
     MacOS:
+
+  jq:
+    default: jq
 
   json-glib:
     default: json-glib
@@ -626,6 +655,12 @@ mappings:
     default: libepoxy
     deb: libepoxy-dev
     rpm: libepoxy-devel
+    cross-policy-default: foreign
+
+  libev:
+    default: libev
+    deb: libev-dev
+    rpm: libev-devel
     cross-policy-default: foreign
 
   libfdt:
@@ -972,6 +1007,23 @@ mappings:
     default: nano
     MacOS:
 
+  nbd-client:
+    deb: nbd-client
+    rpm: nbd
+    CentOS:
+
+  nbd-server:
+    deb: nbd-server
+    pkg: nbd-server
+    rpm: nbd
+    CentOS:
+
+  nbdkit:
+    default: nbdkit
+    MacOS:
+    OpenSUSELeap152:
+    Ubuntu1804:
+
   ncursesw:
     default: ncurses
     deb: libncursesw5-dev
@@ -1029,6 +1081,12 @@ mappings:
 
   ocaml-findlib:
     default: ocaml-findlib
+
+  ocamldoc:
+    default: ocaml
+    deb: ocaml-nox
+    rpm: ocamldoc
+    OpenSUSE: ocaml-ocamldoc
 
   openwsman:
     rpm: libwsman-devel
@@ -1123,6 +1181,17 @@ mappings:
     deb: libnet-snmp-perl
     pkg: p5-Net-SNMP
     rpm: perl-Net-SNMP
+
+  perl-Pod-Man:
+    default: perl
+    pkg: perl5
+    rpm: perl-podlators
+    OpenSUSE: perl
+
+  perl-Pod-Simple:
+    default: perl
+    pkg: p5-Pod-Simple
+    rpm: perl-Pod-Simple
 
   perl-Sub-Uplevel:
     deb: libsub-uplevel-perl
@@ -1361,7 +1430,19 @@ mappings:
     FreeBSD: py37-wheel
     MacOS: python3
 
+  qemu:
+    default: qemu
+    CentOS: qemu-kvm
+    Fedora: qemu-kvm
+
   qemu-img:
+    default: qemu-utils
+    rpm: qemu-img
+    FreeBSD: qemu
+    MacOS: qemu
+    OpenSUSE: qemu-tools
+
+  qemu-nbd:
     default: qemu-utils
     rpm: qemu-img
     FreeBSD: qemu
@@ -1549,6 +1630,9 @@ mappings:
     default: vala
     deb: valac
 
+  valgrind:
+    default: valgrind
+
   vim:
     default: vim
     deb: vim-nox
@@ -1728,6 +1812,12 @@ cpan_mappings:
 
   perl-Net-SNMP:
     default: Net::SNMP
+
+  perl-Pod-Man:
+    default: Pod::Man
+
+  perl-Pod-Simple:
+    default: Pod::Simple
 
   perl-Sub-Uplevel:
     default: Sub::Uplevel
