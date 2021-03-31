@@ -171,7 +171,10 @@ class Formatter(metaclass=abc.ABCMeta):
         }
 
         varmap["pkgs"] = sorted(set(pkgs.values()))
-        varmap["mappings"] = sorted(set(list(pkgs.keys()) + list(pypi_pkgs.keys()) + list(cpan_pkgs.keys())))
+        varmap["mappings"] = sorted(set(list(pkgs.keys()) +
+                                        list(cross_pkgs.keys()) +
+                                        list(pypi_pkgs.keys()) +
+                                        list(cpan_pkgs.keys())))
 
         if cross_arch:
             varmap["cross_arch"] = cross_arch
