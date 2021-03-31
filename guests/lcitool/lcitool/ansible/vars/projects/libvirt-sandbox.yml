@@ -4,6 +4,7 @@ packages:
   - automake
   - autopoint
   - ccache
+  - cpp
   - gcc
   - gettext
   - glib2

@@ -7,6 +7,7 @@ packages:
   - bash-completion
   - ccache
   - clang
+  - cpp
   - cppi
   - cyrus-sasl
   - device-mapper

@@ -1,6 +1,7 @@
 ---
 packages:
   - ccache
+  - cpp
   - gcc
   - gettext
   - glib2
