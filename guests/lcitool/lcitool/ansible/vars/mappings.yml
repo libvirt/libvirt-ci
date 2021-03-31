@@ -201,6 +201,11 @@ mappings:
     deb: cloud-guest-utils
     rpm: cloud-utils-growpart
 
+  cpp:
+    default: cpp
+    FreeBSD:
+    MacOS:
+
   cppi:
     Fedora: cppi
     FreeBSD: cppi
