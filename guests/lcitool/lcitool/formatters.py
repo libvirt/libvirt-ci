@@ -175,19 +175,23 @@ class Formatter(metaclass=abc.ABCMeta):
             varmap["cross_abi"] = util.native_arch_to_abi(cross_arch)
 
             if facts["packaging"]["format"] == "deb":
+                cross_arch_deb = util.native_arch_to_deb_arch(cross_arch)
+                varmap["cross_arch_deb"] = cross_arch_deb
+
                 # For Debian-based distros, the name of the foreign package
                 # is obtained by appending the foreign architecture (in
-                # Debian format) to the name of the native package
-                cross_arch_deb = util.native_arch_to_deb_arch(cross_arch)
-                cross_pkgs = [p + ":" + cross_arch_deb for p in set(cross_pkgs.values())]
-                cross_pkgs.append("gcc-" + varmap["cross_abi"])
-                varmap["cross_arch_deb"] = cross_arch_deb
-                varmap["cross_pkgs"] = sorted(cross_pkgs)
-            elif facts["packaging"]["format"] == "rpm":
-                # For RPM-based distros, all mappings have already been
-                # resolved and we just need to add the cross-compiler
-                cross_pkgs["gcc"] = cross_arch + "-gcc"
-                varmap["cross_pkgs"] = sorted(set(cross_pkgs.values()))
+                # Debian format) to the name of the native package.
+                #
+                # The exception to this is cross-compilers, where we
+                # have to install the package for the native architecture
+                # in order to be able to build for the foreign architecture
+                for key in cross_pkgs.keys():
+                    if (cross_pkgs[key].startswith("gcc-") or
+                        cross_pkgs[key].startswith("g++-")):
+                        continue
+                    cross_pkgs[key] = cross_pkgs[key] + ":" + cross_arch_deb
+
+            varmap["cross_pkgs"] = sorted(set(cross_pkgs.values()))
 
         if pypi_pkgs:
             varmap["pypi_pkgs"] = sorted(set(pypi_pkgs.values()))

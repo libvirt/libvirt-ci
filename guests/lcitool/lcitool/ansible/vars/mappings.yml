@@ -291,17 +291,35 @@ mappings:
   g++:
     deb: g++
     rpm: gcc-c++
+    cross-aarch64-deb: g++-aarch64-linux-gnu
+    cross-armv6l-deb: g++-arm-linux-gnueabi
+    cross-armv7l-deb: g++-arm-linux-gnueabihf
+    cross-i686-deb: g++-i686-linux-gnu
+    cross-mips-deb: g++-mips-linux-gnu
+    cross-mips64el-deb: g++-mips64el-linux-gnuabi64
+    cross-mipsel-deb: g++-mipsel-linux-gnu
+    cross-ppc64le-deb: g++-powerpc64le-linux-gnu
+    cross-s390x-deb: g++-s390x-linux-gnu
     cross-mingw32-rpm: mingw32-gcc-c++
     cross-mingw64-rpm: mingw64-gcc-c++
-    cross-policy-rpm: foreign
+    cross-policy-default: foreign
 
   gcc:
     default: gcc
     FreeBSD:
     MacOS:
+    cross-aarch64-deb: gcc-aarch64-linux-gnu
+    cross-armv6l-deb: gcc-arm-linux-gnueabi
+    cross-armv7l-deb: gcc-arm-linux-gnueabihf
+    cross-i686-deb: gcc-i686-linux-gnu
+    cross-mips-deb: gcc-mips-linux-gnu
+    cross-mips64el-deb: gcc-mips64el-linux-gnuabi64
+    cross-mipsel-deb: gcc-mipsel-linux-gnu
+    cross-ppc64le-deb: gcc-powerpc64le-linux-gnu
+    cross-s390x-deb: gcc-s390x-linux-gnu
     cross-mingw32-rpm: mingw32-gcc
     cross-mingw64-rpm: mingw64-gcc
-    cross-policy-rpm: foreign
+    cross-policy-default: foreign
 
   gdb:
     default: gdb
