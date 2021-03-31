@@ -278,9 +278,7 @@ mappings:
 
   g++:
     deb: g++
-    pkg: gcc
     rpm: gcc-c++
-    MacOS: gcc
     mingw32-rpm: mingw32-gcc-c++
     mingw64-rpm: mingw64-gcc-c++
     cross-policy-rpm: foreign
