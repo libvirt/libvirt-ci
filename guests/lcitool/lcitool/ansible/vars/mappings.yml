@@ -1020,8 +1020,13 @@ mappings:
     MacOS:
 
   perl:
-    default: perl
+    default: perl-base
     FreeBSD: perl5
+    MacOS: perl
+    CentOS7: perl
+    CentOS8: perl
+    CentOSStream: perl
+    Fedora32: perl
 
   perl-App-cpanminus:
     deb: cpanminus
