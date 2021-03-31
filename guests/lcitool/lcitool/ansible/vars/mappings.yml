@@ -178,7 +178,7 @@ mappings:
     default: clang
     FreeBSD:
     MacOS:
-    cross-policy-rpm: foreign
+    cross-policy-default: skip
 
   cloud-init:
     default: cloud-init
