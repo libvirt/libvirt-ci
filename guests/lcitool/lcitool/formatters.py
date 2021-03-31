@@ -163,12 +163,6 @@ class Formatter(metaclass=abc.ABCMeta):
             "paths_pip3": facts["paths"]["pip3"],
         }
 
-        varmap["pkgs"] = sorted(set(pkgs.values()))
-        varmap["mappings"] = sorted(set(list(pkgs.keys()) +
-                                        list(cross_pkgs.keys()) +
-                                        list(pypi_pkgs.keys()) +
-                                        list(cpan_pkgs.keys())))
-
         if cross_arch:
             varmap["cross_arch"] = cross_arch
             varmap["cross_abi"] = util.native_arch_to_abi(cross_arch)
@@ -190,8 +184,15 @@ class Formatter(metaclass=abc.ABCMeta):
                         continue
                     cross_pkgs[key] = cross_pkgs[key] + ":" + cross_arch_deb
 
-            varmap["cross_pkgs"] = sorted(set(cross_pkgs.values()))
+        varmap["mappings"] = sorted(set(list(pkgs.keys()) +
+                                        list(cross_pkgs.keys()) +
+                                        list(pypi_pkgs.keys()) +
+                                        list(cpan_pkgs.keys())))
 
+        if pkgs:
+            varmap["pkgs"] = sorted(set(pkgs.values()))
+        if cross_pkgs:
+            varmap["cross_pkgs"] = sorted(set(cross_pkgs.values()))
         if pypi_pkgs:
             varmap["pypi_pkgs"] = sorted(set(pypi_pkgs.values()))
         if cpan_pkgs:
