@@ -138,8 +138,6 @@ class Formatter(metaclass=abc.ABCMeta):
             extra_projects += ["perl-cpan"]
         for project in extra_projects:
             for package in self._projects.get_packages(project):
-                cross_policy = "native"
-
                 if package not in mappings:
                     raise Exception(
                         "No mapping defined for {}".format(package)
