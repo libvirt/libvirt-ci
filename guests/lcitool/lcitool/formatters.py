@@ -56,9 +56,9 @@ class Formatter(metaclass=abc.ABCMeta):
         cross_keys = []
         cross_policy_keys = []
         native_arch = util.get_native_arch()
+        native_keys = base_keys + [native_arch + "-" + k for k in base_keys]
 
         if cross_arch:
-            keys = base_keys
             if facts["packaging"]["format"] == "deb":
                 # For Debian-based distros, the name of the foreign package
                 # is usually the same as the native package, but there might
@@ -73,8 +73,6 @@ class Formatter(metaclass=abc.ABCMeta):
                 # packages we don't actually need
                 cross_keys = [cross_arch + "-" + k for k in base_keys]
             cross_policy_keys = ["cross-policy-" + k for k in base_keys]
-        else:
-            keys = base_keys + [native_arch + "-" + k for k in base_keys]
 
         # We need to add the base project manually here: the standard
         # machinery hides it because it's an implementation detail
@@ -104,7 +102,7 @@ class Formatter(metaclass=abc.ABCMeta):
                             if key in mappings[package]:
                                 pkgs[package] = mappings[package][key]
                     else:
-                        for key in keys:
+                        for key in native_keys:
                             if key in mappings[package]:
                                 pkgs[package] = mappings[package][key]
 
@@ -151,7 +149,7 @@ class Formatter(metaclass=abc.ABCMeta):
                         "No mapping defined for {}".format(package)
                     )
 
-                for key in keys:
+                for key in native_keys:
                     if key in mappings[package]:
                         pkgs[package] = mappings[package][key]
 
