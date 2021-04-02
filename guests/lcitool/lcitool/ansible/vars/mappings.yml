@@ -65,6 +65,18 @@
 #  - 'native': use the native architecture package (default if omitted)
 #  - 'foreign: use the foreign archtiecture package
 #  -   'skip': don't install the package
+#
+# When cross-compiling on a Debian-based distro, the name of the foreign
+# package usually matches that of the native one, so no additional mappings
+# are necessary; on RPM-based distros, however, that's not usually the case,
+# so specific entries are needed: these look like
+#
+#  glib2:
+#    rpm: glib2-devel
+#    cross-mingw32-rpm: mingw32-glib2
+#    cross-mingw64-rpm: mingw64-glib2
+#
+# and follow all the usual rules.
 
 mappings:
 
@@ -141,8 +153,8 @@ mappings:
     rpm: bzip2-devel
     MacOS: bzip2
     OpenSUSE: libbz2-devel
-    mingw32-rpm: mingw32-bzip2
-    mingw64-rpm: mingw64-bzip2
+    cross-mingw32-rpm: mingw32-bzip2
+    cross-mingw64-rpm: mingw64-bzip2
     cross-policy-default: foreign
 
   ca-certificates:
@@ -232,8 +244,8 @@ mappings:
     default: diffutils
 
   dlfcn:
-    mingw32-rpm: mingw32-dlfcn
-    mingw64-rpm: mingw64-dlfcn
+    cross-mingw32-rpm: mingw32-dlfcn
+    cross-mingw64-rpm: mingw64-dlfcn
     cross-policy-default: foreign
 
   dnsmasq:
@@ -279,16 +291,16 @@ mappings:
   g++:
     deb: g++
     rpm: gcc-c++
-    mingw32-rpm: mingw32-gcc-c++
-    mingw64-rpm: mingw64-gcc-c++
+    cross-mingw32-rpm: mingw32-gcc-c++
+    cross-mingw64-rpm: mingw64-gcc-c++
     cross-policy-rpm: foreign
 
   gcc:
     default: gcc
     FreeBSD:
     MacOS:
-    mingw32-rpm: mingw32-gcc
-    mingw64-rpm: mingw64-gcc
+    cross-mingw32-rpm: mingw32-gcc
+    cross-mingw64-rpm: mingw64-gcc
     cross-policy-rpm: foreign
 
   gdb:
@@ -300,8 +312,8 @@ mappings:
     pkg: gdk-pixbuf2
     MacOS: gdk-pixbuf
     OpenSUSE: gdk-pixbuf-devel
-    mingw32-rpm: mingw32-gdk-pixbuf
-    mingw64-rpm: mingw64-gdk-pixbuf
+    cross-mingw32-rpm: mingw32-gdk-pixbuf
+    cross-mingw64-rpm: mingw64-gdk-pixbuf
     cross-policy-default: foreign
 
   genisoimage:
@@ -313,8 +325,8 @@ mappings:
   gettext:
     default: gettext
     OpenSUSE: gettext-runtime
-    mingw32-rpm: mingw32-gettext
-    mingw64-rpm: mingw64-gettext
+    cross-mingw32-rpm: mingw32-gettext
+    cross-mingw64-rpm: mingw64-gettext
     cross-policy-rpm: foreign
 
   git:
@@ -324,15 +336,15 @@ mappings:
     default: glib
     deb: libglib2.0-dev
     rpm: glib2-devel
-    mingw32-rpm: mingw32-glib2
-    mingw64-rpm: mingw64-glib2
+    cross-mingw32-rpm: mingw32-glib2
+    cross-mingw64-rpm: mingw64-glib2
     cross-policy-default: foreign
 
   glibc:
     deb: libc6-dev
     rpm: glibc-devel
-    mingw32-rpm: mingw32-headers
-    mingw64-rpm: mingw64-headers
+    cross-mingw32-rpm: mingw32-headers
+    cross-mingw64-rpm: mingw64-headers
     cross-policy-default: foreign
 
   glibc-static:
@@ -352,8 +364,8 @@ mappings:
     deb: libgnutls28-dev
     rpm: gnutls-devel
     OpenSUSE: libgnutls-devel
-    mingw32-rpm: mingw32-gnutls
-    mingw64-rpm: mingw64-gnutls
+    cross-mingw32-rpm: mingw32-gnutls
+    cross-mingw64-rpm: mingw64-gnutls
     cross-policy-default: foreign
 
   go:
@@ -372,13 +384,13 @@ mappings:
     pkg: gnugrep
 
   gstreamer-plugins-bad-free:
-    mingw32-rpm: mingw32-gstreamer1-plugins-bad-free
-    mingw64-rpm: mingw64-gstreamer1-plugins-bad-free
+    cross-mingw32-rpm: mingw32-gstreamer1-plugins-bad-free
+    cross-mingw64-rpm: mingw64-gstreamer1-plugins-bad-free
     cross-policy-default: foreign
 
   gstreamer-plugins-good:
-    mingw32-rpm: mingw32-gstreamer1-plugins-good
-    mingw64-rpm: mingw64-gstreamer1-plugins-good
+    cross-mingw32-rpm: mingw32-gstreamer1-plugins-good
+    cross-mingw64-rpm: mingw64-gstreamer1-plugins-good
     cross-policy-default: foreign
 
   gtk3:
@@ -386,8 +398,8 @@ mappings:
     pkg: gtk3
     rpm: gtk3-devel
     MacOS: gtk+3
-    mingw32-rpm: mingw32-gtk3
-    mingw64-rpm: mingw64-gtk3
+    cross-mingw32-rpm: mingw32-gtk3
+    cross-mingw64-rpm: mingw64-gtk3
     cross-policy-default: foreign
 
   gtk-doc:
@@ -455,8 +467,8 @@ mappings:
     default: json-glib
     deb: libjson-glib-dev
     rpm: json-glib-devel
-    mingw32-rpm: mingw32-json-glib
-    mingw64-rpm: mingw64-json-glib
+    cross-mingw32-rpm: mingw32-json-glib
+    cross-mingw64-rpm: mingw64-json-glib
     cross-policy-default: foreign
 
   junit:
@@ -479,8 +491,8 @@ mappings:
     default: libarchive
     deb: libarchive-dev
     rpm: libarchive-devel
-    mingw32-rpm: mingw32-libarchive
-    mingw64-rpm: mingw64-libarchive
+    cross-mingw32-rpm: mingw32-libarchive
+    cross-mingw64-rpm: mingw64-libarchive
     cross-policy-default: foreign
 
   libasan:
@@ -532,8 +544,8 @@ mappings:
     default: curl
     deb: libcurl4-gnutls-dev
     rpm: libcurl-devel
-    mingw32-rpm: mingw32-curl
-    mingw64-rpm: mingw64-curl
+    cross-mingw32-rpm: mingw32-curl
+    cross-mingw64-rpm: mingw64-curl
     cross-policy-default: foreign
 
   libdbus:
@@ -541,8 +553,8 @@ mappings:
     deb: libdbus-1-dev
     rpm: dbus-devel
     OpenSUSE: dbus-1-devel
-    mingw32-rpm: mingw32-dbus
-    mingw64-rpm: mingw64-dbus
+    cross-mingw32-rpm: mingw32-dbus
+    cross-mingw64-rpm: mingw64-dbus
     cross-policy-default: foreign
 
   libdrm:
@@ -565,8 +577,8 @@ mappings:
     default: libgcrypt
     deb: libgcrypt20-dev
     rpm: libgcrypt-devel
-    mingw32-rpm: mingw32-libgcrypt
-    mingw64-rpm: mingw64-libgcrypt
+    cross-mingw32-rpm: mingw32-libgcrypt
+    cross-mingw64-rpm: mingw64-libgcrypt
     cross-policy-default: foreign
 
   libgovirt:
@@ -574,8 +586,8 @@ mappings:
     Debian: libgovirt-dev
     CentOS8:
     CentOSStream:
-    mingw32-rpm: mingw32-libgovirt
-    mingw64-rpm: mingw64-libgovirt
+    cross-mingw32-rpm: mingw32-libgovirt
+    cross-mingw64-rpm: mingw64-libgovirt
     cross-policy-default: foreign
 
   libibverbs:
@@ -603,8 +615,8 @@ mappings:
     OpenSUSE: libjpeg8-devel
     Ubuntu: libjpeg-turbo8-dev
     MacOS: jpeg-turbo
-    mingw32-rpm: mingw32-libjpeg-turbo
-    mingw64-rpm: mingw64-libjpeg-turbo
+    cross-mingw32-rpm: mingw32-libjpeg-turbo
+    cross-mingw64-rpm: mingw64-libjpeg-turbo
     cross-policy-default: foreign
 
   liblzma:
@@ -668,8 +680,8 @@ mappings:
     pkg: png
     MacOS: libpng
     OpenSUSE: libpng16-devel
-    mingw32-rpm: mingw32-libpng
-    mingw64-rpm: mingw64-libpng
+    cross-mingw32-rpm: mingw32-libpng
+    cross-mingw64-rpm: mingw64-libpng
     cross-policy-default: foreign
 
   libprlsdk:
@@ -694,8 +706,8 @@ mappings:
     OpenSUSE: librest-devel
     CentOS8:
     CentOSStream:
-    mingw32-rpm: mingw32-rest
-    mingw64-rpm: mingw64-rest
+    cross-mingw32-rpm: mingw32-rest
+    cross-mingw64-rpm: mingw64-rest
     cross-policy-default: foreign
 
   libseccomp:
@@ -722,8 +734,8 @@ mappings:
     default: libsoup
     deb: libsoup2.4-dev
     rpm: libsoup-devel
-    mingw32-rpm: mingw32-libsoup
-    mingw64-rpm: mingw64-libsoup
+    cross-mingw32-rpm: mingw32-libsoup
+    cross-mingw64-rpm: mingw64-libsoup
     cross-policy-default: foreign
 
   libssh:
@@ -737,16 +749,16 @@ mappings:
     default: libssh2
     deb: libssh2-1-dev
     rpm: libssh2-devel
-    mingw32-rpm: mingw32-libssh2
-    mingw64-rpm: mingw64-libssh2
+    cross-mingw32-rpm: mingw32-libssh2
+    cross-mingw64-rpm: mingw64-libssh2
     cross-policy-default: foreign
 
   libtasn1:
     default: libtasn1
     deb: libtasn1-6-dev
     rpm: libtasn1-devel
-    mingw32-rpm: mingw32-libtasn1
-    mingw64-rpm: mingw64-libtasn1
+    cross-mingw32-rpm: mingw32-libtasn1
+    cross-mingw64-rpm: mingw64-libtasn1
     cross-policy-default: foreign
 
   libtirpc:
@@ -819,16 +831,16 @@ mappings:
     default: libxml2
     deb: libxml2-dev
     rpm: libxml2-devel
-    mingw32-rpm: mingw32-libxml2
-    mingw64-rpm: mingw64-libxml2
+    cross-mingw32-rpm: mingw32-libxml2
+    cross-mingw64-rpm: mingw64-libxml2
     cross-policy-default: foreign
 
   libxslt:
     default: libxslt
     deb: libxslt1-dev
     rpm: libxslt-devel
-    mingw32-rpm: mingw32-libxslt
-    mingw64-rpm: mingw64-libxslt
+    cross-mingw32-rpm: mingw32-libxslt
+    cross-mingw64-rpm: mingw64-libxslt
     cross-policy-default: foreign
 
   libzstd:
@@ -932,8 +944,8 @@ mappings:
     default: nettle
     deb: nettle-dev
     rpm: nettle-devel
-    mingw32-rpm: mingw32-nettle
-    mingw64-rpm: mingw64-nettle
+    cross-mingw32-rpm: mingw32-nettle
+    cross-mingw64-rpm: mingw64-nettle
     OpenSUSE: libnettle-devel
     cross-policy-default: foreign
 
@@ -944,7 +956,7 @@ mappings:
     OpenSUSE: ninja
 
   nsis:
-    mingw32-rpm: mingw32-nsis
+    cross-mingw32-rpm: mingw32-nsis
     cross-policy-default: foreign
 
   numad:
@@ -1140,16 +1152,16 @@ mappings:
     deb: libpixman-1-dev
     rpm: pixman-devel
     OpenSUSE: libpixman-1-0-devel
-    mingw32-rpm: mingw32-pixman
-    mingw64-rpm: mingw64-pixman
+    cross-mingw32-rpm: mingw32-pixman
+    cross-mingw64-rpm: mingw64-pixman
     cross-policy-default: foreign
 
   pkg-config:
     default: pkgconf
     rpm: pkgconfig
     MacOS: pkg-config
-    mingw32-rpm: mingw32-pkg-config
-    mingw64-rpm: mingw64-pkg-config
+    cross-mingw32-rpm: mingw32-pkg-config
+    cross-mingw64-rpm: mingw64-pkg-config
     cross-policy-rpm: foreign
 
   polkit:
@@ -1158,8 +1170,8 @@ mappings:
     MacOS:
 
   portablexdr:
-    mingw32-rpm: mingw32-portablexdr
-    mingw64-rpm: mingw64-portablexdr
+    cross-mingw32-rpm: mingw32-portablexdr
+    cross-mingw64-rpm: mingw64-portablexdr
     cross-policy-default: foreign
 
   publican:
@@ -1308,8 +1320,8 @@ mappings:
     default: readline
     deb: libreadline-dev
     rpm: readline-devel
-    mingw32-rpm: mingw32-readline
-    mingw64-rpm: mingw64-readline
+    cross-mingw32-rpm: mingw32-readline
+    cross-mingw64-rpm: mingw64-readline
     cross-policy-default: foreign
 
   rpcgen:
@@ -1351,8 +1363,8 @@ mappings:
     deb: libsdl2-dev
     rpm: SDL2-devel
     OpenSUSE: libSDL2-devel
-    mingw32-rpm: mingw32-SDL2
-    mingw64-rpm: mingw64-SDL2
+    cross-mingw32-rpm: mingw32-SDL2
+    cross-mingw64-rpm: mingw64-SDL2
     cross-policy-default: foreign
 
   sdl2-image:
@@ -1361,8 +1373,8 @@ mappings:
     rpm: SDL2_image-devel
     CentOS:
     OpenSUSE: libSDL2_image-devel
-    mingw32-rpm: mingw32-SDL2_image
-    mingw64-rpm: mingw64-SDL2_image
+    cross-mingw32-rpm: mingw32-SDL2_image
+    cross-mingw64-rpm: mingw64-SDL2_image
     cross-policy-default: foreign
 
   sed:
@@ -1394,8 +1406,8 @@ mappings:
     deb: libspice-client-gtk-3.0-dev
     rpm: spice-gtk3-devel
     OpenSUSE: spice-gtk-devel
-    mingw32-rpm: mingw32-spice-gtk3
-    mingw64-rpm: mingw64-spice-gtk3
+    cross-mingw32-rpm: mingw32-spice-gtk3
+    cross-mingw64-rpm: mingw64-spice-gtk3
     cross-policy-default: foreign
 
   spice-protocol:

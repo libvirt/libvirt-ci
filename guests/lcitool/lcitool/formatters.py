@@ -59,7 +59,7 @@ class Formatter(metaclass=abc.ABCMeta):
         native_keys = base_keys + [native_arch + "-" + k for k in base_keys]
 
         if cross_arch:
-            cross_keys = [cross_arch + "-" + k for k in base_keys]
+            cross_keys = ["cross-" + cross_arch + "-" + k for k in base_keys]
             cross_policy_keys = ["cross-policy-" + k for k in base_keys]
 
             if facts["packaging"]["format"] == "deb":
@@ -67,7 +67,8 @@ class Formatter(metaclass=abc.ABCMeta):
                 # is usually the same as the native package, but there might
                 # be architecture-specific overrides, so we have to look both
                 # at the neutral keys and at the specific ones
-                cross_keys = base_keys + cross_keys
+                arch_keys = [cross_arch + "-" + k for k in base_keys]
+                cross_keys = base_keys + arch_keys + cross_keys
 
         # We need to add the base project manually here: the standard
         # machinery hides it because it's an implementation detail
