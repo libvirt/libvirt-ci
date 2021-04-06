@@ -300,6 +300,7 @@ mappings:
     cross-mipsel-deb: g++-mipsel-linux-gnu
     cross-ppc64le-deb: g++-powerpc64le-linux-gnu
     cross-s390x-deb: g++-s390x-linux-gnu
+    cross-x86_64-deb: g++-x86-64-linux-gnu
     cross-mingw32-rpm: mingw32-gcc-c++
     cross-mingw64-rpm: mingw64-gcc-c++
     cross-policy-default: foreign
@@ -317,6 +318,7 @@ mappings:
     cross-mipsel-deb: gcc-mipsel-linux-gnu
     cross-ppc64le-deb: gcc-powerpc64le-linux-gnu
     cross-s390x-deb: gcc-s390x-linux-gnu
+    cross-x86_64-deb: gcc-x86-64-linux-gnu
     cross-mingw32-rpm: mingw32-gcc
     cross-mingw64-rpm: mingw64-gcc
     cross-policy-default: foreign
