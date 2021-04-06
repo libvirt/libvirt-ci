@@ -59,20 +59,15 @@ class Formatter(metaclass=abc.ABCMeta):
         native_keys = base_keys + [native_arch + "-" + k for k in base_keys]
 
         if cross_arch:
+            cross_keys = [cross_arch + "-" + k for k in base_keys]
+            cross_policy_keys = ["cross-policy-" + k for k in base_keys]
+
             if facts["packaging"]["format"] == "deb":
                 # For Debian-based distros, the name of the foreign package
                 # is usually the same as the native package, but there might
                 # be architecture-specific overrides, so we have to look both
                 # at the neutral keys and at the specific ones
-                cross_keys = base_keys + [cross_arch + "-" + k for k in base_keys]
-            elif facts["packaging"]["format"] == "rpm":
-                # For RPM-based distros, the name of the foreign package is
-                # usually very different from the native one, so we should
-                # only look at the keys that are specific to cross-building
-                # because otherwise we'd also pick up a bunch of native
-                # packages we don't actually need
-                cross_keys = [cross_arch + "-" + k for k in base_keys]
-            cross_policy_keys = ["cross-policy-" + k for k in base_keys]
+                cross_keys = base_keys + cross_keys
 
         # We need to add the base project manually here: the standard
         # machinery hides it because it's an implementation detail
