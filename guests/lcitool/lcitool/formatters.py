@@ -156,7 +156,6 @@ class Formatter(metaclass=abc.ABCMeta):
 
         varmap = {
             "packaging_command": facts["packaging"]["command"],
-            "paths_cc": facts["paths"]["cc"],
             "paths_ccache": facts["paths"]["ccache"],
             "paths_make": facts["paths"]["make"],
             "paths_ninja": facts["paths"]["ninja"],
@@ -421,20 +420,27 @@ class DockerfileFormatter(Formatter):
             commands.extend(["rpm -qa | sort > /packages.txt"])
 
         if "ccache" in varmap["mappings"]:
-            commands.extend([
-                "mkdir -p /usr/libexec/ccache-wrappers",
-            ])
+            compilers = set()
+            for compiler in ["gcc", "clang"]:
+                if compiler in varmap["mappings"]:
+                    compilers.add(compiler)
+                    compilers.add("cc")
+            for compiler in ["g++"]:
+                if compiler in varmap["mappings"]:
+                    compilers.add(compiler)
+                    compilers.add("c++")
 
-            if cross_arch:
+            if compilers:
                 commands.extend([
-                    "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/{cross_abi}-cc",
-                    "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/{cross_abi}-$(basename {paths_cc})",
+                    "mkdir -p /usr/libexec/ccache-wrappers",
                 ])
-            else:
-                commands.extend([
-                    "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/cc",
-                    "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/$(basename {paths_cc})",
-                ])
+
+                for compiler in sorted(compilers):
+                    if cross_arch:
+                        compiler = "{cross_abi}-" + compiler
+                    commands.extend([
+                        "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/" + compiler,
+                    ])
 
         script = "\nRUN " + (" && \\\n    ".join(commands))
         strings.append(script.format(**varmap))
