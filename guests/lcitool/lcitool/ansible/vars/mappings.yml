@@ -1261,12 +1261,6 @@ mappings:
     MacOS:
     CentOS7: python36-lxml
 
-  python3-nose:
-    default: python3-nose
-    FreeBSD: py37-nose
-    MacOS:
-    CentOS7: python36-nose
-
   python3-numpy:
     default: python3-numpy
     pkg: py37-numpy
@@ -1631,9 +1625,6 @@ pypi_mappings:
 
   python3-lxml:
     default: lxml
-
-  python3-nose:
-    default: nose
 
   python3-numpy:
     default: numpy
