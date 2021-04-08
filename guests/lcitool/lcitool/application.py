@@ -71,7 +71,7 @@ class Application(metaclass=Singleton):
 
         playbook_base = Path(base, "playbooks", playbook)
         inventory_path = Path(base, "inventory")
-        host_vars = inventory.facts.copy()
+        group_vars = inventory.facts.copy()
 
         extra_vars = config.values
         extra_vars.update({
@@ -85,7 +85,7 @@ class Application(metaclass=Singleton):
         ansible_runner = AnsibleWrapper()
         ansible_runner.prepare_env(playbookdir=playbook_base,
                                    inventory=inventory_path,
-                                   host_vars=host_vars,
+                                   group_vars=group_vars,
                                    extravars=extra_vars)
         log.debug(f"Running Ansible with playbook '{playbook_base.name}'")
         ansible_runner.run_playbook("main.yml", limit=hosts_expanded)

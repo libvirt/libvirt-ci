@@ -97,7 +97,7 @@ class Inventory(metaclass=Singleton):
         log.debug(f"Running ansible-inventory on '{inventory_path}'")
         ansible_runner = AnsibleWrapper()
         ansible_runner.prepare_env(inventory=inventory_path,
-                                   host_vars=self.facts)
+                                   group_vars=self.facts)
         inventory = ansible_runner.get_inventory()
 
         return inventory
@@ -116,16 +116,16 @@ class Inventory(metaclass=Singleton):
     def _load_facts(self):
         facts = {}
         shared_facts = {}
-        host_vars_path = Path(resource_filename(__name__, "ansible/host_vars/"))
-        group_vars_all_path = Path(resource_filename(__name__,
-                                                     "ansible/group_vars/all"))
+        group_vars_path = Path(resource_filename(__name__, "ansible/group_vars/"))
+        group_vars_all_path = Path(group_vars_path, "all")
 
         # first load the shared facts from group_vars/all
         tmp = self._load_facts_from(group_vars_all_path)
         shared_facts.update(tmp)
 
-        for entry in host_vars_path.iterdir():
-            if not entry.is_dir():
+        # then load the rest of the facts
+        for entry in group_vars_path.iterdir():
+            if not entry.is_dir() or entry.name == "all":
                 continue
 
             tmp = self._load_facts_from(entry)

@@ -77,7 +77,7 @@ class AnsibleWrapper():
         return default_params
 
     def prepare_env(self, playbookdir=None, inventory=None,
-                    host_vars=None, extravars=None):
+                    group_vars=None, extravars=None):
         """
         Prepares the Ansible runner execution environment.
 
@@ -95,7 +95,7 @@ class AnsibleWrapper():
                             we need to add our own inventory vars, so the
                             inventory/inventories are copied from the source
                             path
-        :param host_vars:  dictionary of Ansible host_vars that will be dumped
+        :param group_vars: dictionary of Ansible group_vars that will be dumped
                            in the YAML format to the runner's runtime directory
         :param extravars: dictionary of Ansible extra vars that will be dumped
                           in the YAML format to the runner's runtime directory
@@ -117,14 +117,14 @@ class AnsibleWrapper():
                 dst.mkdir()
                 shutil.copy2(inventory, dst)
 
-        if host_vars:
+        if group_vars:
             dst_dir = Path(self._private_data_dir, "inventory/host_vars")
             dst_dir.mkdir(parents=True, exist_ok=True)
 
-            for host in host_vars:
-                dst = Path(dst_dir, host + ".yml")
+            for group in group_vars:
+                dst = Path(dst_dir, group + ".yml")
                 with open(dst, "w") as fp:
-                    yaml.dump(host_vars[host], fp)
+                    yaml.dump(group_vars[group], fp)
 
         if extravars:
             dst_dir = Path(self._private_data_dir, "env")
