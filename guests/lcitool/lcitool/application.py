@@ -70,7 +70,8 @@ class Application(metaclass=Singleton):
             git_branch = "master"
 
         playbook_base = Path(base, "playbooks", playbook)
-        playbook_path = Path(playbook_base, "main.yml")
+        inventory_path = Path(base, "inventory")
+        host_vars = inventory.facts.copy()
 
         extra_vars = config.values
         extra_vars.update({
@@ -81,11 +82,14 @@ class Application(metaclass=Singleton):
             "git_branch": git_branch,
         })
 
-        log.debug(f"Running Ansible with playbook '{playbook_path.name}'")
+        log.debug("Preparing Ansible runner environment")
         ansible_runner = AnsibleWrapper()
-        ansible_runner.run_playbook(playbook_path,
-                                    limit=hosts_expanded,
-                                    extravars=extra_vars)
+        ansible_runner.prepare_env(playbookdir=playbook_base,
+                                   inventory=inventory_path,
+                                   host_vars=host_vars,
+                                   extravars=extra_vars)
+        log.debug(f"Running Ansible with playbook '{playbook_base.name}'")
+        ansible_runner.run_playbook("main.yml", limit=hosts_expanded)
 
     def _action_hosts(self, args):
         self._entrypoint_debug(args)

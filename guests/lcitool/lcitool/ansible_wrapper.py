@@ -10,7 +10,6 @@ import shutil
 import yaml
 
 from pathlib import Path
-from pkg_resources import resource_filename
 from tempfile import TemporaryDirectory
 
 from lcitool import util
@@ -56,12 +55,15 @@ class AnsibleWrapper():
         self._private_data_dir = Path(self._tempdir.name)
 
     def _get_default_params(self):
-        ansible_cfg_path = resource_filename(__name__, "ansible/ansible.cfg")
-
+        ansible_log_path = Path(util.get_cache_dir(), "ansible.log").as_posix()
         default_params = {
             "private_data_dir": self._private_data_dir,
             "envvars": {
-                "ANSIBLE_CONFIG": ansible_cfg_path,
+                "ANSIBLE_DISPLAY_SKIPPED_HOSTS": "False",
+                "ANSIBLE_FORKS": "16",
+                "ANSIBLE_NOCOWS": "True",
+                "ANSIBLE_LOG_PATH": ansible_log_path,
+                "ANSIBLE_SSH_PIPELINING": "True",
 
                 # Group names officially cannot contain dashes, because those
                 # characters are invalid in Python identifiers and it caused
@@ -214,23 +216,18 @@ class AnsibleWrapper():
 
         return yaml.safe_load(ansible_inventory)
 
-    def run_playbook(self, playbook_path, limit=None, extravars=None):
+    def run_playbook(self, playbook, limit=None):
         """
-        :param playbook_path: absolute path to the playbook to run as Path()
+        :param playbook: name of the playbook to run
         :param limit: list of hosts to restrict the playbook execution to
         :param extravars: dictionary of extravars to pass to Ansible
         :returns: None
         """
 
-        playbook_path_str = playbook_path.as_posix()
-
         params = self._get_default_params()
-        params["playbook"] = playbook_path_str
+        params["playbook"] = playbook
 
         if limit:
             params["limit"] = ','.join(limit)
-
-        if extravars:
-            params["extravars"] = extravars
 
         self._run(params)
