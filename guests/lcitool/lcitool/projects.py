@@ -54,7 +54,7 @@ class Projects:
         # not be exposed to the user
         internal_projects = [
             "base",
-            "cloud-init"
+            "cloud-init",
             "developer",
             "perl-cpan",
             "python-pip",
