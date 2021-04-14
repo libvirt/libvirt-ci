@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-import configparser
 import logging
 import yaml
 
@@ -87,11 +86,9 @@ class Inventory(metaclass=Singleton):
         self._hosts = None
 
     @staticmethod
-    def _add_facts_from_file(facts, yaml_path):
+    def _read_facts_from_file(yaml_path):
         with open(yaml_path, "r") as infile:
-            some_facts = yaml.safe_load(infile)
-            for fact in some_facts:
-                facts[fact] = some_facts[fact]
+            return yaml.safe_load(infile)
 
     def _get_ansible_inventory(self):
         ansible_dir = resource_filename(__name__, "ansible")
@@ -105,65 +102,39 @@ class Inventory(metaclass=Singleton):
 
         return inventory
 
-    def _read_all_facts(self, host):
-        sources = [
-            resource_filename(__name__, "ansible/group_vars/all"),
-            resource_filename(__name__, f"ansible/host_vars/{host}")
-        ]
-
+    def _load_facts_from(self, dir):
         facts = {}
+        for entry in sorted(dir.iterdir()):
+            if not entry.is_file() or entry.suffix != ".yml":
+                continue
 
-        # We load from group_vars/ first and host_vars/ second, sorting
-        # files alphabetically; doing so should result in our view of
-        # the facts matching Ansible's
-        for source in sources:
-            for item in sorted(Path(source).iterdir()):
-                yaml_path = Path(source, item)
-                if not yaml_path.is_file():
-                    continue
-                if yaml_path.suffix != ".yml":
-                    continue
-
-                log.debug(f"Loading facts from '{yaml_path}'")
-                self._add_facts_from_file(facts, yaml_path)
+            log.debug(f"Loading facts from '{entry}'")
+            facts.update(self._read_facts_from_file(entry))
 
         return facts
 
     def _load_facts(self):
-        ansible_cfg_path = resource_filename(__name__, "ansible/ansible.cfg")
-
-        try:
-            parser = configparser.ConfigParser()
-            parser.read(ansible_cfg_path)
-            inventory_path = parser.get("defaults", "inventory")
-        except Exception as ex:
-            msg = f"Can't read inventory location in ansible.cfg: {ex}"
-            raise InventoryError(msg) from ex
-
-        posix_path = Path("ansible", inventory_path).as_posix()
-        inventory_path = resource_filename(__name__, posix_path)
         facts = {}
+        shared_facts = {}
+        host_vars_path = Path(resource_filename(__name__, "ansible/host_vars/"))
+        group_vars_all_path = Path(resource_filename(__name__,
+                                                     "ansible/group_vars/all"))
 
-        log.debug(f"Loading inventory '{inventory_path}'")
-        try:
-            # We can only deal with trivial inventories, but that's
-            # all we need right now and we can expand support further
-            # later on if necessary
-            with open(inventory_path, "r") as infile:
-                for line in infile:
-                    host = line.strip()
-                    facts[host] = {}
-        except Exception as ex:
-            msg = f"Missing or invalid inventory ({inventory_path}): {ex}"
-            raise InventoryError(msg) from ex
+        # first load the shared facts from group_vars/all
+        tmp = self._load_facts_from(group_vars_all_path)
+        shared_facts.update(tmp)
 
-        for host in facts:
-            try:
-                facts[host] = self._read_all_facts(host)
-                facts[host]["inventory_hostname"] = host
-            except Exception as ex:
-                msg = f"Can't load facts for '{host}': {ex}"
-                raise InventoryError(msg) from ex
+        for entry in host_vars_path.iterdir():
+            if not entry.is_dir():
+                continue
+
+            tmp = self._load_facts_from(entry)
+
+            # override shared facts with per-distro facts
+            target = entry.name
+            facts[target] = shared_facts.copy()
+            facts[target].update(tmp)
+
         return facts
 
     def _expand_pattern(self, pattern, iterable, name):
