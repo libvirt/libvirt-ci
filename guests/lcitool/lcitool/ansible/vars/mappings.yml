@@ -1090,6 +1090,17 @@ mappings:
     pkg: p5-Sub-Uplevel
     rpm: perl-Sub-Uplevel
 
+  perl-Sys-Hostname:
+    deb: perl-base
+    rpm: perl-Sys-Hostname
+    FreeBSD: perl5
+    MacOS: perl
+    OpenSUSE: perl-base
+    CentOS7: perl
+    CentOS8: perl
+    CentOSStream: perl
+    Fedora32: perl
+
   perl-TAP-Formatter-HTML:
     deb: libtap-formatter-html-perl
     Fedora: perl-TAP-Formatter-HTML
@@ -1683,6 +1694,9 @@ cpan_mappings:
 
   perl-Sub-Uplevel:
     default: Sub::Uplevel
+
+  perl-Sys-Hostname:
+    default: Sys::Hostname
 
   perl-TAP-Formatter-HTML:
     default: TAP::Formatter::HTML
