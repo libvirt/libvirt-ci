@@ -585,7 +585,7 @@ class VariablesFormatter(Formatter):
         """
 
         log.debug(f"Generating variables for projects '{projects} on host "
-                  f"'{host}' (cross_arch={cross_arch})")
+                  f"'{hosts}' (cross_arch={cross_arch})")
 
         _, _, varmap = self._generator_prepare(hosts, projects, cross_arch)
 
