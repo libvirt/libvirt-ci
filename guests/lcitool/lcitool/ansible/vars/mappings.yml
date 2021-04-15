@@ -1030,7 +1030,7 @@ mappings:
     MacOS: cpanminus
 
   perl-Archive-Tar:
-    deb: perl
+    deb: libarchive-tar-perl
     pkg: perl5
     rpm: perl-Archive-Tar
 
@@ -1045,7 +1045,7 @@ mappings:
     Fedora: perl-Config-Record
 
   perl-Digest:
-    deb: perl
+    deb: libdigest-perl
     pkg: p5-Digest
     rpm: perl-Digest
 
@@ -1132,7 +1132,6 @@ mappings:
     deb: libtime-hr-perl
     pkg: p5-Time-HiRes
     rpm: perl-Time-HiRes
-    OpenSUSE: perl
 
   perl-XML-Twig:
     deb: libxml-twig-perl
@@ -1273,9 +1272,8 @@ mappings:
     MacOS:
 
   python3-pillow:
-    deb: python3-pil
+    default: python3-pillow
     pkg: py37-pillow
-    rpm: python3-pillow
     OpenSUSE: python3-Pillow
     MacOS:
 
