@@ -43,7 +43,7 @@ class Projects:
 
             project = item.stem
 
-            log.debug(f"Loading mapppings for project '{project}'")
+            log.debug(f"Loading mappings for project '{project}'")
             try:
                 with open(yaml_path, "r") as infile:
                     packages = yaml.safe_load(infile)
