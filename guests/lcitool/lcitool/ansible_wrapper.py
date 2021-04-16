@@ -6,6 +6,8 @@
 
 import ansible_runner
 import logging
+import shutil
+import yaml
 
 from pathlib import Path
 from pkg_resources import resource_filename
@@ -39,6 +41,14 @@ class ExecutionError(AnsibleWrapperError):
         self.message = message_prefix + message
 
 
+class EnvironmentError(AnsibleWrapperError):
+    """Thrown when preparation of the execution environment failed."""
+
+    def __init__(self, message):
+        message_prefix = "Failed to prepare the execution environment: "
+        self.message = message_prefix + message
+
+
 class AnsibleWrapper():
     def __init__(self):
         self._tempdir = TemporaryDirectory(prefix="ansible_runner",
@@ -63,6 +73,64 @@ class AnsibleWrapper():
         }
 
         return default_params
+
+    def prepare_env(self, playbookdir=None, inventory=None,
+                    host_vars=None, extravars=None):
+        """
+        Prepares the Ansible runner execution environment.
+
+        This method creates the necessary directory hierarchy in order for
+        lcitool to be able to use the Ansible runner. As part of this process
+        some Ansible input data are created/symlinked from the main git repo.
+
+        :param playbookdir: absolute path to the directory containing the
+                            playbook and its data (as Path());
+                            we don't touch playbooks, so the source path is
+                            symlinked
+        :param inventory:   absolute path to either a single inventory file or
+                            a directory containing inventory files or scripts
+                            just like Ansible expects (as Path());
+                            we need to add our own inventory vars, so the
+                            inventory/inventories are copied from the source
+                            path
+        :param host_vars:  dictionary of Ansible host_vars that will be dumped
+                           in the YAML format to the runner's runtime directory
+        :param extravars: dictionary of Ansible extra vars that will be dumped
+                          in the YAML format to the runner's runtime directory
+        """
+
+        if playbookdir:
+            if not playbookdir.is_dir():
+                raise EnvironmentError(f"{playbookdir} is not a directory")
+
+            dst = Path(self._private_data_dir, "project")
+            dst.symlink_to(playbookdir, target_is_directory=True)
+
+        if inventory:
+            dst = Path(self._private_data_dir, "inventory")
+
+            if inventory.is_dir():
+                shutil.copytree(inventory, dst)
+            else:
+                dst.mkdir()
+                shutil.copy2(inventory, dst)
+
+        if host_vars:
+            dst_dir = Path(self._private_data_dir, "inventory/host_vars")
+            dst_dir.mkdir(parents=True, exist_ok=True)
+
+            for host in host_vars:
+                dst = Path(dst_dir, host + ".yml")
+                with open(dst, "w") as fp:
+                    yaml.dump(host_vars[host], fp)
+
+        if extravars:
+            dst_dir = Path(self._private_data_dir, "env")
+            dst_dir.mkdir()
+
+            dst = Path(dst_dir, "extravars")
+            with open(dst, "w") as fp:
+                yaml.dump(extravars, fp)
 
     def _run(self, params, **kwargs):
         """
