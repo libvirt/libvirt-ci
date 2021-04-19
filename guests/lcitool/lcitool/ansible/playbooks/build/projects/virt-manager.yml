@@ -13,6 +13,7 @@
       - freebsd-12
       - freebsd-current
       - opensuse-152
+      - opensuse-tumbleweed
       - ubuntu-1804
       - ubuntu-2004
     archive_format: gz
@@ -36,6 +37,7 @@
       - freebsd-12
       - freebsd-current
       - opensuse-152
+      - opensuse-tumbleweed
       - ubuntu-1804
       - ubuntu-2004
 - include: '{{ playbook_base }}/jobs/python-distutils-rpm-job.yml'

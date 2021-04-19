@@ -21,6 +21,7 @@
       - fedora-33
       - fedora-rawhide
       - opensuse-152
+      - opensuse-tumbleweed
       - ubuntu-1804
       - ubuntu-2004
 - include: '{{ playbook_base }}/jobs/meson-rpm-job.yml'
