@@ -31,7 +31,7 @@
 - block:
     - name: Install the gitlab-runner service unit
       template:
-        src: '{{ playbook_base }}/templates/gitlab-runner.service.j2'
+        src: 'templates/gitlab-runner.service.j2'
         dest: /etc/systemd/system/gitlab-runner.service
 
     - name: Enable the gitlab-runner service
@@ -46,7 +46,7 @@
 - block:
     - name: Install the gitlab_runner rc service script
       template:
-        src: '{{ playbook_base }}/templates/gitlab-runner.j2'
+        src: 'templates/gitlab-runner.j2'
         dest: '/usr/local/etc/rc.d/gitlab_runner'
         mode: '0755'
 

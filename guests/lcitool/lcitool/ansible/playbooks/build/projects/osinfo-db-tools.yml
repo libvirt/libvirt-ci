@@ -5,9 +5,9 @@
     archive_format: xz
     git_url: '{{ git_urls["osinfo-db-tools"][git_remote] }}'
 
-- include: '{{ playbook_base }}/jobs/prepare.yml'
-- include: '{{ playbook_base }}/jobs/meson-build-job.yml'
-- include: '{{ playbook_base }}/jobs/meson-check-job.yml'
-- include: '{{ playbook_base }}/jobs/meson-rpm-job.yml'
+- include: 'jobs/prepare.yml'
+- include: 'jobs/meson-build-job.yml'
+- include: 'jobs/meson-check-job.yml'
+- include: 'jobs/meson-rpm-job.yml'
   vars:
     machines: '{{ rpm_machines }}'

@@ -101,7 +101,7 @@
     name: '{{ flattened|sort }}'
     state: '{{ state }}'
 
-- include: '{{ playbook_base }}/tasks/packages-language-specific.yml'
+- include: 'tasks/packages-language-specific.yml'
   vars:
     pm_command: '{{ pm.command }}'
     pm_mappings: '{{ pm.mappings }}'

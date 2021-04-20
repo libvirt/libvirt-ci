@@ -5,9 +5,9 @@
     archive_format: gz
     git_url: '{{ git_urls["libvirt-python"][git_remote] }}'
 
-- include: '{{ playbook_base }}/jobs/prepare.yml'
-- include: '{{ playbook_base }}/jobs/python-distutils-build-job.yml'
-- include: '{{ playbook_base }}/jobs/python-distutils-check-job.yml'
-- include: '{{ playbook_base }}/jobs/python-distutils-rpm-job.yml'
+- include: 'jobs/prepare.yml'
+- include: 'jobs/python-distutils-build-job.yml'
+- include: 'jobs/python-distutils-check-job.yml'
+- include: 'jobs/python-distutils-rpm-job.yml'
   vars:
     machines: '{{ rpm_machines }}'

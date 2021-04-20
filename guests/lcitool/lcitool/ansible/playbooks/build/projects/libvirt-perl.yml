@@ -5,15 +5,15 @@
     archive_format: gz
     git_url: '{{ git_urls["libvirt-perl"][git_remote] }}'
 
-- include: '{{ playbook_base }}/jobs/prepare.yml'
-- include: '{{ playbook_base }}/jobs/perl-modulebuild-build-job.yml'
+- include: 'jobs/prepare.yml'
+- include: 'jobs/perl-modulebuild-build-job.yml'
   vars:
     local_env: |
       export TEST_MAINTAINER=1
-- include: '{{ playbook_base }}/jobs/perl-modulebuild-check-job.yml'
+- include: 'jobs/perl-modulebuild-check-job.yml'
   vars:
     local_env: |
       export TEST_MAINTAINER=1
-- include: '{{ playbook_base }}/jobs/perl-modulebuild-rpm-job.yml'
+- include: 'jobs/perl-modulebuild-rpm-job.yml'
   vars:
     machines: '{{ rpm_machines }}'

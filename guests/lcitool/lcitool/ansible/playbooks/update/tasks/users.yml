@@ -54,7 +54,7 @@
 
 - name: '{{ install.flavor }}: Create shell profile'
   template:
-    src: '{{ playbook_base }}/templates/{{ item }}.j2'
+    src: 'templates/{{ item }}.j2'
     dest: /home/{{ install.flavor }}/.{{ item }}
     owner: '{{ install.flavor }}'
     group: '{{ install.flavor }}'
@@ -72,7 +72,7 @@
 
 - name: '{{ install.flavor }}: Install global gitconfig'
   template:
-    src: '{{ playbook_base }}/templates/gitconfig.j2'
+    src: 'templates/gitconfig.j2'
     dest: /home/{{ install.flavor }}/.gitconfig
     owner: '{{ install.flavor }}'
     group: '{{ install.flavor }}'

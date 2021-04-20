@@ -1,7 +1,7 @@
 ---
 - name: Enable fedora-rawhide-kernel-nodebug repository
   template:
-    src: '{{ playbook_base }}/templates/fedora-rawhide-kernel-nodebug.repo.j2'
+    src: 'templates/fedora-rawhide-kernel-nodebug.repo.j2'
     dest: /etc/yum.repos.d/fedora-rawhide-kernel-nodebug.repo
     owner: root
     group: root

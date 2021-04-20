@@ -3,11 +3,11 @@
   remote_user: '{{ install.flavor }}'
 
   vars_files:
-    - '{{ playbook_base }}/jobs/defaults.yml'
+    - 'jobs/defaults.yml'
 
   tasks:
 
-    - include: '{{ playbook_base }}/projects/{{ project }}.yml'
+    - include: 'projects/{{ project }}.yml'
       loop:
         '{{ selected_projects }}'
       loop_control:

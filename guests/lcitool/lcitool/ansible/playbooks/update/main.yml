@@ -6,7 +6,7 @@
   tasks:
 
     # Bootstrap Ansible itself
-    - include: '{{ playbook_base }}/tasks/bootstrap.yml'
+    - include: 'tasks/bootstrap.yml'
 
 - hosts: all
   remote_user: root
@@ -18,10 +18,10 @@
 
     # Prepare environment. None of the actions performed here might
     # depend on packages being installed
-    - include: '{{ playbook_base }}/tasks/base.yml'
+    - include: 'tasks/base.yml'
 
     # Install base packages
-    - include: '{{ playbook_base }}/tasks/packages.yml'
+    - include: 'tasks/packages.yml'
       loop:
         - base
         - developer
@@ -32,39 +32,39 @@
         loop_var: project
 
     # Remove unwanted packages
-    - include: '{{ playbook_base }}/tasks/packages.yml'
+    - include: 'tasks/packages.yml'
       vars:
         project: unwanted
         state: absent
 
     # Install build dependencies for each project
-    - include: '{{ playbook_base }}/tasks/packages.yml'
+    - include: 'tasks/packages.yml'
       loop:
         '{{ selected_projects }}'
       loop_control:
         loop_var: project
 
     # Install packages needed for enabling cloud-init
-    - include: '{{ playbook_base }}/tasks/packages.yml'
+    - include: 'tasks/packages.yml'
       vars:
         project: cloud-init
       when:
         - install.cloud_init
 
     # Configure environment. Needs to happen after installing packages
-    - include: '{{ playbook_base }}/tasks/kludges.yml'
-    - include: '{{ playbook_base }}/tasks/bootloader.yml'
-    - include: '{{ playbook_base }}/tasks/hostname.yml'
-    - include: '{{ playbook_base }}/tasks/services.yml'
-    - include: '{{ playbook_base }}/tasks/global.yml'
-    - include: '{{ playbook_base }}/tasks/users.yml'
+    - include: 'tasks/kludges.yml'
+    - include: 'tasks/bootloader.yml'
+    - include: 'tasks/hostname.yml'
+    - include: 'tasks/services.yml'
+    - include: 'tasks/global.yml'
+    - include: 'tasks/users.yml'
 
     # Install the Gitlab runner agent
-    - include: '{{ playbook_base }}/tasks/gitlab.yml'
+    - include: 'tasks/gitlab.yml'
       when:
         - install.flavor == 'gitlab'
 
     # Configure cloud-init
-    - include: '{{ playbook_base }}/tasks/cloud-init.yml'
+    - include: 'tasks/cloud-init.yml'
       when:
         - install.cloud_init

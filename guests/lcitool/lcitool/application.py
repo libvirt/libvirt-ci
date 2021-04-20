@@ -76,7 +76,6 @@ class Application(metaclass=Singleton):
         extra_vars = config.values
         extra_vars.update({
             "base": base,
-            "playbook_base": playbook_base.as_posix(),
             "selected_projects": selected_projects,
             "git_remote": git_remote,
             "git_branch": git_branch,

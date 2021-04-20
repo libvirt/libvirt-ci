@@ -5,9 +5,9 @@
     archive_format: gz
     git_url: '{{ git_urls["libvirt-go"][git_remote] }}'
 
-- include: '{{ playbook_base }}/jobs/prepare.yml'
-- include: '{{ playbook_base }}/jobs/go-build-job.yml'
-- include: '{{ playbook_base }}/jobs/go-check-job.yml'
+- include: 'jobs/prepare.yml'
+- include: 'jobs/go-build-job.yml'
+- include: 'jobs/go-check-job.yml'
   vars:
     local_env: |
       export TEST_ARGS="-tags api"
