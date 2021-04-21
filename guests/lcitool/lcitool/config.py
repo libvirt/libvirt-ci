@@ -69,7 +69,7 @@ class Config(metaclass=Singleton):
 
         user_config_path = None
         for fname in ["config.yml", "config.yaml"]:
-            user_config_path = self._get_config_file(fname)
+            user_config_path = Path(self._get_config_dir(), fname)
 
             if user_config_path.exists():
                 break
@@ -95,13 +95,13 @@ class Config(metaclass=Singleton):
         return values
 
     @staticmethod
-    def _get_config_file(name):
+    def _get_config_dir():
         try:
             config_dir = Path(os.environ["XDG_CONFIG_HOME"])
         except KeyError:
             config_dir = Path(os.environ["HOME"], ".config")
 
-        return Path(config_dir, "lcitool", name)
+        return Path(config_dir, "lcitool")
 
     @staticmethod
     def _remove_unknown_keys(_dict, known_keys):
