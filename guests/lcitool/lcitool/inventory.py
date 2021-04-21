@@ -91,10 +91,10 @@ class Inventory(metaclass=Singleton):
             return yaml.safe_load(infile)
 
     def _get_ansible_inventory(self):
-        ansible_dir = resource_filename(__name__, "ansible")
-        inventory_path = Path(ansible_dir, "inventory")
+        inventory_path = Path(util.get_config_dir(), "inventory")
+        inventory_path_str = inventory_path.as_posix()
 
-        log.debug(f"Running ansible-inventory on '{inventory_path}'")
+        log.debug(f"Running ansible-inventory on '{inventory_path_str}'")
         ansible_runner = AnsibleWrapper()
         ansible_runner.prepare_env(inventory=inventory_path,
                                    group_vars=self.facts)

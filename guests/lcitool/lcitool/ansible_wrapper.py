@@ -118,7 +118,7 @@ class AnsibleWrapper():
                 shutil.copy2(inventory, dst)
 
         if group_vars:
-            dst_dir = Path(self._private_data_dir, "inventory/host_vars")
+            dst_dir = Path(self._private_data_dir, "inventory/group_vars")
             dst_dir.mkdir(parents=True, exist_ok=True)
 
             for group in group_vars:

@@ -70,7 +70,7 @@ class Application(metaclass=Singleton):
             git_branch = "master"
 
         playbook_base = Path(base, "playbooks", playbook)
-        inventory_path = Path(base, "inventory")
+        inventory_path = Path(util.get_config_dir(), "inventory")
         group_vars = inventory.facts.copy()
 
         extra_vars = config.values
