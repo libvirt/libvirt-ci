@@ -9,6 +9,7 @@ all_machines:
   - fedora-33
   - fedora-rawhide
   - freebsd-12
+  - freebsd-13
   - freebsd-current
   - opensuse-152
   - opensuse-tumbleweed
