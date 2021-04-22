@@ -15,16 +15,32 @@
 #   - arch with OS name
 #   - arch with OS version
 #
-# Valid package formats are
-#   - deb, pkg, rpm
+# Valid package formats are:
+#
+#   - deb
+#   - pkg
+#   - rpm
 #
 # Valid OS names are:
-#   - CentOS, Debian, Fedora, FreeBSD, OpenSUSE, Ubuntu
+#
+#   - CentOS
+#   - Debian
+#   - Fedora
+#   - FreeBSD
+#   - OpenSUSE
+#   - Ubuntu
 #
 # Valid OS versions are:
-#   - CentOS7, Debian9, FedoraRawhide, OpenSUSE152, Ubuntu1804 and so on
 #
-# The arch specific rules use a prefix "$ARCH-" where  $ARCH
+#   - CentOS7
+#   - Debian9
+#   - FedoraRawhide
+#   - OpenSUSE152
+#   - Ubuntu1804
+#
+# and so on.
+#
+# The arch specific rules use a prefix "$ARCH-" where $ARCH
 # is a libvirt arch name.
 #
 # So something like
@@ -62,19 +78,19 @@
 # installation policy when setting up a cross-architecture build env,
 # taking one of the values:
 #
-#  - 'native': use the native architecture package (default if omitted)
-#  - 'foreign: use the foreign archtiecture package
-#  -   'skip': don't install the package
+#   - 'native': use the native architecture package (default if omitted)
+#   - 'foreign: use the foreign archtiecture package
+#   -   'skip': don't install the package
 #
 # When cross-compiling on a Debian-based distro, the name of the foreign
 # package usually matches that of the native one, so no additional mappings
 # are necessary; on RPM-based distros, however, that's not usually the case,
 # so specific entries are needed: these look like
 #
-#  glib2:
-#    rpm: glib2-devel
-#    cross-mingw32-rpm: mingw32-glib2
-#    cross-mingw64-rpm: mingw64-glib2
+#   glib2:
+#     rpm: glib2-devel
+#     cross-mingw32-rpm: mingw32-glib2
+#     cross-mingw64-rpm: mingw64-glib2
 #
 # and follow all the usual rules.
 
