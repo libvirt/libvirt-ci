@@ -53,11 +53,16 @@
 
     # Configure environment. Needs to happen after installing packages
     - include: 'tasks/kludges.yml'
-    - include: 'tasks/bootloader.yml'
-    - include: 'tasks/hostname.yml'
     - include: 'tasks/services.yml'
     - include: 'tasks/global.yml'
     - include: 'tasks/users.yml'
+
+    # The following should only run on locally installed VMs
+    - block:
+      - include: 'tasks/bootloader.yml'
+      - include: 'tasks/hostname.yml'
+      when:
+        - fully_managed | default(False)
 
     # Install the Gitlab runner agent
     - include: 'tasks/gitlab.yml'
