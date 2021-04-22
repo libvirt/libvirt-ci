@@ -55,7 +55,7 @@
     state: latest
   when:
     - os.name == 'CentOS'
-    - os.version == '8' or os.version == 'Stream'
+    - not os.version == '7'
 
 - name: Create OpenVZ key
   template:
