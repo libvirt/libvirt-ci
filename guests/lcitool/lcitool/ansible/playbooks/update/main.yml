@@ -54,6 +54,7 @@
     # Configure environment. Needs to happen after installing packages
     - include: '{{ playbook_base }}/tasks/kludges.yml'
     - include: '{{ playbook_base }}/tasks/bootloader.yml'
+    - include: '{{ playbook_base }}/tasks/hostname.yml'
     - include: '{{ playbook_base }}/tasks/services.yml'
     - include: '{{ playbook_base }}/tasks/global.yml'
     - include: '{{ playbook_base }}/tasks/users.yml'

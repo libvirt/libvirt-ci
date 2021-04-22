@@ -113,7 +113,3 @@
     warn: no
   when:
     - packaging.format == 'pkg'
-
-- name: Configure hostname
-  hostname:
-    name: '{{ inventory_hostname }}'
