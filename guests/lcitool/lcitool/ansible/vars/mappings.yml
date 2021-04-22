@@ -17,10 +17,10 @@
 #
 # Valid package formats are:
 #
-#   - brew
-#   - deb
-#   - pkg
-#   - rpm
+#   - brew (MacOS)
+#   - deb  (Debian, Ubuntu)
+#   - pkg  (FreeBSD)
+#   - rpm  (CentOS, Fedora, OpenSUSE)
 #
 # Valid OS names are:
 #
