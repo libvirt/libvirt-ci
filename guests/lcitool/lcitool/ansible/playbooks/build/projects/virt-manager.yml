@@ -4,7 +4,7 @@
     # CentOS 7 has Python 3 but not the libxml2 bindings
     machines:
       - centos-8
-      - centos-stream
+      - centos-stream-8
       - debian-10
       - debian-sid
       - fedora-32
@@ -28,7 +28,7 @@
   vars:
     machines:
       - centos-8
-      - centos-stream
+      - centos-stream-8
       - debian-10
       - debian-sid
       - fedora-32
@@ -44,7 +44,7 @@
   vars:
     machines:
       - centos-8
-      - centos-stream
+      - centos-stream-8
       - fedora-32
       - fedora-33
       - fedora-rawhide

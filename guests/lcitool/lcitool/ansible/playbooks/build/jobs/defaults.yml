@@ -2,7 +2,7 @@
 all_machines:
   - centos-7
   - centos-8
-  - centos-stream
+  - centos-stream-8
   - debian-10
   - debian-sid
   - fedora-32
@@ -17,7 +17,7 @@ all_machines:
 rpm_machines:
   - centos-7
   - centos-8
-  - centos-stream
+  - centos-stream-8
   - fedora-32
   - fedora-33
   - fedora-rawhide
