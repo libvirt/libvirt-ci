@@ -95,7 +95,7 @@ mappings:
     pkg: apache-ant
     rpm: ant-junit
     CentOS8:
-    CentOSStream:
+    CentOSStream8:
 
   apparmor:
     deb: libapparmor-dev
@@ -500,7 +500,7 @@ mappings:
     default: junit
     MacOS:
     CentOS8:
-    CentOSStream:
+    CentOSStream8:
 
   libacl:
     deb: libacl1-dev
@@ -610,7 +610,7 @@ mappings:
     rpm: libgovirt-devel
     Debian: libgovirt-dev
     CentOS8:
-    CentOSStream:
+    CentOSStream8:
     cross-mingw32-rpm: mingw32-libgovirt
     cross-mingw64-rpm: mingw64-libgovirt
     cross-policy-default: foreign
@@ -730,7 +730,7 @@ mappings:
     MacOS: librest
     OpenSUSE: librest-devel
     CentOS8:
-    CentOSStream:
+    CentOSStream8:
     cross-mingw32-rpm: mingw32-rest
     cross-mingw64-rpm: mingw64-rest
     cross-policy-default: foreign
@@ -916,7 +916,7 @@ mappings:
     default: meson
     CentOS7:
     CentOS8:
-    CentOSStream:
+    CentOSStream8:
     Debian10:
     OpenSUSE152:
     Ubuntu1804:
@@ -1025,7 +1025,7 @@ mappings:
     MacOS: perl
     CentOS7: perl
     CentOS8: perl
-    CentOSStream: perl
+    CentOSStream8: perl
     Fedora32: perl
 
   perl-App-cpanminus:
@@ -1103,7 +1103,7 @@ mappings:
     OpenSUSE: perl-base
     CentOS7: perl
     CentOS8: perl
-    CentOSStream: perl
+    CentOSStream8: perl
     Fedora32: perl
 
   perl-TAP-Formatter-HTML:
@@ -1185,7 +1185,7 @@ mappings:
     pkg: php74-pecl-imagick
     OpenSUSE: php-imagick
     CentOS8:
-    CentOSStream:
+    CentOSStream8:
 
   pixman:
     default: pixman
@@ -1220,7 +1220,7 @@ mappings:
     MacOS:
     OpenSUSE:
     CentOS8:
-    CentOSStream:
+    CentOSStream8:
 
   pulseaudio:
     deb: libpulse-dev
@@ -1557,7 +1557,7 @@ mappings:
   xen:
     rpm: xen-devel
     CentOS8:
-    CentOSStream:
+    CentOSStream8:
     aarch64-deb: libxen-dev
     armv7l-deb: libxen-dev
     x86_64-deb: libxen-dev
