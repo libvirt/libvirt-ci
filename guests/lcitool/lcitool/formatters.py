@@ -340,17 +340,6 @@ class DockerfileFormatter(Formatter):
                     "echo -e '%s' > /usr/bin/nosync" % "\\n\\\n".join(nosyncsh),
                     "chmod +x /usr/bin/nosync"])
 
-            # Stream needs the Stream repos enabled first before running an
-            # update or install
-            if facts["os"]["name"] == "CentOS":
-                # For the Stream release we need to install the Stream
-                # repositories
-                if facts["os"]["version"] == "Stream":
-                    commands.extend([
-                        "{nosync}{packaging_command} install -y centos-release-stream",
-                        "{nosync}{packaging_command} install -y centos-stream-release",
-                    ])
-
             # First we need to run update, then config and install
             commands.extend(["{nosync}{packaging_command} update -y"])
 

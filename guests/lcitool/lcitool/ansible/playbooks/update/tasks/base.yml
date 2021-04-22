@@ -9,31 +9,6 @@
     - os.name == 'Fedora'
     - os.version == 'Rawhide'
 
-- block:
-    - name: Install the Stream release repositories
-      package:
-        name: centos-release-stream
-        state: latest
-
-    # CentOS Stream removed all the original Stream repos and instead updated
-    # the CentOS-Linux-* repositories to point to Stream instead.
-    # It also regressed in the PowerTools repo naming all of which is now
-    # contained in the 'centos-stream-release' package which replaces the
-    # original 'centos-release-stream' (which btw cannot be installed on its
-    # own).
-    #
-    # TODO: If the 'centos-stream-release' package ever fully replaces
-    # 'centos-release-stream', i.e. will be available from the Extras repo, the
-    # task above along with this commentary can be removed.
-    - name: Install the Stream release repositories
-      package:
-        name: centos-stream-release
-        state: latest
-
-  when:
-    - os.name == 'CentOS'
-    - os.version == 'Stream'
-
 - name: Enable PowerTools repository
   command: '{{ packaging.command }} config-manager --set-enabled powertools -y'
   args:
