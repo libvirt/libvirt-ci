@@ -1,7 +1,7 @@
 ---
 os:
   name: 'OpenSUSE'
-  version: '152'
+  version: 'Leap152'
 
 packaging:
   format: 'rpm'
