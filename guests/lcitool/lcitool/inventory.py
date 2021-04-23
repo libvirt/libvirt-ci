@@ -43,8 +43,17 @@ class Inventory(metaclass=Singleton):
             self._facts = self._load_facts()
         return self._facts
 
+    @property
+    def targets(self):
+
+        # lazy evaluation
+        if self._targets is None:
+            self._targets = list(self.facts.keys())
+        return self._targets
+
     def __init__(self):
         self._facts = None
+        self._targets = None
 
     @staticmethod
     def _add_facts_from_file(facts, yaml_path):

@@ -116,6 +116,13 @@ class Application(metaclass=Singleton):
         for host in sorted(hosts_expanded):
             print(host)
 
+    def _action_targets(self, args):
+        self._entrypoint_debug(args)
+
+        targets = Inventory().targets
+        for target in sorted(targets):
+            print(target)
+
     def _action_projects(self, args):
         self._entrypoint_debug(args)
 

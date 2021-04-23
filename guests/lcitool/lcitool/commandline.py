@@ -108,6 +108,12 @@ class CommandLine:
         )
         hostsparser.set_defaults(func=Application._action_hosts)
 
+        targetsparser = subparsers.add_parser(
+            "targets",
+            help="list all supported target OS platforms",
+        )
+        targetsparser.set_defaults(func=Application._action_targets)
+
         projectsparser = subparsers.add_parser(
             "projects",
             help="list all known projects",
