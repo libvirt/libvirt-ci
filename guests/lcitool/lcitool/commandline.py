@@ -88,6 +88,13 @@ class CommandLine:
             help="perform unattended host installation",
             parents=[targetopt, waitopt],
         )
+        installparser.add_argument(
+            "--name",
+            help="name for the installed VM instance",
+            dest="vm_name",
+            metavar="NAME",
+            required=True,
+        )
         installparser.set_defaults(func=Application._action_install)
 
         updateparser = subparsers.add_parser(

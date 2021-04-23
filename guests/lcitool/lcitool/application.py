@@ -135,6 +135,7 @@ class Application(metaclass=Singleton):
 
         config = Config()
         target = args.target
+        vm_name = args.vm_name
         facts = Inventory().get_facts(target)
 
         # Both memory size and disk size are stored as GiB in the
@@ -206,7 +207,7 @@ class Application(metaclass=Singleton):
 
         cmd = [
             "virt-install",
-            "--name", target,
+            "--name", vm_name,
             "--location", facts["install"]["url"],
             "--virt-type", config.values["install"]["virt_type"],
             "--arch", config.values["install"]["arch"],
@@ -232,7 +233,7 @@ class Application(metaclass=Singleton):
             subprocess.check_call(cmd)
         except Exception as ex:
             raise ApplicationError(
-                f"Failed to install '{target}': {ex}"
+                f"Failed to install '{vm_name}': {ex}"
             )
 
     def _action_update(self, args):
