@@ -13,7 +13,7 @@
       - freebsd-12
       - freebsd-13
       - freebsd-current
-      - opensuse-152
+      - opensuse-leap-152
       - opensuse-tumbleweed
       - ubuntu-1804
       - ubuntu-2004
@@ -38,7 +38,7 @@
       - freebsd-12
       - freebsd-13
       - freebsd-current
-      - opensuse-152
+      - opensuse-leap-152
       - opensuse-tumbleweed
       - ubuntu-1804
       - ubuntu-2004
