@@ -47,7 +47,6 @@ class Formatter(metaclass=abc.ABCMeta):
                                 selected_projects,
                                 cross_arch):
         pkgs = {}
-        mapped_pkgs = {}
         cross_pkgs = {}
         pypi_pkgs = {}
         cpan_pkgs = {}
