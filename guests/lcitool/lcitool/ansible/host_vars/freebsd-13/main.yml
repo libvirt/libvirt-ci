@@ -3,6 +3,8 @@ os:
   name: 'FreeBSD'
   version: '13'
 
+target: 'freebsd-13'
+
 packaging:
   format: 'pkg'
   command: 'pkg'

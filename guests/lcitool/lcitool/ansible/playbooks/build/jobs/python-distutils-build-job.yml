@@ -10,4 +10,4 @@
     $PYTHON ./setup.py build
     $PYTHON ./setup.py install --prefix=$VIRT_PREFIX
   when:
-    - inventory_hostname in machines
+    - target in machines

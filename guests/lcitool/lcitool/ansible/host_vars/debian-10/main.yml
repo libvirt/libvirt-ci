@@ -3,6 +3,8 @@ os:
   name: 'Debian'
   version: '10'
 
+target: 'debian-10'
+
 packaging:
   format: 'deb'
   command: 'apt-get'

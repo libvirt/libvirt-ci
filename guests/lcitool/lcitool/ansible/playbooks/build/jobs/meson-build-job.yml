@@ -13,4 +13,4 @@
     $NINJA
     $NINJA install
   when:
-    - inventory_hostname in machines
+    - target in machines

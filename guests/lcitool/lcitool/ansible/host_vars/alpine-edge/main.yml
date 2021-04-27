@@ -3,6 +3,8 @@ os:
   name: 'Alpine'
   version: 'edge'
 
+target: 'alpine-edge'
+
 packaging:
   format: 'apk'
   command: 'apk'

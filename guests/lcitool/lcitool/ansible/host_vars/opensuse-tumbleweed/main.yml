@@ -3,6 +3,8 @@ os:
   name: 'OpenSUSE'
   version: 'Tumbleweed'
 
+target: 'opensuse-tumbleweed'
+
 packaging:
   format: 'rpm'
   command: 'zypper'

@@ -11,4 +11,4 @@
     perl Build dist
     rpmbuild --clean --define "_topdir `pwd`/rpmbuild" -ta *.tar.{{ archive_format }}
   when:
-    - inventory_hostname in machines
+    - target in machines

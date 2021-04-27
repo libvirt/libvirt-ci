@@ -8,4 +8,4 @@
     {{ local_env }}
     go build -v
   when:
-    - inventory_hostname in machines
+    - target in machines

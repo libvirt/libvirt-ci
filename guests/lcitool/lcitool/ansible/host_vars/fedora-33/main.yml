@@ -3,6 +3,8 @@ os:
   name: 'Fedora'
   version: '33'
 
+target: 'fedora-33'
+
 packaging:
   format: 'rpm'
   command: 'dnf'

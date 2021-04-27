@@ -12,4 +12,4 @@
     $NINJA dist
     rpmbuild --clean --define "_topdir `pwd`/rpmbuild" -ta meson-dist/*.tar.{{ archive_format }}
   when:
-    - inventory_hostname in machines
+    - target in machines

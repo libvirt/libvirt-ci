@@ -3,6 +3,8 @@ os:
   name: 'CentOS'
   version: '8'
 
+target: 'centos-8'
+
 packaging:
   format: 'rpm'
   command: 'dnf'

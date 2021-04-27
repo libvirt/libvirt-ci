@@ -6,7 +6,7 @@
     dest: '{{ name }}'
     force: yes
   when:
-    - inventory_hostname in machines
+    - target in machines
 
 - name: '{{ name }}-prepare'
   shell: |
@@ -16,4 +16,4 @@
     git clean -xdf
     git submodule update --init
   when:
-    - inventory_hostname in machines
+    - target in machines

@@ -11,4 +11,4 @@
     $PYTHON ./setup.py sdist
     rpmbuild --clean --define "_topdir `pwd`/rpmbuild" -ta dist/*.tar.{{ archive_format }}
   when:
-    - inventory_hostname in machines
+    - target in machines

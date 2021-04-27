@@ -3,6 +3,8 @@ os:
   name: 'Ubuntu'
   version: '2004'
 
+target: 'ubuntu-2004'
+
 packaging:
   format: 'deb'
   command: 'apt-get'

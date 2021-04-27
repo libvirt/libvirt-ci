@@ -3,6 +3,8 @@ os:
   name: 'CentOS'
   version: 'Stream8'
 
+target: 'centos-stream-8'
+
 packaging:
   format: 'rpm'
   command: 'dnf'

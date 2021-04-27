@@ -3,6 +3,8 @@ os:
   name: 'OpenSUSE'
   version: 'Leap152'
 
+target: 'opensuse-152'
+
 packaging:
   format: 'rpm'
   command: 'zypper'

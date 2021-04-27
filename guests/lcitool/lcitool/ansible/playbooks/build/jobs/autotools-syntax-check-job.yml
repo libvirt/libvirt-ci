@@ -9,4 +9,4 @@
     cd build
     $MAKE syntax-check
   when:
-    - inventory_hostname in machines
+    - target in machines
