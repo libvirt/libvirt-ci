@@ -135,8 +135,8 @@ class Inventory(metaclass=Singleton):
     def has_host(self, host):
         return host in self.facts
 
-    def get_facts(self, host):
+    def get_facts(self, target):
         try:
-            return self.facts[host]
+            return self.facts[target]
         except KeyError:
-            raise InventoryError(f"Invalid host '{host}'")
+            raise InventoryError(f"Invalid target '{target}'")
