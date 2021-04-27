@@ -128,15 +128,15 @@ class CommandLine:
 
         variablesparser = subparsers.add_parser(
             "variables",
-            help="generate variables (doesn't access the host)",
-            parents=[hostsopt, projectsopt, crossarchopt],
+            help="generate variables",
+            parents=[targetopt, projectsopt, crossarchopt],
         )
         variablesparser.set_defaults(func=Application._action_variables)
 
         dockerfileparser = subparsers.add_parser(
             "dockerfile",
-            help="generate Dockerfile (doesn't access the host)",
-            parents=[hostsopt, projectsopt, crossarchopt],
+            help="generate Dockerfile",
+            parents=[targetopt, projectsopt, crossarchopt],
         )
         dockerfileparser.set_defaults(func=Application._action_dockerfile)
 

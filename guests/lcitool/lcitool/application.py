@@ -260,17 +260,16 @@ class Application(metaclass=Singleton):
     def _action_variables(self, args):
         self._entrypoint_debug(args)
 
-        hosts_expanded = Inventory().expand_hosts(args.hosts)
         projects_expanded = Projects().expand_pattern(args.projects)
 
-        variables = VariablesFormatter().format(hosts_expanded,
+        variables = VariablesFormatter().format(args.target,
                                                 projects_expanded,
                                                 None)
 
         cliargv = [args.action]
         if args.cross_arch:
             cliargv.extend(["--cross", args.cross_arch])
-        cliargv.extend([args.hosts, args.projects])
+        cliargv.extend([args.target, args.projects])
         header = util.generate_file_header(cliargv)
 
         print(header + variables)
@@ -278,17 +277,16 @@ class Application(metaclass=Singleton):
     def _action_dockerfile(self, args):
         self._entrypoint_debug(args)
 
-        hosts_expanded = Inventory().expand_hosts(args.hosts)
         projects_expanded = Projects().expand_pattern(args.projects)
 
-        dockerfile = DockerfileFormatter().format(hosts_expanded,
+        dockerfile = DockerfileFormatter().format(args.target,
                                                   projects_expanded,
                                                   args.cross_arch)
 
         cliargv = [args.action]
         if args.cross_arch:
             cliargv.extend(["--cross", args.cross_arch])
-        cliargv.extend([args.hosts, args.projects])
+        cliargv.extend([args.target, args.projects])
         header = util.generate_file_header(cliargv)
 
         print(header + dockerfile)
