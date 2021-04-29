@@ -7,6 +7,7 @@
 import fnmatch
 import git
 import logging
+import os
 import platform
 import textwrap
 
@@ -138,3 +139,12 @@ def get_temp_dir():
     if not _tempdir:
         _tempdir = TemporaryDirectory(prefix="lcitool")
     return Path(_tempdir.name)
+
+
+def get_cache_dir():
+    try:
+        cache_dir = Path(os.environ["XDG_CACHE_HOME"])
+    except KeyError:
+        cache_dir = Path(os.environ["HOME"], ".cache")
+
+    return Path(cache_dir, "lcitool")

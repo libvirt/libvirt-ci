@@ -33,6 +33,10 @@ class ApplicationError(Exception):
 
 
 class Application(metaclass=Singleton):
+    def __init__(self):
+        # make sure the lcitool cache dir exists
+        cache_dir_path = util.get_cache_dir()
+        cache_dir_path.mkdir(parents=True, exist_ok=True)
 
     @staticmethod
     def _entrypoint_debug(args):
