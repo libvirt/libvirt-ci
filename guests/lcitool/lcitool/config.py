@@ -6,12 +6,12 @@
 
 import copy
 import logging
-import os
 import yaml
 
 from pathlib import Path
 from pkg_resources import resource_filename
 
+from lcitool import util
 from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
@@ -69,7 +69,7 @@ class Config(metaclass=Singleton):
 
         user_config_path = None
         for fname in ["config.yml", "config.yaml"]:
-            user_config_path = Path(self._get_config_dir(), fname)
+            user_config_path = Path(util.get_config_dir(), fname)
 
             if user_config_path.exists():
                 break
@@ -93,15 +93,6 @@ class Config(metaclass=Singleton):
         # Override the default settings with user config
         values = self._merge_config(default_config, user_config)
         return values
-
-    @staticmethod
-    def _get_config_dir():
-        try:
-            config_dir = Path(os.environ["XDG_CONFIG_HOME"])
-        except KeyError:
-            config_dir = Path(os.environ["HOME"], ".config")
-
-        return Path(config_dir, "lcitool")
 
     @staticmethod
     def _remove_unknown_keys(_dict, known_keys):
