@@ -63,20 +63,21 @@ root of this repository.
 Configuration
 =============
 
-Before you can start bringing up guests, you need to create
+Before you can start installing or managing machines, you need to create
 ``~/.config/lcitool/config.yml``, ideally by copying the
 ``config.yml`` template, and set at least the options marked as
 "(mandatory)" depending on the flavor (``test``, ``gitlab``) you wish to
 use with your machines.
 
-Ansible expects to be able to connect to the guests by name: installing
-and enabling the `libvirt NSS plugin
-<https://libvirt.org/nss.html>`_ on the host is the easiest
-way to make sure that works. More specifically, you'll want to use the
-``libvirt_guest`` variant of the plugin.
+If managing VMs installed locally with libvirt you can use the
+`libvirt NSS plugin <https://libvirt.org/nss.html>`_ to your
+convenience and after installing an enabling the plugin on the host you can
+refer to your machines by their name in the Ansible inventory.
+As for the plugin settings, you'll be mainly interested in the ``libvirt_guest``
+variant of the plugin.
 
-To keep guests up to date over time, it's recommended to have an entry
-along the lines of
+To keep guests up to date over time, you might find it useful to have an entry
+such as this one
 
 ::
 
@@ -84,19 +85,71 @@ along the lines of
 
 in your crontab.
 
+Ansible inventory
+=================
+
+In addition to creating a configuration file, as described in the section
+above, you also need to provide an Ansible inventory for the machines you wish
+to manage with lcitool.  This gives you the flexibility to also utilize
+external hosts (e.g. machines hosted in a public cloud) with lcitool.
+
+The inventory needs to be placed in the ``~/.config/lcitool`` directory and
+must be named ``inventory``. The inventory itself can either be a single file
+or a directory containing multiple inventory sources just like Ansible would
+allow. You can use any format Ansible recognizes for inventories - it can
+even be a dynamic one, i.e. a script conforming to Ansible's requirements.
+
+There's one requirement however that any inventory source **must** comply with
+to be usable with lcitool - every single host must be a member of a group
+corresponding to one of our supported target OS platforms (see the next section
+on how to obtain the list of targets).
+Please avoid naming your hosts and inventory groups identically, otherwise
+Ansible will complain by issuing a warning about this which may in turn result
+in an unexpected Ansible behaviour.
+
+Managed hosts
+-------------
+Since hosts may come from a public cloud environment, we don't execute all the
+Ansible tasks which set up the VM environment by default because some of the
+tasks could render such hosts unusable. However, for hosts that were installed
+as local VMs, we do recommend adding ``fully_managed=True`` as an inventory
+variable to each of these hosts as it is safe to run all the Ansible tasks in
+this case (see the example inventory below).
+
+An example of a simple INI inventory:
+
+::
+
+    [centos-8]
+    centos-8-1
+    centos-8-2
+    some-other-centos-8
+
+    [fedora-33]
+    fedora-test-1
+    fedora-test-2
+
+    [debian-10]
+    192.168.1.30    fully_managed=True
 
 Usage and examples
 ==================
 
-There are two steps to bringing up a guest:
+Depending on whether you're bringing an external host or you're installing
+a guest locally, there are two/three steps respectively to prepare such a
+machine for building projects:
 
-* ``lcitool install $guest`` will perform an unattended installation
-  of ``$guest``. Not all guests can be installed this way: see the "FreeBSD"
-  section below;
+* ``lcitool install --name '$name' $target`` will perform an
+  unattended installation of the ``$target`` distro and create a VM named
+  ``$name``. Not all guests can be installed this way: see the "FreeBSD"
+  section below; (skip this step if you're bringing an external machine)
+
+* provide an inventory under ``~/.config/lcitool/`` as noted in the previous
+  section
 
 * ``lcitool update $guest $project`` will go through all the
-  post-installation configuration steps required to make the newly-created
-  guest usable and ready to be used for building ``$project``;
+  post-installation configuration steps required to make the newly-added
+  machine usable and ready to be used for building ``$project``;
 
 Once those steps have been performed, maintenance will involve running:
 
@@ -104,23 +157,32 @@ Once those steps have been performed, maintenance will involve running:
 
    $ lcitool update $guest $project
 
-periodically to ensure the guest configuration is sane and all installed
+periodically to ensure the machine configuration is sane and all installed
 packages are updated.
 
-To get a list of known guests and projects, run
+To get a list of known target platforms run:
+
+::
+
+   $ lcitool targets
+
+If you're interested in the list of hosts currently provided through the
+inventory sources, run:
 
 ::
 
    $ lcitool hosts
 
-and
+To see the list of supported projects that can be built from source with
+lcitool, run:
 
 ::
 
    $ lcitool projects
 
-respectively. You can run operations involving multiple guests and projects
-at once by providing a list on the command line: for example, running
+You can run operations involving multiple guests and projects during a single
+execution as well since both hosts and project specification support shell
+globbing. Using the above inventory as an example, running
 
 ::
 
@@ -301,9 +363,18 @@ earlier sections
     $ glance image-create --name <image_name> --disk-format qcow2 --file <outdisk>
 
 
-Adding new guests
-=================
+Adding a new target OS
+======================
 
-Adding new guests will require tweaking the inventory and host variables,
-but it should be very easy to eg. use the Fedora 26 configuration to come
-up with a working Fedora 27 configuration.
+If you want to contribute a new target OS to lcitool, you'll have to create
+a directory with the corresponding name under the
+``guests/lcitool/lcitool/ansible/group_vars`` and place a YAML configuration of
+the target OS inside. The structure of the configuration file should correspond
+with the other targets, so please follow them by example.
+Unless your desired target OS uses a packaging format which lcitool can't work
+with yet, you're basically done, just record the OS name in the
+``guests/lcitool/lcitool/ansible/vars/mappings.yml`` file in the commentary
+section at the beginning of the file - again, follow the existing entries by
+example. However, if you're introducing a new packaging format, you'll have to
+update **all** the mappings in the file so that lcitool knows what the name of
+a specific package is on your target OS.
