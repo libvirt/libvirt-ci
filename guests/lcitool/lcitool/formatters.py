@@ -345,47 +345,22 @@ class DockerfileFormatter(Formatter):
             if facts["os"]["name"] == "CentOS":
                 # Starting with CentOS 8, most -devel packages are shipped in
                 # the PowerTools repository, which is not enabled by default
-                if facts["os"]["version"] != "7":
-                    commands.extend([
-                        "{nosync}{packaging_command} install 'dnf-command(config-manager)' -y",
-                        "{nosync}{packaging_command} config-manager --set-enabled -y powertools",
-                    ])
+                commands.extend([
+                    "{nosync}{packaging_command} install 'dnf-command(config-manager)' -y",
+                    "{nosync}{packaging_command} config-manager --set-enabled -y powertools",
+                ])
 
-                    # Not all of the virt related -devel packages are provided by
-                    # virt:rhel module so we have to enable AV repository as well.
-                    commands.extend([
-                        "{nosync}{packaging_command} install -y centos-release-advanced-virtualization",
-                    ])
-
-                if facts["os"]["version"] == "7":
-                    # Ensure we get errors if the package doesn't exist
-                    commands.extend(["echo 'skip_missing_names_on_install=0' >> /etc/yum.conf"])
-
-                    # VZ development packages are only available for CentOS/RHEL-7
-                    # right now and need a 3rd party repository enabled
-                    if "libprlsdk" in varmap["mappings"]:
-                        repo = util.get_openvz_repo()
-                        varmap["vzrepo"] = "\\n\\\n".join(repo.split("\n"))
-                        key = util.get_openvz_key()
-                        varmap["vzkey"] = "\\n\\\n".join(key.split("\n"))
-
-                        commands.extend([
-                            "echo -e '{vzrepo}' > /etc/yum.repos.d/openvz.repo",
-                            "echo -e '{vzkey}' > /etc/pki/rpm-gpg/RPM-GPG-KEY-OpenVZ",
-                            "rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-OpenVZ",
-                        ])
+                # Not all of the virt related -devel packages are provided by
+                # virt:rhel module so we have to enable AV repository as well.
+                commands.extend([
+                    "{nosync}{packaging_command} install -y centos-release-advanced-virtualization",
+                ])
 
                 # Some of the packages we need are not part of CentOS proper
                 # and are only available through EPEL
                 commands.extend([
                     "{nosync}{packaging_command} install -y epel-release",
                 ])
-
-                if (facts["os"]["version"] == "7" and
-                    "xen" in varmap["mappings"]):
-                    commands.extend([
-                        "{nosync}{packaging_command} install -y centos-release-xen-48",
-                    ])
 
             commands.extend(["{nosync}{packaging_command} install -y {pkgs}"])
 

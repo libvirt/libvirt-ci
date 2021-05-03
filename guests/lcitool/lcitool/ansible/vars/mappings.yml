@@ -249,7 +249,6 @@ mappings:
   dbus-daemon:
     default: dbus
     rpm: dbus-daemon
-    CentOS7: dbus
     OpenSUSE: dbus-1
 
   device-mapper:
@@ -303,7 +302,6 @@ mappings:
     default: flake8
     pkg: py37-flake8
     rpm: python3-flake8
-    CentOS7:
 
   fuse:
     deb: libfuse-dev
@@ -647,7 +645,6 @@ mappings:
   libjemalloc:
     deb: libjemalloc-dev
     rpm: jemalloc-devel
-    CentOS7:
     MacOS: jemalloc
     cross-policy-default: foreign
 
@@ -727,13 +724,9 @@ mappings:
     cross-mingw64-rpm: mingw64-libpng
     cross-policy-default: foreign
 
-  libprlsdk:
-    CentOS7: libprlsdk-devel
-
   librbd:
     deb: librbd-dev
     rpm: librbd-devel
-    CentOS7: librbd1-devel
     cross-policy-default: foreign
 
   librdmacm:
@@ -768,7 +761,6 @@ mappings:
     rpm: libslirp-devel
     Debian10:
     Ubuntu1804:
-    CentOS7:
     MacOS: libslirp
     OpenSUSE:
     cross-policy-default: foreign
@@ -819,7 +811,6 @@ mappings:
   libubsan:
     deb: libubsan1
     rpm: libubsan
-    CentOS7:
     OpenSUSE: libubsan1
     mips-deb:
     mips64-deb:
@@ -896,7 +887,6 @@ mappings:
     deb: locales
     rpm: glibc-langpack-en
     OpenSUSE: glibc-locale
-    CentOS7: glibc-common
 
   lsof:
     default: lsof
@@ -932,7 +922,6 @@ mappings:
 
   meson:
     default: meson
-    CentOS7:
     CentOS8:
     CentOSStream8:
     Debian10:
@@ -1041,7 +1030,6 @@ mappings:
     default: perl-base
     FreeBSD: perl5
     MacOS: perl
-    CentOS7: perl
     CentOS8: perl
     CentOSStream8: perl
     Fedora32: perl
@@ -1119,7 +1107,6 @@ mappings:
     FreeBSD: perl5
     MacOS: perl
     OpenSUSE: perl-base
-    CentOS7: perl
     CentOS8: perl
     CentOSStream8: perl
     Fedora32: perl
@@ -1190,7 +1177,6 @@ mappings:
   perl-generators:
     rpm: perl-generators
     OpenSUSE:
-    CentOS7:
 
   php:
     deb: php-dev
@@ -1261,38 +1247,32 @@ mappings:
     FreeBSD: py37-dbus
     MacOS:
     OpenSUSE: python3-dbus-python
-    CentOS7: python36-dbus
 
   python3-devel:
     default: python3
     deb: python3-dev
     rpm: python3-devel
-    CentOS7: python36-devel
 
   python3-docutils:
     default: python3-docutils
     FreeBSD: py37-docutils
     MacOS: docutils
-    CentOS7: python36-docutils
 
   python3-gobject:
     deb: python3-gi
     pkg: py37-gobject3
     rpm: python3-gobject
-    CentOS7: python36-gobject
 
   python3-libxml2:
     default: python3-libxml2
     FreeBSD: py37-libxml2
     MacOS:
     OpenSUSE: python3-libxml2-python
-    CentOS7:
 
   python3-lxml:
     default: python3-lxml
     FreeBSD: py37-lxml
     MacOS:
-    CentOS7: python36-lxml
 
   python3-numpy:
     default: python3-numpy
@@ -1320,13 +1300,11 @@ mappings:
     default: python3-pytest
     FreeBSD: py37-pytest
     MacOS:
-    CentOS7: python36-pytest
 
   python3-requests:
     default: python3-requests
     FreeBSD: py37-requests
     MacOS:
-    CentOS7: python36-requests
 
   python3-setuptools:
     default: python3-setuptools
@@ -1379,7 +1357,6 @@ mappings:
     default: rpcgen
     deb: libc-dev-bin
     FreeBSD:
-    CentOS7: glibc-common
 
   rpm2cpio:
     default: rpm2cpio
@@ -1503,7 +1480,6 @@ mappings:
     deb: iproute2
     rpm: iproute-tc
     OpenSUSE: iproute2
-    CentOS7: iproute
 
   tesseract:
     default: tesseract
@@ -1550,7 +1526,6 @@ mappings:
     deb: libvirglrenderer-dev
     pkg: virglrenderer
     rpm: virglrenderer-devel
-    CentOS7:
     cross-policy-default: foreign
 
   vte:

@@ -103,22 +103,6 @@ def native_arch_to_deb_arch(native_arch):
     return archmap[native_arch]
 
 
-def get_openvz_repo():
-    repofile_res = "ansible/playbooks/update/templates/openvz.repo.j2"
-    repofile = resource_filename(__name__, repofile_res)
-
-    with open(repofile, "r") as r:
-        return r.read().rstrip()
-
-
-def get_openvz_key():
-    keyfile_res = "ansible/playbooks/update/templates/openvz.key"
-    keyfile = resource_filename(__name__, keyfile_res)
-
-    with open(keyfile, "r") as r:
-        return r.read().rstrip()
-
-
 def generate_file_header(action, hosts, projects, cross_arch):
     cli_args = []
     if cross_arch:
