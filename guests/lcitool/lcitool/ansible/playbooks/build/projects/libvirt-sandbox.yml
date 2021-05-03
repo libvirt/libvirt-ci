@@ -1,9 +1,7 @@
 ---
 - set_fact:
     name: libvirt-sandbox
-    # libvirt-sandbox is Linux only; among Linux platforms, CentOS 7 has
-    # to be excluded because it doesn't ship a version of xz suitable for
-    # linking statically
+    # libvirt-sandbox is Linux only
     machines:
       - debian-10
       - debian-sid

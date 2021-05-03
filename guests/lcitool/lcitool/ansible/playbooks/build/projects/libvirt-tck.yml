@@ -9,7 +9,7 @@
 - include: '{{ playbook_base }}/jobs/perl-modulebuild-build-job.yml'
 - include: '{{ playbook_base }}/jobs/perl-modulebuild-check-job.yml'
 
-  # CentOS 7, 8, and Stream are missing a number of RPM Perl modules, so we
+  # CentOS releases are missing a number of RPM Perl modules, so we
   # can't do the rpmbuild there
 - include: '{{ playbook_base }}/jobs/perl-modulebuild-rpm-job.yml'
   vars:

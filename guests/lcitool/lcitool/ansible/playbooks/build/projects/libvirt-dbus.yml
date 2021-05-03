@@ -11,7 +11,6 @@
   vars:
     # flake8 and pyflakes versions currently available on FreeBSD
     # (3.5.0 and 2.0.0 respectively) are not compatible.
-    # The python3-pytest version in CentOS 7 is too old.
     machines:
       - centos-8
       - centos-stream-8
@@ -26,11 +25,4 @@
       - ubuntu-2004
 - include: '{{ playbook_base }}/jobs/meson-rpm-job.yml'
   vars:
-    # RPM build is still not possible on CentOS7 as it does not
-    # have the needed RPM macros for meson.
-    machines:
-      - centos-8
-      - centos-stream-8
-      - fedora-33
-      - fedora-34
-      - fedora-rawhide
+    machines: '{{ rpm_machines }}'

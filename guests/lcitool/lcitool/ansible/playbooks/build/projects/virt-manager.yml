@@ -1,22 +1,7 @@
 ---
 - set_fact:
     name: virt-manager
-    # CentOS 7 has Python 3 but not the libxml2 bindings
-    machines:
-      - centos-8
-      - centos-stream-8
-      - debian-10
-      - debian-sid
-      - fedora-33
-      - fedora-34
-      - fedora-rawhide
-      - freebsd-12
-      - freebsd-13
-      - freebsd-current
-      - opensuse-leap-152
-      - opensuse-tumbleweed
-      - ubuntu-1804
-      - ubuntu-2004
+    machines: '{{ all_machines }}'
     archive_format: gz
     git_url: '{{ git_urls["virt-manager"][git_remote] }}'
 
@@ -27,26 +12,7 @@
       $PYTHON ./setup.py configure --prefix=$VIRT_PREFIX
 - include: '{{ playbook_base }}/jobs/python-distutils-check-job.yml'
   vars:
-    machines:
-      - centos-8
-      - centos-stream-8
-      - debian-10
-      - debian-sid
-      - fedora-33
-      - fedora-34
-      - fedora-rawhide
-      - freebsd-12
-      - freebsd-13
-      - freebsd-current
-      - opensuse-leap-152
-      - opensuse-tumbleweed
-      - ubuntu-1804
-      - ubuntu-2004
+    machines: '{{ all_machines }}'
 - include: '{{ playbook_base }}/jobs/python-distutils-rpm-job.yml'
   vars:
-    machines:
-      - centos-8
-      - centos-stream-8
-      - fedora-33
-      - fedora-34
-      - fedora-rawhide
+    machines: '{{ rpm_machines }}'
