@@ -14,7 +14,6 @@
 - include: '{{ playbook_base }}/jobs/perl-modulebuild-rpm-job.yml'
   vars:
     machines:
-      - fedora-32
       - fedora-33
       - fedora-34
       - fedora-rawhide

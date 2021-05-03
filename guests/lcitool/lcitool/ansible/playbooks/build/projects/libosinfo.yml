@@ -15,7 +15,6 @@
     machines:
       - centos-8
       - centos-stream-8
-      - fedora-32
       - fedora-33
       - fedora-34
       - fedora-rawhide

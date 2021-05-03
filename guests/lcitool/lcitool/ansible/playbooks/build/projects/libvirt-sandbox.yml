@@ -7,7 +7,6 @@
     machines:
       - debian-10
       - debian-sid
-      - fedora-32
       - fedora-33
       - fedora-34
       - fedora-rawhide
@@ -27,7 +26,6 @@
 - include: '{{ playbook_base }}/jobs/autotools-rpm-job.yml'
   vars:
     machines:
-      - fedora-32
       - fedora-33
       - fedora-34
       - fedora-rawhide

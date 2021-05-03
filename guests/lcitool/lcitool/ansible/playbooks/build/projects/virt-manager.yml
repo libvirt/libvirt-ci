@@ -7,7 +7,6 @@
       - centos-stream-8
       - debian-10
       - debian-sid
-      - fedora-32
       - fedora-33
       - fedora-34
       - fedora-rawhide
@@ -33,7 +32,6 @@
       - centos-stream-8
       - debian-10
       - debian-sid
-      - fedora-32
       - fedora-33
       - fedora-34
       - fedora-rawhide
@@ -49,7 +47,6 @@
     machines:
       - centos-8
       - centos-stream-8
-      - fedora-32
       - fedora-33
       - fedora-34
       - fedora-rawhide
