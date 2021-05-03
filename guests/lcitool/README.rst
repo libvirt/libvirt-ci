@@ -32,46 +32,46 @@ or, system-wide
 Installing lcitool
 ------------------
 
-This is standard python package. And again, you can install it on your local
+This is a standard python package, so you can install it either as your local
 user
 
 ::
 
    $ python3 setup.py install --user
 
-Or, you can install it system-wide with
+or system-wide with
 
 ::
 
    $ sudo python3 setup.py install
 
-If you prefer, you can have it inside a virtual-env too.
+If you prefer, you can have it installed inside a virtual-env too.
 
-For development mode you can do
+For development purposes you may find convenient to do
 
 ::
 
    $ python3 setup.py develop --user
 
-This will create packages links to your working dir and you don't need
-to re-install after every change.
+which will create the necessary links to your working directory and so you
+won't need to re-install the lcitool package locally after every code change.
 
-If you don't want to install this tool in your environment, and want to
-run it directly, just run the `lcitool` script that is located at the
+If you don't want to install this tool into your environment and instead wish
+to run it directly, just run the `lcitool` script that is located at the
 root of this repository.
 
 Configuration
 =============
 
 Before you can start bringing up guests, you need to create
-``~/.config/lcitool/config.yaml``, ideally by copying the
-``config.yaml`` template, and set at least the options marked as
+``~/.config/lcitool/config.yml``, ideally by copying the
+``config.yml`` template, and set at least the options marked as
 "(mandatory)" depending on the flavor (``test``, ``gitlab``) you wish to
 use with your machines.
 
 Ansible expects to be able to connect to the guests by name: installing
 and enabling the `libvirt NSS plugin
-<https://wiki.libvirt.org/page/NSS_module>`_ on the host is the easiest
+<https://libvirt.org/nss.html>`_ on the host is the easiest
 way to make sure that works. More specifically, you'll want to use the
 ``libvirt_guest`` variant of the plugin.
 
