@@ -19,6 +19,7 @@
       - debian-sid
       - fedora-32
       - fedora-33
+      - fedora-34
       - fedora-rawhide
       - opensuse-leap-152
       - opensuse-tumbleweed
@@ -46,4 +47,5 @@
       #   https://www.redhat.com/archives/libvir-list/2020-August/msg00262.html
       - fedora-32
       - fedora-33
+      - fedora-34
       - fedora-rawhide

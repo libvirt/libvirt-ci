@@ -7,6 +7,7 @@ all_machines:
   - debian-sid
   - fedora-32
   - fedora-33
+  - fedora-34
   - fedora-rawhide
   - freebsd-12
   - freebsd-13
@@ -21,6 +22,7 @@ rpm_machines:
   - centos-stream-8
   - fedora-32
   - fedora-33
+  - fedora-34
   - fedora-rawhide
 global_env: ''
 local_env: ''
