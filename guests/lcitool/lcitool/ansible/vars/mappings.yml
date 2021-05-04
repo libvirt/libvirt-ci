@@ -925,7 +925,7 @@ mappings:
     CentOS8:
     CentOSStream8:
     Debian10:
-    OpenSUSE152:
+    OpenSUSELeap152:
     Ubuntu1804:
     Ubuntu2004:
 
