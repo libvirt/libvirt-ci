@@ -254,10 +254,12 @@ class Application(metaclass=Singleton):
                                                 projects_expanded,
                                                 None)
 
-        header = util.generate_file_header(args.action,
-                                           args.hosts,
-                                           args.projects,
-                                           args.cross_arch)
+        cliargv = [args.action]
+        if args.cross_arch:
+            cliargv.extend(["--cross", args.cross_arch])
+        cliargv.extend([args.hosts, args.projects])
+        header = util.generate_file_header(cliargv)
+
         print(header + variables)
 
     def _action_dockerfile(self, args):
@@ -270,10 +272,12 @@ class Application(metaclass=Singleton):
                                                   projects_expanded,
                                                   args.cross_arch)
 
-        header = util.generate_file_header(args.action,
-                                           args.hosts,
-                                           args.projects,
-                                           args.cross_arch)
+        cliargv = [args.action]
+        if args.cross_arch:
+            cliargv.extend(["--cross", args.cross_arch])
+        cliargv.extend([args.hosts, args.projects])
+        header = util.generate_file_header(cliargv)
+
         print(header + dockerfile)
 
     def run(self, args):

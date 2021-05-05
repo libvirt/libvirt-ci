@@ -100,26 +100,20 @@ def native_arch_to_deb_arch(native_arch):
     return archmap[native_arch]
 
 
-def generate_file_header(action, hosts, projects, cross_arch):
-    cli_args = []
-    if cross_arch:
-        cli_args.extend(["--cross", cross_arch])
-    cli_args.extend([hosts, projects])
-    cli_args_formatted = " ".join(cli_args)
-
+def generate_file_header(cliargv):
     commit = git_commit()
     url = "https://gitlab.com/libvirt/libvirt-ci"
     if commit is not None:
         url = url + "/-/commit/" + commit
 
-    header = textwrap.dedent(
+    cliargvlist = " ".join(cliargv)
+    return textwrap.dedent(
         f"""\
         # THIS FILE WAS AUTO-GENERATED
         #
-        #  $ lcitool {action} {cli_args_formatted}
+        #  $ lcitool {cliargvlist}
         #
         # {url}
 
         """
     )
-    return header
