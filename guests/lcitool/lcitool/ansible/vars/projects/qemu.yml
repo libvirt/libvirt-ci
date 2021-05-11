@@ -59,6 +59,7 @@ packages:
  - libvdeplug
  - libxml2
  - libzstd
+ - llvm
  - lttng-ust
  - lzo
  - netcat

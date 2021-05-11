@@ -895,6 +895,9 @@ mappings:
     rpm: libzstd-devel
     cross-policy-default: foreign
 
+  llvm:
+    default: llvm
+
   locales:
     deb: locales
     rpm: glibc-langpack-en
