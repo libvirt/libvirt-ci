@@ -21,6 +21,7 @@ packages:
  - gettext
  - genisoimage
  - glib2
+ - glibc-static
  - glusterfs
  - gnutls
  - gtk3
