@@ -18,6 +18,7 @@ packages:
  - findutils
  - g++
  - gcc
+ - gcovr
  - gettext
  - genisoimage
  - glib2

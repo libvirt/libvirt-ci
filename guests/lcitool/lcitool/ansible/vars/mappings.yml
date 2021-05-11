@@ -344,6 +344,11 @@ mappings:
     cross-mingw64-rpm: mingw64-gcc
     cross-policy-default: foreign
 
+  gcovr:
+    default: gcovr
+    pkg:
+    CentOS:
+
   gdb:
     default: gdb
 
@@ -1614,6 +1619,9 @@ mappings:
 # with the meson package.
 
 pypi_mappings:
+
+  gcovr:
+    default: gcovr
 
   meson:
     default: meson==0.56.0
