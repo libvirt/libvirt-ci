@@ -162,6 +162,13 @@ mappings:
     rpm: brlapi-devel
     cross-policy-default: foreign
 
+  column:
+    deb: bsdextrautils
+    rpm: util-linux
+    Debian10: bsdmainutils
+    Ubuntu1804: bsdmainutils
+    Ubuntu2004: bsdmainutils
+
   bzip2:
     default: bzip2
 

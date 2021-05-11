@@ -8,6 +8,7 @@ packages:
  - capstone
  - ccache
  - clang
+ - column
  - ctags
  - cyrus-sasl
  - daxctl
