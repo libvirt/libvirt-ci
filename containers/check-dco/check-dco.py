@@ -15,27 +15,41 @@ namespace = "libvirt"
 if len(sys.argv) >= 2:
     namespace = sys.argv[1]
 
-cwd = os.getcwd()
-reponame = os.path.basename(cwd)
-repourl = "https://gitlab.com/%s/%s.git" % (namespace, reponame)
 
-subprocess.check_call(["git", "remote", "add", "check-dco", repourl])
-subprocess.check_call(["git", "fetch", "check-dco", "master"],
-                      stdout=subprocess.DEVNULL,
-                      stderr=subprocess.DEVNULL)
+def get_branch_commits():
+    cwd = os.getcwd()
+    reponame = os.path.basename(cwd)
+    repourl = "https://gitlab.com/%s/%s.git" % (namespace, reponame)
 
-ancestor = subprocess.check_output(["git", "merge-base", "check-dco/master", "HEAD"],
-                                   universal_newlines=True)
+    subprocess.check_call(["git", "remote", "add", "check-dco", repourl])
+    subprocess.check_call(["git", "fetch", "check-dco", "master"],
+                          stdout=subprocess.DEVNULL,
+                          stderr=subprocess.DEVNULL)
 
-ancestor = ancestor.strip()
+    ancestor = subprocess.check_output(["git", "merge-base", "check-dco/master", "HEAD"],
+                                       universal_newlines=True)
+    ancestor = ancestor.strip()
 
-subprocess.check_call(["git", "remote", "rm", "check-dco"])
+    subprocess.check_call(["git", "remote", "rm", "check-dco"])
+
+    return (ancestor, "HEAD")
+
+
+def get_mergereq_commits():
+    return (os.environ["CI_MERGE_REQUEST_DIFF_BASE_SHA"],
+            os.environ["CI_MERGE_REQUEST_SOURCE_BRANCH_SHA"])
+
+
+if os.environ.get("CI_PIPELINE_SOURCE", "") == "merge_request_event":
+    ancestor, head = get_mergereq_commits()
+else:
+    ancestor, head = get_branch_commits()
 
 errors = False
 
 print("\nChecking for 'Signed-off-by: NAME <EMAIL>' on all commits since %s...\n" % ancestor)
 
-log = subprocess.check_output(["git", "log", "--format=%H %s", ancestor + "..."],
+log = subprocess.check_output(["git", "log", "--format=%H %s", ancestor + "..." + head],
                               universal_newlines=True)
 
 if log == "":
