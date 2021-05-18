@@ -14,6 +14,7 @@ from pkg_resources import resource_filename
 from lcitool import util
 from lcitool.config import Config, ConfigError
 from lcitool.inventory import Inventory, InventoryError
+from lcitool.package import package_names_by_type
 from lcitool.projects import Projects, ProjectError
 from lcitool.formatters import DockerfileFormatter, VariablesFormatter, FormatterError
 from lcitool.singleton import Singleton
@@ -72,6 +73,7 @@ class Application(metaclass=Singleton):
         base = resource_filename(__name__, "ansible")
         config = Config()
         inventory = Inventory()
+        projects = Projects()
 
         hosts_expanded = inventory.expand_hosts(hosts_pattern)
         projects_expanded = Projects().expand_names(projects_pattern)
@@ -103,6 +105,31 @@ class Application(metaclass=Singleton):
 
         log.debug("Preparing Ansible runner environment")
         ansible_runner = AnsibleWrapper()
+
+        for host in hosts_expanded:
+            facts = inventory.host_facts[host]
+            target = facts["target"]
+
+            # packages are evaluated on a target level and since the
+            # host->target mapping is N-1, we can skip hosts belonging to a
+            # target group for which we already evaluated the package list
+            if group_vars[target].get("packages"):
+                continue
+
+            # resolve the package mappings to actual package names
+            internal_wanted_projects = ["base", "developer", "vm"]
+            selected_projects = internal_wanted_projects + projects_expanded
+            pkgs_install = projects.get_packages(selected_projects, facts)
+            pkgs_remove = projects.get_packages(["unwanted"], facts)
+            package_names = package_names_by_type(pkgs_install)
+            package_names_remove = package_names_by_type(pkgs_remove)
+
+            # merge the package lists to the Ansible group vars
+            group_vars[target]["packages"] = package_names["native"]
+            group_vars[target]["pypi_packages"] = package_names["pypi"]
+            group_vars[target]["cpan_packages"] = package_names["cpan"]
+            group_vars[target]["unwanted_packages"] = package_names_remove["native"]
+
         ansible_runner.prepare_env(playbookdir=playbook_base,
                                    inventory=inventory_path,
                                    group_vars=group_vars,
