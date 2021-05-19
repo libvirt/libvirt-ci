@@ -102,3 +102,20 @@ class Projects(metaclass=Singleton):
 
     def get_packages(self, project):
         return self._packages[project]
+
+
+class Project:
+    """
+    Attributes:
+        :ivar name: project name
+        :ivar generic_packages: list of generic packages needed by the project
+                                to build successfully
+    """
+
+    @property
+    def generic_packages(self):
+        return self._generic_packages
+
+    def __init__(self, name):
+        self.name = name
+        self._generic_packages = None
