@@ -5,7 +5,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import logging
-import sys
 import yaml
 
 from pathlib import Path

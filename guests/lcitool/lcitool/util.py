@@ -8,11 +8,9 @@ import fnmatch
 import git
 import logging
 import platform
-import sys
 import textwrap
 
 from pathlib import Path
-from pkg_resources import resource_filename
 
 log = logging.getLogger(__name__)
 
