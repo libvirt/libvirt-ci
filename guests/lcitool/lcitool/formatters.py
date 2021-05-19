@@ -10,6 +10,7 @@ import logging
 from pkg_resources import resource_filename
 
 from lcitool import util
+from lcitool.inventory import Inventory
 
 log = logging.getLogger(__name__)
 
@@ -212,7 +213,7 @@ class Formatter(metaclass=abc.ABCMeta):
             raise Exception(f"Can't use '{name}' generator on multiple hosts")
         host = hosts[0]
 
-        facts = self._inventory.get_facts(host)
+        facts = Inventory().get_facts(host)
 
         # We can only generate Dockerfiles for Linux
         if (name == "dockerfileformatter" and
@@ -246,7 +247,7 @@ class Formatter(metaclass=abc.ABCMeta):
 
 
 class DockerfileFormatter(Formatter):
-    def __init__(self, projects, inventory):
+    def __init__(self, projects):
         """
         Initialize an instance
 
@@ -258,7 +259,6 @@ class DockerfileFormatter(Formatter):
         """
 
         self._projects = projects
-        self._inventory = inventory
 
     def _format_dockerfile(self, host, project, facts, cross_arch, varmap):
         strings = []
@@ -495,7 +495,7 @@ class DockerfileFormatter(Formatter):
 
 
 class VariablesFormatter(Formatter):
-    def __init__(self, projects, inventory):
+    def __init__(self, projects):
         """
         Initialize an instance
 
@@ -507,7 +507,6 @@ class VariablesFormatter(Formatter):
         """
 
         self._projects = projects
-        self._inventory = inventory
 
     @staticmethod
     def _format_variables(varmap):

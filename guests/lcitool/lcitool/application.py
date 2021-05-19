@@ -28,7 +28,6 @@ class Application(metaclass=Singleton):
 
     def __init__(self):
         try:
-            self._inventory = Inventory()
             self._projects = Projects()
         except Exception as ex:
             print(f"Failed to initialize application: {ex}", file=sys.stderr)
@@ -66,6 +65,7 @@ class Application(metaclass=Singleton):
 
         base = resource_filename(__name__, "ansible")
         config = Config()
+        inventory = Inventory()
 
         try:
             config.validate_vm_settings()
@@ -73,7 +73,7 @@ class Application(metaclass=Singleton):
             print(f"Failed to validate config: {ex}", file=sys.stderr)
             sys.exit(1)
 
-        hosts_expanded = self._expand_pattern(self._inventory, hosts)
+        hosts_expanded = self._expand_pattern(inventory, hosts)
         ansible_hosts = ",".join(hosts_expanded)
         selected_projects = self._expand_pattern(self._projects, projects)
 
@@ -135,7 +135,7 @@ class Application(metaclass=Singleton):
     def _action_hosts(self, args):
         self._entrypoint_debug(args)
 
-        hosts_expanded = self._expand_pattern(self._inventory, "all")
+        hosts_expanded = self._expand_pattern(Inventory(), "all")
         for host in sorted(hosts_expanded):
             print(host)
 
@@ -150,6 +150,7 @@ class Application(metaclass=Singleton):
         self._entrypoint_debug(args)
 
         config = Config()
+        inventory = Inventory()
 
         try:
             config.validate_vm_settings()
@@ -157,9 +158,9 @@ class Application(metaclass=Singleton):
             print(f"Failed to validate config: {ex}", file=sys.stderr)
             sys.exit(1)
 
-        hosts_expanded = self._expand_pattern(self._inventory, args.hosts)
+        hosts_expanded = self._expand_pattern(inventory, args.hosts)
         for host in hosts_expanded:
-            facts = self._inventory.get_facts(host)
+            facts = inventory.get_facts(host)
 
             # Both memory size and disk size are stored as GiB in the
             # inventory, but virt-install expects the disk size in GiB
@@ -276,10 +277,10 @@ class Application(metaclass=Singleton):
     def _action_variables(self, args):
         self._entrypoint_debug(args)
 
-        hosts_expanded = self._expand_pattern(self._inventory, args.hosts)
+        hosts_expanded = self._expand_pattern(Inventory(), args.hosts)
         projects_expanded = self._expand_pattern(self._projects, args.projects)
 
-        vfmt = VariablesFormatter(self._projects, self._inventory)
+        vfmt = VariablesFormatter(self._projects)
 
         try:
             variables = vfmt.format(hosts_expanded, projects_expanded, None)
@@ -296,10 +297,10 @@ class Application(metaclass=Singleton):
     def _action_dockerfile(self, args):
         self._entrypoint_debug(args)
 
-        hosts_expanded = self._expand_pattern(self._inventory, args.hosts)
+        hosts_expanded = self._expand_pattern(Inventory(), args.hosts)
         projects_expanded = self._expand_pattern(self._projects, args.projects)
 
-        dfmt = DockerfileFormatter(self._projects, self._inventory)
+        dfmt = DockerfileFormatter(self._projects)
 
         try:
             dockerfile = dfmt.format(hosts_expanded,

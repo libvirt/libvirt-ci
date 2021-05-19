@@ -12,11 +12,12 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util
+from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
 
 
-class Inventory:
+class Inventory(metaclass=Singleton):
 
     def __init__(self):
         ansible_cfg_path = resource_filename(__name__, "ansible/ansible.cfg")
