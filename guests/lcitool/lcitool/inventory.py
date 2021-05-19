@@ -87,7 +87,7 @@ class Inventory:
         return facts
 
     def expand_pattern(self, pattern):
-        return util.expand_pattern(pattern, self._facts, "host")
+        return list(util.expand_pattern(pattern, self._facts, "host"))
 
     def get_facts(self, host):
         return self._facts[host]

@@ -68,7 +68,7 @@ class Projects:
             if project in projects:
                 projects.remove(project)
 
-        return projects
+        return list(projects)
 
     def get_mappings(self):
         return self._mappings

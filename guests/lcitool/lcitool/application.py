@@ -136,14 +136,14 @@ class Application:
         self._entrypoint_debug(args)
 
         hosts_expanded = self._expand_pattern(self._inventory, "all")
-        for host in hosts_expanded:
+        for host in sorted(hosts_expanded):
             print(host)
 
     def _action_projects(self, args):
         self._entrypoint_debug(args)
 
         projects_expanded = self._expand_pattern(self._projects, "all")
-        for project in projects_expanded:
+        for project in sorted(projects_expanded):
             print(project)
 
     def _action_install(self, args):

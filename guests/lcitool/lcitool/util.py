@@ -50,7 +50,7 @@ def expand_pattern(pattern, source, name):
 
         matches.extend(partial_matches)
 
-    return sorted(set(matches))
+    return set(matches)
 
 
 def get_native_arch():
