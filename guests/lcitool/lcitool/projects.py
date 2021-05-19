@@ -11,11 +11,12 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util
+from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
 
 
-class Projects:
+class Projects(metaclass=Singleton):
 
     def __init__(self):
         mappings_path = resource_filename(__name__,

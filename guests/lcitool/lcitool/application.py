@@ -26,13 +26,6 @@ log = logging.getLogger(__name__)
 
 class Application(metaclass=Singleton):
 
-    def __init__(self):
-        try:
-            self._projects = Projects()
-        except Exception as ex:
-            print(f"Failed to initialize application: {ex}", file=sys.stderr)
-            sys.exit(1)
-
     @staticmethod
     def _entrypoint_debug(args):
         cli_args = {}
@@ -75,7 +68,7 @@ class Application(metaclass=Singleton):
 
         hosts_expanded = self._expand_pattern(inventory, hosts)
         ansible_hosts = ",".join(hosts_expanded)
-        selected_projects = self._expand_pattern(self._projects, projects)
+        selected_projects = self._expand_pattern(Projects(), projects)
 
         if git_revision is not None:
             tokens = git_revision.split("/")
@@ -142,7 +135,7 @@ class Application(metaclass=Singleton):
     def _action_projects(self, args):
         self._entrypoint_debug(args)
 
-        projects_expanded = self._expand_pattern(self._projects, "all")
+        projects_expanded = self._expand_pattern(Projects(), "all")
         for project in sorted(projects_expanded):
             print(project)
 
@@ -278,12 +271,12 @@ class Application(metaclass=Singleton):
         self._entrypoint_debug(args)
 
         hosts_expanded = self._expand_pattern(Inventory(), args.hosts)
-        projects_expanded = self._expand_pattern(self._projects, args.projects)
-
-        vfmt = VariablesFormatter(self._projects)
+        projects_expanded = self._expand_pattern(Projects(), args.projects)
 
         try:
-            variables = vfmt.format(hosts_expanded, projects_expanded, None)
+            variables = VariablesFormatter().format(hosts_expanded,
+                                                    projects_expanded,
+                                                    None)
         except Exception as ex:
             print(f"Failed to format variables: {ex}", file=sys.stderr)
             sys.exit(1)
@@ -298,14 +291,12 @@ class Application(metaclass=Singleton):
         self._entrypoint_debug(args)
 
         hosts_expanded = self._expand_pattern(Inventory(), args.hosts)
-        projects_expanded = self._expand_pattern(self._projects, args.projects)
-
-        dfmt = DockerfileFormatter(self._projects)
+        projects_expanded = self._expand_pattern(Projects(), args.projects)
 
         try:
-            dockerfile = dfmt.format(hosts_expanded,
-                                     projects_expanded,
-                                     args.cross_arch)
+            dockerfile = DockerfileFormatter().format(hosts_expanded,
+                                                      projects_expanded,
+                                                      args.cross_arch)
         except Exception as ex:
             print(f"Failed to format Dockerfile: {ex}", file=sys.stderr)
             sys.exit(1)

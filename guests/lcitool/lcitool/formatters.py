@@ -11,6 +11,7 @@ from pkg_resources import resource_filename
 
 from lcitool import util
 from lcitool.inventory import Inventory
+from lcitool.projects import Projects
 
 log = logging.getLogger(__name__)
 
@@ -46,6 +47,7 @@ class Formatter(metaclass=abc.ABCMeta):
                                 cpan_mappings,
                                 selected_projects,
                                 cross_arch):
+        projects = Projects()
         pkgs = {}
         cross_pkgs = {}
         pypi_pkgs = {}
@@ -76,7 +78,7 @@ class Formatter(metaclass=abc.ABCMeta):
         # We need to add the base project manually here: the standard
         # machinery hides it because it's an implementation detail
         for project in selected_projects + ["base"]:
-            for package in self._projects.get_packages(project):
+            for package in projects.get_packages(project):
                 cross_policy = "native"
 
                 if (package not in mappings and
@@ -139,7 +141,7 @@ class Formatter(metaclass=abc.ABCMeta):
         if cpan_pkgs:
             extra_projects += ["perl-cpan"]
         for project in extra_projects:
-            for package in self._projects.get_packages(project):
+            for package in projects.get_packages(project):
                 if package not in mappings:
                     raise Exception(f"No mapping defined for {package}")
 
@@ -197,16 +199,17 @@ class Formatter(metaclass=abc.ABCMeta):
         log.debug(f"Generated varmap: {varmap}")
         return varmap
 
-    def _generator_prepare(self, hosts, projects, cross_arch):
+    def _generator_prepare(self, hosts, selected_projects, cross_arch):
         log.debug(f"Generating varmap for "
                   f"hosts='{hosts}', "
-                  f"projects='{projects}', "
+                  f"projects='{selected_projects}', "
                   f"cross_arch='{cross_arch}'")
 
         name = self.__class__.__name__.lower()
-        mappings = self._projects.get_mappings()
-        pypi_mappings = self._projects.get_pypi_mappings()
-        cpan_mappings = self._projects.get_cpan_mappings()
+        projects = Projects()
+        mappings = projects.get_mappings()
+        pypi_mappings = projects.get_pypi_mappings()
+        cpan_mappings = projects.get_cpan_mappings()
         native_arch = util.get_native_arch()
 
         if len(hosts) > 1:
@@ -241,25 +244,12 @@ class Formatter(metaclass=abc.ABCMeta):
                                               mappings,
                                               pypi_mappings,
                                               cpan_mappings,
-                                              projects,
+                                              selected_projects,
                                               cross_arch)
         return facts, cross_arch, varmap
 
 
 class DockerfileFormatter(Formatter):
-    def __init__(self, projects):
-        """
-        Initialize an instance
-
-        Saves a reference to a list of projects and a machine inventory
-        which are crucial for the formatting process.
-
-        :param projects: instance of the Projects class
-        :param inventory: instance of the Inventory class
-        """
-
-        self._projects = projects
-
     def _format_dockerfile(self, host, project, facts, cross_arch, varmap):
         strings = []
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
@@ -473,7 +463,7 @@ class DockerfileFormatter(Formatter):
 
         return strings
 
-    def format(self, hosts, projects, cross_arch):
+    def format(self, hosts, selected_projects, cross_arch):
         """
         Generates and formats a Dockerfile.
 
@@ -486,28 +476,18 @@ class DockerfileFormatter(Formatter):
         :returns: String represented Dockerfile
         """
 
-        log.debug(f"Generating Dockerfile for projects '{projects}' on host "
-                  f"'{hosts}' (cross_arch={cross_arch})")
+        log.debug(f"Generating Dockerfile for projects '{selected_projects}' "
+                  f"on host '{hosts}' (cross_arch={cross_arch})")
 
-        facts, cross_arch, varmap = self._generator_prepare(hosts, projects, cross_arch)
+        facts, cross_arch, varmap = self._generator_prepare(hosts,
+                                                            selected_projects,
+                                                            cross_arch)
 
-        return '\n'.join(self._format_dockerfile(hosts, projects, facts, cross_arch, varmap))
+        return '\n'.join(self._format_dockerfile(hosts, selected_projects,
+                                                 facts, cross_arch, varmap))
 
 
 class VariablesFormatter(Formatter):
-    def __init__(self, projects):
-        """
-        Initialize an instance
-
-        Saves a reference to a list of projects and a machine inventory
-        which are crucial for the formatting process.
-
-        :param projects: instance of the Projects class
-        :param inventory: instance of the Inventory class
-        """
-
-        self._projects = projects
-
     @staticmethod
     def _format_variables(varmap):
         strings = []
@@ -529,7 +509,7 @@ class VariablesFormatter(Formatter):
             strings.append(f"{uppername}='{value}'")
         return strings
 
-    def format(self, hosts, projects, cross_arch):
+    def format(self, hosts, selected_projects, cross_arch):
         """
         Generates and formats environment variables as KEY=VAL pairs.
 
@@ -541,9 +521,10 @@ class VariablesFormatter(Formatter):
         :returns: String represented list of environment variables
         """
 
-        log.debug(f"Generating variables for projects '{projects} on host "
-                  f"'{hosts}' (cross_arch={cross_arch})")
+        log.debug(f"Generating variables for projects '{selected_projects} on "
+                  f"host '{hosts}' (cross_arch={cross_arch})")
 
-        _, _, varmap = self._generator_prepare(hosts, projects, cross_arch)
+        _, _, varmap = self._generator_prepare(hosts, selected_projects,
+                                               cross_arch)
 
         return '\n'.join(self._format_variables(varmap))
