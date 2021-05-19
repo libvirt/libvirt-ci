@@ -1,118 +1,27 @@
 ---
-# Default to installing packages if state is not passed from the caller
-- set_fact:
-    state: present
-  when:
-    - state is undefined
-
-- name: '{{ project }}: Load variables'
-  include_vars:
-    file: '{{ base }}/vars/projects/{{ project }}.yml'
-
-- set_fact:
-    resolved: {}
-
-- name: '{{ project }}: Verify mappings'
-  fail:
-    msg: 'No mappings defined for {{ item }}'
-  loop:
-    '{{ packages }}'
-  when:
-    - mappings[item] is undefined
-
-- name: '{{ project }}: Look up mappings (default)'
-  set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item]["default"] }) }}'
-  loop:
-    '{{ packages }}'
-  when:
-    - mappings[item]["default"] is defined
-
-- name: '{{ project }}: Look up mappings (package format)'
-  set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item][packaging.format] }) }}'
-  loop:
-    '{{ packages }}'
-  when:
-    - mappings[item][packaging.format] is defined
-
-- name: '{{ project }}: Look up mappings (OS name)'
-  set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item][os.name] }) }}'
-  loop:
-    '{{ packages }}'
-  when:
-    - mappings[item][os.name] is defined
-
-- name: '{{ project }}: Look up mappings (OS version)'
-  set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item][os.name + os.version] }) }}'
-  loop:
-    '{{ packages }}'
-  when:
-    - mappings[item][os.name + os.version] is defined
-
-- name: '{{ project }}: Look up mappings (arch with default)'
-  set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + "default"] }) }}'
-  loop:
-    '{{ packages }}'
-  when:
-    - mappings[item]["x86_64" + "-" + "default"] is defined
-
-- name: '{{ project }}: Look up mappings (arch with package format)'
-  set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + packaging.format] }) }}'
-  loop:
-    '{{ packages }}'
-  when:
-    - mappings[item]["x86_64" + "-" + packaging.format] is defined
-
-- name: '{{ project }}: Look up mappings (arch with OS name)'
-  set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + os.name] }) }}'
-  loop:
-    '{{ packages }}'
-  when:
-    - mappings[item]["x86_64" + "-" + os.name] is defined
-
-- name: '{{ project }}: Look up mappings (arch with OS version)'
-  set_fact:
-    resolved: '{{ resolved|combine({ item: mappings[item]["x86_64" + "-" + os.name + os.version] }) }}'
-  loop:
-    '{{ packages }}'
-  when:
-    - mappings[item]["x86_64" + "-" + os.name + os.version] is defined
-
-- set_fact:
-    flattened: []
-
-- name: '{{ project }}: Flatten package list'
-  set_fact:
-    flattened: '{{ flattened }} + [ "{{ resolved[item] }}" ]'
-  loop:
-    '{{ resolved|flatten(levels=1) }}'
-  when:
-    - resolved[item] != None
-    - resolved[item] not in flattened
-
-- name: '{{ project }}: Install/remove packages (state={{ state }})'
+- name: 'Install packages'
   package:
-    name: '{{ flattened|sort }}'
-    state: '{{ state }}'
+    name: '{{ packages }}'
+    state: present
+
+- name: 'Remove packages'
+  package:
+    name: '{{ unwanted_packages }}'
+    state: absent
 
 - include: 'tasks/packages-language-specific.yml'
   vars:
     pm_command: '{{ pm.command }}'
-    pm_mappings: '{{ pm.mappings }}'
+    pm_packages: '{{ pm.packages }}'
     pm_name: '{{ pm.name }}'
+  when: pm_packages != ''
   loop:
     - name: PyPi
       command: '{{ paths.pip3 }} install'
-      mappings: '{{ pypi_mappings }}'
+      packages: '{{ pypi_packages | default(None) }}'
 
     - name: CPAN
       command: 'cpanm --notest'
-      mappings: '{{ cpan_mappings }}'
+      packages: '{{ cpan_packages | default(None) }}'
   loop_control:
     loop_var: pm

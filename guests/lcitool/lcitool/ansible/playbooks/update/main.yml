@@ -11,45 +11,14 @@
 - hosts: all
   remote_user: root
 
-  vars_files:
-    - '{{ base }}/vars/mappings.yml'
-
   tasks:
 
     # Prepare environment. None of the actions performed here might
     # depend on packages being installed
     - include: 'tasks/base.yml'
 
-    # Install base packages
+    # Install/Remove packages
     - include: 'tasks/packages.yml'
-      loop:
-        - internal/base
-        - internal/developer
-        - internal/perl-cpan
-        - internal/python-pip
-        - internal/vm
-      loop_control:
-        loop_var: project
-
-    # Remove unwanted packages
-    - include: 'tasks/packages.yml'
-      vars:
-        project: internal/unwanted
-        state: absent
-
-    # Install build dependencies for each project
-    - include: 'tasks/packages.yml'
-      loop:
-        '{{ selected_projects }}'
-      loop_control:
-        loop_var: project
-
-    # Install packages needed for enabling cloud-init
-    - include: 'tasks/packages.yml'
-      vars:
-        project: internal/cloud-init
-      when:
-        - install.cloud_init
 
     # Configure environment. Needs to happen after installing packages
     - include: 'tasks/kludges.yml'
