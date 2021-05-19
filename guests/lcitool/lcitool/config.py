@@ -11,10 +11,12 @@ import yaml
 from pathlib import Path
 from pkg_resources import resource_filename
 
+from lcitool.singleton import Singleton
+
 log = logging.getLogger(__name__)
 
 
-class Config:
+class Config(metaclass=Singleton):
 
     def __init__(self):
 

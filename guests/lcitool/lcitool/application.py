@@ -28,7 +28,6 @@ class Application(metaclass=Singleton):
 
     def __init__(self):
         try:
-            self._config = Config()
             self._inventory = Inventory()
             self._projects = Projects()
         except Exception as ex:
@@ -66,7 +65,7 @@ class Application(metaclass=Singleton):
                   f"projects={projects} gitrev={git_revision}")
 
         base = resource_filename(__name__, "ansible")
-        config = self._config
+        config = Config()
 
         try:
             config.validate_vm_settings()
@@ -150,7 +149,7 @@ class Application(metaclass=Singleton):
     def _action_install(self, args):
         self._entrypoint_debug(args)
 
-        config = self._config
+        config = Config()
 
         try:
             config.validate_vm_settings()
