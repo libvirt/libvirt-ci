@@ -51,11 +51,12 @@ class Projects:
                 raise Exception(f"Can't load packages for '{project}': {ex}")
 
     def expand_pattern(self, pattern):
-        projects = util.expand_pattern(pattern, self._packages, "project")
+        projects_expanded = util.expand_pattern(pattern, self._packages,
+                                                "project")
 
         # Some projects are internal implementation details and should
         # not be exposed to the user
-        internal_projects = [
+        internal_projects = {
             "base",
             "cloud-init",
             "developer",
@@ -63,12 +64,9 @@ class Projects:
             "python-pip",
             "unwanted",
             "vm",
-        ]
-        for project in internal_projects:
-            if project in projects:
-                projects.remove(project)
+        }
 
-        return list(projects)
+        return list(projects_expanded - internal_projects)
 
     def get_mappings(self):
         return self._mappings
