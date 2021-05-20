@@ -19,11 +19,12 @@ from lcitool.config import Config
 from lcitool.inventory import Inventory
 from lcitool.projects import Projects
 from lcitool.formatters import DockerfileFormatter, VariablesFormatter
+from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
 
 
-class Application:
+class Application(metaclass=Singleton):
 
     def __init__(self):
         try:
