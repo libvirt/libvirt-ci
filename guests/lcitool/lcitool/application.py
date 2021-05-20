@@ -34,8 +34,6 @@ class Application:
             print(f"Failed to initialize application: {ex}", file=sys.stderr)
             sys.exit(1)
 
-        self._native_arch = util.get_native_arch()
-
     @staticmethod
     def _entrypoint_debug(args):
         cli_args = {}
