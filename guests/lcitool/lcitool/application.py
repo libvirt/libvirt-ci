@@ -18,7 +18,7 @@ from lcitool import util
 from lcitool.config import Config, ConfigError
 from lcitool.inventory import Inventory, InventoryError
 from lcitool.projects import Projects, ProjectError
-from lcitool.formatters import DockerfileFormatter, VariablesFormatter
+from lcitool.formatters import DockerfileFormatter, VariablesFormatter, FormatterError
 from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
@@ -272,13 +272,9 @@ class Application(metaclass=Singleton):
         hosts_expanded = self._expand_pattern(Inventory(), args.hosts)
         projects_expanded = self._expand_pattern(Projects(), args.projects)
 
-        try:
-            variables = VariablesFormatter().format(hosts_expanded,
-                                                    projects_expanded,
-                                                    None)
-        except Exception as ex:
-            print(f"Failed to format variables: {ex}", file=sys.stderr)
-            sys.exit(1)
+        variables = VariablesFormatter().format(hosts_expanded,
+                                                projects_expanded,
+                                                None)
 
         header = util.generate_file_header(args.action,
                                            args.hosts,
@@ -292,13 +288,9 @@ class Application(metaclass=Singleton):
         hosts_expanded = self._expand_pattern(Inventory(), args.hosts)
         projects_expanded = self._expand_pattern(Projects(), args.projects)
 
-        try:
-            dockerfile = DockerfileFormatter().format(hosts_expanded,
-                                                      projects_expanded,
-                                                      args.cross_arch)
-        except Exception as ex:
-            print(f"Failed to format Dockerfile: {ex}", file=sys.stderr)
-            sys.exit(1)
+        dockerfile = DockerfileFormatter().format(hosts_expanded,
+                                                  projects_expanded,
+                                                  args.cross_arch)
 
         header = util.generate_file_header(args.action,
                                            args.hosts,
@@ -312,6 +304,7 @@ class Application(metaclass=Singleton):
         except (ApplicationError,
                 ConfigError,
                 InventoryError,
-                ProjectError) as ex:
+                ProjectError,
+                FormatterError) as ex:
             print(ex, file=sys.stderr)
             sys.exit(1)

@@ -16,6 +16,34 @@ from lcitool.projects import Projects
 log = logging.getLogger(__name__)
 
 
+class FormatterError(Exception):
+    """
+    Global exception type for this module.
+
+    Contains a detailed message coming from one of its subclassed exception
+    types. On the application level, this is the exception type you should be
+    catching instead of the subclassed types.
+    """
+
+    pass
+
+
+class DockerfileError(FormatterError):
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return f"Docker formatter error: {self.message}"
+
+
+class VariablesError(FormatterError):
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return f"Variables formatter error: {self.message}"
+
+
 class Formatter(metaclass=abc.ABCMeta):
     """
     This an abstract base class that each formatter must subclass.
@@ -213,7 +241,7 @@ class Formatter(metaclass=abc.ABCMeta):
         native_arch = util.get_native_arch()
 
         if len(hosts) > 1:
-            raise Exception(f"Can't use '{name}' generator on multiple hosts")
+            raise FormatterError("Can't use this generator on multiple hosts")
         host = hosts[0]
 
         facts = Inventory().get_facts(host)
@@ -221,21 +249,21 @@ class Formatter(metaclass=abc.ABCMeta):
         # We can only generate Dockerfiles for Linux
         if (name == "dockerfileformatter" and
             facts["packaging"]["format"] not in ["deb", "rpm"]):
-            raise Exception(f"Host {host} doesn't support '{name}' generator")
+            raise FormatterError(f"Host {host} doesn't support this generator")
         if cross_arch:
             osname = facts["os"]["name"]
             if osname not in ["Debian", "Fedora"]:
-                raise Exception(f"Cannot cross compile on {osname}")
+                raise FormatterError(f"Cannot cross compile on {osname}")
             if (osname == "Debian" and cross_arch.startswith("mingw")):
-                raise Exception(
+                raise FormatterError(
                     f"Cannot cross compile for {cross_arch} on {osname}"
                 )
             if (osname == "Fedora" and not cross_arch.startswith("mingw")):
-                raise Exception(
+                raise FormatterError(
                     f"Cannot cross compile for {cross_arch} on {osname}"
                 )
             if cross_arch == native_arch:
-                raise Exception(
+                raise FormatterError(
                     f"Cross arch {cross_arch} should differ from native "
                     f"{native_arch}"
                 )
@@ -479,9 +507,12 @@ class DockerfileFormatter(Formatter):
         log.debug(f"Generating Dockerfile for projects '{selected_projects}' "
                   f"on host '{hosts}' (cross_arch={cross_arch})")
 
-        facts, cross_arch, varmap = self._generator_prepare(hosts,
-                                                            selected_projects,
-                                                            cross_arch)
+        try:
+            facts, cross_arch, varmap = self._generator_prepare(hosts,
+                                                                selected_projects,
+                                                                cross_arch)
+        except FormatterError as ex:
+            raise DockerfileError(str(ex))
 
         return '\n'.join(self._format_dockerfile(hosts, selected_projects,
                                                  facts, cross_arch, varmap))
@@ -524,7 +555,11 @@ class VariablesFormatter(Formatter):
         log.debug(f"Generating variables for projects '{selected_projects} on "
                   f"host '{hosts}' (cross_arch={cross_arch})")
 
-        _, _, varmap = self._generator_prepare(hosts, selected_projects,
-                                               cross_arch)
+        try:
+            _, _, varmap = self._generator_prepare(hosts,
+                                                   selected_projects,
+                                                   cross_arch)
+        except FormatterError as ex:
+            raise VariablesError(str(ex))
 
         return '\n'.join(self._format_variables(varmap))
