@@ -47,8 +47,18 @@ class ValidationError(ConfigError):
 
 class Config(metaclass=Singleton):
 
-    def __init__(self):
+    @property
+    def values(self):
 
+        # lazy evaluation: most lcitool actions actually don't need the config
+        if self._values is None:
+            self._values = self._load_config()
+        return self._values
+
+    def __init__(self):
+        self._values = None
+
+    def _load_config(self):
         # Load the template config containing the defaults first, this must
         # always succeed.
         default_config_path = resource_filename(__name__, "etc/config.yml")
@@ -79,7 +89,8 @@ class Config(metaclass=Singleton):
         self._sanitize_values(user_config, default_config)
 
         # Override the default settings with user config
-        self.values = self._merge_config(default_config, user_config)
+        values = self._merge_config(default_config, user_config)
+        return values
 
     @staticmethod
     def _get_config_file(name):
