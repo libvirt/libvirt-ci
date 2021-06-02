@@ -42,24 +42,6 @@ class Application(metaclass=Singleton):
                 cli_args[arg] = val
         log.debug(f"Cmdline args={cli_args}")
 
-    @staticmethod
-    def _expand_pattern(obj, pattern):
-        """
-        Helper to expand fn pattern on objects that implement expansion.
-
-        The helper exists solely to avoid the need to wrap all expand_pattern
-        calls with a try-except block all around the code individually.
-
-        :param obj: instance of a class that implements .expand_pattern()
-        :return: list of items that match @pattern
-        """
-
-        try:
-            return obj.expand_pattern(pattern)
-        except Exception as ex:
-            print(f"Failed to expand '{pattern}': {ex}", file=sys.stderr)
-            sys.exit(1)
-
     def _execute_playbook(self, playbook, hosts, projects, git_revision):
         log.debug(f"Executing playbook '{playbook}': hosts={hosts} "
                   f"projects={projects} gitrev={git_revision}")
@@ -70,9 +52,9 @@ class Application(metaclass=Singleton):
 
         config.validate_vm_settings()
 
-        hosts_expanded = self._expand_pattern(inventory, hosts)
+        hosts_expanded = inventory.expand_pattern(hosts)
         ansible_hosts = ",".join(hosts_expanded)
-        selected_projects = self._expand_pattern(Projects(), projects)
+        selected_projects = Projects().expand_pattern(projects)
 
         if git_revision is not None:
             tokens = git_revision.split("/")
@@ -132,14 +114,14 @@ class Application(metaclass=Singleton):
     def _action_hosts(self, args):
         self._entrypoint_debug(args)
 
-        hosts_expanded = self._expand_pattern(Inventory(), "all")
+        hosts_expanded = Inventory().expand_pattern("all")
         for host in sorted(hosts_expanded):
             print(host)
 
     def _action_projects(self, args):
         self._entrypoint_debug(args)
 
-        projects_expanded = self._expand_pattern(Projects(), "all")
+        projects_expanded = Projects().expand_pattern("all")
         for project in sorted(projects_expanded):
             print(project)
 
@@ -151,7 +133,7 @@ class Application(metaclass=Singleton):
 
         config.validate_vm_settings()
 
-        hosts_expanded = self._expand_pattern(inventory, args.hosts)
+        hosts_expanded = inventory.expand_pattern(args.hosts)
         for host in hosts_expanded:
             facts = inventory.get_facts(host)
 
@@ -269,8 +251,8 @@ class Application(metaclass=Singleton):
     def _action_variables(self, args):
         self._entrypoint_debug(args)
 
-        hosts_expanded = self._expand_pattern(Inventory(), args.hosts)
-        projects_expanded = self._expand_pattern(Projects(), args.projects)
+        hosts_expanded = Inventory().expand_pattern(args.hosts)
+        projects_expanded = Projects().expand_pattern(args.projects)
 
         variables = VariablesFormatter().format(hosts_expanded,
                                                 projects_expanded,
@@ -285,8 +267,8 @@ class Application(metaclass=Singleton):
     def _action_dockerfile(self, args):
         self._entrypoint_debug(args)
 
-        hosts_expanded = self._expand_pattern(Inventory(), args.hosts)
-        projects_expanded = self._expand_pattern(Projects(), args.projects)
+        hosts_expanded = Inventory().expand_pattern(args.hosts)
+        projects_expanded = Projects().expand_pattern(args.projects)
 
         dockerfile = DockerfileFormatter().format(hosts_expanded,
                                                   projects_expanded,
