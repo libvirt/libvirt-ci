@@ -51,10 +51,9 @@ class Config(metaclass=Singleton):
 
         # Load the template config containing the defaults first, this must
         # always succeed.
-
-        default_config = resource_filename(__name__, "etc/config.yml")
-        with open(default_config, "r") as fp:
-            self.values = yaml.safe_load(fp)
+        default_config_path = resource_filename(__name__, "etc/config.yml")
+        with open(default_config_path, "r") as fp:
+            default_config = yaml.safe_load(fp)
 
         user_config_path = None
         for fname in ["config.yml", "config.yaml"]:
@@ -80,7 +79,7 @@ class Config(metaclass=Singleton):
         self._sanitize_values(user_config, default_config)
 
         # Override the default settings with user config
-        self._update(user_config)
+        self.values = self._merge_config(default_config, user_config)
 
     @staticmethod
     def _get_config_file(name):
@@ -100,6 +99,17 @@ class Config(metaclass=Singleton):
                 log.debug(f"Removing unknown key '{k}' from config")
 
                 del _dict[k]
+
+    @staticmethod
+    def _merge_config(default_config, user_config):
+        config = {}
+        for section in default_config.keys():
+            config[section] = default_config[section].copy()
+            if section in user_config:
+                log.debug(f"Applying user values: '{user_config[section]}'")
+
+                config[section].update(user_config[section])
+        return config
 
     def _sanitize_values(self, user_config, default_config):
         # remove keys we don't recognize
@@ -143,10 +153,3 @@ class Config(metaclass=Singleton):
 
         if flavor == "gitlab":
             self._validate_section("gitlab", ["runner_secret"])
-
-    def _update(self, values):
-        for section in self.values.keys():
-            if section in values:
-                log.debug(f"Applying user values: '{values[section]}'")
-
-                self.values[section].update(values[section])
