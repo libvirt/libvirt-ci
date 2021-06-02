@@ -15,7 +15,7 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util
-from lcitool.config import Config
+from lcitool.config import Config, ConfigError
 from lcitool.inventory import Inventory
 from lcitool.projects import Projects
 from lcitool.formatters import DockerfileFormatter, VariablesFormatter
@@ -68,11 +68,7 @@ class Application(metaclass=Singleton):
         config = Config()
         inventory = Inventory()
 
-        try:
-            config.validate_vm_settings()
-        except Exception as ex:
-            print(f"Failed to validate config: {ex}", file=sys.stderr)
-            sys.exit(1)
+        config.validate_vm_settings()
 
         hosts_expanded = self._expand_pattern(inventory, hosts)
         ansible_hosts = ",".join(hosts_expanded)
@@ -153,11 +149,7 @@ class Application(metaclass=Singleton):
         config = Config()
         inventory = Inventory()
 
-        try:
-            config.validate_vm_settings()
-        except Exception as ex:
-            print(f"Failed to validate config: {ex}", file=sys.stderr)
-            sys.exit(1)
+        config.validate_vm_settings()
 
         hosts_expanded = self._expand_pattern(inventory, args.hosts)
         for host in hosts_expanded:
@@ -317,6 +309,7 @@ class Application(metaclass=Singleton):
     def run(self, args):
         try:
             args.func(self, args)
-        except ApplicationError as ex:
+        except (ApplicationError,
+                ConfigError) as ex:
             print(ex, file=sys.stderr)
             sys.exit(1)

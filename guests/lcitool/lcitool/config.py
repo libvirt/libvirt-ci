@@ -16,6 +16,35 @@ from lcitool.singleton import Singleton
 log = logging.getLogger(__name__)
 
 
+class ConfigError(Exception):
+    """
+    Global exception type for the config module.
+
+    Contains a detailed message coming from one of its subclassed exception
+    types. On the application level, this is the exception type you should be
+    catching instead of the subclassed types.
+    """
+
+    def __str__(self):
+        return f"Configuration error: {self.message}"
+
+
+class LoadError(ConfigError):
+    """Thrown when the configuration for lcitool could not be loaded."""
+
+    def __init__(self, message):
+        message_prefix = "Failed to load config: "
+        self.message = message_prefix + message
+
+
+class ValidationError(ConfigError):
+    """Thrown when the configuration for lcitool could not be validated."""
+
+    def __init__(self, message):
+        message_prefix = "Failed to validate config: "
+        self.message = message_prefix + message
+
+
 class Config(metaclass=Singleton):
 
     def __init__(self):
@@ -42,10 +71,10 @@ class Config(metaclass=Singleton):
             with open(user_config_path, "r") as fp:
                 user_config = yaml.safe_load(fp)
         except Exception as e:
-            raise Exception(f"Invalid '{user_config_path.name}': {e}")
+            raise LoadError(f"'{user_config_path.name}': {e}")
 
         if user_config is None:
-            raise Exception(f"Invalid '{user_config_path.name}'")
+            raise ValidationError(f"'{user_config_path.name}' is empty")
 
         # delete user params we don't recognize
         self._remove_all_unknown_keys(user_config)
@@ -86,18 +115,20 @@ class Config(metaclass=Singleton):
         # check that the mandatory keys are present and non-empty
         for key in mandatory_keys:
             if self.values.get(section).get(key) is None:
-                raise Exception(f"Missing or empty value for mandatory key "
-                                f"'{section}.{key}'")
+                raise ValidationError(
+                    f"Missing or empty value for mandatory key "
+                    f"'{section}.{key}'"
+                )
 
         # check that all keys have values assigned and of the right type
         for key in self.values[section].keys():
 
             # mandatory keys were already checked, so this covers optional keys
             if self.values[section][key] is None:
-                raise Exception(f"Missing value for '{section}.{key}'")
+                raise ValidationError(f"Missing value for '{section}.{key}'")
 
             if not isinstance(self.values[section][key], (str, int)):
-                raise Exception(f"Invalid type for key '{section}.{key}'")
+                raise ValidationError(f"Invalid type for key '{section}.{key}'")
 
     # Validate that parameters needed for VM install are present
     def validate_vm_settings(self):
@@ -105,7 +136,9 @@ class Config(metaclass=Singleton):
 
         flavor = self.values["install"].get("flavor")
         if flavor not in ["test", "gitlab"]:
-            raise Exception(f"Invalid value '{flavor}' for 'install.flavor'")
+            raise ValidationError(
+                f"Invalid value '{flavor}' for 'install.flavor'"
+            )
 
         if flavor == "gitlab":
             self._validate_section("gitlab", ["runner_secret"])
