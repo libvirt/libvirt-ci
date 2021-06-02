@@ -16,6 +16,23 @@ from lcitool.singleton import Singleton
 log = logging.getLogger(__name__)
 
 
+class ProjectError(Exception):
+    """
+    Global exception type for the projects module.
+
+    Functions/methods in this module will raise either this exception or its
+    subclass on failure.
+    On the application level, this is the exception type you should be
+    catching.
+    """
+
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return f"Project error: {self.message}"
+
+
 class Projects(metaclass=Singleton):
 
     def __init__(self):
@@ -29,7 +46,7 @@ class Projects(metaclass=Singleton):
                 self._pypi_mappings = mappings["pypi_mappings"]
                 self._cpan_mappings = mappings["cpan_mappings"]
         except Exception as ex:
-            raise Exception(f"Can't load mappings: {ex}")
+            raise ProjectError(f"Can't load mappings: {ex}")
 
         source = Path(resource_filename(__name__, "ansible/vars/projects"))
 
@@ -49,14 +66,14 @@ class Projects(metaclass=Singleton):
                     packages = yaml.safe_load(infile)
                     self._packages[project] = packages["packages"]
             except Exception as ex:
-                raise Exception(f"Can't load packages for '{project}': {ex}")
+                raise ProjectError(f"Can't load packages for '{project}': {ex}")
 
     def expand_pattern(self, pattern):
         try:
             projects_expanded = util.expand_pattern(pattern, self._packages,
                                                     "project")
         except Exception as ex:
-            raise Exception(f"Failed to expand '{pattern}': {ex}")
+            raise ProjectError(f"Failed to expand '{pattern}': {ex}")
 
         # Some projects are internal implementation details and should
         # not be exposed to the user
