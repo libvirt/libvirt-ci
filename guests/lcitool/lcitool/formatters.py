@@ -237,10 +237,6 @@ class Formatter(metaclass=abc.ABCMeta):
                     f"{native_arch}"
                 )
 
-        for project in projects:
-            if project.rfind("+mingw") >= 0:
-                raise Exception("Obsolete syntax, please use --cross-arch")
-
         varmap = self._generator_build_varmap(facts,
                                               mappings,
                                               pypi_mappings,
