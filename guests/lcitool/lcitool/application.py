@@ -24,6 +24,14 @@ from lcitool.singleton import Singleton
 log = logging.getLogger(__name__)
 
 
+class ApplicationError(Exception):
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return f"Application error: {self.message}"
+
+
 class Application(metaclass=Singleton):
 
     @staticmethod
@@ -119,9 +127,9 @@ class Application(metaclass=Singleton):
         try:
             subprocess.check_call(cmd)
         except Exception as ex:
-            print(f"Failed to run {playbook} on '{hosts}': {ex}",
-                  file=sys.stderr)
-            sys.exit(1)
+            raise ApplicationError(
+                f"Failed to run {playbook} on '{hosts}': {ex}"
+            )
         finally:
             tempdir.cleanup()
 
@@ -188,9 +196,9 @@ class Application(metaclass=Singleton):
                     "install.url": facts["install"]["url"],
                 }
             except KeyError:
-                print(f"Host {host} doesn't support installation",
-                      file=sys.stderr)
-                sys.exit(1)
+                raise ApplicationError(
+                    f"Host {host} doesn't support installation"
+                )
 
             # Unattended install scripts are being generated on the fly, based
             # on the templates present in lcitool/configs/
@@ -250,8 +258,7 @@ class Application(metaclass=Singleton):
             try:
                 subprocess.check_call(cmd)
             except Exception as ex:
-                print(f"Failed to install '{host}': {ex}", file=sys.stderr)
-                sys.exit(1)
+                raise ApplicationError(f"Failed to install '{host}': {ex}")
             finally:
                 tempdir.cleanup()
 
@@ -308,4 +315,8 @@ class Application(metaclass=Singleton):
         print(header + dockerfile)
 
     def run(self, args):
-        args.func(self, args)
+        try:
+            args.func(self, args)
+        except ApplicationError as ex:
+            print(ex, file=sys.stderr)
+            sys.exit(1)
