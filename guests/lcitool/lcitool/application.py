@@ -16,7 +16,7 @@ from pkg_resources import resource_filename
 
 from lcitool import util
 from lcitool.config import Config, ConfigError
-from lcitool.inventory import Inventory
+from lcitool.inventory import Inventory, InventoryError
 from lcitool.projects import Projects
 from lcitool.formatters import DockerfileFormatter, VariablesFormatter
 from lcitool.singleton import Singleton
@@ -310,6 +310,7 @@ class Application(metaclass=Singleton):
         try:
             args.func(self, args)
         except (ApplicationError,
-                ConfigError) as ex:
+                ConfigError,
+                InventoryError) as ex:
             print(ex, file=sys.stderr)
             sys.exit(1)
