@@ -35,42 +35,16 @@ class InventoryError(Exception):
 
 class Inventory(metaclass=Singleton):
 
+    @property
+    def facts(self):
+
+        # lazy evaluation
+        if self._facts is None:
+            self._facts = self._load_facts()
+        return self._facts
+
     def __init__(self):
-        ansible_cfg_path = resource_filename(__name__, "ansible/ansible.cfg")
-
-        try:
-            parser = configparser.ConfigParser()
-            parser.read(ansible_cfg_path)
-            inventory_path = parser.get("defaults", "inventory")
-        except Exception as ex:
-            raise InventoryError(
-                f"Can't read inventory location in ansible.cfg: {ex}"
-            )
-
-        posix_path = Path("ansible", inventory_path).as_posix()
-        inventory_path = resource_filename(__name__, posix_path)
-        self._facts = {}
-
-        log.debug(f"Loading inventory '{inventory_path}'")
-        try:
-            # We can only deal with trivial inventories, but that's
-            # all we need right now and we can expand support further
-            # later on if necessary
-            with open(inventory_path, "r") as infile:
-                for line in infile:
-                    host = line.strip()
-                    self._facts[host] = {}
-        except Exception as ex:
-            raise InventoryError(
-                f"Missing or invalid inventory ({inventory_path}): {ex}"
-            )
-
-        for host in self._facts:
-            try:
-                self._facts[host] = self._read_all_facts(host)
-                self._facts[host]["inventory_hostname"] = host
-            except Exception as ex:
-                raise InventoryError(f"Can't load facts for '{host}': {ex}")
+        self._facts = None
 
     @staticmethod
     def _add_facts_from_file(facts, yaml_path):
@@ -103,14 +77,52 @@ class Inventory(metaclass=Singleton):
 
         return facts
 
+    def _load_facts(self):
+        ansible_cfg_path = resource_filename(__name__, "ansible/ansible.cfg")
+
+        try:
+            parser = configparser.ConfigParser()
+            parser.read(ansible_cfg_path)
+            inventory_path = parser.get("defaults", "inventory")
+        except Exception as ex:
+            msg = f"Can't read inventory location in ansible.cfg: {ex}"
+            raise InventoryError(msg) from ex
+
+        posix_path = Path("ansible", inventory_path).as_posix()
+        inventory_path = resource_filename(__name__, posix_path)
+        facts = {}
+
+        log.debug(f"Loading inventory '{inventory_path}'")
+        try:
+            # We can only deal with trivial inventories, but that's
+            # all we need right now and we can expand support further
+            # later on if necessary
+            with open(inventory_path, "r") as infile:
+                for line in infile:
+                    host = line.strip()
+                    facts[host] = {}
+        except Exception as ex:
+            msg = f"Missing or invalid inventory ({inventory_path}): {ex}"
+            raise InventoryError(msg) from ex
+
+        for host in facts:
+            try:
+                facts[host] = self._read_all_facts(host)
+                facts[host]["inventory_hostname"] = host
+            except Exception as ex:
+                msg = f"Can't load facts for '{host}': {ex}"
+                raise InventoryError(msg) from ex
+        return facts
+
     def expand_pattern(self, pattern):
         try:
-            return list(util.expand_pattern(pattern, self._facts, "host"))
+            return list(util.expand_pattern(pattern,
+                                            self.facts, "host"))
         except Exception as ex:
             raise InventoryError(f"Failed to expand '{pattern}': {ex}")
 
     def get_facts(self, host):
         try:
-            return self._facts[host]
+            return self.facts[host]
         except KeyError:
             raise InventoryError(f"Invalid host '{host}'")
