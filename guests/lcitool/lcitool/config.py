@@ -53,6 +53,7 @@ class Config(metaclass=Singleton):
         # lazy evaluation: most lcitool actions actually don't need the config
         if self._values is None:
             self._values = self._load_config()
+            self._validate()
         return self._values
 
     def __init__(self):
@@ -136,27 +137,26 @@ class Config(metaclass=Singleton):
 
         # check that the mandatory keys are present and non-empty
         for key in mandatory_keys:
-            if self.values.get(section).get(key) is None:
+            if self._values.get(section).get(key) is None:
                 raise ValidationError(
                     f"Missing or empty value for mandatory key "
                     f"'{section}.{key}'"
                 )
 
         # check that all keys have values assigned and of the right type
-        for key in self.values[section].keys():
+        for key in self._values[section].keys():
 
             # mandatory keys were already checked, so this covers optional keys
-            if self.values[section][key] is None:
+            if self._values[section][key] is None:
                 raise ValidationError(f"Missing value for '{section}.{key}'")
 
-            if not isinstance(self.values[section][key], (str, int)):
+            if not isinstance(self._values[section][key], (str, int)):
                 raise ValidationError(f"Invalid type for key '{section}.{key}'")
 
-    # Validate that parameters needed for VM install are present
-    def validate_vm_settings(self):
+    def _validate(self):
         self._validate_section("install", ["root_password"])
 
-        flavor = self.values["install"].get("flavor")
+        flavor = self._values["install"].get("flavor")
         if flavor not in ["test", "gitlab"]:
             raise ValidationError(
                 f"Invalid value '{flavor}' for 'install.flavor'"

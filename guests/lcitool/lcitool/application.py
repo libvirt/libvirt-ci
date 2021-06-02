@@ -50,8 +50,6 @@ class Application(metaclass=Singleton):
         config = Config()
         inventory = Inventory()
 
-        config.validate_vm_settings()
-
         hosts_expanded = inventory.expand_pattern(hosts)
         ansible_hosts = ",".join(hosts_expanded)
         selected_projects = Projects().expand_pattern(projects)
@@ -130,8 +128,6 @@ class Application(metaclass=Singleton):
 
         config = Config()
         inventory = Inventory()
-
-        config.validate_vm_settings()
 
         hosts_expanded = inventory.expand_pattern(args.hosts)
         for host in hosts_expanded:
