@@ -36,6 +36,7 @@ class ProjectError(Exception):
 class Projects(metaclass=Singleton):
 
     def __init__(self):
+        self._packages = self._load_projects()
         mappings_path = resource_filename(__name__,
                                           "ansible/vars/mappings.yml")
 
@@ -48,9 +49,11 @@ class Projects(metaclass=Singleton):
         except Exception as ex:
             raise ProjectError(f"Can't load mappings: {ex}")
 
+    @staticmethod
+    def _load_projects():
         source = Path(resource_filename(__name__, "ansible/vars/projects"))
 
-        self._packages = {}
+        packages = {}
         for item in source.iterdir():
             if not item.is_file() or item.suffix != ".yml":
                 continue
@@ -60,10 +63,12 @@ class Projects(metaclass=Singleton):
             log.debug(f"Loading mappings for project '{project}'")
             try:
                 with open(item, "r") as infile:
-                    packages = yaml.safe_load(infile)
-                    self._packages[project] = packages["packages"]
+                    project_info = yaml.safe_load(infile)
+                    packages[project] = project_info["packages"]
             except Exception as ex:
                 raise ProjectError(f"Can't load packages for '{project}': {ex}")
+
+        return packages
 
     def expand_pattern(self, pattern):
         try:
