@@ -574,6 +574,13 @@ mappings:
     rpm: libblkid-devel
     cross-policy-default: foreign
 
+  libbpf:
+    deb: libbpf-dev
+    rpm: libbpf-devel
+    Ubuntu1804:
+    Ubuntu2004:
+    cross-policy-default: foreign
+
   libcacard:
     deb: libcacard-dev
     rpm: libcacard-devel
