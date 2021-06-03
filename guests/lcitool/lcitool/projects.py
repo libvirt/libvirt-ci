@@ -34,9 +34,17 @@ class ProjectError(Exception):
 
 
 class Projects(metaclass=Singleton):
+    """
+    Attributes:
+        :ivar names: list of all project names
+    """
+
+    @property
+    def names(self):
+        return list(self._projects.keys())
 
     def __init__(self):
-        self._packages = self._load_projects()
+        self._projects = self._load_projects()
         mappings_path = resource_filename(__name__,
                                           "ansible/vars/mappings.yml")
 
@@ -53,26 +61,17 @@ class Projects(metaclass=Singleton):
     def _load_projects():
         source = Path(resource_filename(__name__, "ansible/vars/projects"))
 
-        packages = {}
+        projects = {}
         for item in source.iterdir():
             if not item.is_file() or item.suffix != ".yml":
                 continue
 
-            project = item.stem
-
-            log.debug(f"Loading mappings for project '{project}'")
-            try:
-                with open(item, "r") as infile:
-                    project_info = yaml.safe_load(infile)
-                    packages[project] = project_info["packages"]
-            except Exception as ex:
-                raise ProjectError(f"Can't load packages for '{project}': {ex}")
-
-        return packages
+            projects[item.stem] = Project(item.stem)
+        return projects
 
     def expand_pattern(self, pattern):
         try:
-            projects_expanded = util.expand_pattern(pattern, self._packages,
+            projects_expanded = util.expand_pattern(pattern, self.names,
                                                     "project")
         except Exception as ex:
             raise ProjectError(f"Failed to expand '{pattern}': {ex}")
@@ -101,7 +100,7 @@ class Projects(metaclass=Singleton):
         return self._cpan_mappings
 
     def get_packages(self, project):
-        return self._packages[project]
+        return self._projects[project].generic_packages
 
 
 class Project:
@@ -118,4 +117,17 @@ class Project:
 
     def __init__(self, name):
         self.name = name
-        self._generic_packages = None
+        self._generic_packages = self._load_generic_packages()
+
+    def _load_generic_packages(self):
+        log.debug(f"Loading generic package list for project '{self.name}'")
+
+        tmp = Path(resource_filename(__name__, "ansible/vars/projects"))
+        yaml_path = Path(tmp, self.name + ".yml")
+
+        try:
+            with open(yaml_path, "r") as infile:
+                yaml_packages = yaml.safe_load(infile)
+                return yaml_packages["packages"]
+        except Exception as ex:
+            raise ProjectError(f"Can't load packages for '{self.name}': {ex}")
