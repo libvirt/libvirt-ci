@@ -113,11 +113,15 @@ class Project:
 
     @property
     def generic_packages(self):
+
+        # lazy evaluation: load per-project mappings when we actually need them
+        if self._generic_packages is None:
+            self._generic_packages = self._load_generic_packages()
         return self._generic_packages
 
     def __init__(self, name):
         self.name = name
-        self._generic_packages = self._load_generic_packages()
+        self._generic_packages = None
 
     def _load_generic_packages(self):
         log.debug(f"Loading generic package list for project '{self.name}'")
