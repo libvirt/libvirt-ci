@@ -24,9 +24,8 @@ def git_commit():
         return None
 
 
-def expand_pattern(pattern, source, name):
-    collection = list(source.keys())
-    log.debug(f"Expanding {name} pattern '{pattern}' on '{collection}'")
+def expand_pattern(pattern, iterable, name):
+    log.debug(f"Expanding {name} pattern '{pattern}' on '{iterable}'")
 
     if pattern is None:
         raise Exception(f"Missing {name} list")
@@ -41,7 +40,7 @@ def expand_pattern(pattern, source, name):
     for partial_pattern in pattern.split(","):
 
         partial_matches = []
-        for item in source:
+        for item in iterable:
             if fnmatch.fnmatch(item, partial_pattern):
                 partial_matches.append(item)
 
