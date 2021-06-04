@@ -77,7 +77,7 @@ class Config(metaclass=Singleton):
             raise ValidationError(f"'{user_config_path.name}' is empty")
 
         # delete user params we don't recognize
-        self._sanitize_values(user_config)
+        self._sanitize_values(user_config, default_config)
 
         # Override the default settings with user config
         self._update(user_config)
@@ -101,12 +101,13 @@ class Config(metaclass=Singleton):
 
                 del _dict[k]
 
-    def _sanitize_values(self, config):
+    def _sanitize_values(self, user_config, default_config):
         # remove keys we don't recognize
-        self._remove_unknown_keys(config, self.values.keys())
-        for section in self.values.keys():
-            if section in config:
-                self._remove_unknown_keys(config[section], self.values[section].keys())
+        self._remove_unknown_keys(user_config, default_config.keys())
+        for section in default_config.keys():
+            if section in user_config:
+                self._remove_unknown_keys(user_config[section],
+                                          default_config[section].keys())
 
     def _validate_section(self, section, mandatory_keys):
         log.debug(f"Validating section='[{section}]' "
