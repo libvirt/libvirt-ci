@@ -12,6 +12,8 @@ from pkg_resources import resource_filename
 from lcitool import util
 from lcitool.inventory import Inventory
 from lcitool.projects import Projects
+from lcitool.package import CPANPackage, NativePackage, CrossPackage, PyPIPackage
+
 
 log = logging.getLogger(__name__)
 
@@ -70,127 +72,27 @@ class Formatter(metaclass=abc.ABCMeta):
 
     def _generator_build_varmap(self,
                                 facts,
-                                mappings,
-                                pypi_mappings,
-                                cpan_mappings,
                                 selected_projects,
                                 cross_arch):
         projects = Projects()
+        package_names = {}
         pkgs = {}
-        cross_pkgs = {}
-        pypi_pkgs = {}
-        cpan_pkgs = {}
-        base_keys = [
-            "default",
-            facts["packaging"]["format"],
-            facts["os"]["name"],
-            facts["os"]["name"] + facts["os"]["version"],
-        ]
-        cross_keys = []
-        cross_policy_keys = []
-        native_arch = util.get_native_arch()
-        native_keys = base_keys + [native_arch + "-" + k for k in base_keys]
 
-        if cross_arch:
-            cross_keys = ["cross-" + cross_arch + "-" + k for k in base_keys]
-            cross_policy_keys = ["cross-policy-" + k for k in base_keys]
+        # we need the 'base' internal project here, but packages for internal
+        # projects are not resolved via the public API, so it requires special
+        # handling
+        pkgs = projects.internal_projects["base"].get_packages(facts,
+                                                               cross_arch)
 
-            if facts["packaging"]["format"] == "deb":
-                # For Debian-based distros, the name of the foreign package
-                # is usually the same as the native package, but there might
-                # be architecture-specific overrides, so we have to look both
-                # at the neutral keys and at the specific ones
-                arch_keys = [cross_arch + "-" + k for k in base_keys]
-                cross_keys = base_keys + arch_keys + cross_keys
+        # we can now load packages for the rest of the projects
+        pkgs.update(projects.get_packages(selected_projects, facts, cross_arch))
 
-        for project_name in selected_projects:
-            try:
-                project = projects.projects[project_name]
-            except KeyError:
-                raise FormatterError(f"Invalid project '{project_name}'")
+        for cls in [NativePackage, CrossPackage, PyPIPackage, CPANPackage]:
+            # This will extract e.g. 'pypi' from PyPIPackage
+            pkg_type = cls.__name__.replace("Package", "").lower()
 
-            for package in project.generic_packages:
-                cross_policy = "native"
-
-                if (package not in mappings and
-                    package not in pypi_mappings and
-                    package not in cpan_mappings):
-                    raise Exception(f"No mapping defined for {package}")
-
-                if package in mappings:
-                    for key in cross_policy_keys:
-                        if key in mappings[package]:
-                            cross_policy = mappings[package][key]
-
-                    if cross_policy not in ["native", "foreign", "skip"]:
-                        raise Exception(
-                            f"Unexpected cross arch policy {cross_policy} for "
-                            f"{package}"
-                        )
-
-                    if cross_arch and cross_policy == "foreign":
-                        for key in cross_keys:
-                            if key in mappings[package]:
-                                pkgs[package] = mappings[package][key]
-                    else:
-                        for key in native_keys:
-                            if key in mappings[package]:
-                                pkgs[package] = mappings[package][key]
-
-                if package in pypi_mappings:
-                    if "default" in pypi_mappings[package]:
-                        pypi_pkgs[package] = pypi_mappings[package]["default"]
-
-                if package in cpan_mappings:
-                    if "default" in cpan_mappings[package]:
-                        cpan_pkgs[package] = cpan_mappings[package]["default"]
-
-                if package in pkgs and pkgs[package] is None:
-                    del pkgs[package]
-                if package in pypi_pkgs and pypi_pkgs[package] is None:
-                    del pypi_pkgs[package]
-                if package in cpan_pkgs and cpan_pkgs[package] is None:
-                    del cpan_pkgs[package]
-                if package in pypi_pkgs and package in pkgs:
-                    del pypi_pkgs[package]
-                if package in cpan_pkgs and package in pkgs:
-                    del cpan_pkgs[package]
-
-                if (package not in pkgs and
-                    package not in pypi_pkgs and
-                    package not in cpan_pkgs):
-                    continue
-
-                if package in pkgs and cross_policy == "foreign":
-                    cross_pkgs[package] = pkgs[package]
-                if package in pkgs and cross_policy in ["skip", "foreign"]:
-                    del pkgs[package]
-
-        # Some projects are not exposed to the user but we still need to
-        # deal with them, so we do that here. We can use a simplified
-        # version of the code above because the corresponding mappings
-        # are always trivially resolved
-        extra_projects = ["base"]
-        if pypi_pkgs:
-            extra_projects += ["python-pip"]
-        if cpan_pkgs:
-            extra_projects += ["perl-cpan"]
-        for project_name in extra_projects:
-            try:
-                project = projects.internal_projects[project_name]
-            except KeyError:
-                raise FormatterError(f"Invalid project '{project_name}'")
-
-            for package in project.generic_packages:
-                if package not in mappings:
-                    raise Exception(f"No mapping defined for {package}")
-
-                for key in native_keys:
-                    if key in mappings[package]:
-                        pkgs[package] = mappings[package][key]
-
-                if package in pkgs and pkgs[package] is None:
-                    del pkgs[package]
+            names = set([p.name for p in pkgs.values() if isinstance(p, cls)])
+            package_names[pkg_type] = sorted(names) if names else None
 
         varmap = {
             "packaging_command": facts["packaging"]["command"],
@@ -199,6 +101,16 @@ class Formatter(metaclass=abc.ABCMeta):
             "paths_ninja": facts["paths"]["ninja"],
             "paths_python": facts["paths"]["python"],
             "paths_pip3": facts["paths"]["pip3"],
+
+            "cross_arch": None,
+            "cross_abi": None,
+            "cross_arch_deb": None,
+
+            "mappings": [pkg.mapping for pkg in pkgs.values()],
+            "pkgs": package_names["native"],
+            "cross_pkgs": package_names["cross"],
+            "pypi_pkgs": package_names["pypi"],
+            "cpan_pkgs": package_names["cpan"],
         }
 
         if cross_arch:
@@ -208,33 +120,6 @@ class Formatter(metaclass=abc.ABCMeta):
             if facts["packaging"]["format"] == "deb":
                 cross_arch_deb = util.native_arch_to_deb_arch(cross_arch)
                 varmap["cross_arch_deb"] = cross_arch_deb
-
-                # For Debian-based distros, the name of the foreign package
-                # is obtained by appending the foreign architecture (in
-                # Debian format) to the name of the native package.
-                #
-                # The exception to this is cross-compilers, where we
-                # have to install the package for the native architecture
-                # in order to be able to build for the foreign architecture
-                for key in cross_pkgs.keys():
-                    if (cross_pkgs[key].startswith("gcc-") or
-                        cross_pkgs[key].startswith("g++-")):
-                        continue
-                    cross_pkgs[key] = cross_pkgs[key] + ":" + cross_arch_deb
-
-        varmap["mappings"] = sorted(set(list(pkgs.keys()) +
-                                        list(cross_pkgs.keys()) +
-                                        list(pypi_pkgs.keys()) +
-                                        list(cpan_pkgs.keys())))
-
-        if pkgs:
-            varmap["pkgs"] = sorted(set(pkgs.values()))
-        if cross_pkgs:
-            varmap["cross_pkgs"] = sorted(set(cross_pkgs.values()))
-        if pypi_pkgs:
-            varmap["pypi_pkgs"] = sorted(set(pypi_pkgs.values()))
-        if cpan_pkgs:
-            varmap["cpan_pkgs"] = sorted(set(cpan_pkgs.values()))
 
         log.debug(f"Generated varmap: {varmap}")
         return varmap
@@ -246,10 +131,6 @@ class Formatter(metaclass=abc.ABCMeta):
                   f"cross_arch='{cross_arch}'")
 
         name = self.__class__.__name__.lower()
-        projects = Projects()
-        mappings = projects.mappings
-        pypi_mappings = projects.pypi_mappings
-        cpan_mappings = projects.cpan_mappings
         native_arch = util.get_native_arch()
 
         try:
@@ -280,9 +161,6 @@ class Formatter(metaclass=abc.ABCMeta):
                 )
 
         varmap = self._generator_build_varmap(facts,
-                                              mappings,
-                                              pypi_mappings,
-                                              cpan_mappings,
                                               selected_projects,
                                               cross_arch)
         return facts, cross_arch, varmap
@@ -297,11 +175,11 @@ class DockerfileFormatter(Formatter):
 
         varmap["pkgs"] = pkg_align[1:] + pkg_align.join(varmap["pkgs"])
 
-        if "cross_pkgs" in varmap:
+        if varmap["cross_pkgs"] is not None:
             varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(varmap["cross_pkgs"])
-        if "pypi_pkgs" in varmap:
+        if varmap["pypi_pkgs"] is not None:
             varmap["pypi_pkgs"] = pypi_pkg_align[1:] + pypi_pkg_align.join(varmap["pypi_pkgs"])
-        if "cpan_pkgs" in varmap:
+        if varmap["cpan_pkgs"] is not None:
             varmap["cpan_pkgs"] = cpan_pkg_align[1:] + cpan_pkg_align.join(varmap["cpan_pkgs"])
 
         base = facts["containers"]["base"]
@@ -476,10 +354,10 @@ class DockerfileFormatter(Formatter):
             cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands))
             strings.append(cross_script.format(**varmap))
 
-        if "pypi_pkgs" in varmap:
+        if varmap["pypi_pkgs"] is not None:
             strings.append("\nRUN pip3 install {pypi_pkgs}".format(**varmap))
 
-        if "cpan_pkgs" in varmap:
+        if varmap["cpan_pkgs"] is not None:
             strings.append("\nRUN cpanm --notest {cpan_pkgs}".format(**varmap))
 
         common_vars = ["ENV LANG \"en_US.UTF-8\""]
@@ -548,6 +426,9 @@ class VariablesFormatter(Formatter):
         strings = []
 
         for key in varmap:
+            if varmap[key] is None:
+                continue
+
             if key == "mappings":
                 # For internal use only
                 continue
