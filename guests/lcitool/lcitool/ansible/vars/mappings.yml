@@ -1339,6 +1339,12 @@ mappings:
     MacOS:
     OpenSUSE: python3-Sphinx
 
+  python3-sphinx-rtd-theme:
+    default: python3-sphinx-rtd-theme
+    pkg: py37-sphinx_rtd_theme
+    MacOS:
+    OpenSUSE: python3-sphinx_rtd_theme
+
   python3-virtualenv:
     deb: python3-venv
     pkg: py37-virtualenv
@@ -1672,6 +1678,9 @@ pypi_mappings:
 
   python3-sphinx:
     default: sphinx
+
+  python3-sphinx-rtd-theme:
+    default: sphinx-rtd-theme
 
   python3-virtualenv:
     default: virtualenv
