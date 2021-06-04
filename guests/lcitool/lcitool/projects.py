@@ -11,6 +11,7 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util
+from lcitool.package import PackageFactory, PyPIPackage, CPANPackage
 from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
@@ -122,6 +123,18 @@ class Projects(metaclass=Singleton):
         except Exception as ex:
             raise ProjectError(f"Failed to expand '{pattern}': {ex}")
 
+    def get_packages(self, projects, facts, cross_arch=None):
+        packages = {}
+
+        for proj in projects:
+            try:
+                obj = self.projects[proj]
+            except KeyError:
+                obj = self.internal_projects[proj]
+            packages.update(obj.get_packages(facts, cross_arch))
+
+        return packages
+
 
 class Project:
     """
@@ -134,7 +147,7 @@ class Project:
     @property
     def generic_packages(self):
 
-        # lazy evaluation: load per-project mappings when we actually need them
+        # lazy evaluation: load per-project generic package list when we actually need it
         if self._generic_packages is None:
             self._generic_packages = self._load_generic_packages()
         return self._generic_packages
@@ -143,6 +156,7 @@ class Project:
         self.name = name
         self.path = path
         self._generic_packages = None
+        self._target_packages = {}
 
     def _load_generic_packages(self):
         log.debug(f"Loading generic package list for project '{self.name}'")
@@ -153,3 +167,46 @@ class Project:
                 return yaml_packages["packages"]
         except Exception as ex:
             raise ProjectError(f"Can't load packages for '{self.name}': {ex}")
+
+    def _eval_generic_packages(self, facts, cross_arch=None):
+        pkgs = {}
+        factory = PackageFactory(Projects()._mappings, facts)
+        needs_pypi = False
+        needs_cpan = False
+
+        for mapping in self.generic_packages:
+            pkg = factory.get_package(mapping, cross_arch)
+            if pkg is None:
+                continue
+            pkgs[pkg.mapping] = pkg
+
+            if isinstance(pkg, PyPIPackage):
+                needs_pypi = True
+            elif isinstance(pkg, CPANPackage):
+                needs_cpan = True
+
+        # The get_packages _eval_generic_packages cycle is deliberate and
+        # harmless since we'll only ever hit it with the following internal
+        # projects
+        if needs_pypi:
+            proj = Projects().internal_projects["python-pip"]
+            pkgs.update(proj.get_packages(facts, cross_arch))
+        if needs_cpan:
+            proj = Projects().internal_projects["perl-cpan"]
+            pkgs.update(proj.get_packages(facts, cross_arch))
+
+        return pkgs
+
+    def get_packages(self, facts, cross_arch=None):
+        osname = facts["os"]["name"]
+        osversion = facts["os"]["version"]
+        target_name = f"{osname.lower()}-{osversion.lower()}"
+        if cross_arch is None:
+            target_name = f"{target_name}-x86_64"
+        else:
+            target_name = f"{target_name}-{cross_arch}"
+
+        # lazy evaluation + caching of package names for a given distro
+        if self._target_packages.get(target_name) is None:
+            self._target_packages[target_name] = self._eval_generic_packages(facts, cross_arch)
+        return self._target_packages[target_name]
