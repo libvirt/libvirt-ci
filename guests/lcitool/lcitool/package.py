@@ -177,8 +177,19 @@ class NativePackage(Package):
 
         super().__init__(pkg_mapping)
 
+        self.name = self._eval(mappings, base_keys)
+        if self.name is None:
+            raise PackageEval(f"No mapping for '{pkg_mapping}'")
+
     def _eval(self, mappings, base_keys):
-        pass
+        native_arch = util.get_native_arch()
+        native_keys = [native_arch + "-" + k for k in base_keys] + base_keys
+
+        for k in native_keys:
+            try:
+                return super()._eval(mappings, key=k)
+            except MappingKeyNotFound:
+                continue
 
 
 class PyPIPackage(Package):
