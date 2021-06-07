@@ -107,7 +107,13 @@ class Package(metaclass=abc.ABCMeta):
         :raises: MappingKeyNotFound
         """
 
-        pass
+        log.debug(f"Eval of mapping='{self.mapping}', key='{key}'")
+
+        mapping = mappings.get(self.mapping, {})
+        try:
+            return mapping[key]
+        except KeyError:
+            raise MappingKeyNotFound
 
 
 class CrossPackage(Package):
