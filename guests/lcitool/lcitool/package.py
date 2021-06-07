@@ -200,8 +200,15 @@ class PyPIPackage(Package):
 
         super().__init__(pkg_mapping)
 
+        self.name = self._eval(mappings)
+        if self.name is None:
+            raise PackageEval(f"No mapping for '{pkg_mapping}'")
+
     def _eval(self, mappings):
-        pass
+        try:
+            return super()._eval(mappings)
+        except MappingKeyNotFound:
+            return None
 
 
 class CPANPackage(Package):
