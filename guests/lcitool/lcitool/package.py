@@ -77,6 +77,10 @@ class Package(metaclass=abc.ABCMeta):
         - PyPIPackage
         - CPANPackage
 
+    Do not instantiate any of the specific package subclasses, instead, use an
+    instance of the PackageFactory class which does that for you transparently.
+    Then use this public interface to interact with the instance itself.
+
     Attributes:
         :ivar name: the actual package name
         :ivar mapping: the generic package name that will resolve to @name
@@ -227,3 +231,110 @@ class CPANPackage(Package):
             return super()._eval(mappings)
         except MappingKeyNotFound:
             return None
+
+
+class PackageFactory:
+    """
+    Factory producing Package instances.
+
+    Creates Package class instances based on the generic package mapping name
+    which will be resolved to the actual package name the moment a Package
+    instance is created by this factory.
+
+    """
+
+    def __init__(self, mappings, facts):
+        """
+        Initialize package factory model.
+
+        :param mappings: dictionary of ALL existing package mappings, i.e.
+                         including Python and CPAN ones
+        :param facts: dictionary of target OS facts
+        """
+
+        def _generate_base_keys(facts):
+            base_keys = [
+                # keys are ordered by priority
+                facts["os"]["name"] + facts["os"]["version"],
+                facts["os"]["name"],
+                facts["packaging"]["format"],
+                "default"
+            ]
+            return base_keys
+
+        self._mappings = mappings["mappings"]
+        self._pypi_mappings = mappings["pypi_mappings"]
+        self._cpan_mappings = mappings["cpan_mappings"]
+        self._facts = facts
+        self._base_keys = _generate_base_keys(facts)
+
+    def _get_cross_policy(self, pkg_mapping):
+        for k in ["cross-policy-" + k for k in self._base_keys]:
+            if k in self._mappings[pkg_mapping]:
+                cross_policy = self._mappings[pkg_mapping][k]
+                if cross_policy not in ["native", "foreign", "skip"]:
+                    raise Exception(
+                        f"Unexpected cross arch policy {cross_policy} for "
+                        f"{pkg_mapping}"
+                    )
+                return cross_policy
+        return None
+
+    def _get_native_package(self, pkg_mapping):
+        return NativePackage(self._mappings, pkg_mapping, self._base_keys)
+
+    def _get_pypi_package(self, pkg_mapping):
+        return PyPIPackage(self._pypi_mappings, pkg_mapping)
+
+    def _get_cpan_package(self, pkg_mapping):
+        return CPANPackage(self._cpan_mappings, pkg_mapping)
+
+    def _get_noncross_package(self, pkg_mapping):
+        package_resolvers = [self._get_native_package,
+                             self._get_pypi_package,
+                             self._get_cpan_package]
+
+        for resolver in package_resolvers:
+            try:
+                return resolver(pkg_mapping)
+            except PackageEval:
+                continue
+
+        # This package doesn't exist on the given platform
+        return None
+
+    def _get_cross_package(self, pkg_mapping, cross_arch):
+
+        # query the cross policy for the mapping to see whether we need
+        # a cross- or non-cross version of a package
+        cross_policy = self._get_cross_policy(pkg_mapping)
+        if cross_policy == "skip":
+            return None
+
+        elif cross_policy == "native" or cross_policy is None:
+            return self._get_noncross_package(pkg_mapping)
+
+        try:
+            return CrossPackage(self._mappings, pkg_mapping,
+                                self._facts["packaging"]["format"],
+                                self._base_keys, cross_arch)
+        except PackageEval:
+            pass
+
+        # This package doesn't exist on the given platform
+        return None
+
+    def get_package(self, pkg_mapping, cross_arch=None):
+        """
+        Resolves the generic mapping name and returns a Package instance.
+
+        :param pkg_mapping: generic package mapping name
+        :param cross_arch: cross architecture string (if needed)
+        :return: instance of Package subclass or None if package mapping could
+                 not be resolved
+        """
+
+        if cross_arch is None:
+            return self._get_noncross_package(pkg_mapping)
+        else:
+            return self._get_cross_package(pkg_mapping, cross_arch)
