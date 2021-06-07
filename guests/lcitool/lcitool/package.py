@@ -37,6 +37,8 @@ Exported classes:
 import abc
 import logging
 
+from lcitool import util
+
 log = logging.getLogger(__name__)
 
 
@@ -127,8 +129,43 @@ class CrossPackage(Package):
 
         super().__init__(pkg_mapping)
 
+        self.name = self._eval(mappings, pkg_format, base_keys, cross_arch)
+        if self.name is None:
+            raise PackageEval(f"No mapping for '{pkg_mapping}'")
+
     def _eval(self, mappings, pkg_format, base_keys, cross_arch):
-        pass
+        cross_keys = ["cross-" + cross_arch + "-" + k for k in base_keys]
+
+        if pkg_format == "deb":
+            # For Debian-based distros, the name of the foreign package
+            # is usually the same as the native package, but there might
+            # be architecture-specific overrides, so we have to look both
+            # at the neutral keys and at the specific ones
+            arch_keys = [cross_arch + "-" + k for k in base_keys]
+            cross_keys.extend(arch_keys + base_keys)
+
+        pkg_name = None
+        for k in cross_keys:
+            try:
+                pkg_name = super()._eval(mappings, key=k)
+                if pkg_name is None:
+                    return None
+
+                if pkg_format == "deb":
+                    # For Debian-based distros, the name of the foreign package
+                    # is obtained by appending the foreign architecture (in
+                    # Debian format) to the name of the native package.
+                    #
+                    # The exception to this is cross-compilers, where we have
+                    # to install the package for the native architecture in
+                    # order to be able to build for the foreign architecture
+                    cross_arch_deb = util.native_arch_to_deb_arch(cross_arch)
+                    if not (pkg_name.startswith("gcc-") or
+                            pkg_name.startswith("g++-")):
+                        pkg_name = pkg_name + ":" + cross_arch_deb
+                return pkg_name
+            except MappingKeyNotFound:
+                continue
 
 
 class NativePackage(Package):
