@@ -62,28 +62,12 @@ class Projects(metaclass=Singleton):
         # lazy load mappings
         if self._mappings is None:
             self._mappings = self._load_mappings()
-        return self._mappings["mappings"]
-
-    @property
-    def pypi_mappings(self):
-
-        # lazy load mappings
-        if self._mappings is None:
-            self._mappings = self._load_mappings()
-        return self._mappings["pypi_mappings"]
-
-    @property
-    def cpan_mappings(self):
-
-        # lazy load mappings
-        if self._mappings is None:
-            self._mappings = self._load_mappings()
-        return self._mappings["cpan_mappings"]
+        return self._mappings
 
     def __init__(self):
         self._projects = None
         self._internal_projects = None
-        self._mappings = self._load_mappings()
+        self._mappings = None
 
     @staticmethod
     def _load_projects_from_path(path):
@@ -170,7 +154,7 @@ class Project:
 
     def _eval_generic_packages(self, facts, cross_arch=None):
         pkgs = {}
-        factory = PackageFactory(Projects()._mappings, facts)
+        factory = PackageFactory(Projects().mappings, facts)
         needs_pypi = False
         needs_cpan = False
 
