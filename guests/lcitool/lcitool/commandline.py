@@ -19,6 +19,12 @@ class CommandLine:
             help="list of hosts to act on (accepts globs)",
         )
 
+        targetopt = argparse.ArgumentParser(add_help=False)
+        targetopt.add_argument(
+            "target",
+            help="target to operate on",
+        )
+
         projectsopt = argparse.ArgumentParser(add_help=False)
         projectsopt.add_argument(
             "projects",
