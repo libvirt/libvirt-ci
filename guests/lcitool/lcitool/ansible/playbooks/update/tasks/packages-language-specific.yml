@@ -1,6 +1,0 @@
----
-- name: '{{ project }}: Install {{ pm_name }} packages (state={{ state }})'
-  command: '{{ pm_command }} {{ item }}'
-  args:
-    warn: no
-  loop: '{{ pm_packages | default([]) }}'

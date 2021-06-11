@@ -9,19 +9,14 @@
     name: '{{ unwanted_packages }}'
     state: absent
 
-- include: 'tasks/packages-language-specific.yml'
-  vars:
-    pm_command: '{{ pm.command }}'
-    pm_packages: '{{ pm.packages }}'
-    pm_name: '{{ pm.name }}'
-  when: pm_packages != ''
-  loop:
-    - name: PyPi
-      command: '{{ paths.pip3 }} install'
-      packages: '{{ pypi_packages | default(None) }}'
+- name: 'Install PyPI packages'
+  command: '{{ paths.pip3 }} install {{ item }}'
+  args:
+    warn: no
+  loop: '{{ pypi_packages }}'
 
-    - name: CPAN
-      command: 'cpanm --notest'
-      packages: '{{ cpan_packages | default(None) }}'
-  loop_control:
-    loop_var: pm
+- name: 'Install CPAN packages'
+  command: 'cpanm --notest {{ item }}'
+  args:
+    warn: no
+  loop: '{{ cpan_packages }}'
