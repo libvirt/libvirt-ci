@@ -72,7 +72,7 @@ class Application(metaclass=Singleton):
         inventory = Inventory()
 
         hosts_expanded = inventory.expand_hosts(hosts)
-        selected_projects = Projects().expand_names(projects)
+        projects_expanded = Projects().expand_names(projects)
 
         if git_revision is not None:
             tokens = git_revision.split("/")
@@ -94,7 +94,7 @@ class Application(metaclass=Singleton):
         extra_vars = config.values
         extra_vars.update({
             "base": base,
-            "selected_projects": selected_projects,
+            "selected_projects": projects_expanded,
             "git_remote": git_remote,
             "git_branch": git_branch,
         })
