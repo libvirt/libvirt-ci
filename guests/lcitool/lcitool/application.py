@@ -61,18 +61,20 @@ class Application(metaclass=Singleton):
                 cli_args[arg] = val
         log.debug(f"Cmdline args={cli_args}")
 
-    def _execute_playbook(self, playbook, hosts, projects, git_revision):
+    def _execute_playbook(self, playbook, hosts_pattern, projects_pattern,
+                          git_revision):
         from lcitool.ansible_wrapper import AnsibleWrapper
 
-        log.debug(f"Executing playbook '{playbook}': hosts={hosts} "
-                  f"projects={projects} gitrev={git_revision}")
+        log.debug(f"Executing playbook '{playbook}': "
+                  f"hosts_pattern={hosts_pattern} "
+                  f"projects_pattern={projects_pattern} gitrev={git_revision}")
 
         base = resource_filename(__name__, "ansible")
         config = Config()
         inventory = Inventory()
 
-        hosts_expanded = inventory.expand_hosts(hosts)
-        projects_expanded = Projects().expand_names(projects)
+        hosts_expanded = inventory.expand_hosts(hosts_pattern)
+        projects_expanded = Projects().expand_names(projects_pattern)
 
         if git_revision is not None:
             tokens = git_revision.split("/")
