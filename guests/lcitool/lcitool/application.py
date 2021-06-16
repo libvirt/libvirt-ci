@@ -54,7 +54,7 @@ class Application(metaclass=Singleton):
         config = Config()
         inventory = Inventory()
 
-        hosts_expanded = inventory.expand_pattern(hosts)
+        hosts_expanded = inventory.expand_hosts(hosts)
         ansible_hosts = ",".join(hosts_expanded)
         selected_projects = Projects().expand_pattern(projects)
 
@@ -112,7 +112,7 @@ class Application(metaclass=Singleton):
     def _action_hosts(self, args):
         self._entrypoint_debug(args)
 
-        hosts_expanded = Inventory().expand_pattern("all")
+        hosts_expanded = Inventory().expand_hosts("all")
         for host in sorted(hosts_expanded):
             print(host)
 
@@ -129,7 +129,7 @@ class Application(metaclass=Singleton):
         config = Config()
         inventory = Inventory()
 
-        hosts_expanded = inventory.expand_pattern(args.hosts)
+        hosts_expanded = inventory.expand_hosts(args.hosts)
         for host in hosts_expanded:
             facts = inventory.get_facts(host)
 
@@ -253,7 +253,7 @@ class Application(metaclass=Singleton):
     def _action_variables(self, args):
         self._entrypoint_debug(args)
 
-        hosts_expanded = Inventory().expand_pattern(args.hosts)
+        hosts_expanded = Inventory().expand_hosts(args.hosts)
         projects_expanded = Projects().expand_pattern(args.projects)
 
         variables = VariablesFormatter().format(hosts_expanded,
@@ -271,7 +271,7 @@ class Application(metaclass=Singleton):
     def _action_dockerfile(self, args):
         self._entrypoint_debug(args)
 
-        hosts_expanded = Inventory().expand_pattern(args.hosts)
+        hosts_expanded = Inventory().expand_hosts(args.hosts)
         projects_expanded = Projects().expand_pattern(args.projects)
 
         dockerfile = DockerfileFormatter().format(hosts_expanded,

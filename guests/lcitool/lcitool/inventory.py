@@ -114,12 +114,14 @@ class Inventory(metaclass=Singleton):
                 raise InventoryError(msg) from ex
         return facts
 
-    def expand_pattern(self, pattern):
+    def _expand_pattern(self, pattern, iterable, name):
         try:
-            return list(util.expand_pattern(pattern,
-                                            self.facts, "host"))
+            return list(util.expand_pattern(pattern, iterable, name))
         except Exception as ex:
             raise InventoryError(f"Failed to expand '{pattern}': {ex}")
+
+    def expand_hosts(self, pattern):
+        return self._expand_pattern(pattern, self.facts, "hosts")
 
     def has_host(self, host):
         return host in self.facts
