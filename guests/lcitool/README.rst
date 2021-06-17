@@ -126,17 +126,8 @@ at once by providing a list on the command line: for example, running
 
    $ lcitool update '*fedora*' '*osinfo*'
 
-will update all Fedora guests and get them ready to build libosinfo and
-related projects, while running
-
-::
-
-   $ lcitool update all 'libvirt,libvirt+mingw*'
-
-will update all hosts and prepare them to build libvirt both as a native
-library and, where supported, as a Windows library using MinGW.
-
-Once hosts have been prepared following the steps above, you can use
+will update all Fedora guests and get them ready to build libosinfo and related
+projects. Once hosts have been prepared following the steps above, you can use
 ``lcitool`` to perform builds as well: for example, running
 
 ::
