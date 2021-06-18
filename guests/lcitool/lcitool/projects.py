@@ -52,17 +52,14 @@ class Projects(metaclass=Singleton):
 
         self._packages = {}
         for item in source.iterdir():
-            yaml_path = Path(source, item)
-            if not yaml_path.is_file():
-                continue
-            if yaml_path.suffix != ".yml":
+            if not item.is_file() or item.suffix != ".yml":
                 continue
 
             project = item.stem
 
             log.debug(f"Loading mappings for project '{project}'")
             try:
-                with open(yaml_path, "r") as infile:
+                with open(item, "r") as infile:
                     packages = yaml.safe_load(infile)
                     self._packages[project] = packages["packages"]
             except Exception as ex:
