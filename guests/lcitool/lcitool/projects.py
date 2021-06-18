@@ -43,6 +43,18 @@ class Projects(metaclass=Singleton):
     def names(self):
         return list(self._projects.keys())
 
+    @property
+    def mappings(self):
+        return self._mappings
+
+    @property
+    def pypi_mappings(self):
+        return self._pypi_mappings
+
+    @property
+    def cpan_mappings(self):
+        return self._cpan_mappings
+
     def __init__(self):
         self._projects = self._load_projects()
         mappings_path = resource_filename(__name__,
@@ -89,15 +101,6 @@ class Projects(metaclass=Singleton):
         }
 
         return list(projects_expanded - internal_projects)
-
-    def get_mappings(self):
-        return self._mappings
-
-    def get_pypi_mappings(self):
-        return self._pypi_mappings
-
-    def get_cpan_mappings(self):
-        return self._cpan_mappings
 
     def get_packages(self, project):
         return self._projects[project].generic_packages

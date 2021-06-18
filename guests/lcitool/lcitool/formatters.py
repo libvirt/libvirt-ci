@@ -235,9 +235,9 @@ class Formatter(metaclass=abc.ABCMeta):
 
         name = self.__class__.__name__.lower()
         projects = Projects()
-        mappings = projects.get_mappings()
-        pypi_mappings = projects.get_pypi_mappings()
-        cpan_mappings = projects.get_cpan_mappings()
+        mappings = projects.mappings
+        pypi_mappings = projects.pypi_mappings
+        cpan_mappings = projects.cpan_mappings
         native_arch = util.get_native_arch()
 
         if len(hosts) > 1:
