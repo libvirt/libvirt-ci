@@ -45,29 +45,33 @@ class Projects(metaclass=Singleton):
 
     @property
     def mappings(self):
+
+        # lazy load mappings
+        if self._mappings is None:
+            self._load_mappings()
         return self._mappings
 
     @property
     def pypi_mappings(self):
+
+        # lazy load mappings
+        if self._pypi_mappings is None:
+            self._load_mappings()
         return self._pypi_mappings
 
     @property
     def cpan_mappings(self):
+
+        # lazy load mappings
+        if self._cpan_mappings is None:
+            self._load_mappings()
         return self._cpan_mappings
 
     def __init__(self):
         self._projects = self._load_projects()
-        mappings_path = resource_filename(__name__,
-                                          "ansible/vars/mappings.yml")
-
-        try:
-            with open(mappings_path, "r") as infile:
-                mappings = yaml.safe_load(infile)
-                self._mappings = mappings["mappings"]
-                self._pypi_mappings = mappings["pypi_mappings"]
-                self._cpan_mappings = mappings["cpan_mappings"]
-        except Exception as ex:
-            raise ProjectError(f"Can't load mappings: {ex}")
+        self._mappings = None
+        self._pypi_mappings = None
+        self._cpan_mappings = None
 
     @staticmethod
     def _load_projects():
@@ -80,6 +84,19 @@ class Projects(metaclass=Singleton):
 
             projects[item.stem] = Project(item.stem)
         return projects
+
+    def _load_mappings(self):
+        mappings_path = resource_filename(__name__,
+                                          "ansible/vars/mappings.yml")
+
+        try:
+            with open(mappings_path, "r") as infile:
+                mappings = yaml.safe_load(infile)
+                self._mappings = mappings["mappings"]
+                self._pypi_mappings = mappings["pypi_mappings"]
+                self._cpan_mappings = mappings["cpan_mappings"]
+        except Exception as ex:
+            raise ProjectError(f"Can't load mappings: {ex}")
 
     def expand_pattern(self, pattern):
         try:
