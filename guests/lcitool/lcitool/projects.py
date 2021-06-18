@@ -52,8 +52,11 @@ class Projects(metaclass=Singleton):
                 raise Exception(f"Can't load packages for '{project}': {ex}")
 
     def expand_pattern(self, pattern):
-        projects_expanded = util.expand_pattern(pattern, self._packages,
-                                                "project")
+        try:
+            projects_expanded = util.expand_pattern(pattern, self._packages,
+                                                    "project")
+        except Exception as ex:
+            raise Exception(f"Failed to expand '{pattern}': {ex}")
 
         # Some projects are internal implementation details and should
         # not be exposed to the user
