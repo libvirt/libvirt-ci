@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+import copy
 import logging
 import os
 import yaml
@@ -114,9 +115,8 @@ class Config(metaclass=Singleton):
 
     @staticmethod
     def _merge_config(default_config, user_config):
-        config = {}
+        config = copy.deepcopy(default_config)
         for section in default_config.keys():
-            config[section] = default_config[section].copy()
             if section in user_config:
                 log.debug(f"Applying user values: '{user_config[section]}'")
 
