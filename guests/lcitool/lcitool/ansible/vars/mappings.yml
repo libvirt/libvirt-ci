@@ -1340,10 +1340,9 @@ mappings:
     OpenSUSE: python3-Sphinx
 
   python3-sphinx-rtd-theme:
-    default: python3-sphinx-rtd-theme
+    deb: python3-sphinx-rtd-theme
+    rpm: python3-sphinx_rtd_theme
     pkg: py37-sphinx_rtd_theme
-    MacOS:
-    OpenSUSE: python3-sphinx_rtd_theme
 
   python3-virtualenv:
     deb: python3-venv
