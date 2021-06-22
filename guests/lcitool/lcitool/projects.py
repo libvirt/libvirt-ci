@@ -60,31 +60,29 @@ class Projects(metaclass=Singleton):
 
         # lazy load mappings
         if self._mappings is None:
-            self._load_mappings()
-        return self._mappings
+            self._mappings = self._load_mappings()
+        return self._mappings["mappings"]
 
     @property
     def pypi_mappings(self):
 
         # lazy load mappings
-        if self._pypi_mappings is None:
-            self._load_mappings()
-        return self._pypi_mappings
+        if self._mappings is None:
+            self._mappings = self._load_mappings()
+        return self._mappings["pypi_mappings"]
 
     @property
     def cpan_mappings(self):
 
         # lazy load mappings
-        if self._cpan_mappings is None:
-            self._load_mappings()
-        return self._cpan_mappings
+        if self._mappings is None:
+            self._mappings = self._load_mappings()
+        return self._mappings["cpan_mappings"]
 
     def __init__(self):
         self._projects = None
         self._internal_projects = None
-        self._mappings = None
-        self._pypi_mappings = None
-        self._cpan_mappings = None
+        self._mappings = self._load_mappings()
 
     @staticmethod
     def _load_projects_from_path(path):
@@ -114,10 +112,7 @@ class Projects(metaclass=Singleton):
 
         try:
             with open(mappings_path, "r") as infile:
-                mappings = yaml.safe_load(infile)
-                self._mappings = mappings["mappings"]
-                self._pypi_mappings = mappings["pypi_mappings"]
-                self._cpan_mappings = mappings["cpan_mappings"]
+                return yaml.safe_load(infile)
         except Exception as ex:
             raise ProjectError(f"Can't load mappings: {ex}")
 
