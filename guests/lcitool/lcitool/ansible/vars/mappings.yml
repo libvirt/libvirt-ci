@@ -633,6 +633,12 @@ mappings:
     rpm: libfdt-devel
     cross-policy-default: foreign
 
+  libffi:
+    default: libffi
+    deb: libffi-dev
+    rpm: libffi-devel
+    cross-policy-default: foreign
+
   libgcrypt:
     default: libgcrypt
     deb: libgcrypt20-dev
