@@ -1379,7 +1379,7 @@ mappings:
 
   python3-opencv:
     default: python3-opencv
-    pkg: py37-opencv
+    pkg: opencv
     CentOS:
     MacOS:
 
