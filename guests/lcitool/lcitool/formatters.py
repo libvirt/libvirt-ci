@@ -248,7 +248,7 @@ class Formatter(metaclass=abc.ABCMeta):
 
         # We can only generate Dockerfiles for Linux
         if (name == "dockerfileformatter" and
-            facts["packaging"]["format"] not in ["deb", "rpm"]):
+            facts["packaging"]["format"] not in ["apk", "deb", "rpm"]):
             raise FormatterError(f"Host {host} doesn't support this generator")
         if cross_arch:
             osname = facts["os"]["name"]
@@ -299,7 +299,20 @@ class DockerfileFormatter(Formatter):
         commands = []
 
         varmap["nosync"] = ""
-        if facts["packaging"]["format"] == "deb":
+        if facts["packaging"]["format"] == "apk":
+            # TODO: 'libeatmydata' package is present in 'testing' repo
+            # for Alpine Edge. Once it graduates to 'main' repo we
+            # should use it here
+            #varmap["nosync"] = "eatmydata "
+            # "{packaging_command} add libeatmydata",
+            commands.extend([
+                "{packaging_command} update",
+                "{packaging_command} upgrade"])
+
+            commands.extend([
+                "{nosync}{packaging_command} add {pkgs}",
+            ])
+        elif facts["packaging"]["format"] == "deb":
             varmap["nosync"] = "eatmydata "
             commands.extend([
                 "export DEBIAN_FRONTEND=noninteractive",
