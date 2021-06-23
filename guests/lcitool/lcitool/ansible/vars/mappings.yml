@@ -17,6 +17,7 @@
 #
 # Valid package formats are:
 #
+#   - apk  (Alpine)
 #   - brew (MacOS)
 #   - deb  (Debian, Ubuntu)
 #   - pkg  (FreeBSD)
@@ -24,6 +25,7 @@
 #
 # Valid OS names are:
 #
+#   - Alpine
 #   - CentOS
 #   - Debian
 #   - Fedora
@@ -100,6 +102,7 @@ mappings:
 
   alsa:
     default: alsa-lib
+    apk: alsa-lib-dev
     deb: libasound2-dev
     rpm: alsa-lib-devel
     MacOS:
@@ -107,9 +110,11 @@ mappings:
 
   ant:
     default: ant
+    apk: apache-ant
     pkg: apache-ant
 
   ant-junit:
+    apk: apache-ant
     deb: ant-optional
     pkg: apache-ant
     rpm: ant-junit
@@ -137,12 +142,14 @@ mappings:
     default: automake
 
   autopoint:
+    apk: gettext
     deb: autopoint
     pkg: gettext-tools
     rpm: gettext-devel
     MacOS: gettext
 
   avahi:
+    apk: avahi-dev
     deb: libavahi-client-dev
     pkg: avahi
     rpm: avahi-devel
@@ -164,6 +171,7 @@ mappings:
     cross-policy-default: foreign
 
   column:
+    apk: util-linux
     deb: bsdextrautils
     rpm: util-linux
     Debian10: bsdmainutils
@@ -174,6 +182,7 @@ mappings:
     default: bzip2
 
   bzip2-libs:
+    apk: bzip2-dev
     deb: libbz2-dev
     pkg: bzip2
     rpm: bzip2-devel
@@ -189,6 +198,7 @@ mappings:
     MacOS:
 
   capstone:
+    apk: capstone-dev
     deb: libcapstone-dev
     rpm: capstone-devel
     pkg: capstone4
@@ -224,11 +234,13 @@ mappings:
     MacOS:
 
   cloud-init-growpart:
+    apk: cloud-utils-growpart
     deb: cloud-guest-utils
     rpm: cloud-utils-growpart
 
   cpp:
     default: cpp
+    apk: gcc
     FreeBSD:
     MacOS:
 
@@ -243,12 +255,14 @@ mappings:
     deb: exuberant-ctags
 
   cyrus-sasl:
+    apk: cyrus-sasl-dev
     deb: libsasl2-dev
     pkg: cyrus-sasl
     rpm: cyrus-sasl-devel
     cross-policy-default: foreign
 
   daxctl:
+    apk: ndctl-dev
     deb: libdaxctl-dev
     rpm: daxctl-devel
     OpenSUSE: libndctl-devel
@@ -260,11 +274,13 @@ mappings:
     OpenSUSE: dbus-1
 
   device-mapper:
+    apk: lvm2-dev
     deb: libdevmapper-dev
     rpm: device-mapper-devel
     cross-policy-default: foreign
 
   device-mapper-multipath:
+    apk: multipath-tools
     deb: multipath-tools
     rpm: device-mapper-multipath-devel
     OpenSUSE:
@@ -289,11 +305,13 @@ mappings:
 
   dwarves:
     default: dwarves
+    apk:
     FreeBSD:
     MacOS:
 
   ebtables:
     default: ebtables
+    apk: iptables
     FreeBSD:
     MacOS:
 
@@ -308,16 +326,19 @@ mappings:
 
   flake8:
     default: flake8
+    apk: py3-flake8
     pkg: py37-flake8
     rpm: python3-flake8
 
   fuse:
+    apk: fuse-dev
     deb: libfuse-dev
     pkg: fusefs-libs
     rpm: fuse-devel
     cross-policy-default: foreign
 
   fuse3:
+    apk: fuse3-dev
     deb: libfuse3-dev
     pkg: fusefs-libs3
     rpm: fuse3-devel
@@ -331,6 +352,7 @@ mappings:
     Ubuntu1804:
 
   g++:
+    apk: g++
     deb: g++
     rpm: gcc-c++
     cross-aarch64-deb: g++-aarch64-linux-gnu
@@ -374,6 +396,7 @@ mappings:
     default: gdb
 
   gdk-pixbuf:
+    apk: gdk-pixbuf-dev
     rpm: gdk-pixbuf2-devel
     deb: libgdk-pixbuf2.0-dev
     pkg: gdk-pixbuf2
@@ -385,6 +408,7 @@ mappings:
 
   genisoimage:
     default: genisoimage
+    apk: cdrkit
     pkg: cdrkit-genisoimage
     MacOS:
     OpenSUSE: mkisofs
@@ -401,6 +425,7 @@ mappings:
 
   glib2:
     default: glib
+    apk: glib-dev
     deb: libglib2.0-dev
     rpm: glib2-devel
     cross-mingw32-rpm: mingw32-glib2
@@ -428,6 +453,7 @@ mappings:
 
   gnutls:
     default: gnutls
+    apk: gnutls-dev
     deb: libgnutls28-dev
     rpm: gnutls-devel
     OpenSUSE: libgnutls-devel
@@ -437,17 +463,20 @@ mappings:
 
   gnutls-utils:
     default: gnutls
+    apk: gnutls-utils
     deb: gnutls-bin
     rpm: gnutls-utils
     OpenSUSE: gnutls
 
   go:
     default: golang
+    apk: go
     FreeBSD: go
     OpenSUSE: go
 
   gobject-introspection:
     default: gobject-introspection
+    apk: gobject-introspection-dev
     deb: libgirepository1.0-dev
     rpm: gobject-introspection-devel
     cross-policy-default: foreign
@@ -467,6 +496,7 @@ mappings:
     cross-policy-default: foreign
 
   gtk3:
+    apk: gtk+3.0-dev
     deb: libgtk-3-dev
     pkg: gtk3
     rpm: gtk3-devel
@@ -486,11 +516,13 @@ mappings:
 
   gtk-vnc:
     default: gtk-vnc
+    apk: gtk-vnc-dev
     deb: libgtk-vnc-2.0-dev
     rpm: gtk-vnc2-devel
     OpenSUSE: gtk-vnc-devel
 
   hexdump:
+    apk: hexdump
     deb: bsdextrautils
     rpm: util-linux
     Debian10: bsdmainutils
@@ -499,6 +531,7 @@ mappings:
 
   hostname:
     default: hostname
+    apk: net-tools
     FreeBSD:
     MacOS:
 
@@ -509,6 +542,7 @@ mappings:
     default: intltool
 
   ip:
+    apk: iproute2
     deb: iproute2
     rpm: iproute
     OpenSUSE: iproute2
@@ -519,12 +553,14 @@ mappings:
     MacOS:
 
   iscsiadm:
+    apk: open-iscsi
     deb: open-iscsi
     rpm: iscsi-initiator-utils
     OpenSUSE: open-iscsi
 
   isoinfo:
     default: genisoimage
+    apk: cdrkit
     FreeBSD: cdrkit
     MacOS: cdrtools
     OpenSUSE: mkisofs
@@ -533,6 +569,7 @@ mappings:
     default: itstool
 
   java:
+    apk: openjdk11-jdk
     deb: openjdk-11-jdk-headless
     pkg: openjdk11
     rpm: java-11-openjdk-headless
@@ -540,6 +577,7 @@ mappings:
 
   jna:
     default: jna
+    apk: java-jna
     deb: libjna-java
     MacOS:
 
@@ -548,6 +586,7 @@ mappings:
 
   json-glib:
     default: json-glib
+    apk: json-glib-dev
     deb: libjson-glib-dev
     rpm: json-glib-devel
     cross-mingw32-rpm: mingw32-json-glib
@@ -561,17 +600,20 @@ mappings:
     CentOSStream8:
 
   libacl:
+    apk: acl-dev
     deb: libacl1-dev
     rpm: libacl-devel
     cross-policy-default: foreign
 
   libaio:
+    apk: libaio-dev
     deb: libaio-dev
     rpm: libaio-devel
     cross-policy-default: foreign
 
   libarchive:
     default: libarchive
+    apk: libarchive-dev
     deb: libarchive-dev
     rpm: libarchive-devel
     cross-mingw32-rpm: mingw32-libarchive
@@ -589,22 +631,26 @@ mappings:
     cross-policy-default: foreign
 
   libattr:
+    apk: attr-dev
     deb: libattr1-dev
     rpm: libattr-devel
     cross-policy-default: foreign
 
   libaudit:
+    apk: audit-dev
     deb: libaudit-dev
     rpm: audit-libs-devel
     OpenSUSE: audit-devel
     cross-policy-default: foreign
 
   libblkid:
+    apk: util-linux-dev
     deb: libblkid-dev
     rpm: libblkid-devel
     cross-policy-default: foreign
 
   libbpf:
+    apk: libbpf-dev
     deb: libbpf-dev
     rpm: libbpf-devel
     Ubuntu1804:
@@ -617,6 +663,7 @@ mappings:
     cross-policy-default: foreign
 
   libcap-ng:
+    apk: libcap-ng-dev
     deb: libcap-ng-dev
     rpm: libcap-ng-devel
     cross-policy-default: foreign
@@ -626,12 +673,14 @@ mappings:
 
   libconfig:
     default: libconfig
+    apk: libconfig-dev
     deb: libconfig-dev
     rpm: libconfig-devel
     cross-policy-default: foreign
 
   libcurl:
     default: curl
+    apk: curl-dev
     deb: libcurl4-gnutls-dev
     rpm: libcurl-devel
     cross-mingw32-rpm: mingw32-curl
@@ -640,6 +689,7 @@ mappings:
 
   libdbus:
     default: dbus
+    apk: dbus-dev
     deb: libdbus-1-dev
     rpm: dbus-devel
     OpenSUSE: dbus-1-devel
@@ -648,35 +698,41 @@ mappings:
     cross-policy-default: foreign
 
   libdrm:
+    apk: libdrm-dev
     deb: libdrm-dev
     rpm: libdrm-devel
     cross-policy-default: foreign
 
   libepoxy:
     default: libepoxy
+    apk: libepoxy-dev
     deb: libepoxy-dev
     rpm: libepoxy-devel
     cross-policy-default: foreign
 
   libev:
     default: libev
+    apk: libev-dev
     deb: libev-dev
     rpm: libev-devel
     cross-policy-default: foreign
 
   libfdt:
+    apk: dtc-dev
     deb: libfdt-dev
     rpm: libfdt-devel
     cross-policy-default: foreign
 
   libffi:
     default: libffi
+    apk: libffi-dev
     deb: libffi-dev
     rpm: libffi-devel
     cross-policy-default: foreign
 
   libgcrypt:
     default: libgcrypt
+    apk: libgcrypt-dev
     deb: libgcrypt20-dev
     rpm: libgcrypt-devel
     cross-mingw32-rpm: mingw32-libgcrypt
@@ -710,6 +766,7 @@ mappings:
     cross-policy-default: foreign
 
   libjpeg:
+    apk: libjpeg-turbo-dev
     deb: libjpeg62-turbo-dev
     pkg: libjpeg-turbo
     rpm: libjpeg-devel
@@ -721,6 +778,7 @@ mappings:
     cross-policy-default: foreign
 
   liblzma:
+    apk: xz-dev
     deb: liblzma-dev
     rpm: xz-devel
     cross-policy-default: foreign
@@ -733,38 +791,45 @@ mappings:
 
   libnfs:
     default: libnfs
+    apk: libnfs-dev
     deb: libnfs-dev
     rpm: libnfs-devel
     cross-policy-default: foreign
 
   libnl3:
+    apk: libnl3-dev
     deb: libnl-3-dev
     rpm: libnl3-devel
     cross-policy-default: foreign
 
   libnlroute3:
+    apk: libnl3-dev
     deb: libnl-route-3-dev
     rpm: libnl3-devel
     cross-policy-default: foreign
 
   libnuma:
+    apk: numactl-dev
     deb: libnuma-dev
     rpm: numactl-devel
     OpenSUSE: libnuma-devel
     cross-policy-default: foreign
 
   libparted:
+    apk: parted-dev
     deb: libparted-dev
     rpm: parted-devel
     cross-policy-default: foreign
 
   libpcap:
     default: libpcap
+    apk: libpcap-dev
     deb: libpcap0.8-dev
     rpm: libpcap-devel
     cross-policy-default: foreign
 
   libpciaccess:
+    apk: libpciaccess-dev
     deb: libpciaccess-dev
     pkg: libpciaccess
     rpm: libpciaccess-devel
@@ -776,6 +841,7 @@ mappings:
     cross-policy-default: foreign
 
   libpng:
+    apk: libpng-dev
     deb: libpng-dev
     rpm: libpng-devel
     pkg: png
@@ -786,6 +852,7 @@ mappings:
     cross-policy-default: foreign
 
   librbd:
+    apk: ceph-dev
     deb: librbd-dev
     rpm: librbd-devel
     cross-policy-default: foreign
@@ -796,6 +863,7 @@ mappings:
     cross-policy-default: foreign
 
   librest:
+    apk: rest-dev
     deb: librest-dev
     rpm: rest-devel
     pkg: rest
@@ -808,16 +876,19 @@ mappings:
     cross-policy-default: foreign
 
   libseccomp:
+    apk: libseccomp-dev
     deb: libseccomp-dev
     rpm: libseccomp-devel
     cross-policy-default: foreign
 
   libselinux:
+    apk: libselinux-dev
     deb: libselinux1-dev
     rpm: libselinux-devel
     cross-policy-default: foreign
 
   libslirp:
+    apk: libslirp-dev
     deb: libslirp-dev
     rpm: libslirp-devel
     Debian10:
@@ -828,6 +899,7 @@ mappings:
 
   libsoup:
     default: libsoup
+    apk: libsoup-dev
     deb: libsoup2.4-dev
     rpm: libsoup-devel
     cross-mingw32-rpm: mingw32-libsoup
@@ -836,6 +908,7 @@ mappings:
 
   libssh:
     default: libssh
+    apk: libssh-dev
     rpm: libssh-devel
     Debian: libssh-gcrypt-dev
     Ubuntu: libssh-dev
@@ -843,6 +916,7 @@ mappings:
 
   libssh2:
     default: libssh2
+    apk: libssh2-dev
     deb: libssh2-1-dev
     rpm: libssh2-devel
     cross-mingw32-rpm: mingw32-libssh2
@@ -851,6 +925,7 @@ mappings:
 
   libtasn1:
     default: libtasn1
+    apk: libtasn1-dev
     deb: libtasn1-6-dev
     rpm: libtasn1-devel
     cross-mingw32-rpm: mingw32-libtasn1
@@ -858,6 +933,7 @@ mappings:
     cross-policy-default: foreign
 
   libtirpc:
+    apk: libtirpc-dev
     deb: libtirpc-dev
     rpm: libtirpc-devel
     cross-policy-default: foreign
@@ -880,17 +956,20 @@ mappings:
     cross-policy-default: foreign
 
   libudev:
+    apk: eudev-dev
     deb: libudev-dev
     rpm: libudev-devel
     cross-policy-default: foreign
 
   liburing:
+    apk: liburing-dev
     rpm: liburing-devel
     CentOS:
     OpenSUSE:
     cross-policy-default: foreign
 
   libusbx:
+    apk: libusb-dev
     deb: libusb-1.0-0-dev
     rpm: libusbx-devel
     MacOS: libusb
@@ -898,24 +977,28 @@ mappings:
     cross-policy-default: foreign
 
   libuuid:
+    apk: util-linux-dev
     deb: uuid-dev
     pkg: e2fsprogs-libuuid
     rpm: libuuid-devel
     cross-policy-default: foreign
 
   libvdeplug:
+    apk: vde2-dev
     deb: libvdeplug-dev
     MacOS: vde
     cross-policy-default: foreign
 
   libvirt:
     default: libvirt
+    apk: libvirt-dev
     deb: libvirt-dev
     rpm: libvirt-devel
     cross-policy-default: foreign
 
   libvirt-glib:
     default: libvirt-glib
+    apk: libvirt-glib-dev
     deb: libvirt-glib-1.0-dev
     rpm: libvirt-gobject-devel
     OpenSUSE: libvirt-glib-devel
@@ -923,6 +1006,7 @@ mappings:
 
   libxml2:
     default: libxml2
+    apk: libxml2-dev
     deb: libxml2-dev
     rpm: libxml2-devel
     cross-mingw32-rpm: mingw32-libxml2
@@ -931,6 +1015,7 @@ mappings:
 
   libxslt:
     default: libxslt
+    apk: libxslt-dev
     deb: libxslt1-dev
     rpm: libxslt-devel
     cross-mingw32-rpm: mingw32-libxslt
@@ -939,12 +1024,14 @@ mappings:
 
   libzstd:
     default: zstd
+    apk: zstd-dev
     deb: libzstd-dev
     rpm: libzstd-devel
     cross-policy-default: foreign
 
   llvm:
     default: llvm
+    apk: llvm11
 
   locales:
     deb: locales
@@ -955,6 +1042,7 @@ mappings:
     default: lsof
 
   lttng-ust:
+    apk: lttng-ust-dev
     deb: liblttng-ust-dev
     rpm: lttng-ust-devel
     pkg: lttng-ust
@@ -967,6 +1055,7 @@ mappings:
     MacOS:
 
   lzo:
+    apk: lzo-dev
     deb: liblzo2-dev
     pkg: lzo2
     rpm: lzo-devel
@@ -978,6 +1067,7 @@ mappings:
     FreeBSD: gmake
 
   mesa-libgbm:
+    apk: mesa-dev
     deb: libgbm-dev
     rpm: mesa-libgbm-devel
     OpenSUSE: Mesa-devel
@@ -1008,11 +1098,13 @@ mappings:
     MacOS:
 
   nbd-client:
+    apk: nbd-client
     deb: nbd-client
     rpm: nbd
     CentOS:
 
   nbd-server:
+    apk: nbd
     deb: nbd-server
     pkg: nbd-server
     rpm: nbd
@@ -1020,23 +1112,27 @@ mappings:
 
   nbdkit:
     default: nbdkit
+    apk:
     MacOS:
     OpenSUSELeap152:
     Ubuntu1804:
 
   ncursesw:
     default: ncurses
+    apk: ncurses-dev
     deb: libncursesw5-dev
     rpm: ncurses-devel
     cross-policy-default: foreign
 
   netcat:
+    apk: nmap-ncat
     deb: ncat
     rpm: nmap-ncat
     OpenSUSE: ncat
     Ubuntu1804: netcat-openbsd
 
   netcf:
+    apk: netcf-dev
     deb: libnetcf-dev
     rpm: netcf-devel
     OpenSUSE:
@@ -1044,6 +1140,7 @@ mappings:
 
   net-snmp:
     default: net-snmp
+    apk: net-snmp-dev
     deb: libsnmp-dev
     rpm: net-snmp-devel
 
@@ -1054,6 +1151,7 @@ mappings:
 
   nettle:
     default: nettle
+    apk: nettle-dev
     deb: nettle-dev
     rpm: nettle-devel
     cross-mingw32-rpm: mingw32-nettle
@@ -1063,6 +1161,7 @@ mappings:
 
   ninja:
     default: ninja-build
+    apk: samurai
     FreeBSD: ninja
     MacOS: ninja
     OpenSUSE: ninja
@@ -1073,6 +1172,7 @@ mappings:
 
   numad:
     default: numad
+    apk:
     FreeBSD:
     MacOS:
 
@@ -1081,9 +1181,11 @@ mappings:
 
   ocaml-findlib:
     default: ocaml-findlib
+    apk: ocaml-findlib-dev
 
   ocamldoc:
     default: ocaml
+    apk: ocaml-ocamldoc
     deb: ocaml-nox
     rpm: ocamldoc
     OpenSUSE: ocaml-ocamldoc
@@ -1098,6 +1200,7 @@ mappings:
     MacOS:
 
   pam:
+    apk: linux-pam-dev
     deb: libpam0g-dev
     rpm: pam-devel
     cross-policy-default: foreign
@@ -1109,11 +1212,13 @@ mappings:
 
   pci-ids:
     default: hwdata
+    apk: hwids-pci
     FreeBSD: pciids
     MacOS:
 
   perl:
     default: perl-base
+    apk: perl
     FreeBSD: perl5
     MacOS: perl
     CentOS8: perl
@@ -1121,6 +1226,7 @@ mappings:
     Fedora32: perl
 
   perl-App-cpanminus:
+    apk: perl-app-cpanminus
     deb: cpanminus
     pkg: p5-App-cpanminus
     rpm: perl-App-cpanminus
@@ -1142,6 +1248,7 @@ mappings:
     Fedora: perl-Config-Record
 
   perl-Digest:
+    apk: perl
     deb: libdigest-perl
     pkg: p5-Digest
     rpm: perl-Digest
@@ -1152,6 +1259,7 @@ mappings:
     rpm: perl-Digest-MD5
 
   perl-File-Slurp:
+    apk: perl-file-slurp
     deb: libfile-slurp-perl
     pkg: p5-File-Slurp
     rpm: perl-File-Slurp
@@ -1163,11 +1271,13 @@ mappings:
     OpenSUSE:
 
   perl-IO-String:
+    apk: perl-io-string
     deb: libio-string-perl
     pkg: p5-IO-String
     rpm: perl-IO-String
 
   perl-Module-Build:
+    apk: perl-module-build
     deb: libmodule-build-perl
     pkg: p5-Module-Build
     rpm: perl-Module-Build
@@ -1178,6 +1288,7 @@ mappings:
     rpm: perl-NetAddr-IP
 
   perl-Net-SNMP:
+    apk: perl-net-snmp
     deb: libnet-snmp-perl
     pkg: p5-Net-SNMP
     rpm: perl-Net-SNMP
@@ -1194,11 +1305,13 @@ mappings:
     rpm: perl-Pod-Simple
 
   perl-Sub-Uplevel:
+    apk: perl-sub-uplevel
     deb: libsub-uplevel-perl
     pkg: p5-Sub-Uplevel
     rpm: perl-Sub-Uplevel
 
   perl-Sys-Hostname:
+    apk: perl
     deb: perl-base
     rpm: perl-Sys-Hostname
     FreeBSD: perl5
@@ -1222,11 +1335,13 @@ mappings:
     Fedora: perl-TAP-Harness-Archive
 
   perl-Test-Exception:
+    apk: perl-test-exception
     deb: libtest-exception-perl
     pkg: p5-Test-Exception
     rpm: perl-Test-Exception
 
   perl-Test-Harness:
+    apk: perl-test-harness
     deb: libtest-harness-perl
     pkg: p5-Test-Harness
     rpm: perl-Test-Harness
@@ -1237,31 +1352,37 @@ mappings:
     Fedora: perl-Test-LWP-UserAgent
 
   perl-Test-Pod:
+    apk: perl-test-pod
     deb: libtest-pod-perl
     pkg: p5-Test-Pod
     rpm: perl-Test-Pod
 
   perl-Test-Pod-Coverage:
+    apk: perl-test-pod-coverage
     deb: libtest-pod-coverage-perl
     pkg: p5-Test-Pod-Coverage
     rpm: perl-Test-Pod-Coverage
 
   perl-Time-HiRes:
+    apk: perl-time-hires
     deb: libtime-hr-perl
     pkg: p5-Time-HiRes
     rpm: perl-Time-HiRes
 
   perl-XML-Twig:
+    apk: perl-xml-twig
     deb: libxml-twig-perl
     pkg: p5-XML-Twig
     rpm: perl-XML-Twig
 
   perl-XML-Writer:
+    apk: perl-xml-writer
     deb: libxml-writer-perl
     pkg: p5-XML-Writer
     rpm: perl-XML-Writer
 
   perl-XML-XPath:
+    apk: perl-xml-xpath
     deb: libxml-xpath-perl
     pkg: p5-XML-XPath
     rpm: perl-XML-XPath
@@ -1276,11 +1397,13 @@ mappings:
     OpenSUSE:
 
   php:
+    apk: php7-dev
     deb: php-dev
     rpm: php-devel
     pkg: php74
 
   php-imagick:
+    apk: php7-pecl-imagick
     deb: php-imagick
     rpm: php-pecl-imagick
     pkg: php74-pecl-imagick
@@ -1290,6 +1413,7 @@ mappings:
 
   pixman:
     default: pixman
+    apk: pixman-dev
     deb: libpixman-1-dev
     rpm: pixman-devel
     OpenSUSE: libpixman-1-0-devel
@@ -1317,6 +1441,7 @@ mappings:
 
   publican:
     default: publican
+    apk:
     FreeBSD:
     MacOS:
     OpenSUSE:
@@ -1324,6 +1449,7 @@ mappings:
     CentOSStream8:
 
   pulseaudio:
+    apk: pulseaudio-dev
     deb: libpulse-dev
     rpm: pulseaudio-libs-devel
     OpenSUSE: libpulse-devel
@@ -1334,6 +1460,7 @@ mappings:
     OpenSUSE: python3-base
 
   python3-PyYAML:
+    apk: py3-yaml
     deb: python3-yaml
     pkg: py37-yaml
     rpm: python3-PyYAML
@@ -1341,85 +1468,101 @@ mappings:
 
   python3-dbus:
     default: python3-dbus
+    apk: py3-dbus
     FreeBSD: py37-dbus
     MacOS:
     OpenSUSE: python3-dbus-python
 
   python3-devel:
     default: python3
+    apk: python3-dev
     deb: python3-dev
     rpm: python3-devel
 
   python3-docutils:
     default: python3-docutils
+    apk: py3-docutils
     FreeBSD: py37-docutils
     MacOS: docutils
 
   python3-gobject:
+    apk: py3-gobject3
     deb: python3-gi
     pkg: py37-gobject3
     rpm: python3-gobject
 
   python3-libxml2:
     default: python3-libxml2
+    apk: py3-libxml2
     FreeBSD: py37-libxml2
     MacOS:
     OpenSUSE: python3-libxml2-python
 
   python3-lxml:
     default: python3-lxml
+    apk: py3-lxml
     FreeBSD: py37-lxml
     MacOS:
 
   python3-numpy:
     default: python3-numpy
+    apk: py3-numpy
     pkg: py37-numpy
     MacOS:
 
   python3-opencv:
     default: python3-opencv
+    apk:
     pkg: opencv
     CentOS:
     MacOS:
 
   python3-pillow:
     default: python3-pillow
+    apk: py3-pillow
     pkg: py37-pillow
     OpenSUSE: python3-Pillow
     MacOS:
 
   python3-pip:
     default: python3-pip
+    apk: py3-pip
     FreeBSD: py37-pip
     MacOS: python3
 
   python3-pytest:
     default: python3-pytest
+    apk: py3-pytest
     FreeBSD: py37-pytest
     MacOS:
 
   python3-requests:
     default: python3-requests
+    apk: py3-requests
     FreeBSD: py37-requests
     MacOS:
 
   python3-setuptools:
     default: python3-setuptools
+    apk: py3-setuptools
     FreeBSD: py37-setuptools
     MacOS: python3
 
   python3-sphinx:
     default: python3-sphinx
+    apk: py3-sphinx
     pkg: py37-sphinx
     MacOS:
     OpenSUSE: python3-Sphinx
 
   python3-sphinx-rtd-theme:
+    apk: py3-sphinx_rtd_theme
     deb: python3-sphinx-rtd-theme
     rpm: python3-sphinx_rtd_theme
     pkg: py37-sphinx_rtd_theme
 
   python3-virtualenv:
+    apk: py3-virtualenv
     deb: python3-venv
     pkg: py37-virtualenv
     rpm: python3-virtualenv
@@ -1427,6 +1570,7 @@ mappings:
 
   python3-wheel:
     default: python3-wheel
+    apk: py3-wheel
     FreeBSD: py37-wheel
     MacOS: python3
 
@@ -1437,6 +1581,7 @@ mappings:
 
   qemu-img:
     default: qemu-utils
+    apk: qemu-img
     rpm: qemu-img
     FreeBSD: qemu
     MacOS: qemu
@@ -1444,6 +1589,7 @@ mappings:
 
   qemu-nbd:
     default: qemu-utils
+    apk: qemu-img
     rpm: qemu-img
     FreeBSD: qemu
     MacOS: qemu
@@ -1455,12 +1601,14 @@ mappings:
 
   rake:
     default: rubygem-rake
+    apk: ruby-rake
     deb: rake
     MacOS: ruby
     OpenSUSE: ruby
 
   readline:
     default: readline
+    apk: readline-dev
     deb: libreadline-dev
     rpm: readline-devel
     cross-mingw32-rpm: mingw32-readline
@@ -1481,6 +1629,7 @@ mappings:
 
   ruby:
     default: ruby
+    apk: ruby-dev
     deb: ruby-dev
     rpm: ruby-devel
 
@@ -1498,10 +1647,12 @@ mappings:
 
   scrub:
     default: scrub
+    apk:
     FreeBSD: diskscrub
 
   sdl2:
     default: sdl2
+    apk: sdl2-dev
     deb: libsdl2-dev
     rpm: SDL2-devel
     OpenSUSE: libSDL2-devel
@@ -1511,6 +1662,7 @@ mappings:
 
   sdl2-image:
     default: sdl2_image
+    apk: sdl2_image-dev
     deb: libsdl2-image-dev
     rpm: SDL2_image-devel
     CentOS:
@@ -1529,11 +1681,13 @@ mappings:
     Ubuntu1804: sheepdog
 
   showmount:
+    apk: nfs-utils
     deb: nfs-common
     rpm: nfs-utils
 
   snappy:
     default: snappy
+    apk: snappy-dev
     deb: libsnappy-dev
     rpm: snappy-devel
     cross-policy-default: foreign
@@ -1545,6 +1699,7 @@ mappings:
 
   spice-gtk3:
     default: spice-gtk
+    apk: spice-gtk-dev
     deb: libspice-client-gtk-3.0-dev
     rpm: spice-gtk3-devel
     OpenSUSE: spice-gtk-devel
@@ -1558,6 +1713,7 @@ mappings:
     OpenSUSE: spice-protocol-devel
 
   spice-server:
+    apk: spice-dev
     deb: libspice-server-dev
     pkg: libspice-server
     rpm: spice-server-devel
@@ -1567,6 +1723,7 @@ mappings:
     cross-policy-default: foreign
 
   ssh-client:
+    apk: openssh-client
     deb: openssh-client
     rpm: openssh-clients
     OpenSUSE: openssh
@@ -1591,17 +1748,20 @@ mappings:
     MacOS:
 
   tc:
+    apk: iproute2
     deb: iproute2
     rpm: iproute-tc
     OpenSUSE: iproute2
 
   tesseract:
     default: tesseract
+    apk: tesseract-ocr
     deb: tesseract-ocr
     CentOS:
     OpenSUSE: tesseract-ocr
 
   tesseract-eng:
+    apk: tesseract-ocr
     deb: tesseract-ocr-eng
     rpm: tesseract-langpack-eng
     CentOS:
@@ -1617,11 +1777,13 @@ mappings:
 
   usb-ids:
     default: hwdata
+    apk: hwids-usb
     FreeBSD: usbids
     MacOS:
 
   usbredir:
     default: usbredir
+    apk: usbredir-dev
     deb: libusbredirhost-dev
     rpm: usbredir-devel
     cross-policy-default: foreign
@@ -1640,6 +1802,7 @@ mappings:
     Fedora: vim-minimal
 
   virglrenderer:
+    apk: virglrenderer-dev
     deb: libvirglrenderer-dev
     pkg: virglrenderer
     rpm: virglrenderer-devel
@@ -1647,6 +1810,7 @@ mappings:
 
   vte:
     default: vte3
+    apk: vte3-dev
     deb: libvte-2.91-dev
     rpm: vte291-devel
     OpenSUSE: vte-devel
@@ -1656,15 +1820,18 @@ mappings:
     default: wget
 
   which:
+    apk: which
     deb: debianutils
     rpm: which
 
   wireshark:
+    apk: wireshark-dev
     deb: wireshark-dev
     rpm: wireshark-devel
     cross-policy-default: skip
 
   xen:
+    apk: xen-dev
     rpm: xen-devel
     CentOS8:
     CentOSStream8:
@@ -1674,12 +1841,14 @@ mappings:
     cross-policy-default: foreign
 
   xfsprogs:
+    apk: xfsprogs-dev
     deb: xfslibs-dev
     rpm: xfsprogs-devel
     cross-policy-default: foreign
 
   xmllint:
     default: libxml2
+    apk: libxml2-utils
     deb: libxml2-utils
 
   xsltproc:
@@ -1693,6 +1862,7 @@ mappings:
 
   yajl:
     default: yajl
+    apk: yajl-dev
     deb: libyajl-dev
     rpm: yajl-devel
     OpenSUSE: libyajl-devel
@@ -1707,12 +1877,14 @@ mappings:
 
   zlib:
     default: zlib
+    apk: zlib-dev
     deb: zlib1g-dev
     rpm: zlib-devel
     FreeBSD:
     cross-policy-default: foreign
 
   zlib-static:
+    apk: zlib-static
     deb: zlib1g-dev
     rpm: zlib-static
     OpenSUSE: zlib-devel-static
