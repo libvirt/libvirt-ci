@@ -1,6 +1,7 @@
 ---
 packages:
  - alsa
+ - bash
  - bc
  - brlapi
  - bzip2
