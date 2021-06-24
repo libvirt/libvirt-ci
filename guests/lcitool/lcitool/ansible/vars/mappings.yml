@@ -892,7 +892,6 @@ mappings:
 
   libusbx:
     deb: libusb-1.0-0-dev
-    pkg: linux_libusb
     rpm: libusbx-devel
     MacOS: libusb
     OpenSUSE: libusb-1_0-devel
