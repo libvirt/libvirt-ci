@@ -1733,8 +1733,11 @@ mappings:
 
 pypi_mappings:
 
-  gcovr:
-    default: gcovr
+  # Dependancies of this in turn need various native
+  # devel header packages & toolchains that may not
+  # exist.
+  #gcovr:
+  #  default: gcovr
 
   meson:
     default: meson==0.56.0
