@@ -316,6 +316,14 @@ class DockerfileFormatter(Formatter):
                 cross_commands.extend([
                     "export DEBIAN_FRONTEND=noninteractive",
                     "dpkg --add-architecture {cross_arch_deb}",
+                ])
+                if cross_arch == "riscv64":
+                    cross_commands.extend([
+                        "{nosync}{packaging_command} install debian-ports-archive-keyring",
+                        "{nosync}echo 'deb http://ftp.ports.debian.org/debian-ports/ sid main' > /etc/apt/sources.list.d/ports.list",
+                        "{nosync}echo 'deb http://ftp.ports.debian.org/debian-ports/ unreleased main' >> /etc/apt/sources.list.d/ports.list",
+                    ])
+                cross_commands.extend([
                     "{nosync}{packaging_command} update",
                     "{nosync}{packaging_command} dist-upgrade -y",
                     "{nosync}{packaging_command} install --no-install-recommends -y dpkg-dev",

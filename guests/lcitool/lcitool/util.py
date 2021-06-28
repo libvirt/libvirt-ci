@@ -99,6 +99,7 @@ def native_arch_to_abi(native_arch):
         "mipsel": "mipsel-linux-gnu",
         "mips64el": "mips64el-linux-gnuabi64",
         "ppc64le": "powerpc64le-linux-gnu",
+        "riscv64": "riscv64-linux-gnu",
         "s390x": "s390x-linux-gnu",
         "x86_64": "x86_64-linux-gnu",
     }
@@ -117,6 +118,7 @@ def native_arch_to_deb_arch(native_arch):
         "mipsel": "mipsel",
         "mips64el": "mips64el",
         "ppc64le": "ppc64el",
+        "riscv64": "riscv64",
         "s390x": "s390x",
         "x86_64": "amd64",
     }
