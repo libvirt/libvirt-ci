@@ -52,6 +52,7 @@ def cirrus_template():
                   -e "s|[@]CIRRUS_VM_IMAGE_SELECTOR@|$CIRRUS_VM_IMAGE_SELECTOR|g"
                   -e "s|[@]CIRRUS_VM_IMAGE_NAME@|$CIRRUS_VM_IMAGE_NAME|g"
                   -e "s|[@]UPDATE_COMMAND@|$UPDATE_COMMAND|g"
+                  -e "s|[@]UPGRADE_COMMAND@|$UPGRADE_COMMAND|g"
                   -e "s|[@]INSTALL_COMMAND@|$INSTALL_COMMAND|g"
                   -e "s|[@]PATH@|$PATH_EXTRA${PATH_EXTRA:+:}\$PATH|g"
                   -e "s|[@]PKG_CONFIG_PATH@|$PKG_CONFIG_PATH|g"
@@ -180,9 +181,11 @@ def cirrus_build_job(target, instance_type, image_selector, image_name,
                      pkg_cmd, suffix, variables, allow_failure):
     if pkg_cmd == "brew":
         install_cmd = "brew install"
+        upgrade_cmd = "brew upgrade"
         update_cmd = "brew update"
     elif pkg_cmd == "pkg":
         install_cmd = "pkg install -y"
+        upgrade_cmd = "pkg upgrade -y"
         update_cmd = "pkg update"
     else:
         raise Exception(f"Unknown package command {pkg_cmd}")
@@ -200,5 +203,6 @@ def cirrus_build_job(target, instance_type, image_selector, image_name,
             CIRRUS_VM_IMAGE_SELECTOR: {image_selector}
             CIRRUS_VM_IMAGE_NAME: {image_name}
             UPDATE_COMMAND: {update_cmd}
+            UPGRADE_COMMAND: {upgrade_cmd}
             INSTALL_COMMAND: {install_cmd}
         """) + format_variables(variables)
