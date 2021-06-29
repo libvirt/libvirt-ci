@@ -79,6 +79,7 @@ gitlab:
 #
 #     Architecture names are
 #
+#       - "x86_64" for building natively
 #       - "aarch64", "armv6l", "armv7l", "i686", "mips",
 #         "mips64el", "mipsel", "mips64", "ppc64le", "s390x"
 #         for cross compiling for a Linux distro
