@@ -179,11 +179,11 @@ def cross_build_job(target, arch, suffix, variables, template, allow_failure):
 def cirrus_build_job(target, instance_type, image_selector, image_name,
                      pkg_cmd, suffix, variables, allow_failure):
     if pkg_cmd == "brew":
-        install_cmd = pkg_cmd + " install"
-        update_cmd = pkg_cmd + " update"
+        install_cmd = "brew install"
+        update_cmd = "brew update"
     elif pkg_cmd == "pkg":
-        install_cmd = pkg_cmd + " install -y"
-        update_cmd = pkg_cmd + " update"
+        install_cmd = "pkg install -y"
+        update_cmd = "pkg update"
     else:
         raise Exception(f"Unknown package command {pkg_cmd}")
     allow_failure = str(allow_failure).lower()
