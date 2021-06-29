@@ -95,31 +95,31 @@ targets:
 
   debian-10:
     jobs:
-     - arch: x86_64
-     - arch: aarch64
-     - arch: armv6l
-     - arch: armv7l
-     - arch: i686
-     - arch: mips
-     - arch: mips64el
-     - arch: mipsel
-       allow-failure: true
-     - arch: ppc64le
-     - arch: s390x
+      - arch: x86_64
+      - arch: aarch64
+      - arch: armv6l
+      - arch: armv7l
+      - arch: i686
+      - arch: mips
+      - arch: mips64el
+      - arch: mipsel
+        allow-failure: true
+      - arch: ppc64le
+      - arch: s390x
 
   debian-sid:
     jobs:
-     - arch: x86_64
-     - arch: aarch64
-     - arch: armv6l
-     - arch: armv7l
-     - arch: i686
-       builds: false
-       allow-failure: true
-     - arch: mips64el
-     - arch: mipsel
-     - arch: ppc64le
-     - arch: s390x
+      - arch: x86_64
+      - arch: aarch64
+      - arch: armv6l
+      - arch: armv7l
+      - arch: i686
+        builds: false
+        allow-failure: true
+      - arch: mips64el
+      - arch: mipsel
+      - arch: ppc64le
+      - arch: s390x
 
   fedora-33: x86_64
 
@@ -127,13 +127,13 @@ targets:
 
   fedora-rawhide:
     jobs:
-     - arch: x86_64
-     - arch: x86_64
-       suffix: clang
-       variables:
-         CC: clang
-     - arch: mingw32
-     - arch: mingw64
+      - arch: x86_64
+      - arch: x86_64
+        suffix: clang
+        variables:
+          CC: clang
+      - arch: mingw32
+      - arch: mingw64
 
   freebsd-12: x86_64
 
@@ -143,16 +143,16 @@ targets:
 
   opensuse-leap-152:
     jobs:
-     - arch: x86_64
+      - arch: x86_64
 
   ubuntu-1804:
     jobs:
-     - arch: x86_64
+      - arch: x86_64
 
   ubuntu-2004:
     jobs:
-     - arch: x86_64
-       enabled: true
-       allow-failure: true
-       variables:
-         foo: bar2
+      - arch: x86_64
+        enabled: true
+        allow-failure: true
+        variables:
+          foo: bar2
