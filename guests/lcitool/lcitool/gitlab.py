@@ -28,11 +28,19 @@ def container_template(namespace, project):
             - docker logout
         """)
 
-def build_template():
+def native_build_template():
     return textwrap.dedent(
         f"""
-        .gitlab_build_job:
+        .gitlab_native_build_job:
           image: $CI_REGISTRY_IMAGE/ci-$NAME:latest
+          stage: builds
+        """)
+
+def cross_build_template():
+    return textwrap.dedent(
+        f"""
+        .gitlab_cross_build_job:
+          image: $CI_REGISTRY_IMAGE/ci-$NAME-cross-$CROSS:latest
           stage: builds
         """)
 

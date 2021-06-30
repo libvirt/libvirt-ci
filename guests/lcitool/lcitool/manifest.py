@@ -225,7 +225,8 @@ class Manifest:
         if gitlabinfo["containers"]:
             gitlabcontent.append(gitlab.container_template(namespace, project))
         if gitlabinfo["builds"]:
-            gitlabcontent.append(gitlab.build_template())
+            gitlabcontent.append(gitlab.native_build_template())
+            gitlabcontent.append(gitlab.cross_build_template())
         if gitlabinfo["cirrus"]:
             gitlabcontent.append(gitlab.cirrus_template())
 
