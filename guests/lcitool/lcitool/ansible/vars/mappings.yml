@@ -1265,6 +1265,11 @@ mappings:
     rpm: perl-IO-Compress-Bzip2
     OpenSUSE:
 
+  perl-IO-Interface:
+    deb: libio-interface-perl
+    pkg: p5-IO-Interface
+    rpm: perl-IO-Interface
+
   perl-IO-String:
     apk: perl-io-string
     deb: libio-string-perl
@@ -1276,6 +1281,12 @@ mappings:
     deb: libmodule-build-perl
     pkg: p5-Module-Build
     rpm: perl-Module-Build
+
+  perl-Net-OpenSSH:
+    deb: libnet-openssh-perl
+    pkg: p5-Net-OpenSSH
+    rpm: perl-Net-OpenSSH
+    OpenSUSE:
 
   perl-NetAddr-IP:
     deb: libnetaddr-ip-perl
@@ -1357,6 +1368,11 @@ mappings:
     deb: libtest-pod-coverage-perl
     pkg: p5-Test-Pod-Coverage
     rpm: perl-Test-Pod-Coverage
+
+  perl-Test-Simple:
+    deb: libtest-simple-perl
+    pkg: p5-Test-Simple
+    rpm: perl-Test-Simple
 
   perl-Time-HiRes:
     apk: perl-time-hires
@@ -1754,6 +1770,9 @@ mappings:
     rpm: iproute-tc
     OpenSUSE: iproute2
 
+  tcpdump:
+    default: tcpdump
+
   tesseract:
     default: tesseract
     apk: tesseract-ocr
@@ -1809,6 +1828,13 @@ mappings:
     pkg: virglrenderer
     rpm: virglrenderer-devel
     cross-policy-default: foreign
+
+  libguestfs-tools:
+    deb: libguestfs-tools
+    rpm: guestfs-tools
+    CentOS8: libguestfs-tools-c
+    CentOSStream8: libguestfs-tools-c
+    Fedora33: libguestfs-tools-c
 
   vte:
     default: vte3
@@ -1975,11 +2001,17 @@ cpan_mappings:
   perl-IO-Compress-Bzip2:
     default: IO::Compress::Bzip2
 
+  perl-IO-Interface:
+    default: IO::Interface
+
   perl-IO-String:
     default: IO::String
 
   perl-Module-Build:
     default: Module::Build
+
+  perl-Net-OpenSSH:
+    default: Net::OpenSSH
 
   perl-NetAddr-IP:
     default: NetAddr::IP
@@ -2022,6 +2054,9 @@ cpan_mappings:
 
   perl-Test-Pod-Coverage:
     default: Test::Pod::Coverage
+
+  perl-Test-Simple:
+    default: Test::Simple
 
   perl-Time-HiRes:
     default: Time::HiRes
