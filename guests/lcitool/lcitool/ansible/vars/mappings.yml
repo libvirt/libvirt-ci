@@ -1794,6 +1794,7 @@ mappings:
 
   valgrind:
     default: valgrind
+    MacOS:
 
   vim:
     default: vim
