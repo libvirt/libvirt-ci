@@ -512,6 +512,7 @@ mappings:
     apk: gtk-vnc-dev
     deb: libgtk-vnc-2.0-dev
     rpm: gtk-vnc2-devel
+    CentOS:
     OpenSUSE: gtk-vnc-devel
 
   hexdump:
@@ -663,6 +664,7 @@ mappings:
 
   libcmpiutil:
     rpm: libcmpiutil-devel
+    CentOS:
 
   libconfig:
     default: libconfig
@@ -994,6 +996,7 @@ mappings:
     apk: libvirt-glib-dev
     deb: libvirt-glib-1.0-dev
     rpm: libvirt-gobject-devel
+    CentOSStream8:
     OpenSUSE: libvirt-glib-devel
     cross-policy-default: foreign
 
@@ -1891,6 +1894,7 @@ mappings:
 
   zfs:
     deb: zfs-fuse
+    Debian10:
     Fedora: zfs-fuse
 
   zip:
