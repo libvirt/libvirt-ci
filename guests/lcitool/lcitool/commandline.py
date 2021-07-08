@@ -37,6 +37,13 @@ class CommandLine:
             help="git revision to build (remote/branch)",
         )
 
+        containerizedopt = argparse.ArgumentParser(add_help=False)
+        containerizedopt.add_argument(
+            "-c", "--containerized",
+            default=False,
+            action="store_true",
+            help="only report hosts supporting containers")
+
         crossarchopt = argparse.ArgumentParser(add_help=False)
         crossarchopt.add_argument(
             "-x", "--cross-arch",
@@ -124,6 +131,7 @@ class CommandLine:
         targetsparser = subparsers.add_parser(
             "targets",
             help="list all supported target OS platforms",
+            parents=[containerizedopt],
         )
         targetsparser.set_defaults(func=Application._action_targets)
 

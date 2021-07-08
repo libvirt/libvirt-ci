@@ -103,6 +103,11 @@ class Application(metaclass=Singleton):
 
         targets = Inventory().targets
         for target in sorted(targets):
+            if args.containerized:
+                facts = Inventory().get_facts(target)
+                if facts["packaging"]["format"] not in ["apk", "deb", "rpm"]:
+                    continue
+
             print(target)
 
     def _action_projects(self, args):
