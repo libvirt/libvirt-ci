@@ -3,7 +3,6 @@ packages:
   - apparmor
   - augeas
   - augeas-lenses
-  - avahi
   - bash-completion
   - ccache
   - clang

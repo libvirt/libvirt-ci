@@ -148,13 +148,6 @@ mappings:
     rpm: gettext-devel
     MacOS: gettext
 
-  avahi:
-    apk: avahi-dev
-    deb: libavahi-client-dev
-    pkg: avahi
-    rpm: avahi-devel
-    cross-policy-default: foreign
-
   bash:
     default: bash
 
