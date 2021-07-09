@@ -1242,11 +1242,6 @@ mappings:
     pkg: p5-CPAN-Changes
     rpm: perl-CPAN-Changes
 
-  perl-Config-Record:
-    deb: libconfig-record-perl
-    pkg: p5-Config-Record
-    Fedora: perl-Config-Record
-
   perl-Digest:
     apk: perl
     deb: libdigest-perl
@@ -1386,6 +1381,12 @@ mappings:
     deb: libxml-xpath-perl
     pkg: p5-XML-XPath
     rpm: perl-XML-XPath
+
+  perl-YAML:
+    apk: perl-yaml
+    deb: libyaml-perl
+    pkg: p5-YAML
+    rpm: perl-YAML
 
   perl-accessors:
     deb: libaccessors-perl
@@ -1962,9 +1963,6 @@ cpan_mappings:
   perl-CPAN-Changes:
     default: CPAN::Changes
 
-  perl-Config-Record:
-    default: Config::Record
-
   perl-Digest:
     default: Digest
 
@@ -2036,6 +2034,9 @@ cpan_mappings:
 
   perl-XML-XPath:
     default: XML::XPath
+
+  perl-YAML:
+    default: YAML
 
   perl-accessors:
     default: accessors
