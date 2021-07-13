@@ -1,7 +1,7 @@
 
 stages:
   - containers
-  - postbuild
+  - sanity_checks
 
 .build_container_template: &build_container_definition
   image: docker:stable
@@ -51,10 +51,10 @@ docker-dind-container:
 # on master branch and -maint branches, since we only need
 # to test developer's personal branches.
 check-dco:
-  # In most projects we'd put this in a "prebuild", but this
+  # In most projects we'd put an empty 'needs: []', but this
   # repo is a special case as we need to actually build the
   # container first!
-  stage: postbuild
+  stage: sanity_checks
   image: ${CI_REGISTRY_IMAGE}/check-dco:${CI_COMMIT_REF_SLUG}
   script:
     - /check-dco
@@ -64,7 +64,7 @@ check-dco:
     - master
 
 flake8:
-  stage: postbuild
+  stage: sanity_checks
   image: python:3.8-alpine
   needs: []
   before_script:
@@ -74,7 +74,7 @@ flake8:
     - flake8 --format=pylint
 
 unittests:
-  stage: postbuild
+  stage: sanity_checks
   image: python:3.8-alpine
   needs: []
   before_script:
