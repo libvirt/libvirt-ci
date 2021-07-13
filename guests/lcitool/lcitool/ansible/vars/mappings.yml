@@ -230,7 +230,7 @@ mappings:
 
   cloud-init:
     default: cloud-init
-    FreeBSD: py37-cloud-init
+    FreeBSD: py38-cloud-init
     MacOS:
 
   cloud-init-growpart:
@@ -327,7 +327,7 @@ mappings:
   flake8:
     default: flake8
     apk: py3-flake8
-    pkg: py37-flake8
+    pkg: py38-flake8
     rpm: python3-flake8
 
   fuse:
@@ -1462,14 +1462,14 @@ mappings:
   python3-PyYAML:
     apk: py3-yaml
     deb: python3-yaml
-    pkg: py37-yaml
+    pkg: py38-yaml
     rpm: python3-PyYAML
     MacOS:
 
   python3-dbus:
     default: python3-dbus
     apk: py3-dbus
-    FreeBSD: py37-dbus
+    FreeBSD: py38-dbus
     MacOS:
     OpenSUSE: python3-dbus-python
 
@@ -1482,32 +1482,32 @@ mappings:
   python3-docutils:
     default: python3-docutils
     apk: py3-docutils
-    FreeBSD: py37-docutils
+    FreeBSD: py38-docutils
     MacOS: docutils
 
   python3-gobject:
     apk: py3-gobject3
     deb: python3-gi
-    pkg: py37-gobject3
+    pkg: py38-gobject3
     rpm: python3-gobject
 
   python3-libxml2:
     default: python3-libxml2
     apk: py3-libxml2
-    FreeBSD: py37-libxml2
+    FreeBSD: py38-libxml2
     MacOS:
     OpenSUSE: python3-libxml2-python
 
   python3-lxml:
     default: python3-lxml
     apk: py3-lxml
-    FreeBSD: py37-lxml
+    FreeBSD: py38-lxml
     MacOS:
 
   python3-numpy:
     default: python3-numpy
     apk: py3-numpy
-    pkg: py37-numpy
+    pkg: py38-numpy
     MacOS:
 
   python3-opencv:
@@ -1520,38 +1520,38 @@ mappings:
   python3-pillow:
     default: python3-pillow
     apk: py3-pillow
-    pkg: py37-pillow
+    pkg: py38-pillow
     OpenSUSE: python3-Pillow
     MacOS:
 
   python3-pip:
     default: python3-pip
     apk: py3-pip
-    FreeBSD: py37-pip
+    FreeBSD: py38-pip
     MacOS: python3
 
   python3-pytest:
     default: python3-pytest
     apk: py3-pytest
-    FreeBSD: py37-pytest
+    FreeBSD: py38-pytest
     MacOS:
 
   python3-requests:
     default: python3-requests
     apk: py3-requests
-    FreeBSD: py37-requests
+    FreeBSD: py38-requests
     MacOS:
 
   python3-setuptools:
     default: python3-setuptools
     apk: py3-setuptools
-    FreeBSD: py37-setuptools
+    FreeBSD: py38-setuptools
     MacOS: python3
 
   python3-sphinx:
     default: python3-sphinx
     apk: py3-sphinx
-    pkg: py37-sphinx
+    pkg: py38-sphinx
     MacOS:
     OpenSUSE: python3-Sphinx
 
@@ -1559,19 +1559,19 @@ mappings:
     apk: py3-sphinx_rtd_theme
     deb: python3-sphinx-rtd-theme
     rpm: python3-sphinx_rtd_theme
-    pkg: py37-sphinx_rtd_theme
+    pkg: py38-sphinx_rtd_theme
 
   python3-virtualenv:
     apk: py3-virtualenv
     deb: python3-venv
-    pkg: py37-virtualenv
+    pkg: py38-virtualenv
     rpm: python3-virtualenv
     MacOS:
 
   python3-wheel:
     default: python3-wheel
     apk: py3-wheel
-    FreeBSD: py37-wheel
+    FreeBSD: py38-wheel
     MacOS: python3
 
   qemu:
