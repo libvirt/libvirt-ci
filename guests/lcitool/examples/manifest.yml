@@ -100,6 +100,11 @@ targets:
       - arch: armv6l
       - arch: armv7l
       - arch: i686
+        artifacts:
+          expiry: 2 days
+          paths:
+            - build
+            - scratch
       - arch: mips
       - arch: mips64el
       - arch: mipsel

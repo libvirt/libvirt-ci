@@ -167,7 +167,22 @@ def format_variables(variables):
     return ""
 
 
-def native_build_job(target, suffix, variables, template, allow_failure):
+def format_artifacts(artifacts):
+    if artifacts is None:
+        return ""
+
+    expiry = artifacts["expiry"]
+    paths = "\n".join(["      - " + p for p in artifacts["paths"]])
+
+    section = textwrap.indent(textwrap.dedent(f"""
+            artifacts:
+              expire_in: {expiry}
+              paths:
+           """), "  ") + paths
+    return section[1:]
+
+
+def native_build_job(target, suffix, variables, template, allow_failure, artifacts):
     allow_failure = str(allow_failure).lower()
 
     return textwrap.dedent(
@@ -179,10 +194,10 @@ def native_build_job(target, suffix, variables, template, allow_failure):
           allow_failure: {allow_failure}
           variables:
             NAME: {target}
-        """) + format_variables(variables)
+        """) + format_variables(variables) + format_artifacts(artifacts)
 
 
-def cross_build_job(target, arch, suffix, variables, template, allow_failure):
+def cross_build_job(target, arch, suffix, variables, template, allow_failure, artifacts):
     allow_failure = str(allow_failure).lower()
 
     return textwrap.dedent(
@@ -195,7 +210,7 @@ def cross_build_job(target, arch, suffix, variables, template, allow_failure):
           variables:
             NAME: {target}
             CROSS: {arch}
-        """) + format_variables(variables)
+        """) + format_variables(variables) + format_artifacts(artifacts)
 
 
 def cirrus_build_job(target, instance_type, image_selector, image_name,

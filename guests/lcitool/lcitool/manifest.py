@@ -100,9 +100,14 @@ class Manifest:
                     raise Exception(f"target {target} job {idx} missing arch")
                 jobinfo.setdefault("enabled", True)
                 jobinfo.setdefault("allow-failure", False)
+                jobinfo.setdefault("artifacts", None)
                 jobinfo.setdefault("variables", {})
                 jobinfo.setdefault("suffix", "")
                 jobinfo.setdefault("builds", gitlabinfo["builds"])
+
+                artifacts = jobinfo["artifacts"]
+                if artifacts is not None:
+                    artifacts.setdefault("expiry", "2 days")
 
                 arch = jobinfo["arch"]
                 if arch == "x86_64":
@@ -329,7 +334,8 @@ class Manifest:
                 jobinfo["suffix"],
                 jobinfo["variables"],
                 jobinfo["template"],
-                jobinfo["allow-failure"])
+                jobinfo["allow-failure"],
+                jobinfo["artifacts"])
 
         jobs = self._generate_build_jobs("containers", False, jobfunc)
         if len(jobs) > 0:
@@ -344,7 +350,8 @@ class Manifest:
                 jobinfo["suffix"],
                 jobinfo["variables"],
                 jobinfo["template"],
-                jobinfo["allow-failure"])
+                jobinfo["allow-failure"],
+                jobinfo["artifacts"])
 
         jobs = self._generate_build_jobs("containers", True, jobfunc)
         if len(jobs) > 0:
