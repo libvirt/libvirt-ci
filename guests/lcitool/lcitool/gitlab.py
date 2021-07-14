@@ -6,6 +6,7 @@
 
 import textwrap
 
+
 def container_template(namespace, project):
     return textwrap.dedent(
         f"""
@@ -28,25 +29,28 @@ def container_template(namespace, project):
             - docker logout
         """)
 
+
 def native_build_template():
     return textwrap.dedent(
-        f"""
+        """
         .gitlab_native_build_job:
           image: $CI_REGISTRY_IMAGE/ci-$NAME:latest
           stage: builds
         """)
 
+
 def cross_build_template():
     return textwrap.dedent(
-        f"""
+        """
         .gitlab_cross_build_job:
           image: $CI_REGISTRY_IMAGE/ci-$NAME-cross-$CROSS:latest
           stage: builds
         """)
 
+
 def cirrus_template():
     return textwrap.dedent(
-        """
+        r"""
         .cirrus_build_job:
           stage: builds
           image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
@@ -76,6 +80,7 @@ def cirrus_template():
             - if: "$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN"
         """)
 
+
 def check_dco_job(namespace):
     return textwrap.dedent(
         f"""
@@ -91,6 +96,7 @@ def check_dco_job(namespace):
           variables:
             GIT_DEPTH: 1000
         """)
+
 
 def cargo_fmt_job():
     return textwrap.dedent(
@@ -108,6 +114,7 @@ def cargo_fmt_job():
             when: on_failure
         """)
 
+
 def go_fmt_job():
     return textwrap.dedent(
         """
@@ -124,6 +131,7 @@ def go_fmt_job():
             when: on_failure
         """)
 
+
 def native_container_job(target, allow_failure):
     allow_failure = str(allow_failure).lower()
 
@@ -135,6 +143,7 @@ def native_container_job(target, allow_failure):
           variables:
             NAME: {target}
         """)
+
 
 def cross_container_job(target, arch, allow_failure):
     allow_failure = str(allow_failure).lower()
@@ -148,6 +157,7 @@ def cross_container_job(target, arch, allow_failure):
             NAME: {target}-cross-{arch}
         """)
 
+
 def format_variables(variables):
     job = []
     for key, val in variables.items():
@@ -155,6 +165,7 @@ def format_variables(variables):
     if len(job) > 0:
         return "\n".join(job) + "\n"
     return ""
+
 
 def native_build_job(target, suffix, variables, template, allow_failure):
     allow_failure = str(allow_failure).lower()
@@ -170,6 +181,7 @@ def native_build_job(target, suffix, variables, template, allow_failure):
             NAME: {target}
         """) + format_variables(variables)
 
+
 def cross_build_job(target, arch, suffix, variables, template, allow_failure):
     allow_failure = str(allow_failure).lower()
 
@@ -184,6 +196,7 @@ def cross_build_job(target, arch, suffix, variables, template, allow_failure):
             NAME: {target}
             CROSS: {arch}
         """) + format_variables(variables)
+
 
 def cirrus_build_job(target, instance_type, image_selector, image_name,
                      pkg_cmd, suffix, variables, allow_failure):

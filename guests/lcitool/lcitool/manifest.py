@@ -9,9 +9,9 @@ from pathlib import Path
 
 from lcitool.formatters import DockerfileFormatter, VariablesFormatter
 from lcitool.inventory import Inventory
-from lcitool.projects import Projects
 from lcitool import gitlab
 from lcitool import util
+
 
 class Manifest:
 
@@ -37,12 +37,10 @@ class Manifest:
         containerinfo = self.values["containers"]
         containerinfo.setdefault("enabled", True)
 
-
         if "cirrus" not in self.values:
             self.values["cirrus"] = {}
         cirrusinfo = self.values["cirrus"]
         cirrusinfo.setdefault("enabled", True)
-
 
         if "gitlab" not in self.values:
             self.values["gitlab"] = {}
@@ -81,7 +79,8 @@ class Manifest:
                 raise Exception(f"Unknown target '{target}'")
 
             if type(targetinfo) == str:
-                targetinfo = targets[target] = { "jobs": [ { "arch": targetinfo } ] }
+                targets[target] = {"jobs": [{"arch": targetinfo}]}
+                targetinfo = targets[target]
             targetinfo.setdefault("enabled", True)
             targetinfo.setdefault("projects", self.values["projects"])
 

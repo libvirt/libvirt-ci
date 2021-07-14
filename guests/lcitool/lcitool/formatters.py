@@ -303,7 +303,7 @@ class DockerfileFormatter(Formatter):
             # TODO: 'libeatmydata' package is present in 'testing' repo
             # for Alpine Edge. Once it graduates to 'main' repo we
             # should use it here
-            #varmap["nosync"] = "eatmydata "
+            # varmap["nosync"] = "eatmydata "
             # "{packaging_command} add libeatmydata",
             commands.extend([
                 "{packaging_command} update",
@@ -328,7 +328,7 @@ class DockerfileFormatter(Formatter):
             # or the JDK package
             #   https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=955619
             if (facts["os"]["name"] == "Debian" and
-                   ("java" in varmap["mappings"] or
+                ("java" in varmap["mappings"] or
                     "publican" in varmap["mappings"])):
                 commands.extend(["mkdir -p /usr/share/man/man1"])
 

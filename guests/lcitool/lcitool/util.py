@@ -7,7 +7,6 @@
 import fnmatch
 import git
 import logging
-from pathlib import Path
 import platform
 import textwrap
 
@@ -125,6 +124,6 @@ def atomic_write(filepath, content):
     try:
         tmpfilepath.write_text(content)
         tmpfilepath.replace(filepath)
-    except Exception as ex:
+    except Exception:
         tmpfilepath.unlink()
         raise
