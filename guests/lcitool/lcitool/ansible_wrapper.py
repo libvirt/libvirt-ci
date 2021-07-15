@@ -170,6 +170,50 @@ class AnsibleWrapper():
 
         return runner
 
+    def get_inventory(self):
+        """
+        Returns a YAML-formatted Ansible inventory populated from all sources.
+
+        :returns: a dictionary corresponding to the Ansible YAML format.
+        """
+
+        ansible_event_handler_data = []
+
+        # NOTE: this is nasty hack! We have no way of verifying dynamic
+        # Ansible inventories provided by users and thus no way of telling
+        # whether their hosts are not named the same way as our target OS
+        # groups. Ansible doesn't like that and emits a warning about it which
+        # can neither be ignored nor disabled. We also have no way of parsing
+        # user's inventory rather than with Ansible's help (as long as we don't
+        # intend to run user scripts ourselves), so we have to ask
+        # ansible-inventory to take all the sources and dump a YAML-formatted
+        # inventory for us from which we can extract the list of hosts.
+        # The problem is that since we're consuming directly the stdout of the
+        # Ansible inventory process it can be potentially polluted with
+        # [WARNING] messages which would make it impossible for the yaml
+        # library to parse the data. So, we'll hook up an event handler to
+        # Ansible runner which will filter out the warnings for us as the
+        # output is produced and we're left out with a list of strings
+        # comprising the stdout data - profit!
+        def ansible_event_handler(event):
+            if "[WARNING]" in event["stdout"]:
+                return
+
+            ansible_event_handler_data.append(event["stdout"])
+
+        params = self._get_default_params()
+        params["binary"] = "ansible-inventory"
+        params["cmdline"] = "--list --yaml"
+
+        # we don't want any Ansible console output for the inventory
+        params["quiet"] = True
+
+        self._run(params, event_handler=ansible_event_handler)
+
+        ansible_inventory = '\n'.join(ansible_event_handler_data)
+
+        return yaml.safe_load(ansible_inventory)
+
     def run_playbook(self, playbook_path, limit=None, extravars=None):
         """
         :param playbook_path: absolute path to the playbook to run as Path()

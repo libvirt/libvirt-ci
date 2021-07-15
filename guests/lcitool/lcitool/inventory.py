@@ -12,6 +12,7 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util
+from lcitool.ansible_wrapper import AnsibleWrapper
 from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
@@ -51,9 +52,39 @@ class Inventory(metaclass=Singleton):
             self._targets = list(self.facts.keys())
         return self._targets
 
+    @property
+    def ansible_inventory(self):
+        if self._ansible_inventory is None:
+            self._ansible_inventory = self._get_ansible_inventory()
+        return self._ansible_inventory
+
+    @property
+    def hosts(self):
+        def _findall_hosts_cb(ansible_host_facts):
+            # Ansible's inventory is formatted as YAML, when we extract the
+            # 'hosts' key, we get this:
+            # {
+            #  'host_1': {facts_1},
+            #  'host_N': {facts_N}
+            # }
+            # and we need to convert it to this:
+            # ['host_1', 'host_N']
+            return ansible_host_facts.keys()
+
+        # lazy evaluation
+        if self._hosts is None:
+
+            # a host may be part of several groups, but we need count it only once
+            self._hosts = list(set(util.findall("hosts",
+                                                self.ansible_inventory,
+                                                cb=_findall_hosts_cb)))
+        return self._hosts
+
     def __init__(self):
         self._facts = None
         self._targets = None
+        self._ansible_inventory = None
+        self._hosts = None
 
     @staticmethod
     def _add_facts_from_file(facts, yaml_path):
@@ -61,6 +92,18 @@ class Inventory(metaclass=Singleton):
             some_facts = yaml.safe_load(infile)
             for fact in some_facts:
                 facts[fact] = some_facts[fact]
+
+    def _get_ansible_inventory(self):
+        ansible_dir = resource_filename(__name__, "ansible")
+        inventory_path = Path(ansible_dir, "inventory")
+
+        log.debug(f"Running ansible-inventory on '{inventory_path}'")
+        ansible_runner = AnsibleWrapper()
+        ansible_runner.prepare_env(inventory=inventory_path,
+                                   host_vars=self.facts)
+        inventory = ansible_runner.get_inventory()
+
+        return inventory
 
     def _read_all_facts(self, host):
         sources = [
@@ -130,7 +173,7 @@ class Inventory(metaclass=Singleton):
             raise InventoryError(f"Failed to expand '{pattern}': {ex}")
 
     def expand_hosts(self, pattern):
-        return self._expand_pattern(pattern, self.facts, "hosts")
+        return self._expand_pattern(pattern, self.hosts, "hosts")
 
     def has_host(self, host):
         return host in self.facts

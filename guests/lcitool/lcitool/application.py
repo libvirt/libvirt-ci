@@ -90,8 +90,9 @@ class Application(metaclass=Singleton):
     def _action_hosts(self, args):
         self._entrypoint_debug(args)
 
-        hosts_expanded = Inventory().expand_hosts("all")
-        for host in sorted(hosts_expanded):
+        inventory = Inventory()
+
+        for host in sorted(inventory.hosts):
             print(host)
 
     def _action_targets(self, args):
