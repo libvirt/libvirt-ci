@@ -13,7 +13,7 @@ paths:
   ccache: /usr/local/bin/ccache
   make: /usr/local/bin/gmake
   ninja: /usr/local/bin/ninja
-  pip3: /usr/local/bin/pip-3.7
+  pip3: /usr/local/bin/pip-3.8
   python: /usr/local/bin/python3
   sudoers: /usr/local/etc/sudoers
 
