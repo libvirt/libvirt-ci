@@ -94,7 +94,11 @@ class CommandLine:
         buildparser = subparsers.add_parser(
             "build",
             help="build projects on hosts",
-            parents=[hostsopt, projectsopt, gitrevopt],
+            parents=[hostsopt, gitrevopt],
+        )
+        buildparser.add_argument(
+            "projects",
+            help="list of projects to consider (does NOT accept globs)",
         )
         buildparser.set_defaults(func=Application._action_build)
 

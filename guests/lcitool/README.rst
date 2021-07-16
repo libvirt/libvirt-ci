@@ -145,6 +145,9 @@ branches out of those with
 
    $ lcitool build -g github/cool-feature all libvirt
 
+Note that unlike other lcitool commands which take projects as input the 'build'
+command doesn't accept the project list specified either as 'all' or with a
+wildcard.
 
 Test use
 ========
