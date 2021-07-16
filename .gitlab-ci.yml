@@ -57,3 +57,12 @@ check-dco:
     - branches
   except:
     - master
+
+flake8:
+  stage: postbuild
+  image: python:3.8-alpine
+  before_script:
+    - apk update
+  script:
+    - pip3 install flake8
+    - flake8 --format=pylint
