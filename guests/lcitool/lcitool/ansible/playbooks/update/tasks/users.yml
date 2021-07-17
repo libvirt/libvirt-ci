@@ -52,16 +52,6 @@
   when:
     - install.flavor == 'test'
 
-- name: '{{ install.flavor }}: Create shell profile'
-  template:
-    src: 'templates/{{ item }}.j2'
-    dest: /home/{{ install.flavor }}/.{{ item }}
-    owner: '{{ install.flavor }}'
-    group: '{{ install.flavor }}'
-  loop:
-    - bash_profile
-    - bashrc
-
 - name: '{{ install.flavor }}: Remove unnecessary home skeleton files'
   file:
     path: /home/{{ install.flavor }}/.{{ item }}
