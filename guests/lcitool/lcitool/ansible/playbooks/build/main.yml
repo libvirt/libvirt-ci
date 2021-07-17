@@ -6,6 +6,8 @@
     - 'jobs/defaults.yml'
 
   tasks:
+    - name: Pre-build setup
+      include_tasks: 'tasks/pre-build/main.yml'
 
     - include: 'projects/{{ project }}.yml'
       loop:
