@@ -107,7 +107,7 @@ class Projects(metaclass=Singleton):
 
         # Some projects are internal implementation details and should
         # not be exposed to the user
-        internal_projects = {
+        internal_projects = [
             "base",
             "cloud-init",
             "developer",
@@ -115,9 +115,12 @@ class Projects(metaclass=Singleton):
             "python-pip",
             "unwanted",
             "vm",
-        }
+        ]
+        for project in internal_projects:
+            if project in projects_expanded:
+                projects_expanded.remove(project)
 
-        return list(projects_expanded - internal_projects)
+        return list(projects_expanded)
 
     def get_packages(self, project):
         return self._projects[project].generic_packages
