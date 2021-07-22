@@ -107,9 +107,9 @@ class Inventory(metaclass=Singleton):
 
         return inventory
 
-    def _load_facts_from(self, dir):
+    def _load_facts_from(self, facts_dir):
         facts = {}
-        for entry in sorted(dir.iterdir()):
+        for entry in sorted(facts_dir.iterdir()):
             if not entry.is_file() or entry.suffix != ".yml":
                 continue
 
