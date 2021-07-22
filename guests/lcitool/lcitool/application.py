@@ -89,7 +89,7 @@ class Application(metaclass=Singleton):
 
         playbook_base = Path(base, "playbooks", playbook)
         inventory_path = Path(util.get_config_dir(), "inventory")
-        group_vars = inventory.facts.copy()
+        group_vars = inventory.facts
 
         extra_vars = config.values
         extra_vars.update({

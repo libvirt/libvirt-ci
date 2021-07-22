@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+import copy
 import logging
 import yaml
 
@@ -135,7 +136,7 @@ class Inventory(metaclass=Singleton):
 
             # override shared facts with per-distro facts
             target = entry.name
-            facts[target] = shared_facts.copy()
+            facts[target] = copy.deepcopy(shared_facts)
             facts[target].update(tmp)
 
         return facts
