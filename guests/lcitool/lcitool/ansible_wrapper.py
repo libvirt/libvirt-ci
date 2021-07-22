@@ -220,7 +220,6 @@ class AnsibleWrapper():
         """
         :param playbook: name of the playbook to run
         :param limit: list of hosts to restrict the playbook execution to
-        :param extravars: dictionary of extravars to pass to Ansible
         :returns: None
         """
 
