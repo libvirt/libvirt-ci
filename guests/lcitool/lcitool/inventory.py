@@ -120,13 +120,11 @@ class Inventory(metaclass=Singleton):
 
     def _load_facts(self):
         facts = {}
-        shared_facts = {}
         group_vars_path = Path(resource_filename(__name__, "ansible/group_vars/"))
         group_vars_all_path = Path(group_vars_path, "all")
 
         # first load the shared facts from group_vars/all
-        tmp = self._load_facts_from(group_vars_all_path)
-        shared_facts.update(tmp)
+        shared_facts = self._load_facts_from(group_vars_all_path)
 
         # then load the rest of the facts
         for entry in group_vars_path.iterdir():
