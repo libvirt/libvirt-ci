@@ -216,15 +216,14 @@ class AnsibleWrapper():
 
         return yaml.safe_load(ansible_inventory)
 
-    def run_playbook(self, playbook, limit=None):
+    def run_playbook(self, limit=None):
         """
-        :param playbook: name of the playbook to run
         :param limit: list of hosts to restrict the playbook execution to
         :returns: None
         """
 
         params = self._get_default_params()
-        params["playbook"] = playbook
+        params["playbook"] = "main.yml"
 
         if limit:
             params["limit"] = ','.join(limit)

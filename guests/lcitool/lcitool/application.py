@@ -106,7 +106,7 @@ class Application(metaclass=Singleton):
                                    group_vars=group_vars,
                                    extravars=extra_vars)
         log.debug(f"Running Ansible with playbook '{playbook_base.name}'")
-        ansible_runner.run_playbook("main.yml", limit=hosts_expanded)
+        ansible_runner.run_playbook(limit=hosts_expanded)
 
     @required_deps('ansible_runner')
     def _action_hosts(self, args):
