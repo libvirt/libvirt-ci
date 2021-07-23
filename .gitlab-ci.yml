@@ -66,6 +66,7 @@ check-dco:
 flake8:
   stage: postbuild
   image: python:3.8-alpine
+  needs: []
   before_script:
     - apk update
   script:
@@ -75,6 +76,7 @@ flake8:
 unittests:
   stage: postbuild
   image: python:3.8-alpine
+  needs: []
   before_script:
     - apk update
     - apk add git
