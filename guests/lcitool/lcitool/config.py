@@ -60,6 +60,10 @@ class Config(metaclass=Singleton):
     def __init__(self):
         self._values = None
 
+    def _config_file_paths(self):
+        return [Path(util.get_config_dir(), fname) for fname in
+                ["config.yml", "config.yaml"]]
+
     def _load_config(self):
         # Load the template config containing the defaults first, this must
         # always succeed.
@@ -68,9 +72,7 @@ class Config(metaclass=Singleton):
             default_config = yaml.safe_load(fp)
 
         user_config_path = None
-        for fname in ["config.yml", "config.yaml"]:
-            user_config_path = Path(util.get_config_dir(), fname)
-
+        for user_config_path in self._config_file_paths():
             if user_config_path.exists():
                 break
         else:
@@ -145,6 +147,10 @@ class Config(metaclass=Singleton):
                 raise ValidationError(f"Invalid type for key '{section}.{key}'")
 
     def _validate(self):
+        if self._values is None:
+            paths = ", ".join([str(p) for p in self._config_file_paths()])
+            raise ValidationError(f"Missing or empty configuration file, tried {paths}")
+
         self._validate_section("install", ["root_password"])
 
         flavor = self._values["install"].get("flavor")
