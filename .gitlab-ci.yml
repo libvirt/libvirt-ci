@@ -71,3 +71,14 @@ flake8:
   script:
     - pip3 install flake8
     - flake8 --format=pylint
+
+unittests:
+  stage: postbuild
+  image: python:3.8-alpine
+  before_script:
+    - apk update
+    - apk add git
+  script:
+    - pip3 install setuptools pytest GitPython pyyaml
+    - cd guests/lcitool
+    - pytest --verbose
