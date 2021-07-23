@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-import ansible_runner
 import logging
 import shutil
 import yaml
@@ -13,6 +12,16 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from lcitool import util
+
+# Ignore failure so non-ansible based commands don't
+# require user to install ansible.
+ansible_exc = None
+try:
+    import ansible_runner
+except Exception as e:
+    ansible_exc = e
+    ansible_runner = None
+
 
 log = logging.getLogger(__name__)
 
@@ -50,6 +59,9 @@ class EnvironmentError(AnsibleWrapperError):
 
 class AnsibleWrapper():
     def __init__(self):
+        if ansible_runner is None:
+            raise ansible_exc
+
         self._tempdir = TemporaryDirectory(prefix="ansible_runner",
                                            dir=util.get_temp_dir())
         self._private_data_dir = Path(self._tempdir.name)
