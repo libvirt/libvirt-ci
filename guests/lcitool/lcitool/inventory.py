@@ -46,37 +46,18 @@ class Inventory(metaclass=Singleton):
         return list(self.target_facts.keys())
 
     @property
-    def ansible_inventory(self):
-        if self._ansible_inventory is None:
-            self._ansible_inventory = self._get_ansible_inventory()
-        return self._ansible_inventory
+    def host_facts(self):
+        if self._host_facts is None:
+            self._host_facts = self._load_host_facts()
+        return self._host_facts
 
     @property
     def hosts(self):
-        def _findall_hosts_cb(ansible_host_facts):
-            # Ansible's inventory is formatted as YAML, when we extract the
-            # 'hosts' key, we get this:
-            # {
-            #  'host_1': {facts_1},
-            #  'host_N': {facts_N}
-            # }
-            # and we need to convert it to this:
-            # ['host_1', 'host_N']
-            return ansible_host_facts.keys()
-
-        # lazy evaluation
-        if self._hosts is None:
-
-            # a host may be part of several groups, but we need count it only once
-            self._hosts = list(set(util.findall("hosts",
-                                                self.ansible_inventory,
-                                                cb=_findall_hosts_cb)))
-        return self._hosts
+        return list(self.host_facts.keys())
 
     def __init__(self):
         self._target_facts = None
-        self._ansible_inventory = None
-        self._hosts = None
+        self._host_facts = None
 
     @staticmethod
     def _read_facts_from_file(yaml_path):
@@ -131,6 +112,35 @@ class Inventory(metaclass=Singleton):
             target = entry.name
             facts[target] = copy.deepcopy(shared_facts)
             facts[target].update(tmp)
+
+        return facts
+
+    def _load_host_facts(self):
+        facts = {}
+
+        def _rec(inventory, group_name):
+            for key, subinventory in inventory.items():
+                if key == "hosts":
+                    for host_name, host_facts in subinventory.items():
+                        log.debug(f"Host '{host_name}' is in group '{group_name}'")
+
+                        # ansible-inventory only includes the full list of facts
+                        # the first time a host shows up, no matter how deeply
+                        # nested that happens to be, and all other times just uses
+                        # an empty dictionary as a position marker
+                        if host_name not in facts:
+                            log.debug(f"Facts for host '{host_name}': {host_facts}")
+                            facts[host_name] = host_facts
+
+                # Recurse into the group's children to look for more hosts
+                elif key == "children":
+                    _rec(subinventory, group_name)
+                else:
+                    log.debug(f"Group '{key}' is a children of group '{group_name}'")
+                    _rec(subinventory, key)
+
+        ansible_inventory = self._get_ansible_inventory()
+        _rec(ansible_inventory["all"], "all")
 
         return facts
 
