@@ -136,12 +136,13 @@ class AnsibleWrapper():
 
     def _run(self, params, **kwargs):
         """
-        The actual entry point into the AnsibleRunner package.
+        The actual entry point into the ansible_runner package.
 
-        :param params: any arguments AnsibleRunner.RunnerConfig would accept
-        :param kwargs: any arguments AnsibleRunner.Runner would accept
-        :returns: AnsibleRunner object which holds info about the Ansible
-                  execution
+        :param params: any arguments that ansible_runner.RunnerConfig() would
+                       accept (as a dict)
+        :param kwargs: any arguments that ansible_runner.Runner() would accept
+        :returns: ansible_runner.Runner object which holds info about the
+                  Ansible execution
         """
 
         runner_config = ansible_runner.RunnerConfig(**params)
