@@ -241,7 +241,7 @@ class Formatter(metaclass=abc.ABCMeta):
         native_arch = util.get_native_arch()
 
         try:
-            facts = Inventory().facts[target]
+            facts = Inventory().target_facts[target]
         except KeyError:
             raise FormatterError(f"Invalid target '{target}'")
 

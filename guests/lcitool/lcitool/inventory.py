@@ -36,16 +36,14 @@ class InventoryError(Exception):
 class Inventory(metaclass=Singleton):
 
     @property
-    def facts(self):
-
-        # lazy evaluation
-        if self._facts is None:
-            self._facts = self._load_facts()
-        return self._facts
+    def target_facts(self):
+        if self._target_facts is None:
+            self._target_facts = self._load_target_facts()
+        return self._target_facts
 
     @property
     def targets(self):
-        return list(self.facts.keys())
+        return list(self.target_facts.keys())
 
     @property
     def ansible_inventory(self):
@@ -76,7 +74,7 @@ class Inventory(metaclass=Singleton):
         return self._hosts
 
     def __init__(self):
-        self._facts = None
+        self._target_facts = None
         self._ansible_inventory = None
         self._hosts = None
 
@@ -98,7 +96,7 @@ class Inventory(metaclass=Singleton):
         log.debug(f"Running ansible-inventory on '{inventory_path_str}'")
         ansible_runner = AnsibleWrapper()
         ansible_runner.prepare_env(inventory=inventory_path,
-                                   group_vars=self.facts)
+                                   group_vars=self.target_facts)
         inventory = ansible_runner.get_inventory()
 
         return inventory
@@ -114,7 +112,7 @@ class Inventory(metaclass=Singleton):
 
         return facts
 
-    def _load_facts(self):
+    def _load_target_facts(self):
         facts = {}
         group_vars_path = Path(resource_filename(__name__, "ansible/group_vars/"))
         group_vars_all_path = Path(group_vars_path, "all")

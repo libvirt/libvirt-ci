@@ -84,7 +84,7 @@ class Manifest:
             jobsinfo = targetinfo["jobs"]
 
             try:
-                facts = inventory.facts[target]
+                facts = inventory.target_facts[target]
             except KeyError:
                 raise Exception(f"Invalid target '{target}'")
 
@@ -316,7 +316,7 @@ class Manifest:
                 continue
 
             try:
-                facts = inventory.facts[target]
+                facts = inventory.target_facts[target]
             except KeyError:
                 raise Exception(f"Invalid target '{target}'")
 

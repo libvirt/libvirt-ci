@@ -89,7 +89,7 @@ class Application(metaclass=Singleton):
 
         playbook_base = Path(base, "playbooks", playbook)
         inventory_path = Path(util.get_config_dir(), "inventory")
-        group_vars = inventory.facts
+        group_vars = inventory.target_facts
 
         extra_vars = config.values
         extra_vars.update({
@@ -124,7 +124,7 @@ class Application(metaclass=Singleton):
         for target in sorted(targets):
             if args.containerized:
                 try:
-                    facts = Inventory().facts[target]
+                    facts = Inventory().target_facts[target]
                 except KeyError:
                     raise ApplicationError(f"Invalid target '{target}'")
 
@@ -148,7 +148,7 @@ class Application(metaclass=Singleton):
         vm_name = args.vm_name
 
         try:
-            facts = Inventory().facts[target]
+            facts = Inventory().target_facts[target]
         except KeyError:
             raise ApplicationError(f"Invalid target '{target}'")
 
