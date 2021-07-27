@@ -15,7 +15,8 @@ def container_template(namespace, project):
           stage: containers
           needs: []
           services:
-            - docker:dind
+            - name: registry.gitlab.com/libvirt/libvirt-ci/docker-dind:master
+              alias: docker
           before_script:
             - export TAG="$CI_REGISTRY_IMAGE/ci-$NAME:latest"
             - export COMMON_TAG="$CI_REGISTRY/{namespace}/{project}/ci-$NAME:latest"
