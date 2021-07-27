@@ -149,12 +149,3 @@ class Inventory(metaclass=Singleton):
 
     def expand_hosts(self, pattern):
         return self._expand_pattern(pattern, self.hosts, "hosts")
-
-    def has_host(self, host):
-        return host in self.facts
-
-    def get_facts(self, target):
-        try:
-            return self.facts[target]
-        except KeyError:
-            raise InventoryError(f"Invalid target '{target}'")

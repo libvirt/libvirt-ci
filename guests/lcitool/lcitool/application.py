@@ -123,7 +123,11 @@ class Application(metaclass=Singleton):
         targets = Inventory().targets
         for target in sorted(targets):
             if args.containerized:
-                facts = Inventory().get_facts(target)
+                try:
+                    facts = Inventory().facts[target]
+                except KeyError:
+                    raise ApplicationError(f"Invalid target '{target}'")
+
                 if facts["packaging"]["format"] not in ["apk", "deb", "rpm"]:
                     continue
 
@@ -142,7 +146,11 @@ class Application(metaclass=Singleton):
         config = Config()
         target = args.target
         vm_name = args.vm_name
-        facts = Inventory().get_facts(target)
+
+        try:
+            facts = Inventory().facts[target]
+        except KeyError:
+            raise ApplicationError(f"Invalid target '{target}'")
 
         # Both memory size and disk size are stored as GiB in the
         # inventory, but virt-install expects the disk size in GiB

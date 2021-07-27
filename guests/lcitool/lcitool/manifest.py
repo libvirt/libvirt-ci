@@ -75,9 +75,6 @@ class Manifest:
         have_cirrus = False
         inventory = Inventory()
         for target, targetinfo in targets.items():
-            if not inventory.has_host(target):
-                raise Exception(f"Unknown target '{target}'")
-
             if type(targetinfo) == str:
                 targets[target] = {"jobs": [{"arch": targetinfo}]}
                 targetinfo = targets[target]
@@ -86,7 +83,11 @@ class Manifest:
 
             jobsinfo = targetinfo["jobs"]
 
-            facts = inventory.get_facts(target)
+            try:
+                facts = inventory.facts[target]
+            except KeyError:
+                raise Exception(f"Invalid target '{target}'")
+
             targetinfo["containers"] = "containers" in facts
             if targetinfo["containers"]:
                 have_containers = True
@@ -314,7 +315,10 @@ class Manifest:
             if not targetinfo[targettype]:
                 continue
 
-            facts = inventory.get_facts(target)
+            try:
+                facts = inventory.facts[target]
+            except KeyError:
+                raise Exception(f"Invalid target '{target}'")
 
             for jobinfo in targetinfo["jobs"]:
                 if not jobinfo["enabled"]:

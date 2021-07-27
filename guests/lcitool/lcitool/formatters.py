@@ -240,7 +240,10 @@ class Formatter(metaclass=abc.ABCMeta):
         cpan_mappings = projects.cpan_mappings
         native_arch = util.get_native_arch()
 
-        facts = Inventory().get_facts(target)
+        try:
+            facts = Inventory().facts[target]
+        except KeyError:
+            raise FormatterError(f"Invalid target '{target}'")
 
         # We can only generate Dockerfiles for Linux
         if (name == "dockerfileformatter" and
