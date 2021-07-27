@@ -45,11 +45,7 @@ class Inventory(metaclass=Singleton):
 
     @property
     def targets(self):
-
-        # lazy evaluation
-        if self._targets is None:
-            self._targets = list(self.facts.keys())
-        return self._targets
+        return list(self.facts.keys())
 
     @property
     def ansible_inventory(self):
@@ -81,7 +77,6 @@ class Inventory(metaclass=Singleton):
 
     def __init__(self):
         self._facts = None
-        self._targets = None
         self._ansible_inventory = None
         self._hosts = None
 
