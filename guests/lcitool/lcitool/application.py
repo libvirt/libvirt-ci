@@ -23,6 +23,23 @@ from lcitool.manifest import Manifest
 log = logging.getLogger(__name__)
 
 
+def required_deps(*deps):
+    def inner_decorator(func):
+        def wrapped(*args, **kwargs):
+            cmd = func.__name__[len('_action_'):]
+            for dep in deps:
+                try:
+                    import importlib
+                    importlib.import_module(dep)
+                except ImportError:
+                    raise ApplicationError(
+                        f"Command '{cmd}' requires '{dep}' module to be installed"
+                    )
+            func(*args, **kwargs)
+        return wrapped
+    return inner_decorator
+
+
 class ApplicationError(Exception):
     def __init__(self, message):
         self.message = message
@@ -90,6 +107,7 @@ class Application(metaclass=Singleton):
         log.debug(f"Running Ansible with playbook '{playbook_base.name}'")
         ansible_runner.run_playbook("main.yml", limit=hosts_expanded)
 
+    @required_deps('ansible_runner')
     def _action_hosts(self, args):
         self._entrypoint_debug(args)
 
@@ -223,6 +241,7 @@ class Application(metaclass=Singleton):
                 f"Failed to install '{vm_name}': {ex}"
             )
 
+    @required_deps('ansible_runner')
     def _action_update(self, args):
         self._entrypoint_debug(args)
 
