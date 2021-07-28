@@ -93,6 +93,10 @@ class Inventory(metaclass=Singleton):
     def _get_ansible_inventory(self):
         inventory_path = Path(util.get_config_dir(), "inventory")
         inventory_path_str = inventory_path.as_posix()
+        if not inventory_path.exists():
+            raise InventoryError(
+                f"Missing Ansible inventory '{inventory_path}'"
+            )
 
         log.debug(f"Running ansible-inventory on '{inventory_path_str}'")
         ansible_runner = AnsibleWrapper()
