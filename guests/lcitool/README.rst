@@ -17,13 +17,33 @@ to the Python user install directory
 
 ::
 
+   # this will install only the very basic dependencies
    $ pip3 install --user -r requirements.txt
 
 or, system-wide
 
 ::
 
+   # this will install only the very basic dependencies
    $ sudo pip3 install -r requirements.txt
+
+Depending on your intended use case for lcitool you can pick which dependencies
+you need to have installed, e.g.
+
+If you want to create and manage VMs for your CI workloads with ``lcitool``,
+you will need more than just the very basic dependencies:
+
+::
+
+   $ pip3 install --user -r vm-requirements.txt
+
+or if you want to contribute to the project, you'll need the largest set
+containing even the test dependencies
+
+::
+
+   $ pip3 install --user -r test-requirements.txt
+
 
 .. note:: If you prefer you can try to find those requirements in your package
    manager as well.
