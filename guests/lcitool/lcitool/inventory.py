@@ -11,7 +11,6 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util
-from lcitool.ansible_wrapper import AnsibleWrapper
 from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
@@ -91,6 +90,8 @@ class Inventory(metaclass=Singleton):
             return yaml.safe_load(infile)
 
     def _get_ansible_inventory(self):
+        from lcitool.ansible_wrapper import AnsibleWrapper
+
         inventory_path = Path(util.get_config_dir(), "inventory")
         inventory_path_str = inventory_path.as_posix()
         if not inventory_path.exists():

@@ -12,7 +12,6 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util
-from lcitool.ansible_wrapper import AnsibleWrapper
 from lcitool.config import Config, ConfigError
 from lcitool.inventory import Inventory, InventoryError
 from lcitool.projects import Projects, ProjectError
@@ -63,6 +62,8 @@ class Application(metaclass=Singleton):
         log.debug(f"Cmdline args={cli_args}")
 
     def _execute_playbook(self, playbook, hosts, projects, git_revision):
+        from lcitool.ansible_wrapper import AnsibleWrapper
+
         log.debug(f"Executing playbook '{playbook}': hosts={hosts} "
                   f"projects={projects} gitrev={git_revision}")
 
