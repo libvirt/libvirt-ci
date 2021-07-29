@@ -20,7 +20,8 @@ rpm_machines:
   - fedora-33
   - fedora-34
   - fedora-rawhide
-global_env: ''
+global_env: |
+  . ~/lcitool_build_env
 local_env: ''
 autogen_args: ''
 meson_args: ''
