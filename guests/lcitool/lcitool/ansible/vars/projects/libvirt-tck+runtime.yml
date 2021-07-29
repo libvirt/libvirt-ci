@@ -4,7 +4,6 @@ packages:
   - libguestfs-tools
   - perl
   - perl-Archive-Tar
-  - perl-Config-Record
   - perl-Digest
   - perl-Digest-MD5
   - perl-File-Slurp
@@ -26,6 +25,7 @@ packages:
   - perl-XML-Twig
   - perl-XML-Writer
   - perl-XML-XPath
+  - perl-YAML
   - perl-accessors
   - perl-generators
   - rpmbuild
