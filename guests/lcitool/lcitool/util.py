@@ -5,7 +5,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import fnmatch
-import git
 import logging
 import os
 import platform
@@ -17,15 +16,6 @@ from tempfile import TemporaryDirectory
 _tempdir = None
 
 log = logging.getLogger(__name__)
-
-
-def git_commit():
-    try:
-        lci_dir = Path(__file__).resolve().parent
-        repo = git.Repo(lci_dir, search_parent_directories=True)
-        return repo.head.object.hexsha
-    except git.InvalidGitRepositoryError:
-        return None
 
 
 def expand_pattern(pattern, iterable, name):
@@ -105,10 +95,7 @@ def native_arch_to_deb_arch(native_arch):
 
 
 def generate_file_header(cliargv):
-    commit = git_commit()
     url = "https://gitlab.com/libvirt/libvirt-ci"
-    if commit is not None:
-        url = url + "/-/commit/" + commit
 
     cliargvlist = " ".join(cliargv)
     return textwrap.dedent(
