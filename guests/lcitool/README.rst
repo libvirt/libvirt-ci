@@ -133,10 +133,10 @@ Managed hosts
 
 Since hosts may come from a public cloud environment, we don't execute all the
 Ansible tasks which set up the VM environment by default because some of the
-tasks could render such hosts unusable. However, for hosts that were installed
-as local VMs, we do recommend adding ``fully_managed=True`` as an inventory
-variable to each of these hosts as it is safe to run all the Ansible tasks in
-this case (see the example inventory below).
+tasks could render such hosts unusable. However, for hosts that are going to
+be installed as local VMs, we do recommend adding ``fully_managed=True`` as
+an inventory variable because it is safe to run all the Ansible tasks in this
+case.
 
 An example of a simple INI inventory:
 
@@ -149,10 +149,10 @@ An example of a simple INI inventory:
 
     [fedora-33]
     fedora-test-1
-    fedora-test-2
+    fedora-test-2   fully_managed=True
 
     [debian-10]
-    192.168.1.30    fully_managed=True
+    192.168.1.30
 
 
 Usage and examples
@@ -162,17 +162,17 @@ Depending on whether you're bringing an external host or you're installing
 a guest locally, there are two/three steps respectively to prepare such a
 machine for building projects:
 
-* ``lcitool install --name '$name' $target`` will perform an
-  unattended installation of the ``$target`` distro and create a VM named
-  ``$name``. Not all guests can be installed this way: see the "FreeBSD"
-  section below; (skip this step if you're bringing an external machine)
+* update the local inventory, as explained in the previous section,
+  so that it includes the new machine;
 
-* provide an inventory under ``~/.config/lcitool/`` as noted in the previous
-  section
+* only for machines that are local VMs, run ``lcitool install $host``:
+  this will create a libvirt VM named ``$host`` and perform an unattended
+  OS installation inside it. Not all guests can be installed this way: see
+  the "FreeBSD" section below;
 
 * ``lcitool update $guest $project`` will go through all the
   post-installation configuration steps required to make the newly-added
-  machine usable and ready to be used for building ``$project``;
+  machine usable and ready to be used for building ``$project``.
 
 Once those steps have been performed, maintenance will involve running:
 
