@@ -48,7 +48,6 @@ containing even the test dependencies
 .. note:: If you prefer you can try to find those requirements in your package
    manager as well.
 
-
 Installing lcitool
 ------------------
 
@@ -80,6 +79,7 @@ If you don't want to install this tool into your environment and instead wish
 to run it directly, just run the `lcitool` script that is located at the
 root of this repository.
 
+
 Configuration
 =============
 
@@ -105,6 +105,7 @@ such as this one
 
 in your crontab.
 
+
 Ansible inventory
 =================
 
@@ -129,6 +130,7 @@ in an unexpected Ansible behaviour.
 
 Managed hosts
 -------------
+
 Since hosts may come from a public cloud environment, we don't execute all the
 Ansible tasks which set up the VM environment by default because some of the
 tasks could render such hosts unusable. However, for hosts that were installed
@@ -151,6 +153,7 @@ An example of a simple INI inventory:
 
     [debian-10]
     192.168.1.30    fully_managed=True
+
 
 Usage and examples
 ==================
@@ -230,6 +233,7 @@ branches out of those with
 Note that unlike other lcitool commands which take projects as input the 'build'
 command doesn't accept the project list specified either as 'all' or with a
 wildcard.
+
 
 Test use
 ========
