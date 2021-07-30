@@ -151,6 +151,11 @@ class Application(metaclass=Singleton):
         except KeyError:
             raise ApplicationError(f"Invalid host '{host}'")
 
+        if not facts.get("fully_managed"):
+            raise ApplicationError(
+                f"fully_managed=True not set for {host}, refusing to proceed"
+            )
+
         # Both memory size and disk size are stored as GiB in the
         # inventory, but virt-install expects the disk size in GiB
         # and the memory size in *MiB*, so perform conversion here
