@@ -117,12 +117,20 @@ class Inventory(metaclass=Singleton):
 
     def _load_host_facts(self):
         facts = {}
+        groups = {}
 
         def _rec(inventory, group_name):
             for key, subinventory in inventory.items():
                 if key == "hosts":
                     for host_name, host_facts in subinventory.items():
                         log.debug(f"Host '{host_name}' is in group '{group_name}'")
+
+                        # Keep track of all the groups we've seen each host
+                        # show up in so that we can perform some validation
+                        # later
+                        if host_name not in groups:
+                            groups[host_name] = set()
+                        groups[host_name].add(group_name)
 
                         # ansible-inventory only includes the full list of facts
                         # the first time a host shows up, no matter how deeply
@@ -141,6 +149,21 @@ class Inventory(metaclass=Singleton):
 
         ansible_inventory = self._get_ansible_inventory()
         _rec(ansible_inventory["all"], "all")
+
+        targets = set(self.targets)
+        for host_name, host_groups in groups.items():
+            host_targets = host_groups.intersection(targets)
+
+            # Each host should have shown up in exactly one of the groups
+            # that are defined based on the target OS
+            if len(host_targets) == 0:
+                raise InventoryError(
+                    f"Host '{host_name}' not found in any target OS group"
+                )
+            elif len(host_targets) > 1:
+                raise InventoryError(
+                    f"Host '{host_name}' found in multiple target OS groups: {host_targets}"
+                )
 
         return facts
 
