@@ -144,13 +144,12 @@ class Application(metaclass=Singleton):
         self._entrypoint_debug(args)
 
         config = Config()
-        target = args.target
-        vm_name = args.vm_name
+        host = args.host
 
         try:
-            facts = Inventory().target_facts[target]
+            facts = Inventory().host_facts[host]
         except KeyError:
-            raise ApplicationError(f"Invalid target '{target}'")
+            raise ApplicationError(f"Invalid host '{host}'")
 
         # Both memory size and disk size are stored as GiB in the
         # inventory, but virt-install expects the disk size in GiB
@@ -176,7 +175,7 @@ class Application(metaclass=Singleton):
         elif facts["os"]["name"] == "OpenSUSE":
             install_config = "autoinst.xml"
         else:
-            print(f"Target {target} doesn't support installation",
+            print(f"Host {host} doesn't support installation",
                   file=sys.stderr)
             sys.exit(1)
 
@@ -186,7 +185,7 @@ class Application(metaclass=Singleton):
             }
         except KeyError:
             raise ApplicationError(
-                f"Target {target} doesn't support installation"
+                f"Host {host} doesn't support installation"
             )
 
         # Unattended install scripts are being generated on the fly, based
@@ -221,7 +220,7 @@ class Application(metaclass=Singleton):
 
         cmd = [
             "virt-install",
-            "--name", vm_name,
+            "--name", host,
             "--location", facts["install"]["url"],
             "--virt-type", config.values["install"]["virt_type"],
             "--arch", config.values["install"]["arch"],
@@ -247,7 +246,7 @@ class Application(metaclass=Singleton):
             subprocess.check_call(cmd)
         except Exception as ex:
             raise ApplicationError(
-                f"Failed to install '{vm_name}': {ex}"
+                f"Failed to install host '{host}': {ex}"
             )
 
     @required_deps('ansible_runner')

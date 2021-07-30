@@ -13,6 +13,12 @@ class CommandLine:
 
     def __init__(self):
         # Common option parsers to inherit from
+        hostopt = argparse.ArgumentParser(add_help=False)
+        hostopt.add_argument(
+            "host",
+            help="host to act on",
+        )
+
         hostsopt = argparse.ArgumentParser(add_help=False)
         hostsopt.add_argument(
             "hosts",
@@ -93,14 +99,7 @@ class CommandLine:
         installparser = subparsers.add_parser(
             "install",
             help="perform unattended host installation",
-            parents=[targetopt, waitopt],
-        )
-        installparser.add_argument(
-            "--name",
-            help="name for the installed VM instance",
-            dest="vm_name",
-            metavar="NAME",
-            required=True,
+            parents=[hostopt, waitopt],
         )
         installparser.set_defaults(func=Application._action_install)
 
