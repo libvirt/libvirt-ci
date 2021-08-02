@@ -99,7 +99,7 @@ unittests:
     - apk update
     - apk add git
   script:
-    - pip3 install setuptools pytest GitPython pyyaml
+    - pip3 install setuptools pytest pyyaml
     - cd guests/lcitool
     - pytest --verbose
 
@@ -111,7 +111,7 @@ check-prepare:
     - apk update
     - apk add git
   script:
-    - pip install setuptools GitPython pyyaml
+    - pip install setuptools pyyaml
     - mkdir build
     - for target in `./lcitool targets --containerized` ;
       do
