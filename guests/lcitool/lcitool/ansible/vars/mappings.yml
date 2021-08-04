@@ -715,7 +715,9 @@ mappings:
   libfdt:
     apk: dtc-dev
     deb: libfdt-dev
+    pkg: dtc
     rpm: libfdt-devel
+    MacOS: dtc
     cross-policy-default: foreign
 
   libffi:
