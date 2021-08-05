@@ -19,6 +19,35 @@ log = logging.getLogger(__name__)
 
 
 def expand_pattern(pattern, iterable, name):
+    """
+    Expands a simple user-provided pattern and return the corresponding
+    items from the starting iterable.
+
+    Assuming the iterable is
+
+      [ "foo", "bar", "baz" ]
+
+    then patterns will expand as
+
+      "foo,bar" => [ "foo", "bar" ]
+      "b*"      => [ "bar", "baz" ]
+      "baz,f*"  => [ "baz", "foo" ]
+      "*"       => [ "foo", "bar", "baz" ]
+      "all"     => [ "foo", "bar", "baz" ]
+
+    Passing in a pattern that can't be expanded successfully will result in
+    an exception being raised.
+
+    Note that ordering is preserved among sub-patterns (those separated by
+    commas) but no guarantee in terms of ordering is made when it comes to
+    wildcard expansion.
+
+    :param pattern: pattern to be expanded
+    :param iterable: iterable over all possible items
+    :param name: name of the iterable (used for error reporting)
+    :returns: list containing the items in iterable that match pattern
+    """
+
     log.debug(f"Expanding {name} pattern '{pattern}' on '{iterable}'")
 
     if pattern is None:
@@ -41,9 +70,11 @@ def expand_pattern(pattern, iterable, name):
         if not partial_matches:
             raise Exception(f"Invalid {name} list '{pattern}'")
 
-        matches.extend(partial_matches)
+        for match in partial_matches:
+            if match not in matches:
+                matches.append(match)
 
-    return set(matches)
+    return matches
 
 
 def get_native_arch():

@@ -120,7 +120,7 @@ class Projects(metaclass=Singleton):
             if project in projects_expanded:
                 projects_expanded.remove(project)
 
-        return list(projects_expanded)
+        return projects_expanded
 
     def get_packages(self, project):
         return self._projects[project].generic_packages
