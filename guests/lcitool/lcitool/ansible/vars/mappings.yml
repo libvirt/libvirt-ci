@@ -991,6 +991,8 @@ mappings:
     apk: libvirt-dev
     deb: libvirt-dev
     rpm: libvirt-devel
+    cross-mingw32-rpm: mingw32-libvirt
+    cross-mingw64-rpm: mingw64-libvirt
     cross-policy-default: foreign
 
   libvirt-glib:
