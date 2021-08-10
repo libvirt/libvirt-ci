@@ -254,12 +254,11 @@ class Application(metaclass=Singleton):
 
         # we don't keep a dependencies tree for projects, hence pattern
         # expansion would break the 'build' playbook
-        for project in args.projects.split(","):
-            if project == "all" or "*" in project:
-                raise ApplicationError(
-                    "'build' command doesn't support specifying projects by "
-                    "either wildcards or the 'all' keyword"
-                )
+        if args.projects == "all" or "*" in args.projects:
+            raise ApplicationError(
+                "'build' command doesn't support specifying projects by "
+                "either wildcards or the 'all' keyword"
+            )
 
         self._execute_playbook("build", args.hosts, args.projects,
                                args.git_revision)
