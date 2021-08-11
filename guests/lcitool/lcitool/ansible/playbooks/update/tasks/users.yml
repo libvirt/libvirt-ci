@@ -52,13 +52,13 @@
   when:
     - install.flavor == 'test'
 
-- name: '{{ install.flavor }}: Remove unnecessary home skeleton files'
+- name: '{{ install.flavor }}: Remove unnecessary bash_logout'
   file:
-    path: /home/{{ install.flavor }}/.{{ item }}
+    path: /home/{{ install.flavor }}/.bash_logout
     state: absent
-  loop:
-    - profile
-    - bash_logout
+  when:
+    - install.flavor == 'gitlab'
+
 
 - name: '{{ install.flavor }}: Install global gitconfig'
   template:
