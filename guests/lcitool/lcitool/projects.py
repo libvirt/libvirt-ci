@@ -40,8 +40,14 @@ class Projects(metaclass=Singleton):
     """
 
     @property
+    def projects(self):
+        if self._projects is None:
+            self._projects = self._load_projects()
+        return self._projects
+
+    @property
     def names(self):
-        return list(self._projects.keys())
+        return list(self.projects.keys())
 
     @property
     def mappings(self):
@@ -68,7 +74,7 @@ class Projects(metaclass=Singleton):
         return self._cpan_mappings
 
     def __init__(self):
-        self._projects = self._load_projects()
+        self._projects = None
         self._mappings = None
         self._pypi_mappings = None
         self._cpan_mappings = None
@@ -131,9 +137,6 @@ class Projects(metaclass=Singleton):
                 projects_expanded.remove(project)
 
         return projects_expanded
-
-    def get_packages(self, project):
-        return self._projects[project].generic_packages
 
 
 class Project:

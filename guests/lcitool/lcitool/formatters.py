@@ -103,8 +103,13 @@ class Formatter(metaclass=abc.ABCMeta):
                 arch_keys = [cross_arch + "-" + k for k in base_keys]
                 cross_keys = base_keys + arch_keys + cross_keys
 
-        for project in selected_projects:
-            for package in projects.get_packages(project):
+        for project_name in selected_projects:
+            try:
+                project = projects.projects[project_name]
+            except KeyError:
+                raise FormatterError(f"Invalid project '{project_name}'")
+
+            for package in project.generic_packages:
                 cross_policy = "native"
 
                 if (package not in mappings and
@@ -170,8 +175,13 @@ class Formatter(metaclass=abc.ABCMeta):
             extra_projects += ["python-pip"]
         if cpan_pkgs:
             extra_projects += ["perl-cpan"]
-        for project in extra_projects:
-            for package in projects.get_packages(project):
+        for project_name in extra_projects:
+            try:
+                project = projects.projects[project_name]
+            except KeyError:
+                raise FormatterError(f"Invalid project '{project_name}'")
+
+            for package in project.generic_packages:
                 if package not in mappings:
                     raise Exception(f"No mapping defined for {package}")
 
