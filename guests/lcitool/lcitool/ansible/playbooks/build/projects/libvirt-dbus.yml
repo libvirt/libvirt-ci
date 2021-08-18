@@ -15,6 +15,7 @@
       - centos-8
       - centos-stream-8
       - debian-10
+      - debian-11
       - debian-sid
       - fedora-33
       - fedora-34
