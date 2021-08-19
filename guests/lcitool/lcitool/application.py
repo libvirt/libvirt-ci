@@ -136,8 +136,8 @@ class Application(metaclass=Singleton):
     def _action_projects(self, args):
         self._entrypoint_debug(args)
 
-        projects_expanded = Projects().expand_pattern("all")
-        for project in sorted(projects_expanded):
+        projects = Projects()
+        for project in sorted(projects.names):
             print(project)
 
     def _action_install(self, args):
