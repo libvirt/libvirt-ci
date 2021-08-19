@@ -177,8 +177,8 @@ class Formatter(metaclass=abc.ABCMeta):
                     if key in mappings[package]:
                         pkgs[package] = mappings[package][key]
 
-                if pkgs[package] is None:
-                    raise Exception(f"No package for {package}")
+                if package in pkgs and pkgs[package] is None:
+                    del pkgs[package]
 
         varmap = {
             "packaging_command": facts["packaging"]["command"],
