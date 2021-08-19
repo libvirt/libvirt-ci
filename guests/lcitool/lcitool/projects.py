@@ -74,15 +74,23 @@ class Projects(metaclass=Singleton):
         self._cpan_mappings = None
 
     @staticmethod
-    def _load_projects():
-        source = Path(resource_filename(__name__, "ansible/vars/projects"))
-
+    def _load_projects_from_path(path):
         projects = {}
-        for item in source.iterdir():
+
+        for item in path.iterdir():
             if not item.is_file() or item.suffix != ".yml":
                 continue
 
-            projects[item.stem] = Project(item.stem)
+            projects[item.stem] = Project(item.stem, item)
+
+        return projects
+
+    @staticmethod
+    def _load_projects():
+        source = Path(resource_filename(__name__, "ansible/vars/projects"))
+
+        projects = Projects._load_projects_from_path(source)
+
         return projects
 
     def _load_mappings(self):
@@ -142,18 +150,16 @@ class Project:
             self._generic_packages = self._load_generic_packages()
         return self._generic_packages
 
-    def __init__(self, name):
+    def __init__(self, name, path):
         self.name = name
+        self.path = path
         self._generic_packages = None
 
     def _load_generic_packages(self):
         log.debug(f"Loading generic package list for project '{self.name}'")
 
-        tmp = Path(resource_filename(__name__, "ansible/vars/projects"))
-        yaml_path = Path(tmp, self.name + ".yml")
-
         try:
-            with open(yaml_path, "r") as infile:
+            with open(self.path, "r") as infile:
                 yaml_packages = yaml.safe_load(infile)
                 return yaml_packages["packages"]
         except Exception as ex:
