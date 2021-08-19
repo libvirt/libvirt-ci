@@ -23,18 +23,18 @@
     # Install base packages
     - include: 'tasks/packages.yml'
       loop:
-        - base
-        - developer
-        - perl-cpan
-        - python-pip
-        - vm
+        - internal/base
+        - internal/developer
+        - internal/perl-cpan
+        - internal/python-pip
+        - internal/vm
       loop_control:
         loop_var: project
 
     # Remove unwanted packages
     - include: 'tasks/packages.yml'
       vars:
-        project: unwanted
+        project: internal/unwanted
         state: absent
 
     # Install build dependencies for each project
@@ -47,7 +47,7 @@
     # Install packages needed for enabling cloud-init
     - include: 'tasks/packages.yml'
       vars:
-        project: cloud-init
+        project: internal/cloud-init
       when:
         - install.cloud_init
 

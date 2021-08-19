@@ -88,8 +88,10 @@ class Projects(metaclass=Singleton):
     @staticmethod
     def _load_projects():
         source = Path(resource_filename(__name__, "ansible/vars/projects"))
+        internal_source = Path(source, "internal")
 
         projects = Projects._load_projects_from_path(source)
+        projects.update(Projects._load_projects_from_path(internal_source))
 
         return projects
 
