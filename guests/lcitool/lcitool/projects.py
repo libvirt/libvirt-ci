@@ -50,6 +50,12 @@ class Projects(metaclass=Singleton):
         return list(self.projects.keys())
 
     @property
+    def internal_projects(self):
+        if self._internal_projects is None:
+            self._internal_projects = self._load_internal_projects()
+        return self._internal_projects
+
+    @property
     def mappings(self):
 
         # lazy load mappings
@@ -75,6 +81,7 @@ class Projects(metaclass=Singleton):
 
     def __init__(self):
         self._projects = None
+        self._internal_projects = None
         self._mappings = None
         self._pypi_mappings = None
         self._cpan_mappings = None
@@ -94,12 +101,12 @@ class Projects(metaclass=Singleton):
     @staticmethod
     def _load_projects():
         source = Path(resource_filename(__name__, "ansible/vars/projects"))
-        internal_source = Path(source, "internal")
+        return Projects._load_projects_from_path(source)
 
-        projects = Projects._load_projects_from_path(source)
-        projects.update(Projects._load_projects_from_path(internal_source))
-
-        return projects
+    @staticmethod
+    def _load_internal_projects():
+        source = Path(resource_filename(__name__, "ansible/vars/projects/internal"))
+        return Projects._load_projects_from_path(source)
 
     def _load_mappings(self):
         mappings_path = resource_filename(__name__,

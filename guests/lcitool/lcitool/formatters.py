@@ -177,7 +177,7 @@ class Formatter(metaclass=abc.ABCMeta):
             extra_projects += ["perl-cpan"]
         for project_name in extra_projects:
             try:
-                project = projects.projects[project_name]
+                project = projects.internal_projects[project_name]
             except KeyError:
                 raise FormatterError(f"Invalid project '{project_name}'")
 
