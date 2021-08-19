@@ -121,7 +121,7 @@ class Projects(metaclass=Singleton):
         except Exception as ex:
             raise ProjectError(f"Can't load mappings: {ex}")
 
-    def expand_pattern(self, pattern):
+    def expand_names(self, pattern):
         try:
             return util.expand_pattern(pattern, self.names, "project")
         except Exception as ex:

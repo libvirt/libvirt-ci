@@ -72,7 +72,7 @@ class Application(metaclass=Singleton):
         inventory = Inventory()
 
         hosts_expanded = inventory.expand_hosts(hosts)
-        selected_projects = Projects().expand_pattern(projects)
+        selected_projects = Projects().expand_names(projects)
 
         if git_revision is not None:
             tokens = git_revision.split("/")
@@ -278,7 +278,7 @@ class Application(metaclass=Singleton):
     def _action_variables(self, args):
         self._entrypoint_debug(args)
 
-        projects_expanded = Projects().expand_pattern(args.projects)
+        projects_expanded = Projects().expand_names(args.projects)
 
         variables = VariablesFormatter().format(args.target,
                                                 projects_expanded,
@@ -295,7 +295,7 @@ class Application(metaclass=Singleton):
     def _action_dockerfile(self, args):
         self._entrypoint_debug(args)
 
-        projects_expanded = Projects().expand_pattern(args.projects)
+        projects_expanded = Projects().expand_names(args.projects)
 
         dockerfile = DockerfileFormatter().format(args.target,
                                                   projects_expanded,
