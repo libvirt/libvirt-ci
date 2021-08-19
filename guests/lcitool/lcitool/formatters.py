@@ -103,9 +103,7 @@ class Formatter(metaclass=abc.ABCMeta):
                 arch_keys = [cross_arch + "-" + k for k in base_keys]
                 cross_keys = base_keys + arch_keys + cross_keys
 
-        # We need to add the base project manually here: the standard
-        # machinery hides it because it's an implementation detail
-        for project in selected_projects + ["base"]:
+        for project in selected_projects:
             for package in projects.get_packages(project):
                 cross_policy = "native"
 
@@ -163,7 +161,11 @@ class Formatter(metaclass=abc.ABCMeta):
                 if package in pkgs and cross_policy in ["skip", "foreign"]:
                     del pkgs[package]
 
-        extra_projects = []
+        # Some projects are not exposed to the user but we still need to
+        # deal with them, so we do that here. We can use a simplified
+        # version of the code above because the corresponding mappings
+        # are always trivially resolved
+        extra_projects = ["base"]
         if pypi_pkgs:
             extra_projects += ["python-pip"]
         if cpan_pkgs:
