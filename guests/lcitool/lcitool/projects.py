@@ -123,27 +123,9 @@ class Projects(metaclass=Singleton):
 
     def expand_pattern(self, pattern):
         try:
-            projects_expanded = util.expand_pattern(pattern, self.names,
-                                                    "project")
+            return util.expand_pattern(pattern, self.names, "project")
         except Exception as ex:
             raise ProjectError(f"Failed to expand '{pattern}': {ex}")
-
-        # Some projects are internal implementation details and should
-        # not be exposed to the user
-        internal_projects = [
-            "base",
-            "cloud-init",
-            "developer",
-            "perl-cpan",
-            "python-pip",
-            "unwanted",
-            "vm",
-        ]
-        for project in internal_projects:
-            if project in projects_expanded:
-                projects_expanded.remove(project)
-
-        return projects_expanded
 
 
 class Project:
