@@ -113,18 +113,17 @@ class Application(metaclass=Singleton):
         self._entrypoint_debug(args)
 
         inventory = Inventory()
-
         for host in sorted(inventory.hosts):
             print(host)
 
     def _action_targets(self, args):
         self._entrypoint_debug(args)
 
-        targets = Inventory().targets
-        for target in sorted(targets):
+        inventory = Inventory()
+        for target in sorted(inventory.targets):
             if args.containerized:
                 try:
-                    facts = Inventory().target_facts[target]
+                    facts = inventory.target_facts[target]
                 except KeyError:
                     raise ApplicationError(f"Invalid target '{target}'")
 
