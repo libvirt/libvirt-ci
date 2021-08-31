@@ -1533,6 +1533,8 @@ mappings:
     pkg: opencv
     CentOS:
     MacOS:
+    # FIXME Drop once the package is no longer broken
+    OpenSUSETumbleweed:
 
   python3-pillow:
     default: python3-pillow
