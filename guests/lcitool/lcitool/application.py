@@ -281,7 +281,7 @@ class Application(metaclass=Singleton):
 
         variables = VariablesFormatter().format(args.target,
                                                 projects_expanded,
-                                                None)
+                                                args.cross_arch)
 
         cliargv = [args.action]
         if args.cross_arch:
