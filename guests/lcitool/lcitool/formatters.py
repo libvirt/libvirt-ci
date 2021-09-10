@@ -131,7 +131,6 @@ class Formatter(metaclass=abc.ABCMeta):
                   f"cross_arch='{cross_arch}'")
 
         name = self.__class__.__name__.lower()
-        native_arch = util.get_native_arch()
 
         try:
             facts = Inventory().target_facts[target]
@@ -142,23 +141,6 @@ class Formatter(metaclass=abc.ABCMeta):
         if (name == "dockerfileformatter" and
             facts["packaging"]["format"] not in ["apk", "deb", "rpm"]):
             raise FormatterError(f"Target {target} doesn't support this generator")
-        if cross_arch:
-            osname = facts["os"]["name"]
-            if osname not in ["Debian", "Fedora"]:
-                raise FormatterError(f"Cannot cross compile on {osname}")
-            if (osname == "Debian" and cross_arch.startswith("mingw")):
-                raise FormatterError(
-                    f"Cannot cross compile for {cross_arch} on {osname}"
-                )
-            if (osname == "Fedora" and not cross_arch.startswith("mingw")):
-                raise FormatterError(
-                    f"Cannot cross compile for {cross_arch} on {osname}"
-                )
-            if cross_arch == native_arch:
-                raise FormatterError(
-                    f"Cross arch {cross_arch} should differ from native "
-                    f"{native_arch}"
-                )
 
         varmap = self._generator_build_varmap(facts,
                                               selected_projects,

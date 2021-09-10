@@ -188,6 +188,10 @@ class Project:
         if cross_arch is None:
             target_name = f"{target_name}-x86_64"
         else:
+            try:
+                util.validate_cross_platform(cross_arch, osname)
+            except ValueError as ex:
+                raise ProjectError(ex)
             target_name = f"{target_name}-{cross_arch}"
 
         # lazy evaluation + caching of package names for a given distro

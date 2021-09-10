@@ -175,3 +175,18 @@ def get_config_dir():
         config_dir = Path(os.environ["HOME"], ".config")
 
     return Path(config_dir, "lcitool")
+
+
+def validate_cross_platform(cross_arch, osname):
+    native_arch = get_native_arch()
+    if osname not in ["Debian", "Fedora"]:
+        raise ValueError(f"Cannot cross compile on {osname}")
+    if (osname == "Debian" and cross_arch.startswith("mingw")):
+        raise ValueError(f"Cannot cross compile for {cross_arch} on {osname}")
+    if (osname == "Fedora" and not cross_arch.startswith("mingw")):
+        raise ValueError(f"Cannot cross compile for {cross_arch} on {osname}")
+    if cross_arch == native_arch:
+        raise ValueError(
+            f"Cross arch {cross_arch} should differ from native "
+            f"{native_arch}"
+        )
