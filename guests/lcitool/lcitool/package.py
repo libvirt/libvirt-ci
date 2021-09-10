@@ -160,8 +160,7 @@ class CrossPackage(Package):
                     # to install the package for the native architecture in
                     # order to be able to build for the foreign architecture
                     cross_arch_deb = util.native_arch_to_deb_arch(cross_arch)
-                    if not (pkg_name.startswith("gcc-") or
-                            pkg_name.startswith("g++-")):
+                    if self.mapping not in ["gcc", "g++"]:
                         pkg_name = pkg_name + ":" + cross_arch_deb
                 return pkg_name
             except MappingKeyNotFound:
