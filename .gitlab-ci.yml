@@ -101,7 +101,7 @@ unittests:
   script:
     - pip3 install setuptools pytest pyyaml
     - cd guests/lcitool
-    - pytest --verbose
+    - python3 -m pytest --verbose
 
 check-prepare:
   stage: containers
