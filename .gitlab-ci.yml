@@ -131,6 +131,7 @@ x86_64-check-alpine-314:
 
 x86_64-check-alpine-edge:
   extends: .check_container_template
+  allow_failure: true
   variables:
     NAME: alpine-edge
 
@@ -151,6 +152,7 @@ x86_64-check-debian-10:
 
 x86_64-check-debian-sid:
   extends: .check_container_template
+  allow_failure: true
   variables:
     NAME: debian-sid
 
@@ -166,6 +168,7 @@ x86_64-check-fedora-34:
 
 x86_64-check-fedora-rawhide:
   extends: .check_container_template
+  allow_failure: true
   variables:
     NAME: fedora-rawhide
 
@@ -176,6 +179,7 @@ x86_64-check-opensuse-leap-152:
 
 x86_64-check-opensuse-tumbleweed:
   extends: .check_container_template
+  allow_failure: true
   variables:
     NAME: opensuse-tumbleweed
 
