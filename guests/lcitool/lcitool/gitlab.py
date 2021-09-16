@@ -74,6 +74,7 @@ def cirrus_template():
                   -e "s|[@]PYTHON@|$PYTHON|g"
                   -e "s|[@]PIP3@|$PIP3|g"
                   -e "s|[@]PYPI_PKGS@|$PYPI_PKGS|g"
+                  -e "s|[@]XML_CATALOG_FILES@|$XML_CATALOG_FILES|g"
               <ci/cirrus/build.yml >ci/cirrus/$NAME.yml
             - cat ci/cirrus/$NAME.yml
             - cirrus-run -v --show-build-log always ci/cirrus/$NAME.yml
