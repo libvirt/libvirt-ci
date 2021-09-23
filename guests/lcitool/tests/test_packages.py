@@ -34,14 +34,14 @@ def test_project():
 
 def test_verify_all_mappings_and_packages():
     expected_path = Path(DATA_DIR, "packages_in.yml")
-    actual_packages = set(Projects().mappings["mappings"].keys())
+    actual = set(Projects().mappings["mappings"].keys())
 
     # load the expected results
     with open(expected_path) as fd:
         yaml_data = yaml.safe_load(fd)
-        expected_packages = set(yaml_data["packages"])
+        expected = set(yaml_data["packages"])
 
-    assert actual_packages == expected_packages
+    assert actual == expected
 
 
 native_params = [
@@ -66,15 +66,15 @@ def test_package_resolution(test_project, target, arch):
 
     # load the expected results
     with open(expected_path) as fd:
-        expected = yaml.safe_load(fd)
+        yaml_data = yaml.safe_load(fd)
 
     # now get the actual results
     for cls in [NativePackage, CrossPackage, PyPIPackage, CPANPackage]:
         pkg_type = cls.__name__.replace("Package", "").lower()
 
-        actual_names = set([p.name for p in pkgs.values() if isinstance(p, cls)])
-        expected_names = set(expected.get(pkg_type, []))
-        assert actual_names == expected_names
+        actual = set([p.name for p in pkgs.values() if isinstance(p, cls)])
+        expected = set(yaml_data.get(pkg_type, []))
+        assert actual == expected
 
 
 @pytest.mark.parametrize(
