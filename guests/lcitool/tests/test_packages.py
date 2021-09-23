@@ -14,6 +14,7 @@ from lcitool.package import NativePackage, CrossPackage, PyPIPackage, CPANPackag
 
 
 ALL_TARGETS = sorted(Inventory().targets)
+DATA_DIR = Path(__file__).parent.joinpath("data")
 
 
 def get_non_cross_targets():
@@ -27,25 +28,20 @@ def get_non_cross_targets():
 
 
 @pytest.fixture
-def data_dir():
-    return Path(__file__).parent.joinpath("data")
-
-
-@pytest.fixture
 def facts():
     return Inventory().target_facts
 
 
 @pytest.fixture
-def test_project(data_dir):
-    return Project("packages_in", Path(data_dir, "packages_in.yml"))
+def test_project():
+    return Project("packages_in", Path(DATA_DIR, "packages_in.yml"))
 
 
-def test_verify_all_mappings_and_packages(data_dir):
+def test_verify_all_mappings_and_packages():
     actual_packages = set(Projects().mappings["mappings"].keys())
 
     # load the expected results
-    res_file = Path(data_dir, "packages_in.yml")
+    res_file = Path(DATA_DIR, "packages_in.yml")
     with open(res_file) as fd:
         yaml_data = yaml.safe_load(fd)
         expected_packages = set(yaml_data["packages"])
@@ -64,7 +60,7 @@ cross_params = [
 
 
 @pytest.mark.parametrize("target,arch", native_params + cross_params)
-def test_package_resolution(data_dir, facts, test_project, target, arch):
+def test_package_resolution(facts, test_project, target, arch):
     if arch is None:
         outfile = f"{target}.yml"
     else:
@@ -72,7 +68,7 @@ def test_package_resolution(data_dir, facts, test_project, target, arch):
     pkgs = test_project.get_packages(facts[target], cross_arch=arch)
 
     # load the expected results
-    res_file = Path(data_dir, "packages_out", outfile)
+    res_file = Path(DATA_DIR, "packages_out", outfile)
     with open(res_file) as fd:
         expected = yaml.safe_load(fd)
 
