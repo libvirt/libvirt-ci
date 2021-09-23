@@ -28,11 +28,6 @@ def get_non_cross_targets():
 
 
 @pytest.fixture
-def facts():
-    return Inventory().target_facts
-
-
-@pytest.fixture
 def test_project():
     return Project("packages_in", Path(DATA_DIR, "packages_in.yml"))
 
@@ -60,12 +55,13 @@ cross_params = [
 
 
 @pytest.mark.parametrize("target,arch", native_params + cross_params)
-def test_package_resolution(facts, test_project, target, arch):
+def test_package_resolution(test_project, target, arch):
     if arch is None:
         outfile = f"{target}.yml"
     else:
         outfile = f"{target}-cross-{arch}.yml"
-    pkgs = test_project.get_packages(facts[target], cross_arch=arch)
+    pkgs = test_project.get_packages(Inventory().target_facts[target],
+                                     cross_arch=arch)
 
     # load the expected results
     res_file = Path(DATA_DIR, "packages_out", outfile)
@@ -85,9 +81,10 @@ def test_package_resolution(facts, test_project, target, arch):
     "target",
     [pytest.param(target, id=target) for target in get_non_cross_targets()],
 )
-def test_unsuppported_cross_platform(facts, test_project, target):
+def test_unsuppported_cross_platform(test_project, target):
     with pytest.raises(ProjectError):
-        test_project.get_packages(facts[target], cross_arch="s390x")
+        test_project.get_packages(Inventory().target_facts[target],
+                                  cross_arch="s390x")
 
 
 @pytest.mark.parametrize(
@@ -97,6 +94,7 @@ def test_unsuppported_cross_platform(facts, test_project, target):
         pytest.param("fedora-rawhide", "s390x", id="fedora-rawhide-cross-s390x"),
     ],
 )
-def test_cross_platform_arch_mismatch(facts, test_project, target, arch):
+def test_cross_platform_arch_mismatch(test_project, target, arch):
     with pytest.raises(ProjectError):
-        test_project.get_packages(facts[target], cross_arch=arch)
+        test_project.get_packages(Inventory().target_facts[target],
+                                  cross_arch=arch)
