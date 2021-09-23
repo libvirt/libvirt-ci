@@ -47,6 +47,10 @@ def test_verify_all_mappings_and_packages():
     expected_path = Path(DATA_DIR, "packages_in.yml")
     actual = set(Projects().mappings["mappings"].keys())
 
+    if pytest.custom_args["regenerate_output"]:
+        with open(Path(DATA_DIR, "packages_in.yml"), "w") as fd:
+            yaml.safe_dump({"packages": sorted(actual)}, stream=fd)
+
     # load the expected results
     with open(expected_path) as fd:
         yaml_data = yaml.safe_load(fd)
@@ -77,6 +81,10 @@ def test_package_resolution(test_project, target, arch):
 
     # load the actual results
     actual = packages_as_dict(pkgs)
+
+    if pytest.custom_args["regenerate_output"]:
+        with open(Path(DATA_DIR, expected_path), "w") as fd:
+            yaml.safe_dump(actual, stream=fd)
 
     # load the expected results
     with open(expected_path) as fd:
