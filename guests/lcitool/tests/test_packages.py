@@ -27,6 +27,17 @@ def get_non_cross_targets():
     return ret
 
 
+def packages_as_dict(raw_pkgs):
+    ret = {}
+    for cls in [NativePackage, CrossPackage, PyPIPackage, CPANPackage]:
+        pkg_type = cls.__name__.replace("Package", "").lower()
+
+        pkg_names = set([p.name for p in raw_pkgs.values() if isinstance(p, cls)])
+        if pkg_names:
+            ret[pkg_type] = sorted(pkg_names)
+    return ret
+
+
 @pytest.fixture
 def test_project():
     return Project("packages_in", Path(DATA_DIR, "packages_in.yml"))
@@ -64,17 +75,15 @@ def test_package_resolution(test_project, target, arch):
     pkgs = test_project.get_packages(Inventory().target_facts[target],
                                      cross_arch=arch)
 
+    # load the actual results
+    actual = packages_as_dict(pkgs)
+
     # load the expected results
     with open(expected_path) as fd:
-        yaml_data = yaml.safe_load(fd)
+        expected = yaml.safe_load(fd)
 
-    # now get the actual results
-    for cls in [NativePackage, CrossPackage, PyPIPackage, CPANPackage]:
-        pkg_type = cls.__name__.replace("Package", "").lower()
-
-        actual = set([p.name for p in pkgs.values() if isinstance(p, cls)])
-        expected = set(yaml_data.get(pkg_type, []))
-        assert actual == expected
+    for key in actual.keys():
+        assert actual[key] == expected.get(key, [])
 
 
 @pytest.mark.parametrize(
