@@ -53,36 +53,26 @@ def test_verify_all_mappings_and_packages(data_dir):
     assert actual_packages == expected_packages
 
 
-@pytest.mark.parametrize("target", ALL_TARGETS, ids=ALL_TARGETS)
-def test_package_resolution(data_dir, facts, test_project, target):
-    pkgs = test_project.get_packages(facts[target])
+native_params = [
+    pytest.param(target, None, id=target) for target in ALL_TARGETS
+]
 
-    # load the expected results
-    res_file = Path(data_dir, "packages_out", f"{target}.yml")
-    with open(res_file) as fd:
-        expected = yaml.safe_load(fd)
-
-    # now get the actual results
-    for cls in [NativePackage, CrossPackage, PyPIPackage, CPANPackage]:
-        pkg_type = cls.__name__.replace("Package", "").lower()
-
-        actual_names = set([p.name for p in pkgs.values() if isinstance(p, cls)])
-        expected_names = set(expected.get(pkg_type, []))
-        assert actual_names == expected_names
+cross_params = [
+    pytest.param("debian-10", "s390x", id="debian-10-cross-s390x"),
+    pytest.param("fedora-rawhide", "mingw64", id="fedora-rawhide-cross-mingw64")
+]
 
 
-@pytest.mark.parametrize(
-    "target,arch",
-    [
-        pytest.param("debian-10", "s390x", id="debian-10-cross-s390x"),
-        pytest.param("fedora-rawhide", "mingw64", id="fedora-rawhide-cross-mingw64")
-    ],
-)
-def test_cross_package_resolution(data_dir, facts, test_project, target, arch):
+@pytest.mark.parametrize("target,arch", native_params + cross_params)
+def test_package_resolution(data_dir, facts, test_project, target, arch):
+    if arch is None:
+        outfile = f"{target}.yml"
+    else:
+        outfile = f"{target}-cross-{arch}.yml"
     pkgs = test_project.get_packages(facts[target], cross_arch=arch)
 
     # load the expected results
-    res_file = Path(data_dir, "packages_out", f"{target}-cross-{arch}.yml")
+    res_file = Path(data_dir, "packages_out", outfile)
     with open(res_file) as fd:
         expected = yaml.safe_load(fd)
 
