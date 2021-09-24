@@ -402,3 +402,21 @@ section at the beginning of the file - again, follow the existing entries by
 example. However, if you're introducing a new packaging format, you'll have to
 update **all** the mappings in the file so that lcitool knows what the name of
 a specific package is on your target OS.
+
+
+Contributing tests
+==================
+
+This project utilizes the pytest framework. Make sure you add a new test case
+with any new logic you introduce to the lcitool code base.
+Whenever you add new package mappings the test suite will naturally fail
+because it simply doesn't know about them. In that case, just re-run the test
+suite as
+
+::
+
+    $ cd guests/lcitool
+    $ python3 -m pytest --regenerate-output
+
+and the expected package data sets will be updated. You can then just grab the
+changes and add them to your commit.
