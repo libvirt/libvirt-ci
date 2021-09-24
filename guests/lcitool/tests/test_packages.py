@@ -33,11 +33,11 @@ def test_project():
 
 
 def test_verify_all_mappings_and_packages():
+    expected_path = Path(DATA_DIR, "packages_in.yml")
     actual_packages = set(Projects().mappings["mappings"].keys())
 
     # load the expected results
-    res_file = Path(DATA_DIR, "packages_in.yml")
-    with open(res_file) as fd:
+    with open(expected_path) as fd:
         yaml_data = yaml.safe_load(fd)
         expected_packages = set(yaml_data["packages"])
 
@@ -60,12 +60,12 @@ def test_package_resolution(test_project, target, arch):
         outfile = f"{target}.yml"
     else:
         outfile = f"{target}-cross-{arch}.yml"
+    expected_path = Path(DATA_DIR, "packages_out", outfile)
     pkgs = test_project.get_packages(Inventory().target_facts[target],
                                      cross_arch=arch)
 
     # load the expected results
-    res_file = Path(DATA_DIR, "packages_out", outfile)
-    with open(res_file) as fd:
+    with open(expected_path) as fd:
         expected = yaml.safe_load(fd)
 
     # now get the actual results
