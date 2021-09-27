@@ -166,7 +166,7 @@ def format_variables(variables):
         val = variables[key]
         job.append(f"    {key}: {val}")
     if len(job) > 0:
-        return "\n".join(job) + "\n"
+        return "  variables:\n" + "\n".join(job) + "\n"
     return ""
 
 
@@ -185,8 +185,19 @@ def format_artifacts(artifacts):
     return section[1:]
 
 
+def merge_vars(system, user):
+    for key in user.keys():
+        if key in system:
+            raise Exception(
+                f"""Attempt to override system variable '{key}' in manifest""")
+    return {**user, **system}
+
+
 def native_build_job(target, suffix, variables, template, allow_failure, artifacts):
     allow_failure = str(allow_failure).lower()
+    jobvars = merge_vars({
+        "NAME": target,
+    }, variables)
 
     return textwrap.dedent(
         f"""
@@ -195,13 +206,15 @@ def native_build_job(target, suffix, variables, template, allow_failure, artifac
           needs:
             - x86_64-{target}-container
           allow_failure: {allow_failure}
-          variables:
-            NAME: {target}
-        """) + format_variables(variables) + format_artifacts(artifacts)
+        """) + format_variables(jobvars) + format_artifacts(artifacts)
 
 
 def cross_build_job(target, arch, suffix, variables, template, allow_failure, artifacts):
     allow_failure = str(allow_failure).lower()
+    jobvars = merge_vars({
+        "NAME": target,
+        "CROSS": arch
+    }, variables)
 
     return textwrap.dedent(
         f"""
@@ -210,10 +223,7 @@ def cross_build_job(target, arch, suffix, variables, template, allow_failure, ar
           needs:
             - {arch}-{target}-container
           allow_failure: {allow_failure}
-          variables:
-            NAME: {target}
-            CROSS: {arch}
-        """) + format_variables(variables) + format_artifacts(artifacts)
+        """) + format_variables(jobvars) + format_artifacts(artifacts)
 
 
 def cirrus_build_job(target, instance_type, image_selector, image_name,
@@ -229,6 +239,15 @@ def cirrus_build_job(target, instance_type, image_selector, image_name,
     else:
         raise Exception(f"Unknown package command {pkg_cmd}")
     allow_failure = str(allow_failure).lower()
+    jobvars = merge_vars({
+        "NAME": target,
+        "CIRRUS_VM_INSTANCE_TYPE": instance_type,
+        "CIRRUS_VM_IMAGE_SELECTOR": image_selector,
+        "CIRRUS_VM_IMAGE_NAME": image_name,
+        "UPDATE_COMMAND": update_cmd,
+        "UPGRADE_COMMAND": upgrade_cmd,
+        "INSTALL_COMMAND": install_cmd,
+    }, variables)
 
     return textwrap.dedent(
         f"""
@@ -236,12 +255,4 @@ def cirrus_build_job(target, instance_type, image_selector, image_name,
           extends: .cirrus_build_job
           needs: []
           allow_failure: {allow_failure}
-          variables:
-            NAME: {target}
-            CIRRUS_VM_INSTANCE_TYPE: {instance_type}
-            CIRRUS_VM_IMAGE_SELECTOR: {image_selector}
-            CIRRUS_VM_IMAGE_NAME: {image_name}
-            UPDATE_COMMAND: {update_cmd}
-            UPGRADE_COMMAND: {upgrade_cmd}
-            INSTALL_COMMAND: {install_cmd}
-        """) + format_variables(variables)
+        """) + format_variables(jobvars)
