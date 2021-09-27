@@ -1075,8 +1075,6 @@ mappings:
 
   meson:
     default: meson
-    CentOS8:
-    CentOSStream8:
     Debian10:
     OpenSUSELeap152:
     Ubuntu1804:

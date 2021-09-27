@@ -134,6 +134,7 @@ native:
 - lzo-devel
 - make
 - mesa-libgbm-devel
+- meson
 - nano
 - nbdkit
 - ncurses-devel
@@ -250,5 +251,3 @@ native:
 - zip
 - zlib-devel
 - zlib-static
-pypi:
-- meson==0.56.0
