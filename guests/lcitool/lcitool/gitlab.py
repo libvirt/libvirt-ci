@@ -162,7 +162,8 @@ def cross_container_job(target, arch, allow_failure):
 
 def format_variables(variables):
     job = []
-    for key, val in variables.items():
+    for key in sorted(variables.keys()):
+        val = variables[key]
         job.append(f"    {key}: {val}")
     if len(job) > 0:
         return "\n".join(job) + "\n"
