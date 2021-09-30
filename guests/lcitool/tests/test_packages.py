@@ -78,8 +78,6 @@ def test_package_resolution(test_project, target, arch):
     expected_path = Path(DATA_DIR, "packages_out", outfile)
     pkgs = test_project.get_packages(Inventory().target_facts[target],
                                      cross_arch=arch)
-
-    # load the actual results
     actual = packages_as_dict(pkgs)
 
     if pytest.custom_args["regenerate_output"]:
