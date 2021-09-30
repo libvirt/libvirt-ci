@@ -45,16 +45,16 @@ def test_project():
 
 def test_verify_all_mappings_and_packages():
     expected_path = Path(DATA_DIR, "packages_in.yml")
-    actual = set(Projects().mappings["mappings"].keys())
+    actual = sorted(Projects().mappings["mappings"].keys())
 
     if pytest.custom_args["regenerate_output"]:
         with open(Path(DATA_DIR, "packages_in.yml"), "w") as fd:
-            yaml.safe_dump({"packages": sorted(actual)}, stream=fd)
+            yaml.safe_dump({"packages": actual}, stream=fd)
 
     # load the expected results
     with open(expected_path) as fd:
         yaml_data = yaml.safe_load(fd)
-        expected = set(yaml_data["packages"])
+        expected = yaml_data["packages"]
 
     assert actual == expected
 
