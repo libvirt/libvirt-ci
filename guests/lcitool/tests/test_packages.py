@@ -98,7 +98,7 @@ def test_package_resolution(test_project, target, arch):
     "target",
     [pytest.param(target, id=target) for target in get_non_cross_targets()],
 )
-def test_unsuppported_cross_platform(test_project, target):
+def test_unsupported_cross_platform(test_project, target):
     with pytest.raises(ProjectError):
         test_project.get_packages(Inventory().target_facts[target],
                                   cross_arch="s390x")
