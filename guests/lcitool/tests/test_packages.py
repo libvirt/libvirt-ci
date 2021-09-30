@@ -55,7 +55,9 @@ def test_verify_all_mappings_and_packages():
     with open(expected_path) as fd:
         expected = yaml.safe_load(fd)
 
-    assert actual == expected
+    assert actual.keys() == expected.keys()
+    for key in actual.keys():
+        assert actual[key] == expected[key]
 
 
 native_params = [
@@ -87,8 +89,9 @@ def test_package_resolution(test_project, target, arch):
     with open(expected_path) as fd:
         expected = yaml.safe_load(fd)
 
+    assert actual.keys() == expected.keys()
     for key in actual.keys():
-        assert actual[key] == expected.get(key, [])
+        assert actual[key] == expected[key]
 
 
 @pytest.mark.parametrize(
