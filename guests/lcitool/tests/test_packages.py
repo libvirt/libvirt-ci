@@ -38,6 +38,19 @@ def packages_as_dict(raw_pkgs):
     return ret
 
 
+def assert_matches_file(actual, expected_path):
+    if pytest.custom_args["regenerate_output"]:
+        with open(expected_path, "w") as fd:
+            yaml.safe_dump(actual, stream=fd)
+
+    with open(expected_path) as fd:
+        expected = yaml.safe_load(fd)
+
+    assert actual.keys() == expected.keys()
+    for key in actual.keys():
+        assert actual[key] == expected[key]
+
+
 @pytest.fixture
 def test_project():
     return Project("packages_in", Path(DATA_DIR, "packages_in.yml"))
@@ -47,17 +60,7 @@ def test_verify_all_mappings_and_packages():
     expected_path = Path(DATA_DIR, "packages_in.yml")
     actual = {"packages": sorted(Projects().mappings["mappings"].keys())}
 
-    if pytest.custom_args["regenerate_output"]:
-        with open(expected_path, "w") as fd:
-            yaml.safe_dump(actual, stream=fd)
-
-    # load the expected results
-    with open(expected_path) as fd:
-        expected = yaml.safe_load(fd)
-
-    assert actual.keys() == expected.keys()
-    for key in actual.keys():
-        assert actual[key] == expected[key]
+    assert_matches_file(actual, expected_path)
 
 
 native_params = [
@@ -81,17 +84,7 @@ def test_package_resolution(test_project, target, arch):
                                      cross_arch=arch)
     actual = packages_as_dict(pkgs)
 
-    if pytest.custom_args["regenerate_output"]:
-        with open(expected_path, "w") as fd:
-            yaml.safe_dump(actual, stream=fd)
-
-    # load the expected results
-    with open(expected_path) as fd:
-        expected = yaml.safe_load(fd)
-
-    assert actual.keys() == expected.keys()
-    for key in actual.keys():
-        assert actual[key] == expected[key]
+    assert_matches_file(actual, expected_path)
 
 
 @pytest.mark.parametrize(
