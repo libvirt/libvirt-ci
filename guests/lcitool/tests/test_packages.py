@@ -40,6 +40,9 @@ def packages_as_dict(raw_pkgs):
 
 def assert_matches_file(actual, expected_path):
     if pytest.custom_args["regenerate_output"]:
+        # Make sure the target directory exists, since creating the
+        # output file would fail otherwise
+        expected_path.parent.mkdir(parents=True, exist_ok=True)
         with open(expected_path, "w") as fd:
             yaml.safe_dump(actual, stream=fd)
 
