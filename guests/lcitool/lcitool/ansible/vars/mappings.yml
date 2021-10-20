@@ -1135,6 +1135,7 @@ mappings:
     apk: netcf-dev
     deb: libnetcf-dev
     rpm: netcf-devel
+    DebianSid:
     OpenSUSE:
     cross-policy-default: skip
 

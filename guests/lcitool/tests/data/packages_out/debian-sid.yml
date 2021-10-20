@@ -116,7 +116,6 @@ native:
 - libnet-openssh-perl
 - libnet-snmp-perl
 - libnetaddr-ip-perl
-- libnetcf-dev
 - libnfs-dev
 - libnl-3-dev
 - libnl-route-3-dev
