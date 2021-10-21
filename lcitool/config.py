@@ -60,10 +60,10 @@ class Config(metaclass=Singleton):
 
     def __init__(self):
         self._values = None
-
-    def _config_file_paths(self):
-        return [Path(util.get_config_dir(), fname) for fname in
-                ["config.yml", "config.yaml"]]
+        self._config_file_paths = [
+            Path(util.get_config_dir(), fname) for fname in
+            ["config.yml", "config.yaml"]
+        ]
 
     def _load_config(self):
         # Load the template config containing the defaults first, this must
@@ -73,7 +73,7 @@ class Config(metaclass=Singleton):
             default_config = yaml.safe_load(fp)
 
         user_config_path = None
-        for user_config_path in self._config_file_paths():
+        for user_config_path in self._config_file_paths:
             if user_config_path.exists():
                 break
         else:
