@@ -1133,10 +1133,13 @@ mappings:
 
   netcf:
     apk: netcf-dev
-    deb: libnetcf-dev
-    rpm: netcf-devel
-    DebianSid:
-    OpenSUSE:
+    Fedora: netcf-devel
+    CentOS8: netcf-devel
+    CentOSStream8: netcf-devel
+    Debian10: libnetcf-dev
+    Debian11: libnetcf-dev
+    Ubuntu1804: libnetcf-dev
+    Ubuntu2004: libnetcf-dev
     cross-policy-default: skip
 
   net-snmp:
