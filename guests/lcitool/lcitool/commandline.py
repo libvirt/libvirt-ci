@@ -90,6 +90,9 @@ class CommandLine:
             help="display debugging information",
             action="store_true",
         )
+        self._parser.add_argument(
+            "-d", "--data-dir",
+            help="extra directory for loading data files from")
 
         subparsers = self._parser.add_subparsers(metavar="ACTION",
                                                  dest="action")

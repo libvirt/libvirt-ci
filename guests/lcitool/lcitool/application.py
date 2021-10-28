@@ -343,6 +343,7 @@ class Application(metaclass=Singleton):
 
     def run(self, args):
         try:
+            util.set_extra_data_dir(args.data_dir)
             args.func(self, args)
         except (ApplicationError,
                 ConfigError,

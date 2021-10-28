@@ -84,7 +84,13 @@ class Projects(metaclass=Singleton):
     @staticmethod
     def _load_projects():
         source = Path(resource_filename(__name__, "ansible/vars/projects"))
-        return Projects._load_projects_from_path(source)
+        projects = Projects._load_projects_from_path(source)
+
+        if util.get_extra_data_dir() is not None:
+            source = Path(util.get_extra_data_dir()).joinpath("projects")
+            projects.update(Projects._load_projects_from_path(source))
+
+        return projects
 
     @staticmethod
     def _load_internal_projects():

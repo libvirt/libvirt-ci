@@ -179,6 +179,19 @@ def get_config_dir():
     return Path(config_dir, "lcitool")
 
 
+extra_data_dir = None
+
+
+def get_extra_data_dir():
+    global extra_data_dir
+    return extra_data_dir
+
+
+def set_extra_data_dir(path):
+    global extra_data_dir
+    extra_data_dir = path
+
+
 def validate_cross_platform(cross_arch, osname):
     native_arch = get_native_arch()
     if osname not in ["Debian", "Fedora"]:
