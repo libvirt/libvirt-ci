@@ -5,7 +5,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import pytest
-import yaml
+
+import test_utils.utils as test_utils
 
 from pathlib import Path
 from lcitool.inventory import Inventory
@@ -14,7 +15,6 @@ from lcitool.package import NativePackage, CrossPackage, PyPIPackage, CPANPackag
 
 
 ALL_TARGETS = sorted(Inventory().targets)
-DATA_DIR = Path(__file__).parent.joinpath("data")
 
 
 def get_non_cross_targets():
@@ -38,32 +38,17 @@ def packages_as_dict(raw_pkgs):
     return ret
 
 
-def assert_matches_file(actual, expected_path):
-    if pytest.custom_args["regenerate_output"]:
-        # Make sure the target directory exists, since creating the
-        # output file would fail otherwise
-        expected_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(expected_path, "w") as fd:
-            yaml.safe_dump(actual, stream=fd)
-
-    with open(expected_path) as fd:
-        expected = yaml.safe_load(fd)
-
-    assert actual.keys() == expected.keys()
-    for key in actual.keys():
-        assert actual[key] == expected[key]
-
-
 @pytest.fixture
 def test_project():
-    return Project("packages_in", Path(DATA_DIR, "packages_in.yml"))
+    return Project("packages",
+                   Path(test_utils.test_data_indir(__file__), "packages.yml"))
 
 
 def test_verify_all_mappings_and_packages():
-    expected_path = Path(DATA_DIR, "packages_in.yml")
+    expected_path = Path(test_utils.test_data_indir(__file__), "packages.yml")
     actual = {"packages": sorted(Projects().mappings["mappings"].keys())}
 
-    assert_matches_file(actual, expected_path)
+    test_utils.assert_matches_file(actual, expected_path)
 
 
 native_params = [
@@ -82,12 +67,12 @@ def test_package_resolution(test_project, target, arch):
         outfile = f"{target}.yml"
     else:
         outfile = f"{target}-cross-{arch}.yml"
-    expected_path = Path(DATA_DIR, "packages_out", outfile)
+    expected_path = Path(test_utils.test_data_outdir(__file__), outfile)
     pkgs = test_project.get_packages(Inventory().target_facts[target],
                                      cross_arch=arch)
     actual = packages_as_dict(pkgs)
 
-    assert_matches_file(actual, expected_path)
+    test_utils.assert_matches_file(actual, expected_path)
 
 
 @pytest.mark.parametrize(
