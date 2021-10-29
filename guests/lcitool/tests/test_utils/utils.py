@@ -7,6 +7,26 @@
 import pytest
 import yaml
 
+import test_packages
+
+from pathlib import Path
+
+
+def base_data_dir():
+    return Path(test_packages.__file__).parent.joinpath("data")
+
+
+def test_data_dir(test_name):
+    return Path(base_data_dir(), Path(test_name).stem[len("test_"):])
+
+
+def test_data_outdir(test_name):
+    return Path(test_data_dir(test_name), "out")
+
+
+def test_data_indir(test_name):
+    return Path(test_data_dir(test_name), "in")
+
 
 def assert_matches_file(actual, expected_path):
     if pytest.custom_args["regenerate_output"]:
