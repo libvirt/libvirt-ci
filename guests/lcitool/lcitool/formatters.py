@@ -92,7 +92,7 @@ class Formatter(metaclass=abc.ABCMeta):
             pkg_type = cls.__name__.replace("Package", "").lower()
 
             names = set([p.name for p in pkgs.values() if isinstance(p, cls)])
-            package_names[pkg_type] = sorted(names) if names else None
+            package_names[pkg_type] = sorted(names)
 
         varmap = {
             "packaging_command": facts["packaging"]["command"],
@@ -157,11 +157,11 @@ class DockerfileFormatter(Formatter):
 
         varmap["pkgs"] = pkg_align[1:] + pkg_align.join(varmap["pkgs"])
 
-        if varmap["cross_pkgs"] is not None:
+        if varmap["cross_pkgs"]:
             varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(varmap["cross_pkgs"])
-        if varmap["pypi_pkgs"] is not None:
+        if varmap["pypi_pkgs"]:
             varmap["pypi_pkgs"] = pypi_pkg_align[1:] + pypi_pkg_align.join(varmap["pypi_pkgs"])
-        if varmap["cpan_pkgs"] is not None:
+        if varmap["cpan_pkgs"]:
             varmap["cpan_pkgs"] = cpan_pkg_align[1:] + cpan_pkg_align.join(varmap["cpan_pkgs"])
 
         base = facts["containers"]["base"]
@@ -338,10 +338,10 @@ class DockerfileFormatter(Formatter):
             cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands))
             strings.append(cross_script.format(**varmap))
 
-        if varmap["pypi_pkgs"] is not None:
+        if varmap["pypi_pkgs"]:
             strings.append("\nRUN pip3 install {pypi_pkgs}".format(**varmap))
 
-        if varmap["cpan_pkgs"] is not None:
+        if varmap["cpan_pkgs"]:
             strings.append("\nRUN cpanm --notest {cpan_pkgs}".format(**varmap))
 
         common_vars = ["ENV LANG \"en_US.UTF-8\""]
