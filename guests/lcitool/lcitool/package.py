@@ -31,6 +31,9 @@ Exported classes:
     - PyPIPackage
     - CPANPackage
     - PackageFactory
+
+Exported functions:
+    - package_names_by_type
 """
 
 
@@ -40,6 +43,21 @@ import logging
 from lcitool import util
 
 log = logging.getLogger(__name__)
+
+
+def package_names_by_type(pkgs):
+    if not isinstance(pkgs, dict):
+        return None
+
+    package_names = {}
+    for cls in [NativePackage, CrossPackage, PyPIPackage, CPANPackage]:
+        # This will extract e.g. 'pypi' from PyPIPackage
+        pkg_type = cls.__name__.replace("Package", "").lower()
+
+        names = set([p.name for p in pkgs.values() if isinstance(p, cls)])
+        package_names[pkg_type] = sorted(names)
+
+    return package_names
 
 
 class PackageError(Exception):

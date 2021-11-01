@@ -12,7 +12,7 @@ from pkg_resources import resource_filename
 from lcitool import util
 from lcitool.inventory import Inventory
 from lcitool.projects import Projects
-from lcitool.package import CPANPackage, NativePackage, CrossPackage, PyPIPackage
+from lcitool.package import package_names_by_type
 
 
 log = logging.getLogger(__name__)
@@ -75,7 +75,6 @@ class Formatter(metaclass=abc.ABCMeta):
                                 selected_projects,
                                 cross_arch):
         projects = Projects()
-        package_names = {}
 
         # we need the 'base' internal project here, but packages for internal
         # projects are not resolved via the public API, so it requires special
@@ -85,13 +84,7 @@ class Formatter(metaclass=abc.ABCMeta):
 
         # we can now load packages for the rest of the projects
         pkgs.update(projects.get_packages(selected_projects, facts, cross_arch))
-
-        for cls in [NativePackage, CrossPackage, PyPIPackage, CPANPackage]:
-            # This will extract e.g. 'pypi' from PyPIPackage
-            pkg_type = cls.__name__.replace("Package", "").lower()
-
-            names = set([p.name for p in pkgs.values() if isinstance(p, cls)])
-            package_names[pkg_type] = sorted(names)
+        package_names = package_names_by_type(pkgs)
 
         varmap = {
             "packaging_command": facts["packaging"]["command"],
