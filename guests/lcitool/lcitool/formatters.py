@@ -220,8 +220,17 @@ class DockerfileFormatter(Formatter):
                     "echo -e '%s' > /usr/bin/nosync" % "\\n\\\n".join(nosyncsh),
                     "chmod +x /usr/bin/nosync"])
 
-            # First we need to run update, then config and install
-            commands.extend(["{nosync}{packaging_command} update -y"])
+            # First we need to run update, then config and install.
+            # For rolling distros, it's preferable to do a distro syncing type
+            # of update rather than a regular package update
+            if (facts["os"]["name"] == "Fedora" and
+                facts["os"]["version"] == "Rawhide"):
+                commands.extend(["{nosync}{packaging_command} distro-sync -y"])
+            elif (facts["os"]["name"] == "OpenSUSE" and
+                  facts["os"]["version"] == "Tumbleweed"):
+                commands.extend(["{nosync}{packaging_command} dist-upgrade -y"])
+            else:
+                commands.extend(["{nosync}{packaging_command} update -y"])
 
             if facts["os"]["name"] == "CentOS":
                 # Starting with CentOS 8, most -devel packages are shipped in

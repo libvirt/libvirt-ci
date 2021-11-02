@@ -11,7 +11,7 @@ else\n\
 fi\n\
 exec "$@"' > /usr/bin/nosync && \
     chmod +x /usr/bin/nosync && \
-    nosync dnf update -y && \
+    nosync dnf distro-sync -y && \
     nosync dnf install -y \
         ca-certificates \
         git \
