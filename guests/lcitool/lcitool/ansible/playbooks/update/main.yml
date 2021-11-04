@@ -23,8 +23,10 @@
     # Configure environment. Needs to happen after installing packages
     - include: 'tasks/kludges.yml'
     - include: 'tasks/services.yml'
-    - include: 'tasks/ccache.yml'
     - include: 'tasks/users.yml'
+    - include: 'tasks/ccache.yml'
+      when:
+        - '"ccache" in packages'
 
     # The following should only run on locally installed VMs
     - block:
