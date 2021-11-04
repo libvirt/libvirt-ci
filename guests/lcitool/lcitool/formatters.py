@@ -76,7 +76,6 @@ class Formatter(metaclass=abc.ABCMeta):
                                 cross_arch):
         projects = Projects()
         package_names = {}
-        pkgs = {}
 
         # we need the 'base' internal project here, but packages for internal
         # projects are not resolved via the public API, so it requires special
