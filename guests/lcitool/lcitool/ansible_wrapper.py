@@ -122,6 +122,9 @@ class AnsibleWrapper():
             dst_dir.mkdir(parents=True, exist_ok=True)
 
             for group in group_vars:
+                log.debug(f"Dumping group vars for [{group}]: "
+                          f"{group_vars[group]}")
+
                 dst = Path(dst_dir, group + ".yml")
                 with open(dst, "w") as fp:
                     yaml.dump(group_vars[group], fp)
