@@ -147,7 +147,7 @@ An example of a simple INI inventory:
     centos-8-2
     some-other-centos-8
 
-    [fedora-33]
+    [fedora-35]
     fedora-test-1
     fedora-test-2   fully_managed=True
 

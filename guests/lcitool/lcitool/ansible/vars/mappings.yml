@@ -1838,7 +1838,6 @@ mappings:
     rpm: guestfs-tools
     CentOS8: libguestfs-tools-c
     CentOSStream8: libguestfs-tools-c
-    Fedora33: libguestfs-tools-c
 
   vte:
     default: vte3

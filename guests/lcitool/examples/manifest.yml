@@ -126,8 +126,6 @@ targets:
       - arch: ppc64le
       - arch: s390x
 
-  fedora-33: x86_64
-
   fedora-34: x86_64
 
   fedora-35: x86_64
