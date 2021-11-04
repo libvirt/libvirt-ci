@@ -8,6 +8,7 @@
       - debian-sid
       - fedora-33
       - fedora-34
+      - fedora-35
       - fedora-rawhide
       - opensuse-leap-152
       - opensuse-tumbleweed
@@ -27,4 +28,5 @@
     machines:
       - fedora-33
       - fedora-34
+      - fedora-35
       - fedora-rawhide
