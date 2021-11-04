@@ -17,7 +17,6 @@
       - debian-10
       - debian-11
       - debian-sid
-      - fedora-33
       - fedora-34
       - fedora-35
       - fedora-rawhide

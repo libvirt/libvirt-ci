@@ -13,7 +13,6 @@
     # The spec file for virt-viewer requires a very recent version
     # of spice-gtk, so we have to skip this job on older distros
     machines:
-      - fedora-33
       - fedora-34
       - fedora-35
       - fedora-rawhide
