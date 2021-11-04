@@ -1227,7 +1227,6 @@ mappings:
     MacOS: perl
     CentOS8: perl
     CentOSStream8: perl
-    Fedora32: perl
 
   perl-App-cpanminus:
     apk: perl-app-cpanminus
@@ -1329,7 +1328,6 @@ mappings:
     OpenSUSE: perl-base
     CentOS8: perl
     CentOSStream8: perl
-    Fedora32: perl
 
   perl-TAP-Formatter-HTML:
     deb: libtap-formatter-html-perl
