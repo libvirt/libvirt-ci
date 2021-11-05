@@ -161,6 +161,19 @@ class DockerfileFormatter(Formatter):
         if varmap["cpan_pkgs"]:
             varmap["cpan_pkgs"] = cpan_pkg_align[1:] + cpan_pkg_align.join(varmap["cpan_pkgs"])
 
+        varmap["nosync"] = ""
+        if facts["packaging"]["format"] == "deb":
+            varmap["nosync"] = "eatmydata "
+        elif facts["packaging"]["format"] == "rpm" and facts["os"]["name"] == "Fedora":
+            varmap["nosync"] = "nosync "
+        elif facts["packaging"]["format"] == "apk":
+            # TODO: 'libeatmydata' package is present in 'testing' repo
+            # for Alpine Edge. Once it graduates to 'main' repo we
+            # should use it here, and see later comment about adding
+            # the package too
+            # varmap["nosync"] = "eatmydata "
+            pass
+
         if self._base:
             base = self._base
         else:
@@ -170,12 +183,8 @@ class DockerfileFormatter(Formatter):
         commands = []
         common_commands = []
 
-        varmap["nosync"] = ""
         if facts["packaging"]["format"] == "apk":
-            # TODO: 'libeatmydata' package is present in 'testing' repo
-            # for Alpine Edge. Once it graduates to 'main' repo we
-            # should use it here
-            # varmap["nosync"] = "eatmydata "
+            # See earlier comment about adding this later
             # "{packaging_command} add libeatmydata",
             commands.extend([
                 "{packaging_command} update",
@@ -185,7 +194,6 @@ class DockerfileFormatter(Formatter):
                 "{nosync}{packaging_command} add {pkgs}",
             ])
         elif facts["packaging"]["format"] == "deb":
-            varmap["nosync"] = "eatmydata "
             commands.extend([
                 "export DEBIAN_FRONTEND=noninteractive",
                 "{packaging_command} update",
@@ -211,7 +219,6 @@ class DockerfileFormatter(Formatter):
                 ])
 
             if facts["os"]["name"] == "Fedora":
-                varmap["nosync"] = "nosync "
                 nosyncsh = [
                     "#!/bin/sh",
                     "if test -d /usr/lib64",
