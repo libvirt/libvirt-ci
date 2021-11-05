@@ -62,6 +62,14 @@ class CommandLine:
             help="base image to inherit from",
         )
 
+        layersopt = argparse.ArgumentParser(add_help=False)
+        layersopt.add_argument(
+            "-l", "--layers",
+            default="all",
+            choices=['all', 'native', 'foreign'],
+            help="output layers (default: 'all')",
+        )
+
         waitopt = argparse.ArgumentParser(add_help=False)
         waitopt.add_argument(
             "-w", "--wait",
@@ -168,7 +176,7 @@ class CommandLine:
             "dockerfile",
             help="generate Dockerfile",
             parents=[targetopt, projectsopt, crossarchopt,
-                     baseopt],
+                     baseopt, layersopt],
         )
         dockerfileparser.set_defaults(func=Application._action_dockerfile)
 

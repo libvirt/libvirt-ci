@@ -31,6 +31,17 @@ scenarios = [
     pytest.param("test-ccache", "debian-10", "s390x", id="ccache-debian-10-cross-s390x"),
 ]
 
+layer_scenarios = [
+    # Overriding default base image
+    pytest.param("test-minimal", "debian-10", "s390x", "debian-10-common", "all", id="minimal-debian-10-common-cross-s390x"),
+
+    # Customizing the layers
+    pytest.param("test-minimal", "fedora-rawhide", "mingw64", None, "all", id="minimal-fedora-rawhide-cross-mingw64-combined"),
+    pytest.param("test-minimal", "fedora-rawhide", "mingw64", None, "native", id="minimal-fedora-rawhide-cross-mingw64-native"),
+    pytest.param("test-minimal", "fedora-rawhide", "mingw64", None, "foreign", id="minimal-fedora-rawhide-cross-mingw64-foreign"),
+    pytest.param("test-minimal", "fedora-rawhide", "mingw64", "fedora-rawhide-common", "foreign", id="minimal-fedora-rawhide-common-cross-mingw64-foreign"),
+]
+
 
 @pytest.fixture
 def custom_projects():
@@ -46,6 +57,14 @@ def custom_projects():
 @pytest.mark.parametrize("project,target,arch", scenarios)
 def test_dockerfiles(custom_projects, project, target, arch, request):
     gen = DockerfileFormatter()
+    actual = gen.format(target, [project], arch)
+    expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".Dockerfile")
+    test_utils.assert_matches_file(actual, expected_path)
+
+
+@pytest.mark.parametrize("project,target,arch,base,layers", layer_scenarios)
+def test_dockerfile_layers(custom_projects, project, target, arch, base, layers, request):
+    gen = DockerfileFormatter(base, layers)
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".Dockerfile")
     test_utils.assert_matches_file(actual, expected_path)

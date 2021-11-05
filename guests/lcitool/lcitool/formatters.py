@@ -143,8 +143,9 @@ class Formatter(metaclass=abc.ABCMeta):
 
 class DockerfileFormatter(Formatter):
 
-    def __init__(self, base=None):
+    def __init__(self, base=None, layers="all"):
         self._base = base
+        self._layers = layers
 
     def _generator_build_varmap(self,
                                 facts,
@@ -431,8 +432,9 @@ class DockerfileFormatter(Formatter):
     def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
         strings = []
         strings.extend(self._format_section_base(facts))
-        strings.extend(self._format_section_native(facts, cross_arch, varmap))
-        if cross_arch:
+        if self._layers in ["all", "native"]:
+            strings.extend(self._format_section_native(facts, cross_arch, varmap))
+        if cross_arch and self._layers in ["all", "foreign"]:
             strings.extend(self._format_section_foreign(facts, cross_arch, varmap))
         return strings
 
