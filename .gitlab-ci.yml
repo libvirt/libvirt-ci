@@ -145,6 +145,11 @@ x86_64-check-centos-stream-8:
   variables:
     NAME: centos-stream-8
 
+x86_64-check-centos-stream-9:
+  extends: .check_container_template
+  variables:
+    NAME: centos-stream-9
+
 x86_64-check-debian-10:
   extends: .check_container_template
   variables:

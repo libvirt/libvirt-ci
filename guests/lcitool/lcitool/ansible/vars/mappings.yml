@@ -197,6 +197,8 @@ mappings:
     pkg: capstone4
     OpenSUSE:
     MacOS: capstone
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
     cross-policy-default: foreign
 
   cargo:
@@ -206,6 +208,8 @@ mappings:
 
   ccache:
     default: ccache
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
 
   check:
     default: check
@@ -246,6 +250,9 @@ mappings:
   ctags:
     default: ctags
     deb: exuberant-ctags
+    CentOS:
+    CentOS8: ctags
+    CentOSStream8: ctags
 
   cyrus-sasl:
     apk: cyrus-sasl-dev
@@ -322,6 +329,8 @@ mappings:
     apk: py3-flake8
     pkg: py38-flake8
     rpm: python3-flake8
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
 
   fuse:
     apk: fuse-dev
@@ -403,8 +412,11 @@ mappings:
     default: genisoimage
     apk: cdrkit
     pkg: cdrkit-genisoimage
+    CentOS:
     MacOS:
     OpenSUSE: mkisofs
+    CentOS8: genisoimage
+    CentOSStream8: genisoimage
 
   gettext:
     default: gettext
@@ -440,7 +452,10 @@ mappings:
   glusterfs:
     deb: libglusterfs-dev
     rpm: glusterfs-api-devel
+    CentOS:
     OpenSUSE: glusterfs-devel
+    CentOS8: glusterfs-api-devel
+    CentOSStream8: glusterfs-api-devel
     Ubuntu1804: glusterfs-common
     cross-policy-default: foreign
 
@@ -555,9 +570,12 @@ mappings:
   isoinfo:
     default: genisoimage
     apk: cdrkit
+    CentOS:
     FreeBSD: cdrkit
     MacOS: cdrtools
     OpenSUSE: mkisofs
+    CentOS8: genisoimage
+    CentOSStream8: genisoimage
 
   itstool:
     default: itstool
@@ -618,6 +636,9 @@ mappings:
     deb: libasan5
     rpm: libasan
     OpenSUSE: libasan6
+    # FIXME This is currently not available in CentOS Stream 9
+    #       but it's unclear why that's the case
+    CentOSStream9:
     mips-deb:
     mips64-deb:
     mips64el-deb:
@@ -654,6 +675,9 @@ mappings:
   libcacard:
     deb: libcacard-dev
     rpm: libcacard-devel
+    CentOS:
+    CentOS8: libcacard-devel
+    CentOSStream8: libcacard-devel
     cross-policy-default: foreign
 
   libcap-ng:
@@ -710,6 +734,9 @@ mappings:
     apk: libev-dev
     deb: libev-dev
     rpm: libev-devel
+    CentOS:
+    CentOS8: libev-devel
+    CentOSStream8: libev-devel
     cross-policy-default: foreign
 
   libfdt:
@@ -738,9 +765,8 @@ mappings:
 
   libgovirt:
     rpm: libgovirt-devel
+    CentOS:
     Debian: libgovirt-dev
-    CentOS8:
-    CentOSStream8:
     cross-mingw32-rpm: mingw32-libgovirt
     cross-mingw64-rpm: mingw64-libgovirt
     cross-policy-default: foreign
@@ -753,13 +779,18 @@ mappings:
   libiscsi:
     deb: libiscsi-dev
     rpm: libiscsi-devel
+    CentOS:
     MacOS: libiscsi
+    CentOS8: libiscsi-devel
+    CentOSStream8: libiscsi-devel
     cross-policy-default: foreign
 
   libjemalloc:
     deb: libjemalloc-dev
     rpm: jemalloc-devel
     MacOS: jemalloc
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
     cross-policy-default: foreign
 
   libjpeg:
@@ -791,6 +822,8 @@ mappings:
     apk: libnfs-dev
     deb: libnfs-dev
     rpm: libnfs-devel
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
     cross-policy-default: foreign
 
   libnl3:
@@ -864,10 +897,9 @@ mappings:
     deb: librest-dev
     pkg: rest
     rpm: rest-devel
+    CentOS:
     MacOS: librest
     OpenSUSE: librest-devel
-    CentOS8:
-    CentOSStream8:
     cross-mingw32-rpm: mingw32-rest
     cross-mingw64-rpm: mingw64-rest
     cross-policy-default: foreign
@@ -888,7 +920,10 @@ mappings:
     apk: libslirp-dev
     deb: libslirp-dev
     rpm: libslirp-devel
+    CentOS:
     MacOS: libslirp
+    CentOS8: libslirp-devel
+    CentOSStream8: libslirp-devel
     Debian10:
     OpenSUSELeap152:
     Ubuntu1804:
@@ -916,6 +951,8 @@ mappings:
     apk: libssh2-dev
     deb: libssh2-1-dev
     rpm: libssh2-devel
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
     cross-mingw32-rpm: mingw32-libssh2
     cross-mingw64-rpm: mingw64-libssh2
     cross-policy-default: foreign
@@ -946,6 +983,9 @@ mappings:
     deb: libubsan1
     rpm: libubsan
     OpenSUSE: libubsan1
+    # FIXME This is currently not available in CentOS Stream 9
+    #       but it's unclear why that's the case
+    CentOSStream9:
     mips-deb:
     mips64-deb:
     mips64el-deb:
@@ -962,6 +1002,9 @@ mappings:
     apk: liburing-dev
     deb: liburing-dev
     rpm: liburing-devel
+    CentOS:
+    CentOS8: liburing-devel
+    CentOSStream8: liburing-devel
     Debian10:
     Ubuntu1804:
     Ubuntu2004:
@@ -1002,8 +1045,9 @@ mappings:
     apk: libvirt-glib-dev
     deb: libvirt-glib-1.0-dev
     rpm: libvirt-gobject-devel
+    CentOS:
     OpenSUSE: libvirt-glib-devel
-    CentOSStream8:
+    CentOS8: libvirt-gobject-devel
     cross-policy-default: foreign
 
   libxml2:
@@ -1249,6 +1293,8 @@ mappings:
     deb: libcpan-changes-perl
     pkg: p5-CPAN-Changes
     rpm: perl-CPAN-Changes
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
 
   perl-Digest:
     apk: perl
@@ -1277,6 +1323,8 @@ mappings:
     deb: libio-interface-perl
     pkg: p5-IO-Interface
     rpm: perl-IO-Interface
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
 
   perl-IO-String:
     apk: perl-io-string
@@ -1295,6 +1343,8 @@ mappings:
     pkg: p5-Net-OpenSSH
     rpm: perl-Net-OpenSSH
     OpenSUSE:
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
 
   perl-NetAddr-IP:
     deb: libnetaddr-ip-perl
@@ -1306,6 +1356,8 @@ mappings:
     deb: libnet-snmp-perl
     pkg: p5-Net-SNMP
     rpm: perl-Net-SNMP
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
 
   perl-Pod-Man:
     default: perl
@@ -1398,6 +1450,8 @@ mappings:
     deb: libxml-writer-perl
     pkg: p5-XML-Writer
     rpm: perl-XML-Writer
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
 
   perl-XML-XPath:
     apk: perl-xml-xpath
@@ -1431,9 +1485,8 @@ mappings:
     deb: php-imagick
     pkg: php74-pecl-imagick
     rpm: php-pecl-imagick
+    CentOS:
     OpenSUSE: php-imagick
-    CentOS8:
-    CentOSStream8:
 
   pixman:
     default: pixman
@@ -1466,11 +1519,10 @@ mappings:
   publican:
     default: publican
     apk:
+    CentOS:
     FreeBSD:
     MacOS:
     OpenSUSE:
-    CentOS8:
-    CentOSStream8:
 
   pulseaudio:
     apk: pulseaudio-dev
@@ -1547,8 +1599,11 @@ mappings:
     default: python3-pillow
     apk: py3-pillow
     pkg: py38-pillow
+    CentOS:
     OpenSUSE: python3-Pillow
     MacOS:
+    CentOS8: python3-pillow
+    CentOSStream8: python3-pillow
 
   python3-pip:
     default: python3-pip
@@ -1592,7 +1647,10 @@ mappings:
     deb: python3-venv
     pkg: py38-virtualenv
     rpm: python3-virtualenv
+    CentOS:
     MacOS:
+    CentOS8: python3-virtualenv
+    CentOSStream8: python3-virtualenv
 
   python3-wheel:
     default: python3-wheel
@@ -1670,6 +1728,8 @@ mappings:
 
   screen:
     default: screen
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
 
   scrub:
     default: scrub
@@ -1728,7 +1788,10 @@ mappings:
     apk: spice-gtk-dev
     deb: libspice-client-gtk-3.0-dev
     rpm: spice-gtk3-devel
+    CentOS:
     OpenSUSE: spice-gtk-devel
+    CentOS8: spice-gtk3-devel
+    CentOSStream8: spice-gtk3-devel
     cross-mingw32-rpm: mingw32-spice-gtk3
     cross-mingw64-rpm: mingw64-spice-gtk3
     cross-policy-default: foreign
@@ -1743,7 +1806,10 @@ mappings:
     deb: libspice-server-dev
     pkg: libspice-server
     rpm: spice-server-devel
+    CentOS:
     OpenSUSE: libspice-server-devel
+    CentOS8: spice-server-devel
+    CentOSStream8: spice-server-devel
     mips-deb:
     s390x-deb:
     cross-policy-default: foreign
@@ -1836,6 +1902,8 @@ mappings:
     deb: libvirglrenderer-dev
     pkg: virglrenderer
     rpm: virglrenderer-devel
+    # FIXME Drop once EPEL for CentOS Stream 9 exists
+    CentOSStream9:
     cross-policy-default: foreign
 
   libguestfs-tools:
@@ -1869,8 +1937,7 @@ mappings:
   xen:
     apk: xen-dev
     rpm: xen-devel
-    CentOS8:
-    CentOSStream8:
+    CentOS:
     aarch64-deb: libxen-dev
     armv7l-deb: libxen-dev
     x86_64-deb: libxen-dev

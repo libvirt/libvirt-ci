@@ -225,23 +225,35 @@ class DockerfileFormatter(Formatter):
 
             if facts["os"]["name"] == "CentOS":
                 # Starting with CentOS 8, most -devel packages are shipped in
-                # the PowerTools repository, which is not enabled by default
+                # a separate repository which is not enabled by default. The
+                # name of this repository has changed over time
                 commands.extend([
                     "{nosync}{packaging_command} install 'dnf-command(config-manager)' -y",
-                    "{nosync}{packaging_command} config-manager --set-enabled -y powertools",
                 ])
+                if facts["os"]["version"] == "Stream9":
+                    commands.extend([
+                        "{nosync}{packaging_command} config-manager --set-enabled -y crb",
+                    ])
+                if facts["os"]["version"] in ["8", "Stream8"]:
+                    commands.extend([
+                        "{nosync}{packaging_command} config-manager --set-enabled -y powertools",
+                    ])
 
                 # Not all of the virt related -devel packages are provided by
                 # virt:rhel module so we have to enable AV repository as well.
-                commands.extend([
-                    "{nosync}{packaging_command} install -y centos-release-advanced-virtualization",
-                ])
+                # CentOS Stream 9 no longer uses modules for virt
+                if facts["os"]["version"] in ["8", "Stream8"]:
+                    commands.extend([
+                        "{nosync}{packaging_command} install -y centos-release-advanced-virtualization",
+                    ])
 
                 # Some of the packages we need are not part of CentOS proper
                 # and are only available through EPEL
-                commands.extend([
-                    "{nosync}{packaging_command} install -y epel-release",
-                ])
+                # FIXME Drop check once EPEL for CentOS Stream 9 exists
+                if facts["os"]["version"] != "Stream9":
+                    commands.extend([
+                        "{nosync}{packaging_command} install -y epel-release",
+                    ])
 
             commands.extend(["{nosync}{packaging_command} install -y {pkgs}"])
 
