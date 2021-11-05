@@ -337,11 +337,13 @@ class Application(metaclass=Singleton):
 
         projects_expanded = Projects().expand_names(args.projects)
 
-        dockerfile = DockerfileFormatter().format(args.target,
-                                                  projects_expanded,
-                                                  args.cross_arch)
+        dockerfile = DockerfileFormatter(args.base).format(args.target,
+                                                           projects_expanded,
+                                                           args.cross_arch)
 
         cliargv = [args.action]
+        if args.base is not None:
+            cliargv.extend(["--base", args.base])
         if args.cross_arch:
             cliargv.extend(["--cross", args.cross_arch])
         cliargv.extend([args.target, args.projects])

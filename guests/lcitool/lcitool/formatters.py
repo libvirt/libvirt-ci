@@ -142,6 +142,10 @@ class Formatter(metaclass=abc.ABCMeta):
 
 
 class DockerfileFormatter(Formatter):
+
+    def __init__(self, base=None):
+        self._base = base
+
     def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
         strings = []
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
@@ -157,7 +161,10 @@ class DockerfileFormatter(Formatter):
         if varmap["cpan_pkgs"]:
             varmap["cpan_pkgs"] = cpan_pkg_align[1:] + cpan_pkg_align.join(varmap["cpan_pkgs"])
 
-        base = facts["containers"]["base"]
+        if self._base:
+            base = self._base
+        else:
+            base = facts["containers"]["base"]
         strings.append(f"FROM {base}")
 
         commands = []

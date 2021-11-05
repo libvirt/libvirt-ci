@@ -56,6 +56,12 @@ class CommandLine:
             help="target architecture for cross compiler",
         )
 
+        baseopt = argparse.ArgumentParser(add_help=False)
+        baseopt.add_argument(
+            "-b", "--base",
+            help="base image to inherit from",
+        )
+
         waitopt = argparse.ArgumentParser(add_help=False)
         waitopt.add_argument(
             "-w", "--wait",
@@ -161,7 +167,8 @@ class CommandLine:
         dockerfileparser = subparsers.add_parser(
             "dockerfile",
             help="generate Dockerfile",
-            parents=[targetopt, projectsopt, crossarchopt],
+            parents=[targetopt, projectsopt, crossarchopt,
+                     baseopt],
         )
         dockerfileparser.set_defaults(func=Application._action_dockerfile)
 
