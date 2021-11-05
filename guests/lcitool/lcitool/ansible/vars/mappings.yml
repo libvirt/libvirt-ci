@@ -409,11 +409,10 @@ mappings:
     cross-policy-default: foreign
 
   genisoimage:
-    default: genisoimage
     apk: cdrkit
+    deb: genisoimage
     pkg: cdrkit-genisoimage
-    CentOS:
-    MacOS:
+    Fedora: genisoimage
     OpenSUSE: mkisofs
     CentOS8: genisoimage
     CentOSStream8: genisoimage
@@ -451,8 +450,7 @@ mappings:
 
   glusterfs:
     deb: libglusterfs-dev
-    rpm: glusterfs-api-devel
-    CentOS:
+    Fedora: glusterfs-api-devel
     OpenSUSE: glusterfs-devel
     CentOS8: glusterfs-api-devel
     CentOSStream8: glusterfs-api-devel
@@ -568,9 +566,9 @@ mappings:
     OpenSUSE: open-iscsi
 
   isoinfo:
-    default: genisoimage
     apk: cdrkit
-    CentOS:
+    deb: genisoimage
+    Fedora: genisoimage
     FreeBSD: cdrkit
     MacOS: cdrtools
     OpenSUSE: mkisofs
@@ -896,8 +894,7 @@ mappings:
     apk: rest-dev
     deb: librest-dev
     pkg: rest
-    rpm: rest-devel
-    CentOS:
+    Fedora: rest-devel
     MacOS: librest
     OpenSUSE: librest-devel
     cross-mingw32-rpm: mingw32-rest
@@ -1041,11 +1038,11 @@ mappings:
     cross-policy-default: foreign
 
   libvirt-glib:
-    default: libvirt-glib
     apk: libvirt-glib-dev
     deb: libvirt-glib-1.0-dev
-    rpm: libvirt-gobject-devel
-    CentOS:
+    pkg: libvirt-glib
+    Fedora: libvirt-gobject-devel
+    MacOS: libvirt-glib
     OpenSUSE: libvirt-glib-devel
     CentOS8: libvirt-gobject-devel
     cross-policy-default: foreign
@@ -1484,8 +1481,7 @@ mappings:
     apk: php7-pecl-imagick
     deb: php-imagick
     pkg: php74-pecl-imagick
-    rpm: php-pecl-imagick
-    CentOS:
+    Fedora: php-pecl-imagick
     OpenSUSE: php-imagick
 
   pixman:
@@ -1517,12 +1513,8 @@ mappings:
     cross-policy-default: foreign
 
   publican:
-    default: publican
-    apk:
-    CentOS:
-    FreeBSD:
-    MacOS:
-    OpenSUSE:
+    deb: publican
+    Fedora: publican
 
   pulseaudio:
     apk: pulseaudio-dev
@@ -1747,11 +1739,11 @@ mappings:
     cross-policy-default: foreign
 
   sdl2-image:
-    default: sdl2_image
     apk: sdl2_image-dev
     deb: libsdl2-image-dev
-    rpm: SDL2_image-devel
-    CentOS:
+    pkg: sdl2_image
+    Fedora: SDL2_image-devel
+    MacOS: sdl2_image
     OpenSUSE: libSDL2_image-devel
     cross-mingw32-rpm: mingw32-SDL2_image
     cross-mingw64-rpm: mingw64-SDL2_image
@@ -1784,11 +1776,11 @@ mappings:
     pkg:
 
   spice-gtk3:
-    default: spice-gtk
     apk: spice-gtk-dev
     deb: libspice-client-gtk-3.0-dev
-    rpm: spice-gtk3-devel
-    CentOS:
+    pkg: spice-gtk
+    Fedora: spice-gtk3-devel
+    MacOS: spice-gtk
     OpenSUSE: spice-gtk-devel
     CentOS8: spice-gtk3-devel
     CentOSStream8: spice-gtk3-devel
@@ -1805,8 +1797,7 @@ mappings:
     apk: spice-dev
     deb: libspice-server-dev
     pkg: libspice-server
-    rpm: spice-server-devel
-    CentOS:
+    Fedora: spice-server-devel
     OpenSUSE: libspice-server-devel
     CentOS8: spice-server-devel
     CentOSStream8: spice-server-devel
