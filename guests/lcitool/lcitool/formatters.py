@@ -212,6 +212,18 @@ class DockerfileFormatter(Formatter):
                 ])
         return commands
 
+    def _format_commands_pkglist(self, facts):
+        commands = []
+        if facts["packaging"]["format"] == "apk":
+            pass
+        elif facts["packaging"]["format"] == "deb":
+            commands.extend([
+                "dpkg-query --showformat '${{Package}}_${{Version}}_${{Architecture}}\\n' --show > /packages.txt"
+            ])
+        elif facts["packaging"]["format"] == "rpm":
+            commands.extend(["rpm -qa | sort > /packages.txt"])
+        return commands
+
     def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
         strings = []
         if self._base:
@@ -221,7 +233,6 @@ class DockerfileFormatter(Formatter):
         strings.append(f"FROM {base}")
 
         commands = []
-        common_commands = []
 
         if facts["packaging"]["format"] == "apk":
             # See earlier comment about adding this later
@@ -246,9 +257,6 @@ class DockerfileFormatter(Formatter):
                 "{nosync}{packaging_command} autoclean -y",
                 "sed -Ei 's,^# (en_US\\.UTF-8 .*)$,\\1,' /etc/locale.gen",
                 "dpkg-reconfigure locales",
-            ])
-            common_commands.extend([
-                "dpkg-query --showformat '${{Package}}_${{Version}}_${{Architecture}}\\n' --show > /packages.txt"
             ])
         elif facts["packaging"]["format"] == "rpm":
             # Rawhide needs this because the keys used to sign packages are
@@ -332,10 +340,8 @@ class DockerfileFormatter(Formatter):
                     "{nosync}{packaging_command} clean all -y",
                 ])
 
-            common_commands.extend(["rpm -qa | sort > /packages.txt"])
-
         if not cross_arch:
-            commands.extend(common_commands)
+            commands.extend(self._format_commands_pkglist(facts))
             commands.extend(self._format_commands_ccache(None, varmap))
         script = "\nRUN " + (" && \\\n    ".join(commands))
         strings.append(script.format(**varmap))
@@ -399,7 +405,7 @@ class DockerfileFormatter(Formatter):
                 cross_meson = self._get_meson_cross(varmap["cross_abi"])
                 varmap["cross_meson"] = cross_meson.replace("\n", "\\n\\\n")
 
-            cross_commands.extend(common_commands)
+            cross_commands.extend(self._format_commands_pkglist(facts))
             cross_commands.extend(self._format_commands_ccache(cross_arch, varmap))
             cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands))
             strings.append(cross_script.format(**varmap))
