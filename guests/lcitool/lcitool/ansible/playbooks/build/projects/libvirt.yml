@@ -35,15 +35,4 @@
       export VIR_TEST_DEBUG=2
 - include: 'jobs/meson-rpm-job.yml'
   vars:
-    machines:
-      # TODO:
-      #   The minimum required version of meson set by libvirt is 0.54.0, but
-      #   the latest meson version available on CentOS is 0.49. Even though we
-      #   install meson from PyPi on CentOS, a missing '%meson' RPM macro
-      #   will still cause an rpmbuild to fail.
-      #   Disable RPM builds on CentOS for the time being and revert it back
-      #   once libvirt resolves
-      #   https://www.redhat.com/archives/libvir-list/2020-August/msg00262.html
-      - fedora-34
-      - fedora-35
-      - fedora-rawhide
+    machines: '{{ rpm_machines }}'
