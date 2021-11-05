@@ -321,6 +321,19 @@ class DockerfileFormatter(Formatter):
         if varmap["cpan_pkgs"]:
             strings.append("\nRUN cpanm --notest {cpan_pkgs}".format(**varmap))
 
+        common_vars = ["ENV LANG \"en_US.UTF-8\""]
+        if "make" in varmap["mappings"]:
+            common_vars += ["ENV MAKE \"{paths_make}\""]
+        if "meson" in varmap["mappings"]:
+            common_vars += ["ENV NINJA \"{paths_ninja}\""]
+        if "python3" in varmap["mappings"]:
+            common_vars += ["ENV PYTHON \"{paths_python}\""]
+        if "ccache" in varmap["mappings"]:
+            common_vars += ["ENV CCACHE_WRAPPERSDIR \"/usr/libexec/ccache-wrappers\""]
+
+        common_env = "\n" + "\n".join(common_vars)
+        strings.append(common_env.format(**varmap))
+
         if cross_arch:
             cross_commands = []
 
@@ -365,20 +378,6 @@ class DockerfileFormatter(Formatter):
             cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands))
             strings.append(cross_script.format(**varmap))
 
-        common_vars = ["ENV LANG \"en_US.UTF-8\""]
-        if "make" in varmap["mappings"]:
-            common_vars += ["ENV MAKE \"{paths_make}\""]
-        if "meson" in varmap["mappings"]:
-            common_vars += ["ENV NINJA \"{paths_ninja}\""]
-        if "python3" in varmap["mappings"]:
-            common_vars += ["ENV PYTHON \"{paths_python}\""]
-        if "ccache" in varmap["mappings"]:
-            common_vars += ["ENV CCACHE_WRAPPERSDIR \"/usr/libexec/ccache-wrappers\""]
-
-        common_env = "\n" + "\n".join(common_vars)
-        strings.append(common_env.format(**varmap))
-
-        if cross_arch:
             cross_vars = ["ENV ABI \"{cross_abi}\""]
             if "autoconf" in varmap["mappings"]:
                 cross_vars.append("ENV CONFIGURE_OPTS \"--host={cross_abi}\"")

@@ -20,13 +20,13 @@ exec "$@"' > /usr/bin/nosync && \
     nosync dnf autoremove -y && \
     nosync dnf clean all -y
 
+ENV LANG "en_US.UTF-8"
+
 RUN nosync dnf install -y \
         mingw64-gcc \
         mingw64-glib2 \
         mingw64-pkg-config && \
     nosync dnf clean all -y && \
     rpm -qa | sort > /packages.txt
-
-ENV LANG "en_US.UTF-8"
 
 ENV ABI "x86_64-w64-mingw32"

@@ -15,6 +15,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
     dpkg-reconfigure locales
 
+ENV LANG "en_US.UTF-8"
+
 RUN export DEBIAN_FRONTEND=noninteractive && \
     dpkg --add-architecture s390x && \
     eatmydata apt-get update && \
@@ -38,7 +40,5 @@ cpu_family = 's390x'\n\
 cpu = 's390x'\n\
 endian = 'big'" > /usr/local/share/meson/cross/s390x-linux-gnu && \
     dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt
-
-ENV LANG "en_US.UTF-8"
 
 ENV ABI "s390x-linux-gnu"
