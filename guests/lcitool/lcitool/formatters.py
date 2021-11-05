@@ -315,6 +315,12 @@ class DockerfileFormatter(Formatter):
         script = "\nRUN " + (" && \\\n    ".join(commands))
         strings.append(script.format(**varmap))
 
+        if varmap["pypi_pkgs"]:
+            strings.append("\nRUN pip3 install {pypi_pkgs}".format(**varmap))
+
+        if varmap["cpan_pkgs"]:
+            strings.append("\nRUN cpanm --notest {cpan_pkgs}".format(**varmap))
+
         if cross_arch:
             cross_commands = []
 
@@ -358,12 +364,6 @@ class DockerfileFormatter(Formatter):
             cross_commands.extend(common_commands)
             cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands))
             strings.append(cross_script.format(**varmap))
-
-        if varmap["pypi_pkgs"]:
-            strings.append("\nRUN pip3 install {pypi_pkgs}".format(**varmap))
-
-        if varmap["cpan_pkgs"]:
-            strings.append("\nRUN cpanm --notest {cpan_pkgs}".format(**varmap))
 
         common_vars = ["ENV LANG \"en_US.UTF-8\""]
         if "make" in varmap["mappings"]:
