@@ -368,73 +368,72 @@ class DockerfileFormatter(Formatter):
         strings.append(common_env.format(**varmap))
         return strings
 
+    def _format_section_foreign(self, facts, cross_arch, varmap):
+        cross_commands = []
+
+        if facts["packaging"]["format"] == "deb":
+            cross_commands.extend([
+                "export DEBIAN_FRONTEND=noninteractive",
+                "dpkg --add-architecture {cross_arch_deb}",
+            ])
+            if cross_arch == "riscv64":
+                cross_commands.extend([
+                    "{nosync}{packaging_command} install debian-ports-archive-keyring",
+                    "{nosync}echo 'deb http://ftp.ports.debian.org/debian-ports/ sid main' > /etc/apt/sources.list.d/ports.list",
+                    "{nosync}echo 'deb http://ftp.ports.debian.org/debian-ports/ unreleased main' >> /etc/apt/sources.list.d/ports.list",
+                ])
+            cross_commands.extend([
+                "{nosync}{packaging_command} update",
+                "{nosync}{packaging_command} dist-upgrade -y",
+                "{nosync}{packaging_command} install --no-install-recommends -y dpkg-dev",
+                "{nosync}{packaging_command} install --no-install-recommends -y {cross_pkgs}",
+                "{nosync}{packaging_command} autoremove -y",
+                "{nosync}{packaging_command} autoclean -y",
+            ])
+        elif facts["packaging"]["format"] == "rpm":
+            cross_commands.extend([
+                "{nosync}{packaging_command} install -y {cross_pkgs}",
+                "{nosync}{packaging_command} clean all -y",
+            ])
+
+        if not cross_arch.startswith("mingw"):
+            cross_commands.extend([
+                "mkdir -p /usr/local/share/meson/cross",
+                "echo \"{cross_meson}\" > /usr/local/share/meson/cross/{cross_abi}",
+            ])
+
+            cross_meson = self._get_meson_cross(varmap["cross_abi"])
+            varmap["cross_meson"] = cross_meson.replace("\n", "\\n\\\n")
+
+        cross_commands.extend(self._format_commands_pkglist(facts))
+        cross_commands.extend(self._format_commands_ccache(cross_arch, varmap))
+        cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands))
+        strings = [cross_script.format(**varmap)]
+
+        cross_vars = ["ENV ABI \"{cross_abi}\""]
+        if "autoconf" in varmap["mappings"]:
+            cross_vars.append("ENV CONFIGURE_OPTS \"--host={cross_abi}\"")
+
+        if "meson" in varmap["mappings"]:
+            if cross_arch.startswith("mingw"):
+                cross_vars.append(
+                    "ENV MESON_OPTS \"--cross-file=/usr/share/mingw/toolchain-{cross_arch}.meson\""
+                )
+            else:
+                cross_vars.append(
+                    "ENV MESON_OPTS \"--cross-file={cross_abi}\"",
+                )
+
+        cross_env = "\n" + "\n".join(cross_vars)
+        strings.append(cross_env.format(**varmap))
+        return strings
+
     def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
         strings = []
         strings.extend(self._format_section_base(facts))
         strings.extend(self._format_section_native(facts, cross_arch, varmap))
-
         if cross_arch:
-            cross_commands = []
-
-            # Intentionally a separate RUN command from the above
-            # so that the common packages of all cross-built images
-            # share a Docker image layer.
-            if facts["packaging"]["format"] == "deb":
-                cross_commands.extend([
-                    "export DEBIAN_FRONTEND=noninteractive",
-                    "dpkg --add-architecture {cross_arch_deb}",
-                ])
-                if cross_arch == "riscv64":
-                    cross_commands.extend([
-                        "{nosync}{packaging_command} install debian-ports-archive-keyring",
-                        "{nosync}echo 'deb http://ftp.ports.debian.org/debian-ports/ sid main' > /etc/apt/sources.list.d/ports.list",
-                        "{nosync}echo 'deb http://ftp.ports.debian.org/debian-ports/ unreleased main' >> /etc/apt/sources.list.d/ports.list",
-                    ])
-                cross_commands.extend([
-                    "{nosync}{packaging_command} update",
-                    "{nosync}{packaging_command} dist-upgrade -y",
-                    "{nosync}{packaging_command} install --no-install-recommends -y dpkg-dev",
-                    "{nosync}{packaging_command} install --no-install-recommends -y {cross_pkgs}",
-                    "{nosync}{packaging_command} autoremove -y",
-                    "{nosync}{packaging_command} autoclean -y",
-                ])
-            elif facts["packaging"]["format"] == "rpm":
-                cross_commands.extend([
-                    "{nosync}{packaging_command} install -y {cross_pkgs}",
-                    "{nosync}{packaging_command} clean all -y",
-                ])
-
-            if not cross_arch.startswith("mingw"):
-                cross_commands.extend([
-                    "mkdir -p /usr/local/share/meson/cross",
-                    "echo \"{cross_meson}\" > /usr/local/share/meson/cross/{cross_abi}",
-                ])
-
-                cross_meson = self._get_meson_cross(varmap["cross_abi"])
-                varmap["cross_meson"] = cross_meson.replace("\n", "\\n\\\n")
-
-            cross_commands.extend(self._format_commands_pkglist(facts))
-            cross_commands.extend(self._format_commands_ccache(cross_arch, varmap))
-            cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands))
-            strings.append(cross_script.format(**varmap))
-
-            cross_vars = ["ENV ABI \"{cross_abi}\""]
-            if "autoconf" in varmap["mappings"]:
-                cross_vars.append("ENV CONFIGURE_OPTS \"--host={cross_abi}\"")
-
-            if "meson" in varmap["mappings"]:
-                if cross_arch.startswith("mingw"):
-                    cross_vars.append(
-                        "ENV MESON_OPTS \"--cross-file=/usr/share/mingw/toolchain-{cross_arch}.meson\""
-                    )
-                else:
-                    cross_vars.append(
-                        "ENV MESON_OPTS \"--cross-file={cross_abi}\"",
-                    )
-
-            cross_env = "\n" + "\n".join(cross_vars)
-            strings.append(cross_env.format(**varmap))
-
+            strings.extend(self._format_section_foreign(facts, cross_arch, varmap))
         return strings
 
     def format(self, target, selected_projects, cross_arch):
