@@ -183,6 +183,35 @@ class DockerfileFormatter(Formatter):
 
         return varmap
 
+    def _format_commands_ccache(self, cross_arch, varmap):
+        commands = []
+        compilers = set()
+
+        if "ccache" not in varmap["mappings"]:
+            return []
+
+        for compiler in ["gcc", "clang"]:
+            if compiler in varmap["mappings"]:
+                compilers.add(compiler)
+                compilers.add("cc")
+        for compiler in ["g++"]:
+            if compiler in varmap["mappings"]:
+                compilers.add(compiler)
+                compilers.add("c++")
+
+        if compilers:
+            commands.extend([
+                "mkdir -p /usr/libexec/ccache-wrappers",
+            ])
+
+            for compiler in sorted(compilers):
+                if cross_arch:
+                    compiler = "{cross_abi}-" + compiler
+                commands.extend([
+                    "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/" + compiler,
+                ])
+        return commands
+
     def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
         strings = []
         if self._base:
@@ -305,31 +334,9 @@ class DockerfileFormatter(Formatter):
 
             common_commands.extend(["rpm -qa | sort > /packages.txt"])
 
-        if "ccache" in varmap["mappings"]:
-            compilers = set()
-            for compiler in ["gcc", "clang"]:
-                if compiler in varmap["mappings"]:
-                    compilers.add(compiler)
-                    compilers.add("cc")
-            for compiler in ["g++"]:
-                if compiler in varmap["mappings"]:
-                    compilers.add(compiler)
-                    compilers.add("c++")
-
-            if compilers:
-                common_commands.extend([
-                    "mkdir -p /usr/libexec/ccache-wrappers",
-                ])
-
-                for compiler in sorted(compilers):
-                    if cross_arch:
-                        compiler = "{cross_abi}-" + compiler
-                    common_commands.extend([
-                        "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/" + compiler,
-                    ])
-
         if not cross_arch:
             commands.extend(common_commands)
+            commands.extend(self._format_commands_ccache(None, varmap))
         script = "\nRUN " + (" && \\\n    ".join(commands))
         strings.append(script.format(**varmap))
 
@@ -393,6 +400,7 @@ class DockerfileFormatter(Formatter):
                 varmap["cross_meson"] = cross_meson.replace("\n", "\\n\\\n")
 
             cross_commands.extend(common_commands)
+            cross_commands.extend(self._format_commands_ccache(cross_arch, varmap))
             cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands))
             strings.append(cross_script.format(**varmap))
 
