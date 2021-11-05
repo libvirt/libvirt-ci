@@ -131,6 +131,7 @@ native:
 - libzstd-devel
 - llvm
 - lsof
+- lttng-ust-devel
 - lvm2
 - lzo-devel
 - make

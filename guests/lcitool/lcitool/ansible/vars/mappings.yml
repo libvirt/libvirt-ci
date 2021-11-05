@@ -1048,7 +1048,6 @@ mappings:
     deb: liblttng-ust-dev
     pkg: lttng-ust
     rpm: lttng-ust-devel
-    CentOS:
     cross-policy-default: foreign
 
   lvm2:
