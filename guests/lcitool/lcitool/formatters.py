@@ -233,12 +233,8 @@ class DockerfileFormatter(Formatter):
         strings.append(f"FROM {base}")
         return strings
 
-    def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
-        strings = []
-        strings.extend(self._format_section_base(facts))
-
+    def _format_section_native(self, facts, cross_arch, varmap):
         commands = []
-
         if facts["packaging"]["format"] == "apk":
             # See earlier comment about adding this later
             # "{packaging_command} add libeatmydata",
@@ -349,7 +345,8 @@ class DockerfileFormatter(Formatter):
             commands.extend(self._format_commands_pkglist(facts))
             commands.extend(self._format_commands_ccache(None, varmap))
         script = "\nRUN " + (" && \\\n    ".join(commands))
-        strings.append(script.format(**varmap))
+
+        strings = [script.format(**varmap)]
 
         if varmap["pypi_pkgs"]:
             strings.append("\nRUN pip3 install {pypi_pkgs}".format(**varmap))
@@ -369,6 +366,12 @@ class DockerfileFormatter(Formatter):
 
         common_env = "\n" + "\n".join(common_vars)
         strings.append(common_env.format(**varmap))
+        return strings
+
+    def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
+        strings = []
+        strings.extend(self._format_section_base(facts))
+        strings.extend(self._format_section_native(facts, cross_arch, varmap))
 
         if cross_arch:
             cross_commands = []
