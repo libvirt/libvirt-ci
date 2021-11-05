@@ -146,8 +146,15 @@ class DockerfileFormatter(Formatter):
     def __init__(self, base=None):
         self._base = base
 
-    def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
-        strings = []
+    def _generator_build_varmap(self,
+                                facts,
+                                selected_projects,
+                                cross_arch):
+        varmap = super(DockerfileFormatter,
+                       self)._generator_build_varmap(facts,
+                                                     selected_projects,
+                                                     cross_arch)
+
         pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
         pypi_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
         cpan_pkg_align = " \\\n" + (" " * len("RUN cpanm "))
@@ -174,6 +181,10 @@ class DockerfileFormatter(Formatter):
             # varmap["nosync"] = "eatmydata "
             pass
 
+        return varmap
+
+    def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
+        strings = []
         if self._base:
             base = self._base
         else:
