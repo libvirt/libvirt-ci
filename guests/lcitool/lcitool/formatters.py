@@ -224,13 +224,18 @@ class DockerfileFormatter(Formatter):
             commands.extend(["rpm -qa | sort > /packages.txt"])
         return commands
 
-    def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
+    def _format_section_base(self, facts):
         strings = []
         if self._base:
             base = self._base
         else:
             base = facts["containers"]["base"]
         strings.append(f"FROM {base}")
+        return strings
+
+    def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
+        strings = []
+        strings.extend(self._format_section_base(facts))
 
         commands = []
 
