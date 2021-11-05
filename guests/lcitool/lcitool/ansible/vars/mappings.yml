@@ -862,8 +862,8 @@ mappings:
   librest:
     apk: rest-dev
     deb: librest-dev
-    rpm: rest-devel
     pkg: rest
+    rpm: rest-devel
     MacOS: librest
     OpenSUSE: librest-devel
     CentOS8:
@@ -888,10 +888,10 @@ mappings:
     apk: libslirp-dev
     deb: libslirp-dev
     rpm: libslirp-devel
-    Debian10:
-    Ubuntu1804:
     MacOS: libslirp
     OpenSUSE:
+    Debian10:
+    Ubuntu1804:
     cross-policy-default: foreign
 
   libsoup:
@@ -1000,8 +1000,8 @@ mappings:
     apk: libvirt-glib-dev
     deb: libvirt-glib-1.0-dev
     rpm: libvirt-gobject-devel
-    CentOSStream8:
     OpenSUSE: libvirt-glib-devel
+    CentOSStream8:
     cross-policy-default: foreign
 
   libxml2:
@@ -1044,8 +1044,8 @@ mappings:
   lttng-ust:
     apk: lttng-ust-dev
     deb: liblttng-ust-dev
-    rpm: lttng-ust-devel
     pkg: lttng-ust
+    rpm: lttng-ust-devel
     CentOS:
     cross-policy-default: foreign
 
@@ -1428,8 +1428,8 @@ mappings:
   php-imagick:
     apk: php7-pecl-imagick
     deb: php-imagick
-    rpm: php-pecl-imagick
     pkg: php74-pecl-imagick
+    rpm: php-pecl-imagick
     OpenSUSE: php-imagick
     CentOS8:
     CentOSStream8:
