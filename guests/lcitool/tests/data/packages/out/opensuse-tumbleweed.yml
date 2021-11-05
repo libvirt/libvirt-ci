@@ -130,6 +130,7 @@ native:
 - libtool
 - libubsan1
 - libudev-devel
+- liburing-devel
 - libusb-1_0-devel
 - libuuid-devel
 - libvirt-devel

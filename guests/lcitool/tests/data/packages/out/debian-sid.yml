@@ -166,6 +166,7 @@ native:
 - libtool-bin
 - libubsan1
 - libudev-dev
+- liburing-dev
 - libusb-1.0-0-dev
 - libusbredirhost-dev
 - libvdeplug-dev

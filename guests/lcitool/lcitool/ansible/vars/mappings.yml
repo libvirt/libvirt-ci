@@ -960,9 +960,11 @@ mappings:
 
   liburing:
     apk: liburing-dev
+    deb: liburing-dev
     rpm: liburing-devel
-    CentOS:
-    OpenSUSE:
+    Debian10:
+    Ubuntu1804:
+    Ubuntu2004:
     cross-policy-default: foreign
 
   libusbx:
