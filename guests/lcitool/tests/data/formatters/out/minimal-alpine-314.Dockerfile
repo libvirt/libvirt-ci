@@ -8,6 +8,7 @@ RUN apk update && \
         git \
         glib-dev \
         gtk-doc \
-        pkgconf
+        pkgconf && \
+    apk list | sort > /packages.txt
 
 ENV LANG "en_US.UTF-8"

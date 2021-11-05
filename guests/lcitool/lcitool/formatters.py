@@ -215,7 +215,7 @@ class DockerfileFormatter(Formatter):
     def _format_commands_pkglist(self, facts):
         commands = []
         if facts["packaging"]["format"] == "apk":
-            pass
+            commands.extend(["apk list | sort > /packages.txt"])
         elif facts["packaging"]["format"] == "deb":
             commands.extend([
                 "dpkg-query --showformat '${{Package}}_${{Version}}_${{Architecture}}\\n' --show > /packages.txt"
