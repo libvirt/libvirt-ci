@@ -24,6 +24,7 @@ packages:
  - gettext
  - genisoimage
  - glib2
+ - glib2-static
  - glibc-static
  - glusterfs
  - gnutls
@@ -74,6 +75,7 @@ packages:
  - meson
  - ncursesw
  - pam
+ - pcre-static
  - perl
  - perl-Test-Harness
  - pixman
@@ -109,3 +111,4 @@ packages:
  - xen
  - xfsprogs
  - zlib
+ - zlib-static
