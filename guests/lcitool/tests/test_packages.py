@@ -48,7 +48,7 @@ def test_verify_all_mappings_and_packages():
     expected_path = Path(test_utils.test_data_indir(__file__), "packages.yml")
     actual = {"packages": sorted(Projects().mappings["mappings"].keys())}
 
-    test_utils.assert_matches_file(actual, expected_path)
+    test_utils.assert_yaml_matches_file(actual, expected_path)
 
 
 native_params = [
@@ -72,7 +72,7 @@ def test_package_resolution(test_project, target, arch):
                                      cross_arch=arch)
     actual = packages_as_dict(pkgs)
 
-    test_utils.assert_matches_file(actual, expected_path)
+    test_utils.assert_yaml_matches_file(actual, expected_path)
 
 
 @pytest.mark.parametrize(

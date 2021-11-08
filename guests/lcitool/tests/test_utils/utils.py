@@ -28,7 +28,7 @@ def test_data_indir(test_name):
     return Path(test_data_dir(test_name), "in")
 
 
-def assert_matches_file(actual, expected_path):
+def assert_yaml_matches_file(actual, expected_path):
     if pytest.custom_args["regenerate_output"]:
         # Make sure the target directory exists, since creating the
         # output file would fail otherwise
