@@ -175,6 +175,7 @@ packages:
 - pam
 - parted
 - pci-ids
+- pcre-static
 - perl
 - perl-App-cpanminus
 - perl-Archive-Tar

@@ -122,6 +122,7 @@ native:
 - libparted-dev
 - libpcap0.8-dev
 - libpciaccess-dev
+- libpcre2-dev
 - libpixman-1-dev
 - libpmem-dev
 - libpng-dev

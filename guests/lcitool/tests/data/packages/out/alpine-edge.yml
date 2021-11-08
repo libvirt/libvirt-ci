@@ -145,6 +145,7 @@ native:
 - osinfo-db-tools
 - parted
 - parted-dev
+- pcre-dev
 - perl
 - perl-app-cpanminus
 - perl-file-slurp

@@ -1218,6 +1218,12 @@ mappings:
     FreeBSD: pciids
     MacOS:
 
+  pcre-static:
+    apk: pcre-dev
+    deb: libpcre2-dev
+    Fedora: pcre-static
+    OpenSUSE: pcre-devel-static
+
   perl:
     default: perl-base
     apk: perl
