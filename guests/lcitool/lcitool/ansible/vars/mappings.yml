@@ -889,8 +889,8 @@ mappings:
     deb: libslirp-dev
     rpm: libslirp-devel
     MacOS: libslirp
-    OpenSUSE:
     Debian10:
+    OpenSUSELeap152:
     Ubuntu1804:
     cross-policy-default: foreign
 
