@@ -79,6 +79,14 @@ class CommandLine:
             help="print what files would be generated",
         )
 
+        formatopt = argparse.ArgumentParser(add_help=False)
+        formatopt.add_argument(
+            "-f", "--format",
+            default="shell",
+            choices=["shell", "json"],
+            help="output format (default: shell)",
+        )
+
         # Main parser
         self._parser = argparse.ArgumentParser(
             conflict_handler="resolve",
@@ -146,7 +154,7 @@ class CommandLine:
         variablesparser = subparsers.add_parser(
             "variables",
             help="generate variables",
-            parents=[targetopt, projectsopt, crossarchopt],
+            parents=[formatopt, targetopt, projectsopt, crossarchopt],
         )
         variablesparser.set_defaults(func=Application._action_variables)
 

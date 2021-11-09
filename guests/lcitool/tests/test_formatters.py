@@ -10,7 +10,7 @@ import test_utils.utils as test_utils
 from pathlib import Path
 
 from lcitool import util
-from lcitool.formatters import ShellVariablesFormatter, DockerfileFormatter
+from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, DockerfileFormatter
 
 
 scenarios = [
@@ -40,9 +40,18 @@ def test_dockerfiles(project, target, arch, request):
 
 
 @pytest.mark.parametrize("project,target,arch", scenarios)
-def test_variables(project, target, arch, request):
+def test_variables_shell(project, target, arch, request):
     util.set_extra_data_dir(test_utils.test_data_dir(__file__))
     gen = ShellVariablesFormatter()
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".vars")
+    test_utils.assert_matches_file(actual, expected_path)
+
+
+@pytest.mark.parametrize("project,target,arch", scenarios)
+def test_variables_json(project, target, arch, request):
+    util.set_extra_data_dir(test_utils.test_data_dir(__file__))
+    gen = JSONVariablesFormatter()
+    actual = gen.format(target, [project], arch)
+    expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".json")
     test_utils.assert_matches_file(actual, expected_path)

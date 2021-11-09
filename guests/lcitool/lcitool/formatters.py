@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import abc
+import json
 import logging
 
 from pkg_resources import resource_filename
@@ -460,3 +461,9 @@ class ShellVariablesFormatter(VariablesFormatter):
             uppername = key.upper()
             strings.append(f"{uppername}='{value}'")
         return "\n".join(strings)
+
+
+class JSONVariablesFormatter(VariablesFormatter):
+    @staticmethod
+    def _format_variables(varmap):
+        return json.dumps(varmap, indent="  ", sort_keys=True)
