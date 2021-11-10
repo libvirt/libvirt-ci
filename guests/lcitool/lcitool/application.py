@@ -14,7 +14,7 @@ from pkg_resources import resource_filename
 from lcitool import util
 from lcitool.config import Config, ConfigError
 from lcitool.inventory import Inventory, InventoryError
-from lcitool.package import package_names_by_type
+from lcitool.package import package_names_by_type, PackageError
 from lcitool.projects import Projects, ProjectError
 from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, JSONVariablesFormatter, FormatterError
 from lcitool.singleton import Singleton
@@ -358,6 +358,7 @@ class Application(metaclass=Singleton):
                 ConfigError,
                 InventoryError,
                 ProjectError,
+                PackageError,
                 FormatterError) as ex:
             print(ex, file=sys.stderr)
             sys.exit(1)

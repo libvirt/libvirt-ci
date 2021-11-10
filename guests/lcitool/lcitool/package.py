@@ -69,6 +69,9 @@ class PackageError(Exception):
     catching instead of the subclassed types.
     """
 
+    def __init__(self, message):
+        self.message = message
+
     def __str__(self):
         return f"Package generic name resolution failed: {self.message}"
 
@@ -76,8 +79,9 @@ class PackageError(Exception):
 class PackageEval(PackageError):
     """Thrown when the generic name could not be resolved with the given package type"""
 
-    def __init__(self, message):
-        self.message = message
+
+class PackageMissing(PackageError):
+    """Thrown when the package is missing from the mappings entirely"""
 
 
 class MappingKeyNotFound(Exception):
@@ -351,6 +355,9 @@ class PackageFactory:
         :return: instance of Package subclass or None if package mapping could
                  not be resolved
         """
+
+        if pkg_mapping not in self._mappings:
+            raise PackageMissing(f"Package {pkg_mapping} not present in mappings")
 
         if cross_arch is None:
             return self._get_noncross_package(pkg_mapping)
