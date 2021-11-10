@@ -51,6 +51,7 @@ native:
 - gettext-devel
 - git
 - glib2-devel
+- glib2-static
 - glibc-devel
 - glibc-langpack-en
 - glibc-static

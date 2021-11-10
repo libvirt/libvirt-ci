@@ -53,6 +53,7 @@ packages:
 - gettext
 - git
 - glib2
+- glib2-static
 - glibc
 - glibc-static
 - glusterfs

@@ -436,6 +436,15 @@ mappings:
     cross-mingw64-rpm: mingw64-glib2
     cross-policy-default: foreign
 
+  glib2-static:
+    apk: glib-static
+    deb: libglib2.0-dev
+    rpm: glib2-static
+    # This missing package might be a mistake - still TBC
+    CentOSStream9:
+    OpenSUSE:
+    cross-policy-default: foreign
+
   glibc:
     deb: libc6-dev
     rpm: glibc-devel

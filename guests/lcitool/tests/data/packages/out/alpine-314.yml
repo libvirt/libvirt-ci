@@ -58,6 +58,7 @@ native:
 - gettext
 - git
 - glib-dev
+- glib-static
 - gnutls-dev
 - gnutls-utils
 - go
