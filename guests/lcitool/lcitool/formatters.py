@@ -417,17 +417,9 @@ class VariablesFormatter(Formatter):
         return normalized_vars
 
     @staticmethod
+    @abc.abstractmethod
     def _format_variables(varmap):
-        strings = []
-
-        for key in sorted(varmap.keys()):
-            value = varmap[key]
-            if key == "pkgs" or key.endswith("_pkgs"):
-                value = " ".join(varmap[key])
-
-            uppername = key.upper()
-            strings.append(f"{uppername}='{value}'")
-        return strings
+        pass
 
     def format(self, target, selected_projects, cross_arch):
         """
@@ -452,4 +444,19 @@ class VariablesFormatter(Formatter):
             raise VariablesError(str(ex))
 
         varmap = self._normalize_variables(varmap)
-        return '\n'.join(self._format_variables(varmap))
+        return self._format_variables(varmap)
+
+
+class ShellVariablesFormatter(VariablesFormatter):
+    @staticmethod
+    def _format_variables(varmap):
+        strings = []
+
+        for key in sorted(varmap.keys()):
+            value = varmap[key]
+            if key == "pkgs" or key.endswith("_pkgs"):
+                value = " ".join(varmap[key])
+
+            uppername = key.upper()
+            strings.append(f"{uppername}='{value}'")
+        return "\n".join(strings)

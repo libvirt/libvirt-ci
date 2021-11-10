@@ -7,7 +7,7 @@
 import yaml
 from pathlib import Path
 
-from lcitool.formatters import DockerfileFormatter, VariablesFormatter
+from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter
 from lcitool.inventory import Inventory
 from lcitool import gitlab
 from lcitool import util
@@ -194,7 +194,7 @@ class Manifest:
                                         formatter, "containers")
 
     def _generate_cirrus(self, dryrun):
-        formatter = VariablesFormatter()
+        formatter = ShellVariablesFormatter()
         return self._generate_formatter(dryrun,
                                         "cirrus", "vars",
                                         formatter, "cirrus")

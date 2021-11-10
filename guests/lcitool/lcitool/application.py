@@ -16,7 +16,7 @@ from lcitool.config import Config, ConfigError
 from lcitool.inventory import Inventory, InventoryError
 from lcitool.package import package_names_by_type
 from lcitool.projects import Projects, ProjectError
-from lcitool.formatters import DockerfileFormatter, VariablesFormatter, FormatterError
+from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, FormatterError
 from lcitool.singleton import Singleton
 from lcitool.manifest import Manifest
 
@@ -308,9 +308,9 @@ class Application(metaclass=Singleton):
 
         projects_expanded = Projects().expand_names(args.projects)
 
-        variables = VariablesFormatter().format(args.target,
-                                                projects_expanded,
-                                                args.cross_arch)
+        variables = ShellVariablesFormatter().format(args.target,
+                                                     projects_expanded,
+                                                     args.cross_arch)
 
         cliargv = [args.action]
         if args.cross_arch:
