@@ -401,6 +401,7 @@ class VariablesFormatter(Formatter):
     def _format_variables(varmap):
         strings = []
 
+        normalized_vars = {}
         for key in varmap:
             if varmap[key] is None:
                 continue
@@ -417,7 +418,10 @@ class VariablesFormatter(Formatter):
             else:
                 name = key
                 value = varmap[key]
-            uppername = name.upper()
+            normalized_vars[name] = value
+        for key in sorted(normalized_vars):
+            value = normalized_vars[key]
+            uppername = key.upper()
             strings.append(f"{uppername}='{value}'")
         return strings
 
