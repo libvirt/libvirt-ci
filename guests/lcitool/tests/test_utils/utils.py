@@ -42,3 +42,17 @@ def assert_yaml_matches_file(actual, expected_path):
     assert actual.keys() == expected.keys()
     for key in actual.keys():
         assert actual[key] == expected[key]
+
+
+def assert_matches_file(actual, expected_path):
+    if pytest.custom_args["regenerate_output"]:
+        # Make sure the target directory exists, since creating the
+        # output file would fail otherwise
+        expected_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(expected_path, "w") as fd:
+            fd.write(actual)
+
+    with open(expected_path) as fd:
+        expected = fd.read()
+
+    assert actual == expected
