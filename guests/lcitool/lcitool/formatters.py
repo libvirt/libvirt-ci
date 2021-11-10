@@ -398,9 +398,7 @@ class DockerfileFormatter(Formatter):
 
 class VariablesFormatter(Formatter):
     @staticmethod
-    def _format_variables(varmap):
-        strings = []
-
+    def _normalize_variables(varmap):
         normalized_vars = {}
         for key in varmap:
             if varmap[key] is None:
@@ -409,18 +407,24 @@ class VariablesFormatter(Formatter):
             if key == "mappings":
                 # For internal use only
                 continue
-            if key == "pkgs" or key.endswith("_pkgs"):
-                name = key
-                value = " ".join(varmap[key])
-            elif key.startswith("paths_"):
+
+            if key.startswith("paths_"):
                 name = key[len("paths_"):]
-                value = varmap[key]
             else:
                 name = key
-                value = varmap[key]
-            normalized_vars[name] = value
-        for key in sorted(normalized_vars):
-            value = normalized_vars[key]
+            normalized_vars[name] = varmap[key]
+
+        return normalized_vars
+
+    @staticmethod
+    def _format_variables(varmap):
+        strings = []
+
+        for key in sorted(varmap.keys()):
+            value = varmap[key]
+            if key == "pkgs" or key.endswith("_pkgs"):
+                value = " ".join(varmap[key])
+
             uppername = key.upper()
             strings.append(f"{uppername}='{value}'")
         return strings
@@ -447,4 +451,5 @@ class VariablesFormatter(Formatter):
         except FormatterError as ex:
             raise VariablesError(str(ex))
 
+        varmap = self._normalize_variables(varmap)
         return '\n'.join(self._format_variables(varmap))
