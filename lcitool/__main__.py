@@ -14,6 +14,7 @@ class LcitoolLogger(logging.Logger):
 def main():
     log_level_formats = {
         logging.DEBUG: "[%(levelname)s] %(module)s:%(funcName)s:%(lineno)d: %(message)s",
+        logging.INFO: "[%(levelname)s]: %(message)s",
         logging.ERROR: "[%(levelname)s]: %(message)s",
     }
 
