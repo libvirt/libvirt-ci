@@ -1532,7 +1532,6 @@ mappings:
     deb: python3-yaml
     pkg: py38-yaml
     rpm: python3-PyYAML
-    MacOS:
 
   python3-dbus:
     default: python3-dbus
@@ -1640,7 +1639,6 @@ mappings:
     pkg: py38-virtualenv
     rpm: python3-virtualenv
     CentOS:
-    MacOS:
     CentOS8: python3-virtualenv
     CentOSStream8: python3-virtualenv
 
