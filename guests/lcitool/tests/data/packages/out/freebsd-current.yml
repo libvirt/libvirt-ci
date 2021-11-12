@@ -47,7 +47,6 @@ native:
 - gtk3
 - icoutils
 - intltool
-- itstool
 - jna
 - jq
 - json-glib

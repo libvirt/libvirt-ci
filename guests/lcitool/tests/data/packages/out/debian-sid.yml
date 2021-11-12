@@ -49,7 +49,6 @@ native:
 - intltool
 - iproute2
 - iptables
-- itstool
 - jq
 - junit
 - kmod

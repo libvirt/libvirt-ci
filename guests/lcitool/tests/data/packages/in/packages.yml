@@ -75,7 +75,6 @@ packages:
 - iptables
 - iscsiadm
 - isoinfo
-- itstool
 - java
 - jna
 - jq

@@ -72,7 +72,6 @@ native:
 - intltool
 - iproute2
 - iptables
-- itstool
 - java-11-openjdk-headless
 - jemalloc-devel
 - jna

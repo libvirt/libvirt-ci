@@ -73,7 +73,6 @@ native:
 - iproute-tc
 - iptables
 - iscsi-initiator-utils
-- itstool
 - java-11-openjdk-headless
 - jemalloc-devel
 - jna

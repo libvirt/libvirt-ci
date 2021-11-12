@@ -575,9 +575,6 @@ mappings:
     CentOS8: genisoimage
     CentOSStream8: genisoimage
 
-  itstool:
-    default: itstool
-
   java:
     apk: openjdk11-jdk
     deb: openjdk-11-jdk-headless
