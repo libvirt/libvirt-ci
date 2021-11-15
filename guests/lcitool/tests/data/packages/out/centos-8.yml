@@ -157,6 +157,7 @@ native:
 - pam-devel
 - parted
 - parted-devel
+- pcre-static
 - perl
 - perl-App-cpanminus
 - perl-Archive-Tar

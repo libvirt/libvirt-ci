@@ -1269,7 +1269,7 @@ mappings:
   pcre-static:
     apk: pcre-dev
     deb: libpcre2-dev
-    Fedora: pcre-static
+    rpm: pcre-static
     OpenSUSE: pcre-devel-static
 
   perl:
