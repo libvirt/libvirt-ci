@@ -2,6 +2,7 @@
 packages:
   - bash-completion
   - ccache
+  - cppi
   - gcc
   - glib2
   - gstreamer-plugins-bad-free

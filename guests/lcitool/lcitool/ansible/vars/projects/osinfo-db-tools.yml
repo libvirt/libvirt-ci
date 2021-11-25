@@ -1,6 +1,7 @@
 ---
 packages:
   - ccache
+  - cppi
   - gcc
   - gettext
   - glib2

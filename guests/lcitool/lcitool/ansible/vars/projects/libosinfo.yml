@@ -2,6 +2,7 @@
 packages:
   - check
   - ccache
+  - cppi
   - gcc
   - gettext
   - glib2
