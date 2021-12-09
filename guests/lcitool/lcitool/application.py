@@ -118,6 +118,9 @@ class Application(metaclass=Singleton):
 
             # resolve the package mappings to actual package names
             internal_wanted_projects = ["base", "developer", "vm"]
+            if config.values["install"]["cloud_init"]:
+                internal_wanted_projects.append("cloud-init")
+
             selected_projects = internal_wanted_projects + projects_expanded
             pkgs_install = projects.get_packages(selected_projects, facts)
             pkgs_remove = projects.get_packages(["unwanted"], facts)
