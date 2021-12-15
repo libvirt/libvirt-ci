@@ -15,9 +15,10 @@ from lcitool import util
 
 class Manifest:
 
-    def __init__(self, configfp):
+    def __init__(self, configfp, quiet=False):
         self.configpath = configfp.name
         self.values = yaml.safe_load(configfp)
+        self.quiet = quiet
 
     # Fully expand any shorthand / syntax sugar in the config
     # so that later stages have a consistent view of the
@@ -176,7 +177,8 @@ class Manifest:
                     filename = Path(outdir, f"{target}.{suffix}")
                     arch = None
 
-                print(f"Generating {filename}")
+                if not self.quiet:
+                    print(f"Generating {filename}")
                 generated.append(filename)
                 if not dryrun:
                     header = util.generate_file_header(["manifest",
@@ -207,7 +209,8 @@ class Manifest:
 
         for filename in outdir.glob("*." + suffix):
             if filename not in generated:
-                print(f"Deleting {filename}")
+                if not self.quiet:
+                    print(f"Deleting {filename}")
                 if not dryrun:
                     filename.unlink()
 
@@ -256,11 +259,13 @@ class Manifest:
             gitlabcontent.extend(self._generate_gitlab_cirrus_build_jobs())
 
         if len(gitlabcontent) == 0:
-            print(f"Deleting {gitlabfile}")
+            if not self.quiet:
+                print(f"Deleting {gitlabfile}")
             gitlabfile.unlink(missing_ok=True)
             return
 
-        print(f"Generating {gitlabfile}")
+        if not self.quiet:
+            print(f"Generating {gitlabfile}")
         header = util.generate_file_header(["manifest", self.configpath])
 
         lines = header + "\n".join(gitlabcontent)

@@ -354,7 +354,7 @@ class Application(metaclass=Singleton):
         print(header + dockerfile)
 
     def _action_manifest(self, args):
-        manifest = Manifest(args.manifest)
+        manifest = Manifest(args.manifest, args.quiet)
         manifest.generate(args.dry_run)
 
     def run(self, args):

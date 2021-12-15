@@ -93,6 +93,13 @@ class CommandLine:
             help="print what files would be generated",
         )
 
+        quietopt = argparse.ArgumentParser(add_help=False)
+        quietopt.add_argument(
+            "-q", "--quiet",
+            action="store_true",
+            help="don't display progress information",
+        )
+
         formatopt = argparse.ArgumentParser(add_help=False)
         formatopt.add_argument(
             "-f", "--format",
@@ -183,7 +190,7 @@ class CommandLine:
         manifestparser = subparsers.add_parser(
             "manifest",
             help="apply the CI manifest (doesn't access the host)",
-            parents=[manifestopt, dryrunopt])
+            parents=[manifestopt, dryrunopt, quietopt])
         manifestparser.set_defaults(func=Application._action_manifest)
 
     def parse(self):
