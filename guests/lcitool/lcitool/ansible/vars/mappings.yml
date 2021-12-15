@@ -440,8 +440,6 @@ mappings:
     apk: glib-static
     deb: libglib2.0-dev
     rpm: glib2-static
-    # This missing package might be a mistake - still TBC
-    CentOSStream9:
     OpenSUSE:
     cross-policy-default: foreign
 
