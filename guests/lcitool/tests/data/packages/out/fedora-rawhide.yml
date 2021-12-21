@@ -147,7 +147,6 @@ native:
 - ncurses-devel
 - net-snmp-devel
 - net-tools
-- netcf-devel
 - nettle-devel
 - nfs-utils
 - ninja-build

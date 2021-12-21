@@ -1177,11 +1177,12 @@ mappings:
 
   netcf:
     apk: netcf-dev
-    Fedora: netcf-devel
     CentOS8: netcf-devel
     CentOSStream8: netcf-devel
     Debian10: libnetcf-dev
     Debian11: libnetcf-dev
+    Fedora34: netcf-devel
+    Fedora35: netcf-devel
     Ubuntu1804: libnetcf-dev
     Ubuntu2004: libnetcf-dev
     cross-policy-default: skip
