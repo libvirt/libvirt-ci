@@ -6,6 +6,7 @@ packages:
   - bash-completion
   - ccache
   - clang
+  - codespell
   - cpp
   - cppi
   - cyrus-sasl
