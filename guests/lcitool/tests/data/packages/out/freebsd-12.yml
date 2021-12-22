@@ -17,6 +17,7 @@ native:
 - cdrkit-genisoimage
 - check
 - chrony
+- codespell
 - cppi
 - ctags
 - curl

@@ -23,6 +23,7 @@ packages:
 - clang
 - cloud-init
 - cloud-init-growpart
+- codespell
 - column
 - cpp
 - cppi

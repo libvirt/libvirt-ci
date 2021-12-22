@@ -51,6 +51,7 @@ native:
 - chrony
 - cloud-init
 - cloud-utils-growpart
+- codespell
 - cpp
 - cppi
 - ctags

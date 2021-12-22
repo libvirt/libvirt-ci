@@ -29,6 +29,7 @@ native:
 - clang
 - cloud-init
 - cloud-utils-growpart
+- codespell
 - cpp
 - cppi
 - ctags

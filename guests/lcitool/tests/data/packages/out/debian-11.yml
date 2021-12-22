@@ -19,6 +19,7 @@ native:
 - clang
 - cloud-guest-utils
 - cloud-init
+- codespell
 - cpanminus
 - cpp
 - dbus

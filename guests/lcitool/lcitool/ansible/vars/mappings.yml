@@ -235,6 +235,11 @@ mappings:
     deb: cloud-guest-utils
     rpm: cloud-utils-growpart
 
+  codespell:
+    default: codespell
+    apk:
+    CentOS:
+
   cpp:
     default: cpp
     apk: gcc

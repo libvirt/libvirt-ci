@@ -115,6 +115,7 @@ native:
 - chrony
 - cloud-guest-utils
 - cloud-init
+- codespell
 - cpanminus
 - cpp
 - dbus
