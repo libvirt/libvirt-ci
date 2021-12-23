@@ -222,7 +222,6 @@ native:
 - python3-wheel
 - qemu
 - qemu-tools
-- radvd
 - rdma-core-devel
 - readline-devel
 - rpcgen

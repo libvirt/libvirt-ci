@@ -238,7 +238,6 @@ native:
 - python3-yaml
 - qemu
 - qemu-utils
-- radvd
 - rake
 - rpm2cpio
 - ruby-dev

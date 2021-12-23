@@ -176,7 +176,6 @@ native:
 - python3-wheel
 - qemu-img
 - qemu-kvm
-- radvd
 - rpcgen
 - rpm
 - rpm-build

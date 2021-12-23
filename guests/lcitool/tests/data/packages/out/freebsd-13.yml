@@ -144,7 +144,6 @@ native:
 - py38-yaml
 - python3
 - qemu
-- radvd
 - readline
 - rest
 - rpm2cpio

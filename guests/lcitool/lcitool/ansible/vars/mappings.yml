@@ -1677,10 +1677,6 @@ mappings:
     MacOS: qemu
     OpenSUSE: qemu-tools
 
-  radvd:
-    default: radvd
-    MacOS:
-
   rake:
     default: rubygem-rake
     apk: ruby-rake

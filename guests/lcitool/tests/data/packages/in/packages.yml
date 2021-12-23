@@ -241,7 +241,6 @@ packages:
 - qemu
 - qemu-img
 - qemu-nbd
-- radvd
 - rake
 - readline
 - rpcgen

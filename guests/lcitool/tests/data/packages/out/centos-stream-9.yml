@@ -195,7 +195,6 @@ native:
 - python3-wheel
 - qemu-img
 - qemu-kvm
-- radvd
 - rdma-core-devel
 - readline-devel
 - rpcgen

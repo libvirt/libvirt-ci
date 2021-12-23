@@ -189,7 +189,6 @@ native:
 - python3-dev
 - qemu
 - qemu-img
-- radvd
 - readline-dev
 - rest-dev
 - rpcgen
