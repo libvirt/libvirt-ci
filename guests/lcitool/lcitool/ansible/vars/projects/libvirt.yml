@@ -67,7 +67,6 @@ packages:
   - python3
   - python3-docutils
   - qemu-img
-  - radvd
   - readline
   - rpcgen
   - rpmbuild
