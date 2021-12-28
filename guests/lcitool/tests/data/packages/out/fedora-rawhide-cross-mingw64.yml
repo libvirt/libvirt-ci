@@ -3,7 +3,6 @@ cross:
 - mingw64-SDL2_image
 - mingw64-bzip2
 - mingw64-curl
-- mingw64-dbus
 - mingw64-dlfcn
 - mingw64-gcc
 - mingw64-gcc-c++

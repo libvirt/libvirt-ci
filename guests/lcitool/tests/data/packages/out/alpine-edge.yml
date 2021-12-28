@@ -41,7 +41,6 @@ native:
 - curl-dev
 - cyrus-sasl-dev
 - dbus
-- dbus-dev
 - diffutils
 - dnsmasq
 - dtc-dev

@@ -32,7 +32,6 @@ native:
 - cyrus-sasl-devel
 - daxctl-devel
 - dbus-daemon
-- dbus-devel
 - device-mapper-devel
 - device-mapper-multipath-devel
 - diffutils

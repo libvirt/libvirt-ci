@@ -713,16 +713,6 @@ mappings:
     cross-mingw64-rpm: mingw64-curl
     cross-policy-default: foreign
 
-  libdbus:
-    default: dbus
-    apk: dbus-dev
-    deb: libdbus-1-dev
-    rpm: dbus-devel
-    OpenSUSE: dbus-1-devel
-    cross-mingw32-rpm: mingw32-dbus
-    cross-mingw64-rpm: mingw64-dbus
-    cross-policy-default: foreign
-
   libdrm:
     apk: libdrm-dev
     deb: libdrm-dev

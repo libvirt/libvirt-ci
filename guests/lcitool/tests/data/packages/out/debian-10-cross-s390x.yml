@@ -20,7 +20,6 @@ cross:
 - libconfig-dev:s390x
 - libcurl4-gnutls-dev:s390x
 - libdaxctl-dev:s390x
-- libdbus-1-dev:s390x
 - libdevmapper-dev:s390x
 - libdrm-dev:s390x
 - libepoxy-dev:s390x

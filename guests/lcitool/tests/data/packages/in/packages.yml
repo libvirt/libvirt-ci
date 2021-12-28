@@ -95,7 +95,6 @@ packages:
 - libcmpiutil
 - libconfig
 - libcurl
-- libdbus
 - libdrm
 - libepoxy
 - libev

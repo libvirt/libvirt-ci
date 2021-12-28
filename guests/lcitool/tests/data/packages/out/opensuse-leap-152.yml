@@ -35,7 +35,6 @@ native:
 - ctags
 - cyrus-sasl-devel
 - dbus-1
-- dbus-1-devel
 - device-mapper-devel
 - diffutils
 - dnsmasq

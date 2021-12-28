@@ -76,7 +76,6 @@ native:
 - libcpan-changes-perl
 - libcurl4-gnutls-dev
 - libdaxctl-dev
-- libdbus-1-dev
 - libdevmapper-dev
 - libdigest-perl
 - libdigest-perl-md5-perl
