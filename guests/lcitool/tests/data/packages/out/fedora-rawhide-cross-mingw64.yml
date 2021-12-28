@@ -113,7 +113,6 @@ native:
 - ocamldoc
 - openssh-clients
 - osinfo-db-tools
-- parted
 - pcre-static
 - perl-App-cpanminus
 - perl-Archive-Tar

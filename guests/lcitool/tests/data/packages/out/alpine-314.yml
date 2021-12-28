@@ -142,7 +142,6 @@ native:
 - openjdk11-jdk
 - openssh-client
 - osinfo-db-tools
-- parted
 - parted-dev
 - pcre-dev
 - perl

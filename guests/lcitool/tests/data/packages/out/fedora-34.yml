@@ -159,7 +159,6 @@ native:
 - openssh-clients
 - osinfo-db-tools
 - pam-devel
-- parted
 - parted-devel
 - pcre-static
 - perl-App-cpanminus

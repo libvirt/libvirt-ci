@@ -167,7 +167,6 @@ native:
 - openssh
 - osinfo-db-tools
 - pam-devel
-- parted
 - parted-devel
 - pcre-devel-static
 - perl

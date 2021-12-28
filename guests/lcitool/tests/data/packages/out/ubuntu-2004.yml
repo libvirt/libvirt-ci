@@ -205,7 +205,6 @@ native:
 - openjdk-11-jdk-headless
 - openssh-client
 - osinfo-db-tools
-- parted
 - perl
 - perl-base
 - php-dev

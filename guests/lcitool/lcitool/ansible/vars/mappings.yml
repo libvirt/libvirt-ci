@@ -1250,11 +1250,6 @@ mappings:
     rpm: pam-devel
     cross-policy-default: foreign
 
-  parted:
-    default: parted
-    FreeBSD:
-    MacOS:
-
   pci-ids:
     default: hwdata
     apk: hwids-pci

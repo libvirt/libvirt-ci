@@ -173,7 +173,6 @@ packages:
 - openwsman
 - osinfo-db-tools
 - pam
-- parted
 - pci-ids
 - pcre-static
 - perl
