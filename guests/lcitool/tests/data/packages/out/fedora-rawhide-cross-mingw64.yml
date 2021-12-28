@@ -202,5 +202,4 @@ native:
 - wget
 - which
 - xz
-- zfs-fuse
 - zip

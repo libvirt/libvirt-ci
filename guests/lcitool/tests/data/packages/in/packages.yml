@@ -287,7 +287,6 @@ packages:
 - xsltproc
 - xz
 - yajl
-- zfs
 - zip
 - zlib
 - zlib-static

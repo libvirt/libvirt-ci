@@ -1955,11 +1955,6 @@ mappings:
     OpenSUSE: libyajl-devel
     cross-policy-default: foreign
 
-  zfs:
-    deb: zfs-fuse
-    Debian10:
-    Fedora: zfs-fuse
-
   zip:
     default: zip
 

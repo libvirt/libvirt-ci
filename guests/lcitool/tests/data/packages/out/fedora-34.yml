@@ -270,7 +270,6 @@ native:
 - xz-devel
 - xz-static
 - yajl-devel
-- zfs-fuse
 - zip
 - zlib-devel
 - zlib-static

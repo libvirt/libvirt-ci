@@ -262,6 +262,5 @@ native:
 - xfslibs-dev
 - xsltproc
 - xz-utils
-- zfs-fuse
 - zip
 - zlib1g-dev
