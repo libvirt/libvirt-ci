@@ -58,7 +58,6 @@ packages:
   - netcf
   - numad
   - openwsman
-  - parted
   - perl
   - pkg-config
   - polkit
