@@ -119,7 +119,6 @@ native:
 - libtirpc-devel
 - libtool
 - libubsan
-- libudev-devel
 - liburing-devel
 - libusbx-devel
 - libuuid-devel

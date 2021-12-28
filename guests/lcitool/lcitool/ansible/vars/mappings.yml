@@ -991,7 +991,8 @@ mappings:
   libudev:
     apk: eudev-dev
     deb: libudev-dev
-    rpm: libudev-devel
+    rpm: systemd-devel
+    OpenSUSE: libudev-devel
     cross-policy-default: foreign
 
   liburing:

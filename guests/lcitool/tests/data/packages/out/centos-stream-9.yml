@@ -109,7 +109,6 @@ native:
 - libtasn1-devel
 - libtirpc-devel
 - libtool
-- libudev-devel
 - libusbx-devel
 - libuuid-devel
 - libvirt-devel
