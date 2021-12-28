@@ -36,7 +36,6 @@ packages:
   - libblkid
   - libcap-ng
   - libcurl
-  - libdbus
   - libiscsi
   - libnl3
   - libnlroute3
