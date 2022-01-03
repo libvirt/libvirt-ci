@@ -76,7 +76,6 @@ packages:
   - tc
   - wireshark
   - xen
-  - xfsprogs
   - xmllint
   - xsltproc
   - yajl
