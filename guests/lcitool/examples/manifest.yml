@@ -103,7 +103,7 @@ targets:
       - arch: armv7l
       - arch: i686
         artifacts:
-          expiry: 2 days
+          expire_in: 2 days
           paths:
             - build
             - scratch

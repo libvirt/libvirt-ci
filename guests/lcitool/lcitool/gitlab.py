@@ -173,12 +173,12 @@ def format_artifacts(artifacts):
     if artifacts is None:
         return ""
 
-    expiry = artifacts["expiry"]
+    expire_in = artifacts["expire_in"]
     paths = "\n".join(["      - " + p for p in artifacts["paths"]])
 
     section = textwrap.indent(textwrap.dedent(f"""
             artifacts:
-              expire_in: {expiry}
+              expire_in: {expire_in}
               paths:
            """), "  ") + paths
     return section[1:]

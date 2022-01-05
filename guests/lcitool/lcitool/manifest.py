@@ -108,7 +108,7 @@ class Manifest:
 
                 artifacts = jobinfo["artifacts"]
                 if artifacts is not None:
-                    artifacts.setdefault("expiry", "2 days")
+                    artifacts.setdefault("expire_in", "2 days")
 
                 arch = jobinfo["arch"]
                 if arch == "x86_64":
