@@ -152,7 +152,8 @@ class Manifest:
 
     def _generate_formatter(self, dryrun, subdir, suffix, formatter, targettype):
         outdir = Path("ci", subdir)
-        outdir.mkdir(parents=True, exist_ok=True)
+        if not dryrun:
+            outdir.mkdir(parents=True, exist_ok=True)
 
         generated = []
         for target, targetinfo in self.values["targets"].items():
@@ -201,7 +202,8 @@ class Manifest:
 
     def _clean_files(self, generated, dryrun, subdir, suffix):
         outdir = Path("ci", subdir)
-        outdir.mkdir(parents=True, exist_ok=True)
+        if not outdir.exists():
+            return
 
         for filename in outdir.glob("*." + suffix):
             if filename not in generated:
@@ -217,7 +219,8 @@ class Manifest:
 
     def _generate_gitlab(self, dryrun):
         outdir = Path("ci")
-        outdir.mkdir(parents=True, exist_ok=True)
+        if not dryrun:
+            outdir.mkdir(parents=True, exist_ok=True)
 
         gitlabfile = Path(outdir, "gitlab.yml")
 
