@@ -70,7 +70,7 @@ gitlab:
 #
 #     The job dict contains
 #
-#       - "arch": an arcitecture name
+#       - "arch": an architecture name
 #       - "enabled": bool, to temporarily skip a target
 #       - "allow-failure": bool, to ignore job failures
 #       - "builds": bool, used to skip build job
