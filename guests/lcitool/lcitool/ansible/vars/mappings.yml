@@ -1092,7 +1092,6 @@ mappings:
   lttng-ust:
     apk: lttng-ust-dev
     deb: liblttng-ust-dev
-    pkg: lttng-ust
     rpm: lttng-ust-devel
     cross-policy-default: foreign
 
