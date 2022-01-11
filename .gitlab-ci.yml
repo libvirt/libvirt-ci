@@ -3,7 +3,7 @@ stages:
   - containers
   - sanity_checks
 
-.build_container_template: &build_container_definition
+.build_container_template:
   image: docker:stable
   stage: containers
   services:
@@ -34,32 +34,32 @@ stages:
     - docker logout
 
 check-dco-container:
-  <<: *build_container_definition
+  extends: .build_container_template
   variables:
     NAME: check-dco
 
 go-fmt-container:
-  <<: *build_container_definition
+  extends: .build_container_template
   variables:
     NAME: go-fmt
 
 cargo-fmt-container:
-  <<: *build_container_definition
+  extends: .build_container_template
   variables:
     NAME: cargo-fmt
 
 clang-format-container:
-  <<: *build_container_definition
+  extends: .build_container_template
   variables:
     NAME: clang-format
 
 cirrus-run-container:
-  <<: *build_container_definition
+  extends: .build_container_template
   variables:
     NAME: cirrus-run
 
 docker-dind-container:
-  <<: *build_container_definition
+  extends: .build_container_template
   variables:
     NAME: docker-dind
 
