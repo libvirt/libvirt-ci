@@ -13,7 +13,6 @@ packages:
   - device-mapper
   - diffutils
   - dlfcn
-  - dnsmasq
   - dtrace
   - dwarves
   - ebtables
