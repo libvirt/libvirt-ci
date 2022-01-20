@@ -51,7 +51,7 @@ def cross_build_template():
 
 def cirrus_template():
     return textwrap.dedent(
-        r"""
+        """
         .cirrus_build_job:
           stage: builds
           image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
