@@ -7,7 +7,6 @@
 import os
 import pytest
 import subprocess
-import shutil
 from pathlib import Path
 
 
@@ -16,7 +15,7 @@ cli_args = [
     ["projects"],
     ["variables", "centos-8", "osinfo-db-tools"],
     ["dockerfile", "centos-8", "osinfo-db-tools"],
-    ["manifest", Path(__file__).parent.parent.joinpath("examples", "manifest.yml")],
+    ["manifest", "-n", Path(__file__).parent.parent.joinpath("examples", "manifest.yml")],
 ]
 
 
@@ -26,8 +25,4 @@ def test_commands(test_cli_args):
     lcitool = pybase.joinpath("bin", "lcitool")
     subenv = os.environ
     subenv["PYTHONPATH"] = str(pybase)
-    try:
-        subprocess.check_call([lcitool] + test_cli_args, stdout=subprocess.DEVNULL)
-    finally:
-        if test_cli_args[0] == "manifest":
-            shutil.rmtree(pybase.joinpath("ci"), ignore_errors=True)
+    subprocess.check_call([lcitool] + test_cli_args, stdout=subprocess.DEVNULL)
