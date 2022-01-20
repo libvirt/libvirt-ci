@@ -108,6 +108,18 @@ class CommandLine:
             help="output format (default: shell)",
         )
 
+        basediropt = argparse.ArgumentParser(add_help=False)
+        basediropt.add_argument(
+            "--base-dir",
+            default=None,
+            help="Project base directory (default: current working directory)")
+
+        cidiropt = argparse.ArgumentParser(add_help=False)
+        cidiropt.add_argument(
+            "--ci-dir",
+            default="ci",
+            help="CI config directory relative to base dir (default: 'ci')")
+
         # Main parser
         self._parser = argparse.ArgumentParser(
             conflict_handler="resolve",
@@ -190,7 +202,7 @@ class CommandLine:
         manifestparser = subparsers.add_parser(
             "manifest",
             help="apply the CI manifest (doesn't access the host)",
-            parents=[manifestopt, dryrunopt, quietopt])
+            parents=[manifestopt, dryrunopt, quietopt, basediropt, cidiropt])
         manifestparser.set_defaults(func=Application._action_manifest)
 
     def parse(self):

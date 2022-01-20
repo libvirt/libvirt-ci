@@ -7,7 +7,7 @@
 import textwrap
 
 
-def container_template(namespace, project):
+def container_template(namespace, project, cidir):
     return textwrap.dedent(
         f"""
         .container_job:
@@ -24,7 +24,7 @@ def container_template(namespace, project):
             - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
           script:
             - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
-            - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "ci/containers/$NAME.Dockerfile" ci/containers
+            - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "{cidir}/containers/$NAME.Dockerfile" {cidir}/containers
             - docker push "$TAG"
           after_script:
             - docker logout
@@ -49,15 +49,15 @@ def cross_build_template():
         """)
 
 
-def cirrus_template():
+def cirrus_template(cidir):
     return textwrap.dedent(
-        """
+        f"""
         .cirrus_build_job:
           stage: builds
           image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
           needs: []
           script:
-            - source ci/cirrus/$NAME.vars
+            - source {cidir}/cirrus/$NAME.vars
             - sed -e "s|[@]CI_REPOSITORY_URL@|$CI_REPOSITORY_URL|g"
                   -e "s|[@]CI_COMMIT_REF_NAME@|$CI_COMMIT_REF_NAME|g"
                   -e "s|[@]CI_COMMIT_SHA@|$CI_COMMIT_SHA|g"
@@ -67,7 +67,7 @@ def cirrus_template():
                   -e "s|[@]UPDATE_COMMAND@|$UPDATE_COMMAND|g"
                   -e "s|[@]UPGRADE_COMMAND@|$UPGRADE_COMMAND|g"
                   -e "s|[@]INSTALL_COMMAND@|$INSTALL_COMMAND|g"
-                  -e "s|[@]PATH@|$PATH_EXTRA${PATH_EXTRA:+:}\$PATH|g"
+                  -e "s|[@]PATH@|$PATH_EXTRA${{PATH_EXTRA:+:}}\\$PATH|g"
                   -e "s|[@]PKG_CONFIG_PATH@|$PKG_CONFIG_PATH|g"
                   -e "s|[@]PKGS@|$PKGS|g"
                   -e "s|[@]MAKE@|$MAKE|g"
@@ -75,9 +75,9 @@ def cirrus_template():
                   -e "s|[@]PIP3@|$PIP3|g"
                   -e "s|[@]PYPI_PKGS@|$PYPI_PKGS|g"
                   -e "s|[@]XML_CATALOG_FILES@|$XML_CATALOG_FILES|g"
-              <ci/cirrus/build.yml >ci/cirrus/$NAME.yml
-            - cat ci/cirrus/$NAME.yml
-            - cirrus-run -v --show-build-log always ci/cirrus/$NAME.yml
+              <{cidir}/cirrus/build.yml >{cidir}/cirrus/$NAME.yml
+            - cat {cidir}/cirrus/$NAME.yml
+            - cirrus-run -v --show-build-log always {cidir}/cirrus/$NAME.yml
           rules:
             - if: "$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN"
         """)

@@ -15,10 +15,15 @@ from lcitool import util
 
 class Manifest:
 
-    def __init__(self, configfp, quiet=False):
+    def __init__(self, configfp, quiet=False, cidir=Path("ci"), basedir=None):
         self.configpath = configfp.name
         self.values = yaml.safe_load(configfp)
         self.quiet = quiet
+        self.cidir = cidir
+        if basedir is None:
+            self.outdir = cidir
+        else:
+            self.outdir = Path(basedir, cidir)
 
     # Fully expand any shorthand / syntax sugar in the config
     # so that later stages have a consistent view of the
@@ -152,7 +157,7 @@ class Manifest:
             self._generate_gitlab(dryrun)
 
     def _generate_formatter(self, dryrun, subdir, suffix, formatter, targettype):
-        outdir = Path("ci", subdir)
+        outdir = Path(self.outdir, subdir)
         if not dryrun:
             outdir.mkdir(parents=True, exist_ok=True)
 
@@ -203,7 +208,7 @@ class Manifest:
                                         formatter, "cirrus")
 
     def _clean_files(self, generated, dryrun, subdir, suffix):
-        outdir = Path("ci", subdir)
+        outdir = Path(self.outdir, subdir)
         if not outdir.exists():
             return
 
@@ -221,11 +226,10 @@ class Manifest:
         self._clean_files(generated, dryrun, "cirrus", "vars")
 
     def _generate_gitlab(self, dryrun):
-        outdir = Path("ci")
         if not dryrun:
-            outdir.mkdir(parents=True, exist_ok=True)
+            self.outdir.mkdir(parents=True, exist_ok=True)
 
-        gitlabfile = Path(outdir, "gitlab.yml")
+        gitlabfile = Path(self.outdir, "gitlab.yml")
 
         gitlabinfo = self.values["gitlab"]
         namespace = gitlabinfo["namespace"]
@@ -234,12 +238,12 @@ class Manifest:
 
         gitlabcontent = []
         if gitlabinfo["containers"]:
-            gitlabcontent.append(gitlab.container_template(namespace, project))
+            gitlabcontent.append(gitlab.container_template(namespace, project, self.cidir))
         if gitlabinfo["builds"]:
             gitlabcontent.append(gitlab.native_build_template())
             gitlabcontent.append(gitlab.cross_build_template())
         if gitlabinfo["cirrus"]:
-            gitlabcontent.append(gitlab.cirrus_template())
+            gitlabcontent.append(gitlab.cirrus_template(self.cidir))
 
         if jobinfo["check-dco"]:
             gitlabcontent.append(gitlab.check_dco_job(namespace))

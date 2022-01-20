@@ -354,7 +354,11 @@ class Application(metaclass=Singleton):
         print(header + dockerfile)
 
     def _action_manifest(self, args):
-        manifest = Manifest(args.manifest, args.quiet)
+        base_path = None
+        if args.base_dir is not None:
+            base_path = Path(args.base_dir)
+        ci_path = Path(args.ci_dir)
+        manifest = Manifest(args.manifest, args.quiet, ci_path, base_path)
         manifest.generate(args.dry_run)
 
     def run(self, args):
