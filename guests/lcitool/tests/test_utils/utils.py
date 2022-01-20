@@ -28,8 +28,8 @@ def test_data_indir(test_name):
     return Path(test_data_dir(test_name), "in")
 
 
-def assert_yaml_matches_file(actual, expected_path):
-    if pytest.custom_args["regenerate_output"]:
+def assert_yaml_matches_file(actual, expected_path, allow_regenerate=True):
+    if pytest.custom_args["regenerate_output"] and allow_regenerate:
         # Make sure the target directory exists, since creating the
         # output file would fail otherwise
         expected_path.parent.mkdir(parents=True, exist_ok=True)
@@ -44,8 +44,8 @@ def assert_yaml_matches_file(actual, expected_path):
         assert actual[key] == expected[key]
 
 
-def assert_matches_file(actual, expected_path):
-    if pytest.custom_args["regenerate_output"]:
+def assert_matches_file(actual, expected_path, allow_regenerate=True):
+    if pytest.custom_args["regenerate_output"] and allow_regenerate:
         # Make sure the target directory exists, since creating the
         # output file would fail otherwise
         expected_path.parent.mkdir(parents=True, exist_ok=True)
