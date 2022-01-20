@@ -103,6 +103,7 @@ packages:
 - libgcrypt
 - libgovirt
 - libguestfs-tools
+- libibumad
 - libibverbs
 - libiscsi
 - libjemalloc

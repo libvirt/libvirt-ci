@@ -768,6 +768,11 @@ mappings:
     cross-mingw64-rpm: mingw64-libgovirt
     cross-policy-default: foreign
 
+  libibumad:
+    deb: libibumad-dev
+    rpm: rdma-core-devel
+    cross-policy-default: foreign
+
   libibverbs:
     deb: libibverbs-dev
     rpm: rdma-core-devel
