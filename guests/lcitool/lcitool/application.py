@@ -154,10 +154,7 @@ class Application(metaclass=Singleton):
         inventory = Inventory()
         for target in sorted(inventory.targets):
             if args.containerized:
-                try:
-                    facts = inventory.target_facts[target]
-                except KeyError:
-                    raise ApplicationError(f"Invalid target '{target}'")
+                facts = inventory.target_facts[target]
 
                 if facts["packaging"]["format"] not in ["apk", "deb", "rpm"]:
                     continue
