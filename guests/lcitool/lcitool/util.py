@@ -8,10 +8,10 @@ import fnmatch
 import logging
 import os
 import platform
+import tempfile
 import textwrap
 
 from pathlib import Path
-from tempfile import TemporaryDirectory
 
 _tempdir = None
 
@@ -144,12 +144,17 @@ def generate_file_header(cliargv):
 
 
 def atomic_write(filepath, content):
-    tmpfilepath = Path(filepath.as_posix() + ".tmp")
+    tmpfilepath = None
+    tmpdir = filepath.parent
     try:
-        tmpfilepath.write_text(content)
+        with tempfile.NamedTemporaryFile("w", dir=tmpdir, delete=False) as fd:
+            tmpfilepath = Path(fd.name)
+            fd.write(content)
+
         tmpfilepath.replace(filepath)
     except Exception:
-        tmpfilepath.unlink()
+        if tmpfilepath is not None:
+            tmpfilepath.unlink()
         raise
 
 
@@ -157,7 +162,7 @@ def get_temp_dir():
     global _tempdir
 
     if not _tempdir:
-        _tempdir = TemporaryDirectory(prefix="lcitool")
+        _tempdir = tempfile.TemporaryDirectory(prefix="lcitool")
     return Path(_tempdir.name)
 
 
