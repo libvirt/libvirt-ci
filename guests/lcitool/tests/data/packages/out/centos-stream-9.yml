@@ -1,13 +1,10 @@
 cpan:
-- CPAN::Changes
 - IO::Interface
 - LWP::UserAgent
 - Net::OpenSSH
-- Net::SNMP
 - TAP::Formatter::HTML
 - TAP::Formatter::JUnit
 - TAP::Harness::Archive
-- XML::Writer
 - accessors
 native:
 - SDL2-devel
@@ -147,12 +144,14 @@ native:
 - pcre-static
 - perl-App-cpanminus
 - perl-Archive-Tar
+- perl-CPAN-Changes
 - perl-Digest
 - perl-Digest-MD5
 - perl-File-Slurp
 - perl-IO-Compress-Bzip2
 - perl-IO-String
 - perl-Module-Build
+- perl-Net-SNMP
 - perl-NetAddr-IP
 - perl-Pod-Simple
 - perl-Sub-Uplevel
@@ -164,6 +163,7 @@ native:
 - perl-Test-Simple
 - perl-Time-HiRes
 - perl-XML-Twig
+- perl-XML-Writer
 - perl-XML-XPath
 - perl-YAML
 - perl-base
@@ -201,6 +201,7 @@ native:
 - rubygem-rake
 - rust
 - sanlock-devel
+- screen
 - scrub
 - sed
 - snappy-devel
