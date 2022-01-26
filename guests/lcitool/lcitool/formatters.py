@@ -147,6 +147,14 @@ class DockerfileFormatter(Formatter):
         self._base = base
         self._layers = layers
 
+    @staticmethod
+    def _align(command, strings):
+        if len(strings) == 1:
+            return strings[0]
+
+        align = " \\\n" + (" " * len("RUN " + command + " "))
+        return align[1:] + align.join(strings)
+
     def _generator_build_varmap(self,
                                 facts,
                                 selected_projects,
@@ -156,18 +164,15 @@ class DockerfileFormatter(Formatter):
                                                      selected_projects,
                                                      cross_arch)
 
-        pkg_align = " \\\n" + (" " * len("RUN " + facts["packaging"]["command"] + " "))
-        pypi_pkg_align = " \\\n" + (" " * len("RUN pip3 "))
-        cpan_pkg_align = " \\\n" + (" " * len("RUN cpanm "))
-
-        varmap["pkgs"] = pkg_align[1:] + pkg_align.join(varmap["pkgs"])
+        varmap["pkgs"] = self._align(facts["packaging"]["command"], varmap["pkgs"])
 
         if varmap["cross_pkgs"]:
-            varmap["cross_pkgs"] = pkg_align[1:] + pkg_align.join(varmap["cross_pkgs"])
+            varmap["cross_pkgs"] = self._align(facts["packaging"]["command"],
+                                               varmap["cross_pkgs"])
         if varmap["pypi_pkgs"]:
-            varmap["pypi_pkgs"] = pypi_pkg_align[1:] + pypi_pkg_align.join(varmap["pypi_pkgs"])
+            varmap["pypi_pkgs"] = self._align("pip3", varmap["pypi_pkgs"])
         if varmap["cpan_pkgs"]:
-            varmap["cpan_pkgs"] = cpan_pkg_align[1:] + cpan_pkg_align.join(varmap["cpan_pkgs"])
+            varmap["cpan_pkgs"] = self._align("cpanm", varmap["cpan_pkgs"])
 
         varmap["nosync"] = ""
         if facts["packaging"]["format"] == "deb":
