@@ -142,10 +142,10 @@ An example of a simple INI inventory:
 
 ::
 
-    [centos-8]
-    centos-8-1
-    centos-8-2
-    some-other-centos-8
+    [centos-stream-8]
+    centos-stream-8-1
+    centos-stream-8-2
+    some-other-centos-stream-8
 
     [fedora-35]
     fedora-test-1

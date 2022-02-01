@@ -22,7 +22,7 @@
   args:
     warn: no
   when:
-    - (os.name == 'CentOS' and (os.version == '8' or os.version == 'Stream8')) or
+    - (os.name == 'CentOS' and os.version == 'Stream8') or
       (os.name == 'AlmaLinux' and os.version == '8')
 
 - name: Enable EPEL repository
@@ -39,7 +39,7 @@
     name: centos-release-advanced-virtualization
     state: latest
   when:
-    - (os.name == 'CentOS' and (os.version == '8' or os.version == 'Stream8')) or
+    - (os.name == 'CentOS' and os.version == 'Stream8') or
       (os.name == 'AlmaLinux' and os.version == '8')
 
 - name: Update installed packages

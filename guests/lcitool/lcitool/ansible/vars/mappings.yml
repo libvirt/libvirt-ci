@@ -119,7 +119,6 @@ mappings:
     pkg: apache-ant
     rpm: ant-junit
     AlmaLinux8:
-    CentOS8:
     CentOSStream8:
 
   apparmor:
@@ -260,7 +259,6 @@ mappings:
     AlmaLinux:
     CentOS:
     AlmaLinux8: ctags
-    CentOS8: ctags
     CentOSStream8: ctags
 
   cyrus-sasl:
@@ -425,7 +423,6 @@ mappings:
     Fedora: genisoimage
     OpenSUSE: mkisofs
     AlmaLinux8: genisoimage
-    CentOS8: genisoimage
     CentOSStream8: genisoimage
 
   gettext:
@@ -471,7 +468,6 @@ mappings:
     Fedora: glusterfs-api-devel
     OpenSUSE: glusterfs-devel
     AlmaLinux8: glusterfs-api-devel
-    CentOS8: glusterfs-api-devel
     CentOSStream8: glusterfs-api-devel
     Ubuntu1804: glusterfs-common
     cross-policy-default: foreign
@@ -593,7 +589,6 @@ mappings:
     MacOS: cdrtools
     OpenSUSE: mkisofs
     AlmaLinux8: genisoimage
-    CentOS8: genisoimage
     CentOSStream8: genisoimage
 
   java:
@@ -625,7 +620,6 @@ mappings:
     default: junit
     MacOS:
     AlmaLinux8:
-    CentOS8:
     CentOSStream8:
 
   libacl:
@@ -695,7 +689,6 @@ mappings:
     AlmaLinux:
     CentOS:
     AlmaLinux8: libcacard-devel
-    CentOS8: libcacard-devel
     CentOSStream8: libcacard-devel
     cross-policy-default: foreign
 
@@ -747,7 +740,6 @@ mappings:
     AlmaLinux:
     CentOS:
     AlmaLinux8: libev-devel
-    CentOS8: libev-devel
     CentOSStream8: libev-devel
     cross-policy-default: foreign
 
@@ -801,7 +793,6 @@ mappings:
     CentOS:
     MacOS: libiscsi
     AlmaLinux8: libiscsi-devel
-    CentOS8: libiscsi-devel
     CentOSStream8: libiscsi-devel
     cross-policy-default: foreign
 
@@ -943,7 +934,6 @@ mappings:
     CentOS:
     MacOS: libslirp
     AlmaLinux8: libslirp-devel
-    CentOS8: libslirp-devel
     CentOSStream8: libslirp-devel
     Debian10:
     OpenSUSELeap152:
@@ -1027,7 +1017,6 @@ mappings:
     AlmaLinux:
     CentOS:
     AlmaLinux8: liburing-devel
-    CentOS8: liburing-devel
     CentOSStream8: liburing-devel
     Debian10:
     Ubuntu1804:
@@ -1072,7 +1061,6 @@ mappings:
     MacOS: libvirt-glib
     OpenSUSE: libvirt-glib-devel
     AlmaLinux8: libvirt-gobject-devel
-    CentOS8: libvirt-gobject-devel
     cross-policy-default: foreign
 
   libxml2:
@@ -1203,7 +1191,6 @@ mappings:
   netcf:
     apk: netcf-dev
     AlmaLinux8: netcf-devel
-    CentOS8: netcf-devel
     CentOSStream8: netcf-devel
     Debian10: libnetcf-dev
     Debian11: libnetcf-dev
@@ -1298,7 +1285,6 @@ mappings:
     FreeBSD: perl5
     MacOS: perl
     AlmaLinux8: perl
-    CentOS8: perl
     CentOSStream8: perl
 
   perl-App-cpanminus:
@@ -1408,7 +1394,6 @@ mappings:
     MacOS: perl
     OpenSUSE: perl-base
     AlmaLinux8: perl
-    CentOS8: perl
     CentOSStream8: perl
 
   perl-TAP-Formatter-HTML:
@@ -1622,7 +1607,6 @@ mappings:
     OpenSUSE: python3-Pillow
     MacOS:
     AlmaLinux8: python3-pillow
-    CentOS8: python3-pillow
     CentOSStream8: python3-pillow
 
   python3-pip:
@@ -1670,7 +1654,6 @@ mappings:
     AlmaLinux:
     CentOS:
     AlmaLinux8: python3-virtualenv
-    CentOS8: python3-virtualenv
     CentOSStream8: python3-virtualenv
 
   python3-wheel:
@@ -1810,7 +1793,6 @@ mappings:
     MacOS: spice-gtk
     OpenSUSE: spice-gtk-devel
     AlmaLinux8: spice-gtk3-devel
-    CentOS8: spice-gtk3-devel
     CentOSStream8: spice-gtk3-devel
     cross-mingw32-rpm: mingw32-spice-gtk3
     cross-mingw64-rpm: mingw64-spice-gtk3
@@ -1828,7 +1810,6 @@ mappings:
     Fedora: spice-server-devel
     OpenSUSE: libspice-server-devel
     AlmaLinux8: spice-server-devel
-    CentOS8: spice-server-devel
     CentOSStream8: spice-server-devel
     mips-deb:
     s390x-deb:
@@ -1933,7 +1914,6 @@ mappings:
     deb: libguestfs-tools
     rpm: guestfs-tools
     AlmaLinux8: libguestfs-tools-c
-    CentOS8: libguestfs-tools-c
     CentOSStream8: libguestfs-tools-c
 
   vte:
