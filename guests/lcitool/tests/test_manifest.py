@@ -60,7 +60,7 @@ def test_generate(monkeypatch, custom_projects):
             # to be re-written
             "ci/cirrus/freebsd-current.vars",
             # to be deleted
-            "ci/containers/centos-8.Dockerfile",
+            "ci/containers/almalinux-8.Dockerfile",
             # to be re-written
             "ci/containers/fedora-rawhide.Dockerfile",
         ]
@@ -109,7 +109,7 @@ def test_generate(monkeypatch, custom_projects):
 
         # Verify which files we expect to be deleted
         assert_unlink("ci/cirrus/freebsd-9.vars")
-        assert_unlink("ci/containers/centos-8.Dockerfile")
+        assert_unlink("ci/containers/almalinux-8.Dockerfile")
 
         # Verify content of files we expect to be created
         assert_write("ci/gitlab.yml")

@@ -13,8 +13,8 @@ from pathlib import Path
 cli_args = [
     ["targets"],
     ["projects"],
-    ["variables", "centos-8", "osinfo-db-tools"],
-    ["dockerfile", "centos-8", "osinfo-db-tools"],
+    ["variables", "almalinux-8", "osinfo-db-tools"],
+    ["dockerfile", "almalinux-8", "osinfo-db-tools"],
     ["manifest", "-n", Path(__file__).parent.parent.joinpath("examples", "manifest.yml")],
 ]
 

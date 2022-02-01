@@ -17,7 +17,7 @@ from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, 
 scenarios = [
     # A minimalist application, testing package managers
     pytest.param("test-minimal", "debian-10", None, id="minimal-debian-10"),
-    pytest.param("test-minimal", "centos-8", None, id="minimal-centos-8"),
+    pytest.param("test-minimal", "almalinux-8", None, id="minimal-almalinux-8"),
     pytest.param("test-minimal", "opensuse-leap-152", None, id="minimal-opensuse-leap-152"),
     pytest.param("test-minimal", "alpine-314", None, id="minimal-alpine-314"),
     pytest.param("test-minimal", "opensuse-tumbleweed", None, id="minimal-opensuse-tumbleweed"),
