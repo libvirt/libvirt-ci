@@ -22,27 +22,25 @@
   args:
     warn: no
   when:
-    - os.name == 'CentOS'
-    - ( os.version == '8' or
-        os.version == 'Stream8' )
+    - (os.name == 'CentOS' and (os.version == '8' or os.version == 'Stream8')) or
+      (os.name == 'AlmaLinux' and os.version == '8')
 
 - name: Enable EPEL repository
   package:
     name: epel-release
     state: latest
   when:
-    - os.name == 'CentOS'
-    # FIXME Drop once EPEL for CentOS Stream 9 exists
-    - os.version != 'Stream9'
+    # FIXME Modify the check once EPEL for CentOS Stream 9 exists
+    - (os.name == 'CentOS' and os.version != 'Stream9') or
+      (os.name == 'AlmaLinux' and os.version == '8')
 
 - name: Enable Advanced Virtualization repository
   package:
     name: centos-release-advanced-virtualization
     state: latest
   when:
-    - os.name == 'CentOS'
-    - ( os.version == '8' or
-        os.version == 'Stream8' )
+    - (os.name == 'CentOS' and (os.version == '8' or os.version == 'Stream8')) or
+      (os.name == 'AlmaLinux' and os.version == '8')
 
 - name: Update installed packages
   package:

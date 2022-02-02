@@ -118,6 +118,7 @@ mappings:
     deb: ant-optional
     pkg: apache-ant
     rpm: ant-junit
+    AlmaLinux8:
     CentOS8:
     CentOSStream8:
 
@@ -238,6 +239,7 @@ mappings:
   codespell:
     default: codespell
     apk:
+    AlmaLinux:
     CentOS:
 
   cpp:
@@ -255,7 +257,9 @@ mappings:
   ctags:
     default: ctags
     deb: exuberant-ctags
+    AlmaLinux:
     CentOS:
+    AlmaLinux8: ctags
     CentOS8: ctags
     CentOSStream8: ctags
 
@@ -397,6 +401,7 @@ mappings:
   gcovr:
     default: gcovr
     pkg:
+    AlmaLinux:
     CentOS:
 
   gdb:
@@ -419,6 +424,7 @@ mappings:
     pkg: cdrkit-genisoimage
     Fedora: genisoimage
     OpenSUSE: mkisofs
+    AlmaLinux8: genisoimage
     CentOS8: genisoimage
     CentOSStream8: genisoimage
 
@@ -464,6 +470,7 @@ mappings:
     deb: libglusterfs-dev
     Fedora: glusterfs-api-devel
     OpenSUSE: glusterfs-devel
+    AlmaLinux8: glusterfs-api-devel
     CentOS8: glusterfs-api-devel
     CentOSStream8: glusterfs-api-devel
     Ubuntu1804: glusterfs-common
@@ -537,6 +544,7 @@ mappings:
     apk: gtk-vnc-dev
     deb: libgtk-vnc-2.0-dev
     rpm: gtk-vnc2-devel
+    AlmaLinux:
     CentOS:
     OpenSUSE: gtk-vnc-devel
 
@@ -584,6 +592,7 @@ mappings:
     FreeBSD: cdrkit
     MacOS: cdrtools
     OpenSUSE: mkisofs
+    AlmaLinux8: genisoimage
     CentOS8: genisoimage
     CentOSStream8: genisoimage
 
@@ -615,6 +624,7 @@ mappings:
   junit:
     default: junit
     MacOS:
+    AlmaLinux8:
     CentOS8:
     CentOSStream8:
 
@@ -682,7 +692,9 @@ mappings:
   libcacard:
     deb: libcacard-dev
     rpm: libcacard-devel
+    AlmaLinux:
     CentOS:
+    AlmaLinux8: libcacard-devel
     CentOS8: libcacard-devel
     CentOSStream8: libcacard-devel
     cross-policy-default: foreign
@@ -695,6 +707,7 @@ mappings:
 
   libcmpiutil:
     rpm: libcmpiutil-devel
+    AlmaLinux:
     CentOS:
 
   libconfig:
@@ -731,7 +744,9 @@ mappings:
     apk: libev-dev
     deb: libev-dev
     rpm: libev-devel
+    AlmaLinux:
     CentOS:
+    AlmaLinux8: libev-devel
     CentOS8: libev-devel
     CentOSStream8: libev-devel
     cross-policy-default: foreign
@@ -762,6 +777,7 @@ mappings:
 
   libgovirt:
     rpm: libgovirt-devel
+    AlmaLinux:
     CentOS:
     Debian: libgovirt-dev
     cross-mingw32-rpm: mingw32-libgovirt
@@ -781,8 +797,10 @@ mappings:
   libiscsi:
     deb: libiscsi-dev
     rpm: libiscsi-devel
+    AlmaLinux:
     CentOS:
     MacOS: libiscsi
+    AlmaLinux8: libiscsi-devel
     CentOS8: libiscsi-devel
     CentOSStream8: libiscsi-devel
     cross-policy-default: foreign
@@ -921,8 +939,10 @@ mappings:
     apk: libslirp-dev
     deb: libslirp-dev
     rpm: libslirp-devel
+    AlmaLinux:
     CentOS:
     MacOS: libslirp
+    AlmaLinux8: libslirp-devel
     CentOS8: libslirp-devel
     CentOSStream8: libslirp-devel
     Debian10:
@@ -1004,7 +1024,9 @@ mappings:
     apk: liburing-dev
     deb: liburing-dev
     rpm: liburing-devel
+    AlmaLinux:
     CentOS:
+    AlmaLinux8: liburing-devel
     CentOS8: liburing-devel
     CentOSStream8: liburing-devel
     Debian10:
@@ -1049,6 +1071,7 @@ mappings:
     Fedora: libvirt-gobject-devel
     MacOS: libvirt-glib
     OpenSUSE: libvirt-glib-devel
+    AlmaLinux8: libvirt-gobject-devel
     CentOS8: libvirt-gobject-devel
     cross-policy-default: foreign
 
@@ -1145,6 +1168,7 @@ mappings:
     apk: nbd-client
     deb: nbd-client
     rpm: nbd
+    AlmaLinux:
     CentOS:
 
   nbd-server:
@@ -1152,6 +1176,7 @@ mappings:
     deb: nbd-server
     pkg: nbd-server
     rpm: nbd
+    AlmaLinux:
     CentOS:
 
   nbdkit:
@@ -1177,6 +1202,7 @@ mappings:
 
   netcf:
     apk: netcf-dev
+    AlmaLinux8: netcf-devel
     CentOS8: netcf-devel
     CentOSStream8: netcf-devel
     Debian10: libnetcf-dev
@@ -1271,6 +1297,7 @@ mappings:
     apk: perl
     FreeBSD: perl5
     MacOS: perl
+    AlmaLinux8: perl
     CentOS8: perl
     CentOSStream8: perl
 
@@ -1380,6 +1407,7 @@ mappings:
     FreeBSD: perl5
     MacOS: perl
     OpenSUSE: perl-base
+    AlmaLinux8: perl
     CentOS8: perl
     CentOSStream8: perl
 
@@ -1581,6 +1609,7 @@ mappings:
     default: python3-opencv
     apk:
     pkg: opencv
+    AlmaLinux:
     CentOS:
     MacOS:
 
@@ -1588,9 +1617,11 @@ mappings:
     default: python3-pillow
     apk: py3-pillow
     pkg: py38-pillow
+    AlmaLinux:
     CentOS:
     OpenSUSE: python3-Pillow
     MacOS:
+    AlmaLinux8: python3-pillow
     CentOS8: python3-pillow
     CentOSStream8: python3-pillow
 
@@ -1636,7 +1667,9 @@ mappings:
     deb: python3-venv
     pkg: py38-virtualenv
     rpm: python3-virtualenv
+    AlmaLinux:
     CentOS:
+    AlmaLinux8: python3-virtualenv
     CentOS8: python3-virtualenv
     CentOSStream8: python3-virtualenv
 
@@ -1648,6 +1681,7 @@ mappings:
 
   qemu:
     default: qemu
+    AlmaLinux: qemu-kvm
     CentOS: qemu-kvm
     Fedora: qemu-kvm
 
@@ -1764,6 +1798,7 @@ mappings:
 
   sparse:
     default: sparse
+    AlmaLinux:
     CentOS:
     pkg:
 
@@ -1774,6 +1809,7 @@ mappings:
     Fedora: spice-gtk3-devel
     MacOS: spice-gtk
     OpenSUSE: spice-gtk-devel
+    AlmaLinux8: spice-gtk3-devel
     CentOS8: spice-gtk3-devel
     CentOSStream8: spice-gtk3-devel
     cross-mingw32-rpm: mingw32-spice-gtk3
@@ -1791,6 +1827,7 @@ mappings:
     pkg: libspice-server
     Fedora: spice-server-devel
     OpenSUSE: libspice-server-devel
+    AlmaLinux8: spice-server-devel
     CentOS8: spice-server-devel
     CentOSStream8: spice-server-devel
     mips-deb:
@@ -1835,6 +1872,7 @@ mappings:
     default: tesseract
     apk: tesseract-ocr
     deb: tesseract-ocr
+    AlmaLinux:
     CentOS:
     OpenSUSE: tesseract-ocr
 
@@ -1842,6 +1880,7 @@ mappings:
     apk: tesseract-ocr
     deb: tesseract-ocr-eng
     rpm: tesseract-langpack-eng
+    AlmaLinux:
     CentOS:
     MacOS: tesseract
     OpenSUSE: tesseract-ocr-traineddata-english
@@ -1877,6 +1916,7 @@ mappings:
   vim:
     default: vim
     deb: vim-nox
+    AlmaLinux: vim-minimal
     CentOS: vim-minimal
     Fedora: vim-minimal
 
@@ -1892,6 +1932,7 @@ mappings:
   libguestfs-tools:
     deb: libguestfs-tools
     rpm: guestfs-tools
+    AlmaLinux8: libguestfs-tools-c
     CentOS8: libguestfs-tools-c
     CentOSStream8: libguestfs-tools-c
 
@@ -1920,6 +1961,7 @@ mappings:
   xen:
     apk: xen-dev
     rpm: xen-devel
+    AlmaLinux:
     CentOS:
     aarch64-deb: libxen-dev
     armv7l-deb: libxen-dev

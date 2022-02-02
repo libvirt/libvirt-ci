@@ -203,7 +203,7 @@ class Application(metaclass=Singleton):
         # systems simply don't support unattended installation at all
         if facts["os"]["name"] in ["Debian", "Ubuntu"]:
             install_config = "preseed.cfg"
-        elif facts["os"]["name"] in ["CentOS", "Fedora"]:
+        elif facts["os"]["name"] in ["AlmaLinux", "CentOS", "Fedora"]:
             install_config = "kickstart.cfg"
         elif facts["os"]["name"] == "OpenSUSE":
             install_config = "autoinst.xml"

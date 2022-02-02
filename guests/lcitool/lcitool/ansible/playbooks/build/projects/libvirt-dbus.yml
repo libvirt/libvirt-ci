@@ -12,6 +12,7 @@
     # flake8 and pyflakes versions currently available on FreeBSD
     # (3.5.0 and 2.0.0 respectively) are not compatible.
     machines:
+      - almalinux-8
       - centos-8
       - centos-stream-8
       - centos-stream-9

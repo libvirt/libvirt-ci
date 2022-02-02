@@ -12,6 +12,7 @@
     # We limit syntax-check to Linux platforms because it calls some
     # commands with more arguments than FreeBSD supports
     machines:
+      - almalinux-8
       - centos-8
       - centos-stream-8
       - centos-stream-9

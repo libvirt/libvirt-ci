@@ -296,7 +296,11 @@ class DockerfileFormatter(Formatter):
             else:
                 commands.extend(["{nosync}{packaging_command} update -y"])
 
-            if facts["os"]["name"] == "CentOS":
+            if facts["os"]["name"] in ["AlmaLinux", "CentOS"]:
+                # NOTE: AlmaLinux is one of the replacement community distros
+                # for the original CentOS distro and so the checks below apply
+                # there as well
+                #
                 # Starting with CentOS 8, most -devel packages are shipped in
                 # a separate repository which is not enabled by default. The
                 # name of this repository has changed over time

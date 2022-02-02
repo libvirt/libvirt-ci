@@ -124,6 +124,11 @@ check-prepare:
     paths:
       - build
 
+x86_64-check-almalinux-8:
+  extends: .check_container_template
+  variables:
+    NAME: almalinux-8
+
 x86_64-check-alpine-314:
   extends: .check_container_template
   variables:
