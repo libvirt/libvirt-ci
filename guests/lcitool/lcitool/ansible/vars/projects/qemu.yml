@@ -3,6 +3,7 @@ packages:
  - alsa
  - bash
  - bc
+ - bison
  - brlapi
  - bzip2
  - bzip2-libs
@@ -18,12 +19,14 @@ packages:
  - diffutils
  - dtrace
  - findutils
+ - flex
  - g++
  - gcc
  - gcovr
  - genisoimage
  - gettext
  - glib2
+ - glib2-native
  - glib2-static
  - glusterfs
  - gnutls

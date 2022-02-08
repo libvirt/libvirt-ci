@@ -9,6 +9,7 @@ native:
 - automake
 - bash
 - bash-completion
+- bison
 - bzip2
 - ca_root_nss
 - capstone4
@@ -28,6 +29,7 @@ native:
 - dnsmasq
 - dtc
 - e2fsprogs-libuuid
+- flex
 - fusefs-libs
 - fusefs-libs3
 - gdb

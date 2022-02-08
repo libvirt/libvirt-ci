@@ -42,6 +42,7 @@ native:
 - bash
 - bash-completion
 - bc
+- bison
 - bzip2
 - ca-certificates
 - cargo
@@ -61,12 +62,14 @@ native:
 - ebtables
 - findutils
 - firewalld-filesystem
+- flex
 - fuse3
 - gcovr
 - gdb
 - genisoimage
 - gettext-devel
 - git
+- glib2-devel
 - glibc-langpack-en
 - gnutls-utils
 - golang

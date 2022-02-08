@@ -105,6 +105,7 @@ native:
 - bash
 - bash-completion
 - bc
+- bison
 - bsdmainutils
 - bzip2
 - ca-certificates
@@ -126,6 +127,7 @@ native:
 - exuberant-ctags
 - findutils
 - flake8
+- flex
 - fuse3
 - gcovr
 - gdb
@@ -154,6 +156,7 @@ native:
 - libdigest-perl-md5-perl
 - libextutils-cbuilder-perl
 - libfile-slurp-perl
+- libglib2.0-dev
 - libgtk-vnc-2.0-dev
 - libguestfs-tools
 - libio-compress-perl

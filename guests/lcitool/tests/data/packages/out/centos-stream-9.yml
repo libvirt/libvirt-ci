@@ -18,6 +18,7 @@ native:
 - bash
 - bash-completion
 - bc
+- bison
 - brlapi-devel
 - bzip2
 - bzip2-devel
@@ -40,6 +41,7 @@ native:
 - ebtables
 - findutils
 - firewalld-filesystem
+- flex
 - fuse-devel
 - fuse3
 - fuse3-devel

@@ -19,6 +19,7 @@ native:
 - bash
 - bash-completion
 - bc
+- bison
 - brlapi-devel
 - bzip2
 - ca-certificates
@@ -41,6 +42,7 @@ native:
 - dwarves
 - ebtables
 - findutils
+- flex
 - fuse-devel
 - fuse3
 - fuse3-devel

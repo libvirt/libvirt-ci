@@ -25,6 +25,7 @@ native:
 - bash
 - bash-completion
 - bc
+- bison
 - bzip2
 - bzip2-dev
 - ca-certificates
@@ -47,6 +48,7 @@ native:
 - dtc-dev
 - eudev-dev
 - findutils
+- flex
 - fuse-dev
 - fuse3
 - fuse3-dev

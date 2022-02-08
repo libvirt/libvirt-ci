@@ -158,6 +158,9 @@ mappings:
     default: bc
     pkg:
 
+  bison:
+    default: bison
+
   brlapi:
     deb: libbrlapi-dev
     rpm: brlapi-devel
@@ -339,6 +342,9 @@ mappings:
     # FIXME Drop once EPEL for CentOS Stream 9 adds the package
     CentOSStream9:
 
+  flex:
+    default: flex
+
   fuse:
     apk: fuse-dev
     deb: libfuse-dev
@@ -443,6 +449,12 @@ mappings:
     cross-mingw32-rpm: mingw32-glib2
     cross-mingw64-rpm: mingw64-glib2
     cross-policy-default: foreign
+
+  glib2-native:
+    default: glib
+    apk: glib-dev
+    deb: libglib2.0-dev
+    rpm: glib2-devel
 
   glib2-static:
     apk: glib-static

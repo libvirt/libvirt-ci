@@ -9,6 +9,7 @@ native:
 - bash
 - bash-completion
 - bc
+- bison
 - bsdmainutils
 - bzip2
 - ca-certificates
@@ -31,6 +32,7 @@ native:
 - exuberant-ctags
 - findutils
 - flake8
+- flex
 - fuse3
 - g++
 - gcc
