@@ -20,6 +20,11 @@ stages:
   if: '$CI_PIPELINE_SOURCE == "push" && $LIBVIRT_CI == "1"'
   when: on_success
 
+.job_rules_container_changes: &job_rules_container_changes
+  changes:
+    - .gitlab-ci.yml
+    - containers/$NAME/*
+
 # If pushing to the default branch, then publish the container
 # for future reuse, otherwise just discard it after testing build
 .build_container_template:
@@ -41,8 +46,11 @@ stages:
     - docker logout
   rules:
     - <<: *job_rules_merge_request
+      <<: *job_rules_container_changes
     - <<: *job_rules_push_upstream_default_branch
+      <<: *job_rules_container_changes
     - <<: *job_rules_push_opt_in
+      <<: *job_rules_container_changes
     - when: never
 
 .test_template:
