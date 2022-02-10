@@ -1,8 +1,27 @@
+# To preserve CI quota, pipelines won't run on push except for
+# the upstream repo default branch. To force a run when pushing
+# to a feature branch use
+#
+#  git push -o ci.variable=LIBVIRT_CI=1 ...
 
 stages:
   - containers
   - sanity_checks
 
+.job_rules_merge_request: &job_rules_merge_request
+  if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  when: on_success
+
+.job_rules_push_upstream_default_branch: &job_rules_push_upstream_default_branch
+  if: '$CI_PIPELINE_SOURCE == "push" && $CI_PROJECT_NAMESPACE == "libvirt" && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
+  when: on_success
+
+.job_rules_push_opt_in: &job_rules_push_opt_in
+  if: '$CI_PIPELINE_SOURCE == "push" && $LIBVIRT_CI == "1"'
+  when: on_success
+
+# If pushing to the default branch, then publish the container
+# for future reuse, otherwise just discard it after testing build
 .build_container_template:
   image: docker:stable
   stage: containers
@@ -13,11 +32,27 @@ stages:
     - docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
   script:
     - docker build --tag ${CI_REGISTRY_IMAGE}/${NAME}:${CI_COMMIT_REF_SLUG} containers/${NAME}
-    - docker push ${CI_REGISTRY_IMAGE}/${NAME}:${CI_COMMIT_REF_SLUG}
+    - if test "${CI_PIPELINE_SOURCE}" = "push" &&
+         test "${CI_COMMIT_REF_NAME}" = "${CI_DEFAULT_BRANCH}";
+      then
+          docker push ${CI_REGISTRY_IMAGE}/${NAME}:${CI_COMMIT_REF_SLUG};
+      fi
   after_script:
     - docker logout
+  rules:
+    - <<: *job_rules_merge_request
+    - <<: *job_rules_push_upstream_default_branch
+    - <<: *job_rules_push_opt_in
+    - when: never
+
+.test_template:
+  rules:
+    - <<: *job_rules_merge_request
+    - <<: *job_rules_push_opt_in
+    - when: never
 
 .check_container_template:
+  extends: .test_template
   image: docker:stable
   stage: sanity_checks
   needs:
@@ -63,25 +98,19 @@ docker-dind-container:
   variables:
     NAME: docker-dind
 
-# Check that all commits are signed-off for the DCO. Skip
-# on master branch and -maint branches, since we only need
-# to test developer's personal branches.
 check-dco:
-  # In most projects we'd put an empty 'needs: []', but this
-  # repo is a special case as we need to actually build the
-  # container first!
+  extends: .test_template
   stage: sanity_checks
-  image: ${CI_REGISTRY_IMAGE}/check-dco:${CI_COMMIT_REF_SLUG}
-  needs:
-    - check-dco-container
+  image: python:3.8-alpine
+  needs: []
+  before_script:
+    - apk update
+    - apk add git
   script:
-    - /check-dco
-  only:
-    - branches
-  except:
-    - master
+    - ./containers/check-dco/check-dco.py
 
 flake8:
+  extends: .test_template
   stage: sanity_checks
   image: python:3.8-alpine
   needs: []
@@ -92,6 +121,7 @@ flake8:
     - flake8 --format=pylint
 
 unittests:
+  extends: .test_template
   stage: sanity_checks
   image: python:3.8-alpine
   needs: []
@@ -104,6 +134,7 @@ unittests:
     - python3 -m pytest --verbose
 
 check-prepare:
+  extends: .test_template
   stage: containers
   image: python:3.8-alpine
   needs: []
