@@ -291,7 +291,7 @@ mappings:
     deb: multipath-tools
     rpm: device-mapper-multipath-devel
     OpenSUSE:
-    cross-policy-default: foreign
+    cross-policy-default: skip
 
   diffutils:
     default: diffutils

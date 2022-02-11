@@ -89,7 +89,6 @@ cross:
 - libxslt1-dev:s390x
 - libyajl-dev:s390x
 - libzstd-dev:s390x
-- multipath-tools:s390x
 - nettle-dev:s390x
 - systemtap-sdt-dev:s390x
 - uuid-dev:s390x
