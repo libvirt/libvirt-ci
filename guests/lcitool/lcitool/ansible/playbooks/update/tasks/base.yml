@@ -34,13 +34,19 @@
     - (os.name == 'CentOS' and os.version != 'Stream9') or
       (os.name == 'AlmaLinux' and os.version == '8')
 
-- name: Enable EPEL repository
-  package:
-    name: '{{ item }}'
-    state: latest
-  loop:
-    - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-    - https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
+- block:
+    - name: Import EPEL GPG key
+      rpm_key:
+        state: present
+        key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-9
+
+    - name: Enable EPEL repository
+      package:
+        name: '{{ item }}'
+        state: latest
+      loop:
+        - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+        - https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
   when:
     - os.name == 'CentOS'
     - os.version == 'Stream9'
