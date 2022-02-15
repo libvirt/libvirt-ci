@@ -5,6 +5,7 @@ packages:
   - perl
   - perl-Archive-Tar
   - perl-CPAN-Changes
+  - perl-ExtUtils-CBuilder
   - perl-Module-Build
   - perl-Sys-Hostname
   - perl-Test-Pod

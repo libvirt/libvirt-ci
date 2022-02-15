@@ -1315,6 +1315,11 @@ mappings:
     pkg: p5-Digest-MD5
     rpm: perl-Digest-MD5
 
+  perl-ExtUtils-CBuilder:
+    deb: libextutils-cbuilder-perl
+    pkg: p5-ExtUtils-CBuilder
+    rpm: perl-ExtUtils-CBuilder
+
   perl-File-Slurp:
     apk: perl-file-slurp
     deb: libfile-slurp-perl
@@ -2062,6 +2067,9 @@ cpan_mappings:
 
   perl-Digest-MD5:
     default: Digest::MD5
+
+  perl-ExtUtils-CBuilder:
+    default: ExtUtils::CBuilder
 
   perl-File-Slurp:
     default: File::Slurp

@@ -81,6 +81,7 @@ native:
 - libdrm-dev
 - libepoxy-dev
 - libev-dev
+- libextutils-cbuilder-perl
 - libfdt-dev
 - libffi-dev
 - libfile-slurp-perl

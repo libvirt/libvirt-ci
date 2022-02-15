@@ -161,6 +161,7 @@ native:
 - perl-CPAN-Changes
 - perl-Digest
 - perl-Digest-MD5
+- perl-ExtUtils-CBuilder
 - perl-File-Slurp
 - perl-IO-Compress-Bzip2
 - perl-IO-Interface
