@@ -2,3 +2,4 @@
 
 ansible
 ansible-runner
+libvirt-python
