@@ -181,7 +181,7 @@ def format_artifacts(artifacts):
             artifacts:
               expire_in: {expire_in}
               paths:
-           """), "  ") + paths
+           """), "  ") + paths + "\n"
     return section[1:]
 
 

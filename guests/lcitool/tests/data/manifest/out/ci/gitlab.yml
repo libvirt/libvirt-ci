@@ -150,6 +150,7 @@ i686-debian-sid:
       - build
       - scratch
 
+
 mingw32-fedora-rawhide:
   extends: .cross_build_job
   needs:
