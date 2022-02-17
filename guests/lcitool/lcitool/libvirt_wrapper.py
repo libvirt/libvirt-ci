@@ -6,8 +6,11 @@
 
 import libvirt
 import logging
+import textwrap
 
 log = logging.getLogger(__name__)
+
+LCITOOL_XMLNS = "http://libvirt.org/schemas/lcitool/1.0"
 
 
 class LibvirtWrapperError(Exception):
@@ -33,3 +36,24 @@ class LibvirtWrapper():
         # Disable libvirt's default console error logging
         libvirt.registerErrorHandler(nop_error_handler, None)
         self._conn = libvirt.open()
+
+    def set_target(self, host, target):
+        """Inject target OS to host's XML metadata."""
+
+        xml = textwrap.dedent(
+            f"""
+            <host>
+              <target>{target}</target>
+            </host>
+            """)
+
+        try:
+            dom = self._conn.lookupByName(host)
+            dom.setMetadata(libvirt.VIR_DOMAIN_METADATA_ELEMENT,
+                            xml, "lcitool", LCITOOL_XMLNS,
+                            flags=(libvirt.VIR_DOMAIN_AFFECT_CONFIG |
+                                   libvirt.VIR_DOMAIN_AFFECT_LIVE))
+        except libvirt.libvirtError as e:
+            raise LibvirtWrapperError(
+                f"Failed to set metadata for '{host}': " + str(e)
+            )

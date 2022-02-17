@@ -173,7 +173,10 @@ class Application(metaclass=Singleton):
         for project in sorted(projects.names):
             print(project)
 
+    @required_deps('libvirt')
     def _action_install(self, args):
+        from lcitool.libvirt_wrapper import LibvirtWrapper
+
         self._entrypoint_debug(args)
 
         config = Config()
@@ -282,6 +285,9 @@ class Application(metaclass=Singleton):
         log.debug(f"Running {cmd}")
         try:
             subprocess.check_call(cmd)
+
+            # mark the host XML using XML metadata
+            LibvirtWrapper().set_target(host, facts["target"])
         except Exception as ex:
             raise ApplicationError(
                 f"Failed to install host '{host}': {ex}"
