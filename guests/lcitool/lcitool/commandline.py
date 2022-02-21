@@ -31,6 +31,12 @@ class CommandLine:
             help="target to operate on",
         )
 
+        installtargetopt = argparse.ArgumentParser(add_help=False)
+        installtargetopt.add_argument(
+            "-t", "--target",
+            help="what target OS to install",
+        )
+
         projectsopt = argparse.ArgumentParser(add_help=False)
         projectsopt.add_argument(
             "projects",
@@ -143,7 +149,7 @@ class CommandLine:
         installparser = subparsers.add_parser(
             "install",
             help="perform unattended host installation",
-            parents=[hostopt, waitopt],
+            parents=[hostopt, waitopt, installtargetopt],
         )
         installparser.set_defaults(func=Application._action_install)
 
