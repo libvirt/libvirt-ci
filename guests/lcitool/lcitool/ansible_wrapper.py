@@ -110,11 +110,11 @@ class AnsibleWrapper():
 
         if inventory:
             dst = Path(self._private_data_dir, "inventory")
+            dst.mkdir()
 
             if inventory.is_dir():
-                shutil.copytree(inventory, dst)
+                shutil.copytree(inventory, dst, dirs_exist_ok=True)
             else:
-                dst.mkdir()
                 shutil.copy2(inventory, dst)
 
         if group_vars:
