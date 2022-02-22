@@ -179,18 +179,35 @@ class Application(metaclass=Singleton):
 
         self._entrypoint_debug(args)
 
+        facts = {}
+        inventory = Inventory()
         config = Config()
         host = args.host
+        target = args.target
 
         try:
-            facts = Inventory().host_facts[host]
+            facts = inventory.host_facts[host]
         except KeyError:
-            raise ApplicationError(f"Invalid host '{host}'")
+            if target is None:
+                raise ApplicationError(
+                    f"Host {host} not found in the inventory, either add {host} "
+                    "to your inventory or use '--target <target>'"
+                )
 
-        if not facts.get("fully_managed"):
-            raise ApplicationError(
-                f"fully_managed=True not set for {host}, refusing to proceed"
-            )
+            if target not in inventory.targets:
+                raise ApplicationError(f"Unsupported target OS '{target}'")
+
+            facts = inventory.target_facts[target]
+        else:
+            if target is not None:
+                raise ApplicationError(
+                    f"Can't use --target with '{host}': "
+                    "host already exists in the inventory"
+                )
+            elif not facts.get("fully_managed"):
+                raise ApplicationError(
+                    f"fully_managed=True not set for {host}, refusing to proceed"
+                )
 
         # Both memory size and disk size are stored as GiB in the
         # inventory, but virt-install expects the disk size in GiB
