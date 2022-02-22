@@ -92,7 +92,6 @@ class Application(metaclass=Singleton):
             git_branch = "master"
 
         playbook_base = Path(base, "playbooks", playbook)
-        inventory_path = Path(util.get_config_dir(), "inventory")
         group_vars = inventory.target_facts
 
         extra_vars = config.values
@@ -137,7 +136,7 @@ class Application(metaclass=Singleton):
             group_vars[target]["early_install_packages"] = package_names_early_install["native"]
 
         ansible_runner.prepare_env(playbookdir=playbook_base,
-                                   inventories=[inventory_path],
+                                   inventories=[inventory.ansible_inventory],
                                    group_vars=group_vars,
                                    extravars=extra_vars)
         log.debug(f"Running Ansible with playbook '{playbook_base.name}'")

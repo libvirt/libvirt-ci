@@ -36,6 +36,12 @@ class InventoryError(Exception):
 class Inventory(metaclass=Singleton):
 
     @property
+    def ansible_inventory(self):
+        if self._ansible_inventory is None:
+            self._ansible_inventory = self._get_ansible_inventory()
+        return self._ansible_inventory
+
+    @property
     def target_facts(self):
         if self._target_facts is None:
             self._target_facts = self._load_target_facts()
@@ -58,6 +64,7 @@ class Inventory(metaclass=Singleton):
     def __init__(self):
         self._target_facts = None
         self._host_facts = None
+        self._ansible_inventory = None
 
     @staticmethod
     def _read_facts_from_file(yaml_path):
@@ -147,8 +154,7 @@ class Inventory(metaclass=Singleton):
                     log.debug(f"Group '{key}' is a children of group '{group_name}'")
                     _rec(subinventory, key)
 
-        ansible_inventory = self._get_ansible_inventory()
-        _rec(ansible_inventory["all"], "all")
+        _rec(self.ansible_inventory["all"], "all")
 
         targets = set(self.targets)
         for host_name, host_groups in groups.items():
