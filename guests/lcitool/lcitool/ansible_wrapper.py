@@ -76,7 +76,7 @@ class AnsibleWrapper():
 
         return default_params
 
-    def prepare_env(self, playbookdir=None, inventory=None,
+    def prepare_env(self, playbookdir=None, inventories=None,
                     group_vars=None, extravars=None):
         """
         Prepares the Ansible runner execution environment.
@@ -89,7 +89,7 @@ class AnsibleWrapper():
                             playbook and its data (as Path());
                             we don't touch playbooks, so the source path is
                             symlinked
-        :param inventory:   inventory source; an inventory source can
+        :param inventories: list of inventory sources; an inventory source can
                             be one of the following:
                               - an absolute path to either a single inventory
                                 file or directory containing inventory files
@@ -97,9 +97,8 @@ class AnsibleWrapper():
                                 Path())
                               - a dictionary conforming to the Ansible YAML
                                 inventory structure;
-                            we need to add our own inventory vars, so the
-                            inventory/inventories are copied from the source
-                            path
+                            all the inventory sources will be placed to the
+                            runner's runtime directory
         :param group_vars: dictionary of Ansible group_vars that will be dumped
                            in the YAML format to the runner's runtime directory
         :param extravars: dictionary of Ansible extra vars that will be dumped
@@ -113,18 +112,24 @@ class AnsibleWrapper():
             dst = Path(self._private_data_dir, "project")
             dst.symlink_to(playbookdir, target_is_directory=True)
 
-        if inventory:
+        if inventories:
             dst = Path(self._private_data_dir, "inventory")
             dst.mkdir()
 
-            if type(inventory) is dict:
-                with NamedTemporaryFile("w", dir=dst, delete=False) as fd:
-                    yaml.dump(inventory, fd)
-            else:
-                if inventory.is_dir():
-                    shutil.copytree(inventory, dst, dirs_exist_ok=True)
+            # NOTE: If we're ever to support multiple inventory sources in the
+            # frontend, we'll need to make sure we copy all user data using
+            # 'tempfile' primitives in order to avoid file name conflicts among
+            # all the sources, otherwise we'd lose data due to rewriting the
+            # impacted files.
+            for inventory in inventories:
+                if type(inventory) is dict:
+                    with NamedTemporaryFile("w", dir=dst, delete=False) as fd:
+                        yaml.dump(inventory, fd)
                 else:
-                    shutil.copy2(inventory, dst)
+                    if inventory.is_dir():
+                        shutil.copytree(inventory, dst, dirs_exist_ok=True)
+                    else:
+                        shutil.copy2(inventory, dst)
 
         if group_vars:
             dst_dir = Path(self._private_data_dir, "inventory/group_vars")

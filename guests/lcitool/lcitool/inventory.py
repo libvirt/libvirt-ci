@@ -76,7 +76,7 @@ class Inventory(metaclass=Singleton):
 
         log.debug(f"Running ansible-inventory on '{inventory_path_str}'")
         ansible_runner = AnsibleWrapper()
-        ansible_runner.prepare_env(inventory=inventory_path,
+        ansible_runner.prepare_env(inventories=[inventory_path],
                                    group_vars=self.target_facts)
         inventory = ansible_runner.get_inventory()
 

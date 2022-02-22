@@ -137,7 +137,7 @@ class Application(metaclass=Singleton):
             group_vars[target]["early_install_packages"] = package_names_early_install["native"]
 
         ansible_runner.prepare_env(playbookdir=playbook_base,
-                                   inventory=inventory_path,
+                                   inventories=[inventory_path],
                                    group_vars=group_vars,
                                    extravars=extra_vars)
         log.debug(f"Running Ansible with playbook '{playbook_base.name}'")
