@@ -10,7 +10,7 @@ import shutil
 import yaml
 
 from pathlib import Path
-from tempfile import TemporaryDirectory
+from tempfile import TemporaryDirectory, NamedTemporaryFile
 
 from lcitool import util
 
@@ -89,9 +89,14 @@ class AnsibleWrapper():
                             playbook and its data (as Path());
                             we don't touch playbooks, so the source path is
                             symlinked
-        :param inventory:   absolute path to either a single inventory file or
-                            a directory containing inventory files or scripts
-                            just like Ansible expects (as Path());
+        :param inventory:   inventory source; an inventory source can
+                            be one of the following:
+                              - an absolute path to either a single inventory
+                                file or directory containing inventory files
+                                or scripts just like Ansible expects (as
+                                Path())
+                              - a dictionary conforming to the Ansible YAML
+                                inventory structure;
                             we need to add our own inventory vars, so the
                             inventory/inventories are copied from the source
                             path
@@ -112,10 +117,14 @@ class AnsibleWrapper():
             dst = Path(self._private_data_dir, "inventory")
             dst.mkdir()
 
-            if inventory.is_dir():
-                shutil.copytree(inventory, dst, dirs_exist_ok=True)
+            if type(inventory) is dict:
+                with NamedTemporaryFile("w", dir=dst, delete=False) as fd:
+                    yaml.dump(inventory, fd)
             else:
-                shutil.copy2(inventory, dst)
+                if inventory.is_dir():
+                    shutil.copytree(inventory, dst, dirs_exist_ok=True)
+                else:
+                    shutil.copy2(inventory, dst)
 
         if group_vars:
             dst_dir = Path(self._private_data_dir, "inventory/group_vars")
