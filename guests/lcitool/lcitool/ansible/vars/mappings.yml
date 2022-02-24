@@ -1626,6 +1626,14 @@ mappings:
     FreeBSD: py38-requests
     MacOS:
 
+  python3-selinux:
+    apk:
+    deb: python3-selinux
+    rpm: python3-libselinux
+    OpenSUSE: python3-selinux
+    FreeBSD:
+    MacOS:
+
   python3-setuptools:
     default: python3-setuptools
     apk: py3-setuptools

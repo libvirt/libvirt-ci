@@ -229,6 +229,7 @@ native:
 - python3-pip
 - python3-pytest
 - python3-requests
+- python3-selinux
 - python3-setuptools
 - python3-sphinx
 - python3-sphinx-rtd-theme
