@@ -51,7 +51,7 @@ def expand_pattern(pattern, iterable, name):
     log.debug(f"Expanding {name} pattern '{pattern}' on '{iterable}'")
 
     if pattern is None:
-        raise Exception(f"Missing {name} list")
+        raise ValueError(f"Missing {name} list")
 
     if pattern == "all":
         pattern = "*"
@@ -68,7 +68,7 @@ def expand_pattern(pattern, iterable, name):
                 partial_matches.append(item)
 
         if not partial_matches:
-            raise Exception(f"Invalid {name} list '{pattern}'")
+            raise ValueError(f"Invalid {name} list '{pattern}'")
 
         for match in partial_matches:
             if match not in matches:
@@ -104,7 +104,7 @@ def native_arch_to_abi(native_arch):
         "x86_64": "x86_64-linux-gnu",
     }
     if native_arch not in archmap:
-        raise Exception(f"Unsupported architecture {native_arch}")
+        raise ValueError(f"Unsupported architecture {native_arch}")
     return archmap[native_arch]
 
 
@@ -123,7 +123,7 @@ def native_arch_to_deb_arch(native_arch):
         "x86_64": "amd64",
     }
     if native_arch not in archmap:
-        raise Exception(f"Unsupported architecture {native_arch}")
+        raise ValueError(f"Unsupported architecture {native_arch}")
     return archmap[native_arch]
 
 

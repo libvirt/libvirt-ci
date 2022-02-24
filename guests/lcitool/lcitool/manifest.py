@@ -30,13 +30,13 @@ class Manifest:
     # config
     def _normalize(self):
         if "projects" not in self.values:
-            raise Exception("No project list defined")
+            raise ValueError("No project list defined")
 
         projects = self.values["projects"]
         if type(projects) != list:
-            raise Exception("projects must be a list")
+            raise ValueError("projects must be a list")
         if len(projects) < 1:
-            raise Exception("at least one project must be listed")
+            raise ValueError("at least one project must be listed")
 
         if "containers" not in self.values:
             self.values["containers"] = {}
@@ -57,9 +57,9 @@ class Manifest:
 
         if gitlabinfo["enabled"]:
             if "namespace" not in gitlabinfo:
-                raise Exception("gitlab namespace is required")
+                raise ValueError("gitlab namespace is required")
             if "project" not in gitlabinfo:
-                raise Exception("gitlab project is required")
+                raise ValueError("gitlab project is required")
 
         gitlabinfo.setdefault("jobs", {})
         gitlabinfo.setdefault("templates", {})
@@ -92,7 +92,7 @@ class Manifest:
             try:
                 facts = inventory.target_facts[target]
             except KeyError:
-                raise Exception(f"Invalid target '{target}'")
+                raise ValueError(f"Invalid target '{target}'")
 
             targetinfo["containers"] = "containers" in facts
             if targetinfo["containers"]:
@@ -104,7 +104,7 @@ class Manifest:
             done = {}
             for idx, jobinfo in enumerate(jobsinfo):
                 if "arch" not in jobinfo:
-                    raise Exception(f"target {target} job {idx} missing arch")
+                    raise ValueError(f"target {target} job {idx} missing arch")
                 jobinfo.setdefault("enabled", True)
                 jobinfo.setdefault("allow-failure", False)
                 jobinfo.setdefault("artifacts", None)
@@ -130,11 +130,11 @@ class Manifest:
 
                 if arch in done:
                     if jobinfo["suffix"] == "":
-                        raise Exception(f"target {target} duplicate arch {arch} missing suffix")
+                        raise ValueError(f"target {target} duplicate arch {arch} missing suffix")
                 done[arch] = True
 
                 if arch != "x86_64" and "cirrus" in facts:
-                    raise Exception(f"target {target} does not support non-x86-64 architecture")
+                    raise ValueError(f"target {target} does not support non-x86-64 architecture")
 
         if not have_containers:
             gitlabinfo["containers"] = False

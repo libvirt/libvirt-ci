@@ -187,7 +187,7 @@ def format_artifacts(artifacts):
 def merge_vars(system, user):
     for key in user.keys():
         if key in system:
-            raise Exception(
+            raise ValueError(
                 f"""Attempt to override system variable '{key}' in manifest""")
     return {**user, **system}
 
@@ -236,7 +236,7 @@ def cirrus_build_job(target, instance_type, image_selector, image_name,
         upgrade_cmd = "pkg upgrade -y"
         update_cmd = "pkg update"
     else:
-        raise Exception(f"Unknown package command {pkg_cmd}")
+        raise ValueError(f"Unknown package command {pkg_cmd}")
     allow_failure = str(allow_failure).lower()
     jobvars = merge_vars({
         "NAME": target,
