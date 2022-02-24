@@ -63,7 +63,7 @@ class Inventory(metaclass=Singleton):
             return yaml.safe_load(infile)
 
     def _get_ansible_inventory(self):
-        from lcitool.ansible_wrapper import AnsibleWrapper
+        from lcitool.ansible_wrapper import AnsibleWrapper, AnsibleWrapperError
 
         inventory_path = Path(util.get_config_dir(), "inventory")
         inventory_path_str = inventory_path.as_posix()
@@ -81,7 +81,10 @@ class Inventory(metaclass=Singleton):
                                    group_vars=self.target_facts)
 
         log.debug(f"Running ansible-inventory on '{inventory_path_str}'")
-        inventory = ansible_runner.get_inventory()
+        try:
+            inventory = ansible_runner.get_inventory()
+        except AnsibleWrapperError as ex:
+            raise InventoryError(f"Failed to load Ansible inventory: {ex}")
 
         return inventory
 
@@ -185,5 +188,7 @@ class Inventory(metaclass=Singleton):
     def expand_hosts(self, pattern):
         try:
             return util.expand_pattern(pattern, self.hosts, "hosts")
+        except InventoryError as ex:
+            raise ex
         except Exception as ex:
             raise InventoryError(f"Failed to expand '{pattern}': {ex}")
