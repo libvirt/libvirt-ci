@@ -5,3 +5,4 @@ packages:
   - chrony
   - screen
   - sudo
+  - python3-selinux
