@@ -232,7 +232,12 @@ class AnsibleWrapper():
 
         ansible_inventory = '\n'.join(ansible_event_handler_data)
 
-        return yaml.safe_load(ansible_inventory)
+        try:
+            return yaml.safe_load(ansible_inventory)
+        except Exception as ex:
+            raise AnsibleWrapperError(
+                f"ansible-inventory didn't return a valid YAML: {ex}"
+            )
 
     def run_playbook(self, limit=None):
         """
