@@ -9,16 +9,14 @@ from pathlib import Path
 
 from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter
 from lcitool.inventory import Inventory
-from lcitool import gitlab
-from lcitool import util
+from lcitool import gitlab, util, LcitoolError
 
 
-class ManifestError(Exception):
+class ManifestError(LcitoolError):
+    """Global exception type for the manifest module."""
+
     def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return f"Manifest error: {self.message}"
+        super().__init__(message, "Manifest")
 
 
 class Manifest:

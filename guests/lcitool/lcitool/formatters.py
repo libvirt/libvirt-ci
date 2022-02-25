@@ -10,7 +10,7 @@ import logging
 
 from pkg_resources import resource_filename
 
-from lcitool import util
+from lcitool import util, LcitoolError
 from lcitool.inventory import Inventory
 from lcitool.projects import Projects
 from lcitool.package import package_names_by_type
@@ -19,13 +19,12 @@ from lcitool.package import package_names_by_type
 log = logging.getLogger(__name__)
 
 
-class FormatterError(Exception):
+class FormatterError(LcitoolError):
     """
     Global exception type for this module.
 
     Contains a detailed message coming from one of its subclassed exception
-    types. On the application level, this is the exception type you should be
-    catching instead of the subclassed types.
+    types.
     """
 
     pass
@@ -33,18 +32,12 @@ class FormatterError(Exception):
 
 class DockerfileError(FormatterError):
     def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return f"Docker formatter error: {self.message}"
+        super().__init__(message, "Docker formatter")
 
 
 class VariablesError(FormatterError):
     def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return f"Variables formatter error: {self.message}"
+        super().__init__(message, "Variables formatter")
 
 
 class Formatter(metaclass=abc.ABCMeta):

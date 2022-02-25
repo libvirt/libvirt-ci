@@ -10,28 +10,23 @@ import yaml
 from pathlib import Path
 from pkg_resources import resource_filename
 
-from lcitool import util
+from lcitool import util, LcitoolError
 from lcitool.package import PackageFactory, PyPIPackage, CPANPackage
 from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
 
 
-class ProjectError(Exception):
+class ProjectError(LcitoolError):
     """
     Global exception type for the projects module.
 
     Functions/methods in this module will raise either this exception or its
     subclass on failure.
-    On the application level, this is the exception type you should be
-    catching.
     """
 
     def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return f"Project error: {self.message}"
+        super().__init__(message, "Project")
 
 
 class Projects(metaclass=Singleton):

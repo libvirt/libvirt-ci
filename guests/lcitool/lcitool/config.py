@@ -11,23 +11,22 @@ import yaml
 from pathlib import Path
 from pkg_resources import resource_filename
 
-from lcitool import util
+from lcitool import util, LcitoolError
 from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
 
 
-class ConfigError(Exception):
+class ConfigError(LcitoolError):
     """
     Global exception type for the config module.
 
     Contains a detailed message coming from one of its subclassed exception
-    types. On the application level, this is the exception type you should be
-    catching instead of the subclassed types.
+    types.
     """
 
-    def __str__(self):
-        return f"Configuration error: {self.message}"
+    def __init__(self, message):
+        super().__init__(message, "Configuration")
 
 
 class LoadError(ConfigError):

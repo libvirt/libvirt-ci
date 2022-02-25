@@ -40,7 +40,7 @@ Exported functions:
 import abc
 import logging
 
-from lcitool import util
+from lcitool import util, LcitoolError
 
 log = logging.getLogger(__name__)
 
@@ -60,20 +60,16 @@ def package_names_by_type(pkgs):
     return package_names
 
 
-class PackageError(Exception):
+class PackageError(LcitoolError):
     """
     Global exception type for the package module.
 
     Contains a detailed message coming from one of its subclassed exception
-    types. On the application level, this is the exception type you should be
-    catching instead of the subclassed types.
+    types.
     """
 
     def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return f"Package generic name resolution failed: {self.message}"
+        super().__init__(message, "Package generic name resolution")
 
 
 class PackageEval(PackageError):

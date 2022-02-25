@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 from pkg_resources import resource_filename
 
-from lcitool import util
+from lcitool import util, LcitoolError
 from lcitool.config import Config, ConfigError
 from lcitool.inventory import Inventory, InventoryError
 from lcitool.package import package_names_by_type, PackageError
@@ -40,12 +40,9 @@ def required_deps(*deps):
     return inner_decorator
 
 
-class ApplicationError(Exception):
+class ApplicationError(LcitoolError):
     def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return f"Application error: {self.message}"
+        super().__init__(message, "Application")
 
 
 class Application(metaclass=Singleton):

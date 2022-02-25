@@ -12,24 +12,20 @@ import yaml
 from pathlib import Path
 from tempfile import TemporaryDirectory, NamedTemporaryFile
 
-from lcitool import util
+from lcitool import util, LcitoolError
 
 log = logging.getLogger(__name__)
 
 
-class AnsibleWrapperError(Exception):
+class AnsibleWrapperError(LcitoolError):
     """Global exception type for this module.
 
     Contains a detailed message coming from one of its subclassed exception
-    types. On the application level, this is the exception type you should be
-    catching.
+    types.
     """
 
     def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return f"AnsibleWrapper error: {self.message}"
+        super().__init__(message, "AnsibleWrapper")
 
 
 class ExecutionError(AnsibleWrapperError):

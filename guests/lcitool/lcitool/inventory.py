@@ -11,26 +11,17 @@ import yaml
 from pathlib import Path
 from pkg_resources import resource_filename
 
-from lcitool import util
+from lcitool import util, LcitoolError
 from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
 
 
-class InventoryError(Exception):
-    """
-    Global exception type for the inventory module.
-
-    Functions/methods in this module will raise either this exception or its
-    subclass on failure.
-    On the application level, this is the exception type you should be catching.
-    """
+class InventoryError(LcitoolError):
+    """Global exception type for the inventory module."""
 
     def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return f"Inventory error: {self.message}"
+        super().__init__(message, "Inventory")
 
 
 class Inventory(metaclass=Singleton):
