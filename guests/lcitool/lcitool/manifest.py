@@ -13,6 +13,14 @@ from lcitool import gitlab
 from lcitool import util
 
 
+class ManifestError(Exception):
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return f"Manifest error: {self.message}"
+
+
 class Manifest:
 
     def __init__(self, configfp, quiet=False, cidir=Path("ci"), basedir=None):
@@ -143,18 +151,21 @@ class Manifest:
         gitlabinfo["cirrus"] = have_cirrus
 
     def generate(self, dryrun=False):
-        self._normalize()
+        try:
+            self._normalize()
 
-        if self.values["containers"]["enabled"]:
-            generated = self._generate_containers(dryrun)
-            self._clean_containers(generated, dryrun)
+            if self.values["containers"]["enabled"]:
+                generated = self._generate_containers(dryrun)
+                self._clean_containers(generated, dryrun)
 
-        if self.values["cirrus"]["enabled"]:
-            generated = self._generate_cirrus(dryrun)
-            self._clean_cirrus(generated, dryrun)
+            if self.values["cirrus"]["enabled"]:
+                generated = self._generate_cirrus(dryrun)
+                self._clean_cirrus(generated, dryrun)
 
-        if self.values["gitlab"]["enabled"]:
-            self._generate_gitlab(dryrun)
+            if self.values["gitlab"]["enabled"]:
+                self._generate_gitlab(dryrun)
+        except Exception as ex:
+            raise ManifestError(f"Failed to generate configuration: {ex}")
 
     def _generate_formatter(self, dryrun, subdir, suffix, formatter, targettype):
         outdir = Path(self.outdir, subdir)
@@ -330,7 +341,7 @@ class Manifest:
             try:
                 facts = inventory.target_facts[target]
             except KeyError:
-                raise Exception(f"Invalid target '{target}'")
+                raise ManifestError(f"Invalid target '{target}'")
 
             for jobinfo in targetinfo["jobs"]:
                 if not jobinfo["enabled"]:
