@@ -12,11 +12,11 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
-from lcitool.config import Config, ConfigError
-from lcitool.inventory import Inventory, InventoryError
-from lcitool.package import package_names_by_type, PackageError
-from lcitool.projects import Projects, ProjectError
-from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, JSONVariablesFormatter, FormatterError
+from lcitool.config import Config
+from lcitool.inventory import Inventory
+from lcitool.package import package_names_by_type
+from lcitool.projects import Projects
+from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, JSONVariablesFormatter
 from lcitool.singleton import Singleton
 from lcitool.manifest import Manifest
 
@@ -387,11 +387,6 @@ class Application(metaclass=Singleton):
         try:
             util.set_extra_data_dir(args.data_dir)
             args.func(self, args)
-        except (ApplicationError,
-                ConfigError,
-                InventoryError,
-                ProjectError,
-                PackageError,
-                FormatterError) as ex:
-            print(ex, file=sys.stderr)
+        except LcitoolError as ex:
+            print(f"{ex.module_prefix} error:", ex, file=sys.stderr)
             sys.exit(1)
