@@ -106,19 +106,43 @@ such as this one
 in your crontab.
 
 
+Installing local VMs
+====================
+
+In order to install a local VM with lcitool, run the following:
+
+::
+
+    lcitool install $host --target $target_os
+
+where ``$host`` is the name for the VM and ``$target_os`` is one of the
+supported target OS plaforms (see `Usage and examples`_ below).
+Another option of installing guests with lcitool is by adding a managed host
+entry in the Ansible inventory in which case lcitool's invocation would look
+like this:
+
+::
+
+    lcitool install $host
+
+Refer to the `Ansible inventory`_ and `Managed hosts`_ sections below on how to
+use an inventory with lcitool. Note that not all guests can be installed using
+the ways described above, e.g. FreeBSD or Alpine guests.
+See the `FreeBSD`_ section below to know how to add such a host in that case.
+
+
 Ansible inventory
 =================
 
-In addition to creating a configuration file, as described in the section
-above, you also need to provide an Ansible inventory for the machines you wish
-to manage with lcitool.  This gives you the flexibility to also utilize
-external hosts (e.g. machines hosted in a public cloud) with lcitool.
-
-The inventory needs to be placed in the ``~/.config/lcitool`` directory and
-must be named ``inventory``. The inventory itself can either be a single file
-or a directory containing multiple inventory sources just like Ansible would
-allow. You can use any format Ansible recognizes for inventories - it can
-even be a dynamic one, i.e. a script conforming to Ansible's requirements.
+In addition to creating a configuration file as described in `Configuration`_,
+you may also need to provide an Ansible inventory depending on whether
+you want to manage external hosts (e.g. machines hosted in public cloud) with
+lcitool. The inventory will then have to be placed under the
+``~/.config/lcitool`` directory and must be named ``inventory``. It can either
+be a single file or a directory containing multiple inventory sources just like
+Ansible would allow. You can use any format Ansible recognizes for inventories
+- it can even be a dynamic one, i.e. a script conforming to Ansible's
+requirements.
 
 There's one requirement however that any inventory source **must** comply with
 to be usable with lcitool - every single host must be a member of a group
@@ -158,30 +182,20 @@ An example of a simple INI inventory:
 Usage and examples
 ==================
 
-Depending on whether you're bringing an external host or you're installing
-a guest locally, there are two/three steps respectively to prepare such a
-machine for building projects:
-
-* update the local inventory, as explained in the previous section,
-  so that it includes the new machine;
-
-* only for machines that are local VMs, run ``lcitool install $host``:
-  this will create a libvirt VM named ``$host`` and perform an unattended
-  OS installation inside it. Not all guests can be installed this way: see
-  the "FreeBSD" section below;
-
-* ``lcitool update $guest $project`` will go through all the
-  post-installation configuration steps required to make the newly-added
-  machine usable and ready to be used for building ``$project``.
-
-Once those steps have been performed, maintenance will involve running:
+Before any project can be built using VMs with lcitool, make sure that lcitool
+knows about the host, either by installing a new guest or updating the Ansible
+inventory with an external one as mentioned in previous sections. Then you need
+run the following:
 
 ::
 
    $ lcitool update $guest $project
 
-periodically to ensure the machine configuration is sane and all installed
-packages are updated.
+This will go through all the post-installation configuration steps required to
+make the newly-added machine usable and ready to be used for building
+``$project``. It is also recommended to run the same command periodically to
+ensure the machine configuration is sane and all installed packages are updated
+for maintenance purposes.
 
 To get a list of known target platforms run:
 
