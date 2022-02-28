@@ -1,4 +1,9 @@
 ---
+- name: Install packages needed for playbook tasks
+  package:
+    name: '{{ early_install_packages }}'
+    state: present
+
 - name: Enable fedora-rawhide-kernel-nodebug repository
   template:
     src: 'templates/fedora-rawhide-kernel-nodebug.repo.j2'

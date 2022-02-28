@@ -123,15 +123,18 @@ class Application(metaclass=Singleton):
 
             selected_projects = internal_wanted_projects + projects_expanded
             pkgs_install = projects.get_packages(selected_projects, facts)
+            pkgs_early_install = projects.get_packages(["early_install"], facts)
             pkgs_remove = projects.get_packages(["unwanted"], facts)
             package_names = package_names_by_type(pkgs_install)
             package_names_remove = package_names_by_type(pkgs_remove)
+            package_names_early_install = package_names_by_type(pkgs_early_install)
 
             # merge the package lists to the Ansible group vars
             group_vars[target]["packages"] = package_names["native"]
             group_vars[target]["pypi_packages"] = package_names["pypi"]
             group_vars[target]["cpan_packages"] = package_names["cpan"]
             group_vars[target]["unwanted_packages"] = package_names_remove["native"]
+            group_vars[target]["early_install_packages"] = package_names_early_install["native"]
 
         ansible_runner.prepare_env(playbookdir=playbook_base,
                                    inventory=inventory_path,
