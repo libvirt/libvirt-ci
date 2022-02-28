@@ -3,7 +3,7 @@ os:
   name: 'OpenSUSE'
   version: 'Leap152'
 
-target: 'opensuse-152'
+target: 'opensuse-leap-152'
 
 packaging:
   format: 'rpm'
