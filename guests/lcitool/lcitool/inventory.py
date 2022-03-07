@@ -81,11 +81,29 @@ class Inventory(metaclass=Singleton):
                 f"Missing Ansible inventory '{inventory_path}'"
             )
 
-        log.debug(f"Running ansible-inventory on '{inventory_path_str}'")
+        log.debug("Querying libvirt for lcitool hosts")
+        libvirt_inventory = self._get_libvirt_inventory()
+
         ansible_runner = AnsibleWrapper()
-        ansible_runner.prepare_env(inventories=[inventory_path],
+        ansible_runner.prepare_env(inventories=[inventory_path,
+                                                libvirt_inventory],
                                    group_vars=self.target_facts)
+
+        log.debug(f"Running ansible-inventory on '{inventory_path_str}'")
         inventory = ansible_runner.get_inventory()
+
+        return inventory
+
+    def _get_libvirt_inventory(self):
+        from lcitool.libvirt_wrapper import LibvirtWrapper
+
+        inventory = {"all": {"children": {}}}
+        children = inventory["all"]["children"]
+
+        for host, target in LibvirtWrapper().hosts.items():
+            inventory_target = children.setdefault(target, {})
+            inventory_hosts = inventory_target.setdefault("hosts", {})
+            inventory_hosts.setdefault(host, {})
 
         return inventory
 

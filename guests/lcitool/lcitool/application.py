@@ -145,7 +145,7 @@ class Application(metaclass=Singleton):
         except AnsibleWrapperError as ex:
             raise ApplicationError(ex.message)
 
-    @required_deps('ansible_runner')
+    @required_deps('ansible_runner', 'libvirt')
     def _action_hosts(self, args):
         self._entrypoint_debug(args)
 
@@ -293,7 +293,7 @@ class Application(metaclass=Singleton):
                 f"Failed to install host '{host}': {ex}"
             )
 
-    @required_deps('ansible_runner')
+    @required_deps('ansible_runner', 'libvirt')
     def _action_update(self, args):
         self._entrypoint_debug(args)
 
