@@ -47,7 +47,7 @@ class LibvirtWrapper():
         try:
             doms = self._conn.listAllDomains()
         except libvirt.libvirtError as e:
-            raise LibvirtWrapper("Failed to load libvirt domains: " + e)
+            raise LibvirtWrapperError("Failed to load libvirt domains: " + e)
 
         for dom in doms:
             try:
@@ -58,7 +58,7 @@ class LibvirtWrapper():
                     # skip hosts which don't have lcitool's metadata
                     continue
 
-                raise LibvirtWrapper(
+                raise LibvirtWrapperError(
                     f"Failed to query metadata for '{dom.name}': " + str(e)
                 )
 
