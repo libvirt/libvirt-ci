@@ -162,17 +162,21 @@ class AnsibleWrapper():
 
         if runner.status != "successful":
 
-            # Ansible runner 1.4.6-X does not expose the stderr property, so we
-            # need to fallback to stdout instead
-            # TODO: We'll be able to drop this code once ansible-runner 2.0 is
-            # widely available
-            if getattr(runner, "stderr", None) is not None:
-                error = runner.stderr.read()
-            else:
-                error = runner.stdout.read()
-            raise ExecutionError(
-                f"Failed to execute Ansible command '{cmd}': {error}"
-            )
+            message = f"Failed to execute Ansible command '{cmd}'"
+
+            if params.get("quiet", False):
+                # Ansible runner 1.4.6-X does not expose the stderr property, so we
+                # need to fallback to stdout instead
+                # TODO: We'll be able to drop this code once ansible-runner 2.0 is
+                # widely available
+                if getattr(runner, "stderr", None) is not None:
+                    error = runner.stderr.read()
+                else:
+                    error = runner.stdout.read()
+
+                message = f"{message}: {error}"
+
+            raise ExecutionError(message)
 
         return runner
 

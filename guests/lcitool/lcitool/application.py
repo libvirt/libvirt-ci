@@ -64,7 +64,7 @@ class Application(metaclass=Singleton):
 
     def _execute_playbook(self, playbook, hosts_pattern, projects_pattern,
                           git_revision):
-        from lcitool.ansible_wrapper import AnsibleWrapper
+        from lcitool.ansible_wrapper import AnsibleWrapper, AnsibleWrapperError
 
         log.debug(f"Executing playbook '{playbook}': "
                   f"hosts_pattern={hosts_pattern} "
@@ -141,7 +141,10 @@ class Application(metaclass=Singleton):
                                    group_vars=group_vars,
                                    extravars=extra_vars)
         log.debug(f"Running Ansible with playbook '{playbook_base.name}'")
-        ansible_runner.run_playbook(limit=hosts_expanded)
+        try:
+            ansible_runner.run_playbook(limit=hosts_expanded)
+        except AnsibleWrapperError as ex:
+            raise ApplicationError(ex.message)
 
     @required_deps('ansible_runner')
     def _action_hosts(self, args):
