@@ -672,6 +672,7 @@ mappings:
     cross-policy-default: foreign
 
   libc:
+    apk: musl-dev
     deb: libc6-dev
     rpm: glibc-devel
     cross-mingw32-rpm: mingw32-headers
@@ -679,6 +680,7 @@ mappings:
     cross-policy-default: foreign
 
   libc-static:
+    apk: musl-dev
     deb: libc6-dev
     rpm: glibc-static
     cross-policy-default: foreign

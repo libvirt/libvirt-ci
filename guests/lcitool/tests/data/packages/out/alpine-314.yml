@@ -124,6 +124,7 @@ native:
 - mesa-dev
 - meson
 - multipath-tools
+- musl-dev
 - nano
 - nbd
 - nbd-client
