@@ -1,7 +1,7 @@
 ---
 os:
   name: 'Alpine'
-  version: 'edge'
+  version: 'Edge'
 
 target: 'alpine-edge'
 
