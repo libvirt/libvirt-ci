@@ -275,7 +275,6 @@ class Manifest:
         project = gitlabinfo["project"]
         jobinfo = gitlabinfo["jobs"]
 
-        gitlabcontent = []
         includes = []
         if gitlabinfo["containers"]:
             path = Path(gitlabdir, "container-templates.yml")
@@ -318,12 +317,16 @@ class Manifest:
             includes.append(path)
 
         if gitlabinfo["builds"]:
-            gitlabcontent.extend(self._generate_gitlab_native_build_jobs())
-            gitlabcontent.extend(self._generate_gitlab_cross_build_jobs())
-            gitlabcontent.extend(self._generate_gitlab_cirrus_build_jobs())
+            path = Path(gitlabdir, "builds.yml")
+            content = []
+            content.extend(self._generate_gitlab_native_build_jobs())
+            content.extend(self._generate_gitlab_cross_build_jobs())
+            content.extend(self._generate_gitlab_cirrus_build_jobs())
+            self._replace_file(content, path, dryrun)
+            includes.append(path)
 
         path = Path(self.cidir, "gitlab.yml")
-        content = [gitlab.includes(includes)] + gitlabcontent
+        content = [gitlab.includes(includes)]
         self._replace_file(content, path, dryrun)
 
     def _generate_gitlab_container_jobs(self, cross):

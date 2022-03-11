@@ -117,6 +117,7 @@ def test_generate(monkeypatch, custom_projects):
         assert_write(Path("ci", "gitlab", "container-templates.yml"))
         assert_write(Path("ci", "gitlab", "containers.yml"))
         assert_write(Path("ci", "gitlab", "build-templates.yml"))
+        assert_write(Path("ci", "gitlab", "builds.yml"))
         assert_write(Path("ci", "gitlab", "sanity-checks.yml"))
         assert_write(Path("ci", "cirrus", "freebsd-current.vars"))
         assert_write(Path("ci", "cirrus", "macos-11.vars"))
