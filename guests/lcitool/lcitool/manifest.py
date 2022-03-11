@@ -234,6 +234,21 @@ class Manifest:
     def _clean_cirrus(self, generated, dryrun):
         self._clean_files(generated, dryrun, "cirrus", "vars")
 
+    def _replace_file(self, content, path, dryrun):
+        if len(content) == 0:
+            if not self.quiet:
+                print(f"Deleting {path}")
+            path.unlink(missing_ok=True)
+            return
+
+        if not self.quiet:
+            print(f"Generating {path}")
+        header = util.generate_file_header(["manifest", self.configpath])
+
+        lines = header + "\n".join(content)
+        if not dryrun:
+            util.atomic_write(path, lines)
+
     def _generate_gitlab(self, dryrun):
         if not dryrun:
             self.outdir.mkdir(parents=True, exist_ok=True)
@@ -287,19 +302,7 @@ class Manifest:
             gitlabcontent.extend(self._generate_gitlab_cross_build_jobs())
             gitlabcontent.extend(self._generate_gitlab_cirrus_build_jobs())
 
-        if len(gitlabcontent) == 0:
-            if not self.quiet:
-                print(f"Deleting {gitlabfile}")
-            gitlabfile.unlink(missing_ok=True)
-            return
-
-        if not self.quiet:
-            print(f"Generating {gitlabfile}")
-        header = util.generate_file_header(["manifest", self.configpath])
-
-        lines = header + "\n".join(gitlabcontent)
-        if not dryrun:
-            util.atomic_write(gitlabfile, lines)
+        self._replace_file(gitlabcontent, gitlabfile, dryrun)
 
     def _generate_gitlab_container_jobs(self, cross):
         jobs = []
