@@ -310,8 +310,13 @@ class Manifest:
         includes.append(path)
 
         if gitlabinfo["containers"]:
-            gitlabcontent.extend(self._generate_gitlab_native_container_jobs())
-            gitlabcontent.extend(self._generate_gitlab_cross_container_jobs())
+            path = Path(gitlabdir, "containers.yml")
+            content = []
+            content.extend(self._generate_gitlab_native_container_jobs())
+            content.extend(self._generate_gitlab_cross_container_jobs())
+            self._replace_file(content, path, dryrun)
+            includes.append(path)
+
         if gitlabinfo["builds"]:
             gitlabcontent.extend(self._generate_gitlab_native_build_jobs())
             gitlabcontent.extend(self._generate_gitlab_cross_build_jobs())

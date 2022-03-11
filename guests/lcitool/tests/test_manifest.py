@@ -115,6 +115,7 @@ def test_generate(monkeypatch, custom_projects):
         # Verify content of files we expect to be created
         assert_write(Path("ci", "gitlab.yml"))
         assert_write(Path("ci", "gitlab", "container-templates.yml"))
+        assert_write(Path("ci", "gitlab", "containers.yml"))
         assert_write(Path("ci", "gitlab", "build-templates.yml"))
         assert_write(Path("ci", "gitlab", "sanity-checks.yml"))
         assert_write(Path("ci", "cirrus", "freebsd-current.vars"))
