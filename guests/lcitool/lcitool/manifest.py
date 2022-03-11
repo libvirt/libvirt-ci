@@ -295,14 +295,19 @@ class Manifest:
             self._replace_file(content, path, dryrun)
             includes.append(path)
 
+        testcontent = []
         if jobinfo["check-dco"]:
-            gitlabcontent.append(gitlab.check_dco_job(namespace))
+            testcontent.append(gitlab.check_dco_job(namespace))
         if jobinfo["cargo-fmt"]:
-            gitlabcontent.append(gitlab.cargo_fmt_job())
+            testcontent.append(gitlab.cargo_fmt_job())
         if jobinfo["go-fmt"]:
-            gitlabcontent.append(gitlab.go_fmt_job())
+            testcontent.append(gitlab.go_fmt_job())
         if jobinfo["clang-format"]:
-            gitlabcontent.append(gitlab.clang_format_job())
+            testcontent.append(gitlab.clang_format_job())
+
+        path = Path(gitlabdir, "sanity-checks.yml")
+        self._replace_file(testcontent, path, dryrun)
+        includes.append(path)
 
         if gitlabinfo["containers"]:
             gitlabcontent.extend(self._generate_gitlab_native_container_jobs())
