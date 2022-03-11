@@ -284,12 +284,16 @@ class Manifest:
             includes.append(path)
 
         if gitlabinfo["builds"]:
+            path = Path(gitlabdir, "build-templates.yml")
+            content = []
             if have_native:
-                gitlabcontent.append(gitlab.native_build_template())
+                content.append(gitlab.native_build_template())
             if have_cross:
-                gitlabcontent.append(gitlab.cross_build_template())
-        if gitlabinfo["cirrus"]:
-            gitlabcontent.append(gitlab.cirrus_template(self.cidir))
+                content.append(gitlab.cross_build_template())
+            if gitlabinfo["cirrus"]:
+                content.append(gitlab.cirrus_template(self.cidir))
+            self._replace_file(content, path, dryrun)
+            includes.append(path)
 
         if jobinfo["check-dco"]:
             gitlabcontent.append(gitlab.check_dco_job(namespace))
