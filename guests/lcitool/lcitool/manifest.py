@@ -247,6 +247,7 @@ class Manifest:
         header = util.generate_file_header(["manifest", self.configpath])
 
         lines = header + "\n".join(content)
+        lines = lines.strip() + "\n"
         if not dryrun:
             util.atomic_write(path, lines)
 
@@ -275,8 +276,13 @@ class Manifest:
         jobinfo = gitlabinfo["jobs"]
 
         gitlabcontent = []
+        includes = []
         if gitlabinfo["containers"]:
-            gitlabcontent.append(gitlab.container_template(namespace, project, self.cidir))
+            path = Path(gitlabdir, "container-templates.yml")
+            content = [gitlab.container_template(namespace, project, self.cidir)]
+            self._replace_file(content, path, dryrun)
+            includes.append(path)
+
         if gitlabinfo["builds"]:
             if have_native:
                 gitlabcontent.append(gitlab.native_build_template())
@@ -303,7 +309,8 @@ class Manifest:
             gitlabcontent.extend(self._generate_gitlab_cirrus_build_jobs())
 
         path = Path(self.cidir, "gitlab.yml")
-        self._replace_file(gitlabcontent, path, dryrun)
+        content = [gitlab.includes(includes)] + gitlabcontent
+        self._replace_file(content, path, dryrun)
 
     def _generate_gitlab_container_jobs(self, cross):
         jobs = []

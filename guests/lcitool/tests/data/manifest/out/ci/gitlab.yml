@@ -1,22 +1,5 @@
-
-.container_job:
-  image: docker:stable
-  stage: containers
-  needs: []
-  services:
-    - docker:dind
-  before_script:
-    - export TAG="$CI_REGISTRY_IMAGE/ci-$NAME:latest"
-    - export COMMON_TAG="$CI_REGISTRY/test-group/test-minimal/ci-$NAME:latest"
-    - docker info
-    - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-  script:
-    - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
-    - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "ci/containers/$NAME.Dockerfile" ci/containers
-    - docker push "$TAG"
-  after_script:
-    - docker logout
-
+include:
+  - local: 'ci/gitlab/container-templates.yml'
 
 .gitlab_native_build_job:
   image: $CI_REGISTRY_IMAGE/ci-$NAME:latest
