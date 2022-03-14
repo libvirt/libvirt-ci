@@ -147,6 +147,7 @@ native:
 - perl-YAML
 - perl-accessors
 - perl-base
+- perl-devel
 - perl-generators
 - perl-podlators
 - php-devel

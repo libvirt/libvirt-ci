@@ -127,6 +127,7 @@ native:
 - libpcap0.8-dev
 - libpciaccess-dev
 - libpcre2-dev
+- libperl-dev
 - libpixman-1-dev
 - libpmem-dev
 - libpng-dev

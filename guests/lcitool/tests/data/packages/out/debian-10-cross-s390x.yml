@@ -165,6 +165,7 @@ native:
 - libnet-snmp-perl
 - libnetaddr-ip-perl
 - libpcre2-dev
+- libperl-dev
 - libsnmp-dev
 - libspice-protocol-dev
 - libsub-uplevel-perl

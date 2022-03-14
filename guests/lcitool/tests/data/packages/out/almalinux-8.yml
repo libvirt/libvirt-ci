@@ -182,6 +182,7 @@ native:
 - perl-XML-Writer
 - perl-XML-XPath
 - perl-YAML
+- perl-devel
 - perl-generators
 - perl-podlators
 - php-devel

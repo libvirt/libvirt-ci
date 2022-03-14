@@ -118,6 +118,7 @@ native:
 - p5-accessors
 - pciids
 - perl5
+- perl5-devel
 - php74
 - php74-pecl-imagick
 - pixman

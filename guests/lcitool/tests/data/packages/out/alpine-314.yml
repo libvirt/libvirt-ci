@@ -147,6 +147,7 @@ native:
 - pcre-dev
 - perl
 - perl-app-cpanminus
+- perl-dev
 - perl-file-slurp
 - perl-io-string
 - perl-module-build

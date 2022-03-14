@@ -1479,6 +1479,14 @@ mappings:
     pkg: p5-accessors
     Fedora: perl-accessors
 
+  perl-devel:
+    apk: perl-dev
+    deb: libperl-dev
+    rpm: perl-devel
+    pkg: perl5-devel
+    MacOS: perl5-devel
+    OpenSUSE:
+
   perl-generators:
     rpm: perl-generators
     OpenSUSE:

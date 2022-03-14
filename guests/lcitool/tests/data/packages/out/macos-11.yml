@@ -107,6 +107,7 @@ native:
 - ocaml-findlib
 - openjdk
 - perl
+- perl5-devel
 - pixman
 - pkg-config
 - python3
