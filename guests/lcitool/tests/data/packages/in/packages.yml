@@ -55,8 +55,6 @@ packages:
 - git
 - glib2
 - glib2-static
-- glibc
-- glibc-static
 - glusterfs
 - gnutls
 - gnutls-utils
@@ -90,6 +88,8 @@ packages:
 - libaudit
 - libblkid
 - libbpf
+- libc
+- libc-static
 - libcacard
 - libcap-ng
 - libcmpiutil

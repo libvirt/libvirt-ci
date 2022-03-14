@@ -25,7 +25,7 @@ packages:
  - genisoimage
  - glib2
  - glib2-static
- - glibc-static
+ - libc-static
  - glusterfs
  - gnutls
  - gtk3

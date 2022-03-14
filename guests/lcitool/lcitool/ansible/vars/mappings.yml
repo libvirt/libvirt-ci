@@ -451,18 +451,6 @@ mappings:
     OpenSUSE:
     cross-policy-default: foreign
 
-  glibc:
-    deb: libc6-dev
-    rpm: glibc-devel
-    cross-mingw32-rpm: mingw32-headers
-    cross-mingw64-rpm: mingw64-headers
-    cross-policy-default: foreign
-
-  glibc-static:
-    deb: libc6-dev
-    rpm: glibc-static
-    cross-policy-default: foreign
-
   glusterfs:
     deb: libglusterfs-dev
     Fedora: glusterfs-api-devel
@@ -681,6 +669,18 @@ mappings:
     rpm: libbpf-devel
     Ubuntu1804:
     Ubuntu2004:
+    cross-policy-default: foreign
+
+  libc:
+    deb: libc6-dev
+    rpm: glibc-devel
+    cross-mingw32-rpm: mingw32-headers
+    cross-mingw64-rpm: mingw64-headers
+    cross-policy-default: foreign
+
+  libc-static:
+    deb: libc6-dev
+    rpm: glibc-static
     cross-policy-default: foreign
 
   libcacard:

@@ -2,7 +2,7 @@
 packages:
   - ccache
   - gcc
-  - glibc
+  - libc
   - make
   - pkg-config
   - rake

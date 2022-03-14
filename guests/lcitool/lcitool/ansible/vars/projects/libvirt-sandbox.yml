@@ -8,7 +8,7 @@ packages:
   - gcc
   - gettext
   - glib2
-  - glibc-static
+  - libc-static
   - gobject-introspection
   - gtk-doc
   - libcap-ng

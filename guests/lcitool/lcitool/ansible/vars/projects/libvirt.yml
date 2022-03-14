@@ -23,7 +23,7 @@ packages:
   - gcc
   - gettext
   - glib2
-  - glibc
+  - libc
   - glusterfs
   - gnutls
   - grep
