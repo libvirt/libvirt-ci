@@ -25,7 +25,7 @@ def container_template(namespace, project, cidir):
             - export TAG="$CI_REGISTRY_IMAGE/ci-$NAME:latest"
             - export COMMON_TAG="$CI_REGISTRY/{namespace}/{project}/ci-$NAME:latest"
             - docker info
-            - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+            - docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
           script:
             - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
             - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "{cidir}/containers/$NAME.Dockerfile" {cidir}/containers
