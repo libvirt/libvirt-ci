@@ -3,7 +3,8 @@
 x86_64-centos-stream-9:
   extends: .native_build_job
   needs:
-    - x86_64-centos-stream-9-container
+    - job: x86_64-centos-stream-9-container
+      optional: true
   allow_failure: false
   variables:
     NAME: centos-stream-9
@@ -12,7 +13,8 @@ x86_64-centos-stream-9:
 x86_64-fedora-rawhide-clang:
   extends: .native_build_job
   needs:
-    - x86_64-fedora-rawhide-container
+    - job: x86_64-fedora-rawhide-container
+      optional: true
   allow_failure: false
   variables:
     CC: clang
@@ -25,7 +27,8 @@ x86_64-fedora-rawhide-clang:
 i686-debian-sid:
   extends: .cross_build_job
   needs:
-    - i686-debian-sid-container
+    - job: i686-debian-sid-container
+      optional: true
   allow_failure: false
   variables:
     CROSS: i686
@@ -40,7 +43,8 @@ i686-debian-sid:
 mingw32-fedora-rawhide:
   extends: .cross_build_job
   needs:
-    - mingw32-fedora-rawhide-container
+    - job: mingw32-fedora-rawhide-container
+      optional: true
   allow_failure: false
   variables:
     CROSS: mingw32

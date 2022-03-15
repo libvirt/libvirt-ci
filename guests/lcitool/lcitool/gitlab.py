@@ -15,6 +15,18 @@ def includes(paths):
 def container_template(namespace, project, cidir):
     return textwrap.dedent(
         f"""
+        # For upstream
+        #
+        #   - Push to default branch:
+        #       -> rebuild if dockerfile changed, no cache
+        #   - Otherwise
+        #       -> rebuild if LIBVIRT_CI_CONTAINERS=1, no cache,
+        #          to pick up new published distro packages or
+        #          recover from deleted tag
+        #
+        # For forks
+        #   - Always rebuild, with cache
+        #
         .container_job:
           image: docker:stable
           stage: containers
@@ -27,11 +39,27 @@ def container_template(namespace, project, cidir):
             - docker info
             - docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
           script:
-            - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
-            - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "{cidir}/containers/$NAME.Dockerfile" {cidir}/containers
+            - if test $CI_PROJECT_NAMESPACE = "{namespace}";
+              then
+                docker build --tag "$TAG" -f "{cidir}/containers/$NAME.Dockerfile" {cidir}/containers ;
+              else
+                docker pull "$TAG" || docker pull "$COMMON_TAG" || true ;
+                docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "{cidir}/containers/$NAME.Dockerfile" {cidir}/containers ;
+              fi
             - docker push "$TAG"
           after_script:
             - docker logout
+          rules:
+            - if: '$CI_PROJECT_NAMESPACE == "{namespace}" && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+              when: on_success
+              changes:
+               - {cidir}/gitlab/container-templates.yml
+               - {cidir}/containers/$NAME.Dockerfile
+            - if: '$CI_PROJECT_NAMESPACE == "{namespace}" && $LIBVIRT_CI_CONTAINERS == "1"'
+              when: on_success
+            - if: '$CI_PROJECT_NAMESPACE == "{namespace}"'
+              when: never
+            - when: on_success
         """)
 
 
@@ -224,7 +252,8 @@ def _build_job(target, arch, suffix, variables, template, allow_failure, artifac
         {arch}-{target}{suffix}:
           extends: {template}
           needs:
-            - {arch}-{target}-container
+            - job: {arch}-{target}-container
+              optional: true
           allow_failure: {allow_failure}
         """) + format_variables(variables) + format_artifacts(artifacts)
 

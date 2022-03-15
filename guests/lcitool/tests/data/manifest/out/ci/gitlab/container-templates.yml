@@ -1,3 +1,15 @@
+# For upstream
+#
+#   - Push to default branch:
+#       -> rebuild if dockerfile changed, no cache
+#   - Otherwise
+#       -> rebuild if LIBVIRT_CI_CONTAINERS=1, no cache,
+#          to pick up new published distro packages or
+#          recover from deleted tag
+#
+# For forks
+#   - Always rebuild, with cache
+#
 .container_job:
   image: docker:stable
   stage: containers
@@ -10,8 +22,24 @@
     - docker info
     - docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
-    - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
-    - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "ci/containers/$NAME.Dockerfile" ci/containers
+    - if test $CI_PROJECT_NAMESPACE = "test-group";
+      then
+        docker build --tag "$TAG" -f "ci/containers/$NAME.Dockerfile" ci/containers ;
+      else
+        docker pull "$TAG" || docker pull "$COMMON_TAG" || true ;
+        docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "ci/containers/$NAME.Dockerfile" ci/containers ;
+      fi
     - docker push "$TAG"
   after_script:
     - docker logout
+  rules:
+    - if: '$CI_PROJECT_NAMESPACE == "test-group" && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: on_success
+      changes:
+       - ci/gitlab/container-templates.yml
+       - ci/containers/$NAME.Dockerfile
+    - if: '$CI_PROJECT_NAMESPACE == "test-group" && $LIBVIRT_CI_CONTAINERS == "1"'
+      when: on_success
+    - if: '$CI_PROJECT_NAMESPACE == "test-group"'
+      when: never
+    - when: on_success
