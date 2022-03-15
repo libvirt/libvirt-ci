@@ -35,22 +35,23 @@ def container_template(namespace, project, cidir):
         """)
 
 
-def native_build_template():
+def _build_template(template, image):
     return textwrap.dedent(
-        """
-        .gitlab_native_build_job:
-          image: $CI_REGISTRY_IMAGE/ci-$NAME:latest
+        f"""
+        {template}:
+          image: $CI_REGISTRY_IMAGE/{image}:latest
           stage: builds
         """)
+
+
+def native_build_template():
+    return _build_template(".gitlab_native_build_job",
+                           "ci-$NAME")
 
 
 def cross_build_template():
-    return textwrap.dedent(
-        """
-        .gitlab_cross_build_job:
-          image: $CI_REGISTRY_IMAGE/ci-$NAME-cross-$CROSS:latest
-          stage: builds
-        """)
+    return _build_template(".gitlab_cross_build_job",
+                           "ci-$NAME-cross-$CROSS")
 
 
 def cirrus_template(cidir):
@@ -155,20 +156,7 @@ def clang_format_job():
         """)
 
 
-def native_container_job(target, allow_failure):
-    allow_failure = str(allow_failure).lower()
-
-    return textwrap.dedent(
-        f"""
-        x86_64-{target}-container:
-          extends: .container_job
-          allow_failure: {allow_failure}
-          variables:
-            NAME: {target}
-        """)
-
-
-def cross_container_job(target, arch, allow_failure):
+def _container_job(target, arch, image, allow_failure):
     allow_failure = str(allow_failure).lower()
 
     return textwrap.dedent(
@@ -177,8 +165,22 @@ def cross_container_job(target, arch, allow_failure):
           extends: .container_job
           allow_failure: {allow_failure}
           variables:
-            NAME: {target}-cross-{arch}
+            NAME: {image}
         """)
+
+
+def native_container_job(target, allow_failure):
+    return _container_job(target,
+                          "x86_64",
+                          f"{target}",
+                          allow_failure)
+
+
+def cross_container_job(target, arch, allow_failure):
+    return _container_job(target,
+                          arch,
+                          f"{target}-cross-{arch}",
+                          allow_failure)
 
 
 def format_variables(variables):
@@ -214,28 +216,8 @@ def merge_vars(system, user):
     return {**user, **system}
 
 
-def native_build_job(target, suffix, variables, template, allow_failure, artifacts):
+def _build_job(target, arch, suffix, variables, template, allow_failure, artifacts):
     allow_failure = str(allow_failure).lower()
-    jobvars = merge_vars({
-        "NAME": target,
-    }, variables)
-
-    return textwrap.dedent(
-        f"""
-        x86_64-{target}{suffix}:
-          extends: {template}
-          needs:
-            - x86_64-{target}-container
-          allow_failure: {allow_failure}
-        """) + format_variables(jobvars) + format_artifacts(artifacts)
-
-
-def cross_build_job(target, arch, suffix, variables, template, allow_failure, artifacts):
-    allow_failure = str(allow_failure).lower()
-    jobvars = merge_vars({
-        "NAME": target,
-        "CROSS": arch
-    }, variables)
 
     return textwrap.dedent(
         f"""
@@ -244,7 +226,36 @@ def cross_build_job(target, arch, suffix, variables, template, allow_failure, ar
           needs:
             - {arch}-{target}-container
           allow_failure: {allow_failure}
-        """) + format_variables(jobvars) + format_artifacts(artifacts)
+        """) + format_variables(variables) + format_artifacts(artifacts)
+
+
+def native_build_job(target, suffix, variables, template, allow_failure, artifacts):
+    jobvars = merge_vars({
+        "NAME": target,
+    }, variables)
+
+    return _build_job(target,
+                      "x86_64",
+                      suffix,
+                      jobvars,
+                      template,
+                      allow_failure,
+                      artifacts)
+
+
+def cross_build_job(target, arch, suffix, variables, template, allow_failure, artifacts):
+    jobvars = merge_vars({
+        "NAME": target,
+        "CROSS": arch
+    }, variables)
+
+    return _build_job(target,
+                      arch,
+                      suffix,
+                      jobvars,
+                      template,
+                      allow_failure,
+                      artifacts)
 
 
 def cirrus_build_job(target, instance_type, image_selector, image_name,
