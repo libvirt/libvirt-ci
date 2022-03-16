@@ -1537,6 +1537,7 @@ mappings:
   publican:
     deb: publican
     Fedora: publican
+    FedoraRawhide:
 
   pulseaudio:
     apk: pulseaudio-dev

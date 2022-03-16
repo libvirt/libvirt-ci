@@ -153,7 +153,6 @@ native:
 - php-devel
 - php-pecl-imagick
 - polkit
-- publican
 - python3
 - python3-PyYAML
 - python3-dbus

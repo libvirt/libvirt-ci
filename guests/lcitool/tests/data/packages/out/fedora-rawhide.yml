@@ -201,7 +201,6 @@ native:
 - pixman-devel
 - pkgconfig
 - polkit
-- publican
 - pulseaudio-libs-devel
 - python3
 - python3-PyYAML
