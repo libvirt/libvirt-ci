@@ -240,6 +240,20 @@ class Manifest:
 
         gitlabfile = Path(self.outdir, "gitlab.yml")
 
+        have_native = False
+        have_cross = False
+        for target, targetinfo in self.values["targets"].items():
+            if not targetinfo["enabled"] or not targetinfo["containers"]:
+                continue
+
+            for jobinfo in targetinfo["jobs"]:
+                if not jobinfo["enabled"] or not jobinfo["builds"]:
+                    continue
+                if jobinfo["cross-build"]:
+                    have_cross = True
+                else:
+                    have_native = True
+
         gitlabinfo = self.values["gitlab"]
         namespace = gitlabinfo["namespace"]
         project = gitlabinfo["project"]
@@ -249,8 +263,10 @@ class Manifest:
         if gitlabinfo["containers"]:
             gitlabcontent.append(gitlab.container_template(namespace, project, self.cidir))
         if gitlabinfo["builds"]:
-            gitlabcontent.append(gitlab.native_build_template())
-            gitlabcontent.append(gitlab.cross_build_template())
+            if have_native:
+                gitlabcontent.append(gitlab.native_build_template())
+            if have_cross:
+                gitlabcontent.append(gitlab.cross_build_template())
         if gitlabinfo["cirrus"]:
             gitlabcontent.append(gitlab.cirrus_template(self.cidir))
 
