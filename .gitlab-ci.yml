@@ -74,6 +74,12 @@ stages:
     - docker build -f build/${NAME}.Dockerfile build/
   after_script:
     - docker logout
+  rules:
+    - if: '$LIBVIRT_CI_SKIP_TARGET && $NAME =~ $LIBVIRT_CI_SKIP_TARGET'
+      when: never
+    - <<: *job_rules_merge_request
+    - <<: *job_rules_push_opt_in
+    - when: never
 
 check-dco-container:
   extends: .build_container_template
