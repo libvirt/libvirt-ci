@@ -16,3 +16,4 @@ packages:
   - pkg-config
   - rpmbuild
   - wget
+  - xz

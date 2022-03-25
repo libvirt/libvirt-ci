@@ -23,5 +23,6 @@ packages:
   - pkg-config
   - rpcgen
   - rpmbuild
+  - xz
   - zlib
   - zlib-static
