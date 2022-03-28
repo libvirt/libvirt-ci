@@ -2,6 +2,6 @@
 packages:
   - ccache
   - gcc
-  - libc
   - go
+  - libc
   - pkg-config

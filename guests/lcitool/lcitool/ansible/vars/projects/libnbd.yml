@@ -12,13 +12,13 @@ packages:
   - g++
   - gcc
   - glib2
-  - libc
   - gnutls
   - gnutls-utils
   - go
   - hexdump
   - ip
   - jq
+  - libc
   - libev
   - libtool
   - libxml2

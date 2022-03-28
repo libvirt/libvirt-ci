@@ -21,19 +21,19 @@ packages:
  - g++
  - gcc
  - gcovr
- - gettext
  - genisoimage
+ - gettext
  - glib2
  - glib2-static
- - libc-static
  - glusterfs
  - gnutls
  - gtk3
  - hostname
  - libaio
- - libattr
  - libasan
+ - libattr
  - libbpf
+ - libc-static
  - libcacard
  - libcap-ng
  - libcurl
@@ -67,14 +67,14 @@ packages:
  - llvm
  - lttng-ust
  - lzo
- - netcat
- - nettle
- - ninja
- - nsis
  - make
  - mesa-libgbm
  - meson
  - ncursesw
+ - netcat
+ - nettle
+ - ninja
+ - nsis
  - pam
  - pcre-static
  - perl

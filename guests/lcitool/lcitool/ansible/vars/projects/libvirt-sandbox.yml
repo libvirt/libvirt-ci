@@ -8,9 +8,9 @@ packages:
   - gcc
   - gettext
   - glib2
-  - libc-static
   - gobject-introspection
   - gtk-doc
+  - libc-static
   - libcap-ng
   - liblzma
   - liblzma-static

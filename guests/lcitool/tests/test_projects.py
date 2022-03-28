@@ -22,3 +22,16 @@ def test_project_packages(name):
     target = Inventory().targets[0]
     facts = Inventory().target_facts[target]
     project.get_packages(facts)
+
+
+@pytest.mark.parametrize(
+    "name",
+    ALL_PROJECTS
+)
+def test_project_package_sorting(name):
+    project = Projects().projects[name]
+    pkgs = project._load_generic_packages()
+
+    otherpkgs = sorted(pkgs)
+
+    assert otherpkgs == pkgs

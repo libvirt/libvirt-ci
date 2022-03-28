@@ -1,7 +1,7 @@
 ---
 packages:
-  - cyrus-sasl
   - ccache
+  - cyrus-sasl
   - gcc
   - gdk-pixbuf
   - gettext
@@ -11,9 +11,9 @@ packages:
   - gtk3
   - intltool
   - libgcrypt
-  - pkg-config
-  - python3
   - meson
   - ninja
+  - pkg-config
   - pulseaudio
+  - python3
   - vala

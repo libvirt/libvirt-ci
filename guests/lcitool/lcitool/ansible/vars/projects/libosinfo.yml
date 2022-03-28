@@ -1,7 +1,7 @@
 ---
 packages:
-  - check
   - ccache
+  - check
   - cppi
   - gcc
   - gettext

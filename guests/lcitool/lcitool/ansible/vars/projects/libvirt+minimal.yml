@@ -5,8 +5,8 @@ packages:
   - gcc
   - gettext
   - glib2
-  - libc
   - gnutls
+  - libc
   - libnl3
   - libnlroute3
   - libtirpc

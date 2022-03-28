@@ -10,9 +10,9 @@ packages:
  - glib2
  - libfdt
  - libslirp
- - ninja
  - make
  - meson
+ - ninja
  - perl
  - perl-Test-Harness
  - pixman

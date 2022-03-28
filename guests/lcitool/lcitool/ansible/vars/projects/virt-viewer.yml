@@ -18,7 +18,7 @@ packages:
   - meson
   - ninja
   - pkg-config
-  - spice-gtk3
   - rpmbuild
+  - spice-gtk3
   - vte
   - xmllint

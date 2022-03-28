@@ -23,7 +23,6 @@ packages:
   - gcc
   - gettext
   - glib2
-  - libc
   - glusterfs
   - gnutls
   - grep
@@ -34,6 +33,7 @@ packages:
   - libattr
   - libaudit
   - libblkid
+  - libc
   - libcap-ng
   - libcurl
   - libiscsi
@@ -54,8 +54,8 @@ packages:
   - make
   - meson
   - modprobe
-  - ninja
   - netcf
+  - ninja
   - numad
   - openwsman
   - perl
