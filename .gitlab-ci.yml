@@ -16,8 +16,8 @@ stages:
   if: '$CI_PIPELINE_SOURCE == "push" && $CI_PROJECT_NAMESPACE == "libvirt" && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
   when: on_success
 
-.job_rules_push_opt_in: &job_rules_push_opt_in
-  if: '$CI_PIPELINE_SOURCE == "push" && $LIBVIRT_CI == "1"'
+.job_rules_opt_in: &job_rules_opt_in
+  if: '$LIBVIRT_CI == "1"'
   when: on_success
 
 .job_rules_container_changes: &job_rules_container_changes
@@ -49,14 +49,14 @@ stages:
       <<: *job_rules_container_changes
     - <<: *job_rules_push_upstream_default_branch
       <<: *job_rules_container_changes
-    - <<: *job_rules_push_opt_in
+    - <<: *job_rules_opt_in
       <<: *job_rules_container_changes
     - when: never
 
 .test_template:
   rules:
     - <<: *job_rules_merge_request
-    - <<: *job_rules_push_opt_in
+    - <<: *job_rules_opt_in
     - when: never
 
 .check_container_template:
@@ -78,7 +78,7 @@ stages:
     - if: '$LIBVIRT_CI_SKIP_TARGET && $NAME =~ $LIBVIRT_CI_SKIP_TARGET'
       when: never
     - <<: *job_rules_merge_request
-    - <<: *job_rules_push_opt_in
+    - <<: *job_rules_opt_in
     - when: never
 
 check-dco-container:
