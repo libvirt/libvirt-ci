@@ -288,7 +288,9 @@ class DockerfileFormatter(Formatter):
             # First we need to run update, then config and install.
             # For rolling distros, it's preferable to do a distro syncing type
             # of update rather than a regular package update
-            if osname == "Fedora" and osversion == "Rawhide":
+            if (osname == "Fedora" and osversion == "Rawhide" or
+                osname == "CentOS" and (osversion == "Stream8" or
+                                        osversion == "Stream9")):
                 commands.extend(["{nosync}{packaging_command} distro-sync -y"])
             elif osname == "OpenSUSE" and osversion == "Tumbleweed":
                 commands.extend(["{nosync}{packaging_command} dist-upgrade -y"])
