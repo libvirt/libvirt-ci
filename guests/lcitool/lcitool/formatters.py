@@ -234,6 +234,9 @@ class DockerfileFormatter(Formatter):
 
     def _format_section_native(self, facts, cross_arch, varmap):
         commands = []
+        osname = facts["os"]["name"]
+        osversion = facts["os"]["version"]
+
         if facts["packaging"]["format"] == "apk":
             # See earlier comment about adding this later
             # "{packaging_command} add libeatmydata",
@@ -261,12 +264,12 @@ class DockerfileFormatter(Formatter):
         elif facts["packaging"]["format"] == "rpm":
             # Rawhide needs this because the keys used to sign packages are
             # cycled from time to time
-            if facts["os"]["name"] == "Fedora" and facts["os"]["version"] == "Rawhide":
+            if osname == "Fedora" and osversion == "Rawhide":
                 commands.extend([
                     "{packaging_command} update -y --nogpgcheck fedora-gpg-keys",
                 ])
 
-            if facts["os"]["name"] == "Fedora":
+            if osname == "Fedora":
                 nosyncsh = [
                     "#!/bin/sh",
                     "if test -d /usr/lib64",
@@ -285,16 +288,14 @@ class DockerfileFormatter(Formatter):
             # First we need to run update, then config and install.
             # For rolling distros, it's preferable to do a distro syncing type
             # of update rather than a regular package update
-            if (facts["os"]["name"] == "Fedora" and
-                facts["os"]["version"] == "Rawhide"):
+            if osname == "Fedora" and osversion == "Rawhide":
                 commands.extend(["{nosync}{packaging_command} distro-sync -y"])
-            elif (facts["os"]["name"] == "OpenSUSE" and
-                  facts["os"]["version"] == "Tumbleweed"):
+            elif osname == "OpenSUSE" and osversion == "Tumbleweed":
                 commands.extend(["{nosync}{packaging_command} dist-upgrade -y"])
             else:
                 commands.extend(["{nosync}{packaging_command} update -y"])
 
-            if facts["os"]["name"] in ["AlmaLinux", "CentOS"]:
+            if osname in ["AlmaLinux", "CentOS"]:
                 # NOTE: AlmaLinux is one of the replacement community distros
                 # for the original CentOS distro and so the checks below apply
                 # there as well
@@ -305,11 +306,11 @@ class DockerfileFormatter(Formatter):
                 commands.extend([
                     "{nosync}{packaging_command} install 'dnf-command(config-manager)' -y",
                 ])
-                if facts["os"]["version"] == "Stream9":
+                if osversion == "Stream9":
                     commands.extend([
                         "{nosync}{packaging_command} config-manager --set-enabled -y crb",
                     ])
-                if facts["os"]["version"] in ["8", "Stream8"]:
+                if osversion in ["8", "Stream8"]:
                     commands.extend([
                         "{nosync}{packaging_command} config-manager --set-enabled -y powertools",
                     ])
@@ -317,16 +318,16 @@ class DockerfileFormatter(Formatter):
                 # Not all of the virt related -devel packages are provided by
                 # virt:rhel module so we have to enable AV repository as well.
                 # CentOS Stream 9 no longer uses modules for virt
-                if facts["os"]["version"] in ["8", "Stream8"]:
+                if osversion in ["8", "Stream8"]:
                     commands.extend([
                         "{nosync}{packaging_command} install -y centos-release-advanced-virtualization",
                     ])
 
                 # Some of the packages we need are not part of CentOS proper
                 # and are only available through EPEL
-                if facts["os"]["version"] in ["8", "Stream8"]:
+                if osversion in ["8", "Stream8"]:
                     epel_pkgs = ["epel-release"]
-                elif facts["os"]["version"] == "Stream9":
+                elif osversion == "Stream9":
                     base_url = "https://dl.fedoraproject.org/pub/epel/"
                     rpm_suffix = "-latest-9.noarch.rpm"
 
@@ -349,7 +350,7 @@ class DockerfileFormatter(Formatter):
 
             # openSUSE doesn't seem to have a convenient way to remove all
             # unnecessary packages, but CentOS and Fedora do
-            if facts["os"]["name"] == "OpenSUSE":
+            if osname == "OpenSUSE":
                 commands.extend([
                     "{nosync}{packaging_command} clean --all",
                 ])
