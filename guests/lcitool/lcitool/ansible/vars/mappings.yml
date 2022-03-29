@@ -1722,11 +1722,6 @@ mappings:
 
   rpcgen:
     default: rpcgen
-    # On Alpine Edge both nfs-utils and rpcgen provide rpcgen and they conflict
-    # together, so choosing the superset (nfs-utils) makes sense here.  For
-    # completeness I filed an issue about this:
-    # https://gitlab.alpinelinux.org/alpine/aports/-/issues/13583
-    AlpineEdge: nfs-utils
     deb: libc-dev-bin
     FreeBSD:
 
