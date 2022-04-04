@@ -110,7 +110,7 @@ def cargo_fmt_job():
             - /cargo-fmt
           artifacts:
             paths:
-              - cargo-fmt.patch
+              - cargo-fmt.txt
             expire_in: 1 week
             when: on_failure
         """)
