@@ -133,6 +133,23 @@ def go_fmt_job():
         """)
 
 
+def clang_format_job():
+    return textwrap.dedent(
+        """
+        clang-format:
+          stage: sanity_checks
+          image: registry.gitlab.com/libvirt/libvirt-ci/clang-format:master
+          needs: []
+          script:
+            - /clang-format
+          artifacts:
+            paths:
+              - clang-format.patch
+            expire_in: 1 week
+            when: on_failure
+        """)
+
+
 def native_container_job(target, allow_failure):
     allow_failure = str(allow_failure).lower()
 
