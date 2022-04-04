@@ -247,3 +247,8 @@ x86_64-check-ubuntu-2004:
   extends: .check_container_template
   variables:
     NAME: ubuntu-2004
+
+x86_64-check-ubuntu-2204:
+  extends: .check_container_template
+  variables:
+    NAME: ubuntu-2204
