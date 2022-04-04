@@ -44,6 +44,7 @@ gitlab:
 #  jobs:
 #    check-dco: true
 #    cargo-fmt: false
+#    cargo-clippy: false
 #    go-fmt: false
 #    clang-format: false
 #

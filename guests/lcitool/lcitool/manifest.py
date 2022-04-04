@@ -73,6 +73,7 @@ class Manifest:
         jobinfo = gitlabinfo["jobs"]
         jobinfo.setdefault("check-dco", True)
         jobinfo.setdefault("cargo-fmt", False)
+        jobinfo.setdefault("cargo-clippy", False)
         jobinfo.setdefault("go-fmt", False)
         jobinfo.setdefault("clang-fmt", False)
 
@@ -258,6 +259,8 @@ class Manifest:
             gitlabcontent.append(gitlab.check_dco_job(namespace))
         if jobinfo["cargo-fmt"]:
             gitlabcontent.append(gitlab.cargo_fmt_job())
+        if jobinfo["cargo-clippy"]:
+            gitlabcontent.append(gitlab.cargo_clippy_job())
         if jobinfo["go-fmt"]:
             gitlabcontent.append(gitlab.go_fmt_job())
         if jobinfo["clang-fmt"]:
