@@ -74,7 +74,7 @@ class Manifest:
         jobinfo.setdefault("check-dco", True)
         jobinfo.setdefault("cargo-fmt", False)
         jobinfo.setdefault("go-fmt", False)
-        jobinfo.setdefault("clang-fmt", False)
+        jobinfo.setdefault("clang-format", False)
 
         templateinfo = gitlabinfo["templates"]
         templateinfo.setdefault("native-build", ".native_build_job")
@@ -260,8 +260,8 @@ class Manifest:
             gitlabcontent.append(gitlab.cargo_fmt_job())
         if jobinfo["go-fmt"]:
             gitlabcontent.append(gitlab.go_fmt_job())
-        if jobinfo["clang-fmt"]:
-            gitlabcontent.append(gitlab.clang_fmt_job())
+        if jobinfo["clang-format"]:
+            gitlabcontent.append(gitlab.clang_format_job())
 
         if gitlabinfo["containers"]:
             gitlabcontent.extend(self._generate_gitlab_native_container_jobs())
