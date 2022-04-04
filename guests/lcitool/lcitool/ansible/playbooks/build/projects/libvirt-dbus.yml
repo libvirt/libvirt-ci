@@ -23,8 +23,8 @@
       - fedora-rawhide
       - opensuse-leap-153
       - opensuse-tumbleweed
-      - ubuntu-1804
       - ubuntu-2004
+      - ubuntu-2204
 - include: 'jobs/meson-rpm-job.yml'
   vars:
     machines: '{{ rpm_machines }}'

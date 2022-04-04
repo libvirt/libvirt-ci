@@ -14,8 +14,8 @@ all_machines:
   - freebsd-current
   - opensuse-leap-153
   - opensuse-tumbleweed
-  - ubuntu-1804
   - ubuntu-2004
+  - ubuntu-2204
 rpm_machines:
   - almalinux-8
   - centos-stream-8

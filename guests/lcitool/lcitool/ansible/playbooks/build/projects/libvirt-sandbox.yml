@@ -11,8 +11,8 @@
       - fedora-rawhide
       - opensuse-leap-153
       - opensuse-tumbleweed
-      - ubuntu-1804
       - ubuntu-2004
+      - ubuntu-2204
     archive_format: gz
     git_url: '{{ git_urls["libvirt-sandbox"][git_remote] }}'
 

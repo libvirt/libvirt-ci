@@ -161,11 +161,11 @@ targets:
     jobs:
       - arch: x86_64
 
-  ubuntu-1804:
+  ubuntu-2004:
     jobs:
       - arch: x86_64
 
-  ubuntu-2004:
+  ubuntu-2204:
     jobs:
       - arch: x86_64
         enabled: true
