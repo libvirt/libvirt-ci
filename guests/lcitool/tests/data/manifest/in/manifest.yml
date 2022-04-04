@@ -6,6 +6,10 @@ projects:
 gitlab:
   namespace: test-group
   project: test-minimal
+  jobs:
+     cargo-fmt: true
+     clang-format: true
+     go-fmt: true
 
 targets:
   centos-stream-9: x86_64
