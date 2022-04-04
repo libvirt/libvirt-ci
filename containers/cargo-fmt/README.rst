@@ -9,8 +9,9 @@ the following snippet to ``.gitlab-ci.yml``
 ::
 
    cargo-fmt:
-     stage: prebuild
+     stage: sanity_checks
      image: registry.gitlab.com/libvirt/libvirt-ci/cargo-fmt:master
+     needs: []
      script:
        - /cargo-fmt
      artifacts:
