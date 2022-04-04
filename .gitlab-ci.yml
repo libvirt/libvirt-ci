@@ -96,6 +96,11 @@ cargo-fmt-container:
   variables:
     NAME: cargo-fmt
 
+cargo-clippy-container:
+  extends: .build_container_template
+  variables:
+    NAME: cargo-clippy
+
 clang-format-container:
   extends: .build_container_template
   variables:
