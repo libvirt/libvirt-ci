@@ -3,4 +3,5 @@ packages:
   - cargo
   - ccache
   - gcc
+  - libclang
   - rust

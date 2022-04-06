@@ -712,6 +712,11 @@ mappings:
     rpm: libcap-ng-devel
     cross-policy-default: foreign
 
+  libclang:
+    apk: clang-dev
+    deb: libclang-dev
+    rpm: clang-devel
+
   libcmpiutil:
     rpm: libcmpiutil-devel
     AlmaLinux:

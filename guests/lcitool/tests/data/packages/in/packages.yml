@@ -95,6 +95,7 @@ packages:
 - libc-static
 - libcacard
 - libcap-ng
+- libclang
 - libcmpiutil
 - libconfig
 - libcurl

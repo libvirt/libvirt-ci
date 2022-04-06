@@ -28,6 +28,7 @@ native:
 - check-devel
 - chrony
 - clang
+- clang-devel
 - cloud-init
 - cloud-utils-growpart
 - codespell

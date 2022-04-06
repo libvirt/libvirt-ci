@@ -37,6 +37,7 @@ native:
 - check
 - chrony
 - clang
+- clang-dev
 - cloud-init
 - cloud-utils-growpart
 - ctags

@@ -49,6 +49,7 @@ native:
 - ccache
 - check-devel
 - chrony
+- clang-devel
 - cloud-init
 - cloud-utils-growpart
 - codespell

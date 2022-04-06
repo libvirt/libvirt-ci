@@ -73,6 +73,7 @@ native:
 - libcacard-dev
 - libcap-ng-dev
 - libcapstone-dev
+- libclang-dev
 - libconfig-dev
 - libcpan-changes-perl
 - libcurl4-gnutls-dev
