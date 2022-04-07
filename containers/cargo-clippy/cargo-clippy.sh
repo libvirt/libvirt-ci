@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cargo clippy --quiet --no-deps --all-targets > cargo-clippy.txt
+cargo clippy --quiet --no-deps --all-targets >cargo-clippy.txt 2>&1
 
 if test -s cargo-clippy.txt
 then
