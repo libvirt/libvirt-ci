@@ -1153,6 +1153,7 @@ mappings:
     default: meson
     Debian10:
     OpenSUSELeap152:
+    OpenSUSELeap153:
     Ubuntu1804:
     Ubuntu2004:
 

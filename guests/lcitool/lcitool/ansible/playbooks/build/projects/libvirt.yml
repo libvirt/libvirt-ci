@@ -22,6 +22,7 @@
       - fedora-35
       - fedora-rawhide
       - opensuse-leap-152
+      - opensuse-leap-153
       - opensuse-tumbleweed
       - ubuntu-1804
       - ubuntu-2004
