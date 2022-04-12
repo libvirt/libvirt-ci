@@ -12,7 +12,6 @@ all_machines:
   - freebsd-12
   - freebsd-13
   - freebsd-current
-  - opensuse-leap-152
   - opensuse-leap-153
   - opensuse-tumbleweed
   - ubuntu-1804

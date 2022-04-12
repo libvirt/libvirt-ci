@@ -955,7 +955,6 @@ mappings:
     AlmaLinux8: libslirp-devel
     CentOSStream8: libslirp-devel
     Debian10:
-    OpenSUSELeap152:
     Ubuntu1804:
     cross-policy-default: foreign
 
@@ -1152,7 +1151,6 @@ mappings:
   meson:
     default: meson
     Debian10:
-    OpenSUSELeap152:
     OpenSUSELeap153:
     Ubuntu1804:
     Ubuntu2004:
@@ -1191,7 +1189,6 @@ mappings:
     default: nbdkit
     apk:
     MacOS:
-    OpenSUSELeap152:
     Ubuntu1804:
 
   ncursesw:
