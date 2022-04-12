@@ -183,6 +183,11 @@ x86_64-check-alpine-314:
   variables:
     NAME: alpine-314
 
+x86_64-check-alpine-315:
+  extends: .check_container_template
+  variables:
+    NAME: alpine-315
+
 x86_64-check-alpine-edge:
   extends: .check_container_template
   allow_failure: true
