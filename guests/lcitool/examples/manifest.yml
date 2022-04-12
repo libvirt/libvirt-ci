@@ -90,6 +90,13 @@ gitlab:
 #
 
 targets:
+  alpine-314: x86_64
+
+  alpine-edge:
+    jobs:
+      - arch: x86_64
+        allow-failure: true
+
   centos-stream-8: x86_64
 
   centos-stream-9: x86_64
