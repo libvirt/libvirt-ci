@@ -245,6 +245,7 @@ native:
 - rake
 - rpm2cpio
 - ruby-dev
+- rust-clippy
 - rustc
 - screen
 - scrub

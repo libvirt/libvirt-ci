@@ -50,6 +50,7 @@ native:
 - check-devel
 - chrony
 - clang-devel
+- clippy
 - cloud-init
 - cloud-utils-growpart
 - codespell

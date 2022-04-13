@@ -27,6 +27,7 @@ native:
 - chrony
 - clang
 - clang-devel
+- clippy
 - cloud-init
 - cloud-utils-growpart
 - cpp

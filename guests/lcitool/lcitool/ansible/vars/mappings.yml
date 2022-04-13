@@ -228,6 +228,13 @@ mappings:
     MacOS:
     cross-policy-default: skip
 
+  clippy:
+    deb: rust-clippy
+    rpm: clippy
+    OpenSUSE:
+    Debian10:
+    Debian11:
+
   cloud-init:
     default: cloud-init
     FreeBSD: py38-cloud-init

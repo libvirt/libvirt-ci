@@ -22,6 +22,7 @@ packages:
 - check
 - chrony
 - clang
+- clippy
 - cloud-init
 - cloud-init-growpart
 - codespell
