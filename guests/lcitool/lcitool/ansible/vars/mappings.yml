@@ -206,7 +206,7 @@ mappings:
 
   cargo:
     default: cargo
-    FreeBSD:
+    FreeBSD: rust
     MacOS: rust
 
   ccache:
