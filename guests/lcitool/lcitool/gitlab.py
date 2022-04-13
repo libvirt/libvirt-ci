@@ -116,23 +116,6 @@ def cargo_fmt_job():
         """)
 
 
-def cargo_clippy_job():
-    return textwrap.dedent(
-        """
-        cargo-clippy:
-          stage: sanity_checks
-          image: registry.gitlab.com/libvirt/libvirt-ci/cargo-clippy:master
-          needs: []
-          script:
-            - /cargo-clippy
-          artifacts:
-            paths:
-              - cargo-clippy.txt
-            expire_in: 1 week
-            when: on_failure
-        """)
-
-
 def go_fmt_job():
     return textwrap.dedent(
         """
