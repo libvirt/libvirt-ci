@@ -9,7 +9,6 @@ packages:
   - gnutls
   - gobject-introspection
   - gtk3
-  - intltool
   - libgcrypt
   - meson
   - ninja
