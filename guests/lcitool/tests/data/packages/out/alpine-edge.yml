@@ -168,7 +168,6 @@ native:
 - perl-xml-xpath
 - perl-yaml
 - php7-dev
-- php7-pecl-imagick
 - pixman-dev
 - pkgconf
 - polkit

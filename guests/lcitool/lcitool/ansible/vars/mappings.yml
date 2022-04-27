@@ -1525,11 +1525,12 @@ mappings:
     pkg: php74
 
   php-imagick:
-    apk: php7-pecl-imagick
     deb: php-imagick
     pkg: php74-pecl-imagick
     Fedora: php-pecl-imagick
     OpenSUSE: php-imagick
+    Alpine314: php7-pecl-imagick
+    Alpine315: php7-pecl-imagick
 
   pixman:
     default: pixman
