@@ -4,6 +4,7 @@ packages:
   - ccache
   - cppi
   - gcc
+  - gettext
   - glib2
   - gstreamer-plugins-bad-free
   - gstreamer-plugins-good
