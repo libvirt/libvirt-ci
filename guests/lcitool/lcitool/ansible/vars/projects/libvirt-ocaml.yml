@@ -6,6 +6,7 @@ packages:
   - ccache
   - diffutils
   - gcc
+  - gzip
   - libtool
   - libtoolize
   - make
