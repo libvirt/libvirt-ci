@@ -6,6 +6,8 @@
 
 import argparse
 
+from pathlib import Path
+
 from lcitool.application import Application
 
 
@@ -88,6 +90,8 @@ class CommandLine:
         manifestopt.add_argument(
             "manifest",
             metavar="PATH",
+            default=Path("ci", "manifest.yml").as_posix(),
+            nargs="?",
             type=argparse.FileType('r'),
             help="path to CI manifest file",
         )
