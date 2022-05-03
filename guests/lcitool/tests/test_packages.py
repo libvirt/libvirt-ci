@@ -9,6 +9,7 @@ import pytest
 import test_utils.utils as test_utils
 
 from pathlib import Path
+from lcitool import util
 from lcitool.inventory import Inventory
 from lcitool.projects import Project, Projects, ProjectError
 from lcitool.package import NativePackage, CrossPackage, PyPIPackage, CPANPackage
@@ -96,3 +97,53 @@ def test_cross_platform_arch_mismatch(test_project, target, arch):
     with pytest.raises(ProjectError):
         test_project.get_packages(Inventory().target_facts[target],
                                   cross_arch=arch)
+
+
+def mapping_keys_product():
+    formats = []
+    names = []
+    vers = {}
+
+    for target, facts in Inventory().target_facts.items():
+        fmt = facts["packaging"]["format"]
+        name = facts["os"]["name"]
+        ver = facts["os"]["version"]
+
+        if fmt not in formats:
+            formats.append(fmt)
+
+        if name not in names:
+            names.append(name)
+
+        if name not in vers:
+            vers[name] = []
+        vers[name].append(ver)
+
+    formats = sorted(formats)
+    names = sorted(names)
+
+    namevers = []
+    for name in names:
+        namevers.extend(sorted([name + v for v in vers[name]]))
+
+    basekeys = ["default"] + formats + names + namevers
+    crosspolicykeys = ["cross-policy-" + k for k in basekeys]
+    archkeys = []
+    crossarchkeys = []
+    for arch in sorted(util.valid_arches()):
+        archkeys.extend([arch + "-" + k for k in basekeys])
+        crossarchkeys.extend(["cross-" + arch + "-" + k for k in basekeys])
+
+    return basekeys + archkeys + crossarchkeys + crosspolicykeys
+
+
+def test_project_mappings_sorting():
+    mappings = Projects().mappings["mappings"]
+
+    all_expect_keys = mapping_keys_product()
+    for package, entries in mappings.items():
+        got_keys = list(entries.keys())
+        expect_keys = list(filter(lambda k: k in got_keys, all_expect_keys))
+
+        msg = f"Package {package} key order was {got_keys} but should be {expect_keys}"
+        assert expect_keys == got_keys, msg
