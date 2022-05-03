@@ -661,7 +661,6 @@ mappings:
     #       but it's unclear why that's the case
     CentOSStream9:
     mips-deb:
-    mips64-deb:
     mips64el-deb:
     mipsel-deb:
     cross-policy-default: foreign
@@ -1026,7 +1025,6 @@ mappings:
     #       but it's unclear why that's the case
     CentOSStream9:
     mips-deb:
-    mips64-deb:
     mips64el-deb:
     mipsel-deb:
     cross-policy-default: foreign
