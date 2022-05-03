@@ -48,6 +48,7 @@ native:
 - gtk-update-icon-cache
 - gtk-vnc
 - gtk3
+- gzip
 - icoutils
 - intltool
 - jna

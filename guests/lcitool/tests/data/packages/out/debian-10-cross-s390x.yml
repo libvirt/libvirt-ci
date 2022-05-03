@@ -139,6 +139,7 @@ native:
 - grep
 - gtk-doc-tools
 - gtk-update-icon-cache
+- gzip
 - hostname
 - hwdata
 - icoutils

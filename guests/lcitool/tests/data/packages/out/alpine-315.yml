@@ -71,6 +71,7 @@ native:
 - gtk-doc
 - gtk-update-icon-cache
 - gtk-vnc-dev
+- gzip
 - hexdump
 - hwids-pci
 - hwids-usb

@@ -69,6 +69,7 @@ native:
 - gtk-doc
 - gtk-update-icon-cache
 - gtk3-devel
+- gzip
 - hostname
 - hwdata
 - icoutils

@@ -68,6 +68,7 @@ native:
 - gtk+3
 - gtk-doc
 - gtk-vnc
+- gzip
 - icoutils
 - intltool
 - jemalloc

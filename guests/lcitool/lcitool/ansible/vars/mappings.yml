@@ -551,6 +551,9 @@ mappings:
     CentOS:
     OpenSUSE: gtk-vnc-devel
 
+  gzip:
+    default: gzip
+
   hexdump:
     apk: hexdump
     deb: bsdextrautils

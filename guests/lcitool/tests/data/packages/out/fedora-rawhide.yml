@@ -70,6 +70,7 @@ native:
 - gtk-vnc2-devel
 - gtk3-devel
 - guestfs-tools
+- gzip
 - hostname
 - hwdata
 - icoutils

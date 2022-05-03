@@ -69,6 +69,7 @@ native:
 - gtk3-devel
 - gtk3-tools
 - guestfs-tools
+- gzip
 - hostname
 - hwdata
 - icoutils

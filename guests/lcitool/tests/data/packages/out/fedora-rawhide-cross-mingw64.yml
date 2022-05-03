@@ -80,6 +80,7 @@ native:
 - gtk-update-icon-cache
 - gtk-vnc2-devel
 - guestfs-tools
+- gzip
 - hostname
 - hwdata
 - icoutils

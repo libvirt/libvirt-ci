@@ -71,6 +71,7 @@ packages:
 - gtk-update-icon-cache
 - gtk-vnc
 - gtk3
+- gzip
 - hexdump
 - hostname
 - icoutils
