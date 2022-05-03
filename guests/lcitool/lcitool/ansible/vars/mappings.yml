@@ -196,10 +196,10 @@ mappings:
   capstone:
     apk: capstone-dev
     deb: libcapstone-dev
-    rpm: capstone-devel
     pkg: capstone4
-    OpenSUSE:
+    rpm: capstone-devel
     MacOS: capstone
+    OpenSUSE:
     # FIXME Drop once EPEL for CentOS Stream 9 adds the package
     CentOSStream9:
     cross-policy-default: foreign
@@ -381,14 +381,14 @@ mappings:
     cross-armv6l-deb: g++-arm-linux-gnueabi
     cross-armv7l-deb: g++-arm-linux-gnueabihf
     cross-i686-deb: g++-i686-linux-gnu
+    cross-mingw32-rpm: mingw32-gcc-c++
+    cross-mingw64-rpm: mingw64-gcc-c++
     cross-mips-deb: g++-mips-linux-gnu
     cross-mips64el-deb: g++-mips64el-linux-gnuabi64
     cross-mipsel-deb: g++-mipsel-linux-gnu
     cross-ppc64le-deb: g++-powerpc64le-linux-gnu
     cross-s390x-deb: g++-s390x-linux-gnu
     cross-x86_64-deb: g++-x86-64-linux-gnu
-    cross-mingw32-rpm: mingw32-gcc-c++
-    cross-mingw64-rpm: mingw64-gcc-c++
     cross-policy-default: foreign
 
   gcc:
@@ -399,14 +399,14 @@ mappings:
     cross-armv6l-deb: gcc-arm-linux-gnueabi
     cross-armv7l-deb: gcc-arm-linux-gnueabihf
     cross-i686-deb: gcc-i686-linux-gnu
+    cross-mingw32-rpm: mingw32-gcc
+    cross-mingw64-rpm: mingw64-gcc
     cross-mips-deb: gcc-mips-linux-gnu
     cross-mips64el-deb: gcc-mips64el-linux-gnuabi64
     cross-mipsel-deb: gcc-mipsel-linux-gnu
     cross-ppc64le-deb: gcc-powerpc64le-linux-gnu
     cross-s390x-deb: gcc-s390x-linux-gnu
     cross-x86_64-deb: gcc-x86-64-linux-gnu
-    cross-mingw32-rpm: mingw32-gcc
-    cross-mingw64-rpm: mingw64-gcc
     cross-policy-default: foreign
 
   gcovr:
@@ -420,9 +420,9 @@ mappings:
 
   gdk-pixbuf:
     apk: gdk-pixbuf-dev
-    rpm: gdk-pixbuf2-devel
     deb: libgdk-pixbuf2.0-dev
     pkg: gdk-pixbuf2
+    rpm: gdk-pixbuf2-devel
     MacOS: gdk-pixbuf
     OpenSUSE: gdk-pixbuf-devel
     cross-mingw32-rpm: mingw32-gdk-pixbuf
@@ -837,9 +837,9 @@ mappings:
     deb: libjpeg62-turbo-dev
     pkg: libjpeg-turbo
     rpm: libjpeg-devel
+    MacOS: jpeg-turbo
     OpenSUSE: libjpeg8-devel
     Ubuntu: libjpeg-turbo8-dev
-    MacOS: jpeg-turbo
     cross-mingw32-rpm: mingw32-libjpeg-turbo
     cross-mingw64-rpm: mingw64-libjpeg-turbo
     cross-policy-default: foreign
@@ -912,8 +912,8 @@ mappings:
   libpng:
     apk: libpng-dev
     deb: libpng-dev
-    rpm: libpng-devel
     pkg: png
+    rpm: libpng-devel
     MacOS: libpng
     OpenSUSE: libpng16-devel
     cross-mingw32-rpm: mingw32-libpng
@@ -1241,9 +1241,9 @@ mappings:
     apk: nettle-dev
     deb: nettle-dev
     rpm: nettle-devel
+    OpenSUSE: libnettle-devel
     cross-mingw32-rpm: mingw32-nettle
     cross-mingw64-rpm: mingw64-nettle
-    OpenSUSE: libnettle-devel
     cross-policy-default: foreign
 
   ninja:
@@ -1507,8 +1507,8 @@ mappings:
   perl-devel:
     apk: perl-dev
     deb: libperl-dev
-    rpm: perl-devel
     pkg: perl5-devel
+    rpm: perl-devel
     MacOS: perl5-devel
     OpenSUSE:
 
@@ -1519,8 +1519,8 @@ mappings:
   php:
     apk: php7-dev
     deb: php-dev
-    rpm: php-devel
     pkg: php74
+    rpm: php-devel
 
   php-imagick:
     deb: php-imagick
@@ -1640,8 +1640,8 @@ mappings:
     pkg: py38-pillow
     AlmaLinux:
     CentOS:
-    OpenSUSE: python3-Pillow
     MacOS:
+    OpenSUSE: python3-Pillow
     AlmaLinux8: python3-pillow
     CentOSStream8: python3-pillow
 
@@ -1667,9 +1667,9 @@ mappings:
     apk:
     deb: python3-selinux
     rpm: python3-libselinux
-    OpenSUSE: python3-selinux
     FreeBSD:
     MacOS:
+    OpenSUSE: python3-selinux
 
   python3-setuptools:
     default: python3-setuptools
@@ -1687,8 +1687,8 @@ mappings:
   python3-sphinx-rtd-theme:
     apk: py3-sphinx_rtd_theme
     deb: python3-sphinx-rtd-theme
-    rpm: python3-sphinx_rtd_theme
     pkg: py38-sphinx_rtd_theme
+    rpm: python3-sphinx_rtd_theme
 
   python3-virtualenv:
     apk: py3-virtualenv
@@ -1831,9 +1831,9 @@ mappings:
 
   sparse:
     default: sparse
+    pkg:
     AlmaLinux:
     CentOS:
-    pkg:
 
   spice-gtk3:
     apk: spice-gtk-dev
