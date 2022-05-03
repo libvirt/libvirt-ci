@@ -87,6 +87,24 @@ def get_native_arch():
     return arch
 
 
+def valid_arches():
+    return [
+        "aarch64",
+        "armv6l",
+        "armv7l",
+        "i686",
+        "mingw32",
+        "mingw64",
+        "mips",
+        "mipsel",
+        "mips64el",
+        "ppc64le",
+        "riscv64",
+        "s390x",
+        "x86_64",
+    ]
+
+
 def native_arch_to_abi(native_arch):
     archmap = {
         "aarch64": "aarch64-linux-gnu",
