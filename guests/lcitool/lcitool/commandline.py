@@ -93,7 +93,7 @@ class CommandLine:
             default=Path("ci", "manifest.yml").as_posix(),
             nargs="?",
             type=argparse.FileType('r'),
-            help="path to CI manifest file",
+            help="path to CI manifest file (default: 'ci/manifest.yml')",
         )
 
         dryrunopt = argparse.ArgumentParser(add_help=False)
