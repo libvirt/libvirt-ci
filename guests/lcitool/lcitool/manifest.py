@@ -251,11 +251,9 @@ class Manifest:
             util.atomic_write(path, lines)
 
     def _generate_gitlab(self, dryrun):
-        outdir = Path(self.basedir, self.cidir)
+        gitlabdir = Path(self.cidir, "gitlab")
         if not dryrun:
-            outdir.mkdir(parents=True, exist_ok=True)
-
-        gitlabfile = Path(self.cidir, "gitlab.yml")
+            Path(self.basedir, gitlabdir).mkdir(parents=True, exist_ok=True)
 
         have_native = False
         have_cross = False
@@ -304,7 +302,8 @@ class Manifest:
             gitlabcontent.extend(self._generate_gitlab_cross_build_jobs())
             gitlabcontent.extend(self._generate_gitlab_cirrus_build_jobs())
 
-        self._replace_file(gitlabcontent, gitlabfile, dryrun)
+        path = Path(self.cidir, "gitlab.yml")
+        self._replace_file(gitlabcontent, path, dryrun)
 
     def _generate_gitlab_container_jobs(self, cross):
         jobs = []

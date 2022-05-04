@@ -104,7 +104,7 @@ def test_generate(monkeypatch, custom_projects):
 
     def assert_operations():
         # Verify which directories we expect to be created
-        assert_mkdir(Path("ci"))
+        assert_mkdir(Path("ci", "gitlab"))
         assert_mkdir(Path("ci", "containers"))
         assert_mkdir(Path("ci", "cirrus"))
 
