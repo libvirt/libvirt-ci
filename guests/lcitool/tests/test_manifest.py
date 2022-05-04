@@ -35,38 +35,37 @@ def test_generate(monkeypatch, custom_projects):
         return ""
 
     writes = {}
-    mkdirs = {}
-    unlinks = {}
+    mkdirs = set()
+    unlinks = set()
 
     def fake_write(path, content):
         writes[path.as_posix()] = content
 
     def fake_mkdir(self, **kwargs):
-        mkdirs[self.as_posix()] = True
+        mkdirs.add(self)
 
     def fake_unlink(self, **kwargs):
-        unlinks[self.as_posix()] = True
+        unlinks.add(self)
 
     def fake_exists(self):
-        return self.as_posix() in [
-            "ci/containers",
-            "ci/cirrus",
-        ]
+        return self in set((
+            Path("ci", "containers"),
+            Path("ci", "cirrus"),
+        ))
 
     def fake_glob(self, pattern):
-        files = [
+        files = set((
             # to be deleted
-            "ci/cirrus/freebsd-9.vars",
+            Path("ci", "cirrus", "freebsd-9.vars"),
             # to be re-written
-            "ci/cirrus/freebsd-current.vars",
+            Path("ci", "cirrus", "freebsd-current.vars"),
             # to be deleted
-            "ci/containers/almalinux-8.Dockerfile",
+            Path("ci", "containers", "almalinux-8.Dockerfile"),
             # to be re-written
-            "ci/containers/fedora-rawhide.Dockerfile",
-        ]
+            Path("ci", "containers", "fedora-rawhide.Dockerfile"),
+        ))
 
-        want = filter(lambda f: fnmatch(f, pattern), files)
-        return [Path(f) for f in want]
+        return filter(lambda f: fnmatch(f.as_posix(), pattern), files)
 
     monkeypatch.setattr(util, 'generate_file_header', fake_header)
 
@@ -88,38 +87,40 @@ def test_generate(monkeypatch, custom_projects):
 
     def assert_mkdir(key):
         assert key in mkdirs
-        del mkdirs[key]
+        mkdirs.remove(key)
 
     def assert_unlink(key):
         assert key in unlinks
-        del unlinks[key]
+        unlinks.remove(key)
 
     def assert_write(filename):
+        actual_path = Path(filename)
         expected_path = Path(test_utils.test_data_outdir(__file__), filename)
 
-        test_utils.assert_matches_file(writes[filename], expected_path,
+        test_utils.assert_matches_file(writes[actual_path.as_posix()],
+                                       expected_path,
                                        allow_regenerate=False)
-        del writes[filename]
+        del writes[actual_path.as_posix()]
 
     def assert_operations():
         # Verify which directories we expect to be created
-        assert_mkdir("ci")
-        assert_mkdir("ci/containers")
-        assert_mkdir("ci/cirrus")
+        assert_mkdir(Path("ci"))
+        assert_mkdir(Path("ci", "containers"))
+        assert_mkdir(Path("ci", "cirrus"))
 
         # Verify which files we expect to be deleted
-        assert_unlink("ci/cirrus/freebsd-9.vars")
-        assert_unlink("ci/containers/almalinux-8.Dockerfile")
+        assert_unlink(Path("ci", "cirrus", "freebsd-9.vars"))
+        assert_unlink(Path("ci", "containers", "almalinux-8.Dockerfile"))
 
         # Verify content of files we expect to be created
-        assert_write("ci/gitlab.yml")
-        assert_write("ci/cirrus/freebsd-current.vars")
-        assert_write("ci/cirrus/macos-11.vars")
-        assert_write("ci/containers/centos-stream-9.Dockerfile")
-        assert_write("ci/containers/fedora-rawhide.Dockerfile")
-        assert_write("ci/containers/fedora-rawhide-cross-mingw32.Dockerfile")
-        assert_write("ci/containers/debian-sid-cross-ppc64le.Dockerfile")
-        assert_write("ci/containers/debian-sid-cross-i686.Dockerfile")
+        assert_write(Path("ci", "gitlab.yml"))
+        assert_write(Path("ci", "cirrus", "freebsd-current.vars"))
+        assert_write(Path("ci", "cirrus", "macos-11.vars"))
+        assert_write(Path("ci", "containers", "centos-stream-9.Dockerfile"))
+        assert_write(Path("ci", "containers", "fedora-rawhide.Dockerfile"))
+        assert_write(Path("ci", "containers", "fedora-rawhide-cross-mingw32.Dockerfile"))
+        assert_write(Path("ci", "containers", "debian-sid-cross-ppc64le.Dockerfile"))
+        assert_write(Path("ci", "containers", "debian-sid-cross-i686.Dockerfile"))
 
         # Verify nothing else unexpected was created/deleted/written
         assert(len(mkdirs) == 0)
