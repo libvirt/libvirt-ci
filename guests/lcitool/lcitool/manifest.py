@@ -27,9 +27,9 @@ class Manifest:
         self.quiet = quiet
         self.cidir = cidir
         if basedir is None:
-            self.outdir = cidir
+            self.basedir = Path()
         else:
-            self.outdir = Path(basedir, cidir)
+            self.basedir = basedir
 
     # Fully expand any shorthand / syntax sugar in the config
     # so that later stages have a consistent view of the
@@ -166,7 +166,7 @@ class Manifest:
             raise ManifestError(f"Failed to generate configuration: {ex}")
 
     def _generate_formatter(self, dryrun, subdir, suffix, formatter, targettype):
-        outdir = Path(self.outdir, subdir)
+        outdir = Path(self.basedir, self.cidir, subdir)
         if not dryrun:
             outdir.mkdir(parents=True, exist_ok=True)
 
@@ -217,7 +217,7 @@ class Manifest:
                                         formatter, "cirrus")
 
     def _clean_files(self, generated, dryrun, subdir, suffix):
-        outdir = Path(self.outdir, subdir)
+        outdir = Path(self.basedir, self.cidir, subdir)
         if not outdir.exists():
             return
 
@@ -235,6 +235,7 @@ class Manifest:
         self._clean_files(generated, dryrun, "cirrus", "vars")
 
     def _replace_file(self, content, path, dryrun):
+        path = Path(self.basedir, path)
         if len(content) == 0:
             if not self.quiet:
                 print(f"Deleting {path}")
@@ -250,10 +251,11 @@ class Manifest:
             util.atomic_write(path, lines)
 
     def _generate_gitlab(self, dryrun):
+        outdir = Path(self.basedir, self.cidir)
         if not dryrun:
-            self.outdir.mkdir(parents=True, exist_ok=True)
+            outdir.mkdir(parents=True, exist_ok=True)
 
-        gitlabfile = Path(self.outdir, "gitlab.yml")
+        gitlabfile = Path(self.cidir, "gitlab.yml")
 
         have_native = False
         have_cross = False
