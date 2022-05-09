@@ -14,6 +14,9 @@ install:
   # cases, SSH key authentication will be used instead. (Mandatory)
   root_password:
 
+  # Path to the public SSH key to be installed
+  ssh_key: '~/.ssh/id_rsa.pub'
+
   # Whether cloud-init should be installed and enabled within the images, thus
   # being able to plug them into a cloud environment, e.g. OpenStack
   cloud_init: false

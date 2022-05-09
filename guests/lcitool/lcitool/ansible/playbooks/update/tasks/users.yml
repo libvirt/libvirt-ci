@@ -7,7 +7,7 @@
 - name: 'root: Configure ssh access'
   authorized_key:
     user: root
-    key: '{{ lookup("file", lookup("env", "HOME") + "/.ssh/id_rsa.pub") }}'
+    key: '{{ lookup("file", install.ssh_key) }}'
     state: present
 
 - name: 'root: Disable ssh password authentication'
@@ -40,7 +40,7 @@
 - name: '{{ install.flavor }}: Configure ssh access'
   authorized_key:
     user: '{{ install.flavor }}'
-    key: '{{ lookup("file", lookup("env", "HOME") + "/.ssh/id_rsa.pub") }}'
+    key: '{{ lookup("file", install.ssh_key) }}'
     state: present
 
 - name: '{{ install.flavor }}: Grant passwordless sudo access'
