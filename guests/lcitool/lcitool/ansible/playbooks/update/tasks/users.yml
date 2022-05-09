@@ -4,7 +4,7 @@
     name: root
     password: '{{ install.root_password|password_hash("sha512") }}'
 
-- name: 'root: Configure ssh access'
+- name: 'root: Configure ssh access [{{ install.ssh_key }}]'
   authorized_key:
     user: root
     key: '{{ lookup("file", install.ssh_key) }}'
@@ -37,7 +37,7 @@
   when:
     - install.flavor == 'test'
 
-- name: '{{ install.flavor }}: Configure ssh access'
+- name: '{{ install.flavor }}: Configure ssh access [{{ install.ssh_key }}]'
   authorized_key:
     user: '{{ install.flavor }}'
     key: '{{ lookup("file", install.ssh_key) }}'
