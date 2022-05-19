@@ -1562,8 +1562,7 @@ mappings:
     deb: publican
     Fedora34: publican
     Fedora35: publican
-    # TODO: uncomment when introducing support for Fedora 36
-    # Fedora36: publican
+    Fedora36: publican
 
   pulseaudio:
     apk: pulseaudio-dev
