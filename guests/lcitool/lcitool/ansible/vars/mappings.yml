@@ -1219,7 +1219,6 @@ mappings:
     CentOSStream8: netcf-devel
     Debian10: libnetcf-dev
     Debian11: libnetcf-dev
-    Fedora34: netcf-devel
     Fedora35: netcf-devel
     Ubuntu1804: libnetcf-dev
     Ubuntu2004: libnetcf-dev
@@ -1560,7 +1559,6 @@ mappings:
 
   publican:
     deb: publican
-    Fedora34: publican
     Fedora35: publican
     Fedora36: publican
 
