@@ -7,9 +7,9 @@
 
   tasks:
     - name: Pre-build setup
-      include_tasks: 'tasks/pre-build/main.yml'
+      import_tasks: 'tasks/pre-build/main.yml'
 
-    - include: 'projects/{{ project }}.yml'
+    - include_tasks: 'projects/{{ project }}.yml'
       loop:
         '{{ selected_projects }}'
       loop_control:

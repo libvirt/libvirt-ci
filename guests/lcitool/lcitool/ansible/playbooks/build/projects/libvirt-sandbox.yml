@@ -16,13 +16,13 @@
     archive_format: gz
     git_url: '{{ git_urls["libvirt-sandbox"][git_remote] }}'
 
-- include: 'jobs/prepare.yml'
-- include: 'jobs/autotools-build-job.yml'
+- import_tasks: 'jobs/prepare.yml'
+- import_tasks: 'jobs/autotools-build-job.yml'
   vars:
     autogen_args: --enable-gtk-doc
-- include: 'jobs/autotools-syntax-check-job.yml'
-- include: 'jobs/autotools-check-job.yml'
-- include: 'jobs/autotools-rpm-job.yml'
+- import_tasks: 'jobs/autotools-syntax-check-job.yml'
+- import_tasks: 'jobs/autotools-check-job.yml'
+- import_tasks: 'jobs/autotools-rpm-job.yml'
   vars:
     machines:
       - fedora-35

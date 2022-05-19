@@ -5,9 +5,9 @@
     archive_format: gz
     git_url: '{{ git_urls["libvirt-go-xml"][git_remote] }}'
 
-- include: 'jobs/prepare.yml'
-- include: 'jobs/go-build-job.yml'
-- include: 'jobs/go-check-job.yml'
+- import_tasks: 'jobs/prepare.yml'
+- import_tasks: 'jobs/go-build-job.yml'
+- import_tasks: 'jobs/go-check-job.yml'
   vars:
     local_env: |
       export TEST_ARGS="-tags xmlroundtrip"

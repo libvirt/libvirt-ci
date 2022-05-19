@@ -5,6 +5,6 @@
     archive_format: gz
     git_url: '{{ git_urls["libvirt-cim"][git_remote] }}'
 
-- include: 'jobs/prepare.yml'
-- include: 'jobs/autotools-build-job.yml'
-- include: 'jobs/autotools-rpm-job.yml'
+- import_tasks: 'jobs/prepare.yml'
+- import_tasks: 'jobs/autotools-build-job.yml'
+- import_tasks: 'jobs/autotools-rpm-job.yml'

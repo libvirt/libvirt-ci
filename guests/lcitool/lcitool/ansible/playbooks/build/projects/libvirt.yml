@@ -5,9 +5,9 @@
     archive_format: xz
     git_url: '{{ git_urls["libvirt"][git_remote] }}'
 
-- include: 'jobs/prepare.yml'
-- include: 'jobs/meson-build-job.yml'
-- include: 'jobs/meson-syntax-check-job.yml'
+- import_tasks: 'jobs/prepare.yml'
+- import_tasks: 'jobs/meson-build-job.yml'
+- import_tasks: 'jobs/meson-syntax-check-job.yml'
   vars:
     # We limit syntax-check to Linux platforms because it calls some
     # commands with more arguments than FreeBSD supports
@@ -25,7 +25,7 @@
       - opensuse-tumbleweed
       - ubuntu-2004
       - ubuntu-2204
-- include: 'jobs/meson-check-job.yml'
+- import_tasks: 'jobs/meson-check-job.yml'
   vars:
     local_env: |
       # gnulib's test-poll is broken on FreeBSD, so disable expensive
@@ -34,6 +34,6 @@
         export VIR_TEST_EXPENSIVE=1
       fi
       export VIR_TEST_DEBUG=2
-- include: 'jobs/meson-rpm-job.yml'
+- import_tasks: 'jobs/meson-rpm-job.yml'
   vars:
     machines: '{{ rpm_machines }}'

@@ -5,15 +5,15 @@
     archive_format: xz
     git_url: '{{ git_urls["libvirt-ocaml"][git_remote] }}'
 
-- include: 'jobs/prepare.yml'
-- include: 'jobs/generic-build-job.yml'
+- import_tasks: 'jobs/prepare.yml'
+- import_tasks: 'jobs/generic-build-job.yml'
   vars:
     command: |
       autoreconf -vfi
       ./configure --prefix=$VIRT_PREFIX
       $MAKE
       $MAKE opt
-- include: 'jobs/generic-check-job.yml'
+- import_tasks: 'jobs/generic-check-job.yml'
   vars:
     command: |
       $MAKE check-manifest
