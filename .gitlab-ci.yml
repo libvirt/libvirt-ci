@@ -211,11 +211,6 @@ x86_64-check-debian-sid:
   variables:
     NAME: debian-sid
 
-x86_64-check-fedora-34:
-  extends: .check_container_template
-  variables:
-    NAME: fedora-34
-
 x86_64-check-fedora-35:
   extends: .check_container_template
   variables:

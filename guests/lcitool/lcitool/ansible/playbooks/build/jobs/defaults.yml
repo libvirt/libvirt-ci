@@ -6,7 +6,6 @@ all_machines:
   - debian-10
   - debian-11
   - debian-sid
-  - fedora-34
   - fedora-35
   - fedora-36
   - fedora-rawhide
@@ -21,7 +20,6 @@ rpm_machines:
   - almalinux-8
   - centos-stream-8
   - centos-stream-9
-  - fedora-34
   - fedora-35
   - fedora-36
   - fedora-rawhide
