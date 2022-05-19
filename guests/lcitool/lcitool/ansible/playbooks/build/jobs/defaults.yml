@@ -8,6 +8,7 @@ all_machines:
   - debian-sid
   - fedora-34
   - fedora-35
+  - fedora-36
   - fedora-rawhide
   - freebsd-12
   - freebsd-13
@@ -22,6 +23,7 @@ rpm_machines:
   - centos-stream-9
   - fedora-34
   - fedora-35
+  - fedora-36
   - fedora-rawhide
 global_env: |
   . ~/lcitool_build_env
