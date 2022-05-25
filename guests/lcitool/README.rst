@@ -76,7 +76,7 @@ which will create the necessary links to your working directory and so you
 won't need to re-install the lcitool package locally after every code change.
 
 If you don't want to install this tool into your environment and instead wish
-to run it directly, just run the `lcitool` script that is located at the
+to run it directly, just run the `bin/lcitool` script that is located at the
 root of this repository.
 
 
