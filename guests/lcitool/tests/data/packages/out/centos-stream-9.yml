@@ -240,4 +240,3 @@ native:
 - zlib-static
 pypi:
 - pillow
-- virtualenv

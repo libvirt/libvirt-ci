@@ -1687,15 +1687,10 @@ mappings:
     pkg: py38-sphinx_rtd_theme
     rpm: python3-sphinx_rtd_theme
 
-  python3-virtualenv:
-    apk: py3-virtualenv
+  python3-venv:
+    default: python3
     deb: python3-venv
-    pkg: py38-virtualenv
-    rpm: python3-virtualenv
-    AlmaLinux:
-    CentOS:
-    AlmaLinux8: python3-virtualenv
-    CentOSStream8: python3-virtualenv
+    OpenSUSE: python3-base
 
   python3-wheel:
     default: python3-wheel
@@ -2096,9 +2091,6 @@ pypi_mappings:
 
   python3-sphinx-rtd-theme:
     default: sphinx-rtd-theme
-
-  python3-virtualenv:
-    default: virtualenv
 
 
 # CPAN mappings work like PyPi mappings, the only difference being that

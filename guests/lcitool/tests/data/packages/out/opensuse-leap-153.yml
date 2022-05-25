@@ -221,7 +221,6 @@ native:
 - python3-selinux
 - python3-setuptools
 - python3-sphinx_rtd_theme
-- python3-virtualenv
 - python3-wheel
 - qemu
 - qemu-tools

@@ -155,4 +155,3 @@ pypi:
 - requests
 - sphinx
 - sphinx-rtd-theme
-- virtualenv

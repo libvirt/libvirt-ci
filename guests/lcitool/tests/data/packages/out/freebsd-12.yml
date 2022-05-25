@@ -143,7 +143,6 @@ native:
 - py38-setuptools
 - py38-sphinx
 - py38-sphinx_rtd_theme
-- py38-virtualenv
 - py38-wheel
 - py38-yaml
 - python3

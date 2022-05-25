@@ -93,7 +93,7 @@ packages:
  - python3-pip
  - python3-sphinx
  - python3-sphinx-rtd-theme
- - python3-virtualenv
+ - python3-venv
  - rpm2cpio
  - sdl2
  - sdl2-image

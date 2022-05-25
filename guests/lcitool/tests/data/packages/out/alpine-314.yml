@@ -187,7 +187,6 @@ native:
 - py3-setuptools
 - py3-sphinx
 - py3-sphinx_rtd_theme
-- py3-virtualenv
 - py3-wheel
 - py3-yaml
 - python3
