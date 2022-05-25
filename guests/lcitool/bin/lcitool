@@ -8,6 +8,16 @@
 
 import logging
 import sys
+from pathlib import Path
+
+
+# This hack is to add lcitool/ to PYTHONPATH. It allows execution of
+# lcitool without prior package installation using pip.
+root = Path(__file__).parent.parent
+lib = Path(root, "lcitool")
+
+if lib.exists():
+    sys.path.insert(0, root.as_posix())
 
 from lcitool.application import Application
 from lcitool.commandline import CommandLine
