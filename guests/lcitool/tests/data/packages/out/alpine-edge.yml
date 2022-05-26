@@ -167,7 +167,7 @@ native:
 - perl-xml-writer
 - perl-xml-xpath
 - perl-yaml
-- php7-dev
+- php8-dev
 - pixman-dev
 - pkgconf
 - polkit

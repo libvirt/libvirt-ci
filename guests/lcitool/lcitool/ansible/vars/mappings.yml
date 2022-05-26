@@ -1516,10 +1516,12 @@ mappings:
     OpenSUSE:
 
   php:
-    apk: php7-dev
+    apk: php8-dev
     deb: php-dev
     pkg: php74
     rpm: php-devel
+    Alpine314: php7-dev
+    Alpine315: php7-dev
 
   php-imagick:
     deb: php-imagick
