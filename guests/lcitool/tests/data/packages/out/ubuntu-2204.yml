@@ -241,7 +241,7 @@ native:
 - python3-venv
 - python3-wheel
 - python3-yaml
-- qemu
+- qemu-system
 - qemu-utils
 - rake
 - rpm2cpio

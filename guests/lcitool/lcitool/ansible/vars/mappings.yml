@@ -1702,6 +1702,7 @@ mappings:
 
   qemu:
     default: qemu
+    deb: qemu-system
     AlmaLinux: qemu-kvm
     CentOS: qemu-kvm
     Fedora: qemu-kvm
