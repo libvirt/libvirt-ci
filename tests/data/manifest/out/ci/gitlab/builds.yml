@@ -10,6 +10,16 @@ x86_64-centos-stream-9:
     NAME: centos-stream-9
 
 
+x86_64-fedora-rawhide:
+  extends: .native_build_job
+  needs:
+    - job: x86_64-fedora-rawhide-container
+      optional: true
+  allow_failure: true
+  variables:
+    NAME: fedora-rawhide
+
+
 x86_64-fedora-rawhide-clang:
   extends: .native_build_job
   needs:

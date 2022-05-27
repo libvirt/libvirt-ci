@@ -354,7 +354,18 @@ class Manifest:
                     continue
                 done[arch] = True
 
-                allow_failure = jobinfo["allow-failure"]
+                allow_failure = True
+                for thatjobinfo in targetinfo["jobs"]:
+                    if not thatjobinfo["enabled"]:
+                        continue
+                    if thatjobinfo["cross-build"] != cross:
+                        continue
+                    if thatjobinfo["arch"] != arch:
+                        continue
+
+                    if not thatjobinfo["allow-failure"]:
+                        allow_failure = False
+
                 if cross:
                     containerbuildjob = gitlab.cross_container_job(
                         target, arch, allow_failure)

@@ -29,6 +29,8 @@ targets:
   fedora-rawhide:
     jobs:
       - arch: x86_64
+        allow-failure: true
+      - arch: x86_64
         suffix: -clang
         variables:
           CC: clang
