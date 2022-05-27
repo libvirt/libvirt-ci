@@ -8,7 +8,7 @@ import textwrap
 
 
 def includes(paths):
-    lines = [f"  - local: '{path}'" for path in paths]
+    lines = [f"  - local: '/{path}'" for path in paths]
     return "include:\n" + "\n".join(lines)
 
 
