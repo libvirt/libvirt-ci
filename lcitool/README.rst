@@ -406,7 +406,7 @@ Externally defined project package lists
 
 Historically all projects have been defined in data files at the location::
 
-  guests/lcitool/lcitool/ansible/vars/projects/$NAME.yml
+  lcitool/ansible/vars/projects/$NAME.yml
 
 This creates a chicken and egg problem when a project changes its build
 pre-requisites, as libvirt-ci needs to be updated if-and-only-if the
@@ -424,12 +424,12 @@ Adding a new target OS
 
 If you want to contribute a new target OS to lcitool, you'll have to create
 a directory with the corresponding name under the
-``guests/lcitool/lcitool/ansible/group_vars`` and place a YAML configuration of
+``lcitool/ansible/group_vars`` and place a YAML configuration of
 the target OS inside. The structure of the configuration file should correspond
 with the other targets, so please follow them by example.
 Unless your desired target OS uses a packaging format which lcitool can't work
 with yet, you're basically done, just record the OS name in the
-``guests/lcitool/lcitool/ansible/vars/mappings.yml`` file in the commentary
+``lcitool/ansible/vars/mappings.yml`` file in the commentary
 section at the beginning of the file - again, follow the existing entries by
 example. However, if you're introducing a new packaging format, you'll have to
 update **all** the mappings in the file so that lcitool knows what the name of
@@ -447,7 +447,6 @@ suite as
 
 ::
 
-    $ cd guests/lcitool
     $ python3 -m pytest --regenerate-output
 
 and the expected package data sets will be updated. You can then just grab the

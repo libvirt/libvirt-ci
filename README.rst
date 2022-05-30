@@ -9,8 +9,9 @@ the primary build environment, however, the tools are also able to build VM
 images. This allows for use of custom runners for scenarios not served by the
 GitLab container based shared runners.
 
-The ``guests/`` directory provides the tooling and configuration for creating
-container and VM images to serve as the build and test environment for projects.
+The ``lcitool/`` directory provides the tooling and configuration for creating
+VM images and container templates (which can be used to create images) to get an
+isolated build and test environment for supported projects.
 
 The ``containers/`` directory provides a handful of helper images for performing
 common tasks that are not project specific, such as integrating with Cirrus CI
