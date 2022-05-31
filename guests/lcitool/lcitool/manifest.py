@@ -280,7 +280,8 @@ class Manifest:
             path = Path(gitlabdir, "container-templates.yml")
             content = [gitlab.container_template(namespace, project, self.cidir)]
             self._replace_file(content, path, dryrun)
-            includes.append(path)
+            if len(content) > 0:
+                includes.append(path)
 
         if gitlabinfo["builds"]:
             path = Path(gitlabdir, "build-templates.yml")
@@ -292,7 +293,8 @@ class Manifest:
             if gitlabinfo["cirrus"]:
                 content.append(gitlab.cirrus_template(self.cidir))
             self._replace_file(content, path, dryrun)
-            includes.append(path)
+            if len(content) > 0:
+                includes.append(path)
 
         testcontent = []
         if jobinfo["check-dco"]:
@@ -315,7 +317,8 @@ class Manifest:
             content.extend(self._generate_gitlab_native_container_jobs())
             content.extend(self._generate_gitlab_cross_container_jobs())
             self._replace_file(content, path, dryrun)
-            includes.append(path)
+            if len(content) > 0:
+                includes.append(path)
 
         if gitlabinfo["builds"]:
             path = Path(gitlabdir, "builds.yml")
@@ -324,7 +327,8 @@ class Manifest:
             content.extend(self._generate_gitlab_cross_build_jobs())
             content.extend(self._generate_gitlab_cirrus_build_jobs())
             self._replace_file(content, path, dryrun)
-            includes.append(path)
+            if len(content) > 0:
+                includes.append(path)
 
         path = Path(self.cidir, "gitlab.yml")
         content = [gitlab.includes(includes)]
