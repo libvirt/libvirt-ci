@@ -304,9 +304,9 @@ class Manifest:
         if jobinfo["clang-format"]:
             testcontent.append(gitlab.clang_format_job())
 
+        path = Path(gitlabdir, "sanity-checks.yml")
+        self._replace_file(testcontent, path, dryrun)
         if len(testcontent) > 0:
-            path = Path(gitlabdir, "sanity-checks.yml")
-            self._replace_file(testcontent, path, dryrun)
             includes.append(path)
 
         if gitlabinfo["containers"]:
