@@ -327,26 +327,15 @@ class DockerfileFormatter(Formatter):
 
                 # Some of the packages we need are not part of CentOS proper
                 # and are only available through EPEL
-                if osversion in ["8", "Stream8"]:
-                    epel_pkgs = ["epel-release"]
-                elif osversion in ["9", "Stream9"]:
-                    base_url = "https://dl.fedoraproject.org/pub/epel/"
-                    rpm_suffix = "-latest-9.noarch.rpm"
-
-                    epel_pkgs = [
-                        base_url + "epel-release" + rpm_suffix,
-                        base_url + "epel-next-release" + rpm_suffix
-                    ]
-
-                # contrary to other one-liner packaging command invocations
-                # we now have a multiline one and to ensure the right
-                # formatting, we need to inject a new keyword to the varmap
-                varmap["epel_pkgs"] = self._align(facts["packaging"]["command"],
-                                                  epel_pkgs)
-
                 commands.extend([
-                    "{nosync}{packaging_command} install -y {epel_pkgs}",
+                    "{nosync}{packaging_command} install -y epel-release",
                 ])
+
+                # For CentOS Stream, we want EPEL Next as well
+                if osversion in ["Stream8", "Stream9"]:
+                    commands.extend([
+                        "{nosync}{packaging_command} install -y epel-next-release",
+                    ])
 
             commands.extend(["{nosync}{packaging_command} install -y {pkgs}"])
 

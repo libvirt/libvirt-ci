@@ -3,9 +3,8 @@ FROM quay.io/centos/centos:stream9
 RUN dnf distro-sync -y && \
     dnf install 'dnf-command(config-manager)' -y && \
     dnf config-manager --set-enabled -y crb && \
-    dnf install -y \
-        https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
-        https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm && \
+    dnf install -y epel-release && \
+    dnf install -y epel-next-release && \
     dnf install -y \
         ca-certificates \
         gcc \
