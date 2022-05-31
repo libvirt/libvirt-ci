@@ -200,7 +200,8 @@ mappings:
     rpm: capstone-devel
     MacOS: capstone
     OpenSUSE:
-    # FIXME Drop once EPEL for CentOS Stream 9 adds the package
+    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
+    AlmaLinux9:
     CentOSStream9:
     cross-policy-default: foreign
 
@@ -211,7 +212,8 @@ mappings:
 
   ccache:
     default: ccache
-    # FIXME Drop once EPEL for CentOS Stream 9 adds the package
+    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
+    AlmaLinux9:
     CentOSStream9:
 
   check:
@@ -346,7 +348,8 @@ mappings:
     apk: py3-flake8
     pkg: py38-flake8
     rpm: python3-flake8
-    # FIXME Drop once EPEL for CentOS Stream 9 adds the package
+    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
+    AlmaLinux9:
     CentOSStream9:
 
   flex:
@@ -825,7 +828,8 @@ mappings:
     deb: libjemalloc-dev
     rpm: jemalloc-devel
     MacOS: jemalloc
-    # FIXME Drop once EPEL for CentOS Stream 9 adds the package
+    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
+    AlmaLinux9:
     CentOSStream9:
     cross-policy-default: foreign
 
@@ -858,7 +862,8 @@ mappings:
     apk: libnfs-dev
     deb: libnfs-dev
     rpm: libnfs-devel
-    # FIXME Drop once EPEL for CentOS Stream 9 adds the package
+    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
+    AlmaLinux9:
     CentOSStream9:
     cross-policy-default: foreign
 
@@ -986,7 +991,8 @@ mappings:
     apk: libssh2-dev
     deb: libssh2-1-dev
     rpm: libssh2-devel
-    # FIXME Drop once EPEL for CentOS Stream 9 adds the package
+    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
+    AlmaLinux9:
     CentOSStream9:
     cross-mingw32-rpm: mingw32-libssh2
     cross-mingw64-rpm: mingw64-libssh2
@@ -1354,7 +1360,8 @@ mappings:
     deb: libio-interface-perl
     pkg: p5-IO-Interface
     rpm: perl-IO-Interface
-    # FIXME Drop once EPEL for CentOS Stream 9 adds the package
+    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
+    AlmaLinux9:
     CentOSStream9:
 
   perl-IO-String:
@@ -1374,7 +1381,8 @@ mappings:
     pkg: p5-Net-OpenSSH
     rpm: perl-Net-OpenSSH
     OpenSUSE:
-    # FIXME Drop once EPEL for CentOS Stream 9 adds the package
+    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
+    AlmaLinux9:
     CentOSStream9:
 
   perl-NetAddr-IP:
@@ -1945,7 +1953,8 @@ mappings:
     deb: libvirglrenderer-dev
     pkg: virglrenderer
     rpm: virglrenderer-devel
-    # FIXME Drop once EPEL for CentOS Stream 9 adds the package
+    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
+    AlmaLinux9:
     CentOSStream9:
     cross-policy-default: foreign
 

@@ -308,7 +308,7 @@ class DockerfileFormatter(Formatter):
                 commands.extend([
                     "{nosync}{packaging_command} install 'dnf-command(config-manager)' -y",
                 ])
-                if osversion == "Stream9":
+                if osversion in ["9", "Stream9"]:
                     commands.extend([
                         "{nosync}{packaging_command} config-manager --set-enabled -y crb",
                     ])
@@ -329,7 +329,7 @@ class DockerfileFormatter(Formatter):
                 # and are only available through EPEL
                 if osversion in ["8", "Stream8"]:
                     epel_pkgs = ["epel-release"]
-                elif osversion == "Stream9":
+                elif osversion in ["9", "Stream9"]:
                     base_url = "https://dl.fedoraproject.org/pub/epel/"
                     rpm_suffix = "-latest-9.noarch.rpm"
 

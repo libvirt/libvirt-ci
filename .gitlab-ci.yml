@@ -173,6 +173,11 @@ x86_64-check-almalinux-8:
   variables:
     NAME: almalinux-8
 
+x86_64-check-almalinux-9:
+  extends: .check_container_template
+  variables:
+    NAME: almalinux-9
+
 x86_64-check-alpine-314:
   extends: .check_container_template
   variables:

@@ -1,6 +1,7 @@
 ---
 all_machines:
   - almalinux-8
+  - almalinux-9
   - centos-stream-8
   - centos-stream-9
   - debian-10
@@ -18,6 +19,7 @@ all_machines:
   - ubuntu-2204
 rpm_machines:
   - almalinux-8
+  - almalinux-9
   - centos-stream-8
   - centos-stream-9
   - fedora-35

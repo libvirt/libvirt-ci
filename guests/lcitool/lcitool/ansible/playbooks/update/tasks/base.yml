@@ -53,8 +53,8 @@
         - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
         - https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
   when:
-    - os.name == 'CentOS'
-    - os.version == 'Stream9'
+    - (os.name == 'CentOS' and os.version == 'Stream9') or
+      (os.name == 'AlmaLinux' and os.version == '9')
 
 - name: Enable Advanced Virtualization repository
   package:
