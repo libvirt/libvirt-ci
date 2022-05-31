@@ -275,6 +275,7 @@ class Application(metaclass=Singleton):
 
         cmd = [
             "virt-install",
+            "--osinfo", "unknown",
             "--name", host,
             "--location", facts["install"]["url"],
             "--virt-type", config.values["install"]["virt_type"],
