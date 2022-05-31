@@ -200,9 +200,6 @@ mappings:
     rpm: capstone-devel
     MacOS: capstone
     OpenSUSE:
-    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
-    AlmaLinux9:
-    CentOSStream9:
     cross-policy-default: foreign
 
   cargo:
@@ -212,9 +209,6 @@ mappings:
 
   ccache:
     default: ccache
-    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
-    AlmaLinux9:
-    CentOSStream9:
 
   check:
     default: check
@@ -828,9 +822,6 @@ mappings:
     deb: libjemalloc-dev
     rpm: jemalloc-devel
     MacOS: jemalloc
-    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
-    AlmaLinux9:
-    CentOSStream9:
     cross-policy-default: foreign
 
   libjpeg:
@@ -991,9 +982,6 @@ mappings:
     apk: libssh2-dev
     deb: libssh2-1-dev
     rpm: libssh2-devel
-    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
-    AlmaLinux9:
-    CentOSStream9:
     cross-mingw32-rpm: mingw32-libssh2
     cross-mingw64-rpm: mingw64-libssh2
     cross-policy-default: foreign
@@ -1360,9 +1348,6 @@ mappings:
     deb: libio-interface-perl
     pkg: p5-IO-Interface
     rpm: perl-IO-Interface
-    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
-    AlmaLinux9:
-    CentOSStream9:
 
   perl-IO-String:
     apk: perl-io-string

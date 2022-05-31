@@ -1,5 +1,4 @@
 cpan:
-- IO::Interface
 - LWP::UserAgent
 - Net::OpenSSH
 - TAP::Formatter::HTML
@@ -23,7 +22,9 @@ native:
 - bzip2
 - bzip2-devel
 - ca-certificates
+- capstone-devel
 - cargo
+- ccache
 - check-devel
 - chrony
 - clang
@@ -78,6 +79,7 @@ native:
 - iptables
 - iscsi-initiator-utils
 - java-11-openjdk-headless
+- jemalloc-devel
 - jna
 - jq
 - json-glib-devel
@@ -109,6 +111,7 @@ native:
 - libselinux-devel
 - libsoup-devel
 - libssh-devel
+- libssh2-devel
 - libtasn1-devel
 - libtirpc-devel
 - libtool
@@ -157,6 +160,7 @@ native:
 - perl-ExtUtils-CBuilder
 - perl-File-Slurp
 - perl-IO-Compress-Bzip2
+- perl-IO-Interface
 - perl-IO-String
 - perl-Module-Build
 - perl-Net-SNMP
