@@ -86,6 +86,7 @@ native:
 - libacl-devel
 - libaio-devel
 - libarchive-devel
+- libasan
 - libattr-devel
 - libblkid-devel
 - libbpf-devel
@@ -111,6 +112,7 @@ native:
 - libtasn1-devel
 - libtirpc-devel
 - libtool
+- libubsan
 - libusbx-devel
 - libuuid-devel
 - libvirt-devel

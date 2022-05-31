@@ -657,9 +657,6 @@ mappings:
     deb: libasan5
     rpm: libasan
     OpenSUSE: libasan6
-    # FIXME This is currently not available in CentOS Stream 9
-    #       but it's unclear why that's the case
-    CentOSStream9:
     mips-deb:
     mips64el-deb:
     mipsel-deb:
@@ -1021,9 +1018,6 @@ mappings:
     deb: libubsan1
     rpm: libubsan
     OpenSUSE: libubsan1
-    # FIXME This is currently not available in CentOS Stream 9
-    #       but it's unclear why that's the case
-    CentOSStream9:
     mips-deb:
     mips64el-deb:
     mipsel-deb:
