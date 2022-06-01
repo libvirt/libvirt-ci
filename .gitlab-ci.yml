@@ -143,7 +143,6 @@ unittests:
     - apk add git
   script:
     - pip3 install setuptools pytest pyyaml
-    - cd guests/lcitool
     - python3 -m pytest --verbose
 
 check-prepare:
@@ -157,11 +156,11 @@ check-prepare:
   script:
     - pip install setuptools pyyaml
     - mkdir build
-    - for target in `./lcitool targets --containerized` ;
+    - for target in `./bin/lcitool targets --containerized` ;
       do
         set -e ;
         echo "Generate $target.Dockerfile" ;
-        ./lcitool dockerfile $target all > build/$target.Dockerfile ;
+        ./bin/lcitool dockerfile $target all > build/$target.Dockerfile ;
       done
   artifacts:
     name: build
