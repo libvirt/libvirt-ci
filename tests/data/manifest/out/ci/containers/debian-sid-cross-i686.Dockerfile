@@ -8,7 +8,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
             ca-certificates \
             ccache \
             git \
-            gtk-doc-tools \
+            golang \
             locales \
             pkgconf && \
     eatmydata apt-get autoremove -y && \
@@ -26,7 +26,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     eatmydata apt-get install --no-install-recommends -y dpkg-dev && \
     eatmydata apt-get install --no-install-recommends -y \
             gcc-i686-linux-gnu \
-            libglib2.0-dev:i386 && \
+            libc6-dev:i386 && \
     eatmydata apt-get autoremove -y && \
     eatmydata apt-get autoclean -y && \
     mkdir -p /usr/local/share/meson/cross && \

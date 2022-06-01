@@ -1,4 +1,4 @@
-FROM docker.io/library/debian:sid-slim
+FROM debian-10-common
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
@@ -20,30 +20,30 @@ ENV LANG "en_US.UTF-8"
 ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
-    dpkg --add-architecture ppc64el && \
+    dpkg --add-architecture s390x && \
     eatmydata apt-get update && \
     eatmydata apt-get dist-upgrade -y && \
     eatmydata apt-get install --no-install-recommends -y dpkg-dev && \
     eatmydata apt-get install --no-install-recommends -y \
-            gcc-powerpc64le-linux-gnu \
-            libc6-dev:ppc64el && \
+            gcc-s390x-linux-gnu \
+            libc6-dev:s390x && \
     eatmydata apt-get autoremove -y && \
     eatmydata apt-get autoclean -y && \
     mkdir -p /usr/local/share/meson/cross && \
     echo "[binaries]\n\
-c = '/usr/bin/powerpc64le-linux-gnu-gcc'\n\
-ar = '/usr/bin/powerpc64le-linux-gnu-gcc-ar'\n\
-strip = '/usr/bin/powerpc64le-linux-gnu-strip'\n\
-pkgconfig = '/usr/bin/powerpc64le-linux-gnu-pkg-config'\n\
+c = '/usr/bin/s390x-linux-gnu-gcc'\n\
+ar = '/usr/bin/s390x-linux-gnu-gcc-ar'\n\
+strip = '/usr/bin/s390x-linux-gnu-strip'\n\
+pkgconfig = '/usr/bin/s390x-linux-gnu-pkg-config'\n\
 \n\
 [host_machine]\n\
 system = 'linux'\n\
-cpu_family = 'ppc64'\n\
-cpu = 'powerpc64le'\n\
-endian = 'little'" > /usr/local/share/meson/cross/powerpc64le-linux-gnu && \
+cpu_family = 's390x'\n\
+cpu = 's390x'\n\
+endian = 'big'" > /usr/local/share/meson/cross/s390x-linux-gnu && \
     dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
     mkdir -p /usr/libexec/ccache-wrappers && \
-    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/powerpc64le-linux-gnu-cc && \
-    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/powerpc64le-linux-gnu-gcc
+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/s390x-linux-gnu-cc && \
+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/s390x-linux-gnu-gcc
 
-ENV ABI "powerpc64le-linux-gnu"
+ENV ABI "s390x-linux-gnu"

@@ -15,18 +15,23 @@ exec "$@"' > /usr/bin/nosync && \
     nosync dnf install -y \
         ca-certificates \
         ccache \
-        gcc \
         git \
-        glibc-devel \
         glibc-langpack-en \
-        golang \
-        pkgconfig && \
+        golang && \
     nosync dnf autoremove -y && \
-    nosync dnf clean all -y && \
-    rpm -qa | sort > /packages.txt && \
-    mkdir -p /usr/libexec/ccache-wrappers && \
-    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
-    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
+    nosync dnf clean all -y
 
 ENV LANG "en_US.UTF-8"
 ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
+
+RUN nosync dnf install -y \
+        mingw64-gcc \
+        mingw64-headers \
+        mingw64-pkg-config && \
+    nosync dnf clean all -y && \
+    rpm -qa | sort > /packages.txt && \
+    mkdir -p /usr/libexec/ccache-wrappers && \
+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/x86_64-w64-mingw32-cc && \
+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/x86_64-w64-mingw32-gcc
+
+ENV ABI "x86_64-w64-mingw32"

@@ -10,9 +10,9 @@ RUN dnf distro-sync -y && \
         ccache \
         gcc \
         git \
-        glib2-devel \
+        glibc-devel \
         glibc-langpack-en \
-        gtk-doc \
+        golang \
         pkgconfig && \
     dnf autoremove -y && \
     dnf clean all -y && \

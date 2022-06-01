@@ -17,7 +17,7 @@ exec "$@"' > /usr/bin/nosync && \
         ccache \
         git \
         glibc-langpack-en \
-        gtk-doc && \
+        golang && \
     nosync dnf autoremove -y && \
     nosync dnf clean all -y
 
@@ -26,7 +26,7 @@ ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
 
 RUN nosync dnf install -y \
         mingw32-gcc \
-        mingw32-glib2 \
+        mingw32-headers \
         mingw32-pkg-config && \
     nosync dnf clean all -y && \
     rpm -qa | sort > /packages.txt && \

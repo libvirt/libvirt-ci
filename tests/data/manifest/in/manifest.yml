@@ -1,11 +1,11 @@
 
 projects:
-  - test-minimal
-  - test-ccache
+  - libvirt-go-xml
+  - libvirt-go
 
 gitlab:
   namespace: test-group
-  project: test-minimal
+  project: libvirt-go-xml
   jobs:
      cargo-fmt: true
      clang-format: true

@@ -17,30 +17,27 @@ from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, 
 
 scenarios = [
     # A minimalist application, testing package managers
-    pytest.param("test-minimal", "debian-10", None, id="minimal-debian-10"),
-    pytest.param("test-minimal", "almalinux-8", None, id="minimal-almalinux-8"),
-    pytest.param("test-minimal", "opensuse-leap-153", None, id="minimal-opensuse-leap-153"),
-    pytest.param("test-minimal", "alpine-314", None, id="minimal-alpine-314"),
-    pytest.param("test-minimal", "opensuse-tumbleweed", None, id="minimal-opensuse-tumbleweed"),
-
-    # A minimalist application, testing two different cross-compile scenarios
-    pytest.param("test-minimal", "debian-10", "s390x", id="minimal-debian-10-cross-s390x"),
-    pytest.param("test-minimal", "fedora-rawhide", "mingw64", id="minimal-fedora-rawhide-cross-mingw64"),
+    pytest.param("libvirt-go-xml", "debian-10", None, id="libvirt-go-xml-debian-10"),
+    pytest.param("libvirt-go-xml", "almalinux-8", None, id="libvirt-go-xml-almalinux-8"),
+    pytest.param("libvirt-go-xml", "opensuse-leap-153", None, id="libvirt-go-xml-opensuse-leap-153"),
+    pytest.param("libvirt-go-xml", "alpine-314", None, id="libvirt-go-xml-alpine-314"),
+    pytest.param("libvirt-go-xml", "opensuse-tumbleweed", None, id="libvirt-go-xml-opensuse-tumbleweed"),
 
     # An application using cache symlinks
-    pytest.param("test-ccache", "debian-10", None, id="ccache-debian-10"),
-    pytest.param("test-ccache", "debian-10", "s390x", id="ccache-debian-10-cross-s390x"),
+    pytest.param("libvirt-go", "debian-10", None, id="libvirt-go-debian-10"),
+    pytest.param("libvirt-go", "debian-10", "s390x", id="libvirt-go-debian-10-cross-s390x"),
+    pytest.param("libvirt-go", "fedora-rawhide", "mingw64", id="libvirt-go-fedora-rawhide-cross-mingw64"),
 ]
 
 layer_scenarios = [
     # Overriding default base image
-    pytest.param("test-minimal", "debian-10", "s390x", "debian-10-common", "all", id="minimal-debian-10-common-cross-s390x"),
+    pytest.param("libvirt-go", "debian-10", "s390x", "debian-10-common", "all", id="libvirt-go-debian-10-common-cross-s390x"),
 
     # Customizing the layers
-    pytest.param("test-minimal", "fedora-rawhide", "mingw64", None, "all", id="minimal-fedora-rawhide-cross-mingw64-combined"),
-    pytest.param("test-minimal", "fedora-rawhide", "mingw64", None, "native", id="minimal-fedora-rawhide-cross-mingw64-native"),
-    pytest.param("test-minimal", "fedora-rawhide", "mingw64", None, "foreign", id="minimal-fedora-rawhide-cross-mingw64-foreign"),
-    pytest.param("test-minimal", "fedora-rawhide", "mingw64", "fedora-rawhide-common", "foreign", id="minimal-fedora-rawhide-common-cross-mingw64-foreign"),
+    pytest.param("libvirt-go", "fedora-rawhide", "mingw64", None, "all", id="libvirt-go-fedora-rawhide-cross-mingw64-combined"),
+    pytest.param("libvirt-go", "fedora-rawhide", "mingw64", None, "native", id="libvirt-go-fedora-rawhide-cross-mingw64-native"),
+    pytest.param("libvirt-go", "fedora-rawhide", "mingw64", None, "foreign", id="libvirt-go-fedora-rawhide-cross-mingw64-foreign"),
+    pytest.param("libvirt-go", "fedora-rawhide", "mingw64", "fedora-rawhide-common", "foreign", id="libvirt-go-fedora-rawhide-common-cross-mingw64-foreign"),
 ]
 
 
