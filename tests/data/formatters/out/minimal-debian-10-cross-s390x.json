@@ -14,7 +14,6 @@
   "pip3": "/usr/bin/pip3",
   "pkgs": [
     "ca-certificates",
-    "ccache",
     "git",
     "gtk-doc-tools",
     "locales",

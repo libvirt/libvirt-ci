@@ -73,8 +73,8 @@ class Formatter(metaclass=abc.ABCMeta):
         # we need the 'base' internal project here, but packages for internal
         # projects are not resolved via the public API, so it requires special
         # handling
-        pkgs = projects.internal_projects["base"].get_packages(facts,
-                                                               cross_arch)
+        pkgs = {}
+        pkgs.update(projects.internal_projects["base"].get_packages(facts, cross_arch))
 
         # we can now load packages for the rest of the projects
         pkgs.update(projects.get_packages(selected_projects, facts, cross_arch))

@@ -8,7 +8,6 @@
   "pip3": "/usr/bin/pip3",
   "pkgs": [
     "ca-certificates",
-    "ccache",
     "gcc",
     "git",
     "gtk-doc-tools",
