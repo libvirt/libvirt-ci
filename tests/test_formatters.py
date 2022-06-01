@@ -10,6 +10,7 @@ import test_utils.utils as test_utils
 from pathlib import Path
 
 from lcitool import util
+from lcitool.inventory import Inventory
 from lcitool.projects import Projects
 from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, DockerfileFormatter
 
@@ -84,3 +85,19 @@ def test_variables_json(custom_projects, project, target, arch, request):
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".json")
     test_utils.assert_matches_file(actual, expected_path)
+
+
+def test_all_projects_dockerfiles():
+    inventory = Inventory()
+    all_projects = Projects().names
+
+    for target in sorted(inventory.targets):
+        facts = inventory.target_facts[target]
+
+        if facts["packaging"]["format"] not in ["apk", "deb", "rpm"]:
+            continue
+
+        gen = DockerfileFormatter()
+        actual = gen.format(target, all_projects, None)
+        expected_path = Path(test_utils.test_data_outdir(__file__), f"{target}-all-projects.Dockerfile")
+        test_utils.assert_matches_file(actual, expected_path)
