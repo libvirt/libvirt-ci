@@ -7,13 +7,11 @@
 import pytest
 import yaml
 
-import test_packages
-
 from pathlib import Path
 
 
 def base_data_dir():
-    return Path(test_packages.__file__).parent.joinpath("data")
+    return Path(__file__).parent.parent.joinpath("data")
 
 
 def test_data_dir(test_name):
