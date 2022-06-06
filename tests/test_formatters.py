@@ -9,7 +9,6 @@ import pytest
 import test_utils.utils as test_utils
 from pathlib import Path
 
-from lcitool import util
 from lcitool.inventory import Inventory
 from lcitool.projects import Projects
 from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, DockerfileFormatter
@@ -41,19 +40,8 @@ layer_scenarios = [
 ]
 
 
-@pytest.fixture
-def custom_projects():
-    oldprojects = Projects()._projects
-    olddir = util.get_extra_data_dir()
-    util.set_extra_data_dir(test_utils.test_data_dir(__file__))
-    Projects()._projects = None
-    yield
-    Projects()._projects = oldprojects
-    util.set_extra_data_dir(olddir)
-
-
 @pytest.mark.parametrize("project,target,arch", scenarios)
-def test_dockerfiles(custom_projects, project, target, arch, request):
+def test_dockerfiles(project, target, arch, request):
     gen = DockerfileFormatter()
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".Dockerfile")
@@ -61,7 +49,7 @@ def test_dockerfiles(custom_projects, project, target, arch, request):
 
 
 @pytest.mark.parametrize("project,target,arch,base,layers", layer_scenarios)
-def test_dockerfile_layers(custom_projects, project, target, arch, base, layers, request):
+def test_dockerfile_layers(project, target, arch, base, layers, request):
     gen = DockerfileFormatter(base, layers)
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".Dockerfile")
@@ -69,7 +57,7 @@ def test_dockerfile_layers(custom_projects, project, target, arch, base, layers,
 
 
 @pytest.mark.parametrize("project,target,arch", scenarios)
-def test_variables_shell(custom_projects, project, target, arch, request):
+def test_variables_shell(project, target, arch, request):
     gen = ShellVariablesFormatter()
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".vars")
@@ -77,7 +65,7 @@ def test_variables_shell(custom_projects, project, target, arch, request):
 
 
 @pytest.mark.parametrize("project,target,arch", scenarios)
-def test_variables_json(custom_projects, project, target, arch, request):
+def test_variables_json(project, target, arch, request):
     gen = JSONVariablesFormatter()
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".json")

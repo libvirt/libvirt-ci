@@ -11,22 +11,10 @@ import test_utils.utils as test_utils
 from pathlib import Path
 
 from lcitool import util
-from lcitool.projects import Projects
 from lcitool.manifest import Manifest
 
 
-@pytest.fixture
-def custom_projects():
-    oldprojects = Projects()._projects
-    olddir = util.get_extra_data_dir()
-    util.set_extra_data_dir(test_utils.test_data_dir(__file__))
-    Projects()._projects = None
-    yield
-    Projects()._projects = oldprojects
-    util.set_extra_data_dir(olddir)
-
-
-def test_generate(monkeypatch, custom_projects):
+def test_generate(monkeypatch):
     manifest_path = Path(test_utils.test_data_indir(__file__), "manifest.yml")
 
     # Squish the header that contains argv with paths we don't
