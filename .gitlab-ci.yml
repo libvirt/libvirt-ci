@@ -25,6 +25,11 @@ stages:
     - .gitlab-ci.yml
     - containers/$NAME/*
 
+.job_rules_test_container_changes: &job_rules_test_container_changes
+  changes:
+    - .gitlab-ci.yml
+    - tests/data/formatters/out/${NAME}-all-projects.Dockerfile
+
 # If pushing to the default branch, then publish the container
 # for future reuse, otherwise just discard it after testing build
 .build_container_template:
@@ -63,22 +68,22 @@ stages:
   extends: .test_template
   image: docker:stable
   stage: sanity_checks
-  needs:
-    - check-prepare
   services:
     - docker:dind
   before_script:
     - docker info
     - docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
   script:
-    - docker build -f build/${NAME}.Dockerfile build/
+    - docker build -f tests/data/formatters/out/${NAME}-all-projects.Dockerfile tests/data/formatters/out/
   after_script:
     - docker logout
   rules:
     - if: '$LIBVIRT_CI_SKIP_TARGET && $NAME =~ $LIBVIRT_CI_SKIP_TARGET'
       when: never
     - <<: *job_rules_merge_request
+      <<: *job_rules_test_container_changes
     - <<: *job_rules_opt_in
+      <<: *job_rules_test_container_changes
     - when: never
 
 check-dco-container:
@@ -144,28 +149,6 @@ unittests:
   script:
     - pip3 install setuptools pytest pyyaml
     - python3 -m pytest --verbose
-
-check-prepare:
-  extends: .test_template
-  stage: containers
-  image: python:3.8-alpine
-  needs: []
-  before_script:
-    - apk update
-    - apk add git
-  script:
-    - pip install setuptools pyyaml
-    - mkdir build
-    - for target in `./bin/lcitool targets --containerized` ;
-      do
-        set -e ;
-        echo "Generate $target.Dockerfile" ;
-        ./bin/lcitool dockerfile $target all > build/$target.Dockerfile ;
-      done
-  artifacts:
-    name: build
-    paths:
-      - build
 
 x86_64-check-almalinux-8:
   extends: .check_container_template
