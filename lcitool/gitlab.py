@@ -20,7 +20,7 @@ def container_template(namespace, project, cidir):
         #   - Push to default branch:
         #       -> rebuild if dockerfile changed, no cache
         #   - Otherwise
-        #       -> rebuild if RUN_CONTAINERS=1, no cache,
+        #       -> rebuild if RUN_ALL_CONTAINERS=1, no cache,
         #          to pick up new published distro packages or
         #          recover from deleted tag
         #
@@ -55,7 +55,7 @@ def container_template(namespace, project, cidir):
               changes:
                - {cidir}/gitlab/container-templates.yml
                - {cidir}/containers/$NAME.Dockerfile
-            - if: '$CI_PROJECT_NAMESPACE == "{namespace}" && $RUN_CONTAINERS == "1"'
+            - if: '$CI_PROJECT_NAMESPACE == "{namespace}" && $RUN_ALL_CONTAINERS == "1"'
               when: on_success
             - if: '$CI_PROJECT_NAMESPACE == "{namespace}"'
               when: never
