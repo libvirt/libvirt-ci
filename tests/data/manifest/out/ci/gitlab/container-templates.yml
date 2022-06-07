@@ -3,7 +3,7 @@
 #   - Push to default branch:
 #       -> rebuild if dockerfile changed, no cache
 #   - Otherwise
-#       -> rebuild if LIBVIRT_CI_CONTAINERS=1, no cache,
+#       -> rebuild if RUN_CONTAINERS=1, no cache,
 #          to pick up new published distro packages or
 #          recover from deleted tag
 #
@@ -38,7 +38,7 @@
       changes:
        - ci/gitlab/container-templates.yml
        - ci/containers/$NAME.Dockerfile
-    - if: '$CI_PROJECT_NAMESPACE == "test-group" && $LIBVIRT_CI_CONTAINERS == "1"'
+    - if: '$CI_PROJECT_NAMESPACE == "test-group" && $RUN_CONTAINERS == "1"'
       when: on_success
     - if: '$CI_PROJECT_NAMESPACE == "test-group"'
       when: never
