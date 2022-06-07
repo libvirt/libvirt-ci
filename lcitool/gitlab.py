@@ -122,7 +122,9 @@ def cirrus_template(cidir):
             - cat {cidir}/cirrus/$NAME.yml
             - cirrus-run -v --show-build-log always {cidir}/cirrus/$NAME.yml
           rules:
-            - if: "$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN"
+            - if: '$CIRRUS_GITHUB_REPO == null || $CIRRUS_API_TOKEN == null'
+              when: never
+            - when: on_success
         """)
 
 

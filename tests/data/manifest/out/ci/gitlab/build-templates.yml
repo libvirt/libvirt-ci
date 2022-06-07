@@ -35,4 +35,6 @@
     - cat ci/cirrus/$NAME.yml
     - cirrus-run -v --show-build-log always ci/cirrus/$NAME.yml
   rules:
-    - if: "$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN"
+    - if: '$CIRRUS_GITHUB_REPO == null || $CIRRUS_API_TOKEN == null'
+      when: never
+    - when: on_success
