@@ -12,6 +12,16 @@ def includes(paths):
     return "include:\n" + "\n".join(lines)
 
 
+def format_variables(variables):
+    job = []
+    for key in sorted(variables.keys()):
+        val = variables[key]
+        job.append(f"    {key}: {val}")
+    if len(job) > 0:
+        return "  variables:\n" + "\n".join(job) + "\n"
+    return ""
+
+
 def container_template(namespace, project, cidir):
     return textwrap.dedent(
         f"""
@@ -117,6 +127,9 @@ def cirrus_template(cidir):
 
 
 def check_dco_job(namespace):
+    jobvars = {
+        "GIT_DEPTH": "1000",
+    }
     return textwrap.dedent(
         f"""
         check-dco:
@@ -128,9 +141,7 @@ def check_dco_job(namespace):
           except:
             variables:
               - $CI_PROJECT_NAMESPACE == '{namespace}'
-          variables:
-            GIT_DEPTH: 1000
-        """)
+        """) + format_variables(jobvars)
 
 
 def cargo_fmt_job():
@@ -186,15 +197,16 @@ def clang_format_job():
 
 def _container_job(target, arch, image, allow_failure):
     allow_failure = str(allow_failure).lower()
+    jobvars = {
+        "NAME": image,
+    }
 
     return textwrap.dedent(
         f"""
         {arch}-{target}-container:
           extends: .container_job
           allow_failure: {allow_failure}
-          variables:
-            NAME: {image}
-        """)
+        """) + format_variables(jobvars)
 
 
 def native_container_job(target, allow_failure):
@@ -209,16 +221,6 @@ def cross_container_job(target, arch, allow_failure):
                           arch,
                           f"{target}-cross-{arch}",
                           allow_failure)
-
-
-def format_variables(variables):
-    job = []
-    for key in sorted(variables.keys()):
-        val = variables[key]
-        job.append(f"    {key}: {val}")
-    if len(job) > 0:
-        return "  variables:\n" + "\n".join(job) + "\n"
-    return ""
 
 
 def format_artifacts(artifacts):
