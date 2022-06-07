@@ -6,6 +6,48 @@
 
 import textwrap
 
+#
+# The job templates in this file rely on variables in a
+# number of namespaces
+#
+#  - CI_nnn - standard variables defined by GitLab
+#
+#  - CIRRUS_nnn - variables for controlling Cirrus CI
+#    job integration
+#
+#  - RUN_nnn - variables for a maintainer to set when
+#    triggering a  pipeline
+#
+#  - JOB_nnn - variables set against jobs which influence
+#    rules in templates they inherit from
+#
+
+
+def docs():
+    return textwrap.dedent(
+        """
+        # Variables that can be set to control the behaviour of
+        # pipelines that are run
+        #
+        #  - RUN_ALL_CONTAINERS - build all containers
+        #    even if they don't have any changes detected
+        #
+        # These can be set as git push options
+        #
+        #  $ git push -o ci.variable=RUN_ALL_CONTAINERS=1
+        #
+        # Aliases can be set for common usage
+        #
+        #  $ git config --local alias.push-all-ctr "push -o ci.variable=RUN_ALL_CONTAINERS=1"
+        #
+        # Allowing the less verbose invokation
+        #
+        #  $ git push-all-ctr
+        #
+        # Pipeline variables can also be set in the repository
+        # pipeline config globally, or set against scheduled pipelines
+        """)
+
 
 def includes(paths):
     lines = [f"  - local: '/{path}'" for path in paths]

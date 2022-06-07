@@ -330,7 +330,7 @@ class Manifest:
                 includes.append(path)
 
         path = Path(self.cidir, "gitlab.yml")
-        content = [gitlab.includes(includes)]
+        content = [gitlab.docs(), gitlab.includes(includes)]
         self._replace_file(content, path, dryrun)
 
     def _generate_gitlab_container_jobs(self, cross):
