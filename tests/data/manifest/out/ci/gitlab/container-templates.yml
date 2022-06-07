@@ -42,4 +42,7 @@
       when: on_success
     - if: '$CI_PROJECT_NAMESPACE == "test-group"'
       when: never
+    - if: '$JOB_OPTIONAL'
+      when: manual
+      allow_failure: true
     - when: on_success

@@ -7,6 +7,14 @@ x86_64-centos-stream-9-container:
     NAME: centos-stream-9
 
 
+x86_64-debian-10-container:
+  extends: .container_job
+  allow_failure: false
+  variables:
+    JOB_OPTIONAL: 1
+    NAME: debian-10
+
+
 x86_64-fedora-rawhide-container:
   extends: .container_job
   allow_failure: false
@@ -28,6 +36,7 @@ ppc64le-debian-sid-container:
   extends: .container_job
   allow_failure: true
   variables:
+    JOB_OPTIONAL: 1
     NAME: debian-sid-cross-ppc64le
 
 

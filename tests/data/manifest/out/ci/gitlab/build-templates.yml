@@ -1,11 +1,21 @@
 .gitlab_native_build_job:
   image: $CI_REGISTRY_IMAGE/ci-$NAME:latest
   stage: builds
+  rules:
+    - if: '$JOB_OPTIONAL'
+      when: manual
+      allow_failure: true
+    - when: on_success
 
 
 .gitlab_cross_build_job:
   image: $CI_REGISTRY_IMAGE/ci-$NAME-cross-$CROSS:latest
   stage: builds
+  rules:
+    - if: '$JOB_OPTIONAL'
+      when: manual
+      allow_failure: true
+    - when: on_success
 
 
 .cirrus_build_job:
@@ -37,4 +47,7 @@
   rules:
     - if: '$CIRRUS_GITHUB_REPO == null || $CIRRUS_API_TOKEN == null'
       when: never
+    - if: '$JOB_OPTIONAL'
+      when: manual
+      allow_failure: true
     - when: on_success

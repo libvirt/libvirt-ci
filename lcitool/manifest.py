@@ -263,7 +263,7 @@ class Manifest:
                 continue
 
             for jobinfo in targetinfo["jobs"]:
-                if not jobinfo["enabled"] or not jobinfo["builds"]:
+                if not jobinfo["enabled"]:
                     continue
                 if jobinfo["cross-build"]:
                     have_cross = True
@@ -283,18 +283,17 @@ class Manifest:
             if len(content) > 0:
                 includes.append(path)
 
-        if gitlabinfo["builds"]:
-            path = Path(gitlabdir, "build-templates.yml")
-            content = []
-            if have_native:
-                content.append(gitlab.native_build_template())
-            if have_cross:
-                content.append(gitlab.cross_build_template())
-            if gitlabinfo["cirrus"]:
-                content.append(gitlab.cirrus_template(self.cidir))
-            self._replace_file(content, path, dryrun)
-            if len(content) > 0:
-                includes.append(path)
+        path = Path(gitlabdir, "build-templates.yml")
+        content = []
+        if have_native:
+            content.append(gitlab.native_build_template())
+        if have_cross:
+            content.append(gitlab.cross_build_template())
+        if gitlabinfo["cirrus"]:
+            content.append(gitlab.cirrus_template(self.cidir))
+        self._replace_file(content, path, dryrun)
+        if len(content) > 0:
+            includes.append(path)
 
         testcontent = []
         if jobinfo["check-dco"]:
@@ -344,9 +343,7 @@ class Manifest:
 
             done = {}
             for jobinfo in targetinfo["jobs"]:
-                if not jobinfo["enabled"]:
-                    continue
-                if jobinfo["cross-build"] != cross:
+                if not jobinfo["enabled"] or jobinfo["cross-build"] != cross:
                     continue
 
                 arch = jobinfo["arch"]
@@ -355,6 +352,7 @@ class Manifest:
                 done[arch] = True
 
                 allow_failure = True
+                optional = True
                 for thatjobinfo in targetinfo["jobs"]:
                     if not thatjobinfo["enabled"]:
                         continue
@@ -366,12 +364,15 @@ class Manifest:
                     if not thatjobinfo["allow-failure"]:
                         allow_failure = False
 
+                    if thatjobinfo["builds"]:
+                        optional = False
+
                 if cross:
                     containerbuildjob = gitlab.cross_container_job(
-                        target, arch, allow_failure)
+                        target, arch, allow_failure, optional)
                 else:
                     containerbuildjob = gitlab.native_container_job(
-                        target, allow_failure)
+                        target, allow_failure, optional)
                 jobs.append(containerbuildjob)
         return jobs
 
@@ -404,8 +405,6 @@ class Manifest:
             for jobinfo in targetinfo["jobs"]:
                 if not jobinfo["enabled"]:
                     continue
-                if not jobinfo["builds"]:
-                    continue
                 if jobinfo["cross-build"] != cross:
                     continue
 
@@ -420,6 +419,7 @@ class Manifest:
                 jobinfo["variables"],
                 jobinfo["template"],
                 jobinfo["allow-failure"],
+                not jobinfo["builds"],
                 jobinfo["artifacts"])
 
         jobs = self._generate_build_jobs("containers", False, jobfunc)
@@ -436,6 +436,7 @@ class Manifest:
                 jobinfo["variables"],
                 jobinfo["template"],
                 jobinfo["allow-failure"],
+                not jobinfo["builds"],
                 jobinfo["artifacts"])
 
         jobs = self._generate_build_jobs("containers", True, jobfunc)
@@ -453,7 +454,8 @@ class Manifest:
                 facts["packaging"]["command"],
                 jobinfo["suffix"],
                 jobinfo["variables"],
-                jobinfo["allow-failure"])
+                jobinfo["allow-failure"],
+                not jobinfo["builds"])
 
         jobs = self._generate_build_jobs("cirrus", False, jobfunc)
         if len(jobs) > 0:

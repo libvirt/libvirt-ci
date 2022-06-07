@@ -69,6 +69,9 @@ def container_template(namespace, project, cidir):
               when: on_success
             - if: '$CI_PROJECT_NAMESPACE == "{namespace}"'
               when: never
+            - if: '$JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
             - when: on_success
         """)
 
@@ -79,6 +82,11 @@ def _build_template(template, image):
         {template}:
           image: $CI_REGISTRY_IMAGE/{image}:latest
           stage: builds
+          rules:
+            - if: '$JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
+            - when: on_success
         """)
 
 
@@ -124,6 +132,9 @@ def cirrus_template(cidir):
           rules:
             - if: '$CIRRUS_GITHUB_REPO == null || $CIRRUS_API_TOKEN == null'
               when: never
+            - if: '$JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
             - when: on_success
         """)
 
@@ -197,11 +208,13 @@ def clang_format_job():
         """)
 
 
-def _container_job(target, arch, image, allow_failure):
+def _container_job(target, arch, image, allow_failure, optional):
     allow_failure = str(allow_failure).lower()
     jobvars = {
         "NAME": image,
     }
+    if optional:
+        jobvars["JOB_OPTIONAL"] = "1"
 
     return textwrap.dedent(
         f"""
@@ -211,18 +224,20 @@ def _container_job(target, arch, image, allow_failure):
         """) + format_variables(jobvars)
 
 
-def native_container_job(target, allow_failure):
+def native_container_job(target, allow_failure, optional):
     return _container_job(target,
                           "x86_64",
                           f"{target}",
-                          allow_failure)
+                          allow_failure,
+                          optional)
 
 
-def cross_container_job(target, arch, allow_failure):
+def cross_container_job(target, arch, allow_failure, optional):
     return _container_job(target,
                           arch,
                           f"{target}-cross-{arch}",
-                          allow_failure)
+                          allow_failure,
+                          optional)
 
 
 def format_artifacts(artifacts):
@@ -262,10 +277,13 @@ def _build_job(target, arch, suffix, variables, template, allow_failure, artifac
         """) + format_variables(variables) + format_artifacts(artifacts)
 
 
-def native_build_job(target, suffix, variables, template, allow_failure, artifacts):
+def native_build_job(target, suffix, variables, template,
+                     allow_failure, optional, artifacts):
     jobvars = merge_vars({
         "NAME": target,
     }, variables)
+    if optional:
+        jobvars["JOB_OPTIONAL"] = "1"
 
     return _build_job(target,
                       "x86_64",
@@ -276,11 +294,14 @@ def native_build_job(target, suffix, variables, template, allow_failure, artifac
                       artifacts)
 
 
-def cross_build_job(target, arch, suffix, variables, template, allow_failure, artifacts):
+def cross_build_job(target, arch, suffix, variables, template,
+                    allow_failure, optional, artifacts):
     jobvars = merge_vars({
         "NAME": target,
         "CROSS": arch
     }, variables)
+    if optional:
+        jobvars["JOB_OPTIONAL"] = "1"
 
     return _build_job(target,
                       arch,
@@ -292,7 +313,7 @@ def cross_build_job(target, arch, suffix, variables, template, allow_failure, ar
 
 
 def cirrus_build_job(target, instance_type, image_selector, image_name,
-                     pkg_cmd, suffix, variables, allow_failure):
+                     pkg_cmd, suffix, variables, allow_failure, optional):
     if pkg_cmd == "brew":
         install_cmd = "brew install"
         upgrade_cmd = "brew upgrade"
@@ -313,6 +334,8 @@ def cirrus_build_job(target, instance_type, image_selector, image_name,
         "UPGRADE_COMMAND": upgrade_cmd,
         "INSTALL_COMMAND": install_cmd,
     }, variables)
+    if optional:
+        jobvars["JOB_OPTIONAL"] = "1"
 
     return textwrap.dedent(
         f"""
