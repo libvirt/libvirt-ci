@@ -102,6 +102,8 @@ def container_template(namespace, project, cidir):
           after_script:
             - docker logout
           rules:
+            - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+              when: never
             - if: '$CI_PROJECT_NAMESPACE == "{namespace}" && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
               when: on_success
               changes:
@@ -125,6 +127,8 @@ def _build_template(template, image):
           image: $CI_REGISTRY_IMAGE/{image}:latest
           stage: builds
           rules:
+            - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+              when: never
             - if: '$JOB_OPTIONAL'
               when: manual
               allow_failure: true
