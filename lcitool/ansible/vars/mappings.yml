@@ -233,8 +233,9 @@ mappings:
 
   cloud-init:
     default: cloud-init
-    FreeBSD: py38-cloud-init
+    FreeBSD: py39-cloud-init
     MacOS:
+    FreeBSD12: py38-cloud-init
 
   cloud-init-growpart:
     apk: cloud-utils-growpart
@@ -340,11 +341,12 @@ mappings:
   flake8:
     default: flake8
     apk: py3-flake8
-    pkg: py38-flake8
     rpm: python3-flake8
+    FreeBSD: py39-flake8
     # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
     AlmaLinux9:
     CentOSStream9:
+    FreeBSD12: py38-flake8
 
   flex:
     default: flex
@@ -1565,15 +1567,17 @@ mappings:
   python3-PyYAML:
     apk: py3-yaml
     deb: python3-yaml
-    pkg: py38-yaml
     rpm: python3-PyYAML
+    FreeBSD: py39-yaml
+    FreeBSD12: py38-yaml
 
   python3-dbus:
     default: python3-dbus
     apk: py3-dbus
-    FreeBSD: py38-dbus
+    FreeBSD: py39-dbus
     MacOS:
     OpenSUSE: python3-dbus-python
+    FreeBSD12: py38-dbus
 
   python3-devel:
     default: python3
@@ -1584,33 +1588,38 @@ mappings:
   python3-docutils:
     default: python3-docutils
     apk: py3-docutils
-    FreeBSD: py38-docutils
+    FreeBSD: py39-docutils
     MacOS: docutils
+    FreeBSD12: py38-docutils
 
   python3-gobject:
     apk: py3-gobject3
     deb: python3-gi
-    pkg: py38-gobject3
     rpm: python3-gobject
+    FreeBSD: py39-gobject3
+    FreeBSD12: py38-gobject3
 
   python3-libxml2:
     default: python3-libxml2
     apk: py3-libxml2
-    FreeBSD: py38-libxml2
+    FreeBSD: py39-libxml2
     MacOS:
     OpenSUSE: python3-libxml2-python
+    FreeBSD12: py38-libxml2
 
   python3-lxml:
     default: python3-lxml
     apk: py3-lxml
-    FreeBSD: py38-lxml
+    FreeBSD: py39-lxml
     MacOS:
+    FreeBSD12: py38-lxml
 
   python3-numpy:
     default: python3-numpy
     apk: py3-numpy
-    pkg: py38-numpy
+    FreeBSD: py39-numpy
     MacOS:
+    FreeBSD12: py38-numpy
 
   python3-opencv:
     default: python3-opencv
@@ -1623,31 +1632,35 @@ mappings:
   python3-pillow:
     default: python3-pillow
     apk: py3-pillow
-    pkg: py38-pillow
     AlmaLinux:
     CentOS:
+    FreeBSD: py39-pillow
     MacOS:
     OpenSUSE: python3-Pillow
     AlmaLinux8: python3-pillow
     CentOSStream8: python3-pillow
+    FreeBSD12: py38-pillow
 
   python3-pip:
     default: python3-pip
     apk: py3-pip
-    FreeBSD: py38-pip
+    FreeBSD: py39-pip
     MacOS: python3
+    FreeBSD12: py38-pip
 
   python3-pytest:
     default: python3-pytest
     apk: py3-pytest
-    FreeBSD: py38-pytest
+    FreeBSD: py39-pytest
     MacOS:
+    FreeBSD12: py38-pytest
 
   python3-requests:
     default: python3-requests
     apk: py3-requests
-    FreeBSD: py38-requests
+    FreeBSD: py39-requests
     MacOS:
+    FreeBSD12: py38-requests
 
   python3-selinux:
     apk:
@@ -1660,21 +1673,24 @@ mappings:
   python3-setuptools:
     default: python3-setuptools
     apk: py3-setuptools
-    FreeBSD: py38-setuptools
+    FreeBSD: py39-setuptools
     MacOS: python3
+    FreeBSD12: py38-setuptools
 
   python3-sphinx:
     default: python3-sphinx
     apk: py3-sphinx
-    pkg: py38-sphinx
+    FreeBSD: py39-sphinx
     MacOS:
     OpenSUSE: python3-Sphinx
+    FreeBSD12: py38-sphinx
 
   python3-sphinx-rtd-theme:
     apk: py3-sphinx_rtd_theme
     deb: python3-sphinx-rtd-theme
-    pkg: py38-sphinx_rtd_theme
     rpm: python3-sphinx_rtd_theme
+    FreeBSD: py39-sphinx_rtd_theme
+    FreeBSD12: py38-sphinx_rtd_theme
 
   python3-venv:
     default: python3
@@ -1684,8 +1700,9 @@ mappings:
   python3-wheel:
     default: python3-wheel
     apk: py3-wheel
-    FreeBSD: py38-wheel
+    FreeBSD: py39-wheel
     MacOS: python3
+    FreeBSD12: py38-wheel
 
   qemu:
     default: qemu
