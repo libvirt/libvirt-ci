@@ -15,11 +15,6 @@ class CommandLine:
 
     def __init__(self):
         # Common option parsers to inherit from
-        hostopt = argparse.ArgumentParser(add_help=False)
-        hostopt.add_argument(
-            "host",
-            help="host to act on",
-        )
 
         hostsopt = argparse.ArgumentParser(add_help=False)
         hostsopt.add_argument(
@@ -37,6 +32,12 @@ class CommandLine:
         installtargetopt.add_argument(
             "-t", "--target",
             help="what target OS to install",
+        )
+
+        installhostopt = argparse.ArgumentParser(add_help=False)
+        installhostopt.add_argument(
+            "host",
+            help="name of the host (taken from inventory OR a new name)",
         )
 
         projectsopt = argparse.ArgumentParser(add_help=False)
@@ -153,7 +154,7 @@ class CommandLine:
         installparser = subparsers.add_parser(
             "install",
             help="perform unattended host installation",
-            parents=[hostopt, waitopt, installtargetopt],
+            parents=[waitopt, installtargetopt, installhostopt],
         )
         installparser.set_defaults(func=Application._action_install)
 
