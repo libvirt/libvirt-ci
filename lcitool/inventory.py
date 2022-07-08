@@ -65,22 +65,19 @@ class Inventory(metaclass=Singleton):
     def _get_ansible_inventory(self):
         from lcitool.ansible_wrapper import AnsibleWrapper, AnsibleWrapperError
 
+        inventory_sources = []
         inventory_path = Path(util.get_config_dir(), "inventory")
-        inventory_path_str = inventory_path.as_posix()
-        if not inventory_path.exists():
-            raise InventoryError(
-                f"Missing Ansible inventory '{inventory_path}'"
-            )
+        if inventory_path.exists():
+            inventory_sources.append(inventory_path)
 
         log.debug("Querying libvirt for lcitool hosts")
-        libvirt_inventory = self._get_libvirt_inventory()
+        inventory_sources.append(self._get_libvirt_inventory())
 
         ansible_runner = AnsibleWrapper()
-        ansible_runner.prepare_env(inventories=[inventory_path,
-                                                libvirt_inventory],
+        ansible_runner.prepare_env(inventories=inventory_sources,
                                    group_vars=self.target_facts)
 
-        log.debug(f"Running ansible-inventory on '{inventory_path_str}'")
+        log.debug(f"Running ansible-inventory on '{inventory_sources}'")
         try:
             inventory = ansible_runner.get_inventory()
         except AnsibleWrapperError as ex:
