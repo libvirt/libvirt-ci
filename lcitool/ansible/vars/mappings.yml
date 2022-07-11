@@ -190,7 +190,7 @@ mappings:
 
   ca-certificates:
     default: ca-certificates
-    FreeBSD: ca_root_nss
+    pkg: ca_root_nss
     MacOS:
 
   capstone:
@@ -204,7 +204,7 @@ mappings:
 
   cargo:
     default: cargo
-    FreeBSD: rust
+    pkg: rust
     MacOS: rust
 
   ccache:
@@ -220,7 +220,7 @@ mappings:
 
   clang:
     default: clang
-    FreeBSD:
+    pkg:
     MacOS:
     cross-policy-default: skip
 
@@ -233,7 +233,7 @@ mappings:
 
   cloud-init:
     default: cloud-init
-    FreeBSD: py39-cloud-init
+    pkg: py39-cloud-init
     MacOS:
     FreeBSD12: py38-cloud-init
 
@@ -251,12 +251,12 @@ mappings:
   cpp:
     default: cpp
     apk: gcc
-    FreeBSD:
+    pkg:
     MacOS:
 
   cppi:
+    pkg: cppi
     Fedora: cppi
-    FreeBSD: cppi
     MacOS: cppi
     OpenSUSE: cppi
 
@@ -320,18 +320,18 @@ mappings:
   dwarves:
     default: dwarves
     apk:
-    FreeBSD:
+    pkg:
     MacOS:
 
   ebtables:
     default: ebtables
     apk: iptables
-    FreeBSD:
+    pkg:
     MacOS:
 
   findutils:
     default: findutils
-    FreeBSD:
+    pkg:
     MacOS:
 
   firewalld-filesystem:
@@ -341,8 +341,8 @@ mappings:
   flake8:
     default: flake8
     apk: py3-flake8
+    pkg: py39-flake8
     rpm: python3-flake8
-    FreeBSD: py39-flake8
     # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
     AlmaLinux9:
     CentOSStream9:
@@ -392,7 +392,7 @@ mappings:
 
   gcc:
     default: gcc
-    FreeBSD:
+    pkg:
     MacOS:
     cross-aarch64-deb: gcc-aarch64-linux-gnu
     cross-armv6l-deb: gcc-arm-linux-gnueabi
@@ -498,7 +498,7 @@ mappings:
   go:
     default: golang
     apk: go
-    FreeBSD: go
+    pkg: go
     OpenSUSE: go
 
   gobject-introspection:
@@ -564,7 +564,7 @@ mappings:
   hostname:
     default: hostname
     apk: net-tools
-    FreeBSD:
+    pkg:
     MacOS:
 
   icoutils:
@@ -581,7 +581,7 @@ mappings:
 
   iptables:
     default: iptables
-    FreeBSD:
+    pkg:
     MacOS:
 
   iscsiadm:
@@ -593,8 +593,8 @@ mappings:
   isoinfo:
     apk: cdrkit
     deb: genisoimage
+    pkg: cdrkit
     Fedora: genisoimage
-    FreeBSD: cdrkit
     MacOS: cdrtools
     OpenSUSE: mkisofs
     AlmaLinux8: genisoimage
@@ -1124,7 +1124,7 @@ mappings:
 
   lvm2:
     default: lvm2
-    FreeBSD:
+    pkg:
     MacOS:
 
   lzo:
@@ -1137,7 +1137,7 @@ mappings:
 
   make:
     default: make
-    FreeBSD: gmake
+    pkg: gmake
 
   mesa-libgbm:
     apk: mesa-dev
@@ -1155,7 +1155,7 @@ mappings:
 
   modprobe:
     default: kmod
-    FreeBSD:
+    pkg:
     MacOS:
 
   mono:
@@ -1222,7 +1222,7 @@ mappings:
 
   net-tools:
     default: net-tools
-    FreeBSD:
+    pkg:
     MacOS:
 
   nettle:
@@ -1238,7 +1238,7 @@ mappings:
   ninja:
     default: ninja-build
     apk: samurai
-    FreeBSD: ninja
+    pkg: ninja
     MacOS: ninja
     OpenSUSE: ninja
 
@@ -1249,7 +1249,7 @@ mappings:
   numad:
     default: numad
     apk:
-    FreeBSD:
+    pkg:
     MacOS:
 
   ocaml:
@@ -1284,7 +1284,7 @@ mappings:
   pci-ids:
     default: hwdata
     apk: hwids-pci
-    FreeBSD: pciids
+    pkg: pciids
     MacOS:
 
   pcre-static:
@@ -1296,7 +1296,7 @@ mappings:
   perl:
     default: perl-base
     apk: perl
-    FreeBSD: perl5
+    pkg: perl5
     MacOS: perl
     AlmaLinux8: perl
     CentOSStream8: perl
@@ -1403,8 +1403,8 @@ mappings:
   perl-Sys-Hostname:
     apk: perl
     deb: perl-base
+    pkg: perl5
     rpm: perl-Sys-Hostname
-    FreeBSD: perl5
     MacOS: perl
     OpenSUSE: perl-base
     AlmaLinux8: perl
@@ -1567,14 +1567,14 @@ mappings:
   python3-PyYAML:
     apk: py3-yaml
     deb: python3-yaml
+    pkg: py39-yaml
     rpm: python3-PyYAML
-    FreeBSD: py39-yaml
     FreeBSD12: py38-yaml
 
   python3-dbus:
     default: python3-dbus
     apk: py3-dbus
-    FreeBSD: py39-dbus
+    pkg: py39-dbus
     MacOS:
     OpenSUSE: python3-dbus-python
     FreeBSD12: py38-dbus
@@ -1588,21 +1588,21 @@ mappings:
   python3-docutils:
     default: python3-docutils
     apk: py3-docutils
-    FreeBSD: py39-docutils
+    pkg: py39-docutils
     MacOS: docutils
     FreeBSD12: py38-docutils
 
   python3-gobject:
     apk: py3-gobject3
     deb: python3-gi
+    pkg: py39-gobject3
     rpm: python3-gobject
-    FreeBSD: py39-gobject3
     FreeBSD12: py38-gobject3
 
   python3-libxml2:
     default: python3-libxml2
     apk: py3-libxml2
-    FreeBSD: py39-libxml2
+    pkg: py39-libxml2
     MacOS:
     OpenSUSE: python3-libxml2-python
     FreeBSD12: py38-libxml2
@@ -1610,14 +1610,14 @@ mappings:
   python3-lxml:
     default: python3-lxml
     apk: py3-lxml
-    FreeBSD: py39-lxml
+    pkg: py39-lxml
     MacOS:
     FreeBSD12: py38-lxml
 
   python3-numpy:
     default: python3-numpy
     apk: py3-numpy
-    FreeBSD: py39-numpy
+    pkg: py39-numpy
     MacOS:
     FreeBSD12: py38-numpy
 
@@ -1632,9 +1632,9 @@ mappings:
   python3-pillow:
     default: python3-pillow
     apk: py3-pillow
+    pkg: py39-pillow
     AlmaLinux:
     CentOS:
-    FreeBSD: py39-pillow
     MacOS:
     OpenSUSE: python3-Pillow
     AlmaLinux8: python3-pillow
@@ -1644,43 +1644,43 @@ mappings:
   python3-pip:
     default: python3-pip
     apk: py3-pip
-    FreeBSD: py39-pip
+    pkg: py39-pip
     MacOS: python3
     FreeBSD12: py38-pip
 
   python3-pytest:
     default: python3-pytest
     apk: py3-pytest
-    FreeBSD: py39-pytest
+    pkg: py39-pytest
     MacOS:
     FreeBSD12: py38-pytest
 
   python3-requests:
     default: python3-requests
     apk: py3-requests
-    FreeBSD: py39-requests
+    pkg: py39-requests
     MacOS:
     FreeBSD12: py38-requests
 
   python3-selinux:
     apk:
     deb: python3-selinux
+    pkg:
     rpm: python3-libselinux
-    FreeBSD:
     MacOS:
     OpenSUSE: python3-selinux
 
   python3-setuptools:
     default: python3-setuptools
     apk: py3-setuptools
-    FreeBSD: py39-setuptools
+    pkg: py39-setuptools
     MacOS: python3
     FreeBSD12: py38-setuptools
 
   python3-sphinx:
     default: python3-sphinx
     apk: py3-sphinx
-    FreeBSD: py39-sphinx
+    pkg: py39-sphinx
     MacOS:
     OpenSUSE: python3-Sphinx
     FreeBSD12: py38-sphinx
@@ -1688,8 +1688,8 @@ mappings:
   python3-sphinx-rtd-theme:
     apk: py3-sphinx_rtd_theme
     deb: python3-sphinx-rtd-theme
+    pkg: py39-sphinx_rtd_theme
     rpm: python3-sphinx_rtd_theme
-    FreeBSD: py39-sphinx_rtd_theme
     FreeBSD12: py38-sphinx_rtd_theme
 
   python3-venv:
@@ -1700,7 +1700,7 @@ mappings:
   python3-wheel:
     default: python3-wheel
     apk: py3-wheel
-    FreeBSD: py39-wheel
+    pkg: py39-wheel
     MacOS: python3
     FreeBSD12: py38-wheel
 
@@ -1714,16 +1714,16 @@ mappings:
   qemu-img:
     default: qemu-utils
     apk: qemu-img
+    pkg: qemu
     rpm: qemu-img
-    FreeBSD: qemu
     MacOS: qemu
     OpenSUSE: qemu-tools
 
   qemu-nbd:
     default: qemu-utils
     apk: qemu-img
+    pkg: qemu
     rpm: qemu-img
-    FreeBSD: qemu
     MacOS: qemu
     OpenSUSE: qemu-tools
 
@@ -1746,7 +1746,7 @@ mappings:
   rpcgen:
     default: rpcgen
     deb: libc-dev-bin
-    FreeBSD:
+    pkg:
     # On Alpine 3.15 both the nfs-utils and rpcgen packages provide the rpcgen
     # command and they conflict, so we have to choose the superset (nfs-utils).
     #
@@ -1784,7 +1784,7 @@ mappings:
   scrub:
     default: scrub
     apk:
-    FreeBSD: diskscrub
+    pkg: diskscrub
 
   sdl2:
     default: sdl2
@@ -1872,7 +1872,7 @@ mappings:
 
   strace:
     default: strace
-    FreeBSD:
+    pkg:
     MacOS:
 
   systemd:
@@ -1920,12 +1920,12 @@ mappings:
 
   unzip:
     default: unzip
-    FreeBSD:
+    pkg:
 
   usb-ids:
     default: hwdata
     apk: hwids-usb
-    FreeBSD: usbids
+    pkg: usbids
     MacOS:
 
   usbredir:
@@ -2016,7 +2016,7 @@ mappings:
   xz:
     default: xz
     deb: xz-utils
-    FreeBSD:
+    pkg:
 
   yajl:
     default: yajl
@@ -2033,8 +2033,8 @@ mappings:
     default: zlib
     apk: zlib-dev
     deb: zlib1g-dev
+    pkg:
     rpm: zlib-devel
-    FreeBSD:
     cross-policy-default: foreign
 
   zlib-static:
