@@ -160,15 +160,15 @@ x86_64-check-almalinux-9:
   variables:
     NAME: almalinux-9
 
-x86_64-check-alpine-314:
-  extends: .check_container_template
-  variables:
-    NAME: alpine-314
-
 x86_64-check-alpine-315:
   extends: .check_container_template
   variables:
     NAME: alpine-315
+
+x86_64-check-alpine-316:
+  extends: .check_container_template
+  variables:
+    NAME: alpine-316
 
 x86_64-check-alpine-edge:
   extends: .check_container_template

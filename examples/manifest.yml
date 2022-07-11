@@ -89,9 +89,9 @@ gitlab:
 #
 
 targets:
-  alpine-314: x86_64
-
   alpine-315: x86_64
+
+  alpine-316: x86_64
 
   alpine-edge:
     jobs:

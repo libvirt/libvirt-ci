@@ -19,7 +19,7 @@ scenarios = [
     pytest.param("libvirt-go-xml", "debian-10", None, id="libvirt-go-xml-debian-10"),
     pytest.param("libvirt-go-xml", "almalinux-8", None, id="libvirt-go-xml-almalinux-8"),
     pytest.param("libvirt-go-xml", "opensuse-leap-153", None, id="libvirt-go-xml-opensuse-leap-153"),
-    pytest.param("libvirt-go-xml", "alpine-314", None, id="libvirt-go-xml-alpine-314"),
+    pytest.param("libvirt-go-xml", "alpine-edge", None, id="libvirt-go-xml-alpine-edge"),
     pytest.param("libvirt-go-xml", "opensuse-tumbleweed", None, id="libvirt-go-xml-opensuse-tumbleweed"),
 
     # An application using cache symlinks
