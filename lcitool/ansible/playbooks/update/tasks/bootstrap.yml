@@ -6,3 +6,11 @@
 
 - name: Bootstrap Ansible
   raw: '{{ packaging.command }} install -y {{ ansible_python_package }}'
+  when:
+    - os.name != 'Alpine'
+
+- block:
+    - name: Bootstrap Ansible
+      raw: '{{ packaging.command }} add {{ ansible_python_package }}'
+  when:
+    - os.name == 'Alpine'
