@@ -148,6 +148,7 @@ RUN apk update && \
         perl-xml-xpath \
         perl-yaml \
         php8-dev \
+        php8-pecl-imagick \
         pixman-dev \
         pkgconf \
         polkit \

@@ -147,8 +147,8 @@ RUN apk update && \
         perl-xml-writer \
         perl-xml-xpath \
         perl-yaml \
-        php7-dev \
-        php7-pecl-imagick \
+        php8-dev \
+        php8-pecl-imagick \
         pixman-dev \
         pkgconf \
         polkit \
