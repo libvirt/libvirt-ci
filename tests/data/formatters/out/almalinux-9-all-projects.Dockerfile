@@ -75,6 +75,7 @@ RUN dnf update -y && \
         jemalloc-devel \
         jna \
         jq \
+        json-c-devel \
         json-glib-devel \
         junit \
         kmod \
@@ -86,6 +87,7 @@ RUN dnf update -y && \
         libblkid-devel \
         libbpf-devel \
         libcap-ng-devel \
+        libcmocka-devel \
         libconfig-devel \
         libcurl-devel \
         libdrm-devel \

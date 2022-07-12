@@ -26,6 +26,7 @@ RUN apk update && \
         check \
         clang \
         clang-dev \
+        cmocka-dev \
         ctags \
         curl-dev \
         cyrus-sasl-dev \
@@ -64,6 +65,7 @@ RUN apk update && \
         iptables \
         java-jna \
         jq \
+        json-c-dev \
         json-glib-dev \
         junit \
         kmod \

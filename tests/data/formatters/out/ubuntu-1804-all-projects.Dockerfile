@@ -74,6 +74,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
             libcap-ng-dev \
             libcapstone-dev \
             libclang-dev \
+            libcmocka-dev \
             libconfig-dev \
             libcpan-changes-perl \
             libcurl4-gnutls-dev \
@@ -107,6 +108,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
             libjemalloc-dev \
             libjna-java \
             libjpeg-turbo8-dev \
+            libjson-c-dev \
             libjson-glib-dev \
             liblttng-ust-dev \
             liblzma-dev \

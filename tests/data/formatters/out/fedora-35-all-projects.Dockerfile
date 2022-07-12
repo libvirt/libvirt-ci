@@ -90,6 +90,7 @@ exec "$@"' > /usr/bin/nosync && \
         jemalloc-devel \
         jna \
         jq \
+        json-c-devel \
         json-glib-devel \
         junit \
         kmod \
@@ -102,6 +103,7 @@ exec "$@"' > /usr/bin/nosync && \
         libbpf-devel \
         libcacard-devel \
         libcap-ng-devel \
+        libcmocka-devel \
         libcmpiutil-devel \
         libconfig-devel \
         libcurl-devel \

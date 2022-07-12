@@ -76,6 +76,7 @@ RUN dnf distro-sync -y && \
         jemalloc-devel \
         jna \
         jq \
+        json-c-devel \
         json-glib-devel \
         junit \
         kmod \
@@ -87,6 +88,7 @@ RUN dnf distro-sync -y && \
         libblkid-devel \
         libbpf-devel \
         libcap-ng-devel \
+        libcmocka-devel \
         libconfig-devel \
         libcurl-devel \
         libdrm-devel \

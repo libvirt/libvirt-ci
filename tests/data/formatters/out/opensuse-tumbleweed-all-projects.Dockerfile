@@ -85,6 +85,7 @@ RUN zypper dist-upgrade -y && \
            libbz2-devel \
            libcacard-devel \
            libcap-ng-devel \
+           libcmocka-devel \
            libcmpiutil-devel \
            libconfig-devel \
            libcurl-devel \
@@ -98,6 +99,7 @@ RUN zypper dist-upgrade -y && \
            libgovirt-devel \
            libiscsi-devel \
            libjpeg8-devel \
+           libjson-c-devel \
            libndctl-devel \
            libnettle-devel \
            libnfs-devel \
