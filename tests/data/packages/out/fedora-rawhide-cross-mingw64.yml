@@ -94,6 +94,7 @@ native:
 - jq
 - junit
 - kmod
+- libcmocka-devel
 - libcmpiutil-devel
 - libtool
 - libxml2

@@ -93,6 +93,7 @@ native:
 - libblkid-devel
 - libbpf-devel
 - libcap-ng-devel
+- libcmocka-devel
 - libconfig-devel
 - libcurl-devel
 - libdrm-devel

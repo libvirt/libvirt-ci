@@ -25,6 +25,7 @@ packages:
 - clippy
 - cloud-init
 - cloud-init-growpart
+- cmocka
 - codespell
 - column
 - cpp

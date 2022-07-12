@@ -42,6 +42,7 @@ native:
 - ccache
 - cdrtools
 - check
+- cmocka
 - codespell
 - cpanminus
 - cppi

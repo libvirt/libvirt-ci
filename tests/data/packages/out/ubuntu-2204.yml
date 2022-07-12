@@ -76,6 +76,7 @@ native:
 - libcap-ng-dev
 - libcapstone-dev
 - libclang-dev
+- libcmocka-dev
 - libconfig-dev
 - libcpan-changes-perl
 - libcurl4-gnutls-dev

@@ -241,6 +241,13 @@ mappings:
     deb: cloud-guest-utils
     rpm: cloud-utils-growpart
 
+  cmocka:
+    apk: cmocka-dev
+    deb: libcmocka-dev
+    pkg: cmocka
+    rpm: libcmocka-devel
+    MacOS: cmocka
+
   codespell:
     default: codespell
     apk:

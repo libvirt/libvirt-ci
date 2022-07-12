@@ -93,6 +93,7 @@ native:
 - libbpf-devel
 - libcacard-devel
 - libcap-ng-devel
+- libcmocka-devel
 - libconfig-devel
 - libcurl-devel
 - libdrm-devel
