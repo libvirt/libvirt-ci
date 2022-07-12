@@ -17,6 +17,7 @@ cross:
 - libcacard-dev:s390x
 - libcap-ng-dev:s390x
 - libcapstone-dev:s390x
+- libcmocka-dev:s390x
 - libconfig-dev:s390x
 - libcurl4-gnutls-dev:s390x
 - libdaxctl-dev:s390x
@@ -42,6 +43,7 @@ cross:
 - libiscsi-dev:s390x
 - libjemalloc-dev:s390x
 - libjpeg62-turbo-dev:s390x
+- libjson-c-dev:s390x
 - libjson-glib-dev:s390x
 - liblttng-ust-dev:s390x
 - liblzma-dev:s390x
@@ -153,7 +155,6 @@ native:
 - libarchive-tar-perl
 - libc-dev-bin
 - libclang-dev
-- libcmocka-dev
 - libcpan-changes-perl
 - libdigest-perl
 - libdigest-perl-md5-perl
@@ -166,7 +167,6 @@ native:
 - libio-interface-perl
 - libio-string-perl
 - libjna-java
-- libjson-c-dev
 - libmodule-build-perl
 - libnet-openssh-perl
 - libnet-snmp-perl

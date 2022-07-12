@@ -247,6 +247,7 @@ mappings:
     pkg: cmocka
     rpm: libcmocka-devel
     MacOS: cmocka
+    cross-policy-default: foreign
 
   codespell:
     default: codespell
@@ -628,6 +629,7 @@ mappings:
     rpm: json-c-devel
     MacOS: json-c
     OpenSUSE: libjson-c-devel
+    cross-policy-default: foreign
 
   json-glib:
     default: json-glib
