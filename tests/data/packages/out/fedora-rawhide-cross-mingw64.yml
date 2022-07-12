@@ -92,6 +92,7 @@ native:
 - java-11-openjdk-headless
 - jna
 - jq
+- json-c-devel
 - junit
 - kmod
 - libcmocka-devel

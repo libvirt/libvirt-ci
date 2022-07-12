@@ -621,6 +621,14 @@ mappings:
   jq:
     default: jq
 
+  json-c:
+    apk: json-c-dev
+    deb: libjson-c-dev
+    pkg: json-c
+    rpm: json-c-devel
+    MacOS: json-c
+    OpenSUSE: libjson-c-devel
+
   json-glib:
     default: json-glib
     apk: json-glib-dev

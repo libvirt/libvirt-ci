@@ -82,6 +82,7 @@ native:
 - iptables
 - java-jna
 - jq
+- json-c-dev
 - json-glib-dev
 - junit
 - kmod

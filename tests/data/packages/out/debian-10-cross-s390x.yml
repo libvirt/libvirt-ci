@@ -166,6 +166,7 @@ native:
 - libio-interface-perl
 - libio-string-perl
 - libjna-java
+- libjson-c-dev
 - libmodule-build-perl
 - libnet-openssh-perl
 - libnet-snmp-perl

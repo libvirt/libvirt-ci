@@ -110,6 +110,7 @@ native:
 - libgovirt-devel
 - libiscsi-devel
 - libjpeg8-devel
+- libjson-c-devel
 - libndctl-devel
 - libnettle-devel
 - libnfs-devel

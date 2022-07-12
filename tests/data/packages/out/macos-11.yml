@@ -75,6 +75,7 @@ native:
 - jemalloc
 - jpeg-turbo
 - jq
+- json-c
 - json-glib
 - libarchive
 - libconfig

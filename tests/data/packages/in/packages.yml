@@ -84,6 +84,7 @@ packages:
 - java
 - jna
 - jq
+- json-c
 - json-glib
 - junit
 - libacl

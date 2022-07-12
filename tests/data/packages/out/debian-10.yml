@@ -113,6 +113,7 @@ native:
 - libjemalloc-dev
 - libjna-java
 - libjpeg62-turbo-dev
+- libjson-c-dev
 - libjson-glib-dev
 - liblttng-ust-dev
 - liblzma-dev

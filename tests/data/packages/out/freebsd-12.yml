@@ -54,6 +54,7 @@ native:
 - intltool
 - jna
 - jq
+- json-c
 - json-glib
 - junit
 - libarchive

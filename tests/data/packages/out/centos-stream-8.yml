@@ -82,6 +82,7 @@ native:
 - jemalloc-devel
 - jna
 - jq
+- json-c-devel
 - json-glib-devel
 - kmod
 - libacl-devel
