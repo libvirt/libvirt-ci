@@ -16,12 +16,14 @@ to the Python user install directory
    # this will install only the very basic dependencies
    $ pip3 install --user -r requirements.txt
 
-or, system-wide
+or into a virtual environment
 
 ::
 
    # this will install only the very basic dependencies
-   $ sudo pip3 install -r requirements.txt
+   $ python3 -m venv <path_to_venv>
+   $ source <path_to_venv>/bin/activate
+   $ pip install -r requirements
 
 Depending on your intended use case for lcitool you can pick which dependencies
 you need to have installed, e.g.
