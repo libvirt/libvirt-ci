@@ -27,34 +27,8 @@ such as this one
 
 in your crontab.
 
-
-Installing local VMs
-====================
-
-In order to install a local VM with lcitool, run the following:
-
-::
-
-    lcitool install $host --target $target_os
-
-where ``$host`` is the name for the VM and ``$target_os`` is one of the
-supported target OS plaforms (see `Usage and examples`_ below).
-Another option of installing guests with lcitool is by adding a managed host
-entry in the Ansible inventory in which case lcitool's invocation would look
-like this:
-
-::
-
-    lcitool install $host
-
-Refer to the `Ansible inventory`_ and `Managed hosts`_ sections below on how to
-use an inventory with lcitool. Note that not all guests can be installed using
-the ways described above, e.g. FreeBSD or Alpine guests.
-See the `FreeBSD`_ section below to know how to add such a host in that case.
-
-
 Ansible inventory
-=================
+-----------------
 
 In addition to creating a configuration file as described in `Configuration`_,
 you may also need to provide an Ansible inventory depending on whether
@@ -75,7 +49,7 @@ Ansible will complain by issuing a warning about this which may in turn result
 in an unexpected Ansible behaviour.
 
 Managed hosts
--------------
+~~~~~~~~~~~~~
 
 Since hosts may come from a public cloud environment, we don't execute all the
 Ansible tasks which set up the VM environment by default because some of the
@@ -99,6 +73,31 @@ An example of a simple INI inventory:
 
     [debian-10]
     192.168.1.30
+
+
+Installing local VMs
+====================
+
+In order to install a local VM with lcitool, run the following:
+
+::
+
+    lcitool install $host --target $target_os
+
+where ``$host`` is the name for the VM and ``$target_os`` is one of the
+supported target OS plaforms (see `Usage and examples`_ below).
+Another option of installing guests with lcitool is by adding a managed host
+entry in the Ansible inventory in which case lcitool's invocation would look
+like this:
+
+::
+
+    lcitool install $host
+
+Refer to the `Ansible inventory`_ and `Managed hosts`_ sections respectively on
+how to use an inventory with lcitool. Note that not all guests can be installed
+using the ways described above, e.g. FreeBSD or Alpine guests. See
+`Installing FreeBSD VMs`_ to know how to add such a host in that case.
 
 
 Usage and examples
