@@ -18,15 +18,6 @@ refer to your machines by their name in the Ansible inventory.
 As for the plugin settings, you'll be mainly interested in the ``libvirt_guest``
 variant of the plugin.
 
-To keep guests up to date over time, you might find it useful to have an entry
-such as this one
-
-::
-
-   0 0 * * * lcitool update all all
-
-in your crontab.
-
 Ansible inventory
 -----------------
 
@@ -154,6 +145,48 @@ Once these steps have been performed, FreeBSD guests can be managed just
 like all other guests.
 
 
+Updating VMs with a given project dependencies
+==============================================
+
+So you've installed your VM with lcitool. What's next? Next the VM needs to
+go through all the post-installation configuration steps required to
+make the newly-added machine usable and ready to be used for building a
+project. This includes resetting the root password to the one you set in
+``$HOME/.config/lcitool/config.yml``, uploading your SSH key, updating the
+system, etc.
+
+
+``$project``. set up (in other words update) with a given project's package dependencies so
+that the respective project
+
+::
+
+    $ lcitool projects
+
+You can run update on the VM with
+
+::
+
+    # the syntax is 'lcitool update $guest $project'
+    $ lcitool update my_vm_name libvirt
+
+More hosts (external bare metal hosts are supported as well) can be updated
+with more projects at the same time
+
+::
+
+    $ lcitool update my_vm_name,my_bare_metal_host libvirt,qemu
+
+It is also recommended to run the same command periodically to
+ensure the machine configuration is sane and all installed packages are updated
+for maintenance purposes. This is where the special keyword **all** might come
+handy as you can go as far as putting the following in your crontab
+
+::
+
+   0 0 * * * lcitool update all all
+
+
 Cloud-init
 ==========
 
@@ -222,16 +255,6 @@ Before any project can be built using VMs with lcitool, make sure that lcitool
 knows about the host, either by installing a new guest or updating the Ansible
 inventory with an external one as mentioned in previous sections. Then you need
 run the following:
-
-::
-
-   $ lcitool update $guest $project
-
-This will go through all the post-installation configuration steps required to
-make the newly-added machine usable and ready to be used for building
-``$project``. It is also recommended to run the same command periodically to
-ensure the machine configuration is sane and all installed packages are updated
-for maintenance purposes.
 
 To get a list of known target platforms run:
 
