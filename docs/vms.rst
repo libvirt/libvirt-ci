@@ -248,9 +248,11 @@ earlier sections
     $ glance image-create --name <image_name> --disk-format qcow2 --file <outdisk>
 
 
-Usage and examples
-==================
+More VM examples
+================
 
+This section provides more usage examples once you have a VM installed and
+updated.
 
 To get a list of known target platforms run:
 
