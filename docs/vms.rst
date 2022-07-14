@@ -154,6 +154,67 @@ Once these steps have been performed, FreeBSD guests can be managed just
 like all other guests.
 
 
+Cloud-init
+==========
+
+If you intend to use the generated images as templates to be instantiated in
+a cloud environment like OpenStack, then you want to set the
+``install.cloud_init`` key to ``true`` in ``~/.config/lcitool/config.yaml``. This will
+install the necessary cloud-init packages and enable the corresponding services
+at boot time. However, there are still a few manual steps involved to create a
+generic template. You'll need to install the ``libguestfs-tools`` package for that.
+
+Once you have it installed, shutdown the machines gracefully. First, we're going to
+"unconfigure" the machine in a way, so that clones can be made out of it.
+
+::
+
+    $ virt-sysprep -a libvirt-<machine_distro>.qcow2
+
+Then, we sparsify and compress the image in order to shrink the disk to the
+smallest size possible
+
+::
+
+    $ virt-sparsify --compress --format qcow2 <indisk> <outdisk>
+
+Now you're ready to upload the image to your cloud provider, e.g. OpenStack
+
+::
+
+    $ glance image-create --name <image_name> --disk-format qcow2 --file <outdisk>
+
+FreeBSD is tricky with regards to cloud-init, so have a look at the
+`Cloud-init with FreeBSD`_ section instead.
+
+Cloud-init with FreeBSD
+-----------------------
+
+FreeBSD doesn't fully support cloud-init, so in order to make use of it, there
+are a bunch of manual steps involved. First, you want to install the base OS
+manually rather than use the official qcow2 images, in contrast to the
+suggestion above, because cloud-init requires a specific disk partitioning scheme.
+Best you can do is to look at the official
+`OpenStack guide <https://docs.openstack.org/image-guide/freebsd-image.html>`_
+and follow only the installation guide (along with the ``virt-install`` steps
+outlined above).
+
+Now, that you have and OS installed and booted, set the ``install.cloud_init``
+key to ``true`` in ``~/.config/lcitool/config.yaml`` and update it with the
+desired project.
+
+The sysprep phase is completely manual, as ``virt-sysprep`` cannot work with
+FreeBSD's UFS filesystem (because the Linux kernel can only mount it read-only).
+
+Compressing and uploading the image looks the same as was mentioned in the
+earlier sections
+
+::
+
+    $ virt-sparsify --compress --format qcow2 <indisk> <outdisk>
+    $ glance image-create --name <image_name> --disk-format qcow2 --file <outdisk>
+
+
 Usage and examples
 ==================
 
@@ -258,65 +319,3 @@ single time you want to connect. Just add
        UserKnownHostsFile /dev/null
 
 to your ``~/.ssh/config`` file to achieve all of the above.
-
-
-Cloud-init
-==========
-
-If you intend to use the generated images as templates to be instantiated in
-a cloud environment like OpenStack, then you want to set the
-``install.cloud_init`` key to ``true`` in ``~/.config/lcitool/config.yaml``. This will
-install the necessary cloud-init packages and enable the corresponding services
-at boot time. However, there are still a few manual steps involved to create a
-generic template. You'll need to install the ``libguestfs-tools`` package for that.
-
-Once you have it installed, shutdown the machines gracefully. First, we're going to
-"unconfigure" the machine in a way, so that clones can be made out of it.
-
-::
-
-    $ virt-sysprep -a libvirt-<machine_distro>.qcow2
-
-Then, we sparsify and compress the image in order to shrink the disk to the
-smallest size possible
-
-::
-
-    $ virt-sparsify --compress --format qcow2 <indisk> <outdisk>
-
-Now you're ready to upload the image to your cloud provider, e.g. OpenStack
-
-::
-
-    $ glance image-create --name <image_name> --disk-format qcow2 --file <outdisk>
-
-FreeBSD is tricky with regards to cloud-init, so have a look at the
-`Cloud-init with FreeBSD`_ section instead.
-
-
-Cloud-init with FreeBSD
------------------------
-
-FreeBSD doesn't fully support cloud-init, so in order to make use of it, there
-are a bunch of manual steps involved. First, you want to install the base OS
-manually rather than use the official qcow2 images, in contrast to the
-suggestion above, because cloud-init requires a specific disk partitioning scheme.
-Best you can do is to look at the official
-`OpenStack guide <https://docs.openstack.org/image-guide/freebsd-image.html>`_
-and follow only the installation guide (along with the ``virt-install`` steps
-outlined above).
-
-Now, that you have and OS installed and booted, set the ``install.cloud_init``
-key to ``true`` in ``~/.config/lcitool/config.yaml`` and update it with the
-desired project.
-
-The sysprep phase is completely manual, as ``virt-sysprep`` cannot work with
-FreeBSD's UFS filesystem (because the Linux kernel can only mount it read-only).
-
-Compressing and uploading the image looks the same as was mentioned in the
-earlier sections
-
-::
-
-    $ virt-sparsify --compress --format qcow2 <indisk> <outdisk>
-    $ glance image-create --name <image_name> --disk-format qcow2 --file <outdisk>
