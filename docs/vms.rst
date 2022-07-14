@@ -306,8 +306,8 @@ command doesn't accept the project list specified either as 'all' or with a
 wildcard.
 
 
-Test use
-========
+Useful tips
+===========
 
 If you are a developer trying to reproduce a bug on some OS you don't
 have easy access to, you can use these tools to create a suitable test
