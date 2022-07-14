@@ -1,19 +1,18 @@
 Installation
 ============
 
-Installing dependencies
------------------------
+Dependencies
+------------
 
-``virt-install`` need to be available on the host. Since it is not distributed
-via PyPI, this needs to be installed with your package manager.
-
-You need to install also a few Python dependencies using your package manager
-or using ``pip3`` (see the provided ``requirements.txt`` file). You can install
-to the Python user install directory
+In order to use ``lcitool`` you'll need to install at least the common
+dependencies that are listed in the ``requirements.txt`` file. You can use
+``pip3`` for the convenience of having the ``requirements.txt`` file or you can
+use your system package manager (applies to **all** dependencies discussed in
+this section) in which case you'll have to find the correct package names for
+your OS distribution. If you decide to go with ``pip3``, then proceed with
 
 ::
 
-   # this will install only the very basic dependencies
    $ pip3 install --user -r requirements.txt
 
 or into a virtual environment
@@ -25,26 +24,39 @@ or into a virtual environment
    $ source <path_to_venv>/bin/activate
    $ pip install -r requirements
 
-Depending on your intended use case for lcitool you can pick which dependencies
-you need to have installed, e.g.
+More dependencies may be needed depending on your intended use case for
+lcitool, see below.
 
-If you want to create and manage VMs for your CI workloads with ``lcitool``,
-you will need more than just the very basic dependencies:
+VM dependencies
+~~~~~~~~~~~~~~~
+
+If you want to create and manage VMs be it for your CI workloads or simply
+for local testing with ``lcitool``, you will need more than just the very basic
+dependencies:
+
+* libvirt - library & daemons driving hypervisors underneath
+* qemu - emulation & virtualization
+* virt-install - creates VMs from the selected install source with libvirt
+
+All of the above dependencies will have to be installed from your system
+package manager (they're not available from PyPI).
+Additionally to the above there are other Python dependencies that lcitool
+requires in the VM scenario
 
 ::
 
    $ pip3 install --user -r vm-requirements.txt
 
-or if you want to contribute to the project, you'll need the largest set
-containing even the test dependencies
+Development dependencies
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you want to contribute to the libvirt-ci project then you'll need the
+largest superset of dependencies (including the virtualization ones mentioned
+in the previous section)
 
 ::
 
    $ pip3 install --user -r test-requirements.txt
-
-
-.. note:: If you prefer you can try to find those requirements in your package
-   manager as well.
 
 Installing lcitool
 ------------------
