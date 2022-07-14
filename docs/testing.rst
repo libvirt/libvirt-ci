@@ -13,4 +13,6 @@ suite as
     $ python3 -m pytest --regenerate-output
 
 and the expected package data sets will be updated. You can then just grab the
-changes and add them to your commit.
+changes and add them to your commit. Beware though that if you test a buggy
+code this way the tests would not be able to catch regressions since the
+"correct" test output would now match the flawed output.
