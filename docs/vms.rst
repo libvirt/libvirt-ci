@@ -251,10 +251,6 @@ earlier sections
 Usage and examples
 ==================
 
-Before any project can be built using VMs with lcitool, make sure that lcitool
-knows about the host, either by installing a new guest or updating the Ansible
-inventory with an external one as mentioned in previous sections. Then you need
-run the following:
 
 To get a list of known target platforms run:
 
