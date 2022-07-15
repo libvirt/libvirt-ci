@@ -974,6 +974,9 @@ mappings:
     AlmaLinux8: libslirp-devel
     CentOSStream8: libslirp-devel
     Debian10:
+    # Present but unusably broken:
+    # https://bugzilla.opensuse.org/show_bug.cgi?id=1201551
+    OpenSUSELeap153:
     Ubuntu1804:
     cross-policy-default: foreign
 
