@@ -40,7 +40,7 @@ def docs():
         #
         #  $ git config --local alias.push-all-ctr "push -o ci.variable=RUN_ALL_CONTAINERS=1"
         #
-        # Allowing the less verbose invokation
+        # Allowing the less verbose invocation
         #
         #  $ git push-all-ctr
         #
