@@ -10,12 +10,14 @@ import textwrap
 
 import xml.etree.ElementTree as xmlparser
 
+from lcitool import LcitoolError
+
 log = logging.getLogger(__name__)
 
 LCITOOL_XMLNS = "http://libvirt.org/schemas/lcitool/1.0"
 
 
-class LibvirtWrapperError(Exception):
+class LibvirtWrapperError(LcitoolError):
     """
     Global exception type for this module.
 
@@ -24,10 +26,7 @@ class LibvirtWrapperError(Exception):
     """
 
     def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return f"LibvirtWrapper error: {self.message}"
+        super().__init__(message, "LibvirtWrapper")
 
 
 class LibvirtWrapper():
