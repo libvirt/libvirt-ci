@@ -33,7 +33,8 @@ class ExecutionError(AnsibleWrapperError):
 
     def __init__(self, message):
         message_prefix = "Ansible execution failed: "
-        self.message = message_prefix + message
+        message = message_prefix + message
+        super().__init__(message)
 
 
 class EnvironmentError(AnsibleWrapperError):
@@ -41,7 +42,8 @@ class EnvironmentError(AnsibleWrapperError):
 
     def __init__(self, message):
         message_prefix = "Failed to prepare the execution environment: "
-        self.message = message_prefix + message
+        message = message_prefix + message
+        super().__init__(message)
 
 
 class AnsibleWrapper():
