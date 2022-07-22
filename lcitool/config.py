@@ -34,7 +34,8 @@ class LoadError(ConfigError):
 
     def __init__(self, message):
         message_prefix = "Failed to load config: "
-        self.message = message_prefix + message
+        message = message_prefix + message
+        super().__init__(message)
 
 
 class ValidationError(ConfigError):
@@ -42,7 +43,8 @@ class ValidationError(ConfigError):
 
     def __init__(self, message):
         message_prefix = "Failed to validate config: "
-        self.message = message_prefix + message
+        message = message_prefix + message
+        super().__init__(message)
 
 
 class Config(metaclass=Singleton):
