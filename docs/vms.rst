@@ -125,12 +125,14 @@ them do
    $ virsh blockresize libvirt-freebsd-$MAJOR \
      /var/lib/libvirt/images/libvirt-freebsd-$MAJOR.qcow2 15G
 
-Then inside the guest, as root, enlarge the 3rd partition & filesystem
-to consume all new space:
+Then inside the guest, FreeBSD should detect the enlarged volume
+and have automatically increased the vtbd0 partition size. Thus
+all that is required is to accept the changes and then rexize
+the filesystem.
 
 ::
 
-   # gpart resize -i 3 vtbd0
+   # gpart commit vtbd0
    # service growfs onestart
 
 Some manual tweaking will be needed, in particular:
