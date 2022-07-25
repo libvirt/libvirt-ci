@@ -4,6 +4,7 @@ packages:
   - cppi
   - gcc
   - gettext
+  - glib-mkenums
   - glib2
   - gobject-introspection
   - gtk-doc

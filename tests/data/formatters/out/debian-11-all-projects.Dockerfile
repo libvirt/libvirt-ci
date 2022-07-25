@@ -97,6 +97,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
             libgdk-pixbuf2.0-dev \
             libgirepository1.0-dev \
             libglib2.0-dev \
+            libglib2.0-dev-bin \
             libglusterfs-dev \
             libgnutls28-dev \
             libgovirt-dev \

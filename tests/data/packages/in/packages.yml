@@ -57,6 +57,7 @@ packages:
 - genisoimage
 - gettext
 - git
+- glib-mkenums
 - glib2
 - glib2-native
 - glib2-static

@@ -161,6 +161,7 @@ native:
 - libextutils-cbuilder-perl
 - libfile-slurp-perl
 - libglib2.0-dev
+- libglib2.0-dev-bin
 - libgtk-vnc-2.0-dev
 - libguestfs-tools
 - libio-compress-perl

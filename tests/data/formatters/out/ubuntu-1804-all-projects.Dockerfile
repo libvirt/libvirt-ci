@@ -95,6 +95,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
             libgdk-pixbuf2.0-dev \
             libgirepository1.0-dev \
             libglib2.0-dev \
+            libglib2.0-dev-bin \
             libgnutls28-dev \
             libgtk-3-dev \
             libgtk-vnc-2.0-dev \
