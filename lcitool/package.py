@@ -201,11 +201,12 @@ class PyPIPackage(Package):
 
     def __init__(self,
                  mappings,
-                 pkg_mapping):
+                 pkg_mapping,
+                 base_keys):
 
         super().__init__(pkg_mapping)
 
-        self.name = self._eval(mappings)
+        self.name = self._eval(mappings, keys=base_keys)
         if self.name is None:
             raise PackageEval(f"No mapping for '{pkg_mapping}'")
 
@@ -214,11 +215,12 @@ class CPANPackage(Package):
 
     def __init__(self,
                  mappings,
-                 pkg_mapping):
+                 pkg_mapping,
+                 base_keys):
 
         super().__init__(pkg_mapping)
 
-        self.name = self._eval(mappings)
+        self.name = self._eval(mappings, keys=base_keys)
         if self.name is None:
             raise PackageEval(f"No mapping for '{pkg_mapping}'")
 
@@ -274,10 +276,10 @@ class PackageFactory:
         return NativePackage(self._mappings, pkg_mapping, self._base_keys)
 
     def _get_pypi_package(self, pkg_mapping):
-        return PyPIPackage(self._pypi_mappings, pkg_mapping)
+        return PyPIPackage(self._pypi_mappings, pkg_mapping, self._base_keys)
 
     def _get_cpan_package(self, pkg_mapping):
-        return CPANPackage(self._cpan_mappings, pkg_mapping)
+        return CPANPackage(self._cpan_mappings, pkg_mapping, self._base_keys)
 
     def _get_noncross_package(self, pkg_mapping):
         package_resolvers = [self._get_native_package,
