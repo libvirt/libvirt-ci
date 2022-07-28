@@ -80,11 +80,6 @@ class PackageMissing(PackageError):
     """Thrown when the package is missing from the mappings entirely"""
 
 
-class MappingKeyNotFound(Exception):
-    """Thrown when the given mapping key could not be matched in the mappings file"""
-    pass
-
-
 class Package(metaclass=abc.ABCMeta):
     """
     Abstract base class for all package types
@@ -115,7 +110,7 @@ class Package(metaclass=abc.ABCMeta):
         self.name = None
 
     @abc.abstractmethod
-    def _eval(self, mappings, key="default"):
+    def _eval(self, mappings, keys=["default"]):
         """
         Resolves package mapping to the actual name of the package.
 
@@ -128,16 +123,15 @@ class Package(metaclass=abc.ABCMeta):
                     e.g. key='rpm', key='CentOS', key='cross-mingw32-rpm', etc.
         :return: name of the resolved package as string, can be None if the
                  package is supposed to be disabled on the given platform
-        :raises: MappingKeyNotFound
         """
 
-        log.debug(f"Eval of mapping='{self.mapping}', key='{key}'")
+        log.debug(f"Eval of mapping='{self.mapping}', keys={', '.join(keys)}")
 
         mapping = mappings.get(self.mapping, {})
-        try:
-            return mapping[key]
-        except KeyError:
-            raise MappingKeyNotFound
+        for k in keys:
+            if k in mapping:
+                return mapping[k]
+        return None
 
 
 class CrossPackage(Package):
@@ -166,27 +160,22 @@ class CrossPackage(Package):
             arch_keys = [cross_arch + "-" + k for k in base_keys]
             cross_keys.extend(arch_keys + base_keys)
 
-        pkg_name = None
-        for k in cross_keys:
-            try:
-                pkg_name = super()._eval(mappings, key=k)
-                if pkg_name is None:
-                    return None
+        pkg_name = super()._eval(mappings, keys=cross_keys)
+        if pkg_name is None:
+            return None
 
-                if pkg_format == "deb":
-                    # For Debian-based distros, the name of the foreign package
-                    # is obtained by appending the foreign architecture (in
-                    # Debian format) to the name of the native package.
-                    #
-                    # The exception to this is cross-compilers, where we have
-                    # to install the package for the native architecture in
-                    # order to be able to build for the foreign architecture
-                    cross_arch_deb = util.native_arch_to_deb_arch(cross_arch)
-                    if self.mapping not in ["gcc", "g++"]:
-                        pkg_name = pkg_name + ":" + cross_arch_deb
-                return pkg_name
-            except MappingKeyNotFound:
-                continue
+        if pkg_format == "deb":
+            # For Debian-based distros, the name of the foreign package
+            # is obtained by appending the foreign architecture (in
+            # Debian format) to the name of the native package.
+            #
+            # The exception to this is cross-compilers, where we have
+            # to install the package for the native architecture in
+            # order to be able to build for the foreign architecture
+            cross_arch_deb = util.native_arch_to_deb_arch(cross_arch)
+            if self.mapping not in ["gcc", "g++"]:
+                pkg_name = pkg_name + ":" + cross_arch_deb
+        return pkg_name
 
 
 class NativePackage(Package):
@@ -206,11 +195,7 @@ class NativePackage(Package):
         native_arch = util.get_native_arch()
         native_keys = [native_arch + "-" + k for k in base_keys] + base_keys
 
-        for k in native_keys:
-            try:
-                return super()._eval(mappings, key=k)
-            except MappingKeyNotFound:
-                continue
+        return super()._eval(mappings, keys=native_keys)
 
 
 class PyPIPackage(Package):
@@ -226,10 +211,7 @@ class PyPIPackage(Package):
             raise PackageEval(f"No mapping for '{pkg_mapping}'")
 
     def _eval(self, mappings):
-        try:
-            return super()._eval(mappings)
-        except MappingKeyNotFound:
-            return None
+        return super()._eval(mappings)
 
 
 class CPANPackage(Package):
@@ -245,10 +227,7 @@ class CPANPackage(Package):
             raise PackageEval(f"No mapping for '{pkg_mapping}'")
 
     def _eval(self, mappings):
-        try:
-            return super()._eval(mappings)
-        except MappingKeyNotFound:
-            return None
+        return super()._eval(mappings)
 
 
 class PackageFactory:
