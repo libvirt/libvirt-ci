@@ -247,4 +247,5 @@ native:
 - zlib-devel
 - zlib-static
 pypi:
+- flake8
 - pillow

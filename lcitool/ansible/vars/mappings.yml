@@ -2071,6 +2071,9 @@ pypi_mappings:
   #gcovr:
   #  default: gcovr
 
+  flake8:
+    default: flake8
+
   meson:
     default: meson==0.56.0
 
@@ -2079,6 +2082,9 @@ pypi_mappings:
 
   python3-dbus:
     default: dbus-python
+
+  python3-docutils:
+    default: docutils
 
   python3-gobject:
     default: PyGObject
