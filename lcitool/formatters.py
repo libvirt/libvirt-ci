@@ -163,7 +163,7 @@ class DockerfileFormatter(Formatter):
             varmap["cross_pkgs"] = self._align(facts["packaging"]["command"],
                                                varmap["cross_pkgs"])
         if varmap["pypi_pkgs"]:
-            varmap["pypi_pkgs"] = self._align("pip3", varmap["pypi_pkgs"])
+            varmap["pypi_pkgs"] = self._align(facts["paths"]["pip3"], varmap["pypi_pkgs"])
         if varmap["cpan_pkgs"]:
             varmap["cpan_pkgs"] = self._align("cpanm", varmap["cpan_pkgs"])
 
@@ -359,7 +359,7 @@ class DockerfileFormatter(Formatter):
         strings = [script.format(**varmap)]
 
         if varmap["pypi_pkgs"]:
-            strings.append("\nRUN pip3 install {pypi_pkgs}".format(**varmap))
+            strings.append("\nRUN {paths_pip3} install {pypi_pkgs}".format(**varmap))
 
         if varmap["cpan_pkgs"]:
             strings.append("\nRUN cpanm --notest {cpan_pkgs}".format(**varmap))

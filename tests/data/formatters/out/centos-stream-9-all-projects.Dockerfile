@@ -241,7 +241,7 @@ RUN dnf distro-sync -y && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
 
-RUN pip3 install pillow
+RUN /usr/bin/pip3 install pillow
 
 RUN cpanm --notest \
           LWP::UserAgent \
