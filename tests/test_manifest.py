@@ -118,9 +118,9 @@ def test_generate(monkeypatch):
         assert_write(Path("ci", "containers", "debian-sid-cross-i686.Dockerfile"))
 
         # Verify nothing else unexpected was created/deleted/written
-        assert(len(mkdirs) == 0)
-        assert(len(unlinks) == 0)
-        assert(len(writes) == 0)
+        assert len(mkdirs) == 0
+        assert len(unlinks) == 0
+        assert len(writes) == 0
 
     try:
         assert_operations()
