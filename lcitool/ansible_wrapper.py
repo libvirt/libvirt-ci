@@ -241,15 +241,18 @@ class AnsibleWrapper():
                 f"ansible-inventory didn't return a valid YAML: {ex}"
             )
 
-    def run_playbook(self, limit=None):
+    def run_playbook(self, limit=None, verbosity=0):
         """
         :param limit: list of hosts to restrict the playbook execution to
+        :param verbosity: verbosity of underlying ansible invocation
         :returns: None
         """
 
         params = self._get_default_params()
         params["playbook"] = "main.yml"
 
+        if verbosity:
+            params["verbosity"] = verbosity
         if limit:
             params["limit"] = ','.join(limit)
 

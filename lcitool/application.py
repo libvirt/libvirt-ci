@@ -60,7 +60,7 @@ class Application(metaclass=Singleton):
         log.debug(f"Cmdline args={cli_args}")
 
     def _execute_playbook(self, playbook, hosts_pattern, projects_pattern,
-                          git_revision):
+                          git_revision, verbosity=0):
         from lcitool.ansible_wrapper import AnsibleWrapper, AnsibleWrapperError
 
         log.debug(f"Executing playbook '{playbook}': "
@@ -138,7 +138,7 @@ class Application(metaclass=Singleton):
                                    extravars=extra_vars)
         log.debug(f"Running Ansible with playbook '{playbook_base.name}'")
         try:
-            ansible_runner.run_playbook(limit=hosts_expanded)
+            ansible_runner.run_playbook(limit=hosts_expanded, verbosity=verbosity)
         except AnsibleWrapperError as ex:
             raise ApplicationError(ex.message)
 
@@ -313,7 +313,7 @@ class Application(metaclass=Singleton):
         self._entrypoint_debug(args)
 
         self._execute_playbook("update", args.hosts, args.projects,
-                               args.git_revision)
+                               args.git_revision, args.verbose)
 
     def _action_build(self, args):
         self._entrypoint_debug(args)
@@ -327,7 +327,7 @@ class Application(metaclass=Singleton):
             )
 
         self._execute_playbook("build", args.hosts, args.projects,
-                               args.git_revision)
+                               args.git_revision, args.verbose)
 
     def _action_variables(self, args):
         self._entrypoint_debug(args)
