@@ -2080,23 +2080,28 @@ pypi_mappings:
   python3-PyYAML:
     default: PyYAML
 
+  # Several packages need devel header packages that are generally not
+  # installed by Linux distros.  Restrict them to MacOS, which is where
+  # they are actually needed.
+  #
+  # TODO: install -devel dependencies also for packages installed from PyPI
   python3-dbus:
-    default: dbus-python
+    MacOS: dbus-python
 
   python3-docutils:
     default: docutils
 
   python3-gobject:
-    default: PyGObject
+    MacOS: PyGObject
 
   python3-libxml2:
-    default: libxml2-python3
+    MacOS: libxml2-python3
 
   python3-lxml:
     default: lxml
 
   python3-numpy:
-    default: numpy
+    MacOS: numpy
 
   python3-pillow:
     default: pillow
