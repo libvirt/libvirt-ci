@@ -59,6 +59,7 @@ class Inventory(metaclass=Singleton):
 
     @staticmethod
     def _read_facts_from_file(yaml_path):
+        log.debug(f"Loading facts from '{yaml_path}'")
         with open(yaml_path, "r") as infile:
             return yaml.safe_load(infile)
 
@@ -98,10 +99,6 @@ class Inventory(metaclass=Singleton):
 
         return inventory
 
-    def _load_facts_from(self, entry):
-        log.debug(f"Loading facts from '{entry}'")
-        return self._read_facts_from_file(entry)
-
     @staticmethod
     def _validate_target_facts(target_facts, target):
         fname = target + ".yml"
@@ -117,12 +114,25 @@ class Inventory(metaclass=Singleton):
             raise InventoryError(f'OS version "{target_facts["os"]["version"]}" does not match version in file name {fname} ({expected_version})')
 
     def _load_target_facts(self):
+        def merge_dict(source, dest):
+            for key in source.keys():
+                if key not in dest:
+                    dest[key] = copy.deepcopy(source[key])
+                    continue
+
+                if isinstance(source[key], list) or isinstance(dest[key], list):
+                    raise InventoryError("cannot merge lists")
+                if isinstance(source[key], dict) != isinstance(dest[key], dict):
+                    raise InventoryError("cannot merge dictionaries with non-dictionaries")
+                if isinstance(source[key], dict):
+                    merge_dict(source[key], dest[key])
+
         facts = {}
         targets_path = Path(resource_filename(__name__, "facts/targets/"))
         targets_all_path = Path(targets_path, "all.yml")
 
         # first load the shared facts from targets/all.yml
-        shared_facts = self._load_facts_from(targets_all_path)
+        shared_facts = self._read_facts_from_file(targets_all_path)
 
         # then load the rest of the facts
         for entry in targets_path.iterdir():
@@ -130,15 +140,12 @@ class Inventory(metaclass=Singleton):
                 continue
 
             target = entry.stem
-
-            facts[target] = copy.deepcopy(shared_facts)
-
-            # override shared facts with per-distro facts
-            tmp = self._load_facts_from(entry)
-            facts[target].update(tmp)
-            tmp["target"] = target
-
+            facts[target] = self._read_facts_from_file(entry)
             self._validate_target_facts(facts[target], target)
+            facts[target]["target"] = target
+
+            # missing per-distro facts fall back to shared facts
+            merge_dict(shared_facts, facts[target])
 
         return facts
 
