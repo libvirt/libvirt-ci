@@ -89,7 +89,7 @@ class Application(metaclass=Singleton):
             git_branch = "master"
 
         playbook_base = Path(base, "playbooks", playbook)
-        group_vars = inventory.target_facts
+        group_vars = dict()
 
         extra_vars = config.values
         extra_vars.update({
@@ -109,7 +109,7 @@ class Application(metaclass=Singleton):
             # packages are evaluated on a target level and since the
             # host->target mapping is N-1, we can skip hosts belonging to a
             # target group for which we already evaluated the package list
-            if group_vars[target].get("packages"):
+            if target in group_vars:
                 continue
 
             # resolve the package mappings to actual package names
@@ -126,11 +126,15 @@ class Application(metaclass=Singleton):
             package_names_early_install = package_names_by_type(pkgs_early_install)
 
             # merge the package lists to the Ansible group vars
-            group_vars[target]["packages"] = package_names["native"]
-            group_vars[target]["pypi_packages"] = package_names["pypi"]
-            group_vars[target]["cpan_packages"] = package_names["cpan"]
-            group_vars[target]["unwanted_packages"] = package_names_remove["native"]
-            group_vars[target]["early_install_packages"] = package_names_early_install["native"]
+            packages = {}
+            packages["packages"] = package_names["native"]
+            packages["pypi_packages"] = package_names["pypi"]
+            packages["cpan_packages"] = package_names["cpan"]
+            packages["unwanted_packages"] = package_names_remove["native"]
+            packages["early_install_packages"] = package_names_early_install["native"]
+
+            group_vars[target] = packages
+            group_vars[target].update(inventory.target_facts[target])
 
         ansible_runner.prepare_env(playbookdir=playbook_base,
                                    inventories=[inventory.ansible_inventory],
