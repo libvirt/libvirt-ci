@@ -102,6 +102,20 @@ class Inventory(metaclass=Singleton):
         log.debug(f"Loading facts from '{entry}'")
         return self._read_facts_from_file(entry)
 
+    @staticmethod
+    def _validate_target_facts(target_facts, target):
+        fname = target + ".yml"
+
+        actual_osname = target_facts["os"]["name"].lower()
+        if not target.startswith(actual_osname + "-"):
+            raise InventoryError(f'OS name "{target_facts["os"]["name"]}" does not match file name {fname}')
+        target = target[len(actual_osname) + 1:]
+
+        actual_version = target_facts["os"]["version"].lower()
+        expected_version = target.replace("-", "")
+        if expected_version != actual_version:
+            raise InventoryError(f'OS version "{target_facts["os"]["version"]}" does not match version in file name {fname} ({expected_version})')
+
     def _load_target_facts(self):
         facts = {}
         targets_path = Path(resource_filename(__name__, "facts/targets/"))
@@ -123,6 +137,8 @@ class Inventory(metaclass=Singleton):
             tmp = self._load_facts_from(entry)
             facts[target].update(tmp)
             tmp["target"] = target
+
+            self._validate_target_facts(facts[target], target)
 
         return facts
 
