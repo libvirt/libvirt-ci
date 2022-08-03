@@ -3,7 +3,7 @@ Externally defined project package lists
 
 Historically all projects have been defined in data files at the location::
 
-  lcitool/ansible/vars/projects/$NAME.yml
+  lcitool/facts/projects/$NAME.yml
 
 This creates a chicken and egg problem when a project changes its build
 pre-requisites, as libvirt-ci needs to be updated if-and-only-if the

@@ -78,7 +78,7 @@ class Projects(metaclass=Singleton):
 
     @staticmethod
     def _load_projects():
-        source = Path(resource_filename(__name__, "ansible/vars/projects"))
+        source = Path(resource_filename(__name__, "facts/projects"))
         projects = Projects._load_projects_from_path(source)
 
         if util.get_extra_data_dir() is not None:
@@ -89,12 +89,12 @@ class Projects(metaclass=Singleton):
 
     @staticmethod
     def _load_internal_projects():
-        source = Path(resource_filename(__name__, "ansible/vars/projects/internal"))
+        source = Path(resource_filename(__name__, "facts/projects/internal"))
         return Projects._load_projects_from_path(source)
 
     def _load_mappings(self):
         mappings_path = resource_filename(__name__,
-                                          "ansible/vars/mappings.yml")
+                                          "facts/mappings.yml")
 
         try:
             with open(mappings_path, "r") as infile:

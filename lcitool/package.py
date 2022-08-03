@@ -8,7 +8,7 @@
 Translates generic package mapping names to concrete package names
 
 This module takes care of translation of the generic package mapping names
-originating from the mappings.yml file (e.g. ansible/vars/mappings.yml) to
+originating from the mappings.yml file (e.g. facts/mappings.yml) to
 specific package names depending on several factors like packaging format, OS
 distribution, cross building, etc.
 

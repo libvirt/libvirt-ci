@@ -30,7 +30,7 @@ In case you'd like to add a new OS distribution then:
    you're adding uses a package format we currently don't know about.
    Maintainers will advise on what to do in that case.
 
-#. Edit the ``lcitool/ansible/vars/mappings.yml`` file to update all the
+#. Edit the ``lcitool/facts/mappings.yml`` file to update all the
    existing package entries, providing details of the new OS distro.
 
 #. Run the unit tests with::
@@ -67,11 +67,11 @@ In order to simply add a new package mapping:
 
 #. Fork the project.
 
-#. Edit the ``lcitool/ansible/vars/mappings.yml`` file to add your desired
+#. Edit the ``lcitool/facts/mappings.yml`` file to add your desired
    mapping.
 
 #. Add the package mapping to the respective project's config file under
-   ``lcitool/ansible/vars/projects/``.
+   ``lcitool/facts/projects/``.
 
 #. Run the unit tests with::
 
