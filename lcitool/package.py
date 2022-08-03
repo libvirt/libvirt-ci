@@ -109,7 +109,6 @@ class Package(metaclass=abc.ABCMeta):
         self.mapping = pkg_mapping
         self.name = None
 
-    @abc.abstractmethod
     def _eval(self, mappings, keys=["default"]):
         """
         Resolves package mapping to the actual name of the package.
@@ -210,9 +209,6 @@ class PyPIPackage(Package):
         if self.name is None:
             raise PackageEval(f"No mapping for '{pkg_mapping}'")
 
-    def _eval(self, mappings):
-        return super()._eval(mappings)
-
 
 class CPANPackage(Package):
 
@@ -225,9 +221,6 @@ class CPANPackage(Package):
         self.name = self._eval(mappings)
         if self.name is None:
             raise PackageEval(f"No mapping for '{pkg_mapping}'")
-
-    def _eval(self, mappings):
-        return super()._eval(mappings)
 
 
 class PackageFactory:
