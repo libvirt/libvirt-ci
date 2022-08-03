@@ -3,8 +3,6 @@ os:
   name: 'Debian'
   version: '11'
 
-target: 'debian-11'
-
 packaging:
   format: 'deb'
   command: 'apt-get'

@@ -3,8 +3,6 @@ os:
   name: 'Ubuntu'
   version: '1804'
 
-target: 'ubuntu-1804'
-
 packaging:
   format: 'deb'
   command: 'apt-get'

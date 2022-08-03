@@ -3,8 +3,6 @@ os:
   name: 'AlmaLinux'
   version: '8'
 
-target: 'almalinux-8'
-
 packaging:
   format: 'rpm'
   command: 'dnf'

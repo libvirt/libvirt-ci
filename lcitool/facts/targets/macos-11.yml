@@ -3,8 +3,6 @@ os:
   name: 'MacOS'
   version: '11'
 
-target: 'macos-11'
-
 packaging:
   format: 'brew'
   command: 'brew'

@@ -122,6 +122,7 @@ class Inventory(metaclass=Singleton):
             # override shared facts with per-distro facts
             tmp = self._load_facts_from(entry)
             facts[target].update(tmp)
+            tmp["target"] = target
 
         return facts
 

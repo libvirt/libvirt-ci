@@ -3,8 +3,6 @@ os:
   name: 'Alpine'
   version: '316'
 
-target: 'alpine-316'
-
 packaging:
   format: 'apk'
   command: 'apk'

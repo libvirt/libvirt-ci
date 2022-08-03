@@ -3,8 +3,6 @@ os:
   name: 'Fedora'
   version: 'Rawhide'
 
-target: 'fedora-rawhide'
-
 packaging:
   format: 'rpm'
   command: 'dnf'
