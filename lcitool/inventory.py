@@ -98,35 +98,29 @@ class Inventory(metaclass=Singleton):
 
         return inventory
 
-    def _load_facts_from(self, facts_dir):
-        facts = {}
-        for entry in sorted(facts_dir.iterdir()):
-            if not entry.is_file() or entry.suffix != ".yml":
-                continue
-
-            log.debug(f"Loading facts from '{entry}'")
-            facts.update(self._read_facts_from_file(entry))
-
-        return facts
+    def _load_facts_from(self, entry):
+        log.debug(f"Loading facts from '{entry}'")
+        return self._read_facts_from_file(entry)
 
     def _load_target_facts(self):
         facts = {}
-        group_vars_path = Path(resource_filename(__name__, "ansible/group_vars/"))
-        group_vars_all_path = Path(group_vars_path, "all")
+        targets_path = Path(resource_filename(__name__, "facts/targets/"))
+        targets_all_path = Path(targets_path, "all.yml")
 
-        # first load the shared facts from group_vars/all
-        shared_facts = self._load_facts_from(group_vars_all_path)
+        # first load the shared facts from targets/all.yml
+        shared_facts = self._load_facts_from(targets_all_path)
 
         # then load the rest of the facts
-        for entry in group_vars_path.iterdir():
-            if not entry.is_dir() or entry.name == "all":
+        for entry in targets_path.iterdir():
+            if not entry.is_file() or entry.suffix != ".yml" or entry.name == "all.yml":
                 continue
 
-            tmp = self._load_facts_from(entry)
+            target = entry.stem
+
+            facts[target] = copy.deepcopy(shared_facts)
 
             # override shared facts with per-distro facts
-            target = entry.name
-            facts[target] = copy.deepcopy(shared_facts)
+            tmp = self._load_facts_from(entry)
             facts[target].update(tmp)
 
         return facts

@@ -22,7 +22,7 @@ In case you'd like to add a new OS distribution then:
 
 #. Fork the project.
 
-#. Add metadata under ``lcitool/ansible/group_vars/``
+#. Add metadata under ``lcitool/facts/targets/``
    for the new OS distro. Have a look at the structure we use, pick a target
    OS that's closest to what you're adding, copy-paste the configuration and
    edit the relevant bits.
