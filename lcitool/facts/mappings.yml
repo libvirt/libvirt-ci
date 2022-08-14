@@ -333,11 +333,17 @@ mappings:
     pkg:
     MacOS:
 
+  e2fsprogs:
+    default: e2fsprogs
+
   ebtables:
     default: ebtables
     apk: iptables
     pkg:
     MacOS:
+
+  expect:
+    default: expect
 
   findutils:
     default: findutils
@@ -831,6 +837,11 @@ mappings:
     rpm: rdma-core-devel
     cross-policy-default: foreign
 
+  libguestfs:
+    deb: libguestfs-dev
+    rpm: libguestfs-devel
+    cross-policy-default: foreign
+
   libibverbs:
     deb: libibverbs-dev
     rpm: rdma-core-devel
@@ -885,6 +896,14 @@ mappings:
     AlmaLinux9:
     CentOSStream9:
     cross-policy-default: foreign
+
+  libnbd:
+    deb: libnbd-dev
+    rpm: libnbd-devel
+    Debian10:
+    Debian11:
+    Ubuntu1804:
+    Ubuntu2004:
 
   libnl3:
     apk: libnl3-dev
@@ -1036,6 +1055,11 @@ mappings:
   libtoolize:
     default: libtool
 
+  libtorrent:
+    default: libtorrent
+    deb: libtorrent-dev
+    rpm: libtorrent-devel
+
   libubsan:
     deb: libubsan1
     rpm: libubsan
@@ -1139,6 +1163,12 @@ mappings:
     rpm: glibc-langpack-en
     OpenSUSE: glibc-locale
 
+  losetup:
+    apk: busybox
+    deb: mount
+    pkg:
+    rpm: util-linux
+
   lsof:
     default: lsof
 
@@ -1147,6 +1177,16 @@ mappings:
     deb: liblttng-ust-dev
     rpm: lttng-ust-devel
     cross-policy-default: foreign
+
+  lua:
+    apk: lua5.4
+    deb: lua5.4
+    pkg: lua54
+    rpm: lua-devel
+    MacOS: lua
+    Debian10: lua5.3
+    Ubuntu1804: lua5.3
+    Ubuntu2004: lua5.3
 
   lvm2:
     default: lvm2
@@ -1178,6 +1218,13 @@ mappings:
     OpenSUSELeap153:
     Ubuntu1804:
     Ubuntu2004:
+
+  mkisofs:
+    apk: cdrkit
+    deb: genisoimage
+    pkg: xorriso
+    rpm: xorriso
+    MacOS: xorriso
 
   modprobe:
     default: kmod
@@ -1214,6 +1261,15 @@ mappings:
     apk:
     MacOS:
     Ubuntu1804:
+
+  nbdsh:
+    default: python3-libnbd
+    apk:
+    pkg:
+    OpenSUSE:
+    Debian10:
+    Ubuntu1804:
+    Ubuntu2004:
 
   ncursesw:
     default: ncurses
@@ -1359,6 +1415,13 @@ mappings:
     deb: libextutils-cbuilder-perl
     pkg: p5-ExtUtils-CBuilder
     rpm: perl-ExtUtils-CBuilder
+
+  perl-ExtUtils-Embed:
+    apk: perl
+    deb: perl
+    pkg: perl5
+    rpm: perl-ExtUtils-Embed
+    OpenSUSE: perl
 
   perl-File-Slurp:
     apk: perl-file-slurp
@@ -1600,6 +1663,11 @@ mappings:
     MacOS:
     OpenSUSE: python3-dbus-python
 
+  python3-boto3:
+    default: python3-boto3
+    apk:
+    pkg: py39-boto3
+
   python3-devel:
     default: python3
     apk: python3-dev
@@ -1727,6 +1795,14 @@ mappings:
     MacOS: qemu
     OpenSUSE: qemu-tools
 
+  qemu-io:
+    apk: qemu-img
+    deb: qemu-utils
+    pkg: qemu
+    rpm: qemu-img
+    MacOS: qemu
+    OpenSUSE: qemu-tools
+
   qemu-nbd:
     default: qemu-utils
     apk: qemu-img
@@ -1820,6 +1896,15 @@ mappings:
     pkg: gsed
     MacOS: gnu-sed
 
+  sfdisk:
+    default: sfdisk
+    deb: fdisk
+
+    # linuxfdisk includes a version of sfdisk, but it is limited/old (no -X
+    # option) and what's more the binary is called sfdisk-linux
+    pkg:
+    rpm: util-linux
+
   showmount:
     apk: nfs-utils
     deb: nfs-common
@@ -1831,6 +1916,9 @@ mappings:
     deb: libsnappy-dev
     rpm: snappy-devel
     cross-policy-default: foreign
+
+  socat:
+    default: socat
 
   sparse:
     default: sparse
@@ -1868,6 +1956,11 @@ mappings:
     s390x-deb:
     cross-policy-default: foreign
 
+  ss:
+    deb: iproute2
+    rpm: iproute
+    OpenSUSE: iproute2
+
   ssh-client:
     apk: openssh-client
     deb: openssh-client
@@ -1901,6 +1994,12 @@ mappings:
     deb: iproute2
     rpm: iproute-tc
     OpenSUSE: iproute2
+
+  tcl:
+    default: tcl
+    deb: tcl-dev
+    pkg: tcl87
+    rpm: tcl-devel
 
   tcpdump:
     default: tcpdump
@@ -2051,6 +2150,10 @@ mappings:
     OpenSUSE: zlib-devel-static
     cross-policy-default: foreign
 
+  zstd:
+    default: zstd
+    deb: libzstd-dev
+    rpm: libzstd-devel
 
 # PyPi mappings are used to map the generic packages name used to define
 # projects to the specific package name and version which will be used when
@@ -2079,6 +2182,9 @@ pypi_mappings:
 
   python3-PyYAML:
     default: PyYAML
+
+  python3-boto3:
+    default: boto3
 
   # Several packages need devel header packages that are generally not
   # installed by Linux distros.  Restrict them to MacOS, which is where
@@ -2138,6 +2244,9 @@ cpan_mappings:
 
   perl-ExtUtils-CBuilder:
     default: ExtUtils::CBuilder
+
+  perl-ExtUtils-Embed:
+    default: ExtUtils::Embed
 
   perl-File-Slurp:
     default: File::Slurp

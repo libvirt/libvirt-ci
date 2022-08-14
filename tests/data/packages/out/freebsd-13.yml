@@ -29,7 +29,9 @@ native:
 - diskscrub
 - dnsmasq
 - dtc
+- e2fsprogs
 - e2fsprogs-libuuid
+- expect
 - flex
 - fusefs-libs
 - fusefs-libs3
@@ -74,12 +76,14 @@ native:
 - libssh2
 - libtasn1
 - libtool
+- libtorrent
 - libvirt
 - libvirt-glib
 - libxml2
 - libxslt
 - llvm
 - lsof
+- lua54
 - lzo2
 - meson
 - nano
@@ -131,6 +135,7 @@ native:
 - pkgconf
 - png
 - polkit
+- py39-boto3
 - py39-cloud-init
 - py39-dbus
 - py39-docutils
@@ -160,9 +165,11 @@ native:
 - sdl2
 - sdl2_image
 - snappy
+- socat
 - spice-gtk
 - spice-protocol
 - sudo
+- tcl87
 - tcpdump
 - tesseract
 - texinfo
@@ -174,6 +181,7 @@ native:
 - virglrenderer
 - vte3
 - wget
+- xorriso
 - yajl
 - zip
 - zstd
