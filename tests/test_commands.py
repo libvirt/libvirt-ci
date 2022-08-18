@@ -16,6 +16,7 @@ cli_args = [
     ["variables", "almalinux-8", "osinfo-db-tools"],
     ["dockerfile", "almalinux-8", "osinfo-db-tools"],
     ["manifest", "-n", Path(__file__).parent.parent.joinpath("examples", "manifest.yml")],
+    ["container", "engines"]
 ]
 
 
