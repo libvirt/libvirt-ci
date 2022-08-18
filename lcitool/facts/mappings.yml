@@ -2061,7 +2061,7 @@ mappings:
 
 pypi_mappings:
 
-  # Dependancies of this in turn need various native
+  # Dependencies of this in turn need various native
   # devel header packages & toolchains that may not
   # exist.
   #gcovr:
