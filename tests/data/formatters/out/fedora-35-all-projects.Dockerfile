@@ -245,7 +245,6 @@ exec "$@"' > /usr/bin/nosync && \
         sanlock-devel \
         scrub \
         sed \
-        sheepdog \
         snappy-devel \
         sparse \
         spice-gtk3-devel \

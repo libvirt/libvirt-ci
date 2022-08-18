@@ -241,7 +241,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
             rustc \
             scrub \
             sed \
-            sheepdog \
             sparse \
             systemtap-sdt-dev \
             tar \
