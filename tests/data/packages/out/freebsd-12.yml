@@ -67,6 +67,7 @@ native:
 - libnfs
 - libpcap
 - libpciaccess
+- libslirp
 - libsoup
 - libspice-server
 - libssh

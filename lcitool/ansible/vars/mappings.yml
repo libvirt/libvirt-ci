@@ -972,12 +972,12 @@ mappings:
     cross-policy-default: foreign
 
   libslirp:
+    default: libslirp
     apk: libslirp-dev
     deb: libslirp-dev
     rpm: libslirp-devel
     AlmaLinux:
     CentOS:
-    MacOS: libslirp
     AlmaLinux8: libslirp-devel
     CentOSStream8: libslirp-devel
     Debian10:
