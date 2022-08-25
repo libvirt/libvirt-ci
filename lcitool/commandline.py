@@ -43,6 +43,12 @@ class CommandLine:
                   mounted in the container",
         )
 
+        scriptopt = argparse.ArgumentParser(add_help=False)
+        scriptopt.add_argument(
+            "--script",
+            help="absolute path to the script which will run the workload",
+        )
+
         installtargetopt = argparse.ArgumentParser(add_help=False)
         installtargetopt.add_argument(
             "-t", "--target",
