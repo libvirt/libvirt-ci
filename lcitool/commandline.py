@@ -36,6 +36,13 @@ class CommandLine:
             help="container engine to use (default=podman)",
         )
 
+        workload_diropt = argparse.ArgumentParser(add_help=False)
+        workload_diropt.add_argument(
+            "--workload-dir",
+            help="absolute path of data/scratch directory to be \
+                  mounted in the container",
+        )
+
         installtargetopt = argparse.ArgumentParser(add_help=False)
         installtargetopt.add_argument(
             "-t", "--target",
