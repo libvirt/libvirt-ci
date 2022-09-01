@@ -190,7 +190,6 @@ native:
 - screen
 - scrub
 - sed
-- sheepdog
 - sparse
 - spice-protocol
 - strace

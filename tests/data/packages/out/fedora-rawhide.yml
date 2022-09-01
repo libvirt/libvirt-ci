@@ -244,7 +244,6 @@ native:
 - screen
 - scrub
 - sed
-- sheepdog
 - snappy-devel
 - sparse
 - spice-gtk3-devel

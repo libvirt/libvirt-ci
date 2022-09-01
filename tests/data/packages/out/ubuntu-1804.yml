@@ -248,7 +248,6 @@ native:
 - screen
 - scrub
 - sed
-- sheepdog
 - sparse
 - strace
 - sudo

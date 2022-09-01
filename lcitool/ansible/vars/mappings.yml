@@ -1819,10 +1819,6 @@ mappings:
     pkg: gsed
     MacOS: gnu-sed
 
-  sheepdog:
-    Fedora: sheepdog
-    Ubuntu1804: sheepdog
-
   showmount:
     apk: nfs-utils
     deb: nfs-common

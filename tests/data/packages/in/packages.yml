@@ -265,7 +265,6 @@ packages:
 - sdl2
 - sdl2-image
 - sed
-- sheepdog
 - showmount
 - snappy
 - sparse
