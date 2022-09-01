@@ -115,6 +115,7 @@ RUN zypper update -y && \
            librest-devel \
            libseccomp-devel \
            libselinux-devel \
+           libslirp-devel \
            libsoup-devel \
            libspice-server-devel \
            libssh-devel \
