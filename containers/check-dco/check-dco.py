@@ -20,13 +20,14 @@ def get_branch_commits():
     cwd = os.getcwd()
     reponame = os.path.basename(cwd)
     repourl = "https://gitlab.com/%s/%s.git" % (namespace, reponame)
+    main = os.environ["CI_DEFAULT_BRANCH"]
 
     subprocess.check_call(["git", "remote", "add", "check-dco", repourl])
-    subprocess.check_call(["git", "fetch", "check-dco", "master"],
+    subprocess.check_call(["git", "fetch", "check-dco", main],
                           stdout=subprocess.DEVNULL,
                           stderr=subprocess.DEVNULL)
 
-    ancestor = subprocess.check_output(["git", "merge-base", "check-dco/master", "HEAD"],
+    ancestor = subprocess.check_output(["git", "merge-base", "check-dco/" + main, "HEAD"],
                                        universal_newlines=True)
     ancestor = ancestor.strip()
 
