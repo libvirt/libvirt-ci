@@ -23,17 +23,18 @@ def get_branch_commits():
     main = os.environ["CI_DEFAULT_BRANCH"]
 
     subprocess.check_call(["git", "remote", "add", "check-dco", repourl])
-    subprocess.check_call(["git", "fetch", "check-dco", main],
-                          stdout=subprocess.DEVNULL,
-                          stderr=subprocess.DEVNULL)
+    try:
+        subprocess.check_call(["git", "fetch", "check-dco", main],
+                              stdout=subprocess.DEVNULL,
+                              stderr=subprocess.DEVNULL)
 
-    ancestor = subprocess.check_output(["git", "merge-base", "check-dco/" + main, "HEAD"],
-                                       universal_newlines=True)
-    ancestor = ancestor.strip()
+        ancestor = subprocess.check_output(["git", "merge-base", "check-dco/" + main, "HEAD"],
+                                           universal_newlines=True)
+        ancestor = ancestor.strip()
 
-    subprocess.check_call(["git", "remote", "rm", "check-dco"])
-
-    return (ancestor, "HEAD")
+        return (ancestor, "HEAD")
+    finally:
+        subprocess.check_call(["git", "remote", "rm", "check-dco"])
 
 
 def get_mergereq_commits():
