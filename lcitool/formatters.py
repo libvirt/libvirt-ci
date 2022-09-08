@@ -40,6 +40,11 @@ class VariablesError(FormatterError):
         super().__init__(message, "Variables formatter")
 
 
+class ShellBuildEnvError(FormatterError):
+    def __init__(self, message):
+        super().__init__(message, "Shell build env formatter")
+
+
 class Formatter(metaclass=abc.ABCMeta):
     """
     This an abstract base class that each formatter must subclass.
@@ -599,3 +604,63 @@ class JSONVariablesFormatter(VariablesFormatter):
     @staticmethod
     def _format_variables(varmap):
         return json.dumps(varmap, indent="  ", sort_keys=True)
+
+
+class ShellBuildEnvFormatter(BuildEnvFormatter):
+
+    def __init__(self, base=None, layers="all"):
+        super().__init__(indent=len("    "),
+                         pkgcleanup=False,
+                         nosync=False)
+
+    @staticmethod
+    def _format_env(env):
+        exp = []
+        for key in sorted(env.keys()):
+            val = env[key]
+            exp.append(f"export {key}=\"{val}\"")
+        return "\n" + "\n".join(exp)
+
+    def _format_buildenv(self, target, project, facts, cross_arch, varmap):
+        strings = [
+            "function install_buildenv() {",
+        ]
+        groups = self._format_commands_native(facts, cross_arch, varmap)
+        for commands in groups:
+            strings.extend(["    " + c for c in commands])
+        if cross_arch:
+            for command in self._format_commands_foreign(facts, cross_arch, varmap):
+                strings.append("    " + command)
+        strings.append("}")
+
+        strings.append(self._format_env(self._format_env_native(varmap)))
+        if cross_arch:
+            strings.append(self._format_env(
+                self._format_env_foreign(cross_arch, varmap)))
+        return strings
+
+    def format(self, target, selected_projects, cross_arch):
+        """
+        Generates and formats a Shell script for preparing a build env.
+
+        Given the application commandline arguments, this function will take
+        the projects and inventory attributes and generate a shell script
+        that prepares a environment for doing a project build on a given
+        inventory platform.
+
+        :param args: Application class' command line arguments
+        :returns: String represented shell script
+        """
+
+        log.debug(f"Generating Shell Build Env for projects '{selected_projects}' "
+                  f"on target '{target}' (cross_arch={cross_arch})")
+
+        try:
+            facts, cross_arch, varmap = self._generator_prepare(target,
+                                                                selected_projects,
+                                                                cross_arch)
+        except FormatterError as ex:
+            raise ShellBuildEnvError(str(ex))
+
+        return '\n'.join(self._format_buildenv(target, selected_projects,
+                                               facts, cross_arch, varmap))

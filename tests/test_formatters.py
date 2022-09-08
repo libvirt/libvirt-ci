@@ -11,7 +11,7 @@ from pathlib import Path
 
 from lcitool.inventory import Inventory
 from lcitool.projects import Projects
-from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, DockerfileFormatter
+from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, DockerfileFormatter, ShellBuildEnvFormatter
 
 
 scenarios = [
@@ -69,6 +69,14 @@ def test_variables_json(project, target, arch, request):
     gen = JSONVariablesFormatter()
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".json")
+    test_utils.assert_matches_file(actual, expected_path)
+
+
+@pytest.mark.parametrize("project,target,arch", scenarios)
+def test_prepbuildenv(project, target, arch, request):
+    gen = ShellBuildEnvFormatter()
+    actual = gen.format(target, [project], arch)
+    expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".sh")
     test_utils.assert_matches_file(actual, expected_path)
 
 
