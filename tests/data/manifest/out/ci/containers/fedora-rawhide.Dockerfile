@@ -13,14 +13,14 @@ exec "$@"' > /usr/bin/nosync && \
     chmod +x /usr/bin/nosync && \
     nosync dnf distro-sync -y && \
     nosync dnf install -y \
-        ca-certificates \
-        ccache \
-        gcc \
-        git \
-        glibc-devel \
-        glibc-langpack-en \
-        golang \
-        pkgconfig && \
+               ca-certificates \
+               ccache \
+               gcc \
+               git \
+               glibc-devel \
+               glibc-langpack-en \
+               golang \
+               pkgconfig && \
     nosync dnf autoremove -y && \
     nosync dnf clean all -y && \
     rpm -qa | sort > /packages.txt && \

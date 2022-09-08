@@ -5,12 +5,12 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y eatmydata && \
     eatmydata apt-get dist-upgrade -y && \
     eatmydata apt-get install --no-install-recommends -y \
-            ca-certificates \
-            ccache \
-            git \
-            golang \
-            locales \
-            pkgconf && \
+                      ca-certificates \
+                      ccache \
+                      git \
+                      golang \
+                      locales \
+                      pkgconf && \
     eatmydata apt-get autoremove -y && \
     eatmydata apt-get autoclean -y && \
     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
@@ -25,8 +25,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     eatmydata apt-get dist-upgrade -y && \
     eatmydata apt-get install --no-install-recommends -y dpkg-dev && \
     eatmydata apt-get install --no-install-recommends -y \
-            gcc-s390x-linux-gnu \
-            libc6-dev:s390x && \
+                      gcc-s390x-linux-gnu \
+                      libc6-dev:s390x && \
     eatmydata apt-get autoremove -y && \
     eatmydata apt-get autoclean -y && \
     mkdir -p /usr/local/share/meson/cross && \

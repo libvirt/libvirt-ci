@@ -13,11 +13,11 @@ exec "$@"' > /usr/bin/nosync && \
     chmod +x /usr/bin/nosync && \
     nosync dnf distro-sync -y && \
     nosync dnf install -y \
-        ca-certificates \
-        ccache \
-        git \
-        glibc-langpack-en \
-        golang && \
+               ca-certificates \
+               ccache \
+               git \
+               glibc-langpack-en \
+               golang && \
     nosync dnf autoremove -y && \
     nosync dnf clean all -y
 

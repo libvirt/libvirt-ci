@@ -157,16 +157,6 @@ class DockerfileFormatter(Formatter):
                                                      selected_projects,
                                                      cross_arch)
 
-        varmap["pkgs"] = self._align(facts["packaging"]["command"], varmap["pkgs"])
-
-        if varmap["cross_pkgs"]:
-            varmap["cross_pkgs"] = self._align(facts["packaging"]["command"],
-                                               varmap["cross_pkgs"])
-        if varmap["pypi_pkgs"]:
-            varmap["pypi_pkgs"] = self._align(facts["paths"]["pip3"], varmap["pypi_pkgs"])
-        if varmap["cpan_pkgs"]:
-            varmap["cpan_pkgs"] = self._align("cpanm", varmap["cpan_pkgs"])
-
         varmap["nosync"] = ""
         if facts["packaging"]["format"] == "deb":
             varmap["nosync"] = "eatmydata "
@@ -179,6 +169,20 @@ class DockerfileFormatter(Formatter):
             # the package too
             # varmap["nosync"] = "eatmydata "
             pass
+
+        nosync = varmap["nosync"]
+        varmap["pkgs"] = self._align(nosync + facts["packaging"]["command"],
+                                     varmap["pkgs"])
+
+        if varmap["cross_pkgs"]:
+            varmap["cross_pkgs"] = self._align(nosync + facts["packaging"]["command"],
+                                               varmap["cross_pkgs"])
+        if varmap["pypi_pkgs"]:
+            varmap["pypi_pkgs"] = self._align(nosync + facts["paths"]["pip3"],
+                                              varmap["pypi_pkgs"])
+        if varmap["cpan_pkgs"]:
+            varmap["cpan_pkgs"] = self._align(nosync + "cpanm",
+                                              varmap["cpan_pkgs"])
 
         return varmap
 
