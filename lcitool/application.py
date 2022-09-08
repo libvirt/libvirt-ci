@@ -16,7 +16,7 @@ from lcitool.config import Config
 from lcitool.inventory import Inventory
 from lcitool.package import package_names_by_type
 from lcitool.projects import Projects
-from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, JSONVariablesFormatter
+from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, JSONVariablesFormatter, ShellBuildEnvFormatter
 from lcitool.singleton import Singleton
 from lcitool.manifest import Manifest
 
@@ -379,6 +379,23 @@ class Application(metaclass=Singleton):
         header = util.generate_file_header(cliargv)
 
         print(header + dockerfile)
+
+    def _action_buildenvscript(self, args):
+        self._entrypoint_debug(args)
+
+        projects_expanded = Projects().expand_names(args.projects)
+
+        buildenvscript = ShellBuildEnvFormatter().format(args.target,
+                                                         projects_expanded,
+                                                         args.cross_arch)
+
+        cliargv = [args.action]
+        if args.cross_arch:
+            cliargv.extend(["--cross", args.cross_arch])
+        cliargv.extend([args.target, args.projects])
+        header = util.generate_file_header(cliargv)
+
+        print(header + buildenvscript)
 
     def _action_manifest(self, args):
         base_path = None

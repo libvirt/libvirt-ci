@@ -217,6 +217,13 @@ class CommandLine:
         )
         dockerfileparser.set_defaults(func=Application._action_dockerfile)
 
+        buildenvscriptparser = subparsers.add_parser(
+            "buildenvscript",
+            help="generate shell script for build environment setup",
+            parents=[targetopt, projectsopt, crossarchopt],
+        )
+        buildenvscriptparser.set_defaults(func=Application._action_buildenvscript)
+
         manifestparser = subparsers.add_parser(
             "manifest",
             help="apply the CI manifest (doesn't access the host)",
