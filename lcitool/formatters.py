@@ -139,13 +139,13 @@ class DockerfileFormatter(Formatter):
     def __init__(self, base=None, layers="all"):
         self._base = base
         self._layers = layers
+        self._indent = len("RUN ")
 
-    @staticmethod
-    def _align(command, strings):
+    def _align(self, command, strings):
         if len(strings) == 1:
             return strings[0]
 
-        align = " \\\n" + (" " * len("RUN " + command + " "))
+        align = " \\\n" + (" " * (self._indent + len(command + " ")))
         return align[1:] + align.join(strings)
 
     def _generator_build_varmap(self,
@@ -236,7 +236,7 @@ class DockerfileFormatter(Formatter):
         strings.append(f"FROM {base}")
         return strings
 
-    def _format_section_native(self, facts, cross_arch, varmap):
+    def _format_commands_native(self, facts, cross_arch, varmap):
         commands = []
         osname = facts["os"]["name"]
         osversion = facts["os"]["version"]
@@ -358,15 +358,24 @@ class DockerfileFormatter(Formatter):
         if not cross_arch:
             commands.extend(self._format_commands_pkglist(facts))
             commands.extend(self._format_commands_ccache(None, varmap))
-        script = "\nRUN " + (" && \\\n    ".join(commands))
 
-        strings = [script.format(**varmap)]
+        commands = [c.format(**varmap) for c in commands]
 
+        groups = [commands]
         if varmap["pypi_pkgs"]:
-            strings.append("\nRUN {paths_pip3} install {pypi_pkgs}".format(**varmap))
+            groups.append(["{paths_pip3} install {pypi_pkgs}".format(**varmap)])
 
         if varmap["cpan_pkgs"]:
-            strings.append("\nRUN cpanm --notest {cpan_pkgs}".format(**varmap))
+            groups.append(["cpanm --notest {cpan_pkgs}".format(**varmap)])
+
+        return groups
+
+    def _format_section_native(self, facts, cross_arch, varmap):
+        groups = self._format_commands_native(facts, cross_arch, varmap)
+
+        strings = []
+        for commands in groups:
+            strings.append("\nRUN " + " && \\\n    ".join(commands))
 
         common_vars = ["ENV LANG \"en_US.UTF-8\""]
         if "make" in varmap["mappings"]:
@@ -382,7 +391,7 @@ class DockerfileFormatter(Formatter):
         strings.append(common_env.format(**varmap))
         return strings
 
-    def _format_section_foreign(self, facts, cross_arch, varmap):
+    def _format_commands_foreign(self, facts, cross_arch, varmap):
         cross_commands = []
 
         if facts["packaging"]["format"] == "deb":
@@ -421,8 +430,15 @@ class DockerfileFormatter(Formatter):
 
         cross_commands.extend(self._format_commands_pkglist(facts))
         cross_commands.extend(self._format_commands_ccache(cross_arch, varmap))
-        cross_script = "\nRUN " + (" && \\\n    ".join(cross_commands))
-        strings = [cross_script.format(**varmap)]
+
+        cross_commands = [c.format(**varmap) for c in cross_commands]
+
+        return cross_commands
+
+    def _format_section_foreign(self, facts, cross_arch, varmap):
+        commands = self._format_commands_foreign(facts, cross_arch, varmap)
+
+        strings = ["\nRUN " + " && \\\n    ".join(commands)]
 
         cross_vars = ["ENV ABI \"{cross_abi}\""]
         if "autoconf" in varmap["mappings"]:
