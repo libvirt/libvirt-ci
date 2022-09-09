@@ -136,8 +136,9 @@ class Formatter(metaclass=abc.ABCMeta):
 
 class BuildEnvFormatter(Formatter):
 
-    def __init__(self, indent=0):
+    def __init__(self, indent=0, pkgcleanup=False):
         self._indent = indent
+        self._pkgcleanup = pkgcleanup
 
     def _align(self, command, strings):
         if len(strings) == 1:
@@ -244,12 +245,14 @@ class BuildEnvFormatter(Formatter):
                 "export DEBIAN_FRONTEND=noninteractive",
                 "{packaging_command} update",
                 "{packaging_command} install -y eatmydata",
-                "{nosync}{packaging_command} dist-upgrade -y"])
-
+                "{nosync}{packaging_command} dist-upgrade -y",
+                "{nosync}{packaging_command} install --no-install-recommends -y {pkgs}"])
+            if self._pkgcleanup:
+                commands.extend([
+                    "{nosync}{packaging_command} autoremove -y",
+                    "{nosync}{packaging_command} autoclean -y",
+                ])
             commands.extend([
-                "{nosync}{packaging_command} install --no-install-recommends -y {pkgs}",
-                "{nosync}{packaging_command} autoremove -y",
-                "{nosync}{packaging_command} autoclean -y",
                 "sed -Ei 's,^# (en_US\\.UTF-8 .*)$,\\1,' /etc/locale.gen",
                 "dpkg-reconfigure locales",
             ])
@@ -331,17 +334,18 @@ class BuildEnvFormatter(Formatter):
 
             commands.extend(["{nosync}{packaging_command} install -y {pkgs}"])
 
-            # openSUSE doesn't seem to have a convenient way to remove all
-            # unnecessary packages, but CentOS and Fedora do
-            if osname == "OpenSUSE":
-                commands.extend([
-                    "{nosync}{packaging_command} clean --all",
-                ])
-            else:
-                commands.extend([
-                    "{nosync}{packaging_command} autoremove -y",
-                    "{nosync}{packaging_command} clean all -y",
-                ])
+            if self._pkgcleanup:
+                # openSUSE doesn't seem to have a convenient way to remove all
+                # unnecessary packages, but CentOS and Fedora do
+                if osname == "OpenSUSE":
+                    commands.extend([
+                        "{nosync}{packaging_command} clean --all",
+                    ])
+                else:
+                    commands.extend([
+                        "{nosync}{packaging_command} autoremove -y",
+                        "{nosync}{packaging_command} clean all -y",
+                    ])
 
         if not cross_arch:
             commands.extend(self._format_commands_pkglist(facts))
@@ -392,14 +396,20 @@ class BuildEnvFormatter(Formatter):
                 "{nosync}{packaging_command} dist-upgrade -y",
                 "{nosync}{packaging_command} install --no-install-recommends -y dpkg-dev",
                 "{nosync}{packaging_command} install --no-install-recommends -y {cross_pkgs}",
-                "{nosync}{packaging_command} autoremove -y",
-                "{nosync}{packaging_command} autoclean -y",
             ])
+            if self._pkgcleanup:
+                cross_commands.extend([
+                    "{nosync}{packaging_command} autoremove -y",
+                    "{nosync}{packaging_command} autoclean -y",
+                ])
         elif facts["packaging"]["format"] == "rpm":
             cross_commands.extend([
                 "{nosync}{packaging_command} install -y {cross_pkgs}",
-                "{nosync}{packaging_command} clean all -y",
             ])
+            if self._pkgcleanup:
+                cross_commands.extend([
+                    "{nosync}{packaging_command} clean all -y",
+                ])
 
         if not cross_arch.startswith("mingw"):
             cross_commands.extend([
@@ -436,7 +446,8 @@ class BuildEnvFormatter(Formatter):
 class DockerfileFormatter(BuildEnvFormatter):
 
     def __init__(self, base=None, layers="all"):
-        super().__init__(indent=len("RUN "))
+        super().__init__(indent=len("RUN "),
+                         pkgcleanup=True)
         self._base = base
         self._layers = layers
 
