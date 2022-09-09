@@ -136,9 +136,10 @@ class Formatter(metaclass=abc.ABCMeta):
 
 class BuildEnvFormatter(Formatter):
 
-    def __init__(self, indent=0, pkgcleanup=False):
+    def __init__(self, indent=0, pkgcleanup=False, nosync=False):
         self._indent = indent
         self._pkgcleanup = pkgcleanup
+        self._nosync = nosync
 
     def _align(self, command, strings):
         if len(strings) == 1:
@@ -156,17 +157,18 @@ class BuildEnvFormatter(Formatter):
                                                  cross_arch)
 
         varmap["nosync"] = ""
-        if facts["packaging"]["format"] == "deb":
-            varmap["nosync"] = "eatmydata "
-        elif facts["packaging"]["format"] == "rpm" and facts["os"]["name"] == "Fedora":
-            varmap["nosync"] = "nosync "
-        elif facts["packaging"]["format"] == "apk":
-            # TODO: 'libeatmydata' package is present in 'testing' repo
-            # for Alpine Edge. Once it graduates to 'main' repo we
-            # should use it here, and see later comment about adding
-            # the package too
-            # varmap["nosync"] = "eatmydata "
-            pass
+        if self._nosync:
+            if facts["packaging"]["format"] == "deb":
+                varmap["nosync"] = "eatmydata "
+            elif facts["packaging"]["format"] == "rpm" and facts["os"]["name"] == "Fedora":
+                varmap["nosync"] = "nosync "
+            elif facts["packaging"]["format"] == "apk":
+                # TODO: 'libeatmydata' package is present in 'testing' repo
+                # for Alpine Edge. Once it graduates to 'main' repo we
+                # should use it here, and see later comment about adding
+                # the package too
+                # varmap["nosync"] = "eatmydata "
+                pass
 
         nosync = varmap["nosync"]
         varmap["pkgs"] = self._align(nosync + facts["packaging"]["command"],
@@ -243,8 +245,10 @@ class BuildEnvFormatter(Formatter):
         elif facts["packaging"]["format"] == "deb":
             commands.extend([
                 "export DEBIAN_FRONTEND=noninteractive",
-                "{packaging_command} update",
-                "{packaging_command} install -y eatmydata",
+                "{packaging_command} update"])
+            if varmap["nosync"] != "":
+                commands.extend(["{packaging_command} install -y eatmydata"])
+            commands.extend([
                 "{nosync}{packaging_command} dist-upgrade -y",
                 "{nosync}{packaging_command} install --no-install-recommends -y {pkgs}"])
             if self._pkgcleanup:
@@ -264,7 +268,7 @@ class BuildEnvFormatter(Formatter):
                     "{packaging_command} update -y --nogpgcheck fedora-gpg-keys",
                 ])
 
-            if osname == "Fedora":
+            if osname == "Fedora" and varmap["nosync"] != "":
                 nosyncsh = [
                     "#!/bin/sh",
                     "if test -d /usr/lib64",
@@ -447,7 +451,8 @@ class DockerfileFormatter(BuildEnvFormatter):
 
     def __init__(self, base=None, layers="all"):
         super().__init__(indent=len("RUN "),
-                         pkgcleanup=True)
+                         pkgcleanup=True,
+                         nosync=True)
         self._base = base
         self._layers = layers
 
