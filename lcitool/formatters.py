@@ -186,6 +186,14 @@ class DockerfileFormatter(Formatter):
 
         return varmap
 
+    @staticmethod
+    def _format_env(env):
+        lines = []
+        for key in sorted(env.keys()):
+            val = env[key]
+            lines.append(f"\nENV {key} \"{val}\"")
+        return "".join(lines)
+
     def _format_commands_ccache(self, cross_arch, varmap):
         commands = []
         compilers = set()
@@ -370,6 +378,21 @@ class DockerfileFormatter(Formatter):
 
         return groups
 
+    def _format_env_native(self, varmap):
+        env = {}
+
+        env["LANG"] = "en_US.UTF-8"
+        if "make" in varmap["mappings"]:
+            env["MAKE"] = varmap["paths_make"]
+        if "meson" in varmap["mappings"]:
+            env["NINJA"] = varmap["paths_ninja"]
+        if "python3" in varmap["mappings"]:
+            env["PYTHON"] = varmap["paths_python"]
+        if "ccache" in varmap["mappings"]:
+            env["CCACHE_WRAPPERSDIR"] = "/usr/libexec/ccache-wrappers"
+
+        return env
+
     def _format_section_native(self, facts, cross_arch, varmap):
         groups = self._format_commands_native(facts, cross_arch, varmap)
 
@@ -377,18 +400,8 @@ class DockerfileFormatter(Formatter):
         for commands in groups:
             strings.append("\nRUN " + " && \\\n    ".join(commands))
 
-        common_vars = ["ENV LANG \"en_US.UTF-8\""]
-        if "make" in varmap["mappings"]:
-            common_vars += ["ENV MAKE \"{paths_make}\""]
-        if "meson" in varmap["mappings"]:
-            common_vars += ["ENV NINJA \"{paths_ninja}\""]
-        if "python3" in varmap["mappings"]:
-            common_vars += ["ENV PYTHON \"{paths_python}\""]
-        if "ccache" in varmap["mappings"]:
-            common_vars += ["ENV CCACHE_WRAPPERSDIR \"/usr/libexec/ccache-wrappers\""]
-
-        common_env = "\n" + "\n".join(sorted(common_vars))
-        strings.append(common_env.format(**varmap))
+        env = self._format_env_native(varmap)
+        strings.append(self._format_env(env))
         return strings
 
     def _format_commands_foreign(self, facts, cross_arch, varmap):
@@ -435,27 +448,28 @@ class DockerfileFormatter(Formatter):
 
         return cross_commands
 
+    def _format_env_foreign(self, cross_arch, varmap):
+        env = {}
+        env["ABI"] = varmap["cross_abi"]
+
+        if "autoconf" in varmap["mappings"]:
+            env["CONFIGURE_OPTS"] = "--host" + varmap["cross_abi"]
+
+        if "meson" in varmap["mappings"]:
+            if cross_arch.startswith("mingw"):
+                env["MESON_OPTS"] = "--cross-file=/usr/share/mingw/toolchain-" + varmap["cross_arch"] + ".meson"
+            else:
+                env["MESON_OPTS"] = "--cross-file=" + varmap["cross_abi"]
+
+        return env
+
     def _format_section_foreign(self, facts, cross_arch, varmap):
         commands = self._format_commands_foreign(facts, cross_arch, varmap)
 
         strings = ["\nRUN " + " && \\\n    ".join(commands)]
 
-        cross_vars = ["ENV ABI \"{cross_abi}\""]
-        if "autoconf" in varmap["mappings"]:
-            cross_vars.append("ENV CONFIGURE_OPTS \"--host={cross_abi}\"")
-
-        if "meson" in varmap["mappings"]:
-            if cross_arch.startswith("mingw"):
-                cross_vars.append(
-                    "ENV MESON_OPTS \"--cross-file=/usr/share/mingw/toolchain-{cross_arch}.meson\""
-                )
-            else:
-                cross_vars.append(
-                    "ENV MESON_OPTS \"--cross-file={cross_abi}\"",
-                )
-
-        cross_env = "\n" + "\n".join(cross_vars)
-        strings.append(cross_env.format(**varmap))
+        env = self._format_env_foreign(cross_arch, varmap)
+        strings.append(self._format_env(env))
         return strings
 
     def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
