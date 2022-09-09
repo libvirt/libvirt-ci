@@ -16,14 +16,27 @@ if len(sys.argv) >= 2:
     namespace = sys.argv[1]
 
 
+def get_default_branch(remote):
+    info = subprocess.check_output(["git", "remote", "show", remote],
+                                   universal_newlines=True)
+    head = "HEAD branch: "
+    for line in info.split("\n"):
+        offset = line.find(head)
+        if offset != -1:
+            offset += len(head)
+            return line[offset:]
+
+    raise Exception("Cannot find default branch")
+
+
 def get_branch_commits():
     cwd = os.getcwd()
     reponame = os.path.basename(cwd)
     repourl = "https://gitlab.com/%s/%s.git" % (namespace, reponame)
-    main = os.environ["CI_DEFAULT_BRANCH"]
 
     subprocess.check_call(["git", "remote", "add", "check-dco", repourl])
     try:
+        main = get_default_branch("check-dco")
         subprocess.check_call(["git", "fetch", "check-dco", main],
                               stdout=subprocess.DEVNULL,
                               stderr=subprocess.DEVNULL)
