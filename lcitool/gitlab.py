@@ -197,9 +197,13 @@ def check_dco_job(namespace):
           image: registry.gitlab.com/libvirt/libvirt-ci/check-dco:master
           script:
             - /check-dco {namespace}
-          except:
-            variables:
-              - $CI_PROJECT_NAMESPACE == '{namespace}'
+          rules:
+            # forks: pushes to branches with pipeline requested
+            - if: '$CI_PROJECT_NAMESPACE != "{namespace}" && $CI_PIPELINE_SOURCE == "push"'
+              when: on_success
+
+            # upstream+forks: that's all folks
+            - when: never
         """) + format_variables(jobvars)
 
 

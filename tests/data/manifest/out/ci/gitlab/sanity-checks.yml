@@ -4,9 +4,13 @@ check-dco:
   image: registry.gitlab.com/libvirt/libvirt-ci/check-dco:master
   script:
     - /check-dco test-group
-  except:
-    variables:
-      - $CI_PROJECT_NAMESPACE == 'test-group'
+  rules:
+    # forks: pushes to branches with pipeline requested
+    - if: '$CI_PROJECT_NAMESPACE != "test-group" && $CI_PIPELINE_SOURCE == "push"'
+      when: on_success
+
+    # upstream+forks: that's all folks
+    - when: never
   variables:
     GIT_DEPTH: 1000
 
