@@ -5,8 +5,12 @@ check-dco:
   script:
     - /check-dco "$RUN_UPSTREAM_NAMESPACE"
   rules:
-    # forks: pushes to branches
-    - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH'
+    # upstream+forks: Run pipelines on MR
+    - if: '$CI_PIPELINE_SOURCE =~ "merge_request_event"'
+      when: on_success
+
+    # forks: pushes to branches with pipeline requested
+    - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE'
       when: on_success
 
     # upstream+forks: that's all folks
@@ -22,12 +26,12 @@ check-dco:
   script:
     - /$NAME
   rules:
-    # upstream+forks: Run pipelines on web, api & scheduled
-    - if: '$CI_PIPELINE_SOURCE =~ /(web|api|schedule)/'
+    # upstream+forks: Run pipelines on MR, web, api & scheduled
+    - if: '$CI_PIPELINE_SOURCE =~ /(web|api|schedule|merge_request_event)/'
       when: on_success
 
-    # forks: pushes to branches
-    - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH'
+    # forks: pushes to branches with pipeline requested
+    - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE'
       when: on_success
 
     # upstream+forks: that's all folks

@@ -29,6 +29,12 @@ def docs(namespace):
         # Variables that can be set to control the behaviour of
         # pipelines that are run
         #
+        #  - RUN_PIPELINE - force creation of a CI pipeline when
+        #    pushing to a branch in a forked repository. Official
+        #    CI pipelines are triggered when merge requests are
+        #    created/updated. Setting this variable to a non-empty
+        #    value allows CI testing prior to opening a merge request.
+        #
         #  - RUN_CONTAINER_BUILDS - CI pipelines in upstream only
         #    publish containers if CI file changes are detected.
         #    Setting this variable to a non-empty value will force
@@ -43,15 +49,15 @@ def docs(namespace):
         #
         # These can be set as git push options
         #
-        #  $ git push -o ci.variable=RUN_CONTAINER_BUILDS=1
+        #  $ git push -o ci.variable=RUN_PIPELINE=1
         #
         # Aliases can be set for common usage
         #
-        #  $ git config --local alias.push-all-ctr "push -o ci.variable=RUN_CONTAINER_BUILDS=1"
+        #  $ git config --local alias.push-ci "push -o ci.variable=RUN_PIPELINE=1"
         #
         # Allowing the less verbose invocation
         #
-        #  $ git push-all-ctr
+        #  $ git push-ci
         #
         # Pipeline variables can also be set in the repository
         # pipeline config globally, or set against scheduled pipelines
@@ -71,12 +77,16 @@ def workflow():
         """
         workflow:
           rules:
+            # upstream+forks: Avoid duplicate pipelines on pushes, if a MR is open
+            - if: '$CI_PIPELINE_SOURCE == "push" && $CI_OPEN_MERGE_REQUESTS'
+              when: never
+
             # upstream+forks: Avoid pipelines on tag pushes
             - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_TAG'
               when: never
 
             # upstream+forks: Allow pipelines in scenarios we've figured out job rules
-            - if: '$CI_PIPELINE_SOURCE =~ /^(push|api|web|schedule)$/'
+            - if: '$CI_PIPELINE_SOURCE =~ /^(push|merge_request_event|api|web|schedule)$/'
               when: always
 
             # upstream+forks: Avoid all other pipelines
@@ -107,7 +117,8 @@ def container_template(cidir):
         #  - In upstream, for push to default branch with CI changes.
         #  - In upstream, on request, for scheduled/manual pipelines
         #    against default branch
-        #  - In forks, never
+        #
+        # Note: never publish from merge requests since they have non-committed code
         #
         .container_job:
           image: docker:stable
@@ -182,6 +193,18 @@ def _build_template(template, image, project, cidir):
             - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/ && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
               when: on_success
 
+            # upstream+forks: merge requests targetting the default branch, without CI changes
+            - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
+              changes:
+                - {cidir}/gitlab/container-templates.yml
+                - {cidir}/containers/$NAME.Dockerfile
+              when: never
+            - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
+            - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
+              when: on_success
+
             # upstream+forks: that's all folks
             - when: never
 
@@ -200,11 +223,10 @@ def _build_template(template, image, project, cidir):
             - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH'
               when: on_success
 
-            # forks: pushes to branches
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $JOB_OPTIONAL'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE && $JOB_OPTIONAL'
               when: manual
               allow_failure: true
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push"'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE'
               when: on_success
 
             # upstream: other web/api/scheduled pipelines targetting non-default branches
@@ -219,6 +241,26 @@ def _build_template(template, image, project, cidir):
               when: manual
               allow_failure: true
             - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/'
+              when: on_success
+
+            # upstream+forks: merge requests targetting the default branch, with CI changes
+            - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
+              changes:
+                - {cidir}/gitlab/container-templates.yml
+                - {cidir}/containers/$NAME.Dockerfile
+              when: manual
+              allow_failure: true
+            - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
+              changes:
+                - {cidir}/gitlab/container-templates.yml
+                - {cidir}/containers/$NAME.Dockerfile
+              when: on_success
+
+            # upstream+forks: merge requests targetting non-default branches
+            - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
+            - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH'
               when: on_success
 
             # upstream+forks: that's all folks
@@ -274,18 +316,25 @@ def cirrus_template(cidir):
             - if: '$CIRRUS_GITHUB_REPO == null || $CIRRUS_API_TOKEN == null'
               when: never
 
-            # upstream+forks: pushes to branches
-            - if: '$CI_PIPELINE_SOURCE == "push" && $JOB_OPTIONAL'
+            # upstream: pushes to branches
+            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $JOB_OPTIONAL'
               when: manual
               allow_failure: true
-            - if: '$CI_PIPELINE_SOURCE == "push"'
+            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push"'
               when: on_success
 
-            # upstream+forks: Run pipelines on web, api & scheduled
-            - if: '$CI_PIPELINE_SOURCE =~ /(web|api|schedule)/ && $JOB_OPTIONAL'
+            # forks: pushes to branches with pipeline requested
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE && $JOB_OPTIONAL'
               when: manual
               allow_failure: true
-            - if: '$CI_PIPELINE_SOURCE =~ /(web|api|schedule)/'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE'
+              when: on_success
+
+            # upstream+forks: Run pipelines on MR, web, api & scheduled
+            - if: '$CI_PIPELINE_SOURCE =~ /(web|api|schedule|merge_request_event)/ && $JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
+            - if: '$CI_PIPELINE_SOURCE =~ /(web|api|schedule|merge_request_event)/'
               when: on_success
 
             # upstream+forks: that's all folks
@@ -306,8 +355,12 @@ def check_dco_job():
           script:
             - /check-dco "$RUN_UPSTREAM_NAMESPACE"
           rules:
-            # forks: pushes to branches
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH'
+            # upstream+forks: Run pipelines on MR
+            - if: '$CI_PIPELINE_SOURCE =~ "merge_request_event"'
+              when: on_success
+
+            # forks: pushes to branches with pipeline requested
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE'
               when: on_success
 
             # upstream+forks: that's all folks
@@ -325,12 +378,12 @@ def code_fmt_template():
           script:
             - /$NAME
           rules:
-            # upstream+forks: Run pipelines on web, api & scheduled
-            - if: '$CI_PIPELINE_SOURCE =~ /(web|api|schedule)/'
+            # upstream+forks: Run pipelines on MR, web, api & scheduled
+            - if: '$CI_PIPELINE_SOURCE =~ /(web|api|schedule|merge_request_event)/'
               when: on_success
 
-            # forks: pushes to branches
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH'
+            # forks: pushes to branches with pipeline requested
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE'
               when: on_success
 
             # upstream+forks: that's all folks

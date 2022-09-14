@@ -3,7 +3,8 @@
 #  - In upstream, for push to default branch with CI changes.
 #  - In upstream, on request, for scheduled/manual pipelines
 #    against default branch
-#  - In forks, never
+#
+# Note: never publish from merge requests since they have non-committed code
 #
 .container_job:
   image: docker:stable
