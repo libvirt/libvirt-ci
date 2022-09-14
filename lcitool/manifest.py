@@ -4,12 +4,15 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+import logging
 import yaml
 from pathlib import Path
 
 from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter
 from lcitool.inventory import Inventory
 from lcitool import gitlab, util, LcitoolError
+
+log = logging.getLogger(__name__)
 
 
 class ManifestError(LcitoolError):
@@ -163,6 +166,7 @@ class Manifest:
             if self.values["gitlab"]["enabled"]:
                 self._generate_gitlab(dryrun)
         except Exception as ex:
+            log.debug("Failed to generate configuration")
             raise ManifestError(f"Failed to generate configuration: {ex}")
 
     def _generate_formatter(self, dryrun, subdir, suffix, formatter, targettype):

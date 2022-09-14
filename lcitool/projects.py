@@ -100,12 +100,14 @@ class Projects(metaclass=Singleton):
             with open(mappings_path, "r") as infile:
                 return yaml.safe_load(infile)
         except Exception as ex:
+            log.debug("Can't load mappings")
             raise ProjectError(f"Can't load mappings: {ex}")
 
     def expand_names(self, pattern):
         try:
             return util.expand_pattern(pattern, self.names, "project")
         except Exception as ex:
+            log.debug(f"Failed to expand '{pattern}'")
             raise ProjectError(f"Failed to expand '{pattern}': {ex}")
 
     def get_packages(self, projects, facts, cross_arch=None):
@@ -151,6 +153,7 @@ class Project:
                 yaml_packages = yaml.safe_load(infile)
                 return yaml_packages["packages"]
         except Exception as ex:
+            log.debug(f"Can't load pacakges for '{self.name}'")
             raise ProjectError(f"Can't load packages for '{self.name}': {ex}")
 
     def _eval_generic_packages(self, facts, cross_arch=None):

@@ -82,6 +82,7 @@ class Inventory(metaclass=Singleton):
         try:
             inventory = ansible_runner.get_inventory()
         except AnsibleWrapperError as ex:
+            log.debug("Failed to load Ansible inventory")
             raise InventoryError(f"Failed to load Ansible inventory: {ex}")
 
         return inventory
@@ -206,4 +207,5 @@ class Inventory(metaclass=Singleton):
         except InventoryError as ex:
             raise ex
         except Exception as ex:
+            log.debug(f"Failed to load expand '{pattern}'")
             raise InventoryError(f"Failed to expand '{pattern}': {ex}")
