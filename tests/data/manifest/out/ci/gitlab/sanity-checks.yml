@@ -15,40 +15,35 @@ check-dco:
     GIT_DEPTH: 1000
 
 
-cargo-fmt:
+.code_format:
   stage: sanity_checks
-  image: registry.gitlab.com/libvirt/libvirt-ci/cargo-fmt:master
+  image: registry.gitlab.com/libvirt/libvirt-ci/$NAME:master
   needs: []
   script:
-    - /cargo-fmt
+    - /$NAME
   artifacts:
     paths:
-      - cargo-fmt.txt
+      - $NAME.$EXT
     expire_in: 1 week
     when: on_failure
+
+
+cargo-fmt:
+  extends: .code_format
+  variables:
+    NAME: cargo-fmt
+    EXT: txt
 
 
 go-fmt:
-  stage: sanity_checks
-  image: registry.gitlab.com/libvirt/libvirt-ci/go-fmt:master
-  needs: []
-  script:
-    - /go-fmt
-  artifacts:
-    paths:
-      - go-fmt.patch
-    expire_in: 1 week
-    when: on_failure
+  extends: .code_format
+  variables:
+    NAME: go-fmt
+    EXT: patch
 
 
 clang-format:
-  stage: sanity_checks
-  image: registry.gitlab.com/libvirt/libvirt-ci/clang-format:master
-  needs: []
-  script:
-    - /clang-format
-  artifacts:
-    paths:
-      - clang-format.patch
-    expire_in: 1 week
-    when: on_failure
+  extends: .code_format
+  variables:
+    NAME: clang-format
+    EXT: patch

@@ -235,20 +235,31 @@ def check_dco_job():
         """) + format_variables(jobvars)
 
 
+def code_fmt_template():
+    return textwrap.dedent(
+        """
+        .code_format:
+          stage: sanity_checks
+          image: registry.gitlab.com/libvirt/libvirt-ci/$NAME:master
+          needs: []
+          script:
+            - /$NAME
+          artifacts:
+            paths:
+              - $NAME.$EXT
+            expire_in: 1 week
+            when: on_failure
+        """)
+
+
 def cargo_fmt_job():
     return textwrap.dedent(
         """
         cargo-fmt:
-          stage: sanity_checks
-          image: registry.gitlab.com/libvirt/libvirt-ci/cargo-fmt:master
-          needs: []
-          script:
-            - /cargo-fmt
-          artifacts:
-            paths:
-              - cargo-fmt.txt
-            expire_in: 1 week
-            when: on_failure
+          extends: .code_format
+          variables:
+            NAME: cargo-fmt
+            EXT: txt
         """)
 
 
@@ -256,16 +267,10 @@ def go_fmt_job():
     return textwrap.dedent(
         """
         go-fmt:
-          stage: sanity_checks
-          image: registry.gitlab.com/libvirt/libvirt-ci/go-fmt:master
-          needs: []
-          script:
-            - /go-fmt
-          artifacts:
-            paths:
-              - go-fmt.patch
-            expire_in: 1 week
-            when: on_failure
+          extends: .code_format
+          variables:
+            NAME: go-fmt
+            EXT: patch
         """)
 
 
@@ -273,16 +278,10 @@ def clang_format_job():
     return textwrap.dedent(
         """
         clang-format:
-          stage: sanity_checks
-          image: registry.gitlab.com/libvirt/libvirt-ci/clang-format:master
-          needs: []
-          script:
-            - /clang-format
-          artifacts:
-            paths:
-              - clang-format.patch
-            expire_in: 1 week
-            when: on_failure
+          extends: .code_format
+          variables:
+            NAME: clang-format
+            EXT: patch
         """)
 
 
