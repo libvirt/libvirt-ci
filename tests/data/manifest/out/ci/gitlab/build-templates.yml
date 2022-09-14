@@ -2,8 +2,6 @@
   image: $CI_REGISTRY_IMAGE/ci-$NAME:latest
   stage: builds
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
     - if: '$JOB_OPTIONAL'
       when: manual
       allow_failure: true
@@ -14,8 +12,6 @@
   image: $CI_REGISTRY_IMAGE/ci-$NAME-cross-$CROSS:latest
   stage: builds
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
     - if: '$JOB_OPTIONAL'
       when: manual
       allow_failure: true

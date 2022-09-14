@@ -49,6 +49,24 @@ def docs():
         """)
 
 
+def workflow():
+    return textwrap.dedent(
+        """
+        workflow:
+          rules:
+            # upstream+forks: Avoid pipelines on tag pushes
+            - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_TAG'
+              when: never
+
+            # upstream+forks: Allow pipelines in scenarios we've figured out job rules
+            - if: '$CI_PIPELINE_SOURCE =~ /^(push|api|web|schedule)$/'
+              when: always
+
+            # upstream+forks: Avoid all other pipelines
+            - when: never
+        """)
+
+
 def includes(paths):
     lines = [f"  - local: '/{path}'" for path in paths]
     return "include:\n" + "\n".join(lines)
@@ -102,8 +120,6 @@ def container_template(namespace, project, cidir):
           after_script:
             - docker logout
           rules:
-            - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-              when: never
             - if: '$CI_PROJECT_NAMESPACE == "{namespace}" && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
               when: on_success
               changes:
@@ -127,8 +143,6 @@ def _build_template(template, image):
           image: $CI_REGISTRY_IMAGE/{image}:latest
           stage: builds
           rules:
-            - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-              when: never
             - if: '$JOB_OPTIONAL'
               when: manual
               allow_failure: true

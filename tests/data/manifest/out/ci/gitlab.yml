@@ -19,6 +19,20 @@
 # Pipeline variables can also be set in the repository
 # pipeline config globally, or set against scheduled pipelines
 
+
+workflow:
+  rules:
+    # upstream+forks: Avoid pipelines on tag pushes
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_TAG'
+      when: never
+
+    # upstream+forks: Allow pipelines in scenarios we've figured out job rules
+    - if: '$CI_PIPELINE_SOURCE =~ /^(push|api|web|schedule)$/'
+      when: always
+
+    # upstream+forks: Avoid all other pipelines
+    - when: never
+
 include:
   - local: '/ci/gitlab/container-templates.yml'
   - local: '/ci/gitlab/build-templates.yml'
