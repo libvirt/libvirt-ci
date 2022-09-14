@@ -134,12 +134,10 @@ class Formatter(metaclass=abc.ABCMeta):
         return facts, cross_arch, varmap
 
 
-class DockerfileFormatter(Formatter):
+class BuildEnvFormatter(Formatter):
 
-    def __init__(self, base=None, layers="all"):
-        self._base = base
-        self._layers = layers
-        self._indent = len("RUN ")
+    def __init__(self, indent=0):
+        self._indent = indent
 
     def _align(self, command, strings):
         if len(strings) == 1:
@@ -152,10 +150,9 @@ class DockerfileFormatter(Formatter):
                                 facts,
                                 selected_projects,
                                 cross_arch):
-        varmap = super(DockerfileFormatter,
-                       self)._generator_build_varmap(facts,
-                                                     selected_projects,
-                                                     cross_arch)
+        varmap = super()._generator_build_varmap(facts,
+                                                 selected_projects,
+                                                 cross_arch)
 
         varmap["nosync"] = ""
         if facts["packaging"]["format"] == "deb":
@@ -434,6 +431,14 @@ class DockerfileFormatter(Formatter):
                 env["MESON_OPTS"] = "--cross-file=" + varmap["cross_abi"]
 
         return env
+
+
+class DockerfileFormatter(BuildEnvFormatter):
+
+    def __init__(self, base=None, layers="all"):
+        super().__init__(indent=len("RUN "))
+        self._base = base
+        self._layers = layers
 
     @staticmethod
     def _format_env(env):
