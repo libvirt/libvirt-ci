@@ -378,7 +378,7 @@ class DockerfileFormatter(Formatter):
         if "ccache" in varmap["mappings"]:
             common_vars += ["ENV CCACHE_WRAPPERSDIR \"/usr/libexec/ccache-wrappers\""]
 
-        common_env = "\n" + "\n".join(common_vars)
+        common_env = "\n" + "\n".join(sorted(common_vars))
         strings.append(common_env.format(**varmap))
         return strings
 
