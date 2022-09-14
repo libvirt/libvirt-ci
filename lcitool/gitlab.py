@@ -23,14 +23,20 @@ import textwrap
 #
 
 
-def docs():
+def docs(namespace):
     return textwrap.dedent(
-        """
+        f"""
         # Variables that can be set to control the behaviour of
         # pipelines that are run
         #
         #  - RUN_ALL_CONTAINERS - build all containers
         #    even if they don't have any changes detected
+        #
+        #  - RUN_UPSTREAM_NAMESPACE - the upstream namespace is
+        #    configured to default to '{namespace}'. When testing
+        #    changes to CI it might be useful to use a different
+        #    upstream. Setting this variable will override the
+        #    namespace considered to be upstream.
         #
         # These can be set as git push options
         #
@@ -46,6 +52,14 @@ def docs():
         #
         # Pipeline variables can also be set in the repository
         # pipeline config globally, or set against scheduled pipelines
+        """)
+
+
+def variables(namespace):
+    return textwrap.dedent(
+        f"""
+        variables:
+          RUN_UPSTREAM_NAMESPACE: {namespace}
         """)
 
 
@@ -82,7 +96,7 @@ def format_variables(variables):
     return ""
 
 
-def container_template(namespace, project, cidir):
+def container_template(project, cidir):
     return textwrap.dedent(
         f"""
         # For upstream
@@ -105,11 +119,11 @@ def container_template(namespace, project, cidir):
             - docker:dind
           before_script:
             - export TAG="$CI_REGISTRY_IMAGE/ci-$NAME:latest"
-            - export COMMON_TAG="$CI_REGISTRY/{namespace}/{project}/ci-$NAME:latest"
+            - export COMMON_TAG="$CI_REGISTRY/$RUN_UPSTREAM_NAMESPACE/{project}/ci-$NAME:latest"
             - docker info
             - docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
           script:
-            - if test $CI_PROJECT_NAMESPACE = "{namespace}";
+            - if test "$CI_PROJECT_NAMESPACE" = "$RUN_UPSTREAM_NAMESPACE";
               then
                 docker build --tag "$TAG" -f "{cidir}/containers/$NAME.Dockerfile" {cidir}/containers ;
               else
@@ -120,14 +134,14 @@ def container_template(namespace, project, cidir):
           after_script:
             - docker logout
           rules:
-            - if: '$CI_PROJECT_NAMESPACE == "{namespace}" && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
               when: on_success
               changes:
                - {cidir}/gitlab/container-templates.yml
                - {cidir}/containers/$NAME.Dockerfile
-            - if: '$CI_PROJECT_NAMESPACE == "{namespace}" && $RUN_ALL_CONTAINERS == "1"'
+            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $RUN_ALL_CONTAINERS == "1"'
               when: on_success
-            - if: '$CI_PROJECT_NAMESPACE == "{namespace}"'
+            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE'
               when: never
             - if: '$JOB_OPTIONAL'
               when: manual
@@ -199,21 +213,21 @@ def cirrus_template(cidir):
         """)
 
 
-def check_dco_job(namespace):
+def check_dco_job():
     jobvars = {
         "GIT_DEPTH": "1000",
     }
     return textwrap.dedent(
-        f"""
+        """
         check-dco:
           stage: sanity_checks
           needs: []
           image: registry.gitlab.com/libvirt/libvirt-ci/check-dco:master
           script:
-            - /check-dco {namespace}
+            - /check-dco "$RUN_UPSTREAM_NAMESPACE"
           rules:
             # forks: pushes to branches with pipeline requested
-            - if: '$CI_PROJECT_NAMESPACE != "{namespace}" && $CI_PIPELINE_SOURCE == "push"'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push"'
               when: on_success
 
             # upstream+forks: that's all folks

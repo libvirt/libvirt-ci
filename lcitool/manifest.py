@@ -282,7 +282,7 @@ class Manifest:
         includes = []
         if gitlabinfo["containers"]:
             path = Path(gitlabdir, "container-templates.yml")
-            content = [gitlab.container_template(namespace, project, self.cidir)]
+            content = [gitlab.container_template(project, self.cidir)]
             self._replace_file(content, path, dryrun)
             if len(content) > 0:
                 includes.append(path)
@@ -301,7 +301,7 @@ class Manifest:
 
         testcontent = []
         if jobinfo["check-dco"]:
-            testcontent.append(gitlab.check_dco_job(namespace))
+            testcontent.append(gitlab.check_dco_job())
         if jobinfo["cargo-fmt"]:
             testcontent.append(gitlab.cargo_fmt_job())
         if jobinfo["go-fmt"]:
@@ -334,7 +334,8 @@ class Manifest:
                 includes.append(path)
 
         path = Path(self.cidir, "gitlab.yml")
-        content = [gitlab.docs(),
+        content = [gitlab.docs(namespace),
+                   gitlab.variables(namespace),
                    gitlab.workflow(),
                    gitlab.includes(includes)]
         self._replace_file(content, path, dryrun)

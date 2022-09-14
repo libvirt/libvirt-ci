@@ -4,6 +4,12 @@
 #  - RUN_ALL_CONTAINERS - build all containers
 #    even if they don't have any changes detected
 #
+#  - RUN_UPSTREAM_NAMESPACE - the upstream namespace is
+#    configured to default to 'test-group'. When testing
+#    changes to CI it might be useful to use a different
+#    upstream. Setting this variable will override the
+#    namespace considered to be upstream.
+#
 # These can be set as git push options
 #
 #  $ git push -o ci.variable=RUN_ALL_CONTAINERS=1
@@ -18,6 +24,10 @@
 #
 # Pipeline variables can also be set in the repository
 # pipeline config globally, or set against scheduled pipelines
+
+
+variables:
+  RUN_UPSTREAM_NAMESPACE: test-group
 
 
 workflow:

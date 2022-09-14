@@ -3,10 +3,10 @@ check-dco:
   needs: []
   image: registry.gitlab.com/libvirt/libvirt-ci/check-dco:master
   script:
-    - /check-dco test-group
+    - /check-dco "$RUN_UPSTREAM_NAMESPACE"
   rules:
     # forks: pushes to branches with pipeline requested
-    - if: '$CI_PROJECT_NAMESPACE != "test-group" && $CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push"'
       when: on_success
 
     # upstream+forks: that's all folks
