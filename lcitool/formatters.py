@@ -186,14 +186,6 @@ class DockerfileFormatter(Formatter):
 
         return varmap
 
-    @staticmethod
-    def _format_env(env):
-        lines = []
-        for key in sorted(env.keys()):
-            val = env[key]
-            lines.append(f"\nENV {key} \"{val}\"")
-        return "".join(lines)
-
     def _format_commands_ccache(self, cross_arch, varmap):
         commands = []
         compilers = set()
@@ -234,15 +226,6 @@ class DockerfileFormatter(Formatter):
         elif facts["packaging"]["format"] == "rpm":
             commands.extend(["rpm -qa | sort > /packages.txt"])
         return commands
-
-    def _format_section_base(self, facts):
-        strings = []
-        if self._base:
-            base = self._base
-        else:
-            base = facts["containers"]["base"]
-        strings.append(f"FROM {base}")
-        return strings
 
     def _format_commands_native(self, facts, cross_arch, varmap):
         commands = []
@@ -393,17 +376,6 @@ class DockerfileFormatter(Formatter):
 
         return env
 
-    def _format_section_native(self, facts, cross_arch, varmap):
-        groups = self._format_commands_native(facts, cross_arch, varmap)
-
-        strings = []
-        for commands in groups:
-            strings.append("\nRUN " + " && \\\n    ".join(commands))
-
-        env = self._format_env_native(varmap)
-        strings.append(self._format_env(env))
-        return strings
-
     def _format_commands_foreign(self, facts, cross_arch, varmap):
         cross_commands = []
 
@@ -462,6 +434,34 @@ class DockerfileFormatter(Formatter):
                 env["MESON_OPTS"] = "--cross-file=" + varmap["cross_abi"]
 
         return env
+
+    @staticmethod
+    def _format_env(env):
+        lines = []
+        for key in sorted(env.keys()):
+            val = env[key]
+            lines.append(f"\nENV {key} \"{val}\"")
+        return "".join(lines)
+
+    def _format_section_base(self, facts):
+        strings = []
+        if self._base:
+            base = self._base
+        else:
+            base = facts["containers"]["base"]
+        strings.append(f"FROM {base}")
+        return strings
+
+    def _format_section_native(self, facts, cross_arch, varmap):
+        groups = self._format_commands_native(facts, cross_arch, varmap)
+
+        strings = []
+        for commands in groups:
+            strings.append("\nRUN " + " && \\\n    ".join(commands))
+
+        env = self._format_env_native(varmap)
+        strings.append(self._format_env(env))
+        return strings
 
     def _format_section_foreign(self, facts, cross_arch, varmap):
         commands = self._format_commands_foreign(facts, cross_arch, varmap)
