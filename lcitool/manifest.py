@@ -293,7 +293,7 @@ class Manifest:
         includes = []
         if gitlabinfo["containers"]:
             path = Path(gitlabdir, "container-templates.yml")
-            content = [gitlab.container_template(project, self.cidir)]
+            content = [gitlab.container_template(self.cidir)]
             self._replace_file(content, path, dryrun)
             if len(content) > 0:
                 includes.append(path)
@@ -301,9 +301,9 @@ class Manifest:
         path = Path(gitlabdir, "build-templates.yml")
         content = []
         if have_native:
-            content.append(gitlab.native_build_template())
+            content.append(gitlab.native_build_template(project, self.cidir))
         if have_cross:
-            content.append(gitlab.cross_build_template())
+            content.append(gitlab.cross_build_template(project, self.cidir))
         if gitlabinfo["cirrus"]:
             content.append(gitlab.cirrus_template(self.cidir))
         self._replace_file(content, path, dryrun)
@@ -438,6 +438,7 @@ class Manifest:
         def jobfunc(target, facts, jobinfo):
             return gitlab.native_build_job(
                 target,
+                facts["containers"]["base"],
                 jobinfo["suffix"],
                 jobinfo["variables"],
                 jobinfo["template"],
@@ -454,6 +455,7 @@ class Manifest:
         def jobfunc(target, facts, jobinfo):
             return gitlab.cross_build_job(
                 target,
+                facts["containers"]["base"],
                 jobinfo["arch"],
                 jobinfo["suffix"],
                 jobinfo["variables"],

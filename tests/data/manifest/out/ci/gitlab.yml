@@ -1,8 +1,11 @@
 # Variables that can be set to control the behaviour of
 # pipelines that are run
 #
-#  - RUN_ALL_CONTAINERS - build all containers
-#    even if they don't have any changes detected
+#  - RUN_CONTAINER_BUILDS - CI pipelines in upstream only
+#    publish containers if CI file changes are detected.
+#    Setting this variable to a non-empty value will force
+#    re-publishing, even when no file changes are detected.
+#    Typically to use from a scheduled job once a month.
 #
 #  - RUN_UPSTREAM_NAMESPACE - the upstream namespace is
 #    configured to default to 'test-group'. When testing
@@ -12,11 +15,11 @@
 #
 # These can be set as git push options
 #
-#  $ git push -o ci.variable=RUN_ALL_CONTAINERS=1
+#  $ git push -o ci.variable=RUN_CONTAINER_BUILDS=1
 #
 # Aliases can be set for common usage
 #
-#  $ git config --local alias.push-all-ctr "push -o ci.variable=RUN_ALL_CONTAINERS=1"
+#  $ git config --local alias.push-all-ctr "push -o ci.variable=RUN_CONTAINER_BUILDS=1"
 #
 # Allowing the less verbose invocation
 #
