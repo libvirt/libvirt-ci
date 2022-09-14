@@ -8,7 +8,7 @@ import logging
 import yaml
 from pathlib import Path
 
-from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter
+from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, ShellBuildEnvFormatter
 from lcitool.inventory import Inventory
 from lcitool import gitlab, util, LcitoolError
 
@@ -158,6 +158,8 @@ class Manifest:
             if self.values["containers"]["enabled"]:
                 generated = self._generate_containers(dryrun)
                 self._clean_containers(generated, dryrun)
+                generated = self._generate_buildenv(dryrun)
+                self._clean_buildenv(generated, dryrun)
 
             if self.values["cirrus"]["enabled"]:
                 generated = self._generate_cirrus(dryrun)
@@ -220,6 +222,12 @@ class Manifest:
                                         "cirrus", "vars",
                                         formatter, "cirrus")
 
+    def _generate_buildenv(self, dryrun):
+        formatter = ShellBuildEnvFormatter()
+        return self._generate_formatter(dryrun,
+                                        "buildenv", "sh",
+                                        formatter, "containers")
+
     def _clean_files(self, generated, dryrun, subdir, suffix):
         outdir = Path(self.basedir, self.cidir, subdir)
         if not outdir.exists():
@@ -237,6 +245,9 @@ class Manifest:
 
     def _clean_cirrus(self, generated, dryrun):
         self._clean_files(generated, dryrun, "cirrus", "vars")
+
+    def _clean_buildenv(self, generated, dryrun):
+        self._clean_files(generated, dryrun, "buildenv", "sh")
 
     def _replace_file(self, content, path, dryrun):
         path = Path(self.basedir, path)
