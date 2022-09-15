@@ -227,6 +227,7 @@ RUN zypper dist-upgrade -y && \
            spice-gtk-devel \
            spice-protocol-devel \
            systemd-devel \
+           systemd-rpm-macros \
            systemtap-sdt-devel \
            tar \
            tcpdump \

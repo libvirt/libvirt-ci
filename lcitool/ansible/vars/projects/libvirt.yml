@@ -71,6 +71,7 @@ packages:
   - scrub
   - sed
   - showmount
+  - systemd-rpm-macros
   - tc
   - wireshark
   - xen

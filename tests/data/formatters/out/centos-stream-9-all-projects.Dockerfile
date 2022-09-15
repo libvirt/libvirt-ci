@@ -211,6 +211,7 @@ RUN dnf distro-sync -y && \
         snappy-devel \
         spice-protocol \
         systemd-devel \
+        systemd-rpm-macros \
         systemtap-sdt-devel \
         tar \
         tcpdump \

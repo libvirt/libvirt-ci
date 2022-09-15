@@ -194,6 +194,7 @@ native:
 - spice-protocol
 - strace
 - sudo
+- systemd-rpm-macros
 - tar
 - tcpdump
 - tesseract

@@ -15,3 +15,4 @@ packages:
   - python3-gobject
   - python3-pytest
   - rpmbuild
+  - systemd-rpm-macros

@@ -275,6 +275,7 @@ packages:
 - strace
 - sudo
 - systemd
+- systemd-rpm-macros
 - tar
 - tc
 - tcpdump

@@ -1880,6 +1880,9 @@ mappings:
     rpm: systemd-devel
     cross-policy-default: foreign
 
+  systemd-rpm-macros:
+    rpm: systemd-rpm-macros
+
   sudo:
     default: sudo
     MacOS:

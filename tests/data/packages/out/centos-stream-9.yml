@@ -225,6 +225,7 @@ native:
 - strace
 - sudo
 - systemd-devel
+- systemd-rpm-macros
 - systemtap-sdt-devel
 - tar
 - tcpdump

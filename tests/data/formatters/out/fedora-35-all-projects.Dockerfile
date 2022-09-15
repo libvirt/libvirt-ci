@@ -251,6 +251,7 @@ exec "$@"' > /usr/bin/nosync && \
         spice-protocol \
         spice-server-devel \
         systemd-devel \
+        systemd-rpm-macros \
         systemtap-sdt-devel \
         tar \
         tcpdump \
