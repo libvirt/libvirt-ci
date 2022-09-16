@@ -353,6 +353,7 @@ class Manifest:
         content = [gitlab.docs(namespace),
                    gitlab.variables(namespace),
                    gitlab.workflow(),
+                   gitlab.debug(),
                    gitlab.includes(includes)]
         self._replace_file(content, path, dryrun)
 

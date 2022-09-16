@@ -94,6 +94,21 @@ def workflow():
         """)
 
 
+def debug():
+    return textwrap.dedent(
+        """
+        debug:
+          image: docker.io/library/alpine:3
+          stage: sanity_checks
+          needs: []
+          script:
+            - printenv | sort
+          rules:
+            - if: '$RUN_DEBUG'
+              when: always
+        """)
+
+
 def includes(paths):
     lines = [f"  - local: '/{path}'" for path in paths]
     return "include:\n" + "\n".join(lines)

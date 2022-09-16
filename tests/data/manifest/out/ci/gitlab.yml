@@ -56,6 +56,17 @@ workflow:
     # upstream+forks: Avoid all other pipelines
     - when: never
 
+
+debug:
+  image: docker.io/library/alpine:3
+  stage: sanity_checks
+  needs: []
+  script:
+    - printenv | sort
+  rules:
+    - if: '$RUN_DEBUG'
+      when: always
+
 include:
   - local: '/ci/gitlab/container-templates.yml'
   - local: '/ci/gitlab/build-templates.yml'
