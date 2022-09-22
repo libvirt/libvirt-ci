@@ -4,6 +4,7 @@ import logging
 import subprocess
 
 from abc import ABC
+from pathlib import Path
 
 from lcitool import LcitoolError
 
@@ -114,3 +115,101 @@ class Container(ABC):
                 raise TypeError(f"{user} must be a string or an integer")
         except KeyError:
             raise ContainerError(f"user, {user} not found")
+
+    def _build_args(self, user, tempdir, env=None, datadir=None, script=None):
+        """
+        Generate container options.
+
+        These options are then passed to the command to run
+        an engine.
+
+        :param user: numerical ID or username of the user
+        :param tempdir: path to a temporary directory
+        :param env: a list of string containing environmental
+                    variables and values. e.g ["FOO=bar"]
+        :param datadir: path to a directory containing all the
+                        files and folders needed to run workload in
+                        a container.
+        :param script: path to an executable script to kickstart
+                       operations in the container.
+
+        :returns: a list.
+        The list contains some options passed to the engine. e.g
+        [
+            '--env=F00=bar', '--env=BAR=baz', '--user', '0:0',
+            '--volume', '/user/path:/container/path',
+            '--workdir', /path/to/home',
+            '--ulimit', 'nofile=1024:1024',
+            '--cap-add', 'SYS_PTRACE'
+        ]
+        """
+
+        passwd_entry = self._passwd(user)
+        user_home = passwd_entry[5]
+
+        # We need the container process to run with current host IDs
+        # so that it can access the passed in data directory
+        uid, gid = passwd_entry[2], passwd_entry[3]
+
+        #   --user    we execute as the same user & group account
+        #             as dev so that file ownership matches host
+        #             instead of root:root
+        user = f"{uid}:{gid}"
+
+        # We do not directly mount /etc/{passwd,group} as Docker
+        # is liable to mess with SELinux labelling which will
+        # then prevent the host accessing them. And podman cannot
+        # relabel the files due to it running rootless. So
+        # copying them first is safer and less error-prone.
+        passwd = shutil.copy2(
+            "/etc/passwd", Path(tempdir, 'passwd.copy')
+        )
+        group = shutil.copy2(
+            "/etc/group", Path(tempdir, 'group.copy')
+        )
+
+        passwd_mount = f"{passwd}:/etc/passwd:ro,z"
+        group_mount = f"{group}:/etc/group:ro,z"
+
+        # Docker containers can have very large ulimits
+        # for nofiles - as much as 1048576. This makes
+        # some applications very slow at executing programs.
+        ulimit_files = 1024
+        ulimit = f"nofile={ulimit_files}:{ulimit_files}"
+
+        cap_add = "SYS_PTRACE"
+
+        engine_args_ = [
+            "--user", user,
+            "--volume", passwd_mount,
+            "--volume", group_mount,
+            "--ulimit", ulimit,
+            "--cap-add", cap_add
+        ]
+
+        if script:
+            script_file = shutil.copy2(
+                script, Path(tempdir, "script")
+            )
+            script_mount = f"{script_file}:{user_home}/script:z"
+            engine_args_.extend([
+                "--volume", script_mount
+            ])
+
+        if datadir:
+            datadir_mount = f"{datadir}:{user_home}/datadir:z"
+            engine_args_.extend([
+                "--volume", datadir_mount,
+            ])
+
+        if env:
+            envs = ["--env=" + i for i in env]
+            engine_args_.extend(envs)
+
+        if datadir or script:
+            engine_args_.extend([
+                "--workdir", f"{user_home}",
+            ])
+
+        log.debug(f"Container options: {engine_args_}")
+        return engine_args_
