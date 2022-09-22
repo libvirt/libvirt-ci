@@ -1,3 +1,4 @@
+import shutil
 import logging
 import subprocess
 
@@ -47,3 +48,37 @@ class Container(ABC):
             raise _exception(str(ex.returncode))
 
         return proc
+
+    def _check(self):
+        """
+        Checks that engine is available and running. It
+        does this by running "{/path/to/engine} version"
+        to check if the engine is available
+
+        Returns
+             True: if the path can be found and the
+                   engine is available.
+             False: if the path can not be found OR
+                    if the path can be found AND
+                      the engine is not running OR
+                      the engine's background process is not
+                      well set up.
+        """
+
+        message = f"Checking if '{self.engine}' is available...%s"
+
+        command = shutil.which(self.engine)
+        if command is None:
+            log.debug(message, f"no\n'{self.engine}' path cannot be found")
+            return False
+
+        exists = self._exec([command, "version"],
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.STDOUT)
+        if exists.returncode:
+            log.debug(message, "no")
+        else:
+            log.debug(message, "yes")
+
+        log.debug("\n" + exists.stdout)
+        return not exists.returncode
