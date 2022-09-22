@@ -305,3 +305,43 @@ class Container(ABC):
                          _exception=self._run_exception,
                          check=True, **kwargs)
         return run.returncode
+
+    def build(self, filepath, tempdir, tag, **kwargs):
+        """
+        Prepares and runs the container engine's build command.
+
+        This method generates the engine command from the arguments
+        and passes the generated command to the "_exec()" method.
+
+        :param filepath: path to a file containing the Dockerfile/Containerfile
+        :param tempdir: path to a directory which would be used as
+                         build context.
+        :param tag: name of the image to be built.
+        :param **kwargs: arguments passed to subprocess.run()
+
+        e.g {
+                "filepath": "/path/to/Dockerfile", "tempdir": /path/to/dir,
+                "tag": "lcitool-fedora-36-libvirt-python"
+            }
+
+        :returns: an integer.
+        The returned integer is the status code after completing the build.
+        """
+
+        # podman build --pull --tag $TAG --file='container/Dockerfile' .
+
+        cmd_args = [
+            "--pull",
+            "--tag", tag,
+            "--file", filepath,
+            f"{tempdir}"
+        ]
+
+        cmd = [self.engine, "build"]
+        cmd.extend(cmd_args)
+
+        log.debug(f"Build command: {cmd}")
+        build = self._exec(cmd,
+                           _exception=self._build_exception,
+                           check=True, **kwargs)
+        return build.returncode
