@@ -86,3 +86,24 @@ class Podman(Container):
             "--gidmap", f"{gid_other}:{gid_other}:{gid_other_range}"
         ])
         return podman_args_
+
+    def _build_args(self, user, tempdir, env=None, datadir=None, script=None):
+        """
+        Options for Podman engine.
+
+        :returns: a list containing id mapping. e.g
+        [
+            '--user', '10:10',
+            '--volume', '/home/path:/container/path',
+            '--uidmap', '0:1:1000',
+            '--gidmap', '0:1:1000'
+        ]
+        """
+
+        args_ = super()._build_args(
+            user, tempdir, env=env, datadir=datadir, script=script
+        )
+        args_podman = args_ + self._extra_args(user)
+        log.debug(f"Options for podman engine: {args_podman}")
+
+        return args_podman
