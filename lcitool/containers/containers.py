@@ -1,3 +1,4 @@
+import pwd
 import shutil
 import logging
 import subprocess
@@ -92,3 +93,24 @@ class Container(ABC):
         """
 
         return self._check()
+
+    @staticmethod
+    def _passwd(user):
+        """
+        Get entry from Unix password database
+
+        :param user: numerical ID (int) or username (str) of the user
+
+        Returns the "/etc/passwd" 7-element tuple:
+            name:password:UID:GID:GECOS:directory:shell
+        """
+
+        try:
+            if type(user) is str:
+                return pwd.getpwnam(user)
+            elif type(user) is int and user >= 0:
+                return pwd.getpwuid(user)
+            else:
+                raise TypeError(f"{user} must be a string or an integer")
+        except KeyError:
+            raise ContainerError(f"user, {user} not found")
