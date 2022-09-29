@@ -47,7 +47,9 @@ exec "$@"' > /usr/bin/nosync && \
                device-mapper-multipath-devel \
                diffutils \
                dwarves \
+               e2fsprogs \
                ebtables \
+               expect \
                findutils \
                firewalld-filesystem \
                flex \
@@ -114,8 +116,10 @@ exec "$@"' > /usr/bin/nosync && \
                libffi-devel \
                libgcrypt-devel \
                libgovirt-devel \
+               libguestfs-devel \
                libiscsi-devel \
                libjpeg-devel \
+               libnbd-devel \
                libnfs-devel \
                libnl3-devel \
                libpcap-devel \
@@ -132,6 +136,7 @@ exec "$@"' > /usr/bin/nosync && \
                libtasn1-devel \
                libtirpc-devel \
                libtool \
+               libtorrent-devel \
                libubsan \
                liburing-devel \
                libusbx-devel \
@@ -146,6 +151,7 @@ exec "$@"' > /usr/bin/nosync && \
                libzstd-devel \
                llvm \
                lttng-ust-devel \
+               lua-devel \
                lvm2 \
                lzo-devel \
                make \
@@ -177,6 +183,7 @@ exec "$@"' > /usr/bin/nosync && \
                perl-Digest \
                perl-Digest-MD5 \
                perl-ExtUtils-CBuilder \
+               perl-ExtUtils-Embed \
                perl-File-Slurp \
                perl-IO-Compress-Bzip2 \
                perl-IO-Interface \
@@ -204,6 +211,7 @@ exec "$@"' > /usr/bin/nosync && \
                perl-YAML \
                perl-accessors \
                perl-base \
+               perl-devel \
                perl-generators \
                perl-podlators \
                php-devel \
@@ -215,11 +223,13 @@ exec "$@"' > /usr/bin/nosync && \
                pulseaudio-libs-devel \
                python3 \
                python3-PyYAML \
+               python3-boto3 \
                python3-dbus \
                python3-devel \
                python3-docutils \
                python3-flake8 \
                python3-gobject \
+               python3-libnbd \
                python3-libxml2 \
                python3-lxml \
                python3-numpy \
@@ -246,6 +256,7 @@ exec "$@"' > /usr/bin/nosync && \
                scrub \
                sed \
                snappy-devel \
+               socat \
                sparse \
                spice-gtk3-devel \
                spice-protocol \
@@ -254,6 +265,7 @@ exec "$@"' > /usr/bin/nosync && \
                systemd-rpm-macros \
                systemtap-sdt-devel \
                tar \
+               tcl-devel \
                tcpdump \
                tesseract \
                tesseract-langpack-eng \
@@ -270,6 +282,7 @@ exec "$@"' > /usr/bin/nosync && \
                wireshark-devel \
                xen-devel \
                xfsprogs-devel \
+               xorriso \
                xz \
                xz-devel \
                xz-static \

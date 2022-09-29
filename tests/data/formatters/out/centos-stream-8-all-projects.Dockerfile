@@ -38,7 +38,9 @@ RUN dnf distro-sync -y && \
         device-mapper-multipath-devel \
         diffutils \
         dwarves \
+        e2fsprogs \
         ebtables \
+        expect \
         findutils \
         firewalld-filesystem \
         flex \
@@ -99,9 +101,11 @@ RUN dnf distro-sync -y && \
         libfdt-devel \
         libffi-devel \
         libgcrypt-devel \
+        libguestfs-devel \
         libguestfs-tools-c \
         libiscsi-devel \
         libjpeg-devel \
+        libnbd-devel \
         libnfs-devel \
         libnl3-devel \
         libpcap-devel \
@@ -118,6 +122,7 @@ RUN dnf distro-sync -y && \
         libtasn1-devel \
         libtirpc-devel \
         libtool \
+        libtorrent-devel \
         libubsan \
         liburing-devel \
         libusbx-devel \
@@ -131,6 +136,7 @@ RUN dnf distro-sync -y && \
         libzstd-devel \
         llvm \
         lttng-ust-devel \
+        lua-devel \
         lvm2 \
         lzo-devel \
         make \
@@ -161,6 +167,7 @@ RUN dnf distro-sync -y && \
         perl-Digest \
         perl-Digest-MD5 \
         perl-ExtUtils-CBuilder \
+        perl-ExtUtils-Embed \
         perl-File-Slurp \
         perl-IO-Compress-Bzip2 \
         perl-IO-Interface \
@@ -181,6 +188,7 @@ RUN dnf distro-sync -y && \
         perl-XML-Writer \
         perl-XML-XPath \
         perl-YAML \
+        perl-devel \
         perl-generators \
         perl-podlators \
         php-devel \
@@ -190,11 +198,13 @@ RUN dnf distro-sync -y && \
         pulseaudio-libs-devel \
         python3 \
         python3-PyYAML \
+        python3-boto3 \
         python3-dbus \
         python3-devel \
         python3-docutils \
         python3-flake8 \
         python3-gobject \
+        python3-libnbd \
         python3-libxml2 \
         python3-lxml \
         python3-numpy \
@@ -219,6 +229,7 @@ RUN dnf distro-sync -y && \
         scrub \
         sed \
         snappy-devel \
+        socat \
         spice-gtk3-devel \
         spice-protocol \
         spice-server-devel \
@@ -226,6 +237,7 @@ RUN dnf distro-sync -y && \
         systemd-rpm-macros \
         systemtap-sdt-devel \
         tar \
+        tcl-devel \
         tcpdump \
         texinfo \
         unzip \
@@ -239,6 +251,7 @@ RUN dnf distro-sync -y && \
         which \
         wireshark-devel \
         xfsprogs-devel \
+        xorriso \
         xz \
         xz-devel \
         yajl-devel \

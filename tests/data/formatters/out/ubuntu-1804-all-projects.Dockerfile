@@ -29,8 +29,11 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       debianutils \
                       diffutils \
                       dwarves \
+                      e2fsprogs \
                       ebtables \
+                      expect \
                       exuberant-ctags \
+                      fdisk \
                       findutils \
                       flake8 \
                       flex \
@@ -99,6 +102,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       libgnutls28-dev \
                       libgtk-3-dev \
                       libgtk-vnc-2.0-dev \
+                      libguestfs-dev \
                       libguestfs-tools \
                       libibumad-dev \
                       libibverbs-dev \
@@ -130,6 +134,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       libpcap0.8-dev \
                       libpciaccess-dev \
                       libpcre2-dev \
+                      libperl-dev \
                       libpixman-1-dev \
                       libpmem-dev \
                       libpng-dev \
@@ -168,6 +173,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       libtirpc-dev \
                       libtool \
                       libtool-bin \
+                      libtorrent-dev \
                       libubsan1 \
                       libudev-dev \
                       libusb-1.0-0-dev \
@@ -189,8 +195,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       libzstd-dev \
                       llvm \
                       locales \
+                      lua5.3 \
                       lvm2 \
                       make \
+                      mount \
                       multipath-tools \
                       nbd-client \
                       nbd-server \
@@ -214,6 +222,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       policykit-1 \
                       publican \
                       python3 \
+                      python3-boto3 \
                       python3-dbus \
                       python3-dev \
                       python3-docutils \
@@ -241,9 +250,11 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       rustc \
                       scrub \
                       sed \
+                      socat \
                       sparse \
                       systemtap-sdt-dev \
                       tar \
+                      tcl-dev \
                       tcpdump \
                       tesseract-ocr \
                       tesseract-ocr-eng \

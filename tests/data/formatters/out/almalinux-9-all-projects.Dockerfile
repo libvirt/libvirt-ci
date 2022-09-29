@@ -36,7 +36,9 @@ RUN dnf update -y && \
         device-mapper-multipath-devel \
         diffutils \
         dwarves \
+        e2fsprogs \
         ebtables \
+        expect \
         findutils \
         firewalld-filesystem \
         flex \
@@ -95,7 +97,9 @@ RUN dnf update -y && \
         libfdt-devel \
         libffi-devel \
         libgcrypt-devel \
+        libguestfs-devel \
         libjpeg-devel \
+        libnbd-devel \
         libnl3-devel \
         libpcap-devel \
         libpciaccess-devel \
@@ -110,6 +114,7 @@ RUN dnf update -y && \
         libtasn1-devel \
         libtirpc-devel \
         libtool \
+        libtorrent-devel \
         libubsan \
         libusbx-devel \
         libuuid-devel \
@@ -122,6 +127,7 @@ RUN dnf update -y && \
         libzstd-devel \
         llvm \
         lttng-ust-devel \
+        lua-devel \
         lvm2 \
         lzo-devel \
         make \
@@ -150,6 +156,7 @@ RUN dnf update -y && \
         perl-Digest \
         perl-Digest-MD5 \
         perl-ExtUtils-CBuilder \
+        perl-ExtUtils-Embed \
         perl-File-Slurp \
         perl-IO-Compress-Bzip2 \
         perl-IO-Interface \
@@ -171,6 +178,7 @@ RUN dnf update -y && \
         perl-XML-XPath \
         perl-YAML \
         perl-base \
+        perl-devel \
         perl-generators \
         perl-podlators \
         php-devel \
@@ -180,10 +188,12 @@ RUN dnf update -y && \
         pulseaudio-libs-devel \
         python3 \
         python3-PyYAML \
+        python3-boto3 \
         python3-dbus \
         python3-devel \
         python3-docutils \
         python3-gobject \
+        python3-libnbd \
         python3-libxml2 \
         python3-lxml \
         python3-numpy \
@@ -208,11 +218,13 @@ RUN dnf update -y && \
         scrub \
         sed \
         snappy-devel \
+        socat \
         spice-protocol \
         systemd-devel \
         systemd-rpm-macros \
         systemtap-sdt-devel \
         tar \
+        tcl-devel \
         tcpdump \
         texinfo \
         unzip \
@@ -225,6 +237,7 @@ RUN dnf update -y && \
         which \
         wireshark-devel \
         xfsprogs-devel \
+        xorriso \
         xz \
         xz-devel \
         yajl-devel \
