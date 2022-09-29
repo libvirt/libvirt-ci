@@ -225,9 +225,12 @@ mappings:
     cross-policy-default: skip
 
   clippy:
+    apk: rust-clippy
     deb: rust-clippy
+    pkg: rust
     rpm: clippy
     OpenSUSE:
+    Alpine315:
     Debian10:
     Debian11:
 

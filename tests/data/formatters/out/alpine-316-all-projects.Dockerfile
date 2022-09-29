@@ -181,6 +181,7 @@ RUN apk update && \
         ruby-dev \
         ruby-rake \
         rust \
+        rust-clippy \
         samurai \
         sdl2-dev \
         sdl2_image-dev \

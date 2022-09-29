@@ -202,6 +202,7 @@ native:
 - ruby-dev
 - ruby-rake
 - rust
+- rust-clippy
 - samurai
 - screen
 - sdl2-dev
