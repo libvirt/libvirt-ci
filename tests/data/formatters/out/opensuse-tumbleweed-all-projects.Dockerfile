@@ -198,7 +198,6 @@ RUN zypper dist-upgrade -y && \
            python3-dbus-python \
            python3-devel \
            python3-docutils \
-           python3-flake8 \
            python3-gobject \
            python3-libxml2-python \
            python3-lxml \
@@ -209,6 +208,7 @@ RUN zypper dist-upgrade -y && \
            python3-requests \
            python3-setuptools \
            python3-sphinx_rtd_theme \
+           python39-flake8 \
            qemu \
            qemu-tools \
            rdma-core-devel \

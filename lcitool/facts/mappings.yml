@@ -356,6 +356,7 @@ mappings:
     # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
     AlmaLinux9:
     CentOSStream9:
+    OpenSUSETumbleweed: python39-flake8
 
   flex:
     default: flex
