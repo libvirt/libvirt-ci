@@ -154,6 +154,7 @@ native:
 - libseccomp-dev
 - libselinux1-dev
 - libsnappy-dev
+- libsndio-dev
 - libsnmp-dev
 - libsoup2.4-dev
 - libspice-client-gtk-3.0-dev

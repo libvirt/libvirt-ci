@@ -178,6 +178,7 @@ native:
 - libnetaddr-ip-perl
 - libpcre2-dev
 - libperl-dev
+- libsndio-dev
 - libsnmp-dev
 - libspice-protocol-dev
 - libsub-uplevel-perl

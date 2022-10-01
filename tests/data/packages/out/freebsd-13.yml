@@ -165,6 +165,7 @@ native:
 - sdl2
 - sdl2_image
 - snappy
+- sndio
 - socat
 - spice-gtk
 - spice-protocol

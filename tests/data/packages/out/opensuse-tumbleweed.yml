@@ -247,6 +247,7 @@ native:
 - scrub
 - sed
 - snappy-devel
+- sndio-devel
 - socat
 - sparse
 - spice-gtk-devel

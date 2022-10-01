@@ -1917,6 +1917,12 @@ mappings:
     rpm: snappy-devel
     cross-policy-default: foreign
 
+  sndio:
+    apk: sndio-dev
+    deb: libsndio-dev
+    pkg: sndio
+    OpenSUSE: sndio-devel
+
   socat:
     default: socat
 

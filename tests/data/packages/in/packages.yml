@@ -280,6 +280,7 @@ packages:
 - sfdisk
 - showmount
 - snappy
+- sndio
 - socat
 - sparse
 - spice-gtk3
