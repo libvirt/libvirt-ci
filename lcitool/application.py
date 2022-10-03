@@ -250,7 +250,7 @@ class Application(metaclass=Singleton):
         # Unattended install scripts are being generated on the fly, based
         # on the templates present in lcitool/configs/
         filename = resource_filename(__name__,
-                                     f"configs/install/{install_config}")
+                                     f"configs/{install_config}")
         with open(filename, "r") as template:
             content = template.read()
             for option in unattended_options:
