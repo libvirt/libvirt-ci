@@ -82,3 +82,13 @@ class Container(ABC):
 
         log.debug("\n" + exists.stdout)
         return not exists.returncode
+
+    @property
+    def available(self):
+        """
+        Checks whether the container engine is available and ready to use.
+
+        :returns: boolean
+        """
+
+        return self._check()
