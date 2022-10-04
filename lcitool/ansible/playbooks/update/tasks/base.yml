@@ -1,4 +1,9 @@
 ---
+- name: Fetch repository metadata
+  apt:
+    update_cache: true
+  when: os.name == 'Debian' or os.name == 'Ubuntu'
+
 - name: Install packages needed for playbook tasks
   package:
     name: '{{ early_install_packages }}'
