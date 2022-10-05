@@ -1,4 +1,5 @@
 import logging
+import subprocess
 
 from abc import ABC
 
@@ -26,3 +27,23 @@ class Container(ABC):
 
         self._run_exception = None
         self._build_exception = None
+
+    @staticmethod
+    def _exec(command, _exception=ContainerError, **kwargs):
+        """
+        Execute command in a subprocess.run call.
+
+        :param command: a list of command to run in the process
+        :param _exception: an instance of ContainerError
+        :param **kwargs: arguments passed to subprocess.run()
+
+        :returns: an instance of subprocess.CompletedProcess
+        """
+
+        try:
+            proc = subprocess.run(args=command, encoding="utf-8",
+                                  **kwargs)
+        except subprocess.CalledProcessError as ex:
+            raise _exception(str(ex.returncode))
+
+        return proc
