@@ -49,10 +49,10 @@ git_urls:
     default: https://gitlab.com/libvirt/libvirt-dbus.git
   libvirt-glib:
     default: https://gitlab.com/libvirt/libvirt-glib.git
-  libvirt-go-xml:
-    default: https://gitlab.com/libvirt/libvirt-go-xml.git
-  libvirt-go:
-    default: https://gitlab.com/libvirt/libvirt-go.git
+  libvirt-go-xml-module:
+    default: https://gitlab.com/libvirt/libvirt-go-xml-module.git
+  libvirt-go-module:
+    default: https://gitlab.com/libvirt/libvirt-go-module.git
   libvirt-ocaml:
     default: https://gitlab.com/libvirt/libvirt-ocaml.git
   libvirt-perl:

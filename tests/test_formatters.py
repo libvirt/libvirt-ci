@@ -16,27 +16,27 @@ from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, 
 
 scenarios = [
     # A minimalist application, testing package managers
-    pytest.param("libvirt-go-xml", "debian-10", None, id="libvirt-go-xml-debian-10"),
-    pytest.param("libvirt-go-xml", "almalinux-8", None, id="libvirt-go-xml-almalinux-8"),
-    pytest.param("libvirt-go-xml", "opensuse-leap-153", None, id="libvirt-go-xml-opensuse-leap-153"),
-    pytest.param("libvirt-go-xml", "alpine-edge", None, id="libvirt-go-xml-alpine-edge"),
-    pytest.param("libvirt-go-xml", "opensuse-tumbleweed", None, id="libvirt-go-xml-opensuse-tumbleweed"),
+    pytest.param("libvirt-go-xml-module", "debian-10", None, id="libvirt-go-xml-module-debian-10"),
+    pytest.param("libvirt-go-xml-module", "almalinux-8", None, id="libvirt-go-xml-module-almalinux-8"),
+    pytest.param("libvirt-go-xml-module", "opensuse-leap-153", None, id="libvirt-go-xml-module-opensuse-leap-153"),
+    pytest.param("libvirt-go-xml-module", "alpine-edge", None, id="libvirt-go-xml-module-alpine-edge"),
+    pytest.param("libvirt-go-xml-module", "opensuse-tumbleweed", None, id="libvirt-go-xml-module-opensuse-tumbleweed"),
 
     # An application using cache symlinks
-    pytest.param("libvirt-go", "debian-10", None, id="libvirt-go-debian-10"),
-    pytest.param("libvirt-go", "debian-10", "s390x", id="libvirt-go-debian-10-cross-s390x"),
-    pytest.param("libvirt-go", "fedora-rawhide", "mingw64", id="libvirt-go-fedora-rawhide-cross-mingw64"),
+    pytest.param("libvirt-go-module", "debian-10", None, id="libvirt-go-debian-10"),
+    pytest.param("libvirt-go-module", "debian-10", "s390x", id="libvirt-go-debian-10-cross-s390x"),
+    pytest.param("libvirt-go-module", "fedora-rawhide", "mingw64", id="libvirt-go-fedora-rawhide-cross-mingw64"),
 ]
 
 layer_scenarios = [
     # Overriding default base image
-    pytest.param("libvirt-go", "debian-10", "s390x", "debian-10-common", "all", id="libvirt-go-debian-10-common-cross-s390x"),
+    pytest.param("libvirt-go-module", "debian-10", "s390x", "debian-10-common", "all", id="libvirt-go-debian-10-common-cross-s390x"),
 
     # Customizing the layers
-    pytest.param("libvirt-go", "fedora-rawhide", "mingw64", None, "all", id="libvirt-go-fedora-rawhide-cross-mingw64-combined"),
-    pytest.param("libvirt-go", "fedora-rawhide", "mingw64", None, "native", id="libvirt-go-fedora-rawhide-cross-mingw64-native"),
-    pytest.param("libvirt-go", "fedora-rawhide", "mingw64", None, "foreign", id="libvirt-go-fedora-rawhide-cross-mingw64-foreign"),
-    pytest.param("libvirt-go", "fedora-rawhide", "mingw64", "fedora-rawhide-common", "foreign", id="libvirt-go-fedora-rawhide-common-cross-mingw64-foreign"),
+    pytest.param("libvirt-go-module", "fedora-rawhide", "mingw64", None, "all", id="libvirt-go-fedora-rawhide-cross-mingw64-combined"),
+    pytest.param("libvirt-go-module", "fedora-rawhide", "mingw64", None, "native", id="libvirt-go-fedora-rawhide-cross-mingw64-native"),
+    pytest.param("libvirt-go-module", "fedora-rawhide", "mingw64", None, "foreign", id="libvirt-go-fedora-rawhide-cross-mingw64-foreign"),
+    pytest.param("libvirt-go-module", "fedora-rawhide", "mingw64", "fedora-rawhide-common", "foreign", id="libvirt-go-fedora-rawhide-common-cross-mingw64-foreign"),
 ]
 
 

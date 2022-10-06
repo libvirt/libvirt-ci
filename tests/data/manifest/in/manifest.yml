@@ -1,11 +1,11 @@
 
 projects:
-  - libvirt-go-xml
-  - libvirt-go
+  - libvirt-go-xml-module
+  - libvirt-go-module
 
 gitlab:
   namespace: test-group
-  project: libvirt-go-xml
+  project: libvirt-go-xml-module
   jobs:
      cargo-fmt: true
      clang-format: true

@@ -4,7 +4,7 @@
 # needed projects that are build dependencies
 projects:
   - libvirt
-  - libvirt-go
+  - libvirt-go-module
 
 
 # Whether to generate dockerfiles by default for hosts
@@ -26,7 +26,7 @@ gitlab:
   namespace: libvirt
 
   # The GitLab repo within the namespace, must be set
-  project: libvirt-go
+  project: libvirt-go-module
 
 #  enabled: true
 #
