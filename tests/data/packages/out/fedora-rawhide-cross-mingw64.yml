@@ -1,4 +1,5 @@
 cross:
+- mingw32-nsis
 - mingw64-SDL2
 - mingw64-SDL2_image
 - mingw64-bzip2
