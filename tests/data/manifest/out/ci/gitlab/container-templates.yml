@@ -9,6 +9,7 @@
 .container_job:
   image: docker:stable
   stage: containers
+  interruptible: false
   needs: []
   services:
     - docker:dind

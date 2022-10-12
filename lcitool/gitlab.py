@@ -100,6 +100,7 @@ def debug():
         debug:
           image: docker.io/library/alpine:3
           stage: sanity_checks
+          interruptible: true
           needs: []
           script:
             - printenv | sort
@@ -138,6 +139,7 @@ def container_template(cidir):
         .container_job:
           image: docker:stable
           stage: containers
+          interruptible: false
           needs: []
           services:
             - docker:dind
@@ -191,6 +193,7 @@ def _build_template(template, image, project, cidir):
         {template}_prebuilt_env:
           image: $CI_REGISTRY/$RUN_UPSTREAM_NAMESPACE/{project}/{image}:latest
           stage: builds
+          interruptible: true
           before_script:
             - cat /packages.txt
           rules:
@@ -226,6 +229,7 @@ def _build_template(template, image, project, cidir):
         {template}_local_env:
           image: $IMAGE
           stage: builds
+          interruptible: true
           before_script:
             - source {cidir}/buildenv/$NAME.sh
             - install_buildenv
@@ -303,6 +307,7 @@ def cirrus_template(cidir):
         .cirrus_build_job:
           stage: builds
           image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
+          interruptible: true
           needs: []
           script:
             - source {cidir}/cirrus/$NAME.vars
@@ -367,6 +372,7 @@ def check_dco_job():
           stage: sanity_checks
           needs: []
           image: registry.gitlab.com/libvirt/libvirt-ci/check-dco:master
+          interruptible: true
           script:
             - /check-dco "$RUN_UPSTREAM_NAMESPACE"
           rules:
@@ -389,6 +395,7 @@ def code_fmt_template():
         .code_format:
           stage: sanity_checks
           image: registry.gitlab.com/libvirt/libvirt-ci/$NAME:master
+          interruptible: true
           needs: []
           script:
             - /$NAME
