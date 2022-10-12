@@ -441,7 +441,7 @@ class BuildEnvFormatter(Formatter):
         env["ABI"] = varmap["cross_abi"]
 
         if "autoconf" in varmap["mappings"]:
-            env["CONFIGURE_OPTS"] = "--host" + varmap["cross_abi"]
+            env["CONFIGURE_OPTS"] = "--host=" + varmap["cross_abi"]
 
         if "meson" in varmap["mappings"]:
             if cross_arch.startswith("mingw"):
