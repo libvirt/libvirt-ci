@@ -39,7 +39,7 @@
   <software>
     <install_recommended config:type="boolean">false</install_recommended>
     <products config:type="list">
-      <product>openSUSE</product>
+      <product>Leap</product>
     </products>
     <patterns config:type="list">
       <pattern>base</pattern>
@@ -66,11 +66,10 @@
   </users>
   <services-manager>
     <default_target>multi-user</default_target>
-    <services config:type="list">
-      <service>
-        <service_name>sshd</service_name>
-        <service_status>enable</service_status>
-      </service>
+    <services>
+      <enable config:type="list">
+        <service>sshd</service>
+      </enable>
     </services>
   </services-manager>
 </profile>
