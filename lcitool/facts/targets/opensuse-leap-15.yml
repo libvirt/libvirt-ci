@@ -2,6 +2,7 @@
 os:
   name: 'OpenSUSE'
   version: 'Leap15'
+  libosinfo_id: 'http://opensuse.org/opensuse/15.4'
 
 packaging:
   format: 'rpm'

@@ -2,6 +2,7 @@
 os:
   name: 'Alpine'
   version: '316'
+  libosinfo_id: 'http://alpinelinux.org/alpinelinux/3.16'
 
 packaging:
   format: 'apk'

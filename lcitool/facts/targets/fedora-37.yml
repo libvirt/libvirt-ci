@@ -2,6 +2,7 @@
 os:
   name: 'Fedora'
   version: '37'
+  libosinfo_id: 'http://fedoraproject.org/fedora/37'
 
 packaging:
   format: 'rpm'

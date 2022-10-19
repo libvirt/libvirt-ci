@@ -2,6 +2,7 @@
 os:
   name: 'AlmaLinux'
   version: '8'
+  libosinfo_id: 'http://almalinux.org/almalinux/8'
 
 packaging:
   format: 'rpm'

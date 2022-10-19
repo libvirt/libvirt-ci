@@ -2,6 +2,7 @@
 os:
   name: 'OpenSUSE'
   version: 'Tumbleweed'
+  libosinfo_id: 'http://opensuse.org/opensuse/tumbleweed'
 
 packaging:
   format: 'rpm'

@@ -2,6 +2,7 @@
 os:
   name: 'CentOS'
   version: 'Stream9'
+  libosinfo_id: 'http://centos.org/centos-stream/9'
 
 packaging:
   format: 'rpm'

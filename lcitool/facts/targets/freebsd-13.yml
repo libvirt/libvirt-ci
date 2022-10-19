@@ -2,6 +2,7 @@
 os:
   name: 'FreeBSD'
   version: '13'
+  libosinfo_id: 'http://freebsd.org/freebsd/13.1'
 
 packaging:
   format: 'pkg'

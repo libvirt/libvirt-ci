@@ -2,6 +2,7 @@
 os:
   name: 'Fedora'
   version: 'Rawhide'
+  libosinfo_id: 'http://fedoraproject.org/fedora/rawhide'
 
 packaging:
   format: 'rpm'

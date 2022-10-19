@@ -2,6 +2,7 @@
 os:
   name: 'Debian'
   version: '11'
+  libosinfo_id: 'http://debian.org/debian/11'
 
 packaging:
   format: 'deb'

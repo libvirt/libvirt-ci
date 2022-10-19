@@ -2,6 +2,7 @@
 os:
   name: 'Fedora'
   version: '38'
+  libosinfo_id: 'http://fedoraproject.org/fedora/38'
 
 packaging:
   format: 'rpm'
