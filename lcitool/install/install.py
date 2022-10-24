@@ -7,10 +7,14 @@ import logging
 import subprocess
 
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 
 from lcitool import util, LcitoolError
 from lcitool.config import Config
 from lcitool.libvirt_wrapper import LibvirtWrapper
+
+from .cloud_init import CloudConfig
+from .image import Images, NoImageError
 
 log = logging.getLogger(__name__)
 
@@ -51,6 +55,69 @@ class VirtInstall:
 
         return runner
 
+    @classmethod
+    def from_image(cls, name, facts, force_download=False):
+        """ Shortcut constructor for a cloud-init image-based installation. """
+
+        runner = cls(name, facts)
+
+        config = Config()
+        conf_size = config.values["install"]["disk_size"]
+        conf_pool = config.values["install"]["storage_pool"]
+        arch = config.values["install"]["arch"]
+        target = facts["target"]
+
+        try:
+            image = Images().get(target, facts, arch)
+        except NoImageError:
+            raise InstallerError(f"Host {name} doesn't support installation")
+
+        # Download the cloud base image if needed
+        if image.path is None or force_download:
+            image.download()
+
+            # Make sure that a symlink to the base image symlink exists
+            # in libvirt pool and that we refresh the pool
+            storage_pool = config.values["install"]["storage_pool"]
+            libvirt_pool = LibvirtWrapper().pool_by_name(storage_pool)
+            try:
+                Path(libvirt_pool.path, image.name).symlink_to(image.path)
+            except FileExistsError:
+                pass
+
+            libvirt_pool.raw.refresh()
+
+        # Dump the edited cloud-init template for virt-install to use
+        ssh_keypair = util.SSHKeyPair(config.values["install"]["ssh_key"])
+        ssh_pubkey_str = str(ssh_keypair.public_key)
+        cloud_config = CloudConfig(ssh_authorized_keys=[ssh_pubkey_str])
+        with NamedTemporaryFile("w",
+                                prefix="cloud_init_",
+                                suffix=".conf",
+                                dir=util.get_temp_dir(),
+                                delete=False) as fd:
+
+            fd.write(cloud_config.dump())
+            runner.args.extend(["--cloud-init", f"user-data={fd.name}"])
+
+        baseimg_path = image.path.as_posix()
+        disk_arg = (f"size={conf_size},"
+                    f"pool={conf_pool},"
+                    f"backing_store={baseimg_path},"
+                    f"bus=virtio")
+
+        runner.args.extend(["--import",
+                            "--disk", disk_arg])
+        runner.args.extend(runner._get_common_args())
+
+        # NOTE: URL installs wait by connecting to a serial console which kills
+        # any automation needs, so we don't want that here and instead always
+        # pass --noautoconsole and set an SSH wait callback.
+        runner.args.append("--noautoconsole")
+        runner._ssh_keypair = ssh_keypair
+        runner._wait_callback = runner._ssh_wait_cb
+        return runner
+
     def __init__(self, name, facts):
         """
         Instantiates the virt-install installer backend.
@@ -64,6 +131,7 @@ class VirtInstall:
         self.args = []
         self._facts = facts
         self._cmd = "virt-install"
+        self._ssh_keypair = None
 
     def __call__(self, wait=False):
         """
@@ -241,6 +309,9 @@ class VirtInstall:
         log.debug(f"Running {cmd}")
         try:
             subprocess.check_call(cmd)
+
+            if wait and self._wait_callback:
+                self._wait_callback()
 
             # mark the host XML using XML metadata
             LibvirtWrapper().set_target(self.name, self._facts["target"])
