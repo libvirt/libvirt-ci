@@ -105,6 +105,22 @@ class CommandLine:
             help="name of the host (taken from inventory OR a new name)",
         )
 
+        installstrategyopt = argparse.ArgumentParser(add_help=False)
+        installstrategyopt.add_argument(
+            "--strategy",
+            choices=["url", "cloud"],
+            default="url",
+            help="where to install from (URL tree, latest cloud image)"
+        )
+
+        installforceopt = argparse.ArgumentParser(add_help=False)
+        installforceopt.add_argument(
+            "--force",
+            default=False,
+            action="store_true",
+            help="force download of the image (rewrites the one in cache)"
+        )
+
         update_projectopt = argparse.ArgumentParser(add_help=False)
         update_projectopt.add_argument(
             "projects",
@@ -222,7 +238,8 @@ class CommandLine:
         installparser = subparsers.add_parser(
             "install",
             help="perform unattended host installation",
-            parents=[waitopt, installtargetopt, installhostopt],
+            parents=[waitopt, installtargetopt, installhostopt,
+                     installstrategyopt, installforceopt],
         )
         installparser.set_defaults(func=Application._action_install)
 
