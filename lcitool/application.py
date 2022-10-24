@@ -180,9 +180,15 @@ class Application:
                     f"fully_managed=True not set for {host}, refusing to proceed"
                 )
 
-        virt_install = VirtInstall.from_url(name=host,
-                                            config=config,
-                                            facts=facts)
+        if args.strategy == "cloud":
+            virt_install = VirtInstall.from_image(name=host,
+                                                  config=config,
+                                                  facts=facts,
+                                                  force_download=args.force)
+        else:
+            virt_install = VirtInstall.from_url(name=host,
+                                                config=config,
+                                                facts=facts)
         virt_install(wait=args.wait)
 
     @required_deps('ansible_runner', 'libvirt')
