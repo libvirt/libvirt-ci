@@ -54,16 +54,8 @@ class VirtInstall:
 
         return args
 
-    def run(self, name, facts, wait=False):
-        """
-        Kick off the VM installation.
-
-        :param name: name for the VM instance (str)
-        :param facts: host facts for this OS instance (dict)
-        :param wait: whether to wait for the installation to complete (boolean)
-        """
-
-        config = Config()
+    @staticmethod
+    def _get_unattended_args(facts):
         target = facts["target"]
 
         # Different operating systems require different configuration
@@ -114,9 +106,27 @@ class VirtInstall:
         conf_url = facts["install"]["url"]
         ks = install_config
         extra_arg = f"console=ttyS0 inst.ks=file:/{ks} install={conf_url}"
+        url_args = [
+            "--location", facts["install"]["url"],
+            "--initrd-inject", initrd_inject,
+            "--extra-args", extra_arg,
+        ]
+        return url_args
+
+    def run(self, name, facts, wait=False):
+        """
+        Kick off the VM installation.
+
+        :param name: name for the VM instance (str)
+        :param facts: host facts for this OS instance (dict)
+        :param wait: whether to wait for the installation to complete (boolean)
+        """
+
+        config = Config()
 
         cmd_args = ["--name", name]
         cmd_args.extend(self._get_common_args())
+        cmd_args.extend(self._get_unattended_args(facts))
 
         conf_size = config.values["install"]["disk_size"]
         conf_pool = config.values["install"]["storage_pool"]
@@ -124,9 +134,6 @@ class VirtInstall:
 
         cmd_args.extend([
             "--disk", disk_arg,
-            "--location", facts["install"]["url"],
-            "--initrd-inject", initrd_inject,
-            "--extra-args", extra_arg,
         ])
 
         if not wait:
