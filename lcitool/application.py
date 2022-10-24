@@ -208,7 +208,9 @@ class Application(metaclass=Singleton):
                     f"fully_managed=True not set for {host}, refusing to proceed"
                 )
 
-        VirtInstall(host, facts).run(args.wait)
+        virt_install = VirtInstall.from_url(name=host,
+                                            facts=facts)
+        virt_install.run(wait=args.wait)
 
     @required_deps('ansible_runner', 'libvirt')
     def _action_update(self, args):

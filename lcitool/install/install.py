@@ -24,6 +24,29 @@ class InstallationNotSupported(InstallerError):
 
 class VirtInstall:
 
+    @classmethod
+    def from_url(cls, name, facts):
+        """ Shortcut constructor for a URL-based network installation. """
+
+        runner = cls(name, facts)
+
+        config = Config()
+        conf_size = config.values["install"]["disk_size"]
+        conf_pool = config.values["install"]["storage_pool"]
+        disk_arg = (f"size={conf_size},"
+                    f"pool={conf_pool},"
+                    f"bus=virtio")
+
+        conf_size = config.values["install"]["disk_size"]
+        conf_pool = config.values["install"]["storage_pool"]
+        disk_arg = f"size={conf_size},pool={conf_pool},bus=virtio"
+
+        runner.args.extend(["--disk", disk_arg])
+        runner.args.extend(runner._get_common_args())
+        runner.args.extend(runner._get_unattended_args(facts))
+
+        return runner
+
     def __init__(self, name, facts):
         """
         Instantiates the virt-install installer backend.
@@ -133,23 +156,10 @@ class VirtInstall:
         :param wait: whether to wait for the installation to complete (boolean)
         """
 
-        config = Config()
-
-        self.args = ["--name", self.name]
-        self.args.extend(self._get_common_args())
-        self.args.extend(self._get_unattended_args(self._facts))
-
-        conf_size = config.values["install"]["disk_size"]
-        conf_pool = config.values["install"]["storage_pool"]
-        disk_arg = f"size={conf_size},pool={conf_pool},bus=virtio"
-
-        self.args.extend([
-            "--disk", disk_arg,
-        ])
-
         if not wait:
             self.args.append("--noautoconsole")
 
+        self.args.extend(["--name", self.name])
         cmd = [self._cmd] + self.args
         log.debug(f"Running {cmd}")
         try:
