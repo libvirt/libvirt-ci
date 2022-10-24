@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+import abc
 import libvirt
 import logging
 import textwrap
@@ -91,3 +92,30 @@ class LibvirtWrapper():
             raise LibvirtWrapperError(
                 f"Failed to set metadata for '{host}': " + str(e)
             )
+
+
+class LibvirtAbstractObject(abc.ABC):
+    """
+    Libvirt's vir<Any> obj wrapper base class.
+
+    The wrapper object defines convenience methods and attribute shortcuts
+    extracting data from libvirt's XML descriptions. To use the wrapped object
+    directly, the libvirt object is available in the 'raw' attribute.
+
+    Attributes:
+        :ivar raw: Raw libvirt vir<Any> object
+
+    """
+
+    def __init__(self, obj):
+        self.raw = obj
+
+    def _get_xml_tree(self):
+        return ET.fromstring(self.raw.XMLDesc())
+
+    def _get_xml_node(self, node_name, root=None):
+        if root is None:
+            root = self._get_xml_tree()
+
+        nodeelem = root.find(node_name)
+        return nodeelem.text
