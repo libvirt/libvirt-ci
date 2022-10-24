@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import copy
+import errno
 import fnmatch
 import logging
 import os
@@ -19,6 +20,47 @@ from pathlib import Path
 _tempdir = None
 
 log = logging.getLogger(__name__)
+
+
+class SSHKey:
+    """
+    :ivar path: Absolute path to the SSH key as Path object
+    """
+
+    def __init__(self, keypath):
+        self._contents = None
+
+        # resolve user home directory + canonicalize path
+        self.path = Path(keypath).expanduser().resolve()
+        if not self.path.exists():
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT),
+                                    str(self.path))
+
+    def __str__(self):
+        if self._contents is None:
+            with open(self.path, "r") as f:
+                self._contents = f.read().strip()
+
+        return self._contents
+
+
+class SSHPublicKey(SSHKey):
+    pass
+
+
+class SSHPrivateKey(SSHKey):
+    def __str__(self):
+        # Only the SSH backend should ever need to know the contents of the
+        # private key
+
+        return ""
+
+
+class SSHKeyPair:
+    def __init__(self, keypath):
+        pathobj = Path(keypath)
+        self.public_key = SSHPublicKey(pathobj.with_suffix(".pub"))
+        self.private_key = SSHPrivateKey(pathobj.with_suffix(""))
 
 
 def expand_pattern(pattern, iterable, name):
