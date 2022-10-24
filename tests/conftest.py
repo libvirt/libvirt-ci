@@ -10,7 +10,7 @@ from lcitool.projects import Projects
 from lcitool.targets import Targets
 from lcitool import util
 
-from test_utils.mocks import libvirt
+from test_utils.mocks import libvirt, gi
 import test_utils.utils as test_utils
 
 
@@ -38,6 +38,7 @@ ALL_TARGETS = sorted(_TARGETS.targets)
 
 # We need to mock a few modules that we don't need for testing
 sys.modules["libvirt"] = libvirt
+sys.modules["gi"] = gi
 
 
 def monkeypatch_context():
