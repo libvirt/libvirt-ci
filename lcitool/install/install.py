@@ -24,6 +24,36 @@ class InstallationNotSupported(InstallerError):
 
 class VirtInstall:
 
+    @staticmethod
+    def _get_common_args():
+        config = Config()
+
+        # Both memory size and disk size are stored as GiB in the
+        # inventory, but virt-install expects the disk size in GiB
+        # and the memory size in *MiB*, so perform conversion here
+        memory_arg = str(config.values["install"]["memory_size"] * 1024)
+
+        vcpus_arg = str(config.values["install"]["vcpus"])
+        conf_network = config.values["install"]["network"]
+        network_arg = f"network={conf_network},model=virtio"
+
+        args = [
+            "--os-variant", "unknown",
+            "--virt-type", config.values["install"]["virt_type"],
+            "--arch", config.values["install"]["arch"],
+            "--machine", config.values["install"]["machine"],
+            "--cpu", config.values["install"]["cpu_model"],
+            "--vcpus", vcpus_arg,
+            "--memory", memory_arg,
+            "--network", network_arg,
+            "--graphics", "none",
+            "--console", "pty",
+            "--sound", "none",
+            "--rng", "device=/dev/urandom,model=virtio",
+        ]
+
+        return args
+
     def run(self, name, facts, wait=False):
         """
         Kick off the VM installation.
@@ -35,20 +65,6 @@ class VirtInstall:
 
         config = Config()
         target = facts["target"]
-
-        # Both memory size and disk size are stored as GiB in the
-        # inventory, but virt-install expects the disk size in GiB
-        # and the memory size in *MiB*, so perform conversion here
-        memory_arg = str(config.values["install"]["memory_size"] * 1024)
-
-        vcpus_arg = str(config.values["install"]["vcpus"])
-
-        conf_size = config.values["install"]["disk_size"]
-        conf_pool = config.values["install"]["storage_pool"]
-        disk_arg = f"size={conf_size},pool={conf_pool},bus=virtio"
-
-        conf_network = config.values["install"]["network"]
-        network_arg = f"network={conf_network},model=virtio"
 
         # Different operating systems require different configuration
         # files for unattended installation to work, but some operating
@@ -99,30 +115,24 @@ class VirtInstall:
         ks = install_config
         extra_arg = f"console=ttyS0 inst.ks=file:/{ks} install={conf_url}"
 
-        cmd = [
-            "virt-install",
-            "--os-variant", "unknown",
-            "--name", name,
-            "--location", facts["install"]["url"],
-            "--virt-type", config.values["install"]["virt_type"],
-            "--arch", config.values["install"]["arch"],
-            "--machine", config.values["install"]["machine"],
-            "--cpu", config.values["install"]["cpu_model"],
-            "--vcpus", vcpus_arg,
-            "--memory", memory_arg,
+        cmd_args = ["--name", name]
+        cmd_args.extend(self._get_common_args())
+
+        conf_size = config.values["install"]["disk_size"]
+        conf_pool = config.values["install"]["storage_pool"]
+        disk_arg = f"size={conf_size},pool={conf_pool},bus=virtio"
+
+        cmd_args.extend([
             "--disk", disk_arg,
-            "--network", network_arg,
-            "--graphics", "none",
-            "--console", "pty",
-            "--sound", "none",
-            "--rng", "device=/dev/urandom,model=virtio",
+            "--location", facts["install"]["url"],
             "--initrd-inject", initrd_inject,
             "--extra-args", extra_arg,
-        ]
+        ])
 
         if not wait:
-            cmd.append("--noautoconsole")
+            cmd_args.append("--noautoconsole")
 
+        cmd = ["virt-install"] + cmd_args
         log.debug(f"Running {cmd}")
         try:
             subprocess.check_call(cmd)
