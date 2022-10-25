@@ -8,7 +8,7 @@ import libvirt
 import logging
 import textwrap
 
-import xml.etree.ElementTree as xmlparser
+import xml.etree.ElementTree as ET
 
 from lcitool import LcitoolError
 
@@ -61,7 +61,7 @@ class LibvirtWrapper():
                     f"Failed to query metadata for '{dom.name}': " + str(e)
                 )
 
-            xmltree = xmlparser.fromstring(xml)
+            xmltree = ET.fromstring(xml)
             target = xmltree.find("target")
             if xmltree.tag != "host" or target is None or target.text is None:
                 continue
