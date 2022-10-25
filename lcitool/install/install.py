@@ -24,6 +24,20 @@ class InstallationNotSupported(InstallerError):
 
 class VirtInstall:
 
+    def __init__(self, name, facts):
+        """
+        Instantiates the virt-install installer backend.
+
+        :param name: name for the VM instance (str)
+        :param facts: host facts for this OS instance (dict)
+        :returns: VirtInstall object
+        """
+
+        self.name = name
+        self.args = []
+        self._facts = facts
+        self._cmd = "virt-install"
+
     @staticmethod
     def _get_common_args():
         config = Config()
@@ -32,7 +46,6 @@ class VirtInstall:
         # inventory, but virt-install expects the disk size in GiB
         # and the memory size in *MiB*, so perform conversion here
         memory_arg = str(config.values["install"]["memory_size"] * 1024)
-
         vcpus_arg = str(config.values["install"]["vcpus"])
         conf_network = config.values["install"]["network"]
         network_arg = f"network={conf_network},model=virtio"
@@ -113,40 +126,38 @@ class VirtInstall:
         ]
         return url_args
 
-    def run(self, name, facts, wait=False):
+    def run(self, wait=False):
         """
         Kick off the VM installation.
 
-        :param name: name for the VM instance (str)
-        :param facts: host facts for this OS instance (dict)
         :param wait: whether to wait for the installation to complete (boolean)
         """
 
         config = Config()
 
-        cmd_args = ["--name", name]
-        cmd_args.extend(self._get_common_args())
-        cmd_args.extend(self._get_unattended_args(facts))
+        self.args = ["--name", self.name]
+        self.args.extend(self._get_common_args())
+        self.args.extend(self._get_unattended_args(self._facts))
 
         conf_size = config.values["install"]["disk_size"]
         conf_pool = config.values["install"]["storage_pool"]
         disk_arg = f"size={conf_size},pool={conf_pool},bus=virtio"
 
-        cmd_args.extend([
+        self.args.extend([
             "--disk", disk_arg,
         ])
 
         if not wait:
-            cmd_args.append("--noautoconsole")
+            self.args.append("--noautoconsole")
 
-        cmd = ["virt-install"] + cmd_args
+        cmd = [self._cmd] + self.args
         log.debug(f"Running {cmd}")
         try:
             subprocess.check_call(cmd)
 
             # mark the host XML using XML metadata
-            LibvirtWrapper().set_target(name, facts["target"])
+            LibvirtWrapper().set_target(self.name, self._facts["target"])
         except Exception as ex:
             raise InstallerError(
-                f"Failed to install host '{name}': {ex}"
+                f"Failed to install host '{self.name}': {ex}"
             )
