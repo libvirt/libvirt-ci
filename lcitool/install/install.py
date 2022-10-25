@@ -61,6 +61,9 @@ class VirtInstall:
         self._facts = facts
         self._cmd = "virt-install"
 
+    def __str__(self):
+        return " ".join([self._cmd] + self.args)
+
     @staticmethod
     def _get_common_args():
         config = Config()
