@@ -11,6 +11,7 @@ import lcitool.install.osinfo as osinfo
 
 from collections import UserDict
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 
 from lcitool import util, LcitoolError
 
@@ -208,4 +209,37 @@ class Image:
         return self._metadata
 
     def download(self):
-        pass
+        import requests
+        from tqdm import tqdm
+
+        url = self._metadata["url"]
+        target = self._metadata["target"]
+        suffix = self._metadata["format"]
+
+        log.info(f"Downloading from {url}")
+        with requests.get(url, stream=True) as r:
+            total_size = int(r.headers.get("content-length", 0))
+            with tqdm(ascii=" #",
+                      total=total_size,
+                      ncols=80,
+                      unit="B",
+                      unit_scale=True,
+                      unit_divisor=1024,) as progress:
+
+                with NamedTemporaryFile("wb",
+                                        prefix=f"{target}_",
+                                        suffix="." + suffix,
+                                        dir=self._download_dir,
+                                        delete=False) as fd:
+                    chunk_size = 8 * (1 << 20)
+                    for chunk in r.iter_content(chunk_size):
+                        how_much = fd.write(chunk)
+                        progress.update(how_much)
+                    filepath = fd.name
+
+        print()
+
+        # update missing metadata and dump it
+        self._metadata["image"] = filepath
+        self._metadata.dump(fd.name + ".metadata")
+        return fd.name
