@@ -210,7 +210,7 @@ class Application(metaclass=Singleton):
 
         virt_install = VirtInstall.from_url(name=host,
                                             facts=facts)
-        virt_install.run(wait=args.wait)
+        virt_install(wait=args.wait)
 
     @required_deps('ansible_runner', 'libvirt')
     def _action_update(self, args):

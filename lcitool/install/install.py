@@ -61,6 +61,20 @@ class VirtInstall:
         self._facts = facts
         self._cmd = "virt-install"
 
+    def __call__(self, wait=False):
+        """
+        Kick off the VM installation.
+
+        Convenience wrapper around the run method. This is the same as if you
+        built the object manually and ran the 'run' method:
+            vi = VirtInstall(name, facts)
+            vi.args = [custom_args]
+            vi.run(wait=True)
+
+        """
+
+        return self.run(wait)
+
     def __str__(self):
         return " ".join([self._cmd] + self.args)
 
