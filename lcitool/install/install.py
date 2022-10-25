@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+import errno
 import logging
 import subprocess
 
@@ -171,6 +172,59 @@ class VirtInstall:
             "--extra-args", extra_arg,
         ]
         return url_args
+
+    def _ssh_wait_cb(self, timeout=60):
+        import paramiko
+        from socket import EAI_NONAME
+        from time import sleep
+
+        hostname = self.name
+        private_key_path = self._ssh_keypair.private_key.path.as_posix()
+
+        log.debug(f"Establishing SSH connection: hostname={hostname},"
+                  f"ssh_key={private_key_path}")
+
+        # We're mostly creating throwaway VMs, we don't want nor need to
+        # add the VM's hostkey to user's KnownHostKeyFile
+        class _IgnorePolicy(paramiko.MissingHostKeyPolicy):
+            def missing_host_key(self, client, hostname, key):
+                return
+
+        client = paramiko.SSHClient()
+        client.set_missing_host_key_policy(_IgnorePolicy)
+
+        # we need to give the machine a head start (up to timeout seconds)
+        # to get an IP lease first and only then we can try SSHing into the
+        # machine (wait in 2s increments)
+        seconds = 2
+        for _ in range(timeout // seconds):
+            sleep(seconds)
+            try:
+                client.connect(hostname=hostname,
+                               username="root",
+                               key_filename=private_key_path)
+                return
+
+            except paramiko.ssh_exception.NoValidConnectionsError as ex:
+                # NoValidConnectionsError is a subclass of various socket
+                # errors which in turn is a subclass of OSError. We're
+                # specifically interested in EHOSTUNREACH and ECONNREFUSED
+                # errnos which we can ignore for the duration of the timeout
+                # period
+                for error in ex.errors.values():
+                    if isinstance(error, OSError):
+                        if error.errno == errno.EHOSTUNREACH or \
+                           error.errno == errno.ECONNREFUSED:
+                            break
+                else:
+                    raise InstallerError(f"Failed to connect to instance: {ex}")
+
+            except OSError as ex:
+                if ex.errno == EAI_NONAME:  # Name or service not known
+                    continue
+                raise InstallerError(f"Failed to connect to instance: {ex}")
+
+        raise InstallerError(f"Failed to connect to {hostname}: timeout reached")
 
     def run(self, wait=False):
         """
