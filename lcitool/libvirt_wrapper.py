@@ -95,6 +95,15 @@ class LibvirtWrapper():
                 f"Failed to set metadata for '{host}': " + str(e)
             )
 
+    def pool_by_name(self, name):
+        try:
+            poolobj = self._conn.storagePoolLookupByName(name)
+            return LibvirtPoolObject(poolobj)
+        except libvirt.libvirtError as e:
+            raise LibvirtWrapperError(
+                f"Failed to retrieve storage pool '{name}' info: " + str(e)
+            )
+
 
 class LibvirtAbstractObject(abc.ABC):
     """
