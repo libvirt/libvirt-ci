@@ -143,3 +143,38 @@ class LibvirtPoolObject(LibvirtAbstractObject):
         if self._path is None:
             self._path = self._get_xml_node("target/path")
         return Path(self._path)
+
+    def create_volume(self, name, capacity, allocation=None, _format=None,
+                      owner=None, group=None, mode=None,):
+
+        # define a base XML template to be updated depending on other params
+        volume_xml = textwrap.dedent(
+            f"""
+            <volume>
+              <name>{name}</target>
+              <capacity>{capacity}</capacity>
+            </volume>
+            """)
+
+        root_el = ET.fromstring(volume_xml)
+
+        if allocation:
+            allocation_el = ET.SubElement(root_el, "allocation")
+            allocation_el.text = allocation
+
+        if _format:
+            target_el = ET.SubElement(root_el, "target")
+            ET.SubElement(target_el, "format", {"type": _format})
+
+        if any(owner, group, mode):
+            target_el = ET.SubElement(root_el, "target")
+            perms_el = ET.SubElement(target_el, "permissions")
+            for perm_var, perm in [(owner, "owner"),
+                                   (group, "group"),
+                                   (mode, "mode")]:
+                if perm_var:
+                    node_el = ET.SubElement(perms_el, perm)
+                    node_el.text = perm_var
+
+        volume_xml = ET.dump(root_el)
+        self.raw.createXML(volume_xml)
