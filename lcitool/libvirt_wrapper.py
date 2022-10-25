@@ -11,6 +11,8 @@ import textwrap
 
 import xml.etree.ElementTree as ET
 
+from pathlib import Path
+
 from lcitool import LcitoolError
 
 log = logging.getLogger(__name__)
@@ -119,3 +121,16 @@ class LibvirtAbstractObject(abc.ABC):
 
         nodeelem = root.find(node_name)
         return nodeelem.text
+
+
+class LibvirtPoolObject(LibvirtAbstractObject):
+
+    def __init__(self, obj):
+        super().__init__(obj)
+        self._path = None
+
+    @property
+    def path(self):
+        if self._path is None:
+            self._path = self._get_xml_node("target/path")
+        return Path(self._path)
