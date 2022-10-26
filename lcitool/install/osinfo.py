@@ -33,6 +33,28 @@ class OSinfoDB():
         return OSinfoObject(filtered[0])
 
 
+class OSinfoImageObject(OSinfoAbstractObject):
+    def __init__(self, obj):
+        super().__init__(obj)
+        self.name = self.url.split("/")[-1]
+        self.variants = [v.get_id() for v in obj.get_os_variants().get_elements()]
+
+    @property
+    def arch(self):
+        return self.raw.get_architecture()
+
+    @property
+    def format(self):
+        return self.raw.get_format()
+
+    @property
+    def url(self):
+        return self.raw.get_url()
+
+    def has_cloud_init(self):
+        return self.raw.get_cloud_init()
+
+
 class OSinfoObject(OSinfoAbstractObject):
     def __init__(self, obj):
         super().__init__(obj)
@@ -41,3 +63,13 @@ class OSinfoObject(OSinfoAbstractObject):
     @property
     def name(self):
         self.raw.get_name()
+
+    @property
+    def images(self):
+        if not self._images:
+            image_list = self.raw.get_image_list()
+            self._images = [
+                OSinfoImageObject(libosinfo_image)
+                for libosinfo_image in image_list.get_elements()
+            ]
+        return self._images
