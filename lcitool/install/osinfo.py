@@ -19,3 +19,13 @@ class OSinfoDB():
         loader = Libosinfo.Loader()
         loader.process_default_path()
         self._db = loader.get_db()
+
+
+class OSinfoObject(OSinfoAbstractObject):
+    def __init__(self, obj):
+        super().__init__(obj)
+        self._images = None
+
+    @property
+    def name(self):
+        self.raw.get_name()
