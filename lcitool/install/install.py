@@ -298,6 +298,12 @@ class VirtInstall:
         """
         Kick off the VM installation.
 
+        The 'wait' parameter also controls how we wait for the installation
+        process to finish. In case of URL-based install whether a serial
+        console should be attached to the installation process. On the other
+        hand, in case of installing from a cloud-init base image it controls
+        whether we apply a wait callback until we can ping the machine.
+
         :param wait: whether to wait for the installation to complete (boolean)
         """
 
