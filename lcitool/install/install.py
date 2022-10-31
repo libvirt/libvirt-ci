@@ -1,6 +1,5 @@
 import logging
 import subprocess
-import sys
 
 from pathlib import Path
 from pkg_resources import resource_filename
@@ -17,6 +16,12 @@ class InstallerError(LcitoolError):
         super().__init__(message, "Installer")
 
 
+class InstallationNotSupported(InstallerError):
+    def __init__(self, target):
+        msg = f"Target '{target}' doesn't support installation"
+        super().__init__(msg)
+
+
 class VirtInstall:
 
     def run(self, name, facts, wait=False):
@@ -29,6 +34,7 @@ class VirtInstall:
         """
 
         config = Config()
+        target = facts["target"]
 
         # Both memory size and disk size are stored as GiB in the
         # inventory, but virt-install expects the disk size in GiB
@@ -54,18 +60,14 @@ class VirtInstall:
         elif facts["os"]["name"] == "OpenSUSE":
             install_config = "autoinst.xml"
         else:
-            print(f"Host {name} doesn't support installation",
-                  file=sys.stderr)
-            sys.exit(1)
+            raise InstallationNotSupported(target)
 
         try:
             unattended_options = {
                 "install.url": facts["install"]["url"],
             }
         except KeyError:
-            raise InstallerError(
-                f"Host {name} doesn't support installation"
-            )
+            raise InstallationNotSupported(target)
 
         # Unattended install scripts are being generated on the fly, based
         # on the templates present in lcitool/configs/
