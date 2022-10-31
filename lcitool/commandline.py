@@ -313,6 +313,13 @@ class CommandLine:
         )
         run_containerparser.set_defaults(func=Application._action_container_run)
 
+        shell_containerparser = containersubparser.add_parser(
+            "shell",
+            help="Access to an interactive shell",
+            parents=[imageopt, containeropt, engineopt, workload_diropt, scriptopt]
+        )
+        shell_containerparser.set_defaults(func=Application._action_container_run)
+
     # Validate "container" args
     def _validate(self, args):
         """

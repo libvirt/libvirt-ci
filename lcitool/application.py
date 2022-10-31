@@ -398,12 +398,15 @@ class Application:
                 raise ApplicationError(f"'{workload_dir}' is not a directory")
             params["datadir"] = workload_dir.resolve()
 
-        script = Path(args.script)
-        if not script.is_file():
-            raise ApplicationError(f"'{script}' is not a file")
-        params["script"] = script.resolve()
+        if args.script:
+            script = Path(args.script)
+            if not script.is_file():
+                raise ApplicationError(f"'{script}' is not a file")
+            params["script"] = script.resolve()
 
-        params["container_cmd"] = "./script"
+        params["container_cmd"] = "/bin/sh"
+        if args.container == "run":
+            params["container_cmd"] = "./script"
 
         try:
             client.run(**params)
