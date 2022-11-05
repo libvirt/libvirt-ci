@@ -4,11 +4,15 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+import sys
+import logging
 import argparse
 
 from pathlib import Path
 
 from lcitool.application import Application
+
+log = logging.getLogger(__name__)
 
 
 class CommandLine:
@@ -279,5 +283,17 @@ class CommandLine:
             parents=[manifestopt, dryrunopt, quietopt, basediropt, cidiropt])
         manifestparser.set_defaults(func=Application._action_manifest)
 
+    # Validate "container" args
+    def _validate(self, args):
+        """
+        Validate command line arguments.
+        :param args: argparse.Namespace object which contains
+                     all the CLI arguments.
+
+        :return: args.
+        """
+
+        return args
+
     def parse(self):
-        return self._parser.parse_args()
+        return self._validate(self._parser.parse_args())
