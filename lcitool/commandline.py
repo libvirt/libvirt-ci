@@ -49,6 +49,15 @@ class CommandLine:
             help="absolute path to the script which will run the workload",
         )
 
+        containeropt = argparse.ArgumentParser(add_help=False)
+        containeropt.add_argument(
+            "--env",
+            action="append",
+            help="environment variables to set in the container \
+                  (option can be passed multiple times e.g --env FOO=bar \
+                  --env BAR=baz)",
+        )
+
         installtargetopt = argparse.ArgumentParser(add_help=False)
         installtargetopt.add_argument(
             "-t", "--target",
