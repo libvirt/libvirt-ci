@@ -57,6 +57,12 @@ class CommandLine:
                   (option can be passed multiple times e.g --env FOO=bar \
                   --env BAR=baz)",
         )
+        containeropt.add_argument(
+            "--user",
+            default="root",
+            help="user to run in the container—accepts \
+                  id or username (default=root)",
+        )
 
         installtargetopt = argparse.ArgumentParser(add_help=False)
         installtargetopt.add_argument(
