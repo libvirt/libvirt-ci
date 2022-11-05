@@ -283,6 +283,15 @@ class CommandLine:
             parents=[manifestopt, dryrunopt, quietopt, basediropt, cidiropt])
         manifestparser.set_defaults(func=Application._action_manifest)
 
+        container_parser = subparsers.add_parser(
+            "container",
+            help="Container related functionality"
+        )
+
+        containersubparser = container_parser.add_subparsers(metavar="COMMAND",
+                                                             dest='container')
+        containersubparser.required = True
+
     # Validate "container" args
     def _validate(self, args):
         """
