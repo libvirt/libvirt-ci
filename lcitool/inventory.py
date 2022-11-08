@@ -12,7 +12,6 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
-from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
 
@@ -24,7 +23,7 @@ class InventoryError(LcitoolError):
         super().__init__(message, "Inventory")
 
 
-class Inventory(metaclass=Singleton):
+class Inventory():
 
     @property
     def ansible_inventory(self):
