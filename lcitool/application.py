@@ -306,7 +306,8 @@ class Application(metaclass=Singleton):
         if args.base_dir is not None:
             base_path = Path(args.base_dir)
         ci_path = Path(args.ci_dir)
-        manifest = Manifest(args.manifest, args.quiet, ci_path, base_path)
+        inventory = Inventory()
+        manifest = Manifest(inventory, args.manifest, args.quiet, ci_path, base_path)
         manifest.generate(args.dry_run)
 
     def run(self, args):

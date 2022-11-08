@@ -9,7 +9,6 @@ import yaml
 from pathlib import Path
 
 from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, ShellBuildEnvFormatter
-from lcitool.inventory import Inventory
 from lcitool import gitlab, util, LcitoolError
 
 log = logging.getLogger(__name__)
@@ -24,7 +23,8 @@ class ManifestError(LcitoolError):
 
 class Manifest:
 
-    def __init__(self, configfp, quiet=False, cidir=Path("ci"), basedir=None):
+    def __init__(self, inventory, configfp, quiet=False, cidir=Path("ci"), basedir=None):
+        self._inventory = inventory
         self.configpath = configfp.name
         self.values = yaml.safe_load(configfp)
         self.quiet = quiet
@@ -88,7 +88,6 @@ class Manifest:
             targets = self.values["targets"] = {}
         have_containers = False
         have_cirrus = False
-        inventory = Inventory()
         for target, targetinfo in targets.items():
             if type(targetinfo) == str:
                 targets[target] = {"jobs": [{"arch": targetinfo}]}
@@ -99,7 +98,7 @@ class Manifest:
             jobsinfo = targetinfo["jobs"]
 
             try:
-                facts = inventory.target_facts[target]
+                facts = self._inventory.target_facts[target]
             except KeyError:
                 raise ValueError(f"Invalid target '{target}'")
 
@@ -213,22 +212,19 @@ class Manifest:
         return generated
 
     def _generate_containers(self, dryrun):
-        inventory = Inventory()
-        formatter = DockerfileFormatter(inventory)
+        formatter = DockerfileFormatter(self._inventory)
         return self._generate_formatter(dryrun,
                                         "containers", "Dockerfile",
                                         formatter, "containers")
 
     def _generate_cirrus(self, dryrun):
-        inventory = Inventory()
-        formatter = ShellVariablesFormatter(inventory)
+        formatter = ShellVariablesFormatter(self._inventory)
         return self._generate_formatter(dryrun,
                                         "cirrus", "vars",
                                         formatter, "cirrus")
 
     def _generate_buildenv(self, dryrun):
-        inventory = Inventory()
-        formatter = ShellBuildEnvFormatter(inventory)
+        formatter = ShellBuildEnvFormatter(self._inventory)
         return self._generate_formatter(dryrun,
                                         "buildenv", "sh",
                                         formatter, "containers")
@@ -419,7 +415,6 @@ class Manifest:
 
     def _generate_build_jobs(self, targettype, cross, jobfunc):
         jobs = []
-        inventory = Inventory()
         for target, targetinfo in self.values["targets"].items():
             if not targetinfo["enabled"]:
                 continue
@@ -427,7 +422,7 @@ class Manifest:
                 continue
 
             try:
-                facts = inventory.target_facts[target]
+                facts = self._inventory.target_facts[target]
             except KeyError:
                 raise ManifestError(f"Invalid target '{target}'")
 
