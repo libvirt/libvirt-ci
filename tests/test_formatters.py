@@ -14,6 +14,11 @@ from lcitool.projects import Projects
 from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, DockerfileFormatter, ShellBuildEnvFormatter
 
 
+@pytest.fixture(scope="module")
+def inventory():
+    return Inventory()
+
+
 scenarios = [
     # A minimalist application, testing package managers
     pytest.param("libvirt-go-xml-module", "debian-10", None, id="libvirt-go-xml-module-debian-10"),
@@ -80,8 +85,7 @@ def test_prepbuildenv(project, target, arch, request):
     test_utils.assert_matches_file(actual, expected_path)
 
 
-def test_all_projects_dockerfiles():
-    inventory = Inventory()
+def test_all_projects_dockerfiles(inventory):
     all_projects = Projects().names
 
     for target in sorted(inventory.targets):

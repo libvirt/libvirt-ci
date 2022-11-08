@@ -18,7 +18,20 @@ from lcitool.projects import Project, Projects, ProjectError
 from lcitool.package import NativePackage, CrossPackage, PyPIPackage, CPANPackage
 
 
-ALL_TARGETS = sorted(Inventory().targets)
+# This needs to be a global in order to compute ALL_TARGETS at collection
+# time.  Nevertheless, tests access it via the fixture below.
+_INVENTORY = Inventory()
+ALL_TARGETS = sorted(_INVENTORY.targets)
+
+
+@pytest.fixture(scope="module")
+def inventory():
+    return _INVENTORY
+
+
+@pytest.fixture(scope="module")
+def projects():
+    return Projects()
 
 
 def get_non_cross_targets():
@@ -48,9 +61,9 @@ def test_project():
                    Path(test_utils.test_data_indir(__file__), "packages.yml"))
 
 
-def test_verify_all_mappings_and_packages():
+def test_verify_all_mappings_and_packages(projects):
     expected_path = Path(test_utils.test_data_indir(__file__), "packages.yml")
-    actual = {"packages": sorted(Projects().mappings["mappings"].keys())}
+    actual = {"packages": sorted(projects.mappings["mappings"].keys())}
 
     test_utils.assert_yaml_matches_file(actual, expected_path)
 
@@ -66,13 +79,13 @@ cross_params = [
 
 
 @pytest.mark.parametrize("target,arch", native_params + cross_params)
-def test_package_resolution(test_project, target, arch):
+def test_package_resolution(inventory, test_project, target, arch):
     if arch is None:
         outfile = f"{target}.yml"
     else:
         outfile = f"{target}-cross-{arch}.yml"
     expected_path = Path(test_utils.test_data_outdir(__file__), outfile)
-    pkgs = test_project.get_packages(Inventory().target_facts[target],
+    pkgs = test_project.get_packages(inventory.target_facts[target],
                                      cross_arch=arch)
     actual = packages_as_dict(pkgs)
 
@@ -83,9 +96,9 @@ def test_package_resolution(test_project, target, arch):
     "target",
     [pytest.param(target, id=target) for target in get_non_cross_targets()],
 )
-def test_unsupported_cross_platform(test_project, target):
+def test_unsupported_cross_platform(inventory, test_project, target):
     with pytest.raises(ProjectError):
-        test_project.get_packages(Inventory().target_facts[target],
+        test_project.get_packages(inventory.target_facts[target],
                                   cross_arch="s390x")
 
 
@@ -96,9 +109,9 @@ def test_unsupported_cross_platform(test_project, target):
         pytest.param("fedora-rawhide", "s390x", id="fedora-rawhide-cross-s390x"),
     ],
 )
-def test_cross_platform_arch_mismatch(test_project, target, arch):
+def test_cross_platform_arch_mismatch(inventory, test_project, target, arch):
     with pytest.raises(ProjectError):
-        test_project.get_packages(Inventory().target_facts[target],
+        test_project.get_packages(inventory.target_facts[target],
                                   cross_arch=arch)
 
 
@@ -124,11 +137,11 @@ class MappingKey(namedtuple('MappingKey', ['components', 'priority'])):
         return self.components < other.components
 
 
-def mapping_keys_product():
+def mapping_keys_product(inventory):
     basekeys = set()
 
     basekeys.add(MappingKey(("default", ), 0))
-    for target, facts in Inventory().target_facts.items():
+    for target, facts in inventory.target_facts.items():
         fmt = facts["packaging"]["format"]
         name = facts["os"]["name"]
         ver = facts["os"]["version"]
@@ -148,10 +161,10 @@ def mapping_keys_product():
     return basekeys + archkeys + crossarchkeys + crosspolicykeys
 
 
-def test_project_mappings_sorting():
-    mappings = Projects().mappings["mappings"]
+def test_project_mappings_sorting(inventory, projects):
+    mappings = projects.mappings["mappings"]
 
-    all_expect_keys = mapping_keys_product()
+    all_expect_keys = mapping_keys_product(inventory)
     for package, entries in mappings.items():
         got_keys = list(entries.keys())
         expect_keys = list(filter(lambda k: k in got_keys, all_expect_keys))
