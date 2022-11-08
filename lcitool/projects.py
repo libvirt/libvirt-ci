@@ -7,11 +7,9 @@
 import logging
 import yaml
 
-from pathlib import Path
-from pkg_resources import resource_filename
-
 from lcitool import util, LcitoolError
 from lcitool.packages import PyPIPackage, CPANPackage
+from lcitool.util import DataDir
 
 log = logging.getLogger(__name__)
 
@@ -52,35 +50,27 @@ class Projects:
             self._load_internal()
         return self._internal
 
-    def __init__(self, data_dir=None):
+    def __init__(self, data_dir=DataDir()):
         self._data_dir = data_dir
         self._public = None
         self._internal = None
 
-    def _load_projects_from_path(self, path):
+    def _load_projects_from_files(self, files):
         projects = {}
 
-        for item in path.iterdir():
-            if not item.is_file() or item.suffix != ".yml":
-                continue
-
-            projects[item.stem] = Project(self, item.stem, item)
+        for item in files:
+            if item.stem not in projects:
+                projects[item.stem] = Project(self, item.stem, item)
 
         return projects
 
     def _load_public(self):
-        source = Path(resource_filename(__name__, "facts/projects"))
-        projects = self._load_projects_from_path(source)
-
-        if self._data_dir is not None:
-            source = Path(self._data_dir).joinpath("projects")
-            projects.update(self._load_projects_from_path(source))
-
-        self._public = projects
+        files = self._data_dir.list_files("facts/projects", ".yml")
+        self._public = self._load_projects_from_files(files)
 
     def _load_internal(self):
-        source = Path(resource_filename(__name__, "facts/projects/internal"))
-        self._internal = self._load_projects_from_path(source)
+        files = self._data_dir.list_files("facts/projects/internal", ".yml", internal=True)
+        self._internal = self._load_projects_from_files(files)
 
     def expand_names(self, pattern):
         try:

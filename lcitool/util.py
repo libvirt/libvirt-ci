@@ -13,6 +13,7 @@ import tempfile
 import textwrap
 
 from pathlib import Path
+from pkg_resources import resource_filename
 
 _tempdir = None
 
@@ -215,6 +216,41 @@ def merge_dict(source, dest):
             raise ValueError("cannot merge dictionaries with non-dictionaries")
         if isinstance(source[key], dict):
             merge_dict(source[key], dest[key])
+
+
+class DataDir:
+    """A class that looks for files both under the lcitool sources and in
+       an externally specified data directory.  Used to implement the
+       -d option."""
+
+    def __init__(self, extra_data_dir=None):
+        self._extra_data_dir = extra_data_dir
+
+    def __repr__(self):
+        return f'DataDir({str(self._extra_data_dir)})'
+
+    def _search(self, resource_path, *names, internal=False):
+        if not internal and self._extra_data_dir:
+            # The first part of the path is used to keep data files out of
+            # the source directory, for example "facts" or "etc".  Remove it
+            # when using an external data directory.
+            if "/" in resource_path:
+                user_path = resource_path[resource_path.index("/") + 1:]
+            else:
+                user_path = ""
+            p = Path(self._extra_data_dir, user_path, *names)
+            if p.exists():
+                yield p
+
+        p = Path(resource_filename(__name__, resource_path), *names)
+        if p.exists():
+            yield p
+
+    def list_files(self, resource_path, suffix=None, internal=False):
+        for p in self._search(resource_path, internal=internal):
+            for file in p.iterdir():
+                if file.is_file() and (suffix is None or file.suffix == suffix):
+                    yield file
 
 
 def validate_cross_platform(cross_arch, osname):

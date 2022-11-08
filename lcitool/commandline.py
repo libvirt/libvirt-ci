@@ -11,8 +11,20 @@ import argparse
 from pathlib import Path
 
 from lcitool.application import Application
+from lcitool.util import DataDir
+
 
 log = logging.getLogger(__name__)
+
+
+class DataDirAction(argparse.Action):
+    def __init__(self, option_strings, dest, default=DataDir(), nargs=None, **kwargs):
+        if nargs is not None:
+            raise ValueError("nargs not allowed")
+        super().__init__(option_strings, dest, default=default, nargs=1, **kwargs)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        setattr(namespace, self.dest, DataDir(values[0]))
 
 
 class CommandLine:
@@ -204,6 +216,7 @@ class CommandLine:
         )
         self._parser.add_argument(
             "-d", "--data-dir",
+            action=DataDirAction,
             help="extra directory for loading data files from")
 
         subparsers = self._parser.add_subparsers(metavar="ACTION",
