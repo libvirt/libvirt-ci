@@ -52,7 +52,8 @@ class Projects:
             self._load_internal()
         return self._internal
 
-    def __init__(self):
+    def __init__(self, data_dir=None):
+        self._data_dir = data_dir
         self._public = None
         self._internal = None
 
@@ -71,8 +72,8 @@ class Projects:
         source = Path(resource_filename(__name__, "facts/projects"))
         projects = self._load_projects_from_path(source)
 
-        if util.get_extra_data_dir() is not None:
-            source = Path(util.get_extra_data_dir()).joinpath("projects")
+        if self._data_dir is not None:
+            source = Path(self._data_dir).joinpath("projects")
             projects.update(self._load_projects_from_path(source))
 
         self._public = projects

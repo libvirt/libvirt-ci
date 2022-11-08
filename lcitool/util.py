@@ -217,19 +217,6 @@ def merge_dict(source, dest):
             merge_dict(source[key], dest[key])
 
 
-extra_data_dir = None
-
-
-def get_extra_data_dir():
-    global extra_data_dir
-    return extra_data_dir
-
-
-def set_extra_data_dir(path):
-    global extra_data_dir
-    extra_data_dir = path
-
-
 def validate_cross_platform(cross_arch, osname):
     if osname not in ["Debian", "Fedora"]:
         raise ValueError(f"Cannot cross compile on {osname}")

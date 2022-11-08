@@ -63,7 +63,7 @@ class Application:
         log.debug(f"Cmdline args={cli_args}")
 
     def _execute_playbook(self, playbook, hosts_pattern, projects_pattern,
-                          git_revision, verbosity=0):
+                          git_revision, data_dir, verbosity=0):
         from lcitool.ansible_wrapper import AnsibleWrapper, AnsibleWrapperError
 
         log.debug(f"Executing playbook '{playbook}': "
@@ -75,7 +75,7 @@ class Application:
         targets = Targets()
         inventory = Inventory(targets, config)
         packages = Packages()
-        projects = Projects()
+        projects = Projects(data_dir)
 
         hosts_expanded = inventory.expand_hosts(hosts_pattern)
         projects_expanded = projects.expand_names(projects_pattern)
@@ -155,7 +155,7 @@ class Application:
     def _action_projects(self, args):
         self._entrypoint_debug(args)
 
-        projects = Projects()
+        projects = Projects(args.data_dir)
         for project in sorted(projects.names):
             print(project)
 
@@ -205,7 +205,7 @@ class Application:
         self._entrypoint_debug(args)
 
         self._execute_playbook("update", args.hosts, args.projects,
-                               args.git_revision, args.verbose)
+                               args.git_revision, args.data_dir, args.verbose)
 
     def _action_build(self, args):
         self._entrypoint_debug(args)
@@ -219,14 +219,14 @@ class Application:
             )
 
         self._execute_playbook("build", args.hosts, args.projects,
-                               args.git_revision, args.verbose)
+                               args.git_revision, args.data_dir, args.verbose)
 
     def _action_variables(self, args):
         self._entrypoint_debug(args)
 
         targets = Targets()
         packages = Packages()
-        projects = Projects()
+        projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
 
         if args.format == "shell":
@@ -255,7 +255,7 @@ class Application:
 
         targets = Targets()
         packages = Packages()
-        projects = Projects()
+        projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
         target = BuildTarget(targets, packages, args.target, args.cross_arch)
 
@@ -280,7 +280,7 @@ class Application:
 
         targets = Targets()
         packages = Packages()
-        projects = Projects()
+        projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
         target = BuildTarget(targets, packages, args.target, args.cross_arch)
 
@@ -302,7 +302,7 @@ class Application:
         ci_path = Path(args.ci_dir)
         targets = Targets()
         packages = Packages()
-        projects = Projects()
+        projects = Projects(args.data_dir)
         manifest = Manifest(targets, packages, projects, args.manifest, args.quiet, ci_path, base_path)
         manifest.generate(args.dry_run)
 
@@ -345,7 +345,7 @@ class Application:
 
         targets = Targets()
         packages = Packages()
-        projects = Projects()
+        projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
         target = BuildTarget(targets, packages, args.target, args.cross_arch)
 
@@ -415,7 +415,6 @@ class Application:
 
     def run(self, args):
         try:
-            util.set_extra_data_dir(args.data_dir)
             args.func(self, args)
         except LcitoolError as ex:
             print(f"{ex.module_prefix} error:", ex, file=sys.stderr)
