@@ -38,7 +38,7 @@ class Projects(metaclass=Singleton):
     @property
     def projects(self):
         if self._projects is None:
-            self._projects = self._load_projects()
+            self._load_projects()
         return self._projects
 
     @property
@@ -48,7 +48,7 @@ class Projects(metaclass=Singleton):
     @property
     def internal_projects(self):
         if self._internal_projects is None:
-            self._internal_projects = self._load_internal_projects()
+            self._load_internal_projects()
         return self._internal_projects
 
     @property
@@ -64,33 +64,30 @@ class Projects(metaclass=Singleton):
         self._internal_projects = None
         self._mappings = None
 
-    @staticmethod
-    def _load_projects_from_path(path):
+    def _load_projects_from_path(self, path):
         projects = {}
 
         for item in path.iterdir():
             if not item.is_file() or item.suffix != ".yml":
                 continue
 
-            projects[item.stem] = Project(item.stem, item)
+            projects[item.stem] = Project(self, item.stem, item)
 
         return projects
 
-    @staticmethod
-    def _load_projects():
+    def _load_projects(self):
         source = Path(resource_filename(__name__, "facts/projects"))
-        projects = Projects._load_projects_from_path(source)
+        projects = self._load_projects_from_path(source)
 
         if util.get_extra_data_dir() is not None:
             source = Path(util.get_extra_data_dir()).joinpath("projects")
-            projects.update(Projects._load_projects_from_path(source))
+            projects.update(self._load_projects_from_path(source))
 
-        return projects
+        self._projects = projects
 
-    @staticmethod
-    def _load_internal_projects():
+    def _load_internal_projects(self):
         source = Path(resource_filename(__name__, "facts/projects/internal"))
-        return Projects._load_projects_from_path(source)
+        self._internal_projects = self._load_projects_from_path(source)
 
     def _load_mappings(self):
         mappings_path = resource_filename(__name__,
@@ -168,7 +165,8 @@ class Project:
             self._generic_packages = self._load_generic_packages()
         return self._generic_packages
 
-    def __init__(self, name, path):
+    def __init__(self, projects, name, path):
+        self._projects = projects
         self.name = name
         self.path = path
         self._generic_packages = None
@@ -200,6 +198,6 @@ class Project:
 
         # lazy evaluation + caching of package names for a given distro
         if self._target_packages.get(target_name) is None:
-            self._target_packages[target_name] = Projects().eval_generic_packages(facts, cross_arch,
-                                                                                  self.generic_packages)
+            self._target_packages[target_name] = self._projects.eval_generic_packages(facts, cross_arch,
+                                                                                      self.generic_packages)
         return self._target_packages[target_name]

@@ -56,8 +56,8 @@ def packages_as_dict(raw_pkgs):
 
 
 @pytest.fixture
-def test_project():
-    return Project("packages",
+def test_project(projects):
+    return Project(projects, "packages",
                    Path(test_utils.test_data_indir(__file__), "packages.yml"))
 
 
