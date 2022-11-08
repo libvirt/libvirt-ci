@@ -72,7 +72,7 @@ class Application:
 
         base = resource_filename(__name__, "ansible")
         config = Config()
-        targets = Targets()
+        targets = Targets(data_dir)
         inventory = Inventory(targets, config)
         packages = Packages(data_dir)
         projects = Projects(data_dir)
@@ -134,7 +134,7 @@ class Application:
         self._entrypoint_debug(args)
 
         config = Config()
-        targets = Targets()
+        targets = Targets(args.data_dir)
         inventory = Inventory(targets, config)
         for host in sorted(inventory.hosts):
             print(host)
@@ -142,7 +142,7 @@ class Application:
     def _action_targets(self, args):
         self._entrypoint_debug(args)
 
-        targets = Targets()
+        targets = Targets(args.data_dir)
         for target in sorted(targets.targets):
             if args.containerized:
                 facts = targets.target_facts[target]
@@ -167,7 +167,7 @@ class Application:
 
         facts = {}
         config = Config()
-        targets = Targets()
+        targets = Targets(args.data_dir)
         inventory = Inventory(targets, config)
         host = args.host
         target = args.target
@@ -224,7 +224,7 @@ class Application:
     def _action_variables(self, args):
         self._entrypoint_debug(args)
 
-        targets = Targets()
+        targets = Targets(args.data_dir)
         packages = Packages(args.data_dir)
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
@@ -253,7 +253,7 @@ class Application:
     def _action_dockerfile(self, args):
         self._entrypoint_debug(args)
 
-        targets = Targets()
+        targets = Targets(args.data_dir)
         packages = Packages(args.data_dir)
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
@@ -278,7 +278,7 @@ class Application:
     def _action_buildenvscript(self, args):
         self._entrypoint_debug(args)
 
-        targets = Targets()
+        targets = Targets(args.data_dir)
         packages = Packages(args.data_dir)
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
@@ -300,7 +300,7 @@ class Application:
         if args.base_dir is not None:
             base_path = Path(args.base_dir)
         ci_path = Path(args.ci_dir)
-        targets = Targets()
+        targets = Targets(args.data_dir)
         packages = Packages(args.data_dir)
         projects = Projects(args.data_dir)
         manifest = Manifest(targets, packages, projects, args.manifest, args.quiet, ci_path, base_path)

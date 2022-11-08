@@ -106,3 +106,4 @@ the libvirt-ci repository, located using the ``--data-dir DIR``
 argument to ``lcitool``, is extended to the following paths::
 
   $DIR/mappings.yml
+  $DIR/targets/$NAME.yml

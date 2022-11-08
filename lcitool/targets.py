@@ -52,18 +52,17 @@ class Targets():
     def _load_target_facts(self):
         facts = {}
         all_targets = {item.stem
-                       for item in self._data_dir.list_files("facts/targets", ".yml",
-                                                             internal=True)}
+                       for item in self._data_dir.list_files("facts/targets", ".yml")}
 
         # first load the shared facts from targets/all.yml
-        shared_facts = self._data_dir.load_yaml("facts/targets", "all")
+        shared_facts = self._data_dir.merge_facts("facts/targets", "all")
 
         # then load the rest of the facts
         for target in all_targets:
             if target == "all":
                 continue
 
-            facts[target] = self._data_dir.load_yaml("facts/targets", target)
+            facts[target] = self._data_dir.merge_facts("facts/targets", target)
             self._validate_target_facts(facts[target], target)
             facts[target]["target"] = target
 
