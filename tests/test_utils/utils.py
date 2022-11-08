@@ -115,3 +115,14 @@ def assert_matches_file(actual, expected_path, allow_regenerate=True):
         expected = fd.read()
 
     assert_equal(actual, expected, [f"comparing against {expected_path}"])
+
+
+# Force loading the facts, for example to avoid conflicts with monkeypatching
+def force_load(packages=None, projects=None, targets=None):
+    if packages:
+        packages._load_mappings()
+    if projects:
+        projects._load_public()
+        projects._load_internal()
+    if targets:
+        targets._load_target_facts()

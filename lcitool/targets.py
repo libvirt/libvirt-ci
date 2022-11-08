@@ -28,7 +28,7 @@ class Targets():
     @property
     def target_facts(self):
         if self._target_facts is None:
-            self._target_facts = self._load_target_facts()
+            self._load_target_facts()
         return self._target_facts
 
     @property
@@ -79,7 +79,7 @@ class Targets():
             # missing per-distro facts fall back to shared facts
             util.merge_dict(shared_facts, facts[target])
 
-        return facts
+        self._target_facts = facts
 
 
 class BuildTarget:

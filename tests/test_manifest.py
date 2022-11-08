@@ -55,6 +55,9 @@ def test_generate(targets, packages, projects, monkeypatch):
 
         return filter(lambda f: fnmatch(f.as_posix(), pattern), files)
 
+    # Force loading the facts before monkeypatching is enabled
+    test_utils.force_load(packages=packages, projects=projects, targets=targets)
+
     monkeypatch.setattr(util, 'generate_file_header', fake_header)
 
     with monkeypatch.context() as m:
