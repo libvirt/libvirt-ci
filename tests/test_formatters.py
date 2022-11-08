@@ -46,40 +46,40 @@ layer_scenarios = [
 
 
 @pytest.mark.parametrize("project,target,arch", scenarios)
-def test_dockerfiles(project, target, arch, request):
-    gen = DockerfileFormatter()
+def test_dockerfiles(inventory, project, target, arch, request):
+    gen = DockerfileFormatter(inventory)
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".Dockerfile")
     test_utils.assert_matches_file(actual, expected_path)
 
 
 @pytest.mark.parametrize("project,target,arch,base,layers", layer_scenarios)
-def test_dockerfile_layers(project, target, arch, base, layers, request):
-    gen = DockerfileFormatter(base, layers)
+def test_dockerfile_layers(inventory, project, target, arch, base, layers, request):
+    gen = DockerfileFormatter(inventory, base, layers)
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".Dockerfile")
     test_utils.assert_matches_file(actual, expected_path)
 
 
 @pytest.mark.parametrize("project,target,arch", scenarios)
-def test_variables_shell(project, target, arch, request):
-    gen = ShellVariablesFormatter()
+def test_variables_shell(inventory, project, target, arch, request):
+    gen = ShellVariablesFormatter(inventory)
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".vars")
     test_utils.assert_matches_file(actual, expected_path)
 
 
 @pytest.mark.parametrize("project,target,arch", scenarios)
-def test_variables_json(project, target, arch, request):
-    gen = JSONVariablesFormatter()
+def test_variables_json(inventory, project, target, arch, request):
+    gen = JSONVariablesFormatter(inventory)
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".json")
     test_utils.assert_matches_file(actual, expected_path)
 
 
 @pytest.mark.parametrize("project,target,arch", scenarios)
-def test_prepbuildenv(project, target, arch, request):
-    gen = ShellBuildEnvFormatter()
+def test_prepbuildenv(inventory, project, target, arch, request):
+    gen = ShellBuildEnvFormatter(inventory)
     actual = gen.format(target, [project], arch)
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".sh")
     test_utils.assert_matches_file(actual, expected_path)
@@ -94,7 +94,7 @@ def test_all_projects_dockerfiles(inventory):
         if facts["packaging"]["format"] not in ["apk", "deb", "rpm"]:
             continue
 
-        gen = DockerfileFormatter()
+        gen = DockerfileFormatter(inventory)
         actual = gen.format(target, all_projects, None)
         expected_path = Path(test_utils.test_data_outdir(__file__), f"{target}-all-projects.Dockerfile")
         test_utils.assert_matches_file(actual, expected_path)

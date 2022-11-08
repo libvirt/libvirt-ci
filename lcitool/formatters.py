@@ -11,7 +11,6 @@ import logging
 from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
-from lcitool.inventory import Inventory
 from lcitool.projects import Projects
 from lcitool.package import package_names_by_type
 
@@ -49,6 +48,9 @@ class Formatter(metaclass=abc.ABCMeta):
     """
     This an abstract base class that each formatter must subclass.
     """
+
+    def __init__(self, inventory):
+        self._inventory = inventory
 
     @abc.abstractmethod
     def format(self):
@@ -124,7 +126,7 @@ class Formatter(metaclass=abc.ABCMeta):
         name = self.__class__.__name__.lower()
 
         try:
-            facts = Inventory().target_facts[target]
+            facts = self._inventory.target_facts[target]
         except KeyError:
             raise FormatterError(f"Invalid target '{target}'")
 
@@ -141,7 +143,8 @@ class Formatter(metaclass=abc.ABCMeta):
 
 class BuildEnvFormatter(Formatter):
 
-    def __init__(self, indent=0, pkgcleanup=False, nosync=False):
+    def __init__(self, inventory, indent=0, pkgcleanup=False, nosync=False):
+        super().__init__(inventory)
         self._indent = indent
         self._pkgcleanup = pkgcleanup
         self._nosync = nosync
@@ -454,8 +457,9 @@ class BuildEnvFormatter(Formatter):
 
 class DockerfileFormatter(BuildEnvFormatter):
 
-    def __init__(self, base=None, layers="all"):
-        super().__init__(indent=len("RUN "),
+    def __init__(self, inventory, base=None, layers="all"):
+        super().__init__(inventory,
+                         indent=len("RUN "),
                          pkgcleanup=True,
                          nosync=True)
         self._base = base
@@ -608,8 +612,9 @@ class JSONVariablesFormatter(VariablesFormatter):
 
 class ShellBuildEnvFormatter(BuildEnvFormatter):
 
-    def __init__(self, base=None, layers="all"):
-        super().__init__(indent=len("    "),
+    def __init__(self, inventory, base=None, layers="all"):
+        super().__init__(inventory,
+                         indent=len("    "),
                          pkgcleanup=False,
                          nosync=False)
 

@@ -213,19 +213,22 @@ class Manifest:
         return generated
 
     def _generate_containers(self, dryrun):
-        formatter = DockerfileFormatter()
+        inventory = Inventory()
+        formatter = DockerfileFormatter(inventory)
         return self._generate_formatter(dryrun,
                                         "containers", "Dockerfile",
                                         formatter, "containers")
 
     def _generate_cirrus(self, dryrun):
-        formatter = ShellVariablesFormatter()
+        inventory = Inventory()
+        formatter = ShellVariablesFormatter(inventory)
         return self._generate_formatter(dryrun,
                                         "cirrus", "vars",
                                         formatter, "cirrus")
 
     def _generate_buildenv(self, dryrun):
-        formatter = ShellBuildEnvFormatter()
+        inventory = Inventory()
+        formatter = ShellBuildEnvFormatter(inventory)
         return self._generate_formatter(dryrun,
                                         "buildenv", "sh",
                                         formatter, "containers")

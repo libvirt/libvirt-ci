@@ -236,12 +236,13 @@ class Application(metaclass=Singleton):
     def _action_variables(self, args):
         self._entrypoint_debug(args)
 
+        inventory = Inventory()
         projects_expanded = Projects().expand_names(args.projects)
 
         if args.format == "shell":
-            formatter = ShellVariablesFormatter()
+            formatter = ShellVariablesFormatter(inventory)
         else:
-            formatter = JSONVariablesFormatter()
+            formatter = JSONVariablesFormatter(inventory)
 
         variables = formatter.format(args.target,
                                      projects_expanded,
@@ -262,9 +263,11 @@ class Application(metaclass=Singleton):
     def _action_dockerfile(self, args):
         self._entrypoint_debug(args)
 
+        inventory = Inventory()
         projects_expanded = Projects().expand_names(args.projects)
 
-        dockerfile = DockerfileFormatter(args.base,
+        dockerfile = DockerfileFormatter(inventory,
+                                         args.base,
                                          args.layers).format(args.target,
                                                              projects_expanded,
                                                              args.cross_arch)
@@ -283,11 +286,12 @@ class Application(metaclass=Singleton):
     def _action_buildenvscript(self, args):
         self._entrypoint_debug(args)
 
+        inventory = Inventory()
         projects_expanded = Projects().expand_names(args.projects)
 
-        buildenvscript = ShellBuildEnvFormatter().format(args.target,
-                                                         projects_expanded,
-                                                         args.cross_arch)
+        buildenvscript = ShellBuildEnvFormatter(inventory).format(args.target,
+                                                                  projects_expanded,
+                                                                  args.cross_arch)
 
         cliargv = [args.action]
         if args.cross_arch:
