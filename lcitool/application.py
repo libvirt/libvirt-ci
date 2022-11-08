@@ -16,7 +16,6 @@ from lcitool.inventory import Inventory
 from lcitool.package import package_names_by_type
 from lcitool.projects import Projects
 from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, JSONVariablesFormatter, ShellBuildEnvFormatter
-from lcitool.singleton import Singleton
 from lcitool.manifest import Manifest
 
 log = logging.getLogger(__name__)
@@ -44,7 +43,7 @@ class ApplicationError(LcitoolError):
         super().__init__(message, "Application")
 
 
-class Application(metaclass=Singleton):
+class Application:
     def __init__(self):
         # make sure the lcitool cache dir exists
         cache_dir_path = util.get_cache_dir()
