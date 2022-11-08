@@ -10,15 +10,6 @@ import test_utils.utils as test_utils
 
 from pathlib import Path
 from lcitool.config import Config, ValidationError
-from lcitool.singleton import Singleton
-
-
-@pytest.fixture(autouse=True)
-def destroy_config():
-    # The following makes sure the Config singleton is deleted after each test
-    # See https://docs.pytest.org/en/6.2.x/fixture.html#teardown-cleanup-aka-fixture-finalization
-    yield
-    del Singleton._instances[Config]
 
 
 @pytest.mark.parametrize(

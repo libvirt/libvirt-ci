@@ -12,7 +12,6 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
-from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
 
@@ -47,7 +46,7 @@ class ValidationError(ConfigError):
         super().__init__(message)
 
 
-class Config(metaclass=Singleton):
+class Config:
 
     @property
     def values(self):
