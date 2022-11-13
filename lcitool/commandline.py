@@ -28,6 +28,14 @@ class CommandLine:
             help="target to operate on",
         )
 
+        engineopt = argparse.ArgumentParser(add_help=False)
+        engineopt.add_argument(
+            "--engine",
+            choices=["podman", "docker"],
+            default="podman",
+            help="container engine to use (default=podman)",
+        )
+
         installtargetopt = argparse.ArgumentParser(add_help=False)
         installtargetopt.add_argument(
             "-t", "--target",
