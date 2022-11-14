@@ -176,7 +176,7 @@ x86_64-macos-11:
   variables:
     CIRRUS_VM_IMAGE_NAME: big-sur-base
     CIRRUS_VM_IMAGE_SELECTOR: image
-    CIRRUS_VM_INSTANCE_TYPE: osx_instance
+    CIRRUS_VM_INSTANCE_TYPE: macos_instance
     INSTALL_COMMAND: brew install
     NAME: macos-11
     UPDATE_COMMAND: brew update
@@ -190,7 +190,7 @@ x86_64-macos-12:
   variables:
     CIRRUS_VM_IMAGE_NAME: monterey-base
     CIRRUS_VM_IMAGE_SELECTOR: image
-    CIRRUS_VM_INSTANCE_TYPE: osx_instance
+    CIRRUS_VM_INSTANCE_TYPE: macos_instance
     INSTALL_COMMAND: brew install
     JOB_OPTIONAL: 1
     NAME: macos-12
