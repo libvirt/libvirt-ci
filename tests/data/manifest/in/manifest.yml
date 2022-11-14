@@ -48,3 +48,5 @@ targets:
     jobs:
       - arch: aarch64
         builds: false
+
+  macos-13: aarch64

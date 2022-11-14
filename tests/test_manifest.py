@@ -110,6 +110,7 @@ def test_generate(monkeypatch):
         assert_write(Path("ci", "gitlab", "sanity-checks.yml"))
         assert_write(Path("ci", "cirrus", "freebsd-current.vars"))
         assert_write(Path("ci", "cirrus", "macos-12.vars"))
+        assert_write(Path("ci", "cirrus", "macos-13.vars"))
         assert_write(Path("ci", "containers", "centos-stream-9.Dockerfile"))
         assert_write(Path("ci", "containers", "fedora-rawhide.Dockerfile"))
         assert_write(Path("ci", "containers", "fedora-rawhide-cross-mingw32.Dockerfile"))
