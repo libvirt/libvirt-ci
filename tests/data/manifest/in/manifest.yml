@@ -46,5 +46,5 @@ targets:
 
   macos-12:
     jobs:
-      - arch: x86_64
+      - arch: aarch64
         builds: false

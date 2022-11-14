@@ -151,7 +151,7 @@ targets:
 
   freebsd-current: x86_64
 
-  macos-12: x86_64
+  macos-12: aarch64
 
   opensuse-leap-153:
     jobs:
