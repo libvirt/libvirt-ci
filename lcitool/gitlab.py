@@ -570,7 +570,7 @@ def cross_build_job(target, image, arch, suffix, variables, template,
                       artifacts)
 
 
-def cirrus_build_job(target, instance_type, image_selector, image_name,
+def cirrus_build_job(target, instance_type, image_selector, image_name, arch,
                      pkg_cmd, suffix, variables, allow_failure, optional):
     if pkg_cmd == "brew":
         install_cmd = "brew install"
@@ -597,7 +597,7 @@ def cirrus_build_job(target, instance_type, image_selector, image_name,
 
     return textwrap.dedent(
         f"""
-        x86_64-{target}{suffix}:
+        {arch}-{target}{suffix}:
           extends: .cirrus_build_job
           needs: []
           allow_failure: {allow_failure}

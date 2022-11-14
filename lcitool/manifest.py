@@ -126,7 +126,7 @@ class Manifest:
                     artifacts.setdefault("expire_in", "2 days")
 
                 arch = jobinfo["arch"]
-                if arch == "x86_64":
+                if arch == "x86_64" or "cirrus" in facts:
                     jobinfo.setdefault("cross-build", False)
                 else:
                     jobinfo.setdefault("cross-build", True)
@@ -142,8 +142,10 @@ class Manifest:
                         raise ValueError(f"target {target} duplicate arch {arch} missing suffix")
                 done[arch] = True
 
-                if arch != "x86_64" and "cirrus" in facts:
-                    raise ValueError(f"target {target} does not support non-x86-64 architecture")
+                if "cirrus" in facts:
+                    ciarch = facts["cirrus"]["arch"]
+                    if arch != ciarch:
+                        raise ValueError(f"target {target} only supports {ciarch} architecture")
 
         if not have_containers:
             gitlabinfo["containers"] = False
@@ -477,6 +479,7 @@ class Manifest:
                 facts["cirrus"]["instance_type"],
                 facts["cirrus"]["image_selector"],
                 facts["cirrus"]["image_name"],
+                facts["cirrus"]["arch"],
                 facts["packaging"]["command"],
                 jobinfo["suffix"],
                 jobinfo["variables"],

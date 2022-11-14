@@ -24,3 +24,4 @@ cirrus:
   instance_type: freebsd_instance
   image_selector: image_family
   image_name: freebsd-13-1
+  arch: x86_64
