@@ -244,7 +244,8 @@ class Application:
         else:
             formatter = JSONVariablesFormatter(inventory)
 
-        variables = formatter.format(args.target,
+        target = inventory.get_target(args.target, args.cross_arch)
+        variables = formatter.format(target,
                                      projects_expanded,
                                      args.cross_arch)
 
@@ -266,10 +267,11 @@ class Application:
         inventory = Inventory()
         projects = inventory.projects
         projects_expanded = projects.expand_names(args.projects)
+        target = inventory.get_target(args.target, args.cross_arch)
 
         dockerfile = DockerfileFormatter(inventory,
                                          args.base,
-                                         args.layers).format(args.target,
+                                         args.layers).format(target,
                                                              projects_expanded,
                                                              args.cross_arch)
 
@@ -290,8 +292,9 @@ class Application:
         inventory = Inventory()
         projects = inventory.projects
         projects_expanded = projects.expand_names(args.projects)
+        target = inventory.get_target(args.target, args.cross_arch)
 
-        buildenvscript = ShellBuildEnvFormatter(inventory).format(args.target,
+        buildenvscript = ShellBuildEnvFormatter(inventory).format(target,
                                                                   projects_expanded,
                                                                   args.cross_arch)
 

@@ -118,16 +118,11 @@ class Formatter(metaclass=abc.ABCMeta):
 
     def _generator_prepare(self, target, selected_projects, cross_arch):
         log.debug(f"Generating varmap for "
-                  f"target='{target}', "
-                  f"projects='{selected_projects}', "
-                  f"cross_arch='{cross_arch}'")
+                  f"target={target}, "
+                  f"projects='{selected_projects}'")
 
         name = self.__class__.__name__.lower()
-
-        try:
-            facts = self._inventory.target_facts[target]
-        except KeyError:
-            raise FormatterError(f"Invalid target '{target}'")
+        facts = target.facts
 
         # We can only generate Dockerfiles for Linux
         if (name == "dockerfileformatter" and
@@ -524,7 +519,7 @@ class DockerfileFormatter(BuildEnvFormatter):
         """
 
         log.debug(f"Generating Dockerfile for projects '{selected_projects}' "
-                  f"on target '{target}' (cross_arch={cross_arch})")
+                  f"on target {target}")
 
         try:
             facts, cross_arch, varmap = self._generator_prepare(target,
@@ -575,7 +570,7 @@ class VariablesFormatter(Formatter):
         """
 
         log.debug(f"Generating variables for projects '{selected_projects} on "
-                  f"target '{target}' (cross_arch={cross_arch})")
+                  f"target {target}")
 
         try:
             _, _, varmap = self._generator_prepare(target,
@@ -657,7 +652,7 @@ class ShellBuildEnvFormatter(BuildEnvFormatter):
         """
 
         log.debug(f"Generating Shell Build Env for projects '{selected_projects}' "
-                  f"on target '{target}' (cross_arch={cross_arch})")
+                  f"on target {target}")
 
         try:
             facts, cross_arch, varmap = self._generator_prepare(target,

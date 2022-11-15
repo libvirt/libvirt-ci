@@ -204,7 +204,7 @@ class Manifest:
                 if not dryrun:
                     header = util.generate_file_header(["manifest",
                                                         self.configpath])
-                    payload = formatter.format(target,
+                    payload = formatter.format(self._inventory.get_target(target, arch),
                                                wantprojects,
                                                arch)
                     util.atomic_write(filename, header + payload + "\n")
