@@ -12,6 +12,7 @@ from pathlib import Path
 
 from lcitool import util
 from lcitool.inventory import Inventory
+from lcitool.projects import Projects
 from lcitool.manifest import Manifest
 
 
@@ -20,7 +21,12 @@ def inventory():
     return Inventory()
 
 
-def test_generate(inventory, monkeypatch):
+@pytest.fixture(scope="module")
+def projects():
+    return Projects()
+
+
+def test_generate(inventory, projects, monkeypatch):
     manifest_path = Path(test_utils.test_data_indir(__file__), "manifest.yml")
 
     # Squish the header that contains argv with paths we don't
@@ -73,7 +79,7 @@ def test_generate(inventory, monkeypatch):
         m.setattr(Path, 'glob', fake_glob)
 
         with open(manifest_path, "r") as fp:
-            manifest = Manifest(inventory, fp, quiet=True)
+            manifest = Manifest(inventory, projects, fp, quiet=True)
 
         manifest.generate()
 
@@ -140,7 +146,7 @@ def test_generate(inventory, monkeypatch):
     finally:
         if pytest.custom_args["regenerate_output"]:
             with open(manifest_path, "r") as fp:
-                manifest = Manifest(inventory, fp, quiet=True,
+                manifest = Manifest(inventory, projects, fp, quiet=True,
                                     basedir=Path(test_utils.test_data_outdir(__file__)))
 
             manifest.generate()

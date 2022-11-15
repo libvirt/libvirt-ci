@@ -13,7 +13,6 @@ from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
 from lcitool.packages import Packages
-from lcitool.projects import Projects
 from lcitool.targets import BuildTarget
 
 log = logging.getLogger(__name__)
@@ -56,7 +55,6 @@ class Inventory():
 
     def __init__(self):
         self.packages = Packages()
-        self.projects = Projects()
         self._target_facts = None
         self._host_facts = None
         self._ansible_inventory = None

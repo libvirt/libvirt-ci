@@ -23,8 +23,9 @@ class ManifestError(LcitoolError):
 
 class Manifest:
 
-    def __init__(self, inventory, configfp, quiet=False, cidir=Path("ci"), basedir=None):
+    def __init__(self, inventory, projects, configfp, quiet=False, cidir=Path("ci"), basedir=None):
         self._inventory = inventory
+        self._projects = projects
         self.configpath = configfp.name
         self.values = yaml.safe_load(configfp)
         self.quiet = quiet
@@ -211,19 +212,19 @@ class Manifest:
         return generated
 
     def _generate_containers(self, dryrun):
-        formatter = DockerfileFormatter(self._inventory.projects)
+        formatter = DockerfileFormatter(self._projects)
         return self._generate_formatter(dryrun,
                                         "containers", "Dockerfile",
                                         formatter, "containers")
 
     def _generate_cirrus(self, dryrun):
-        formatter = ShellVariablesFormatter(self._inventory.projects)
+        formatter = ShellVariablesFormatter(self._projects)
         return self._generate_formatter(dryrun,
                                         "cirrus", "vars",
                                         formatter, "cirrus")
 
     def _generate_buildenv(self, dryrun):
-        formatter = ShellBuildEnvFormatter(self._inventory.projects)
+        formatter = ShellBuildEnvFormatter(self._projects)
         return self._generate_formatter(dryrun,
                                         "buildenv", "sh",
                                         formatter, "containers")

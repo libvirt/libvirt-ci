@@ -14,7 +14,7 @@ from functools import total_ordering
 from pathlib import Path
 from lcitool import util
 from lcitool.inventory import Inventory
-from lcitool.projects import Project, ProjectError
+from lcitool.projects import Projects, Project, ProjectError
 from lcitool.packages import NativePackage, CrossPackage, PyPIPackage, CPANPackage
 
 
@@ -35,8 +35,8 @@ def packages(inventory):
 
 
 @pytest.fixture(scope="module")
-def projects(inventory):
-    return inventory.projects
+def projects():
+    return Projects()
 
 
 def get_non_cross_targets():

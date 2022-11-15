@@ -68,7 +68,7 @@ class Application:
         base = resource_filename(__name__, "ansible")
         config = Config()
         inventory = Inventory()
-        projects = inventory.projects
+        projects = Projects()
 
         hosts_expanded = inventory.expand_hosts(hosts_pattern)
         projects_expanded = projects.expand_names(projects_pattern)
@@ -236,7 +236,7 @@ class Application:
         self._entrypoint_debug(args)
 
         inventory = Inventory()
-        projects = inventory.projects
+        projects = Projects()
         projects_expanded = projects.expand_names(args.projects)
 
         if args.format == "shell":
@@ -264,7 +264,7 @@ class Application:
         self._entrypoint_debug(args)
 
         inventory = Inventory()
-        projects = inventory.projects
+        projects = Projects()
         projects_expanded = projects.expand_names(args.projects)
         target = inventory.get_target(args.target, args.cross_arch)
 
@@ -288,7 +288,7 @@ class Application:
         self._entrypoint_debug(args)
 
         inventory = Inventory()
-        projects = inventory.projects
+        projects = Projects()
         projects_expanded = projects.expand_names(args.projects)
         target = inventory.get_target(args.target, args.cross_arch)
 
@@ -309,7 +309,8 @@ class Application:
             base_path = Path(args.base_dir)
         ci_path = Path(args.ci_dir)
         inventory = Inventory()
-        manifest = Manifest(inventory, args.manifest, args.quiet, ci_path, base_path)
+        projects = Projects()
+        manifest = Manifest(inventory, projects, args.manifest, args.quiet, ci_path, base_path)
         manifest.generate(args.dry_run)
 
     def run(self, args):
