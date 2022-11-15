@@ -167,7 +167,7 @@ class BuildEnvFormatter(Formatter):
 
         return varmap
 
-    def _format_commands_ccache(self, cross_arch, varmap):
+    def _format_commands_ccache(self, target, varmap):
         commands = []
         compilers = set()
 
@@ -189,14 +189,15 @@ class BuildEnvFormatter(Formatter):
             ])
 
             for compiler in sorted(compilers):
-                if cross_arch:
+                if target.cross_arch:
                     compiler = "{cross_abi}-" + compiler
                 commands.extend([
                     "ln -s {paths_ccache} /usr/libexec/ccache-wrappers/" + compiler,
                 ])
         return commands
 
-    def _format_commands_pkglist(self, facts):
+    def _format_commands_pkglist(self, target):
+        facts = target.facts
         commands = []
         if facts["packaging"]["format"] == "apk":
             commands.extend(["apk list | sort > /packages.txt"])
@@ -208,7 +209,8 @@ class BuildEnvFormatter(Formatter):
             commands.extend(["rpm -qa | sort > /packages.txt"])
         return commands
 
-    def _format_commands_native(self, facts, cross_arch, varmap):
+    def _format_commands_native(self, target, varmap):
+        facts = target.facts
         commands = []
         osname = facts["os"]["name"]
         osversion = facts["os"]["version"]
@@ -332,9 +334,9 @@ class BuildEnvFormatter(Formatter):
                         "{nosync}{packaging_command} clean all -y",
                     ])
 
-        if not cross_arch:
-            commands.extend(self._format_commands_pkglist(facts))
-            commands.extend(self._format_commands_ccache(None, varmap))
+        if not target.cross_arch:
+            commands.extend(self._format_commands_pkglist(target))
+            commands.extend(self._format_commands_ccache(target, varmap))
 
         commands = [c.format(**varmap) for c in commands]
 
@@ -362,7 +364,8 @@ class BuildEnvFormatter(Formatter):
 
         return env
 
-    def _format_commands_foreign(self, facts, cross_arch, varmap):
+    def _format_commands_foreign(self, target, varmap):
+        facts = target.facts
         cross_commands = []
 
         if facts["packaging"]["format"] == "deb":
@@ -370,7 +373,7 @@ class BuildEnvFormatter(Formatter):
                 "export DEBIAN_FRONTEND=noninteractive",
                 "dpkg --add-architecture {cross_arch_deb}",
             ])
-            if cross_arch == "riscv64":
+            if target.cross_arch == "riscv64":
                 cross_commands.extend([
                     "{nosync}{packaging_command} install debian-ports-archive-keyring",
                     "{nosync}echo 'deb http://ftp.ports.debian.org/debian-ports/ sid main' > /etc/apt/sources.list.d/ports.list",
@@ -396,7 +399,7 @@ class BuildEnvFormatter(Formatter):
                     "{nosync}{packaging_command} clean all -y",
                 ])
 
-        if not cross_arch.startswith("mingw"):
+        if not target.cross_arch.startswith("mingw"):
             cross_commands.extend([
                 "mkdir -p /usr/local/share/meson/cross",
                 "echo \"{cross_meson}\" > /usr/local/share/meson/cross/{cross_abi}",
@@ -405,14 +408,14 @@ class BuildEnvFormatter(Formatter):
             cross_meson = self._get_meson_cross(varmap["cross_abi"])
             varmap["cross_meson"] = cross_meson.replace("\n", "\\n\\\n")
 
-        cross_commands.extend(self._format_commands_pkglist(facts))
-        cross_commands.extend(self._format_commands_ccache(cross_arch, varmap))
+        cross_commands.extend(self._format_commands_pkglist(target))
+        cross_commands.extend(self._format_commands_ccache(target, varmap))
 
         cross_commands = [c.format(**varmap) for c in cross_commands]
 
         return cross_commands
 
-    def _format_env_foreign(self, cross_arch, varmap):
+    def _format_env_foreign(self, target, varmap):
         env = {}
         env["ABI"] = varmap["cross_abi"]
 
@@ -420,7 +423,7 @@ class BuildEnvFormatter(Formatter):
             env["CONFIGURE_OPTS"] = "--host=" + varmap["cross_abi"]
 
         if "meson" in varmap["mappings"]:
-            if cross_arch.startswith("mingw"):
+            if target.cross_arch.startswith("mingw"):
                 env["MESON_OPTS"] = "--cross-file=/usr/share/mingw/toolchain-" + varmap["cross_arch"] + ".meson"
             else:
                 env["MESON_OPTS"] = "--cross-file=" + varmap["cross_abi"]
@@ -446,17 +449,17 @@ class DockerfileFormatter(BuildEnvFormatter):
             lines.append(f"\nENV {key} \"{val}\"")
         return "".join(lines)
 
-    def _format_section_base(self, facts):
+    def _format_section_base(self, target):
         strings = []
         if self._base:
             base = self._base
         else:
-            base = facts["containers"]["base"]
+            base = target.facts["containers"]["base"]
         strings.append(f"FROM {base}")
         return strings
 
-    def _format_section_native(self, facts, cross_arch, varmap):
-        groups = self._format_commands_native(facts, cross_arch, varmap)
+    def _format_section_native(self, target, varmap):
+        groups = self._format_commands_native(target, varmap)
 
         strings = []
         for commands in groups:
@@ -466,22 +469,22 @@ class DockerfileFormatter(BuildEnvFormatter):
         strings.append(self._format_env(env))
         return strings
 
-    def _format_section_foreign(self, facts, cross_arch, varmap):
-        commands = self._format_commands_foreign(facts, cross_arch, varmap)
+    def _format_section_foreign(self, target, varmap):
+        commands = self._format_commands_foreign(target, varmap)
 
         strings = ["\nRUN " + " && \\\n    ".join(commands)]
 
-        env = self._format_env_foreign(cross_arch, varmap)
+        env = self._format_env_foreign(target, varmap)
         strings.append(self._format_env(env))
         return strings
 
-    def _format_dockerfile(self, target, project, facts, varmap):
+    def _format_dockerfile(self, target, project, varmap):
         strings = []
-        strings.extend(self._format_section_base(facts))
+        strings.extend(self._format_section_base(target))
         if self._layers in ["all", "native"]:
-            strings.extend(self._format_section_native(facts, target.cross_arch, varmap))
+            strings.extend(self._format_section_native(target, varmap))
         if target.cross_arch and self._layers in ["all", "foreign"]:
-            strings.extend(self._format_section_foreign(facts, target.cross_arch, varmap))
+            strings.extend(self._format_section_foreign(target, varmap))
         return strings
 
     def format(self, target, selected_projects):
@@ -509,8 +512,7 @@ class DockerfileFormatter(BuildEnvFormatter):
         except FormatterError as ex:
             raise DockerfileError(str(ex))
 
-        return '\n'.join(self._format_dockerfile(target, selected_projects,
-                                                 target.facts, varmap))
+        return '\n'.join(self._format_dockerfile(target, selected_projects, varmap))
 
 
 class VariablesFormatter(Formatter):
@@ -599,22 +601,22 @@ class ShellBuildEnvFormatter(BuildEnvFormatter):
             exp.append(f"export {key}=\"{val}\"")
         return "\n" + "\n".join(exp)
 
-    def _format_buildenv(self, target, project, facts, varmap):
+    def _format_buildenv(self, target, project, varmap):
         strings = [
             "function install_buildenv() {",
         ]
-        groups = self._format_commands_native(facts, target.cross_arch, varmap)
+        groups = self._format_commands_native(target, varmap)
         for commands in groups:
             strings.extend(["    " + c for c in commands])
         if target.cross_arch:
-            for command in self._format_commands_foreign(facts, target.cross_arch, varmap):
+            for command in self._format_commands_foreign(target, varmap):
                 strings.append("    " + command)
         strings.append("}")
 
         strings.append(self._format_env(self._format_env_native(varmap)))
         if target.cross_arch:
             strings.append(self._format_env(
-                self._format_env_foreign(target.cross_arch, varmap)))
+                self._format_env_foreign(target, varmap)))
         return strings
 
     def format(self, target, selected_projects):
@@ -638,5 +640,4 @@ class ShellBuildEnvFormatter(BuildEnvFormatter):
         except FormatterError as ex:
             raise ShellBuildEnvError(str(ex))
 
-        return '\n'.join(self._format_buildenv(target, selected_projects,
-                                               target.facts, varmap))
+        return '\n'.join(self._format_buildenv(target, selected_projects, varmap))
