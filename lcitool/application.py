@@ -246,8 +246,7 @@ class Application:
 
         target = inventory.get_target(args.target, args.cross_arch)
         variables = formatter.format(target,
-                                     projects_expanded,
-                                     args.cross_arch)
+                                     projects_expanded)
 
         # No comments in json !
         if args.format != "json":
@@ -272,8 +271,7 @@ class Application:
         dockerfile = DockerfileFormatter(inventory,
                                          args.base,
                                          args.layers).format(target,
-                                                             projects_expanded,
-                                                             args.cross_arch)
+                                                             projects_expanded)
 
         cliargv = [args.action]
         if args.base is not None:
@@ -295,8 +293,7 @@ class Application:
         target = inventory.get_target(args.target, args.cross_arch)
 
         buildenvscript = ShellBuildEnvFormatter(inventory).format(target,
-                                                                  projects_expanded,
-                                                                  args.cross_arch)
+                                                                  projects_expanded)
 
         cliargv = [args.action]
         if args.cross_arch:

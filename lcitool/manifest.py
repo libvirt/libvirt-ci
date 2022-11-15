@@ -205,8 +205,7 @@ class Manifest:
                     header = util.generate_file_header(["manifest",
                                                         self.configpath])
                     payload = formatter.format(self._inventory.get_target(target, arch),
-                                               wantprojects,
-                                               arch)
+                                               wantprojects)
                     util.atomic_write(filename, header + payload + "\n")
 
         return generated

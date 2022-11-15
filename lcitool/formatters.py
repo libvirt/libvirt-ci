@@ -116,7 +116,7 @@ class Formatter(metaclass=abc.ABCMeta):
         log.debug(f"Generated varmap: {varmap}")
         return varmap
 
-    def _generator_prepare(self, target, selected_projects, cross_arch):
+    def _generator_prepare(self, target, selected_projects):
         log.debug(f"Generating varmap for "
                   f"target={target}, "
                   f"projects='{selected_projects}'")
@@ -131,8 +131,8 @@ class Formatter(metaclass=abc.ABCMeta):
 
         varmap = self._generator_build_varmap(facts,
                                               selected_projects,
-                                              cross_arch)
-        return facts, cross_arch, varmap
+                                              target.cross_arch)
+        return facts, target.cross_arch, varmap
 
 
 class BuildEnvFormatter(Formatter):
@@ -496,16 +496,16 @@ class DockerfileFormatter(BuildEnvFormatter):
         strings.append(self._format_env(env))
         return strings
 
-    def _format_dockerfile(self, target, project, facts, cross_arch, varmap):
+    def _format_dockerfile(self, target, project, facts, varmap):
         strings = []
         strings.extend(self._format_section_base(facts))
         if self._layers in ["all", "native"]:
-            strings.extend(self._format_section_native(facts, cross_arch, varmap))
-        if cross_arch and self._layers in ["all", "foreign"]:
-            strings.extend(self._format_section_foreign(facts, cross_arch, varmap))
+            strings.extend(self._format_section_native(facts, target.cross_arch, varmap))
+        if target.cross_arch and self._layers in ["all", "foreign"]:
+            strings.extend(self._format_section_foreign(facts, target.cross_arch, varmap))
         return strings
 
-    def format(self, target, selected_projects, cross_arch):
+    def format(self, target, selected_projects):
         """
         Generates and formats a Dockerfile.
 
@@ -523,13 +523,12 @@ class DockerfileFormatter(BuildEnvFormatter):
 
         try:
             facts, cross_arch, varmap = self._generator_prepare(target,
-                                                                selected_projects,
-                                                                cross_arch)
+                                                                selected_projects)
         except FormatterError as ex:
             raise DockerfileError(str(ex))
 
         return '\n'.join(self._format_dockerfile(target, selected_projects,
-                                                 facts, cross_arch, varmap))
+                                                 facts, varmap))
 
 
 class VariablesFormatter(Formatter):
@@ -557,7 +556,7 @@ class VariablesFormatter(Formatter):
     def _format_variables(varmap):
         pass
 
-    def format(self, target, selected_projects, cross_arch):
+    def format(self, target, selected_projects):
         """
         Generates and formats environment variables as KEY=VAL pairs.
 
@@ -574,8 +573,7 @@ class VariablesFormatter(Formatter):
 
         try:
             _, _, varmap = self._generator_prepare(target,
-                                                   selected_projects,
-                                                   cross_arch)
+                                                   selected_projects)
         except FormatterError as ex:
             raise VariablesError(str(ex))
 
@@ -620,25 +618,25 @@ class ShellBuildEnvFormatter(BuildEnvFormatter):
             exp.append(f"export {key}=\"{val}\"")
         return "\n" + "\n".join(exp)
 
-    def _format_buildenv(self, target, project, facts, cross_arch, varmap):
+    def _format_buildenv(self, target, project, facts, varmap):
         strings = [
             "function install_buildenv() {",
         ]
-        groups = self._format_commands_native(facts, cross_arch, varmap)
+        groups = self._format_commands_native(facts, target.cross_arch, varmap)
         for commands in groups:
             strings.extend(["    " + c for c in commands])
-        if cross_arch:
-            for command in self._format_commands_foreign(facts, cross_arch, varmap):
+        if target.cross_arch:
+            for command in self._format_commands_foreign(facts, target.cross_arch, varmap):
                 strings.append("    " + command)
         strings.append("}")
 
         strings.append(self._format_env(self._format_env_native(varmap)))
-        if cross_arch:
+        if target.cross_arch:
             strings.append(self._format_env(
-                self._format_env_foreign(cross_arch, varmap)))
+                self._format_env_foreign(target.cross_arch, varmap)))
         return strings
 
-    def format(self, target, selected_projects, cross_arch):
+    def format(self, target, selected_projects):
         """
         Generates and formats a Shell script for preparing a build env.
 
@@ -656,10 +654,9 @@ class ShellBuildEnvFormatter(BuildEnvFormatter):
 
         try:
             facts, cross_arch, varmap = self._generator_prepare(target,
-                                                                selected_projects,
-                                                                cross_arch)
+                                                                selected_projects)
         except FormatterError as ex:
             raise ShellBuildEnvError(str(ex))
 
         return '\n'.join(self._format_buildenv(target, selected_projects,
-                                               facts, cross_arch, varmap))
+                                               facts, varmap))
