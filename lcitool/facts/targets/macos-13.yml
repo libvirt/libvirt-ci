@@ -8,17 +8,17 @@ packaging:
   command: 'brew'
 
 paths:
-  bash: /usr/local/bin/bash
+  bash: /opt/homebrew/bin/bash
   cc: /usr/bin/clang
-  ccache: /usr/local/bin/ccache
-  make: /usr/local/bin/gmake
-  ninja: /usr/local/bin/ninja
-  pip3: /usr/local/bin/pip3
-  python: /usr/local/bin/python3
+  ccache: /opt/homebrew/bin/ccache
+  make: /opt/homebrew/bin/gmake
+  ninja: /opt/homebrew/bin/ninja
+  pip3: /opt/homebrew/bin/pip3
+  python: /opt/homebrew/bin/python3
   sudoers: /etc/sudoers
 
 ansible_python_package: python3
-ansible_python_interpreter: /usr/local/bin/python3
+ansible_python_interpreter: /opt/homebrew/bin/python3
 
 cirrus:
   instance_type: macos_instance
