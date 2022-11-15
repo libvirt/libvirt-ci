@@ -85,8 +85,8 @@ def test_package_resolution(inventory, test_project, target, arch):
     else:
         outfile = f"{target}-cross-{arch}.yml"
     expected_path = Path(test_utils.test_data_outdir(__file__), outfile)
-    pkgs = test_project.get_packages(inventory.target_facts[target],
-                                     cross_arch=arch)
+    target_obj = inventory.get_target(target, arch)
+    pkgs = test_project.get_packages(target_obj)
     actual = packages_as_dict(pkgs)
 
     test_utils.assert_yaml_matches_file(actual, expected_path)
@@ -98,8 +98,8 @@ def test_package_resolution(inventory, test_project, target, arch):
 )
 def test_unsupported_cross_platform(inventory, test_project, target):
     with pytest.raises(ProjectError):
-        test_project.get_packages(inventory.target_facts[target],
-                                  cross_arch="s390x")
+        target_obj = inventory.get_target(target, "s390x")
+        test_project.get_packages(target_obj)
 
 
 @pytest.mark.parametrize(
@@ -111,8 +111,8 @@ def test_unsupported_cross_platform(inventory, test_project, target):
 )
 def test_cross_platform_arch_mismatch(inventory, test_project, target, arch):
     with pytest.raises(ProjectError):
-        test_project.get_packages(inventory.target_facts[target],
-                                  cross_arch=arch)
+        target_obj = inventory.get_target(target, arch)
+        test_project.get_packages(target_obj)
 
 
 @total_ordering

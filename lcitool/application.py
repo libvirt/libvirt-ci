@@ -102,12 +102,12 @@ class Application:
 
         for host in hosts_expanded:
             facts = inventory.host_facts[host]
-            target = facts["target"]
+            target = inventory.get_target(facts["target"])
 
             # packages are evaluated on a target level and since the
             # host->target mapping is N-1, we can skip hosts belonging to a
             # target group for which we already evaluated the package list
-            if target in group_vars:
+            if target.name in group_vars:
                 continue
 
             # resolve the package mappings to actual package names
@@ -116,9 +116,9 @@ class Application:
                 internal_wanted_projects.append("cloud-init")
 
             selected_projects = internal_wanted_projects + projects_expanded
-            pkgs_install = projects.get_packages(selected_projects, facts)
-            pkgs_early_install = projects.get_packages(["early_install"], facts)
-            pkgs_remove = projects.get_packages(["unwanted"], facts)
+            pkgs_install = projects.get_packages(selected_projects, target)
+            pkgs_early_install = projects.get_packages(["early_install"], target)
+            pkgs_remove = projects.get_packages(["unwanted"], target)
             package_names = package_names_by_type(pkgs_install)
             package_names_remove = package_names_by_type(pkgs_remove)
             package_names_early_install = package_names_by_type(pkgs_early_install)
@@ -132,7 +132,7 @@ class Application:
             packages["early_install_packages"] = package_names_early_install["native"]
 
             group_vars[target] = packages
-            group_vars[target].update(inventory.target_facts[target])
+            group_vars[target].update(target.facts)
 
         ansible_runner.prepare_env(playbookdir=playbook_base,
                                    inventories=[inventory.ansible_inventory],

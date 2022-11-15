@@ -34,9 +34,8 @@ def project(request, projects):
 
 
 def test_project_packages(inventory, project):
-    target = inventory.targets[0]
-    facts = inventory.target_facts[target]
-    project.get_packages(facts)
+    target = inventory.get_target(inventory.targets[0])
+    project.get_packages(target)
 
 
 def test_project_package_sorting(project):

@@ -108,7 +108,7 @@ class Projects:
             log.debug(f"Failed to expand '{pattern}'")
             raise ProjectError(f"Failed to expand '{pattern}': {ex}")
 
-    def get_packages(self, projects, facts, cross_arch=None):
+    def get_packages(self, projects, target):
         packages = {}
 
         for proj in projects:
@@ -116,18 +116,18 @@ class Projects:
                 obj = self.public[proj]
             except KeyError:
                 obj = self.internal[proj]
-            packages.update(obj.get_packages(facts, cross_arch))
+            packages.update(obj.get_packages(target))
 
         return packages
 
-    def eval_generic_packages(self, facts, cross_arch, generic_packages):
+    def eval_generic_packages(self, target, generic_packages):
         pkgs = {}
-        factory = PackageFactory(self.mappings, facts)
+        factory = PackageFactory(self.mappings, target.facts)
         needs_pypi = False
         needs_cpan = False
 
         for mapping in generic_packages:
-            pkg = factory.get_package(mapping, cross_arch)
+            pkg = factory.get_package(mapping, target.cross_arch)
             if pkg is None:
                 continue
             pkgs[pkg.mapping] = pkg
@@ -142,10 +142,10 @@ class Projects:
         # projects
         if needs_pypi:
             proj = self.internal["python-pip"]
-            pkgs.update(proj.get_packages(facts, cross_arch))
+            pkgs.update(proj.get_packages(target))
         if needs_cpan:
             proj = self.internal["perl-cpan"]
-            pkgs.update(proj.get_packages(facts, cross_arch))
+            pkgs.update(proj.get_packages(target))
 
         return pkgs
 
@@ -185,21 +185,21 @@ class Project:
             log.debug(f"Can't load pacakges for '{self.name}'")
             raise ProjectError(f"Can't load packages for '{self.name}': {ex}")
 
-    def get_packages(self, facts, cross_arch=None):
-        osname = facts["os"]["name"]
-        osversion = facts["os"]["version"]
+    def get_packages(self, target):
+        osname = target.facts["os"]["name"]
+        osversion = target.facts["os"]["version"]
         target_name = f"{osname.lower()}-{osversion.lower()}"
-        if cross_arch is None:
+        if target.cross_arch is None:
             target_name = f"{target_name}-x86_64"
         else:
             try:
-                util.validate_cross_platform(cross_arch, osname)
+                util.validate_cross_platform(target.cross_arch, osname)
             except ValueError as ex:
                 raise ProjectError(ex)
-            target_name = f"{target_name}-{cross_arch}"
+            target_name = f"{target_name}-{target.cross_arch}"
 
         # lazy evaluation + caching of package names for a given distro
         if self._target_packages.get(target_name) is None:
-            self._target_packages[target_name] = self.projects.eval_generic_packages(facts, cross_arch,
+            self._target_packages[target_name] = self.projects.eval_generic_packages(target,
                                                                                      self.generic_packages)
         return self._target_packages[target_name]

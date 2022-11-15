@@ -79,10 +79,10 @@ class Formatter(metaclass=abc.ABCMeta):
         # projects are not resolved via the public API, so it requires special
         # handling
         pkgs = {}
-        pkgs.update(projects.internal["base"].get_packages(target.facts, target.cross_arch))
+        pkgs.update(projects.internal["base"].get_packages(target))
 
         # we can now load packages for the rest of the projects
-        pkgs.update(projects.get_packages(selected_projects, target.facts, target.cross_arch))
+        pkgs.update(projects.get_packages(selected_projects, target))
         package_names = package_names_by_type(pkgs)
 
         varmap = {
