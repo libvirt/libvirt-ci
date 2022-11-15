@@ -166,8 +166,9 @@ def mapping_keys_product(inventory):
     return basekeys + archkeys + crossarchkeys + crosspolicykeys
 
 
-def test_project_mappings_sorting(inventory):
-    mappings = inventory.packages.mappings
+@pytest.mark.parametrize("key", ["mappings", "pypi_mappings", "cpan_mappings"])
+def test_project_mappings_sorting(inventory, key):
+    mappings = getattr(inventory.packages, key)
 
     all_expect_keys = mapping_keys_product(inventory)
     for package, entries in mappings.items():
