@@ -203,7 +203,7 @@ class PackageFactory:
 
     """
 
-    def __init__(self, mappings, facts):
+    def __init__(self, mappings):
         """
         Initialize package factory model.
 
@@ -212,23 +212,22 @@ class PackageFactory:
         :param facts: dictionary of target OS facts
         """
 
-        def _generate_base_keys(facts):
-            base_keys = [
-                # keys are ordered by priority
-                facts["os"]["name"] + facts["os"]["version"],
-                facts["os"]["name"],
-                facts["packaging"]["format"],
-                "default"
-            ]
-            return base_keys
-
         self._mappings = mappings["mappings"]
         self._pypi_mappings = mappings["pypi_mappings"]
         self._cpan_mappings = mappings["cpan_mappings"]
-        self._base_keys = _generate_base_keys(facts)
+
+    @staticmethod
+    def _base_keys(target):
+        return [
+            target.facts["os"]["name"] + target.facts["os"]["version"],
+            target.facts["os"]["name"],
+            target.facts["packaging"]["format"],
+            "default"
+        ]
 
     def _get_cross_policy(self, pkg_mapping, target):
-        for k in ["cross-policy-" + k for k in self._base_keys]:
+        base_keys = self._base_keys(target)
+        for k in ["cross-policy-" + k for k in base_keys]:
             if k in self._mappings[pkg_mapping]:
                 cross_policy = self._mappings[pkg_mapping][k]
                 if cross_policy not in ["native", "foreign", "skip"]:
@@ -240,13 +239,16 @@ class PackageFactory:
         return "native"
 
     def _get_native_package(self, pkg_mapping, target):
-        return NativePackage(self._mappings, pkg_mapping, self._base_keys, target)
+        base_keys = self._base_keys(target)
+        return NativePackage(self._mappings, pkg_mapping, base_keys, target)
 
     def _get_pypi_package(self, pkg_mapping, target):
-        return PyPIPackage(self._pypi_mappings, pkg_mapping, self._base_keys, target)
+        base_keys = self._base_keys(target)
+        return PyPIPackage(self._pypi_mappings, pkg_mapping, base_keys, target)
 
     def _get_cpan_package(self, pkg_mapping, target):
-        return CPANPackage(self._cpan_mappings, pkg_mapping, self._base_keys, target)
+        base_keys = self._base_keys(target)
+        return CPANPackage(self._cpan_mappings, pkg_mapping, base_keys, target)
 
     def _get_noncross_package(self, pkg_mapping, target):
         package_resolvers = [self._get_native_package,
@@ -274,7 +276,8 @@ class PackageFactory:
             return self._get_noncross_package(pkg_mapping, target)
 
         try:
-            return CrossPackage(self._mappings, pkg_mapping, self._base_keys, target)
+            base_keys = self._base_keys(target)
+            return CrossPackage(self._mappings, pkg_mapping, base_keys, target)
         except PackageEval:
             pass
 

@@ -122,7 +122,7 @@ class Projects:
 
     def eval_generic_packages(self, target, generic_packages):
         pkgs = {}
-        factory = PackageFactory(self.mappings, target.facts)
+        factory = PackageFactory(self.mappings)
         needs_pypi = False
         needs_cpan = False
 
