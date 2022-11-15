@@ -99,7 +99,7 @@ class Package(metaclass=abc.ABCMeta):
         :ivar mapping: the generic package name that will resolve to @name
     """
 
-    def __init__(self, pkg_mapping):
+    def __init__(self, mappings, pkg_mapping, keys, target):
         """
         Initialize the package with a generic package name
 
@@ -107,9 +107,11 @@ class Package(metaclass=abc.ABCMeta):
         """
 
         self.mapping = pkg_mapping
-        self.name = None
+        self.name = self._eval(mappings, target, keys)
+        if self.name is None:
+            raise PackageEval(f"No mapping for '{pkg_mapping}'")
 
-    def _eval(self, mappings, keys=["default"]):
+    def _eval(self, mappings, target, keys):
         """
         Resolves package mapping to the actual name of the package.
 
@@ -140,14 +142,6 @@ class CrossPackage(Package):
                  pkg_mapping,
                  base_keys,
                  target):
-
-        super().__init__(pkg_mapping)
-
-        self.name = self._eval(mappings, base_keys, target)
-        if self.name is None:
-            raise PackageEval(f"No mapping for '{pkg_mapping}'")
-
-    def _eval(self, mappings, base_keys, target):
         cross_keys = ["cross-" + target.cross_arch + "-" + k for k in base_keys]
 
         if target.facts["packaging"]["format"] == "deb":
@@ -158,7 +152,10 @@ class CrossPackage(Package):
             arch_keys = [target.cross_arch + "-" + k for k in base_keys]
             cross_keys.extend(arch_keys + base_keys)
 
-        pkg_name = super()._eval(mappings, keys=cross_keys)
+        super().__init__(mappings, pkg_mapping, cross_keys, target)
+
+    def _eval(self, mappings, target, keys):
+        pkg_name = super()._eval(mappings, target, keys)
         if pkg_name is None:
             return None
 
@@ -181,47 +178,19 @@ class NativePackage(Package):
     def __init__(self,
                  mappings,
                  pkg_mapping,
-                 base_keys):
-
-        super().__init__(pkg_mapping)
-
-        self.name = self._eval(mappings, base_keys)
-        if self.name is None:
-            raise PackageEval(f"No mapping for '{pkg_mapping}'")
-
-    def _eval(self, mappings, base_keys):
+                 base_keys,
+                 target):
         native_arch = util.get_native_arch()
         native_keys = [native_arch + "-" + k for k in base_keys] + base_keys
-
-        return super()._eval(mappings, keys=native_keys)
+        super().__init__(mappings, pkg_mapping, native_keys, target)
 
 
 class PyPIPackage(Package):
-
-    def __init__(self,
-                 mappings,
-                 pkg_mapping,
-                 base_keys):
-
-        super().__init__(pkg_mapping)
-
-        self.name = self._eval(mappings, keys=base_keys)
-        if self.name is None:
-            raise PackageEval(f"No mapping for '{pkg_mapping}'")
+    pass
 
 
 class CPANPackage(Package):
-
-    def __init__(self,
-                 mappings,
-                 pkg_mapping,
-                 base_keys):
-
-        super().__init__(pkg_mapping)
-
-        self.name = self._eval(mappings, keys=base_keys)
-        if self.name is None:
-            raise PackageEval(f"No mapping for '{pkg_mapping}'")
+    pass
 
 
 class PackageFactory:
@@ -258,7 +227,7 @@ class PackageFactory:
         self._cpan_mappings = mappings["cpan_mappings"]
         self._base_keys = _generate_base_keys(facts)
 
-    def _get_cross_policy(self, pkg_mapping):
+    def _get_cross_policy(self, pkg_mapping, target):
         for k in ["cross-policy-" + k for k in self._base_keys]:
             if k in self._mappings[pkg_mapping]:
                 cross_policy = self._mappings[pkg_mapping][k]
@@ -268,25 +237,25 @@ class PackageFactory:
                         f"{pkg_mapping}"
                     )
                 return cross_policy
-        return None
+        return "native"
 
-    def _get_native_package(self, pkg_mapping):
-        return NativePackage(self._mappings, pkg_mapping, self._base_keys)
+    def _get_native_package(self, pkg_mapping, target):
+        return NativePackage(self._mappings, pkg_mapping, self._base_keys, target)
 
-    def _get_pypi_package(self, pkg_mapping):
-        return PyPIPackage(self._pypi_mappings, pkg_mapping, self._base_keys)
+    def _get_pypi_package(self, pkg_mapping, target):
+        return PyPIPackage(self._pypi_mappings, pkg_mapping, self._base_keys, target)
 
-    def _get_cpan_package(self, pkg_mapping):
-        return CPANPackage(self._cpan_mappings, pkg_mapping, self._base_keys)
+    def _get_cpan_package(self, pkg_mapping, target):
+        return CPANPackage(self._cpan_mappings, pkg_mapping, self._base_keys, target)
 
-    def _get_noncross_package(self, pkg_mapping):
+    def _get_noncross_package(self, pkg_mapping, target):
         package_resolvers = [self._get_native_package,
                              self._get_pypi_package,
                              self._get_cpan_package]
 
         for resolver in package_resolvers:
             try:
-                return resolver(pkg_mapping)
+                return resolver(pkg_mapping, target)
             except PackageEval:
                 continue
 
@@ -297,16 +266,15 @@ class PackageFactory:
 
         # query the cross policy for the mapping to see whether we need
         # a cross- or non-cross version of a package
-        cross_policy = self._get_cross_policy(pkg_mapping)
+        cross_policy = self._get_cross_policy(pkg_mapping, target)
         if cross_policy == "skip":
             return None
 
-        elif cross_policy == "native" or cross_policy is None:
-            return self._get_noncross_package(pkg_mapping)
+        elif cross_policy == "native":
+            return self._get_noncross_package(pkg_mapping, target)
 
         try:
-            return CrossPackage(self._mappings, pkg_mapping,
-                                self._base_keys, target)
+            return CrossPackage(self._mappings, pkg_mapping, self._base_keys, target)
         except PackageEval:
             pass
 
@@ -327,6 +295,6 @@ class PackageFactory:
             raise PackageMissing(f"Package {pkg_mapping} not present in mappings")
 
         if target.cross_arch is None:
-            return self._get_noncross_package(pkg_mapping)
+            return self._get_noncross_package(pkg_mapping, target)
         else:
             return self._get_cross_package(pkg_mapping, target)
