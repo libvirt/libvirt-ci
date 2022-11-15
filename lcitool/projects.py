@@ -122,6 +122,35 @@ class Projects(metaclass=Singleton):
 
         return packages
 
+    def eval_generic_packages(self, facts, cross_arch, generic_packages):
+        pkgs = {}
+        factory = PackageFactory(self.mappings, facts)
+        needs_pypi = False
+        needs_cpan = False
+
+        for mapping in generic_packages:
+            pkg = factory.get_package(mapping, cross_arch)
+            if pkg is None:
+                continue
+            pkgs[pkg.mapping] = pkg
+
+            if isinstance(pkg, PyPIPackage):
+                needs_pypi = True
+            elif isinstance(pkg, CPANPackage):
+                needs_cpan = True
+
+        # The get_packages eval_generic_packages cycle is deliberate and
+        # harmless since we'll only ever hit it with the following internal
+        # projects
+        if needs_pypi:
+            proj = self.internal_projects["python-pip"]
+            pkgs.update(proj.get_packages(facts, cross_arch))
+        if needs_cpan:
+            proj = self.internal_projects["perl-cpan"]
+            pkgs.update(proj.get_packages(facts, cross_arch))
+
+        return pkgs
+
 
 class Project:
     """
@@ -156,35 +185,6 @@ class Project:
             log.debug(f"Can't load pacakges for '{self.name}'")
             raise ProjectError(f"Can't load packages for '{self.name}': {ex}")
 
-    def _eval_generic_packages(self, facts, cross_arch=None):
-        pkgs = {}
-        factory = PackageFactory(Projects().mappings, facts)
-        needs_pypi = False
-        needs_cpan = False
-
-        for mapping in self.generic_packages:
-            pkg = factory.get_package(mapping, cross_arch)
-            if pkg is None:
-                continue
-            pkgs[pkg.mapping] = pkg
-
-            if isinstance(pkg, PyPIPackage):
-                needs_pypi = True
-            elif isinstance(pkg, CPANPackage):
-                needs_cpan = True
-
-        # The get_packages _eval_generic_packages cycle is deliberate and
-        # harmless since we'll only ever hit it with the following internal
-        # projects
-        if needs_pypi:
-            proj = Projects().internal_projects["python-pip"]
-            pkgs.update(proj.get_packages(facts, cross_arch))
-        if needs_cpan:
-            proj = Projects().internal_projects["perl-cpan"]
-            pkgs.update(proj.get_packages(facts, cross_arch))
-
-        return pkgs
-
     def get_packages(self, facts, cross_arch=None):
         osname = facts["os"]["name"]
         osversion = facts["os"]["version"]
@@ -200,5 +200,6 @@ class Project:
 
         # lazy evaluation + caching of package names for a given distro
         if self._target_packages.get(target_name) is None:
-            self._target_packages[target_name] = self._eval_generic_packages(facts, cross_arch)
+            self._target_packages[target_name] = Projects().eval_generic_packages(facts, cross_arch,
+                                                                                  self.generic_packages)
         return self._target_packages[target_name]
