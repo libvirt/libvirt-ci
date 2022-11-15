@@ -12,7 +12,6 @@ from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
 from lcitool.package import PackageFactory, PyPIPackage, CPANPackage
-from lcitool.singleton import Singleton
 
 log = logging.getLogger(__name__)
 
@@ -29,7 +28,7 @@ class ProjectError(LcitoolError):
         super().__init__(message, "Project")
 
 
-class Projects(metaclass=Singleton):
+class Projects:
     """
     Attributes:
         :ivar names: list of all project names
