@@ -138,32 +138,31 @@ class CrossPackage(Package):
     def __init__(self,
                  mappings,
                  pkg_mapping,
-                 pkg_format,
                  base_keys,
-                 cross_arch):
+                 target):
 
         super().__init__(pkg_mapping)
 
-        self.name = self._eval(mappings, pkg_format, base_keys, cross_arch)
+        self.name = self._eval(mappings, base_keys, target)
         if self.name is None:
             raise PackageEval(f"No mapping for '{pkg_mapping}'")
 
-    def _eval(self, mappings, pkg_format, base_keys, cross_arch):
-        cross_keys = ["cross-" + cross_arch + "-" + k for k in base_keys]
+    def _eval(self, mappings, base_keys, target):
+        cross_keys = ["cross-" + target.cross_arch + "-" + k for k in base_keys]
 
-        if pkg_format == "deb":
+        if target.facts["packaging"]["format"] == "deb":
             # For Debian-based distros, the name of the foreign package
             # is usually the same as the native package, but there might
             # be architecture-specific overrides, so we have to look both
             # at the neutral keys and at the specific ones
-            arch_keys = [cross_arch + "-" + k for k in base_keys]
+            arch_keys = [target.cross_arch + "-" + k for k in base_keys]
             cross_keys.extend(arch_keys + base_keys)
 
         pkg_name = super()._eval(mappings, keys=cross_keys)
         if pkg_name is None:
             return None
 
-        if pkg_format == "deb":
+        if target.facts["packaging"]["format"] == "deb":
             # For Debian-based distros, the name of the foreign package
             # is obtained by appending the foreign architecture (in
             # Debian format) to the name of the native package.
@@ -171,7 +170,7 @@ class CrossPackage(Package):
             # The exception to this is cross-compilers, where we have
             # to install the package for the native architecture in
             # order to be able to build for the foreign architecture
-            cross_arch_deb = util.native_arch_to_deb_arch(cross_arch)
+            cross_arch_deb = util.native_arch_to_deb_arch(target.cross_arch)
             if self.mapping not in ["gcc", "g++"]:
                 pkg_name = pkg_name + ":" + cross_arch_deb
         return pkg_name
@@ -257,7 +256,6 @@ class PackageFactory:
         self._mappings = mappings["mappings"]
         self._pypi_mappings = mappings["pypi_mappings"]
         self._cpan_mappings = mappings["cpan_mappings"]
-        self._facts = facts
         self._base_keys = _generate_base_keys(facts)
 
     def _get_cross_policy(self, pkg_mapping):
@@ -295,7 +293,7 @@ class PackageFactory:
         # This package doesn't exist on the given platform
         return None
 
-    def _get_cross_package(self, pkg_mapping, cross_arch):
+    def _get_cross_package(self, pkg_mapping, target):
 
         # query the cross policy for the mapping to see whether we need
         # a cross- or non-cross version of a package
@@ -308,20 +306,19 @@ class PackageFactory:
 
         try:
             return CrossPackage(self._mappings, pkg_mapping,
-                                self._facts["packaging"]["format"],
-                                self._base_keys, cross_arch)
+                                self._base_keys, target)
         except PackageEval:
             pass
 
         # This package doesn't exist on the given platform
         return None
 
-    def get_package(self, pkg_mapping, cross_arch=None):
+    def get_package(self, pkg_mapping, target):
         """
         Resolves the generic mapping name and returns a Package instance.
 
         :param pkg_mapping: generic package mapping name
-        :param cross_arch: cross architecture string (if needed)
+        :param target: target to resolve the package for
         :return: instance of Package subclass or None if package mapping could
                  not be resolved
         """
@@ -329,7 +326,7 @@ class PackageFactory:
         if pkg_mapping not in self._mappings:
             raise PackageMissing(f"Package {pkg_mapping} not present in mappings")
 
-        if cross_arch is None:
+        if target.cross_arch is None:
             return self._get_noncross_package(pkg_mapping)
         else:
-            return self._get_cross_package(pkg_mapping, cross_arch)
+            return self._get_cross_package(pkg_mapping, target)

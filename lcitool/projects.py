@@ -127,7 +127,7 @@ class Projects:
         needs_cpan = False
 
         for mapping in generic_packages:
-            pkg = factory.get_package(mapping, target.cross_arch)
+            pkg = factory.get_package(mapping, target)
             if pkg is None:
                 continue
             pkgs[pkg.mapping] = pkg
