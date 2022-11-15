@@ -6,24 +6,23 @@
 
 import pytest
 
-from lcitool.projects import Projects
 from lcitool.inventory import Inventory
 
 
 # This needs to be a global in order to compute ALL_PROJECTS at collection
 # time.  Tests do not access it and use the fixtures below.
-_PROJECTS = Projects()
-ALL_PROJECTS = sorted(_PROJECTS.names + list(_PROJECTS.internal_projects.keys()))
+_INVENTORY = Inventory()
+ALL_PROJECTS = sorted(_INVENTORY.projects.names + list(_INVENTORY.projects.internal_projects.keys()))
 
 
 @pytest.fixture(scope="module")
 def inventory():
-    return Inventory()
+    return _INVENTORY
 
 
 @pytest.fixture(scope="module")
 def projects():
-    return _PROJECTS
+    return _INVENTORY.projects
 
 
 @pytest.fixture(params=ALL_PROJECTS)

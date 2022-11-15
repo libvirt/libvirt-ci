@@ -10,7 +10,6 @@ import test_utils.utils as test_utils
 from pathlib import Path
 
 from lcitool.inventory import Inventory
-from lcitool.projects import Projects
 from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, DockerfileFormatter, ShellBuildEnvFormatter
 
 
@@ -86,7 +85,7 @@ def test_prepbuildenv(inventory, project, target, arch, request):
 
 
 def test_all_projects_dockerfiles(inventory):
-    all_projects = Projects().names
+    all_projects = inventory.projects.names
 
     for target in sorted(inventory.targets):
         facts = inventory.target_facts[target]

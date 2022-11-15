@@ -11,7 +11,6 @@ import logging
 from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
-from lcitool.projects import Projects
 from lcitool.package import package_names_by_type
 
 
@@ -75,7 +74,7 @@ class Formatter(metaclass=abc.ABCMeta):
                                 facts,
                                 selected_projects,
                                 cross_arch):
-        projects = Projects()
+        projects = self._inventory.projects
 
         # we need the 'base' internal project here, but packages for internal
         # projects are not resolved via the public API, so it requires special

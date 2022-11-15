@@ -12,6 +12,7 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
+from lcitool.projects import Projects
 
 log = logging.getLogger(__name__)
 
@@ -52,6 +53,7 @@ class Inventory():
         return list(self.host_facts.keys())
 
     def __init__(self):
+        self.projects = Projects()
         self._target_facts = None
         self._host_facts = None
         self._ansible_inventory = None

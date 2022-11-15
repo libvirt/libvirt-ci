@@ -14,7 +14,7 @@ from functools import total_ordering
 from pathlib import Path
 from lcitool import util
 from lcitool.inventory import Inventory
-from lcitool.projects import Project, Projects, ProjectError
+from lcitool.projects import Project, ProjectError
 from lcitool.package import NativePackage, CrossPackage, PyPIPackage, CPANPackage
 
 
@@ -30,8 +30,8 @@ def inventory():
 
 
 @pytest.fixture(scope="module")
-def projects():
-    return Projects()
+def projects(inventory):
+    return inventory.projects
 
 
 def get_non_cross_targets():
@@ -161,8 +161,8 @@ def mapping_keys_product(inventory):
     return basekeys + archkeys + crossarchkeys + crosspolicykeys
 
 
-def test_project_mappings_sorting(inventory, projects):
-    mappings = projects.mappings["mappings"]
+def test_project_mappings_sorting(inventory):
+    mappings = inventory.projects.mappings["mappings"]
 
     all_expect_keys = mapping_keys_product(inventory)
     for package, entries in mappings.items():

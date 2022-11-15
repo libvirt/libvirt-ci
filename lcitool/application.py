@@ -69,10 +69,10 @@ class Application(metaclass=Singleton):
         base = resource_filename(__name__, "ansible")
         config = Config()
         inventory = Inventory()
-        projects = Projects()
+        projects = inventory.projects
 
         hosts_expanded = inventory.expand_hosts(hosts_pattern)
-        projects_expanded = Projects().expand_names(projects_pattern)
+        projects_expanded = projects.expand_names(projects_pattern)
 
         if git_revision is not None:
             tokens = git_revision.split("/")
@@ -237,7 +237,8 @@ class Application(metaclass=Singleton):
         self._entrypoint_debug(args)
 
         inventory = Inventory()
-        projects_expanded = Projects().expand_names(args.projects)
+        projects = inventory.projects
+        projects_expanded = projects.expand_names(args.projects)
 
         if args.format == "shell":
             formatter = ShellVariablesFormatter(inventory)
@@ -264,7 +265,8 @@ class Application(metaclass=Singleton):
         self._entrypoint_debug(args)
 
         inventory = Inventory()
-        projects_expanded = Projects().expand_names(args.projects)
+        projects = inventory.projects
+        projects_expanded = projects.expand_names(args.projects)
 
         dockerfile = DockerfileFormatter(inventory,
                                          args.base,
@@ -287,7 +289,8 @@ class Application(metaclass=Singleton):
         self._entrypoint_debug(args)
 
         inventory = Inventory()
-        projects_expanded = Projects().expand_names(args.projects)
+        projects = inventory.projects
+        projects_expanded = projects.expand_names(args.projects)
 
         buildenvscript = ShellBuildEnvFormatter(inventory).format(args.target,
                                                                   projects_expanded,
