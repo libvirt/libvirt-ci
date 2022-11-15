@@ -13,6 +13,7 @@ from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
 from lcitool.projects import Projects
+from lcitool.targets import Target
 
 log = logging.getLogger(__name__)
 
@@ -57,6 +58,11 @@ class Inventory():
         self._target_facts = None
         self._host_facts = None
         self._ansible_inventory = None
+
+    def get_target(self, name, cross_arch=None):
+        if name not in self.target_facts:
+            raise InventoryError(f"Target not found: {name}")
+        return Target(self, name, cross_arch)
 
     @staticmethod
     def _read_facts_from_file(yaml_path):
