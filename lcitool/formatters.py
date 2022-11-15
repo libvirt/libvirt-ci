@@ -71,28 +71,27 @@ class Formatter(metaclass=abc.ABCMeta):
             return c.read().rstrip()
 
     def _generator_build_varmap(self,
-                                facts,
-                                selected_projects,
-                                cross_arch):
+                                target,
+                                selected_projects):
         projects = self._inventory.projects
 
         # we need the 'base' internal project here, but packages for internal
         # projects are not resolved via the public API, so it requires special
         # handling
         pkgs = {}
-        pkgs.update(projects.internal["base"].get_packages(facts, cross_arch))
+        pkgs.update(projects.internal["base"].get_packages(target.facts, target.cross_arch))
 
         # we can now load packages for the rest of the projects
-        pkgs.update(projects.get_packages(selected_projects, facts, cross_arch))
+        pkgs.update(projects.get_packages(selected_projects, target.facts, target.cross_arch))
         package_names = package_names_by_type(pkgs)
 
         varmap = {
-            "packaging_command": facts["packaging"]["command"],
-            "paths_ccache": facts["paths"]["ccache"],
-            "paths_make": facts["paths"]["make"],
-            "paths_ninja": facts["paths"]["ninja"],
-            "paths_python": facts["paths"]["python"],
-            "paths_pip3": facts["paths"]["pip3"],
+            "packaging_command": target.facts["packaging"]["command"],
+            "paths_ccache": target.facts["paths"]["ccache"],
+            "paths_make": target.facts["paths"]["make"],
+            "paths_ninja": target.facts["paths"]["ninja"],
+            "paths_python": target.facts["paths"]["python"],
+            "paths_pip3": target.facts["paths"]["pip3"],
 
             "cross_arch": None,
             "cross_abi": None,
@@ -105,34 +104,16 @@ class Formatter(metaclass=abc.ABCMeta):
             "cpan_pkgs": package_names["cpan"],
         }
 
-        if cross_arch:
-            varmap["cross_arch"] = cross_arch
-            varmap["cross_abi"] = util.native_arch_to_abi(cross_arch)
+        if target.cross_arch:
+            varmap["cross_arch"] = target.cross_arch
+            varmap["cross_abi"] = util.native_arch_to_abi(target.cross_arch)
 
-            if facts["packaging"]["format"] == "deb":
-                cross_arch_deb = util.native_arch_to_deb_arch(cross_arch)
+            if target.facts["packaging"]["format"] == "deb":
+                cross_arch_deb = util.native_arch_to_deb_arch(target.cross_arch)
                 varmap["cross_arch_deb"] = cross_arch_deb
 
         log.debug(f"Generated varmap: {varmap}")
         return varmap
-
-    def _generator_prepare(self, target, selected_projects):
-        log.debug(f"Generating varmap for "
-                  f"target={target}, "
-                  f"projects='{selected_projects}'")
-
-        name = self.__class__.__name__.lower()
-        facts = target.facts
-
-        # We can only generate Dockerfiles for Linux
-        if (name == "dockerfileformatter" and
-            facts["packaging"]["format"] not in ["apk", "deb", "rpm"]):
-            raise FormatterError(f"Target {target} doesn't support this generator")
-
-        varmap = self._generator_build_varmap(facts,
-                                              selected_projects,
-                                              target.cross_arch)
-        return facts, target.cross_arch, varmap
 
 
 class BuildEnvFormatter(Formatter):
@@ -151,20 +132,18 @@ class BuildEnvFormatter(Formatter):
         return align[1:] + align.join(strings)
 
     def _generator_build_varmap(self,
-                                facts,
-                                selected_projects,
-                                cross_arch):
-        varmap = super()._generator_build_varmap(facts,
-                                                 selected_projects,
-                                                 cross_arch)
+                                target,
+                                selected_projects):
+        varmap = super()._generator_build_varmap(target,
+                                                 selected_projects)
 
         varmap["nosync"] = ""
         if self._nosync:
-            if facts["packaging"]["format"] == "deb":
+            if target.facts["packaging"]["format"] == "deb":
                 varmap["nosync"] = "eatmydata "
-            elif facts["packaging"]["format"] == "rpm" and facts["os"]["name"] == "Fedora":
+            elif target.facts["packaging"]["format"] == "rpm" and target.facts["os"]["name"] == "Fedora":
                 varmap["nosync"] = "nosync "
-            elif facts["packaging"]["format"] == "apk":
+            elif target.facts["packaging"]["format"] == "apk":
                 # TODO: 'libeatmydata' package is present in 'testing' repo
                 # for Alpine Edge. Once it graduates to 'main' repo we
                 # should use it here, and see later comment about adding
@@ -173,14 +152,14 @@ class BuildEnvFormatter(Formatter):
                 pass
 
         nosync = varmap["nosync"]
-        varmap["pkgs"] = self._align(nosync + facts["packaging"]["command"],
+        varmap["pkgs"] = self._align(nosync + target.facts["packaging"]["command"],
                                      varmap["pkgs"])
 
         if varmap["cross_pkgs"]:
-            varmap["cross_pkgs"] = self._align(nosync + facts["packaging"]["command"],
+            varmap["cross_pkgs"] = self._align(nosync + target.facts["packaging"]["command"],
                                                varmap["cross_pkgs"])
         if varmap["pypi_pkgs"]:
-            varmap["pypi_pkgs"] = self._align(nosync + facts["paths"]["pip3"],
+            varmap["pypi_pkgs"] = self._align(nosync + target.facts["paths"]["pip3"],
                                               varmap["pypi_pkgs"])
         if varmap["cpan_pkgs"]:
             varmap["cpan_pkgs"] = self._align(nosync + "cpanm",
@@ -521,14 +500,17 @@ class DockerfileFormatter(BuildEnvFormatter):
         log.debug(f"Generating Dockerfile for projects '{selected_projects}' "
                   f"on target {target}")
 
+        # We can only generate Dockerfiles for Linux
+        if (target.facts["packaging"]["format"] not in ["apk", "deb", "rpm"]):
+            raise DockerfileError(f"Target {target} doesn't support this generator")
+
         try:
-            facts, cross_arch, varmap = self._generator_prepare(target,
-                                                                selected_projects)
+            varmap = self._generator_build_varmap(target, selected_projects)
         except FormatterError as ex:
             raise DockerfileError(str(ex))
 
         return '\n'.join(self._format_dockerfile(target, selected_projects,
-                                                 facts, varmap))
+                                                 target.facts, varmap))
 
 
 class VariablesFormatter(Formatter):
@@ -572,8 +554,7 @@ class VariablesFormatter(Formatter):
                   f"target {target}")
 
         try:
-            _, _, varmap = self._generator_prepare(target,
-                                                   selected_projects)
+            varmap = self._generator_build_varmap(target, selected_projects)
         except FormatterError as ex:
             raise VariablesError(str(ex))
 
@@ -653,10 +634,9 @@ class ShellBuildEnvFormatter(BuildEnvFormatter):
                   f"on target {target}")
 
         try:
-            facts, cross_arch, varmap = self._generator_prepare(target,
-                                                                selected_projects)
+            varmap = self._generator_build_varmap(target, selected_projects)
         except FormatterError as ex:
             raise ShellBuildEnvError(str(ex))
 
         return '\n'.join(self._format_buildenv(target, selected_projects,
-                                               facts, varmap))
+                                               target.facts, varmap))
