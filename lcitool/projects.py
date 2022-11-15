@@ -11,7 +11,7 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
-from lcitool.package import Packages, PyPIPackage, CPANPackage
+from lcitool.package import PyPIPackage, CPANPackage
 
 log = logging.getLogger(__name__)
 
@@ -52,18 +52,9 @@ class Projects:
             self._load_internal()
         return self._internal
 
-    @property
-    def mappings(self):
-
-        # lazy load mappings
-        if self._mappings is None:
-            self._mappings = self._load_mappings()
-        return self._mappings
-
     def __init__(self):
         self._public = None
         self._internal = None
-        self._mappings = None
 
     def _load_projects_from_path(self, path):
         projects = {}
@@ -90,17 +81,6 @@ class Projects:
         source = Path(resource_filename(__name__, "facts/projects/internal"))
         self._internal = self._load_projects_from_path(source)
 
-    def _load_mappings(self):
-        mappings_path = resource_filename(__name__,
-                                          "facts/mappings.yml")
-
-        try:
-            with open(mappings_path, "r") as infile:
-                return yaml.safe_load(infile)
-        except Exception as ex:
-            log.debug("Can't load mappings")
-            raise ProjectError(f"Can't load mappings: {ex}")
-
     def expand_names(self, pattern):
         try:
             return util.expand_pattern(pattern, self.names, "project")
@@ -122,12 +102,11 @@ class Projects:
 
     def eval_generic_packages(self, target, generic_packages):
         pkgs = {}
-        factory = Packages(self.mappings)
         needs_pypi = False
         needs_cpan = False
 
         for mapping in generic_packages:
-            pkg = factory.get_package(mapping, target)
+            pkg = target.get_package(mapping)
             if pkg is None:
                 continue
             pkgs[pkg.mapping] = pkg

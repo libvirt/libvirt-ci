@@ -39,6 +39,9 @@ Exported functions:
 
 import abc
 import logging
+import yaml
+
+from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
 
@@ -195,26 +198,15 @@ class CPANPackage(Package):
 
 class Packages:
     """
-    Factory producing Package instances.
-
-    Creates Package class instances based on the generic package mapping name
-    which will be resolved to the actual package name the moment a Package
-    instance is created by this factory.
+    Database of package mappings.  Package class representing the actual
+    package name are created based on the generic package mapping.
 
     """
 
-    def __init__(self, mappings):
-        """
-        Initialize package factory model.
-
-        :param mappings: dictionary of ALL existing package mappings, i.e.
-                         including Python and CPAN ones
-        :param facts: dictionary of target OS facts
-        """
-
-        self._mappings = mappings["mappings"]
-        self._pypi_mappings = mappings["pypi_mappings"]
-        self._cpan_mappings = mappings["cpan_mappings"]
+    def __init__(self):
+        self._mappings = None
+        self._pypi_mappings = None
+        self._cpan_mappings = None
 
     @staticmethod
     def _base_keys(target):
@@ -228,8 +220,8 @@ class Packages:
     def _get_cross_policy(self, pkg_mapping, target):
         base_keys = self._base_keys(target)
         for k in ["cross-policy-" + k for k in base_keys]:
-            if k in self._mappings[pkg_mapping]:
-                cross_policy = self._mappings[pkg_mapping][k]
+            if k in self.mappings[pkg_mapping]:
+                cross_policy = self.mappings[pkg_mapping][k]
                 if cross_policy not in ["native", "foreign", "skip"]:
                     raise Exception(
                         f"Unexpected cross arch policy {cross_policy} for "
@@ -240,15 +232,15 @@ class Packages:
 
     def _get_native_package(self, pkg_mapping, target):
         base_keys = self._base_keys(target)
-        return NativePackage(self._mappings, pkg_mapping, base_keys, target)
+        return NativePackage(self.mappings, pkg_mapping, base_keys, target)
 
     def _get_pypi_package(self, pkg_mapping, target):
         base_keys = self._base_keys(target)
-        return PyPIPackage(self._pypi_mappings, pkg_mapping, base_keys, target)
+        return PyPIPackage(self.pypi_mappings, pkg_mapping, base_keys, target)
 
     def _get_cpan_package(self, pkg_mapping, target):
         base_keys = self._base_keys(target)
-        return CPANPackage(self._cpan_mappings, pkg_mapping, base_keys, target)
+        return CPANPackage(self.cpan_mappings, pkg_mapping, base_keys, target)
 
     def _get_noncross_package(self, pkg_mapping, target):
         package_resolvers = [self._get_native_package,
@@ -277,12 +269,33 @@ class Packages:
 
         try:
             base_keys = self._base_keys(target)
-            return CrossPackage(self._mappings, pkg_mapping, base_keys, target)
+            return CrossPackage(self.mappings, pkg_mapping, base_keys, target)
         except PackageEval:
             pass
 
         # This package doesn't exist on the given platform
         return None
+
+    @property
+    def mappings(self):
+        if self._mappings is None:
+            self._load_mappings()
+
+        return self._mappings
+
+    @property
+    def pypi_mappings(self):
+        if self._mappings is None:
+            self._load_mappings()
+
+        return self._pypi_mappings
+
+    @property
+    def cpan_mappings(self):
+        if self._mappings is None:
+            self._load_mappings()
+
+        return self._cpan_mappings
 
     def get_package(self, pkg_mapping, target):
         """
@@ -294,10 +307,24 @@ class Packages:
                  not be resolved
         """
 
-        if pkg_mapping not in self._mappings:
+        if pkg_mapping not in self.mappings:
             raise PackageMissing(f"Package {pkg_mapping} not present in mappings")
 
         if target.cross_arch is None:
             return self._get_noncross_package(pkg_mapping, target)
         else:
             return self._get_cross_package(pkg_mapping, target)
+
+    def _load_mappings(self):
+        mappings_path = resource_filename(__name__,
+                                          "facts/mappings.yml")
+
+        try:
+            with open(mappings_path, "r") as infile:
+                mappings = yaml.safe_load(infile)
+                self._mappings = mappings["mappings"]
+                self._pypi_mappings = mappings["pypi_mappings"]
+                self._cpan_mappings = mappings["cpan_mappings"]
+        except Exception as ex:
+            log.debug("Can't load mappings")
+            raise PackageError(f"Can't load mappings: {ex}")

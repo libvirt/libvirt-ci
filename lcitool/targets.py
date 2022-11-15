@@ -31,3 +31,6 @@ class Target:
     @property
     def facts(self):
         return self._inventory.target_facts[self.name]
+
+    def get_package(self, name):
+        return self._inventory.packages.get_package(name, self)

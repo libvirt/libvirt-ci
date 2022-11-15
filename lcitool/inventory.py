@@ -12,6 +12,7 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
+from lcitool.package import Packages
 from lcitool.projects import Projects
 from lcitool.targets import Target
 
@@ -54,6 +55,7 @@ class Inventory():
         return list(self.host_facts.keys())
 
     def __init__(self):
+        self.packages = Packages()
         self.projects = Projects()
         self._target_facts = None
         self._host_facts = None

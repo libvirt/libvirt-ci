@@ -30,6 +30,11 @@ def inventory():
 
 
 @pytest.fixture(scope="module")
+def packages(inventory):
+    return inventory.packages
+
+
+@pytest.fixture(scope="module")
 def projects(inventory):
     return inventory.projects
 
@@ -61,9 +66,9 @@ def test_project(projects):
                    Path(test_utils.test_data_indir(__file__), "packages.yml"))
 
 
-def test_verify_all_mappings_and_packages(projects):
+def test_verify_all_mappings_and_packages(packages):
     expected_path = Path(test_utils.test_data_indir(__file__), "packages.yml")
-    actual = {"packages": sorted(projects.mappings["mappings"].keys())}
+    actual = {"packages": sorted(packages.mappings.keys())}
 
     test_utils.assert_yaml_matches_file(actual, expected_path)
 
@@ -162,7 +167,7 @@ def mapping_keys_product(inventory):
 
 
 def test_project_mappings_sorting(inventory):
-    mappings = inventory.projects.mappings["mappings"]
+    mappings = inventory.packages.mappings
 
     all_expect_keys = mapping_keys_product(inventory)
     for package, entries in mappings.items():
