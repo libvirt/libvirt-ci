@@ -48,8 +48,8 @@ class Formatter(metaclass=abc.ABCMeta):
     This an abstract base class that each formatter must subclass.
     """
 
-    def __init__(self, inventory):
-        self._inventory = inventory
+    def __init__(self, projects):
+        self._projects = projects
 
     @abc.abstractmethod
     def format(self):
@@ -73,7 +73,7 @@ class Formatter(metaclass=abc.ABCMeta):
     def _generator_build_varmap(self,
                                 target,
                                 selected_projects):
-        projects = self._inventory.projects
+        projects = self._projects
 
         # we need the 'base' internal project here, but packages for internal
         # projects are not resolved via the public API, so it requires special

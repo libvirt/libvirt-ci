@@ -240,9 +240,9 @@ class Application:
         projects_expanded = projects.expand_names(args.projects)
 
         if args.format == "shell":
-            formatter = ShellVariablesFormatter(inventory)
+            formatter = ShellVariablesFormatter(projects)
         else:
-            formatter = JSONVariablesFormatter(inventory)
+            formatter = JSONVariablesFormatter(projects)
 
         target = inventory.get_target(args.target, args.cross_arch)
         variables = formatter.format(target,
@@ -268,7 +268,7 @@ class Application:
         projects_expanded = projects.expand_names(args.projects)
         target = inventory.get_target(args.target, args.cross_arch)
 
-        dockerfile = DockerfileFormatter(inventory,
+        dockerfile = DockerfileFormatter(projects,
                                          args.base,
                                          args.layers).format(target,
                                                              projects_expanded)
@@ -292,8 +292,8 @@ class Application:
         projects_expanded = projects.expand_names(args.projects)
         target = inventory.get_target(args.target, args.cross_arch)
 
-        buildenvscript = ShellBuildEnvFormatter(inventory).format(target,
-                                                                  projects_expanded)
+        buildenvscript = ShellBuildEnvFormatter(projects).format(target,
+                                                                 projects_expanded)
 
         cliargv = [args.action]
         if args.cross_arch:
