@@ -71,6 +71,12 @@ class CommandLine:
                   full registry paths and tags)",
         )
 
+        container_projectopt = argparse.ArgumentParser(add_help=False)
+        container_projectopt.add_argument(
+            "-p", "--projects",
+            help="list of projects (accepts globs)",
+        )
+
         installtargetopt = argparse.ArgumentParser(add_help=False)
         installtargetopt.add_argument(
             "-t", "--target",
