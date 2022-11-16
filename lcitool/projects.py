@@ -32,23 +32,25 @@ class Projects:
     """
     Attributes:
         :ivar names: list of all project names
+        :ivar public: dictionary from project names to ``Project`` objects for public projects
+        :ivar internal: dictionary from project names to ``Project`` objects for internal projects
     """
 
     @property
-    def projects(self):
-        if self._projects is None:
-            self._load_projects()
-        return self._projects
+    def public(self):
+        if self._public is None:
+            self._load_public()
+        return self._public
 
     @property
     def names(self):
-        return list(self.projects.keys())
+        return list(self.public.keys())
 
     @property
-    def internal_projects(self):
-        if self._internal_projects is None:
-            self._load_internal_projects()
-        return self._internal_projects
+    def internal(self):
+        if self._internal is None:
+            self._load_internal()
+        return self._internal
 
     @property
     def mappings(self):
@@ -59,8 +61,8 @@ class Projects:
         return self._mappings
 
     def __init__(self):
-        self._projects = None
-        self._internal_projects = None
+        self._public = None
+        self._internal = None
         self._mappings = None
 
     def _load_projects_from_path(self, path):
@@ -74,7 +76,7 @@ class Projects:
 
         return projects
 
-    def _load_projects(self):
+    def _load_public(self):
         source = Path(resource_filename(__name__, "facts/projects"))
         projects = self._load_projects_from_path(source)
 
@@ -82,11 +84,11 @@ class Projects:
             source = Path(util.get_extra_data_dir()).joinpath("projects")
             projects.update(self._load_projects_from_path(source))
 
-        self._projects = projects
+        self._public = projects
 
-    def _load_internal_projects(self):
+    def _load_internal(self):
         source = Path(resource_filename(__name__, "facts/projects/internal"))
-        self._internal_projects = self._load_projects_from_path(source)
+        self._internal = self._load_projects_from_path(source)
 
     def _load_mappings(self):
         mappings_path = resource_filename(__name__,
@@ -111,9 +113,9 @@ class Projects:
 
         for proj in projects:
             try:
-                obj = self.projects[proj]
+                obj = self.public[proj]
             except KeyError:
-                obj = self.internal_projects[proj]
+                obj = self.internal[proj]
             packages.update(obj.get_packages(facts, cross_arch))
 
         return packages
@@ -139,10 +141,10 @@ class Projects:
         # harmless since we'll only ever hit it with the following internal
         # projects
         if needs_pypi:
-            proj = self.internal_projects["python-pip"]
+            proj = self.internal["python-pip"]
             pkgs.update(proj.get_packages(facts, cross_arch))
         if needs_cpan:
-            proj = self.internal_projects["perl-cpan"]
+            proj = self.internal["perl-cpan"]
             pkgs.update(proj.get_packages(facts, cross_arch))
 
         return pkgs
@@ -154,6 +156,7 @@ class Project:
         :ivar name: project name
         :ivar generic_packages: list of generic packages needed by the project
                                 to build successfully
+        :ivar projects: parent ``Projects`` instance
     """
 
     @property
@@ -165,7 +168,7 @@ class Project:
         return self._generic_packages
 
     def __init__(self, projects, name, path):
-        self._projects = projects
+        self.projects = projects
         self.name = name
         self.path = path
         self._generic_packages = None
@@ -197,6 +200,6 @@ class Project:
 
         # lazy evaluation + caching of package names for a given distro
         if self._target_packages.get(target_name) is None:
-            self._target_packages[target_name] = self._projects.eval_generic_packages(facts, cross_arch,
-                                                                                      self.generic_packages)
+            self._target_packages[target_name] = self.projects.eval_generic_packages(facts, cross_arch,
+                                                                                     self.generic_packages)
         return self._target_packages[target_name]
