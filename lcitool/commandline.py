@@ -83,8 +83,8 @@ class CommandLine:
             help="name of the host (taken from inventory OR a new name)",
         )
 
-        projectsopt = argparse.ArgumentParser(add_help=False)
-        projectsopt.add_argument(
+        update_projectopt = argparse.ArgumentParser(add_help=False)
+        update_projectopt.add_argument(
             "projects",
             help="list of projects to consider (accepts globs)",
         )
@@ -211,7 +211,7 @@ class CommandLine:
         updateparser = subparsers.add_parser(
             "update",
             help="prepare hosts and keep them updated",
-            parents=[verbosityopt, hostsopt, projectsopt, gitrevopt],
+            parents=[verbosityopt, hostsopt, update_projectopt, gitrevopt],
         )
         updateparser.set_defaults(func=Application._action_update)
 
@@ -248,14 +248,14 @@ class CommandLine:
         variablesparser = subparsers.add_parser(
             "variables",
             help="generate variables",
-            parents=[formatopt, targetopt, projectsopt, crossarchopt],
+            parents=[formatopt, targetopt, update_projectopt, crossarchopt],
         )
         variablesparser.set_defaults(func=Application._action_variables)
 
         dockerfileparser = subparsers.add_parser(
             "dockerfile",
             help="generate Dockerfile",
-            parents=[targetopt, projectsopt, crossarchopt,
+            parents=[targetopt, update_projectopt, crossarchopt,
                      baseopt, layersopt],
         )
         dockerfileparser.set_defaults(func=Application._action_dockerfile)
@@ -263,7 +263,7 @@ class CommandLine:
         buildenvscriptparser = subparsers.add_parser(
             "buildenvscript",
             help="generate shell script for build environment setup",
-            parents=[targetopt, projectsopt, crossarchopt],
+            parents=[targetopt, update_projectopt, crossarchopt],
         )
         buildenvscriptparser.set_defaults(func=Application._action_buildenvscript)
 
