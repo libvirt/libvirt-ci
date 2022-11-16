@@ -64,6 +64,13 @@ class CommandLine:
                   id or username (default=root)",
         )
 
+        imageopt = argparse.ArgumentParser(add_help=False)
+        imageopt.add_argument(
+            "image",
+            help="Image to use (accepts plain names, image IDs, \
+                  full registry paths and tags)",
+        )
+
         installtargetopt = argparse.ArgumentParser(add_help=False)
         installtargetopt.add_argument(
             "-t", "--target",
