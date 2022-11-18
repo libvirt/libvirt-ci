@@ -181,6 +181,7 @@ class Application:
                 )
 
         virt_install = VirtInstall.from_url(name=host,
+                                            config=config,
                                             facts=facts)
         virt_install(wait=args.wait)
 

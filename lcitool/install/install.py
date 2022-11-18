@@ -10,7 +10,6 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 
 from lcitool import util, LcitoolError
-from lcitool.config import Config
 from lcitool.libvirt_wrapper import LibvirtWrapper
 
 from .cloud_init import CloudConfig
@@ -33,12 +32,11 @@ class InstallationNotSupported(InstallerError):
 class VirtInstall:
 
     @classmethod
-    def from_url(cls, name, facts):
+    def from_url(cls, config, name, facts):
         """ Shortcut constructor for a URL-based network installation. """
 
         runner = cls(name, facts)
 
-        config = Config()
         conf_size = config.values["install"]["disk_size"]
         conf_pool = config.values["install"]["storage_pool"]
         disk_arg = (f"size={conf_size},"
@@ -50,18 +48,17 @@ class VirtInstall:
         disk_arg = f"size={conf_size},pool={conf_pool},bus=virtio"
 
         runner.args.extend(["--disk", disk_arg])
-        runner.args.extend(runner._get_common_args())
+        runner.args.extend(runner._get_common_args(config))
         runner.args.extend(runner._get_unattended_args(facts))
 
         return runner
 
     @classmethod
-    def from_image(cls, name, facts, force_download=False):
+    def from_image(cls, name, config, facts, force_download=False):
         """ Shortcut constructor for a cloud-init image-based installation. """
 
         runner = cls(name, facts)
 
-        config = Config()
         conf_size = config.values["install"]["disk_size"]
         conf_pool = config.values["install"]["storage_pool"]
         arch = config.values["install"]["arch"]
@@ -108,7 +105,7 @@ class VirtInstall:
 
         runner.args.extend(["--import",
                             "--disk", disk_arg])
-        runner.args.extend(runner._get_common_args())
+        runner.args.extend(runner._get_common_args(config))
 
         # NOTE: URL installs wait by connecting to a serial console which kills
         # any automation needs, so we don't want that here and instead always
@@ -151,8 +148,7 @@ class VirtInstall:
         return " ".join([self._cmd] + self.args)
 
     @staticmethod
-    def _get_common_args():
-        config = Config()
+    def _get_common_args(config):
 
         # Both memory size and disk size are stored as GiB in the
         # inventory, but virt-install expects the disk size in GiB
