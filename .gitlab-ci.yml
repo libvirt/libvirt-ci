@@ -114,6 +114,11 @@ black-container:
   variables:
     NAME: black
 
+flake8-container:
+  extends: .build_container_template
+  variables:
+    NAME: flake8
+
 cirrus-run-container:
   extends: .build_container_template
   variables:
