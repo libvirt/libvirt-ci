@@ -81,6 +81,7 @@ class Manifest:
         jobinfo.setdefault("cargo-fmt", False)
         jobinfo.setdefault("go-fmt", False)
         jobinfo.setdefault("clang-format", False)
+        jobinfo.setdefault("black", False)
 
         templateinfo = gitlabinfo["templates"]
         templateinfo.setdefault("native-build", ".native_build_job")
@@ -320,6 +321,8 @@ class Manifest:
             fmtcontent.append(gitlab.go_fmt_job())
         if jobinfo["clang-format"]:
             fmtcontent.append(gitlab.clang_format_job())
+        if jobinfo["black"]:
+            fmtcontent.append(gitlab.black_job())
 
         testcontent = []
         if jobinfo["check-dco"]:

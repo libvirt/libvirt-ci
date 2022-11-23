@@ -10,6 +10,7 @@ gitlab:
      cargo-fmt: true
      clang-format: true
      go-fmt: true
+     black: true
 
 targets:
   centos-stream-9: x86_64

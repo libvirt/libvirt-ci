@@ -64,3 +64,10 @@ clang-format:
   variables:
     NAME: clang-format
     EXT: patch
+
+
+black:
+  extends: .code_format
+  variables:
+    NAME: black
+    EXT: txt

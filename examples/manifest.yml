@@ -46,6 +46,7 @@ gitlab:
 #    cargo-fmt: false
 #    go-fmt: false
 #    clang-format: false
+#    black: false
 #
 #  templates:
 #    native-build: .native_build_job

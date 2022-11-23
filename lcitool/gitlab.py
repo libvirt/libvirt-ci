@@ -451,6 +451,17 @@ def clang_format_job():
         """)
 
 
+def black_job():
+    return textwrap.dedent(
+        """
+        black:
+          extends: .code_format
+          variables:
+            NAME: black
+            EXT: txt
+        """)
+
+
 def _container_job(target, arch, image, allow_failure, optional):
     allow_failure = str(allow_failure).lower()
     jobvars = {
