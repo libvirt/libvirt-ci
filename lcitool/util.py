@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+import copy
 import fnmatch
 import logging
 import os
@@ -200,6 +201,20 @@ def get_config_dir():
         config_dir = Path(os.environ["HOME"], ".config")
 
     return Path(config_dir, "lcitool")
+
+
+def merge_dict(source, dest):
+    for key in source.keys():
+        if key not in dest:
+            dest[key] = copy.deepcopy(source[key])
+            continue
+
+        if isinstance(source[key], list) or isinstance(dest[key], list):
+            raise ValueError("cannot merge lists")
+        if isinstance(source[key], dict) != isinstance(dest[key], dict):
+            raise ValueError("cannot merge dictionaries with non-dictionaries")
+        if isinstance(source[key], dict):
+            merge_dict(source[key], dest[key])
 
 
 extra_data_dir = None

@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-import copy
 import logging
 import yaml
 
@@ -122,19 +121,6 @@ class Inventory():
             raise InventoryError(f'OS version "{target_facts["os"]["version"]}" does not match version in file name {fname} ({expected_version})')
 
     def _load_target_facts(self):
-        def merge_dict(source, dest):
-            for key in source.keys():
-                if key not in dest:
-                    dest[key] = copy.deepcopy(source[key])
-                    continue
-
-                if isinstance(source[key], list) or isinstance(dest[key], list):
-                    raise InventoryError("cannot merge lists")
-                if isinstance(source[key], dict) != isinstance(dest[key], dict):
-                    raise InventoryError("cannot merge dictionaries with non-dictionaries")
-                if isinstance(source[key], dict):
-                    merge_dict(source[key], dest[key])
-
         facts = {}
         targets_path = Path(resource_filename(__name__, "facts/targets/"))
         targets_all_path = Path(targets_path, "all.yml")
@@ -153,7 +139,7 @@ class Inventory():
             facts[target]["target"] = target
 
             # missing per-distro facts fall back to shared facts
-            merge_dict(shared_facts, facts[target])
+            util.merge_dict(shared_facts, facts[target])
 
         return facts
 
