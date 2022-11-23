@@ -11,6 +11,7 @@ gitlab:
      clang-format: true
      go-fmt: true
      black: true
+     flake8: true
 
 targets:
   centos-stream-9: x86_64

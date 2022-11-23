@@ -462,6 +462,17 @@ def black_job():
         """)
 
 
+def flake8_job():
+    return textwrap.dedent(
+        """
+        flake8:
+          extends: .code_format
+          variables:
+            NAME: flake8
+            EXT: txt
+        """)
+
+
 def _container_job(target, arch, image, allow_failure, optional):
     allow_failure = str(allow_failure).lower()
     jobvars = {

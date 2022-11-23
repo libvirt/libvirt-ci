@@ -47,6 +47,7 @@ gitlab:
 #    go-fmt: false
 #    clang-format: false
 #    black: false
+#    flake8: false
 #
 #  templates:
 #    native-build: .native_build_job

@@ -71,3 +71,10 @@ black:
   variables:
     NAME: black
     EXT: txt
+
+
+flake8:
+  extends: .code_format
+  variables:
+    NAME: flake8
+    EXT: txt
