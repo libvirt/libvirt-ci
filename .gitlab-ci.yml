@@ -109,6 +109,11 @@ clang-format-container:
   variables:
     NAME: clang-format
 
+black-container:
+  extends: .build_container_template
+  variables:
+    NAME: black
+
 cirrus-run-container:
   extends: .build_container_template
   variables:
