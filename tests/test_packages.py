@@ -15,7 +15,7 @@ from pathlib import Path
 from lcitool import util
 from lcitool.inventory import Inventory
 from lcitool.projects import Project, ProjectError
-from lcitool.package import NativePackage, CrossPackage, PyPIPackage, CPANPackage
+from lcitool.packages import NativePackage, CrossPackage, PyPIPackage, CPANPackage
 
 
 # This needs to be a global in order to compute ALL_TARGETS at collection

@@ -11,7 +11,7 @@ import logging
 from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
-from lcitool.package import package_names_by_type
+from lcitool.packages import package_names_by_type
 
 
 log = logging.getLogger(__name__)

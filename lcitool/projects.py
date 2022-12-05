@@ -11,7 +11,7 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
-from lcitool.package import PyPIPackage, CPANPackage
+from lcitool.packages import PyPIPackage, CPANPackage
 
 log = logging.getLogger(__name__)
 

@@ -12,7 +12,7 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
-from lcitool.package import Packages
+from lcitool.packages import Packages
 from lcitool.projects import Projects
 from lcitool.targets import Target
 

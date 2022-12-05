@@ -13,7 +13,7 @@ from pkg_resources import resource_filename
 from lcitool import util, LcitoolError
 from lcitool.config import Config
 from lcitool.inventory import Inventory
-from lcitool.package import package_names_by_type
+from lcitool.packages import package_names_by_type
 from lcitool.projects import Projects
 from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, JSONVariablesFormatter, ShellBuildEnvFormatter
 from lcitool.manifest import Manifest
