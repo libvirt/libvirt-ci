@@ -30,7 +30,7 @@ Exported classes:
     - CrossPackage
     - PyPIPackage
     - CPANPackage
-    - PackageFactory
+    - Packages
 
 Exported functions:
     - package_names_by_type
@@ -90,8 +90,8 @@ class Package(metaclass=abc.ABCMeta):
         - PyPIPackage
         - CPANPackage
 
-    Do not instantiate any of the specific package subclasses, instead, use an
-    instance of the PackageFactory class which does that for you transparently.
+    Do not instantiate any of the specific package subclasses, instead, use
+    the Packages class which does that for you transparently.
     Then use this public interface to interact with the instance itself.
 
     Attributes:
@@ -193,7 +193,7 @@ class CPANPackage(Package):
     pass
 
 
-class PackageFactory:
+class Packages:
     """
     Factory producing Package instances.
 

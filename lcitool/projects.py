@@ -11,7 +11,7 @@ from pathlib import Path
 from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
-from lcitool.package import PackageFactory, PyPIPackage, CPANPackage
+from lcitool.package import Packages, PyPIPackage, CPANPackage
 
 log = logging.getLogger(__name__)
 
@@ -122,7 +122,7 @@ class Projects:
 
     def eval_generic_packages(self, target, generic_packages):
         pkgs = {}
-        factory = PackageFactory(self.mappings)
+        factory = Packages(self.mappings)
         needs_pypi = False
         needs_cpan = False
 
