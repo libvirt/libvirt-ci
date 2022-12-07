@@ -88,6 +88,30 @@ class Images():
         self._osinfodb = None
         self._target_images = None
 
+    @staticmethod
+    def _load(dir_):
+        images = {}
+
+        # load all image metadata files and store it in the ascending order,
+        # i.e. from newest to oldest
+        for entry in sorted(dir_.glob("*.metadata"),
+                            reverse=True,
+                            key=lambda x: x.stat().st_mtime):
+
+            # check if image with the path exists, log warning and skip
+            if not Path(dir_, entry.stem).exists():
+                log.warning("Metadata found, but image is missing, skipping")
+                continue
+
+            # load image metadata
+            metadata = Metadata().load(entry)
+
+            # consider only the latest image/metadata of a given target, ignore
+            # the old ones
+            images.setdefault(metadata["target"], Image(metadata, dir_))
+
+        return images
+
 
 class Image:
     """
