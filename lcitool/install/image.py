@@ -7,6 +7,8 @@
 import logging
 import yaml
 
+import lcitool.install.osinfo as osinfo
+
 from collections import UserDict
 from pathlib import Path
 
@@ -26,6 +28,10 @@ class MetadataLoadError(ImageError):
 
 class MetadataValidationError(ImageError):
     """Thrown when image metadata validation fails"""
+
+
+class NoImageError(ImageError):
+    """Thrown when libosinfo doesn't return a link to a target OS cloud image"""
 
 
 class Metadata(UserDict):
@@ -85,8 +91,27 @@ class Images():
 
     def __init__(self):
         self._cache_dir = self._get_cache_dir()
-        self._osinfodb = None
-        self._target_images = None
+        self._osinfodb = osinfo.OSinfoDB()
+        self._target_images = self._load(self._cache_dir)
+
+    def get(self, target, facts, arch="x86_64", format_="qcow2"):
+
+        # self.data is the underlying dict object
+        if target in self._target_images:
+            return self._target_images[target]
+
+        osinfo_img = self._load_osinfo_image_data(self._osinfodb,
+                                                  facts["os"]["libosinfo_id"],
+                                                  arch,
+                                                  format_)
+        metadata = Metadata(target=target,
+                            arch=arch,
+                            format=format_,
+                            libosinfo_id=facts["os"]["libosinfo_id"],
+                            url=osinfo_img.url)
+
+        self._target_images[target] = Image(metadata, self._cache_dir)
+        return self._target_images[target]
 
     @staticmethod
     def _load(dir_):
@@ -111,6 +136,38 @@ class Images():
             images.setdefault(metadata["target"], Image(metadata, dir_))
 
         return images
+
+    @staticmethod
+    def _load_osinfo_image_data(osinfo_db, libosinfo_id, arch, format_):
+        def _filter_arch_format_cloud_init(osimg):
+            if not osimg.has_cloud_init() or \
+               osimg.arch != arch or \
+               osimg.format != format_:
+                return False
+
+            if not osimg.variants:
+                return True
+
+            # some distros tailor cloud images for a certain platform
+            # (e.g. Debian) and those were not created equal, so prefer the
+            # following order of variants and if none is available then just
+            # take whatever is provided.
+            for v in ["nocloud", "generic", "genericcloud"]:
+                if v in osimg.variants:
+                    return True
+
+            return False
+
+        osinfo = osinfo_db.get_os_by_id(libosinfo_id)
+        osimages = list(filter(_filter_arch_format_cloud_init, osinfo.images))
+
+        if not osimages:
+            raise NoImageError(f"No cloud image found for '{osinfo.name}'")
+
+        # usually we'd only get a list consisting of a single image, unless
+        # variant images were provided in which case these are going to be
+        # 'nocloud', 'generic'; it should not matter (TM) which one we pick
+        return osimages[0]
 
 
 class Image:
