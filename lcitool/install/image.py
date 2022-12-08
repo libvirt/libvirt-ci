@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import logging
+import yaml
 
 from collections import UserDict
 from pathlib import Path
@@ -19,13 +20,33 @@ class ImageError(LcitoolError):
         super().__init__(message, "Image")
 
 
+class MetadataLoadError(ImageError):
+    """Thrown when metadata for an image could not be loaded"""
+
+
 class Metadata(UserDict):
     @staticmethod
     def _validate(dict_):
         pass
 
-    def load(self, file, facts):
-        pass
+    def load(self, file):
+        # load image metadata
+        with open(file, 'r') as f:
+            try:
+                m = yaml.safe_load(f)
+            except Exception as ex:
+                raise MetadataLoadError(ex)
+
+            try:
+                self._validate(m)
+            except ValueError as e:
+                invalid_keys = list(e.args)
+                raise MetadataValidationError(
+                    f"Metadata schema validation failed on '{f.name}', "
+                    f"violating keys: {invalid_keys}"
+                )
+            self.update(m)
+        return self
 
     def dump(self, file):
         pass
