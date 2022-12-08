@@ -30,20 +30,16 @@ class BuildTarget:
     def __init__(self, inventory, packages, name, cross_arch=None):
         if name not in inventory.target_facts:
             raise TargetsError(f"Target not found: {name}")
-        self._inventory = inventory
         self._packages = packages
         self.name = name
         self.cross_arch = cross_arch
+        self.facts = inventory.target_facts[self.name]
 
     def __str__(self):
         if self.cross_arch:
             return f"{self.name} (cross_arch={self.cross_arch}"
         else:
             return self.name
-
-    @property
-    def facts(self):
-        return self._inventory.target_facts[self.name]
 
     def get_package(self, name):
         return self._packages.get_package(name, self)
