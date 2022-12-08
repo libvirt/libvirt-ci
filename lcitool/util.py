@@ -11,6 +11,7 @@ import os
 import platform
 import tempfile
 import textwrap
+import yaml
 
 from pathlib import Path
 from pkg_resources import resource_filename
@@ -251,6 +252,15 @@ class DataDir:
             for file in p.iterdir():
                 if file.is_file() and (suffix is None or file.suffix == suffix):
                     yield file
+
+    def load_yaml(self, resource_path, name):
+        file = Path(resource_filename(__name__, resource_path), name + ".yml")
+        if not file.exists():
+            return {}
+
+        log.debug(f"Loading facts from '{file}'")
+        with open(file, "r") as infile:
+            return yaml.safe_load(infile)
 
 
 def validate_cross_platform(cross_arch, osname):

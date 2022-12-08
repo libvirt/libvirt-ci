@@ -39,9 +39,6 @@ Exported functions:
 
 import abc
 import logging
-import yaml
-
-from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
 
@@ -203,7 +200,8 @@ class Packages:
 
     """
 
-    def __init__(self):
+    def __init__(self, data_dir=util.DataDir()):
+        self._data_dir = data_dir
         self._mappings = None
         self._pypi_mappings = None
         self._cpan_mappings = None
@@ -316,15 +314,11 @@ class Packages:
             return self._get_cross_package(pkg_mapping, target)
 
     def _load_mappings(self):
-        mappings_path = resource_filename(__name__,
-                                          "facts/mappings.yml")
-
         try:
-            with open(mappings_path, "r") as infile:
-                mappings = yaml.safe_load(infile)
-                self._mappings = mappings["mappings"]
-                self._pypi_mappings = mappings["pypi_mappings"]
-                self._cpan_mappings = mappings["cpan_mappings"]
+            mappings = self._data_dir.load_yaml("facts", "mappings")
+            self._mappings = mappings["mappings"]
+            self._pypi_mappings = mappings["pypi_mappings"]
+            self._cpan_mappings = mappings["cpan_mappings"]
         except Exception as ex:
             log.debug("Can't load mappings")
             raise PackageError(f"Can't load mappings: {ex}")
