@@ -14,6 +14,16 @@ from pathlib import Path
 
 
 @pytest.fixture
+def invalid_metadata():
+    filepath = Path(test_utils.test_data_indir(__file__, "install/image"),
+                    "invalid_schema.metadata")
+
+    with open(filepath) as fd:
+        metadata = yaml.safe_load(fd)
+    return metadata
+
+
+@pytest.fixture
 def valid_metadata():
     filepath = Path(test_utils.test_data_indir(__file__, "install/image"),
                     "valid.metadata")
@@ -37,6 +47,8 @@ def test_metadata_load(assert_equal, valid_metadata):
     [
         pytest.param("invalid_yaml.metadata", image.MetadataLoadError,
                      id="invalid_yaml"),
+        pytest.param("invalid_schema.metadata", image.MetadataValidationError,
+                     id="invalid_schema"),
     ]
 )
 def test_metadata_load_invalid(file, exception):

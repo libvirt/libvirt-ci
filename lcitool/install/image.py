@@ -24,10 +24,18 @@ class MetadataLoadError(ImageError):
     """Thrown when metadata for an image could not be loaded"""
 
 
+class MetadataValidationError(ImageError):
+    """Thrown when image metadata validation fails"""
+
+
 class Metadata(UserDict):
     @staticmethod
     def _validate(dict_):
-        pass
+        schema = set(["target", "image", "url", "arch", "format",
+                      "libosinfo_id"])
+        actual = set(dict_.keys())
+        if actual != schema:
+            raise ValueError(actual - schema)
 
     def load(self, file):
         # load image metadata
