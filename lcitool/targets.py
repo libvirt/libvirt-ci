@@ -5,10 +5,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import logging
-import yaml
-
-from pathlib import Path
-from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
 
@@ -35,14 +31,9 @@ class Targets():
     def targets(self):
         return list(self.target_facts.keys())
 
-    def __init__(self):
+    def __init__(self, data_dir=util.DataDir()):
+        self._data_dir = data_dir
         self._target_facts = None
-
-    @staticmethod
-    def _read_facts_from_file(yaml_path):
-        log.debug(f"Loading facts from '{yaml_path}'")
-        with open(yaml_path, "r") as infile:
-            return yaml.safe_load(infile)
 
     @staticmethod
     def _validate_target_facts(target_facts, target):
@@ -60,19 +51,19 @@ class Targets():
 
     def _load_target_facts(self):
         facts = {}
-        targets_path = Path(resource_filename(__name__, "facts/targets/"))
-        targets_all_path = Path(targets_path, "all.yml")
+        all_targets = {item.stem
+                       for item in self._data_dir.list_files("facts/targets", ".yml",
+                                                             internal=True)}
 
         # first load the shared facts from targets/all.yml
-        shared_facts = self._read_facts_from_file(targets_all_path)
+        shared_facts = self._data_dir.load_yaml("facts/targets", "all")
 
         # then load the rest of the facts
-        for entry in targets_path.iterdir():
-            if not entry.is_file() or entry.suffix != ".yml" or entry.name == "all.yml":
+        for target in all_targets:
+            if target == "all":
                 continue
 
-            target = entry.stem
-            facts[target] = self._read_facts_from_file(entry)
+            facts[target] = self._data_dir.load_yaml("facts/targets", target)
             self._validate_target_facts(facts[target], target)
             facts[target]["target"] = target
 
