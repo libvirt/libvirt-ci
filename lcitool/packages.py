@@ -315,7 +315,7 @@ class Packages:
 
     def _load_mappings(self):
         try:
-            mappings = self._data_dir.load_yaml("facts", "mappings")
+            mappings = self._data_dir.merge_facts("facts", "mappings")
             self._mappings = mappings["mappings"]
             self._pypi_mappings = mappings["pypi_mappings"]
             self._cpan_mappings = mappings["cpan_mappings"]

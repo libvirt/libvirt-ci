@@ -95,3 +95,14 @@ In order to simply add a new package mapping:
    repo  and from the root of the original project's git run::
 
    $ lcitool manifest
+
+Project-specific mappings
+-------------------------
+
+Some projects may need different mappings, for example if they want the
+tests to use specific versions of packages from PyPI or CPAN.
+For this reason the possibility to use YAML files stored outside
+the libvirt-ci repository, located using the ``--data-dir DIR``
+argument to ``lcitool``, is extended to the following paths::
+
+  $DIR/mappings.yml

@@ -262,6 +262,14 @@ class DataDir:
         with open(file, "r") as infile:
             return yaml.safe_load(infile)
 
+    def merge_facts(self, resource_path, name):
+        result = {}
+        for file in self._search(resource_path, name + ".yml"):
+            log.debug(f"Loading facts from '{file}'")
+            with open(file, "r") as infile:
+                merge_dict(yaml.safe_load(infile), result)
+        return result
+
 
 def validate_cross_platform(cross_arch, osname):
     if osname not in ["Debian", "Fedora"]:

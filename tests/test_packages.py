@@ -14,8 +14,9 @@ from functools import total_ordering
 from pathlib import Path
 from lcitool import util
 from lcitool.projects import Project, ProjectError
-from lcitool.packages import NativePackage, CrossPackage, PyPIPackage, CPANPackage
+from lcitool.packages import NativePackage, CrossPackage, PyPIPackage, CPANPackage, Packages
 from lcitool.targets import BuildTarget
+from lcitool.util import DataDir
 
 from conftest import ALL_TARGETS
 
@@ -76,6 +77,18 @@ def test_package_resolution(targets, packages, test_project, target, arch):
     actual = packages_as_dict(pkgs)
 
     test_utils.assert_yaml_matches_file(actual, expected_path)
+
+
+def test_resolution_override(targets, test_project):
+    datadir = DataDir(Path(test_utils.test_data_dir(__file__), 'override'))
+    packages = Packages(datadir)
+    target_obj = BuildTarget(targets, packages, "centos-stream-8")
+    pkgs = test_project.get_packages(target_obj)
+    assert isinstance(pkgs['meson'], PyPIPackage)
+
+    actual = packages_as_dict(pkgs)
+    assert 'meson==0.63.2' in actual['pypi']
+    assert 'python38' in actual['native']
 
 
 @pytest.mark.parametrize(

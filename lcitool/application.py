@@ -74,7 +74,7 @@ class Application:
         config = Config()
         targets = Targets()
         inventory = Inventory(targets, config)
-        packages = Packages()
+        packages = Packages(data_dir)
         projects = Projects(data_dir)
 
         hosts_expanded = inventory.expand_hosts(hosts_pattern)
@@ -225,7 +225,7 @@ class Application:
         self._entrypoint_debug(args)
 
         targets = Targets()
-        packages = Packages()
+        packages = Packages(args.data_dir)
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
 
@@ -254,7 +254,7 @@ class Application:
         self._entrypoint_debug(args)
 
         targets = Targets()
-        packages = Packages()
+        packages = Packages(args.data_dir)
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
         target = BuildTarget(targets, packages, args.target, args.cross_arch)
@@ -279,7 +279,7 @@ class Application:
         self._entrypoint_debug(args)
 
         targets = Targets()
-        packages = Packages()
+        packages = Packages(args.data_dir)
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
         target = BuildTarget(targets, packages, args.target, args.cross_arch)
@@ -301,7 +301,7 @@ class Application:
             base_path = Path(args.base_dir)
         ci_path = Path(args.ci_dir)
         targets = Targets()
-        packages = Packages()
+        packages = Packages(args.data_dir)
         projects = Projects(args.data_dir)
         manifest = Manifest(targets, packages, projects, args.manifest, args.quiet, ci_path, base_path)
         manifest.generate(args.dry_run)
