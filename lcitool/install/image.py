@@ -57,7 +57,22 @@ class Metadata(UserDict):
         return self
 
     def dump(self, file):
-        pass
+        try:
+            self._validate(self)
+        except ValueError as e:
+            invalid_keys = list(e.args)
+            raise MetadataValidationError(
+                f"Metadata schema validation failed, "
+                f"violating keys: {invalid_keys}"
+            )
+        with open(file, 'w') as fd:
+            try:
+                yaml.safe_dump(self.data, fd)
+            except Exception as ex:
+                name = file.name
+                raise ImageError(
+                    f"Failed to dump metadata for image '{name}': {ex}"
+                )
 
 
 class Images():

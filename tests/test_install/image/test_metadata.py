@@ -56,3 +56,18 @@ def test_metadata_load_invalid(file, exception):
                     file)
     with pytest.raises(exception):
         image.Metadata().load(filepath)
+
+
+def test_metadata_dump(assert_equal, tmp_path, valid_metadata):
+    actual_path = Path(tmp_path, "valid.metadata")
+    expected_path = Path(test_utils.test_data_outdir(__file__, "install/image"),
+                         "valid.metadata")
+
+    image.Metadata(**valid_metadata).dump(actual_path)
+    assert_equal(actual_path, expected_path)
+
+
+def test_metadata_dump_invalid(tmp_path, invalid_metadata):
+    actual_path = Path(tmp_path, "invalid.metadata")
+    with pytest.raises(image.MetadataValidationError):
+        image.Metadata(**invalid_metadata).dump(actual_path)
