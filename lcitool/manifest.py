@@ -10,6 +10,7 @@ from pathlib import Path
 
 from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, ShellBuildEnvFormatter
 from lcitool import gitlab, util, LcitoolError
+from lcitool.targets import BuildTarget
 
 log = logging.getLogger(__name__)
 
@@ -23,8 +24,9 @@ class ManifestError(LcitoolError):
 
 class Manifest:
 
-    def __init__(self, inventory, projects, configfp, quiet=False, cidir=Path("ci"), basedir=None):
+    def __init__(self, inventory, packages, projects, configfp, quiet=False, cidir=Path("ci"), basedir=None):
         self._inventory = inventory
+        self._packages = packages
         self._projects = projects
         self.configpath = configfp.name
         self.values = yaml.safe_load(configfp)
@@ -205,7 +207,7 @@ class Manifest:
                 if not dryrun:
                     header = util.generate_file_header(["manifest",
                                                         self.configpath])
-                    payload = formatter.format(self._inventory.get_target(target, arch),
+                    payload = formatter.format(BuildTarget(self._inventory, self._packages, target, arch),
                                                wantprojects)
                     util.atomic_write(filename, header + payload + "\n")
 

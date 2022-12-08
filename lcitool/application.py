@@ -13,10 +13,12 @@ from pkg_resources import resource_filename
 from lcitool import util, LcitoolError
 from lcitool.config import Config
 from lcitool.inventory import Inventory
-from lcitool.packages import package_names_by_type
+from lcitool.packages import Packages, package_names_by_type
 from lcitool.projects import Projects
 from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, JSONVariablesFormatter, ShellBuildEnvFormatter
 from lcitool.manifest import Manifest
+from lcitool.targets import BuildTarget
+
 
 log = logging.getLogger(__name__)
 
@@ -68,6 +70,7 @@ class Application:
         base = resource_filename(__name__, "ansible")
         config = Config()
         inventory = Inventory()
+        packages = Packages()
         projects = Projects()
 
         hosts_expanded = inventory.expand_hosts(hosts_pattern)
@@ -102,7 +105,7 @@ class Application:
 
         for host in hosts_expanded:
             facts = inventory.host_facts[host]
-            target = inventory.get_target(facts["target"])
+            target = BuildTarget(inventory, packages, facts["target"])
 
             # packages are evaluated on a target level and since the
             # host->target mapping is N-1, we can skip hosts belonging to a
@@ -235,6 +238,7 @@ class Application:
         self._entrypoint_debug(args)
 
         inventory = Inventory()
+        packages = Packages()
         projects = Projects()
         projects_expanded = projects.expand_names(args.projects)
 
@@ -243,7 +247,7 @@ class Application:
         else:
             formatter = JSONVariablesFormatter(projects)
 
-        target = inventory.get_target(args.target, args.cross_arch)
+        target = BuildTarget(inventory, packages, args.target, args.cross_arch)
         variables = formatter.format(target,
                                      projects_expanded)
 
@@ -263,9 +267,10 @@ class Application:
         self._entrypoint_debug(args)
 
         inventory = Inventory()
+        packages = Packages()
         projects = Projects()
         projects_expanded = projects.expand_names(args.projects)
-        target = inventory.get_target(args.target, args.cross_arch)
+        target = BuildTarget(inventory, packages, args.target, args.cross_arch)
 
         dockerfile = DockerfileFormatter(projects,
                                          args.base,
@@ -287,9 +292,10 @@ class Application:
         self._entrypoint_debug(args)
 
         inventory = Inventory()
+        packages = Packages()
         projects = Projects()
         projects_expanded = projects.expand_names(args.projects)
-        target = inventory.get_target(args.target, args.cross_arch)
+        target = BuildTarget(inventory, packages, args.target, args.cross_arch)
 
         buildenvscript = ShellBuildEnvFormatter(projects).format(target,
                                                                  projects_expanded)
@@ -308,8 +314,9 @@ class Application:
             base_path = Path(args.base_dir)
         ci_path = Path(args.ci_dir)
         inventory = Inventory()
+        packages = Packages()
         projects = Projects()
-        manifest = Manifest(inventory, projects, args.manifest, args.quiet, ci_path, base_path)
+        manifest = Manifest(inventory, packages, projects, args.manifest, args.quiet, ci_path, base_path)
         manifest.generate(args.dry_run)
 
     def run(self, args):

@@ -14,8 +14,10 @@ from functools import total_ordering
 from pathlib import Path
 from lcitool import util
 from lcitool.inventory import Inventory
+from lcitool.packages import Packages
 from lcitool.projects import Projects, Project, ProjectError
 from lcitool.packages import NativePackage, CrossPackage, PyPIPackage, CPANPackage
+from lcitool.targets import BuildTarget
 
 
 # This needs to be a global in order to compute ALL_TARGETS at collection
@@ -30,8 +32,8 @@ def inventory():
 
 
 @pytest.fixture(scope="module")
-def packages(inventory):
-    return inventory.packages
+def packages():
+    return Packages()
 
 
 @pytest.fixture(scope="module")
@@ -84,13 +86,13 @@ cross_params = [
 
 
 @pytest.mark.parametrize("target,arch", native_params + cross_params)
-def test_package_resolution(inventory, test_project, target, arch):
+def test_package_resolution(inventory, packages, test_project, target, arch):
     if arch is None:
         outfile = f"{target}.yml"
     else:
         outfile = f"{target}-cross-{arch}.yml"
     expected_path = Path(test_utils.test_data_outdir(__file__), outfile)
-    target_obj = inventory.get_target(target, arch)
+    target_obj = BuildTarget(inventory, packages, target, arch)
     pkgs = test_project.get_packages(target_obj)
     actual = packages_as_dict(pkgs)
 
@@ -101,9 +103,9 @@ def test_package_resolution(inventory, test_project, target, arch):
     "target",
     [pytest.param(target, id=target) for target in get_non_cross_targets()],
 )
-def test_unsupported_cross_platform(inventory, test_project, target):
+def test_unsupported_cross_platform(inventory, packages, test_project, target):
     with pytest.raises(ProjectError):
-        target_obj = inventory.get_target(target, "s390x")
+        target_obj = BuildTarget(inventory, packages, target, "s390x")
         test_project.get_packages(target_obj)
 
 
@@ -114,9 +116,9 @@ def test_unsupported_cross_platform(inventory, test_project, target):
         pytest.param("fedora-rawhide", "s390x", id="fedora-rawhide-cross-s390x"),
     ],
 )
-def test_cross_platform_arch_mismatch(inventory, test_project, target, arch):
+def test_cross_platform_arch_mismatch(inventory, packages, test_project, target, arch):
     with pytest.raises(ProjectError):
-        target_obj = inventory.get_target(target, arch)
+        target_obj = BuildTarget(inventory, packages, target, arch)
         test_project.get_packages(target_obj)
 
 
@@ -167,8 +169,8 @@ def mapping_keys_product(inventory):
 
 
 @pytest.mark.parametrize("key", ["mappings", "pypi_mappings", "cpan_mappings"])
-def test_project_mappings_sorting(inventory, key):
-    mappings = getattr(inventory.packages, key)
+def test_project_mappings_sorting(inventory, packages, key):
+    mappings = getattr(packages, key)
 
     all_expect_keys = mapping_keys_product(inventory)
     for package, entries in mappings.items():

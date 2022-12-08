@@ -9,9 +9,11 @@ import pytest
 import test_utils.utils as test_utils
 from pathlib import Path
 
+from lcitool.packages import Packages
 from lcitool.projects import Projects
 from lcitool.inventory import Inventory
 from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, DockerfileFormatter, ShellBuildEnvFormatter
+from lcitool.targets import BuildTarget
 
 
 @pytest.fixture(scope="module")
@@ -22,6 +24,11 @@ def projects():
 @pytest.fixture(scope="module")
 def inventory():
     return Inventory()
+
+
+@pytest.fixture(scope="module")
+def packages():
+    return Packages()
 
 
 scenarios = [
@@ -51,55 +58,56 @@ layer_scenarios = [
 
 
 @pytest.mark.parametrize("project,target,arch", scenarios)
-def test_dockerfiles(projects, inventory, project, target, arch, request):
+def test_dockerfiles(packages, projects, inventory, project, target, arch, request):
     gen = DockerfileFormatter(projects)
-    target_obj = inventory.get_target(target, arch)
+    target_obj = BuildTarget(inventory, packages, target, arch)
     actual = gen.format(target_obj, [project])
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".Dockerfile")
     test_utils.assert_matches_file(actual, expected_path)
 
 
 @pytest.mark.parametrize("project,target,arch,base,layers", layer_scenarios)
-def test_dockerfile_layers(projects, inventory, project, target, arch, base, layers, request):
+def test_dockerfile_layers(packages, projects, inventory, project, target, arch, base, layers, request):
     gen = DockerfileFormatter(projects, base, layers)
-    target_obj = inventory.get_target(target, arch)
+    target_obj = BuildTarget(inventory, packages, target, arch)
     actual = gen.format(target_obj, [project])
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".Dockerfile")
     test_utils.assert_matches_file(actual, expected_path)
 
 
 @pytest.mark.parametrize("project,target,arch", scenarios)
-def test_variables_shell(projects, inventory, project, target, arch, request):
+def test_variables_shell(packages, projects, inventory, project, target, arch, request):
     gen = ShellVariablesFormatter(projects)
-    target_obj = inventory.get_target(target, arch)
+    target_obj = BuildTarget(inventory, packages, target, arch)
     actual = gen.format(target_obj, [project])
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".vars")
     test_utils.assert_matches_file(actual, expected_path)
 
 
 @pytest.mark.parametrize("project,target,arch", scenarios)
-def test_variables_json(projects, inventory, project, target, arch, request):
+def test_variables_json(packages, projects, inventory, project, target, arch, request):
     gen = JSONVariablesFormatter(projects)
-    target_obj = inventory.get_target(target, arch)
+    target_obj = BuildTarget(inventory, packages, target, arch)
     actual = gen.format(target_obj, [project])
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".json")
     test_utils.assert_matches_file(actual, expected_path)
 
 
 @pytest.mark.parametrize("project,target,arch", scenarios)
-def test_prepbuildenv(projects, inventory, project, target, arch, request):
+def test_prepbuildenv(packages, projects, inventory, project, target, arch, request):
     gen = ShellBuildEnvFormatter(projects)
-    target_obj = inventory.get_target(target, arch)
+    target_obj = BuildTarget(inventory, packages, target, arch)
     actual = gen.format(target_obj, [project])
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".sh")
     test_utils.assert_matches_file(actual, expected_path)
 
 
-def test_all_projects_dockerfiles(projects, inventory):
+def test_all_projects_dockerfiles(packages, projects, inventory):
     all_projects = projects.names
 
     for target in sorted(inventory.targets):
-        target_obj = inventory.get_target(target)
+        target_obj = BuildTarget(inventory, packages, target)
+
         facts = target_obj.facts
 
         if facts["packaging"]["format"] not in ["apk", "deb", "rpm"]:

@@ -6,7 +6,17 @@
 
 import logging
 
+from lcitool import LcitoolError
+
+
 log = logging.getLogger(__name__)
+
+
+class TargetsError(LcitoolError):
+    """Global exception type for the targets module."""
+
+    def __init__(self, message):
+        super().__init__(message, "Targets")
 
 
 class BuildTarget:
@@ -17,8 +27,11 @@ class BuildTarget:
         :ivar cross_arch: cross compilation architecture
     """
 
-    def __init__(self, inventory, name, cross_arch=None):
+    def __init__(self, inventory, packages, name, cross_arch=None):
+        if name not in inventory.target_facts:
+            raise TargetsError(f"Target not found: {name}")
         self._inventory = inventory
+        self._packages = packages
         self.name = name
         self.cross_arch = cross_arch
 
@@ -33,4 +46,4 @@ class BuildTarget:
         return self._inventory.target_facts[self.name]
 
     def get_package(self, name):
-        return self._inventory.packages.get_package(name, self)
+        return self._packages.get_package(name, self)
