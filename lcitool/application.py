@@ -70,7 +70,7 @@ class Application:
         base = resource_filename(__name__, "ansible")
         config = Config()
         targets = Targets()
-        inventory = Inventory()
+        inventory = Inventory(targets)
         packages = Packages()
         projects = Projects()
 
@@ -151,7 +151,8 @@ class Application:
     def _action_hosts(self, args):
         self._entrypoint_debug(args)
 
-        inventory = Inventory()
+        targets = Targets()
+        inventory = Inventory(targets)
         for host in sorted(inventory.hosts):
             print(host)
 
@@ -183,7 +184,7 @@ class Application:
 
         facts = {}
         targets = Targets()
-        inventory = Inventory()
+        inventory = Inventory(targets)
         host = args.host
         target = args.target
 

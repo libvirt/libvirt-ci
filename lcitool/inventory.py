@@ -5,10 +5,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import logging
-import yaml
 
 from pathlib import Path
-from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
 
@@ -31,16 +29,6 @@ class Inventory():
         return self._ansible_inventory
 
     @property
-    def target_facts(self):
-        if self._target_facts is None:
-            self._target_facts = self._load_target_facts()
-        return self._target_facts
-
-    @property
-    def targets(self):
-        return list(self.target_facts.keys())
-
-    @property
     def host_facts(self):
         if self._host_facts is None:
             self._host_facts = self._load_host_facts()
@@ -50,16 +38,10 @@ class Inventory():
     def hosts(self):
         return list(self.host_facts.keys())
 
-    def __init__(self):
-        self._target_facts = None
+    def __init__(self, targets):
+        self._targets = targets
         self._host_facts = None
         self._ansible_inventory = None
-
-    @staticmethod
-    def _read_facts_from_file(yaml_path):
-        log.debug(f"Loading facts from '{yaml_path}'")
-        with open(yaml_path, "r") as infile:
-            return yaml.safe_load(infile)
 
     def _get_ansible_inventory(self):
         from lcitool.ansible_wrapper import AnsibleWrapper, AnsibleWrapperError
@@ -74,7 +56,7 @@ class Inventory():
 
         ansible_runner = AnsibleWrapper()
         ansible_runner.prepare_env(inventories=inventory_sources,
-                                   group_vars=self.target_facts)
+                                   group_vars=self._targets.target_facts)
 
         log.debug(f"Running ansible-inventory on '{inventory_sources}'")
         try:
@@ -97,43 +79,6 @@ class Inventory():
             inventory_hosts.setdefault(host, {})
 
         return inventory
-
-    @staticmethod
-    def _validate_target_facts(target_facts, target):
-        fname = target + ".yml"
-
-        actual_osname = target_facts["os"]["name"].lower()
-        if not target.startswith(actual_osname + "-"):
-            raise InventoryError(f'OS name "{target_facts["os"]["name"]}" does not match file name {fname}')
-        target = target[len(actual_osname) + 1:]
-
-        actual_version = target_facts["os"]["version"].lower()
-        expected_version = target.replace("-", "")
-        if expected_version != actual_version:
-            raise InventoryError(f'OS version "{target_facts["os"]["version"]}" does not match version in file name {fname} ({expected_version})')
-
-    def _load_target_facts(self):
-        facts = {}
-        targets_path = Path(resource_filename(__name__, "facts/targets/"))
-        targets_all_path = Path(targets_path, "all.yml")
-
-        # first load the shared facts from targets/all.yml
-        shared_facts = self._read_facts_from_file(targets_all_path)
-
-        # then load the rest of the facts
-        for entry in targets_path.iterdir():
-            if not entry.is_file() or entry.suffix != ".yml" or entry.name == "all.yml":
-                continue
-
-            target = entry.stem
-            facts[target] = self._read_facts_from_file(entry)
-            self._validate_target_facts(facts[target], target)
-            facts[target]["target"] = target
-
-            # missing per-distro facts fall back to shared facts
-            util.merge_dict(shared_facts, facts[target])
-
-        return facts
 
     def _load_host_facts(self):
         facts = {}
@@ -169,7 +114,7 @@ class Inventory():
 
         _rec(self.ansible_inventory["all"], "all")
 
-        targets = set(self.targets)
+        targets = set(self._targets.targets)
         for host_name, host_groups in groups.items():
             host_targets = host_groups.intersection(targets)
 
