@@ -193,7 +193,6 @@ RUN zypper update -y && \
            perl-YAML \
            perl-base \
            php-devel \
-           php-imagick \
            pkgconfig \
            polkit \
            python3-Pillow \

@@ -10,7 +10,6 @@ packages:
   - libxml2
   - make
   - php
-  - php-imagick
   - pkg-config
   - rpmbuild
   - xmllint

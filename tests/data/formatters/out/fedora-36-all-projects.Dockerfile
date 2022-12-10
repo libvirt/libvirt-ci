@@ -214,7 +214,6 @@ exec "$@"' > /usr/bin/nosync && \
                perl-generators \
                perl-podlators \
                php-devel \
-               php-pecl-imagick \
                pixman-devel \
                pkgconfig \
                polkit \

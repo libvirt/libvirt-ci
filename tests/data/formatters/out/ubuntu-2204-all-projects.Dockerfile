@@ -224,7 +224,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       perl \
                       perl-base \
                       php-dev \
-                      php-imagick \
                       pkgconf \
                       policykit-1 \
                       publican \
