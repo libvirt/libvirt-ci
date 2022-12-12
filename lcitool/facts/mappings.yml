@@ -1291,7 +1291,6 @@ mappings:
     CentOSStream8: netcf-devel
     Debian10: libnetcf-dev
     Debian11: libnetcf-dev
-    Fedora35: netcf-devel
     Ubuntu1804: libnetcf-dev
     Ubuntu2004: libnetcf-dev
     cross-policy-default: skip
@@ -1639,7 +1638,6 @@ mappings:
 
   publican:
     deb: publican
-    Fedora35: publican
     Fedora36: publican
 
   pulseaudio:
