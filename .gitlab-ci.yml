@@ -201,15 +201,15 @@ x86_64-check-debian-sid:
   variables:
     NAME: debian-sid
 
-x86_64-check-fedora-35:
-  extends: .check_container_template
-  variables:
-    NAME: fedora-35
-
 x86_64-check-fedora-36:
   extends: .check_container_template
   variables:
     NAME: fedora-36
+
+x86_64-check-fedora-37:
+  extends: .check_container_template
+  variables:
+    NAME: fedora-37
 
 x86_64-check-fedora-rawhide:
   extends: .check_container_template

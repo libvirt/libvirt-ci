@@ -14,6 +14,6 @@
 - import_tasks: 'jobs/perl-modulebuild-rpm-job.yml'
   vars:
     machines:
-      - fedora-35
       - fedora-36
+      - fedora-37
       - fedora-rawhide
