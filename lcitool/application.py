@@ -131,8 +131,8 @@ class Application:
             packages["unwanted_packages"] = package_names_remove["native"]
             packages["early_install_packages"] = package_names_early_install["native"]
 
-            group_vars[target] = packages
-            group_vars[target].update(target.facts)
+            group_vars[target.name] = packages
+            group_vars[target.name].update(target.facts)
 
         ansible_runner.prepare_env(playbookdir=playbook_base,
                                    inventories=[inventory.ansible_inventory],
