@@ -148,9 +148,10 @@ unittests:
   needs: []
   before_script:
     - apk update
-    - apk add git
+    - apk add git ansible
   script:
-    - pip3 install setuptools pytest pyyaml
+    - pip3 install setuptools pytest
+    - pip3 install -r requirements.txt ansible-runner
     - python3 -m pytest --verbose
 
 x86_64-check-almalinux-8:

@@ -58,6 +58,8 @@ in the previous section)
 
    $ pip3 install --user -r test-requirements.txt
 
+In addition, the ``ansible-inventory`` executable needs to be installed.
+
 Installing lcitool
 ------------------
 
