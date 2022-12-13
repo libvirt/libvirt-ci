@@ -152,7 +152,7 @@ class Config:
 
     def _validate(self):
         if self._values is None:
-            paths = ", ".join([str(p) for p in self._config_file_paths()])
+            paths = ", ".join([str(p) for p in self._config_file_paths])
             raise ValidationError(f"Missing or empty configuration file, tried {paths}")
 
         self._validate_section("install", ["root_password"])
