@@ -6,8 +6,6 @@
 
 import logging
 
-from pathlib import Path
-
 from lcitool import util, LcitoolError
 from lcitool.packages import package_names_by_type
 
@@ -39,8 +37,9 @@ class Inventory():
     def hosts(self):
         return list(self.host_facts.keys())
 
-    def __init__(self, targets):
+    def __init__(self, targets, config):
         self._targets = targets
+        self._config = config
         self._host_facts = None
         self._ansible_inventory = None
 
@@ -48,7 +47,8 @@ class Inventory():
         from lcitool.ansible_wrapper import AnsibleWrapper, AnsibleWrapperError
 
         inventory_sources = []
-        inventory_path = Path(util.get_config_dir(), "inventory")
+        inventory_path = self._config.get_config_path("inventory")
+        log.debug(f"Using '{inventory_path}' for lcitool inventory")
         if inventory_path.exists():
             inventory_sources.append(inventory_path)
 

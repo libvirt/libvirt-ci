@@ -59,10 +59,14 @@ class Config:
 
     def __init__(self):
         self._values = None
+        self._config_file_dir = util.get_config_dir()
         self._config_file_paths = [
-            Path(util.get_config_dir(), fname) for fname in
+            self.get_config_path(fname) for fname in
             ["config.yml", "config.yaml"]
         ]
+
+    def get_config_path(self, *args):
+        return Path(self._config_file_dir, *args)
 
     def _load_config(self):
         # Load the template config containing the defaults first, this must
