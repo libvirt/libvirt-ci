@@ -6,10 +6,9 @@
 
 import pytest
 
-from lcitool.inventory import Inventory
 from lcitool.packages import Packages
 from lcitool.projects import Projects
-from lcitool.targets import BuildTarget
+from lcitool.targets import BuildTarget, Targets
 
 
 # This needs to be a global in order to compute ALL_PROJECTS at collection
@@ -19,8 +18,8 @@ ALL_PROJECTS = sorted(_PROJECTS.names + list(_PROJECTS.internal.keys()))
 
 
 @pytest.fixture(scope="module")
-def inventory():
-    return Inventory()
+def targets():
+    return Targets()
 
 
 @pytest.fixture(scope="module")
@@ -41,8 +40,8 @@ def project(request, projects):
         return projects.internal[request.param]
 
 
-def test_project_packages(inventory, packages, project):
-    target = BuildTarget(inventory, packages, inventory.targets[0])
+def test_project_packages(targets, packages, project):
+    target = BuildTarget(targets, packages, targets.targets[0])
     project.get_packages(target)
 
 

@@ -24,8 +24,8 @@ class ManifestError(LcitoolError):
 
 class Manifest:
 
-    def __init__(self, inventory, packages, projects, configfp, quiet=False, cidir=Path("ci"), basedir=None):
-        self._inventory = inventory
+    def __init__(self, targets, packages, projects, configfp, quiet=False, cidir=Path("ci"), basedir=None):
+        self._targets = targets
         self._packages = packages
         self._projects = projects
         self.configpath = configfp.name
@@ -101,7 +101,7 @@ class Manifest:
             jobsinfo = targetinfo["jobs"]
 
             try:
-                facts = self._inventory.target_facts[target]
+                facts = self._targets.target_facts[target]
             except KeyError:
                 raise ValueError(f"Invalid target '{target}'")
 
@@ -207,7 +207,7 @@ class Manifest:
                 if not dryrun:
                     header = util.generate_file_header(["manifest",
                                                         self.configpath])
-                    payload = formatter.format(BuildTarget(self._inventory, self._packages, target, arch),
+                    payload = formatter.format(BuildTarget(self._targets, self._packages, target, arch),
                                                wantprojects)
                     util.atomic_write(filename, header + payload + "\n")
 
@@ -424,7 +424,7 @@ class Manifest:
                 continue
 
             try:
-                facts = self._inventory.target_facts[target]
+                facts = self._targets.target_facts[target]
             except KeyError:
                 raise ManifestError(f"Invalid target '{target}'")
 

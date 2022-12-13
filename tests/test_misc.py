@@ -6,24 +6,24 @@
 
 import pytest
 
-from lcitool.inventory import Inventory
+from lcitool.targets import Targets
 
 # This needs to be a global in order to compute ALL_TARGETS at collection
 # time.  Nevertheless, tests access it via the fixture below.
-_INVENTORY = Inventory()
-ALL_TARGETS = sorted(_INVENTORY.targets)
+_TARGETS = Targets()
+ALL_TARGETS = sorted(_TARGETS.targets)
 
 
 @pytest.fixture(scope="module")
-def inventory():
-    return _INVENTORY
+def targets():
+    return _TARGETS
 
 
 @pytest.mark.parametrize("target", ALL_TARGETS)
-def test_group_vars(inventory, target):
+def test_group_vars(targets, target):
     """Check selected group_vars fields for correctness."""
 
-    facts = inventory.target_facts[target]
+    facts = targets.target_facts[target]
     split = target.split('-', maxsplit=1)
     target_os = split[0]
     target_version = split[1].replace("-", "")

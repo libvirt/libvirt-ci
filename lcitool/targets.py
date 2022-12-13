@@ -7,6 +7,7 @@
 import logging
 
 from lcitool import LcitoolError
+from lcitool.inventory import Inventory as Targets   # noqa
 
 
 log = logging.getLogger(__name__)
@@ -22,18 +23,18 @@ class TargetsError(LcitoolError):
 class BuildTarget:
     """
     Attributes:
-        :ivar _inventory: inventory used to retrieve the target facts
+        :ivar _targets: object to retrieve the target facts
         :ivar name: target name
         :ivar cross_arch: cross compilation architecture
     """
 
-    def __init__(self, inventory, packages, name, cross_arch=None):
-        if name not in inventory.target_facts:
+    def __init__(self, targets, packages, name, cross_arch=None):
+        if name not in targets.target_facts:
             raise TargetsError(f"Target not found: {name}")
         self._packages = packages
         self.name = name
         self.cross_arch = cross_arch
-        self.facts = inventory.target_facts[self.name]
+        self.facts = targets.target_facts[self.name]
 
     def __str__(self):
         if self.cross_arch:
