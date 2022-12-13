@@ -9,11 +9,11 @@ import pytest
 import test_utils.utils as test_utils
 
 from pathlib import Path
-from lcitool.config import Config, ValidationError
+from lcitool.config import ValidationError
 
 
 @pytest.mark.parametrize(
-    "filename",
+    "config_filename",
     [
         "full.yml",
         "minimal.yml",
@@ -21,21 +21,15 @@ from lcitool.config import Config, ValidationError
         "unknown_key.yml",
     ],
 )
-def test_config(monkeypatch, filename):
-    actual_path = Path(test_utils.test_data_indir(__file__), filename)
-    expected_path = Path(test_utils.test_data_outdir(__file__), filename)
+def test_config(config, config_filename):
+    expected_path = Path(test_utils.test_data_outdir(__file__), config_filename)
 
-    config = Config()
-
-    # we have to monkeypatch the '_config_file_paths' attribute, since we don't
-    # support custom inventory paths
-    monkeypatch.setattr(config, "_config_file_paths", [actual_path])
     actual = config.values
     test_utils.assert_yaml_matches_file(actual, expected_path)
 
 
 @pytest.mark.parametrize(
-    "filename",
+    "config_filename",
     [
         "empty.yml",
         "missing_mandatory_section.yml",
@@ -43,11 +37,6 @@ def test_config(monkeypatch, filename):
         "missing_gitlab_section_with_gitlab_flavor.yml",
     ],
 )
-def test_config_invalid(monkeypatch, filename):
-    actual_path = Path(test_utils.test_data_indir(__file__), filename)
-
-    config = Config()
-    monkeypatch.setattr(config, "_config_file_paths", [actual_path])
-
+def test_config_invalid(config, config_filename):
     with pytest.raises(ValidationError):
         config.values
