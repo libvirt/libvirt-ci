@@ -9,6 +9,7 @@ import logging
 from pathlib import Path
 
 from lcitool import util, LcitoolError
+from lcitool.packages import package_names_by_type
 
 log = logging.getLogger(__name__)
 
@@ -139,3 +140,29 @@ class Inventory():
         except Exception as ex:
             log.debug(f"Failed to load expand '{pattern}'")
             raise InventoryError(f"Failed to expand '{pattern}': {ex}")
+
+    def get_host_target_name(self, host):
+        return self.host_facts[host]["target"]
+
+    def get_group_vars(self, target, projects, projects_expanded):
+        # resolve the package mappings to actual package names
+        internal_wanted_projects = ["base", "developer", "vm"]
+        if self._config.values["install"]["cloud_init"]:
+            internal_wanted_projects.append("cloud-init")
+
+        selected_projects = internal_wanted_projects + projects_expanded
+        pkgs_install = projects.get_packages(selected_projects, target)
+        pkgs_early_install = projects.get_packages(["early_install"], target)
+        pkgs_remove = projects.get_packages(["unwanted"], target)
+        package_names = package_names_by_type(pkgs_install)
+        package_names_remove = package_names_by_type(pkgs_remove)
+        package_names_early_install = package_names_by_type(pkgs_early_install)
+
+        # merge the package lists to the Ansible group vars
+        vars = dict(target.facts)
+        vars["packages"] = package_names["native"]
+        vars["pypi_packages"] = package_names["pypi"]
+        vars["cpan_packages"] = package_names["cpan"]
+        vars["unwanted_packages"] = package_names_remove["native"]
+        vars["early_install_packages"] = package_names_early_install["native"]
+        return vars

@@ -13,7 +13,7 @@ from pkg_resources import resource_filename
 from lcitool import util, LcitoolError
 from lcitool.config import Config
 from lcitool.inventory import Inventory
-from lcitool.packages import Packages, package_names_by_type
+from lcitool.packages import Packages
 from lcitool.projects import Projects
 from lcitool.targets import Targets, BuildTarget
 from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, JSONVariablesFormatter, ShellBuildEnvFormatter
@@ -105,37 +105,16 @@ class Application:
         ansible_runner = AnsibleWrapper()
 
         for host in hosts_expanded:
-            facts = inventory.host_facts[host]
-            target = BuildTarget(targets, packages, facts["target"])
-
             # packages are evaluated on a target level and since the
             # host->target mapping is N-1, we can skip hosts belonging to a
             # target group for which we already evaluated the package list
-            if target.name in group_vars:
+            target_name = inventory.get_host_target_name(host)
+            if target_name in group_vars:
                 continue
 
-            # resolve the package mappings to actual package names
-            internal_wanted_projects = ["base", "developer", "vm"]
-            if config.values["install"]["cloud_init"]:
-                internal_wanted_projects.append("cloud-init")
-
-            selected_projects = internal_wanted_projects + projects_expanded
-            pkgs_install = projects.get_packages(selected_projects, target)
-            pkgs_early_install = projects.get_packages(["early_install"], target)
-            pkgs_remove = projects.get_packages(["unwanted"], target)
-            package_names = package_names_by_type(pkgs_install)
-            package_names_remove = package_names_by_type(pkgs_remove)
-            package_names_early_install = package_names_by_type(pkgs_early_install)
-
-            # merge the package lists to the Ansible group vars
-            vars = dict(target.facts)
-            vars["packages"] = package_names["native"]
-            vars["pypi_packages"] = package_names["pypi"]
-            vars["cpan_packages"] = package_names["cpan"]
-            vars["unwanted_packages"] = package_names_remove["native"]
-            vars["early_install_packages"] = package_names_early_install["native"]
-
-            group_vars[target.name] = vars
+            target = BuildTarget(targets, packages, target_name)
+            group_vars[target_name] = inventory.get_group_vars(target, projects,
+                                                               projects_expanded)
 
         ansible_runner.prepare_env(playbookdir=playbook_base,
                                    inventories=[inventory.ansible_inventory],
