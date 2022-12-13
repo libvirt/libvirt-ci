@@ -1,4 +1,4 @@
-# test_misc: test uncategorized aspects of lcitool
+# test_targets: test lcitool target facts
 #
 # Copyright (C) 2022 Red Hat, Inc.
 #
