@@ -124,15 +124,14 @@ class Application:
             package_names_early_install = package_names_by_type(pkgs_early_install)
 
             # merge the package lists to the Ansible group vars
-            packages = {}
-            packages["packages"] = package_names["native"]
-            packages["pypi_packages"] = package_names["pypi"]
-            packages["cpan_packages"] = package_names["cpan"]
-            packages["unwanted_packages"] = package_names_remove["native"]
-            packages["early_install_packages"] = package_names_early_install["native"]
+            vars = dict(target.facts)
+            vars["packages"] = package_names["native"]
+            vars["pypi_packages"] = package_names["pypi"]
+            vars["cpan_packages"] = package_names["cpan"]
+            vars["unwanted_packages"] = package_names_remove["native"]
+            vars["early_install_packages"] = package_names_early_install["native"]
 
-            group_vars[target.name] = packages
-            group_vars[target.name].update(target.facts)
+            group_vars[target.name] = vars
 
         ansible_runner.prepare_env(playbookdir=playbook_base,
                                    inventories=[inventory.ansible_inventory],
