@@ -9,25 +9,8 @@ import pytest
 import test_utils.utils as test_utils
 from pathlib import Path
 
-from lcitool.packages import Packages
-from lcitool.projects import Projects
-from lcitool.targets import Targets, BuildTarget
+from lcitool.targets import BuildTarget
 from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, DockerfileFormatter, ShellBuildEnvFormatter
-
-
-@pytest.fixture(scope="module")
-def projects():
-    return Projects()
-
-
-@pytest.fixture(scope="module")
-def targets():
-    return Targets()
-
-
-@pytest.fixture(scope="module")
-def packages():
-    return Packages()
 
 
 scenarios = [

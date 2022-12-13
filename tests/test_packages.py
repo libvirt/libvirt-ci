@@ -13,31 +13,11 @@ from functools import total_ordering
 
 from pathlib import Path
 from lcitool import util
-from lcitool.packages import Packages
-from lcitool.projects import Projects, Project, ProjectError
+from lcitool.projects import Project, ProjectError
 from lcitool.packages import NativePackage, CrossPackage, PyPIPackage, CPANPackage
-from lcitool.targets import BuildTarget, Targets
+from lcitool.targets import BuildTarget
 
-
-# This needs to be a global in order to compute ALL_TARGETS at collection
-# time.  Nevertheless, tests access it via the fixture below.
-_TARGETS = Targets()
-ALL_TARGETS = sorted(_TARGETS.targets)
-
-
-@pytest.fixture(scope="module")
-def packages():
-    return Packages()
-
-
-@pytest.fixture(scope="module")
-def projects():
-    return Projects()
-
-
-@pytest.fixture(scope="module")
-def targets():
-    return _TARGETS
+from conftest import ALL_TARGETS
 
 
 def get_non_cross_targets():

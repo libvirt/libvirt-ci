@@ -6,17 +6,7 @@
 
 import pytest
 
-from lcitool.targets import Targets
-
-# This needs to be a global in order to compute ALL_TARGETS at collection
-# time.  Nevertheless, tests access it via the fixture below.
-_TARGETS = Targets()
-ALL_TARGETS = sorted(_TARGETS.targets)
-
-
-@pytest.fixture(scope="module")
-def targets():
-    return _TARGETS
+from conftest import ALL_TARGETS
 
 
 @pytest.mark.parametrize("target", ALL_TARGETS)

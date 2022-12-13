@@ -6,30 +6,9 @@
 
 import pytest
 
-from lcitool.packages import Packages
-from lcitool.projects import Projects
-from lcitool.targets import BuildTarget, Targets
+from lcitool.targets import BuildTarget
 
-
-# This needs to be a global in order to compute ALL_PROJECTS at collection
-# time.  Tests do not access it and use the fixtures below.
-_PROJECTS = Projects()
-ALL_PROJECTS = sorted(_PROJECTS.names + list(_PROJECTS.internal.keys()))
-
-
-@pytest.fixture(scope="module")
-def targets():
-    return Targets()
-
-
-@pytest.fixture(scope="module")
-def packages():
-    return Packages()
-
-
-@pytest.fixture(scope="module")
-def projects():
-    return _PROJECTS
+from conftest import ALL_PROJECTS
 
 
 @pytest.fixture(params=ALL_PROJECTS)

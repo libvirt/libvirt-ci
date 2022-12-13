@@ -11,25 +11,7 @@ import test_utils.utils as test_utils
 from pathlib import Path
 
 from lcitool import util
-from lcitool.packages import Packages
-from lcitool.projects import Projects
-from lcitool.targets import Targets
 from lcitool.manifest import Manifest
-
-
-@pytest.fixture(scope="module")
-def packages():
-    return Packages()
-
-
-@pytest.fixture(scope="module")
-def projects():
-    return Projects()
-
-
-@pytest.fixture(scope="module")
-def targets():
-    return Targets()
 
 
 def test_generate(targets, packages, projects, monkeypatch):
