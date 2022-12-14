@@ -9,7 +9,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class Target:
+class BuildTarget:
     """
     Attributes:
         :ivar _inventory: inventory used to retrieve the target facts
