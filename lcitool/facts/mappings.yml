@@ -2201,8 +2201,9 @@ pypi_mappings:
   python3-dbus:
     MacOS: dbus-python
 
+  # higher versions are rejected by python3-sphinx-rtd-theme
   python3-docutils:
-    default: docutils
+    default: docutils<0.18
 
   python3-gobject:
     MacOS: PyGObject

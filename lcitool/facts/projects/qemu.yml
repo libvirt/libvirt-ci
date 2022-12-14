@@ -89,6 +89,7 @@ packages:
  - pulseaudio
  - python3
  - python3-PyYAML
+ - python3-docutils
  - python3-numpy
  - python3-opencv
  - python3-pillow
