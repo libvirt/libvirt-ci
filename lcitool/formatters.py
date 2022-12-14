@@ -7,6 +7,7 @@
 import abc
 import json
 import logging
+import shlex
 
 from pkg_resources import resource_filename
 
@@ -129,6 +130,7 @@ class BuildEnvFormatter(Formatter):
             return strings[0]
 
         align = " \\\n" + (" " * (self._indent + len(command + " ")))
+        strings = [shlex.quote(x) for x in strings]
         return align[1:] + align.join(strings)
 
     def _generator_build_varmap(self,
