@@ -1,3 +1,4 @@
+import json
 import logging
 
 from .containers import Container, ContainerError
@@ -107,3 +108,16 @@ class Podman(Container):
         log.debug(f"Options for podman engine: {args_podman}")
 
         return args_podman
+
+    def _images(self):
+        """
+        Get all container images.
+
+        :returns: a list of image details
+        """
+
+        img = super()._images()
+        images = json.loads(img)
+
+        log.debug(f"Deserialized {self.engine} images\n%s", images)
+        return images
