@@ -213,3 +213,20 @@ class Container(ABC):
 
         log.debug(f"Container options: {engine_args_}")
         return engine_args_
+
+    def rmi(self, image):
+        """
+        Remove a container image.
+        :param image: name of the image to remove (str).
+
+        :returns: boolean.
+        It returns True if image was successfully removed, False otherwise.
+        """
+
+        # podman rmi {image}
+        cmd = [self.engine, "rmi", image]
+        proc = self._exec(cmd,
+                          stdout=subprocess.PIPE,
+                          stderr=subprocess.STDOUT)
+        log.debug(proc.stdout.strip())
+        return not proc.returncode
