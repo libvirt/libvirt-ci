@@ -230,3 +230,22 @@ class Container(ABC):
                           stderr=subprocess.STDOUT)
         log.debug(proc.stdout.strip())
         return not proc.returncode
+
+    def _images(self):
+        """
+        Get all container images.
+
+        :returns: a string in JSON format containing image details.
+        """
+
+        # podman images --format {{json .}} --filter dangling=false
+
+        cmd_args = ["--format", "{{json .}}", "--filter", "dangling=false"]
+        cmd = [self.engine, "images"]
+
+        cmd.extend(cmd_args)
+        img = self._exec(cmd,
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.DEVNULL)
+        log.debug(f"{self.engine} images\n%s", img.stdout)
+        return img.stdout
