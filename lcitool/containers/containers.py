@@ -249,3 +249,59 @@ class Container(ABC):
                          stderr=subprocess.DEVNULL)
         log.debug(f"{self.engine} images\n%s", img.stdout)
         return img.stdout
+
+    def run(self, image, container_cmd, user, tempdir, env=None,
+            datadir=None, script=None, **kwargs):
+        """
+        Prepares and run the command.
+
+        This method generates the engine command from the arguments
+        and passes the full generated command to the "_exec()" method.
+
+        :param image: name of the image to run container in (str).
+        :param container_cmd: command to run in the container (str).
+        :param user:  user to run as in the container.
+        :param tempdir: path to a temporary directory.
+        :param env: a list of string. Each string is an environmental variable.
+        :param datadir: path to all the files and folder required to
+                        run workloads.
+        :param script: path to an executable script to kickstart
+                       operations in the container.
+        :param **kwargs: arguments passed to subprocess.run()
+
+        e.g {
+                "image": "ubuntu", "container_cmd": "/bin/sh", "user": 0,
+                "tempdir": /path/to/dir, "env": ["FOO=bar"],
+                "engine": "podman", "datadir": /path/to/data/dir"
+            }
+        :returns: an integer.
+
+        The returned integer is the status code of the underlying process
+        after completion.
+        """
+
+        # podman run --rm -it --user root --env FOO=bar {image} {cmd}
+        #
+        # Args to use when running the container
+        #   --rm      stop inactive containers getting left behind
+        #   --volume  to pass in the cloned git repo & config
+        #   --ulimit  lower files limit for performance reasons
+        #   --interactive
+        #   --tty     Ensure we have ability to Ctrl-C the build
+
+        cmd_args = ["--rm", "--interactive", "--tty"]
+
+        build_args = self._build_args(
+            user, tempdir, env=env, datadir=datadir, script=script
+        )
+        cmd_args.extend(build_args)
+
+        cmd = [self.engine, "run"]
+        cmd.extend(cmd_args)
+        cmd.extend([image, container_cmd])
+
+        log.debug(f"Run command: {cmd}")
+        run = self._exec(cmd,
+                         _exception=self._run_exception,
+                         check=True, **kwargs)
+        return run.returncode
