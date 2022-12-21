@@ -306,6 +306,13 @@ class CommandLine:
         )
         build_containerparser.set_defaults(func=Application._action_container_build)
 
+        run_containerparser = containersubparser.add_parser(
+            "run",
+            help="run container action",
+            parents=[imageopt, containeropt, engineopt, workload_diropt, scriptopt]
+        )
+        run_containerparser.set_defaults(func=Application._action_container_run)
+
     # Validate "container" args
     def _validate(self, args):
         """
@@ -327,6 +334,14 @@ class CommandLine:
                 else:
                     log.error("--target and --projects are required")
                     sys.exit(1)
+
+            if args.container == "run":
+                # "run" subcommand only requires "--script" argument;
+                # it works with or without "--workload-dir" argument
+                if not args.script:
+                    log.error("--script is required")
+                    sys.exit(1)
+
         return args
 
     def parse(self):

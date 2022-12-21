@@ -370,6 +370,46 @@ class Application:
         log.debug(f"Generated image tag --> {tag}")
         print(f"Image '{tag}' successfully built.")
 
+    def _action_container_run(self, args):
+        self._entrypoint_debug(args)
+
+        params = {}
+        client = self._get_client(args.engine)
+
+        container_tempdir = TemporaryDirectory(prefix="container",
+                                               dir=util.get_temp_dir())
+        params["tempdir"] = container_tempdir.name
+
+        if not client.image_exists(args.image):
+            print(f"Image '{args.image}' not found in local cache. Build it or pull from registry first.")
+            return
+
+        params["image"] = args.image
+        params["user"] = args.user
+        if args.user.isdecimal():
+            params["user"] = int(args.user)
+
+        if args.env:
+            params["env"] = args.env
+
+        if args.workload_dir:
+            workload_dir = Path(args.workload_dir)
+            if not workload_dir.is_dir():
+                raise ApplicationError(f"'{workload_dir}' is not a directory")
+            params["datadir"] = workload_dir.resolve()
+
+        script = Path(args.script)
+        if not script.is_file():
+            raise ApplicationError(f"'{script}' is not a file")
+        params["script"] = script.resolve()
+
+        params["container_cmd"] = "./script"
+
+        try:
+            client.run(**params)
+        except ContainerError as ex:
+            raise ApplicationError(ex.message)
+
     def run(self, args):
         try:
             util.set_extra_data_dir(args.data_dir)
