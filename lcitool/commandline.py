@@ -298,6 +298,14 @@ class CommandLine:
         )
         container_engineparser.set_defaults(func=Application._action_list_engines)
 
+        build_containerparser = containersubparser.add_parser(
+            "build",
+            help="Build container image",
+            parents=[installtargetopt, container_projectopt, engineopt,
+                     crossarchopt],
+        )
+        build_containerparser.set_defaults(func=Application._action_container_build)
+
     # Validate "container" args
     def _validate(self, args):
         """
@@ -308,6 +316,17 @@ class CommandLine:
         :return: args.
         """
 
+        if vars(args).get("container") \
+                and args.container in ["build", "run", "shell"]:
+
+            # Ensure that (--target & --projects) argument are passed with
+            # "build" subcommand.
+            if args.container == "build":
+                if args.projects and args.target:
+                    return args
+                else:
+                    log.error("--target and --projects are required")
+                    sys.exit(1)
         return args
 
     def parse(self):

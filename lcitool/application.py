@@ -6,9 +6,11 @@
 
 import logging
 import sys
+import textwrap
 
 from pathlib import Path
 from pkg_resources import resource_filename
+from tempfile import TemporaryDirectory, NamedTemporaryFile
 
 from lcitool import util, LcitoolError
 from lcitool.config import Config
@@ -325,6 +327,48 @@ class Application:
             print("\n".join(engines))
         else:
             print("No engine available")
+
+    def _action_container_build(self, args):
+        self._entrypoint_debug(args)
+
+        params = {}
+        client = self._get_client(args.engine)
+
+        container_tempdir = TemporaryDirectory(prefix="container",
+                                               dir=util.get_temp_dir())
+        params["tempdir"] = container_tempdir.name
+
+        tag = f"lcitool.{args.target}"
+
+        # remove image and prepare to build a new one.
+        client.rmi(tag)
+
+        targets = Targets()
+        packages = Packages()
+        projects = Projects()
+        projects_expanded = projects.expand_names(args.projects)
+        target = BuildTarget(targets, packages, args.target, args.cross_arch)
+
+        _file = None
+        file_content = DockerfileFormatter(projects).format(
+            target,
+            projects_expanded
+        )
+        with NamedTemporaryFile("w",
+                                delete=False,
+                                dir=params["tempdir"]) as fd:
+            fd.write(textwrap.dedent(file_content))
+            _file = fd.name
+
+        log.debug(f"Generated dockerfile copied to {_file}")
+
+        try:
+            client.build(tag=tag, filepath=_file, **params)
+        except ContainerError as ex:
+            raise ApplicationError(ex.message)
+
+        log.debug(f"Generated image tag --> {tag}")
+        print(f"Image '{tag}' successfully built.")
 
     def run(self, args):
         try:
