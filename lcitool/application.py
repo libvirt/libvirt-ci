@@ -303,6 +303,17 @@ class Application:
         manifest = Manifest(targets, packages, projects, args.manifest, args.quiet, ci_path, base_path)
         manifest.generate(args.dry_run)
 
+    @staticmethod
+    def _get_client(engine):
+        client = Podman()
+        if engine == "docker":
+            client = Docker()
+
+        if client.available is None:
+            raise ApplicationError(f"{client.engine} engine not available")
+
+        return client
+
     def run(self, args):
         try:
             util.set_extra_data_dir(args.data_dir)
