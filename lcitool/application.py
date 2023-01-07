@@ -18,6 +18,7 @@ from lcitool.projects import Projects
 from lcitool.targets import Targets, BuildTarget
 from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, JSONVariablesFormatter, ShellBuildEnvFormatter
 from lcitool.manifest import Manifest
+from lcitool.containers import Docker, Podman, ContainerError
 
 
 log = logging.getLogger(__name__)
@@ -313,6 +314,17 @@ class Application:
             raise ApplicationError(f"{client.engine} engine not available")
 
         return client
+
+    def _action_list_engines(self, args):
+        engines = []
+        for engine in [Podman(), Docker()]:
+            if engine.available:
+                engines.append(engine.engine)
+
+        if engines:
+            print("\n".join(engines))
+        else:
+            print("No engine available")
 
     def run(self, args):
         try:

@@ -292,6 +292,12 @@ class CommandLine:
                                                              dest='container')
         containersubparser.required = True
 
+        container_engineparser = containersubparser.add_parser(
+            "engines",
+            help="List available container engines",
+        )
+        container_engineparser.set_defaults(func=Application._action_list_engines)
+
     # Validate "container" args
     def _validate(self, args):
         """
