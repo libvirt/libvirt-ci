@@ -385,17 +385,21 @@ class BuildEnvFormatter(Formatter):
                 "{nosync}{packaging_command} update",
                 "{nosync}{packaging_command} dist-upgrade -y",
                 "{nosync}{packaging_command} install --no-install-recommends -y dpkg-dev",
-                "{nosync}{packaging_command} install --no-install-recommends -y {cross_pkgs}",
             ])
+            if varmap["cross_pkgs"]:
+                cross_commands.extend([
+                    "{nosync}{packaging_command} install --no-install-recommends -y {cross_pkgs}",
+                ])
             if self._pkgcleanup:
                 cross_commands.extend([
                     "{nosync}{packaging_command} autoremove -y",
                     "{nosync}{packaging_command} autoclean -y",
                 ])
         elif facts["packaging"]["format"] == "rpm":
-            cross_commands.extend([
-                "{nosync}{packaging_command} install -y {cross_pkgs}",
-            ])
+            if varmap["cross_pkgs"]:
+                cross_commands.extend([
+                    "{nosync}{packaging_command} install -y {cross_pkgs}",
+                ])
             if self._pkgcleanup:
                 cross_commands.extend([
                     "{nosync}{packaging_command} clean all -y",
