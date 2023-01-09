@@ -159,10 +159,10 @@ class Inventory():
         package_names_early_install = package_names_by_type(pkgs_early_install)
 
         # merge the package lists to the Ansible group vars
-        vars = dict(target.facts)
-        vars["packages"] = package_names["native"]
-        vars["pypi_packages"] = package_names["pypi"]
-        vars["cpan_packages"] = package_names["cpan"]
-        vars["unwanted_packages"] = package_names_remove["native"]
-        vars["early_install_packages"] = package_names_early_install["native"]
-        return vars
+        group_vars = dict(target.facts)
+        group_vars["packages"] = package_names["native"]
+        group_vars["pypi_packages"] = package_names["pypi"]
+        group_vars["cpan_packages"] = package_names["cpan"]
+        group_vars["unwanted_packages"] = package_names_remove["native"]
+        group_vars["early_install_packages"] = package_names_early_install["native"]
+        return group_vars
