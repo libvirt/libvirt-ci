@@ -169,13 +169,13 @@ class Project:
         osversion = target.facts["os"]["version"]
         target_name = f"{osname.lower()}-{osversion.lower()}"
         if target.cross_arch is None:
-            target_name = f"{target_name}-x86_64"
+            target_name = f"{target_name}"
         else:
             try:
                 util.validate_cross_platform(target.cross_arch, osname)
             except ValueError as ex:
                 raise ProjectError(ex)
-            target_name = f"{target_name}-{target.cross_arch}"
+            target_name = f"{target_name}-{target.cross_arch}-cross"
 
         # lazy evaluation + caching of package names for a given distro
         if self._target_packages.get(target_name) is None:
