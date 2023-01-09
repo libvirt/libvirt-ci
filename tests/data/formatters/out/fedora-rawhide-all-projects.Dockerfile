@@ -199,7 +199,6 @@ exec "$@"' > /usr/bin/nosync && \
                perl-TAP-Formatter-JUnit \
                perl-TAP-Harness-Archive \
                perl-Test-Exception \
-               perl-Test-Harness \
                perl-Test-LWP-UserAgent \
                perl-Test-Pod \
                perl-Test-Pod-Coverage \

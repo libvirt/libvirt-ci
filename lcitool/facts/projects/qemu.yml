@@ -82,8 +82,6 @@ packages:
  - nsis
  - pam
  - pcre-static
- - perl
- - perl-Test-Harness
  - pixman
  - pkg-config
  - pulseaudio

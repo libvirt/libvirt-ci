@@ -179,7 +179,6 @@ RUN dnf distro-sync -y && \
         perl-Pod-Simple \
         perl-Sub-Uplevel \
         perl-Test-Exception \
-        perl-Test-Harness \
         perl-Test-Pod \
         perl-Test-Pod-Coverage \
         perl-Test-Simple \

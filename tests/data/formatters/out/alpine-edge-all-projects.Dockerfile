@@ -147,7 +147,6 @@ RUN apk update && \
         perl-net-snmp \
         perl-sub-uplevel \
         perl-test-exception \
-        perl-test-harness \
         perl-test-pod \
         perl-test-pod-coverage \
         perl-time-hires \

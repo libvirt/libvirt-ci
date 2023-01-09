@@ -168,7 +168,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       libtap-harness-archive-perl \
                       libtasn1-6-dev \
                       libtest-exception-perl \
-                      libtest-harness-perl \
                       libtest-lwp-useragent-perl \
                       libtest-pod-coverage-perl \
                       libtest-pod-perl \

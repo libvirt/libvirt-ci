@@ -13,8 +13,6 @@ packages:
  - make
  - meson
  - ninja
- - perl
- - perl-Test-Harness
  - pixman
  - pkg-config
  - zlib
