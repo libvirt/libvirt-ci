@@ -17,6 +17,7 @@ cross:
 - mingw64-headers
 - mingw64-json-glib
 - mingw64-libarchive
+- mingw64-libepoxy
 - mingw64-libgcrypt
 - mingw64-libgovirt
 - mingw64-libjpeg-turbo

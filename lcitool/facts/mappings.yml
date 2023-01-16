@@ -786,6 +786,8 @@ mappings:
     apk: libepoxy-dev
     deb: libepoxy-dev
     rpm: libepoxy-devel
+    cross-mingw32-rpm: mingw32-libepoxy
+    cross-mingw64-rpm: mingw64-libepoxy
     cross-policy-default: foreign
 
   libev:
