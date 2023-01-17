@@ -1,3 +1,7 @@
+# containers.py - module implementing generic container runtime wrapper logic
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 import pwd
 import shutil
 import logging

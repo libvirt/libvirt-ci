@@ -1,3 +1,7 @@
+# install.py - module providing VM installation abstraction layer
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 import logging
 import subprocess
 
