@@ -1,5 +1,7 @@
 # docker.py - module implementing docker container runtime wrapper logic
 #
+# Copyright (c) 2023 Abdulwasiu Apalowo.
+#
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import json
