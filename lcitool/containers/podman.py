@@ -1,4 +1,4 @@
-# containers.py - module implementing generic container runtime wrapper logic
+# podman.py - module implementing podman container runtime wrapper logic
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
