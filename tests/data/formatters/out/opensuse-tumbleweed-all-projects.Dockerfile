@@ -257,7 +257,6 @@ RUN zypper dist-upgrade -y && \
            xorriso \
            xz \
            xz-devel \
-           xz-static-devel \
            zip \
            zlib-devel \
            zlib-devel-static && \

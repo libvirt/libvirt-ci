@@ -895,7 +895,9 @@ mappings:
   liblzma-static:
     deb: liblzma-dev
     Fedora: xz-static
-    OpenSUSE: xz-static-devel
+    OpenSUSE:
+    OpenSUSELeap153: xz-static-devel
+    OpenSUSELeap154: xz-static-devel
     cross-policy-default: foreign
 
   libnfs:
