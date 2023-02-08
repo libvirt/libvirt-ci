@@ -1680,7 +1680,7 @@ mappings:
 
   python3-boto3:
     default: python3-boto3
-    apk:
+    apk: py3-boto3
     pkg: py39-boto3
 
   python3-devel:

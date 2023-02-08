@@ -160,6 +160,7 @@ RUN apk update && \
         pkgconf \
         polkit \
         pulseaudio-dev \
+        py3-boto3 \
         py3-dbus \
         py3-docutils \
         py3-flake8 \
@@ -174,7 +175,6 @@ RUN apk update && \
         py3-setuptools \
         py3-sphinx \
         py3-sphinx_rtd_theme \
-        py3-wheel \
         py3-yaml \
         python3 \
         python3-dev \
@@ -233,8 +233,6 @@ RUN apk update && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/clang && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
-
-RUN /usr/bin/pip3 install boto3
 
 RUN cpanm --notest \
           Archive::Tar \

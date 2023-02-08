@@ -180,6 +180,7 @@ native:
 - pkgconf
 - polkit
 - pulseaudio-dev
+- py3-boto3
 - py3-dbus
 - py3-docutils
 - py3-flake8
@@ -249,5 +250,3 @@ native:
 - zlib-static
 - zstd
 - zstd-dev
-pypi:
-- boto3
