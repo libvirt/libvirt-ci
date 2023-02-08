@@ -1169,7 +1169,6 @@ mappings:
 
   llvm:
     default: llvm
-    apk: llvm11
 
   locales:
     deb: locales

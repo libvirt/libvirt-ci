@@ -124,7 +124,7 @@ native:
 - libxslt
 - libxslt-dev
 - linux-pam-dev
-- llvm11
+- llvm
 - lsof
 - lttng-ust-dev
 - lua5.4

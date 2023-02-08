@@ -107,7 +107,7 @@ RUN apk update && \
         libxslt \
         libxslt-dev \
         linux-pam-dev \
-        llvm11 \
+        llvm \
         lttng-ust-dev \
         lua5.4 \
         lvm2 \
