@@ -174,8 +174,8 @@ native:
 - perl-xml-writer
 - perl-xml-xpath
 - perl-yaml
-- php8-dev
-- php8-pecl-imagick
+- php81-dev
+- php81-pecl-imagick
 - pixman-dev
 - pkgconf
 - polkit
