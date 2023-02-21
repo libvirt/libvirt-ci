@@ -18,7 +18,7 @@ or adding the following snippet to ``.gitlab-ci.yml``
 
    cargo-fmt:
      stage: sanity_checks
-     image: registry.gitlab.com/libvirt/libvirt-ci/cargo-fmt:master
+     image: registry.gitlab.com/libvirt/libvirt-ci/cargo-fmt:latest
      needs: []
      script:
        - /cargo-fmt

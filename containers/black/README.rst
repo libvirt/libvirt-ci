@@ -18,7 +18,7 @@ or adding the following snippet to ``.gitlab-ci.yml``
 
    black:
      stage: sanity_checks
-     image: registry.gitlab.com/libvirt/libvirt-ci/black:master
+     image: registry.gitlab.com/libvirt/libvirt-ci/black:latest
      needs: []
      script:
        - /black

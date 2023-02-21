@@ -18,7 +18,7 @@ or adding the following snippet to ``.gitlab-ci.yml``
 
    clang-format:
      stage: sanity_checks
-     image: registry.gitlab.com/libvirt/libvirt-ci/clang-format:master
+     image: registry.gitlab.com/libvirt/libvirt-ci/clang-format:latest
      needs: []
      script:
        - /clang-format

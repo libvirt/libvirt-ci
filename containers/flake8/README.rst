@@ -18,7 +18,7 @@ or adding the following snippet to ``.gitlab-ci.yml``
 
    flake8:
      stage: sanity_checks
-     image: registry.gitlab.com/libvirt/libvirt-ci/flake8:master
+     image: registry.gitlab.com/libvirt/libvirt-ci/flake8:latest
      needs: []
      script:
        - /flake8

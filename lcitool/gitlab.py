@@ -306,7 +306,7 @@ def cirrus_template(cidir):
         f"""
         .cirrus_build_job:
           stage: builds
-          image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
+          image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:latest
           interruptible: true
           needs: []
           script:
@@ -371,7 +371,7 @@ def check_dco_job():
         check-dco:
           stage: sanity_checks
           needs: []
-          image: registry.gitlab.com/libvirt/libvirt-ci/check-dco:master
+          image: registry.gitlab.com/libvirt/libvirt-ci/check-dco:latest
           interruptible: true
           script:
             - /check-dco "$RUN_UPSTREAM_NAMESPACE"
@@ -394,7 +394,7 @@ def code_fmt_template():
         """
         .code_format:
           stage: sanity_checks
-          image: registry.gitlab.com/libvirt/libvirt-ci/$NAME:master
+          image: registry.gitlab.com/libvirt/libvirt-ci/$NAME:latest
           interruptible: true
           needs: []
           script:
