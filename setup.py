@@ -35,7 +35,7 @@ setup(
     scripts=["bin/lcitool"],
     package_data={
         "lcitool": get_recursive_datafiles(["lcitool/ansible",
-                                            "lcitool/configs/install",
+                                            "lcitool/configs",
                                             "lcitool/cross",
                                             "lcitool/etc", ]),
     },
