@@ -244,9 +244,9 @@ class Container(ABC):
         :returns: a string in JSON format containing image details.
         """
 
-        # podman images --format {{json .}} --filter dangling=false
+        # podman images --format json --filter dangling=false
 
-        cmd_args = ["--format", "{{json .}}", "--filter", "dangling=false"]
+        cmd_args = ["--format", "json", "--filter", "dangling=false"]
         cmd = [self.engine, "images"]
 
         cmd.extend(cmd_args)
