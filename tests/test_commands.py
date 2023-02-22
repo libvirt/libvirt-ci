@@ -7,6 +7,7 @@
 import os
 import pytest
 import subprocess
+import sys
 from pathlib import Path
 
 
@@ -28,3 +29,12 @@ def test_commands(test_cli_args):
     subenv = os.environ
     subenv["PYTHONPATH"] = str(pybase)
     subprocess.check_call([lcitool] + test_cli_args, stdout=subprocess.DEVNULL)
+
+
+@pytest.mark.skipif(sys.prefix == sys.base_prefix,
+                    reason="lcitool package not installed")
+@pytest.mark.parametrize("test_cli_args", cli_args)
+def test_commands_installed(test_cli_args):
+    lcitool_venv_path = Path(sys.prefix, "bin/lcitool")
+    subprocess.check_call([lcitool_venv_path] + test_cli_args,
+                          stdout=subprocess.DEVNULL)
