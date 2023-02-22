@@ -164,6 +164,14 @@ unittests:
     - pip3 install -r requirements.txt ansible-runner
     - python3 -m pytest --verbose
 
+package_install:
+  extends: unittests
+  script:
+    - python3 -m venv _venv_
+    - _venv_/bin/pip3 install setuptools pytest
+    - _venv_/bin/pip3 install -r requirements.txt pytest .
+    - _venv_/bin/python3 -m pytest --verbose tests/test_commands.py -k 'test_commands_installed'
+
 x86_64-check-almalinux-8:
   extends: .check_container_template
   variables:
