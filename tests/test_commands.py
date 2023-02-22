@@ -11,6 +11,7 @@ from pathlib import Path
 
 
 cli_args = [
+    ["--help"],
     ["targets"],
     ["projects"],
     ["variables", "almalinux-8", "osinfo-db-tools"],
