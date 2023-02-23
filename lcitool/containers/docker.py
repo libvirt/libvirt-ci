@@ -48,7 +48,7 @@ class Docker(Container):
         # Docker lacks proper JSON format output and instead of a single JSON
         # list object of all images it will return individual JSON objects
         # for all images, one per line
-        images = [json.loads(image) for image in img.strip().split("\n")]
+        images = [json.loads(image) for image in img.strip().split("\n") if image]
 
         log.debug(f"Deserialized {self.engine} images\n%s", images)
         return images
