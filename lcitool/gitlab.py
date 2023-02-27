@@ -446,58 +446,63 @@ def code_fmt_template():
 
 
 def cargo_fmt_job():
+    jobvars = {
+        "NAME": "cargo-fmt",
+        "EXT": "txt"
+    }
     return textwrap.dedent(
         """
         cargo-fmt:
           extends: .code_format
-          variables:
-            NAME: cargo-fmt
-            EXT: txt
-        """)
+        """) + format_variables(jobvars)
 
 
 def go_fmt_job():
+    jobvars = {
+        "NAME": "go-fmt",
+        "EXT": "patch"
+    }
     return textwrap.dedent(
         """
         go-fmt:
           extends: .code_format
-          variables:
-            NAME: go-fmt
-            EXT: patch
-        """)
+        """) + format_variables(jobvars)
 
 
 def clang_format_job():
+    jobvars = {
+        "NAME": "clang-format",
+        "EXT": "patch"
+    }
     return textwrap.dedent(
         """
         clang-format:
           extends: .code_format
-          variables:
-            NAME: clang-format
-            EXT: patch
-        """)
+        """) + format_variables(jobvars)
 
 
 def black_job():
+    jobvars = {
+        "NAME": "black",
+        "EXT": "txt"
+    }
     return textwrap.dedent(
         """
         black:
           extends: .code_format
-          variables:
-            NAME: black
-            EXT: txt
-        """)
+        """) + format_variables(jobvars)
 
 
 def flake8_job():
+    jobvars = {
+        "NAME": "flake8",
+        "EXT": "txt"
+    }
     return textwrap.dedent(
         """
         flake8:
           extends: .code_format
-          variables:
-            NAME: flake8
-            EXT: txt
-        """)
+        """) + format_variables(jobvars)
 
 
 def _container_job(target, arch, image, allow_failure, optional):

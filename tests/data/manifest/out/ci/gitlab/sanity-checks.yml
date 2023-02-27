@@ -52,33 +52,33 @@ check-dco:
 cargo-fmt:
   extends: .code_format
   variables:
-    NAME: cargo-fmt
     EXT: txt
+    NAME: cargo-fmt
 
 
 go-fmt:
   extends: .code_format
   variables:
-    NAME: go-fmt
     EXT: patch
+    NAME: go-fmt
 
 
 clang-format:
   extends: .code_format
   variables:
-    NAME: clang-format
     EXT: patch
+    NAME: clang-format
 
 
 black:
   extends: .code_format
   variables:
-    NAME: black
     EXT: txt
+    NAME: black
 
 
 flake8:
   extends: .code_format
   variables:
-    NAME: flake8
     EXT: txt
+    NAME: flake8
