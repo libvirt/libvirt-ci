@@ -97,7 +97,6 @@ native:
 - libssh2
 - libtasn1
 - libtool
-- libtorrent
 - libusb
 - libvirt
 - libvirt-glib
@@ -117,12 +116,9 @@ native:
 - ocaml-findlib
 - openjdk
 - perl
-- perl5-devel
 - pixman
 - pkg-config
 - python3
-- python3-boto3
-- python3-libnbd
 - qemu
 - readline
 - rpcgen
@@ -133,13 +129,12 @@ native:
 - scrub
 - sdl2
 - sdl2_image
-- sfdisk
 - snappy
 - socat
 - sparse
 - spice-gtk
 - spice-protocol
-- tcl
+- tcl-tk
 - tcpdump
 - tesseract
 - texinfo
@@ -159,6 +154,7 @@ native:
 pypi:
 - PyGObject
 - PyYAML
+- boto3
 - dbus-python
 - libxml2-python3
 - lxml

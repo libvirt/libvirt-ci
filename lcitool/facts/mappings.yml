@@ -1071,6 +1071,9 @@ mappings:
     default: libtorrent
     deb: libtorrent-dev
     rpm: libtorrent-devel
+    # homebrew has libtorrent-rasterbar, but pkg-config doesn't pick
+    # up proper references to compile with boost
+    MacOS:
 
   libubsan:
     deb: libubsan1
@@ -1277,6 +1280,7 @@ mappings:
     default: python3-libnbd
     apk:
     pkg:
+    MacOS:
     OpenSUSE:
     Debian10:
     Ubuntu1804:
@@ -1599,7 +1603,7 @@ mappings:
     deb: libperl-dev
     pkg: perl5-devel
     rpm: perl-devel
-    MacOS: perl5-devel
+    MacOS: perl
     OpenSUSE:
 
   perl-generators:
@@ -1681,6 +1685,7 @@ mappings:
     default: python3-boto3
     apk: py3-boto3
     pkg: py39-boto3
+    MacOS:
 
   python3-devel:
     default: python3
@@ -1918,6 +1923,7 @@ mappings:
     # option) and what's more the binary is called sfdisk-linux
     pkg:
     rpm: util-linux
+    MacOS:
 
   showmount:
     apk: nfs-utils
@@ -2020,6 +2026,7 @@ mappings:
     deb: tcl-dev
     pkg: tcl87
     rpm: tcl-devel
+    MacOS: tcl-tk
 
   tcpdump:
     default: tcpdump
