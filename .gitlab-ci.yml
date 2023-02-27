@@ -2,7 +2,7 @@
 # the upstream repo default branch. To force a run when pushing
 # to a feature branch use
 #
-#  git push -o ci.variable=LIBVIRT_CI=1 ...
+#  git push -o ci.variable=RUN_PIPELINEI=1 ...
 
 stages:
   - containers
@@ -17,7 +17,7 @@ stages:
   when: on_success
 
 .job_rules_opt_in: &job_rules_opt_in
-  if: '$LIBVIRT_CI == "1"'
+  if: '$RUN_PIPELINE == "1"'
   when: on_success
 
 .job_rules_container_changes: &job_rules_container_changes
