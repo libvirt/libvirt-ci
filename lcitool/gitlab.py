@@ -75,6 +75,7 @@ def variables(namespace):
         f"""
         variables:
           RUN_UPSTREAM_NAMESPACE: {namespace}
+          FF_SCRIPT_SECTIONS: 1
         """)
 
 

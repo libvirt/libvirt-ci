@@ -43,6 +43,7 @@
 
 variables:
   RUN_UPSTREAM_NAMESPACE: test-group
+  FF_SCRIPT_SECTIONS: 1
 
 
 workflow:
