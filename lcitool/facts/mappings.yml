@@ -2176,6 +2176,9 @@ mappings:
     deb: libzstd-dev
     rpm: libzstd-devel
 
+  zstdtools:
+    default: zstd
+
 # PyPi mappings are used to map the generic packages name used to define
 # projects to the specific package name and version which will be used when
 # installing them from PyPi using pip.

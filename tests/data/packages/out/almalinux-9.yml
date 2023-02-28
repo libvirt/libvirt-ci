@@ -259,6 +259,7 @@ native:
 - zip
 - zlib-devel
 - zlib-static
+- zstd
 pypi:
 - flake8
 - pillow

@@ -279,5 +279,6 @@ native:
 - xsltproc
 - xz-utils
 - zip
+- zstd
 pypi:
 - meson==0.56.0

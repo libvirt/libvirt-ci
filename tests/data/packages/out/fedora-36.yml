@@ -292,3 +292,4 @@ native:
 - zip
 - zlib-devel
 - zlib-static
+- zstd

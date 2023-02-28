@@ -320,3 +320,4 @@ packages:
 - zlib
 - zlib-static
 - zstd
+- zstdtools

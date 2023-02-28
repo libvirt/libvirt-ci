@@ -282,5 +282,6 @@ native:
 - zip
 - zlib-devel
 - zlib-devel-static
+- zstd
 pypi:
 - meson==0.56.0

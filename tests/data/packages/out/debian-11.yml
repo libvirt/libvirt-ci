@@ -287,3 +287,4 @@ native:
 - xz-utils
 - zip
 - zlib1g-dev
+- zstd

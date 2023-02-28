@@ -284,5 +284,6 @@ native:
 - xz-utils
 - zip
 - zlib1g-dev
+- zstd
 pypi:
 - meson==0.56.0
