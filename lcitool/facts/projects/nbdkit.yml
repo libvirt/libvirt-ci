@@ -29,6 +29,7 @@ packages:
   - libtool
   - libtorrent # -rasterbar or rb_??
   - libvirt
+  - libzstd
   - losetup
   - lua
   - make
@@ -54,4 +55,3 @@ packages:
   - tcl
   - xz
   - zlib
-  - zstd

@@ -220,7 +220,6 @@ RUN apk update && \
         zip \
         zlib-dev \
         zlib-static \
-        zstd \
         zstd-dev && \
     apk list | sort > /packages.txt && \
     mkdir -p /usr/libexec/ccache-wrappers && \
