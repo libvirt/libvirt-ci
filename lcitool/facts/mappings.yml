@@ -477,7 +477,6 @@ mappings:
     apk: glib-dev
     deb: libglib2.0-dev-bin
     rpm: glib2-devel
-    MacOS: glib-utils
 
   glib2:
     default: glib

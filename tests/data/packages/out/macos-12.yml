@@ -64,7 +64,6 @@ native:
 - gettext
 - git
 - glib
-- glib-utils
 - gnu-sed
 - gnutls
 - gobject-introspection
