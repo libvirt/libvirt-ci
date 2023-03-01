@@ -319,5 +319,4 @@ packages:
 - zip
 - zlib
 - zlib-static
-- zstd
 - zstdtools

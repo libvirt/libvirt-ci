@@ -104,7 +104,6 @@ native:
 - libtorrent-devel
 - libxml2
 - libxslt
-- libzstd-devel
 - llvm
 - lsof
 - lua-devel

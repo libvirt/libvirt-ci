@@ -2159,11 +2159,6 @@ mappings:
     OpenSUSE: zlib-devel-static
     cross-policy-default: foreign
 
-  zstd:
-    default: zstd
-    deb: libzstd-dev
-    rpm: libzstd-devel
-
   zstdtools:
     default: zstd
 

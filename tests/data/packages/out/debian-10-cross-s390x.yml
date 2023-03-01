@@ -200,7 +200,6 @@ native:
 - libxml-xpath-perl
 - libxml2-utils
 - libyaml-perl
-- libzstd-dev
 - llvm
 - locales
 - lsof
