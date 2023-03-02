@@ -21,6 +21,7 @@ RUN dnf update -y && \
         bzip2 \
         bzip2-devel \
         ca-certificates \
+        capstone-devel \
         cargo \
         ccache \
         check-devel \
@@ -66,7 +67,6 @@ RUN dnf update -y && \
         guestfs-tools \
         gzip \
         hostname \
-        https://kojipkgs.fedoraproject.org/packages/capstone/4.0.2/9.el9/x86_64/capstone-4.0.2-9.el9.x86_64.rpm \
         hwdata \
         icoutils \
         iproute \

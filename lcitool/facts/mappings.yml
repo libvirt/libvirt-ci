@@ -200,15 +200,6 @@ mappings:
     rpm: capstone-devel
     MacOS: capstone
     OpenSUSE:
-    # EPEL9 retired capstone as soon as it was added to c9s for
-    # the future RHEL-9.2 release. This dooms anyone still using
-    # RHEL < 9.2 who still needs capstone from EPEL, so we
-    # workaround by manually picking the most recent version
-    AlmaLinux9:
-    aarch64-AlmaLinux9: https://kojipkgs.fedoraproject.org/packages/capstone/4.0.2/9.el9/aarch64/capstone-4.0.2-9.el9.aarch64.rpm
-    ppc64le-AlmaLinux9: https://kojipkgs.fedoraproject.org/packages/capstone/4.0.2/9.el9/ppc64le/capstone-4.0.2-9.el9.ppc64le.rpm
-    s390x-AlmaLinux9: https://kojipkgs.fedoraproject.org/packages/capstone/4.0.2/9.el9/s390x/capstone-4.0.2-9.el9.s390x.rpm
-    x86_64-AlmaLinux9: https://kojipkgs.fedoraproject.org/packages/capstone/4.0.2/9.el9/x86_64/capstone-4.0.2-9.el9.x86_64.rpm
     cross-policy-default: foreign
 
   cargo:
