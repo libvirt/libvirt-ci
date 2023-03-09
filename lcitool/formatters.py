@@ -9,8 +9,6 @@ import json
 import logging
 import shlex
 
-from pkg_resources import resource_filename
-
 from lcitool import util, LcitoolError
 from lcitool.packages import package_names_by_type
 
@@ -66,9 +64,9 @@ class Formatter(metaclass=abc.ABCMeta):
         pass
 
     def _get_meson_cross(self, cross_abi):
-        cross_name = resource_filename(__name__,
-                                       f"cross/{cross_abi}.meson")
-        with open(cross_name, "r") as c:
+        cross_path = util.package_resource(__package__,
+                                           f"cross/{cross_abi}.meson")
+        with open(cross_path, "r") as c:
             return c.read().rstrip()
 
     def _generator_build_varmap(self,

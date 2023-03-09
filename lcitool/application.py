@@ -9,7 +9,6 @@ import sys
 import textwrap
 
 from pathlib import Path
-from pkg_resources import resource_filename
 from tempfile import TemporaryDirectory, NamedTemporaryFile
 
 from lcitool import util, LcitoolError
@@ -70,7 +69,7 @@ class Application:
                   f"hosts_pattern={hosts_pattern} "
                   f"projects_pattern={projects_pattern} gitrev={git_revision}")
 
-        base = resource_filename(__name__, "ansible")
+        base = util.package_resource(__package__, "ansible").as_posix()
         config = Config()
         targets = Targets(data_dir)
         inventory = Inventory(targets, config)

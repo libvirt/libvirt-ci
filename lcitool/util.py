@@ -15,7 +15,6 @@ import textwrap
 import yaml
 
 from pathlib import Path
-from pkg_resources import resource_filename
 
 _tempdir = None
 
@@ -278,7 +277,7 @@ class DataDir:
             if p.exists():
                 yield p
 
-        p = Path(resource_filename(__name__, resource_path), *names)
+        p = Path(package_resource(__package__, resource_path), *names)
         if p.exists():
             yield p
 

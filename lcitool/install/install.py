@@ -6,7 +6,6 @@ import logging
 import subprocess
 
 from pathlib import Path
-from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
 from lcitool.config import Config
@@ -136,9 +135,9 @@ class VirtInstall:
 
         # Unattended install scripts are being generated on the fly, based
         # on the templates present in lcitool/install/configs/
-        filename = resource_filename("lcitool",
-                                     f"install/configs/{install_config}")
-        with open(filename, "r") as template:
+        cfg_path = util.package_resource(__package__,
+                                         f"configs/{install_config}")
+        with open(cfg_path, "r") as template:
             content = template.read()
             for option in unattended_options:
                 content = content.replace(

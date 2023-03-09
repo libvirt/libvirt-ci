@@ -9,7 +9,6 @@ import logging
 import yaml
 
 from pathlib import Path
-from pkg_resources import resource_filename
 
 from lcitool import util, LcitoolError
 
@@ -71,7 +70,8 @@ class Config:
     def _load_config(self):
         # Load the template config containing the defaults first, this must
         # always succeed.
-        default_config_path = resource_filename(__name__, "etc/config.yml")
+        default_config_path = util.package_resource(__package__,
+                                                    "etc/config.yml")
         with open(default_config_path, "r") as fp:
             default_config = yaml.safe_load(fp)
 
