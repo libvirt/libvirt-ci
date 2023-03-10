@@ -205,6 +205,7 @@ class CommandLine:
 
         # Main parser
         self._parser = argparse.ArgumentParser(
+            prog="lcitool",
             conflict_handler="resolve",
             description="libvirt CI guest management tool",
         )
