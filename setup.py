@@ -47,8 +47,14 @@ setup(
     description="libvirt CI guest management tool",
     keywords="libvirt ci",
     url="https://libvirt.org",
+    python_requires=">=3.8",
     classifiers=[
-        "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)"
+        "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3 :: Only",
     ],
     cmdclass={
         "clean": CleanCommand,
