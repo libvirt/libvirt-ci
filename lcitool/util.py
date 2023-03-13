@@ -8,6 +8,7 @@ import copy
 import fnmatch
 import logging
 import os
+import sys
 import platform
 import tempfile
 import textwrap
@@ -203,6 +204,40 @@ def get_config_dir():
         config_dir = Path(os.environ["HOME"], ".config")
 
     return Path(config_dir, "lcitool")
+
+
+def package_resource(package, relpath):
+    """
+    Backcompatibility helper to retrieve a package resource using importlib
+
+    :param package: object conforming to importlib.resources.Package requirement
+    :param relpath: relative path to the actual resource (or directory) as
+                    str or Path object
+    :returns: a Path object to the resource
+    """
+
+    from importlib import import_module, resources
+
+    if hasattr(resources, "files"):
+        return Path(resources.files(package), relpath)
+    else:
+        # This is a horrible hack, it won't work for resources that don't exist
+        # on the file system (which should not be a problem for our use case),
+        # but it's needed because importlib.resources.path only accepts
+        # filenames for a 'Resource' [1]. What it means is that one cannot pass
+        # a path construct in 'relpath', because 'Resource' cannot contain
+        # path delimiters and also cannot be a directory, so we cannot use the
+        # method to construct base resource paths.
+        # [1] https://docs.python.org/3/library/importlib.resources.html?highlight=importlib%20resources#importlib.resources.path
+        # Instead, we'll extract the package path from ModuleSpec (loading the
+        # package first if needed) and then concatenate it with the 'relpath'
+        #
+        # TODO: Drop this helper once we move onto 3.9+
+        if package not in sys.modules:
+            import_module(package)
+
+        package_path = Path(sys.modules[package].__file__).parent
+        return Path(package_path, relpath)
 
 
 def merge_dict(source, dest):
