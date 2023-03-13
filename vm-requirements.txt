@@ -1,5 +1,5 @@
 -r requirements.txt
 
 ansible
-ansible-runner
+ansible-runner >= 2.1.1
 libvirt-python
