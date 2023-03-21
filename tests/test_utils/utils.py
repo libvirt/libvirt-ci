@@ -15,16 +15,19 @@ def base_data_dir():
     return Path(__file__).parent.parent.joinpath("data")
 
 
-def test_data_dir(test_name):
-    return Path(base_data_dir(), Path(test_name).stem[len("test_"):])
+def test_data_dir(test_name, relative_dir=None):
+    if relative_dir is None:
+        relative_dir = ""
+    test_stem = Path(test_name).stem[len("test_"):]
+    return Path(base_data_dir(), relative_dir, test_stem)
 
 
-def test_data_outdir(test_name):
-    return Path(test_data_dir(test_name), "out")
+def test_data_outdir(test_name, relative_dir=None):
+    return Path(test_data_dir(test_name, relative_dir), "out")
 
 
-def test_data_indir(test_name):
-    return Path(test_data_dir(test_name), "in")
+def test_data_indir(test_name, relative_dir=None):
+    return Path(test_data_dir(test_name, relative_dir), "in")
 
 
 def format_err_msg(indices, err_msg):
