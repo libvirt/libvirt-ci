@@ -35,6 +35,21 @@ ALL_PROJECTS = sorted(_PROJECTS.names + list(_PROJECTS.internal.keys()))
 ALL_TARGETS = sorted(_TARGETS.targets)
 
 
+def monkeypatch_context():
+    with pytest.MonkeyPatch.context() as mp:
+        yield mp
+
+
+@pytest.fixture(scope="module")
+def monkeypatch_module_scope():
+    yield from monkeypatch_context()
+
+
+@pytest.fixture(scope="class")
+def monkeypatch_class_scope():
+    yield from monkeypatch_context()
+
+
 @pytest.fixture
 def config(monkeypatch, request):
     if 'config_filename' in request.fixturenames:

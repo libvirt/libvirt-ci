@@ -3,7 +3,6 @@ import pytest
 
 from pathlib import Path
 from io import TextIOBase
-from _pytest.monkeypatch import MonkeyPatch
 from test_utils.utils import assert_equal_list
 
 from lcitool.containers import ContainerError, Docker, Podman
@@ -41,12 +40,9 @@ class MockSubUidGidTextIO(TextIOBase):
 
 
 @pytest.fixture(scope="module")
-def mock_pwd():
-    monkeypatch = MonkeyPatch()
-    monkeypatch.setattr(pwd, "getpwuid", get_pwuid)
-    monkeypatch.setattr(pwd, "getpwnam", get_pwuid)
-    yield monkeypatch
-    monkeypatch.undo()
+def mock_pwd(monkeypatch_module_scope):
+    monkeypatch_module_scope.setattr(pwd, "getpwuid", get_pwuid)
+    monkeypatch_module_scope.setattr(pwd, "getpwnam", get_pwuid)
 
 
 @pytest.fixture(scope="module")
@@ -67,11 +63,9 @@ class TestPodmanExtraArgs:
         return MockSubUidGidTextIO(file, **kwargs)
 
     @pytest.fixture(scope="class", autouse=True)
-    def patch_builtins_open(self):
-        monkeypatch = MonkeyPatch()
-        monkeypatch.setattr("builtins.open", TestPodmanExtraArgs.mock_open)
-        yield monkeypatch
-        monkeypatch.undo()
+    def patch_builtins_open(self, monkeypatch_class_scope):
+        monkeypatch_class_scope.setattr("builtins.open",
+                                        TestPodmanExtraArgs.mock_open)
 
     @pytest.mark.parametrize(
         "user, args",
@@ -108,11 +102,9 @@ class TestEngineOptions:
         return id_mapping
 
     @pytest.fixture(scope="class", autouse=True)
-    def patch_extra_args(self):
-        monkeypatch = MonkeyPatch()
-        monkeypatch.setattr("lcitool.containers.Podman._extra_args", self.podman_extra_args)
-        yield monkeypatch
-        monkeypatch.undo()
+    def patch_extra_args(self, monkeypatch_class_scope):
+        monkeypatch_class_scope.setattr("lcitool.containers.Podman._extra_args",
+                                        self.podman_extra_args)
 
     @pytest.mark.parametrize(
         "args, options",
