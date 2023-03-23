@@ -39,7 +39,7 @@
 #   - CentOS7
 #   - Debian9
 #   - FedoraRawhide
-#   - OpenSUSELeap152
+#   - OpenSUSELeap154
 #   - Ubuntu1804
 #
 # and so on.
@@ -883,7 +883,6 @@ mappings:
     deb: liblzma-dev
     Fedora: xz-static
     OpenSUSE:
-    OpenSUSELeap153: xz-static-devel
     OpenSUSELeap154: xz-static-devel
     cross-policy-default: foreign
 
@@ -1217,7 +1216,6 @@ mappings:
   meson:
     default: meson
     Debian10:
-    OpenSUSELeap153:
     Ubuntu1804:
     Ubuntu2004:
 
@@ -1695,7 +1693,6 @@ mappings:
     apk: py3-libxml2
     pkg: py39-libxml2
     MacOS:
-    OpenSUSELeap153: python3-libxml2-python
 
   python3-lxml:
     default: python3-lxml
