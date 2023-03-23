@@ -1,4 +1,4 @@
-FROM registry.opensuse.org/opensuse/leap:15.3
+FROM registry.opensuse.org/opensuse/leap:15.4
 
 RUN zypper update -y && \
     zypper install -y \

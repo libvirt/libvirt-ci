@@ -13,7 +13,7 @@ all_machines:
   - freebsd-12
   - freebsd-13
   - freebsd-current
-  - opensuse-leap-153
+  - opensuse-leap-154
   - opensuse-tumbleweed
   - ubuntu-2004
   - ubuntu-2204

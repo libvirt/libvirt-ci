@@ -17,7 +17,7 @@ scenarios = [
     # A minimalist application, testing package managers
     pytest.param("libvirt-go-xml-module", "debian-10", None, id="libvirt-go-xml-module-debian-10"),
     pytest.param("libvirt-go-xml-module", "almalinux-8", None, id="libvirt-go-xml-module-almalinux-8"),
-    pytest.param("libvirt-go-xml-module", "opensuse-leap-153", None, id="libvirt-go-xml-module-opensuse-leap-153"),
+    pytest.param("libvirt-go-xml-module", "opensuse-leap-154", None, id="libvirt-go-xml-module-opensuse-leap-154"),
     pytest.param("libvirt-go-xml-module", "alpine-edge", None, id="libvirt-go-xml-module-alpine-edge"),
     pytest.param("libvirt-go-xml-module", "opensuse-tumbleweed", None, id="libvirt-go-xml-module-opensuse-tumbleweed"),
 
