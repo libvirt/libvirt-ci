@@ -62,7 +62,6 @@ RUN dnf update -y && \
         golang \
         grep \
         gtk-doc \
-        gtk-update-icon-cache \
         gtk3-devel \
         guestfs-tools \
         gzip \
@@ -193,7 +192,6 @@ RUN dnf update -y && \
         python3-docutils \
         python3-gobject \
         python3-libnbd \
-        python3-libxml2 \
         python3-lxml \
         python3-numpy \
         python3-pip \
@@ -226,7 +224,6 @@ RUN dnf update -y && \
         tcl-devel \
         tcpdump \
         texinfo \
-        unzip \
         usbredir-devel \
         util-linux \
         vala \

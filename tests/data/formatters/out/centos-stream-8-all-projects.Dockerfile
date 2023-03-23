@@ -66,7 +66,6 @@ RUN dnf distro-sync -y && \
         golang \
         grep \
         gtk-doc \
-        gtk-update-icon-cache \
         gtk3-devel \
         gzip \
         hostname \
@@ -204,7 +203,6 @@ RUN dnf distro-sync -y && \
         python3-flake8 \
         python3-gobject \
         python3-libnbd \
-        python3-libxml2 \
         python3-lxml \
         python3-numpy \
         python3-pillow \
@@ -239,7 +237,6 @@ RUN dnf distro-sync -y && \
         tcl-devel \
         tcpdump \
         texinfo \
-        unzip \
         usbredir-devel \
         util-linux \
         vala \

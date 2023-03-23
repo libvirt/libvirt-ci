@@ -57,7 +57,6 @@ RUN apk update && \
         grep \
         gtk+3.0-dev \
         gtk-doc \
-        gtk-update-icon-cache \
         gtk-vnc-dev \
         gzip \
         hexdump \
@@ -164,7 +163,6 @@ RUN apk update && \
         py3-docutils \
         py3-flake8 \
         py3-gobject3 \
-        py3-libxml2 \
         py3-lxml \
         py3-numpy \
         py3-pillow \
@@ -201,7 +199,6 @@ RUN apk update && \
         tcpdump \
         tesseract-ocr \
         texinfo \
-        unzip \
         usbredir-dev \
         util-linux \
         util-linux-dev \

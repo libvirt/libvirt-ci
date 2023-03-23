@@ -59,7 +59,6 @@ RUN zypper dist-upgrade -y && \
            gtk-doc \
            gtk-vnc-devel \
            gtk3-devel \
-           gtk3-tools \
            guestfs-tools \
            gzip \
            hostname \
@@ -204,7 +203,6 @@ RUN zypper dist-upgrade -y && \
            python3-devel \
            python3-docutils \
            python3-gobject \
-           python3-libxml2-python \
            python3-lxml \
            python3-numpy \
            python3-opencv \
@@ -241,7 +239,6 @@ RUN zypper dist-upgrade -y && \
            tesseract-ocr \
            tesseract-ocr-traineddata-english \
            texinfo \
-           unzip \
            usbredir-devel \
            util-linux \
            vala \

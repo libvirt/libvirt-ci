@@ -76,7 +76,6 @@ exec "$@"\n' > /usr/bin/nosync && \
                golang \
                grep \
                gtk-doc \
-               gtk-update-icon-cache \
                gtk-vnc2-devel \
                gtk3-devel \
                guestfs-tools \
@@ -226,7 +225,6 @@ exec "$@"\n' > /usr/bin/nosync && \
                python3-flake8 \
                python3-gobject \
                python3-libnbd \
-               python3-libxml2 \
                python3-lxml \
                python3-numpy \
                python3-opencv \
@@ -266,7 +264,6 @@ exec "$@"\n' > /usr/bin/nosync && \
                tesseract \
                tesseract-langpack-eng \
                texinfo \
-               unzip \
                usbredir-devel \
                util-linux \
                vala \

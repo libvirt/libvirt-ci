@@ -48,7 +48,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       golang \
                       grep \
                       gtk-doc-tools \
-                      gtk-update-icon-cache \
                       gzip \
                       hostname \
                       hwdata \
@@ -233,7 +232,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       python3-docutils \
                       python3-gi \
                       python3-libnbd \
-                      python3-libxml2 \
                       python3-lxml \
                       python3-numpy \
                       python3-opencv \
@@ -264,7 +262,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       tesseract-ocr \
                       tesseract-ocr-eng \
                       texinfo \
-                      unzip \
                       uuid-dev \
                       valac \
                       valgrind \
