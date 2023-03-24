@@ -191,7 +191,7 @@ def get_cache_dir():
     try:
         cache_dir = Path(os.environ["XDG_CACHE_HOME"])
     except KeyError:
-        cache_dir = Path(os.environ["HOME"], ".cache")
+        cache_dir = Path.home().joinpath(".cache")
 
     return Path(cache_dir, "lcitool")
 
@@ -200,7 +200,7 @@ def get_config_dir():
     try:
         config_dir = Path(os.environ["XDG_CONFIG_HOME"])
     except KeyError:
-        config_dir = Path(os.environ["HOME"], ".config")
+        config_dir = Path.home().joinpath(".config")
 
     return Path(config_dir, "lcitool")
 
