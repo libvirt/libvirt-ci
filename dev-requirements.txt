@@ -5,3 +5,4 @@ ansible-runner
 
 flake8
 pytest
+tox
