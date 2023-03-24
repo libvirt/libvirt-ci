@@ -7,3 +7,6 @@ recursive-include tests *
 
 exclude *requirements.txt   # all requirements are specified in pyproject.toml
 exclude .*  # don't include any of the hidden repo files
+
+global-exclude */__pycache__/*
+global-exclude *.pyc
