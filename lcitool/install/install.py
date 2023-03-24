@@ -117,21 +117,24 @@ class VirtInstall:
         # Different operating systems require different configuration
         # files for unattended installation to work, but some operating
         # systems simply don't support unattended installation at all
-        if facts["os"]["name"] in ["Debian", "Ubuntu"]:
-            install_config = "preseed.cfg"
-        elif facts["os"]["name"] in ["AlmaLinux", "CentOS", "Fedora"]:
-            install_config = "kickstart.cfg"
-        elif facts["os"]["name"] == "OpenSUSE":
-            install_config = "autoinst.xml"
-        else:
-            raise InstallationNotSupported(target)
-
+        supported_schemes = {
+            "preseed": "preseed.cfg",
+            "autoyast": "autoinst.xml",
+            "kickstart": "kickstart.cfg"
+        }
         try:
             unattended_options = {
                 "install.url": facts["install"]["url"],
             }
+
+            scheme = facts["install"]["unattended_scheme"]
+            if scheme not in supported_schemes:
+                raise KeyError
+
         except KeyError:
             raise InstallationNotSupported(target)
+
+        install_config = supported_schemes[scheme]
 
         # Unattended install scripts are being generated on the fly, based
         # on the templates present in lcitool/install/configs/

@@ -21,6 +21,7 @@ ansible_python_package: python3
 ansible_python_interpreter: /usr/bin/python3
 
 install:
+  unattended_scheme: autoyast
   url: http://download.opensuse.org/distribution/leap/15.4/repo/oss/
 
 containers:

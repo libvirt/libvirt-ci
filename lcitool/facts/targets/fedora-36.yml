@@ -21,6 +21,7 @@ ansible_python_package: python3
 ansible_python_interpreter: /usr/bin/python3
 
 install:
+  unattended_scheme: kickstart
   url: https://download.fedoraproject.org/pub/fedora/linux/releases/36/Everything/x86_64/os
 
 containers:

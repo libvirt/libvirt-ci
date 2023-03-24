@@ -21,6 +21,7 @@ ansible_python_package: python3
 ansible_python_interpreter: /usr/bin/python3
 
 install:
+  unattended_scheme: kickstart
   url: http://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/
 
 containers:
