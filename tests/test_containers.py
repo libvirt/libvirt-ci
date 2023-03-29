@@ -3,7 +3,6 @@ import pytest
 
 from pathlib import Path
 from io import TextIOBase
-from test_utils.utils import assert_equal_list
 
 from lcitool.containers import ContainerError, Docker, Podman
 
@@ -76,8 +75,8 @@ class TestPodmanExtraArgs:
             pytest.param("user", id_mapping, id="testuser-string-id")
         ]
     )
-    def test_podman_extra_args(self, user, args, mock_pwd, podman):
-        assert_equal_list(podman._extra_args(user), args, [], "item")
+    def test_podman_extra_args(self, assert_equal, user, args, mock_pwd, podman):
+        assert_equal(podman._extra_args(user), args)
 
     @pytest.mark.parametrize(
         "user, exception",
@@ -182,7 +181,8 @@ class TestEngineOptions:
             )
         ]
     )
-    def test_options(self, args, options, docker, podman, mock_pwd, tmp_path):
+    def test_options(self, assert_equal, args, options, docker, podman,
+                     mock_pwd, tmp_path):
         args["tempdir"] = tmp_path
         uid, gid, _, workdir = get_pwuid(args.get("user"))[2:6]
         template = [
@@ -204,18 +204,14 @@ class TestEngineOptions:
             ]
 
         # test docker options
-        assert_equal_list(
-            docker._build_args(**args),
-            template + extra_option + options,
-            [], "item"
+        assert_equal(
+            docker._build_args(**args), template + extra_option + options
         )
 
         if args.get("user") == 1 or args.get("user") == "user":
             options += id_mapping
 
         # test podman options
-        assert_equal_list(
-            podman._build_args(**args),
-            template + extra_option + options,
-            [], "item"
+        assert_equal(
+            podman._build_args(**args), template + extra_option + options
         )
