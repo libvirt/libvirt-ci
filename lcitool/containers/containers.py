@@ -194,9 +194,11 @@ class Container(ABC):
         ]
 
         if script:
-            script_file = shutil.copy2(
-                script, Path(tempdir, "script")
-            )
+            script_file = Path(shutil.copy2(script, Path(tempdir, "script")))
+
+            # make the script an executable file
+            script_file.chmod(script_file.stat().st_mode | 0o111)
+
             script_mount = f"{script_file}:{user_home}/script:z"
             engine_args_.extend([
                 "--volume", script_mount

@@ -82,12 +82,8 @@ home directory inside the container, and the working directory is
 switched to the home directory to make execution easier.
 
 The script file is mounted to the *script* file in the home directory
-inside the container. Ensure the file is an executable by running:
-
-::
-
-    chmod +x <path_to_your_script>
-
+inside the container. The script is made executable before the mount is
+performed.
 
 It can also be used as a standalone script (e.g an ``echo hello" script``).
 
