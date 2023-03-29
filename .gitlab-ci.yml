@@ -147,9 +147,9 @@ flake8:
   needs: []
   before_script:
     - apk update
+    - python3 -m pip install tox
   script:
-    - pip3 install flake8
-    - flake8 --format=pylint
+    - tox -e lint
 
 unittests:
   extends: .test_template
@@ -158,11 +158,10 @@ unittests:
   needs: []
   before_script:
     - apk update
-    - apk add git ansible
+    - apk add gcc linux-headers libffi-dev musl-dev
+    - python3 -m pip install tox
   script:
-    - pip3 install setuptools pytest
-    - pip3 install -r requirements.txt ansible-runner
-    - python3 -m pytest --verbose
+    - tox -e py38
 
 package_install:
   extends: unittests
