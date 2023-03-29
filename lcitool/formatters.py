@@ -262,9 +262,11 @@ class BuildEnvFormatter(Formatter):
                     "fi",
                     "exec \"$@\""
                 ]
+                varmap["nosyncsh"] = "\\n\\\n".join(nosyncsh)
+
                 commands.extend([
                     "{packaging_command} install -y nosync",
-                    "echo -e '%s' > /usr/bin/nosync" % "\\n\\\n".join(nosyncsh),
+                    "echo -e '{nosyncsh}' > /usr/bin/nosync",
                     "chmod +x /usr/bin/nosync"])
 
             # First we need to run update, then config and install.
