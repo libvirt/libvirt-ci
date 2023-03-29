@@ -108,6 +108,44 @@ class DiffOperand:
                                          tofile="expected",))
 
 
+def _assert_equal(actual, expected, test_tmp_dir):
+    # create a diff operand for 'actual' now so that we can have a string to
+    # work with if we need to regenerate the output
+    actual = DiffOperand(actual)
+
+    if pytest.custom_args["regenerate_output"] and \
+       isinstance(expected, Path):
+
+        # Make sure the target directory exists, since creating the
+        # output file would fail otherwise
+        expected.parent.mkdir(parents=True, exist_ok=True)
+        with open(expected, "w") as fd:
+            fd.write(str(actual))
+
+    # create a diff operand for 'expected' late so that we can consume the
+    # updated output based on '--regenerate-output'
+    expected = DiffOperand(expected)
+    diff = actual.diff(expected)
+    if diff.empty():
+        return
+
+    # pytest doesn't provide any flexibility over how and when tmp directories
+    # are created, so we'll take care of it ourselves, but it needs to tell us
+    # where the directory should be created and what its name should be
+    test_tmp_dir.mkdir(parents=True, exist_ok=True)
+    actual_p = Path(test_tmp_dir, "actual")
+    expected_p = Path(test_tmp_dir, "expected")
+    with open(actual_p, "w") as actual_f, open(expected_p, "w") as expected_f:
+        actual_f.write(str(actual))
+        expected_f.write(str(expected))
+
+    raise AssertionError(
+        f"Actual and expected outputs differ"
+        f"\n{diff}\n\n"
+        f"Full output dumps available at '{test_tmp_dir}'"
+    )
+
+
 def assert_equal(actual, expected, indices):
     if not isinstance(actual, type(expected)):
         raise AssertionError(format_err_msg(indices, f"expected {type(expected)}, got {type(actual)}"))
