@@ -177,6 +177,13 @@ class Container(ABC):
         passwd_mount = f"{passwd}:/etc/passwd:ro,z"
         group_mount = f"{group}:/etc/group:ro,z"
 
+        # We mount a temporary directory as the user's home in
+        # order to set correct home directory permissions.
+        home = Path(tempdir, "home")
+        home.mkdir(exist_ok=True)
+
+        home_mount = f"{home}:{user_home}:z"
+
         # Docker containers can have very large ulimits
         # for nofiles - as much as 1048576. This makes
         # some applications very slow at executing programs.
@@ -189,6 +196,7 @@ class Container(ABC):
             "--user", user,
             "--volume", passwd_mount,
             "--volume", group_mount,
+            "--volume", home_mount,
             "--ulimit", ulimit,
             "--cap-add", cap_add
         ]
