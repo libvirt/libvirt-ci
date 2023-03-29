@@ -332,6 +332,7 @@ def cirrus_template(cidir):
             - source {cidir}/cirrus/$NAME.vars
             - sed -e "s|[@]CI_REPOSITORY_URL@|$CI_REPOSITORY_URL|g"
                   -e "s|[@]CI_COMMIT_REF_NAME@|$CI_COMMIT_REF_NAME|g"
+                  -e "s|[@]CI_MERGE_REQUEST_REF_PATH@|$CI_MERGE_REQUEST_REF_PATH|g"
                   -e "s|[@]CI_COMMIT_SHA@|$CI_COMMIT_SHA|g"
                   -e "s|[@]CIRRUS_VM_INSTANCE_TYPE@|$CIRRUS_VM_INSTANCE_TYPE|g"
                   -e "s|[@]CIRRUS_VM_IMAGE_SELECTOR@|$CIRRUS_VM_IMAGE_SELECTOR|g"
