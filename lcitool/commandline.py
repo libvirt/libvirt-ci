@@ -84,7 +84,7 @@ class CommandLine:
         imageopt.add_argument(
             "image",
             help="Image to use (accepts plain names, image IDs, \
-                  full registry paths and tags)",
+                  full registry paths and tags - if no tag is provided 'latest' is assumed)",
         )
 
         container_projectopt = argparse.ArgumentParser(add_help=False)
