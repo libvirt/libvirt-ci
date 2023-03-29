@@ -229,7 +229,7 @@ def _build_template(template, envid, project, cidir):
             - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
               changes:
                 - {cidir}/gitlab/container-templates.yml
-                - {cidir}/containers/$NAME.Dockerfile
+                - {cidir}/containers/{envid}.Dockerfile
               when: never
             - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
               when: manual
@@ -245,7 +245,7 @@ def _build_template(template, envid, project, cidir):
           stage: builds
           interruptible: true
           before_script:
-            - source {cidir}/buildenv/$NAME.sh
+            - source {cidir}/buildenv/{envid}.sh
             - install_buildenv
             - cat /packages.txt
           rules:
@@ -285,13 +285,13 @@ def _build_template(template, envid, project, cidir):
             - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
               changes:
                 - {cidir}/gitlab/container-templates.yml
-                - {cidir}/containers/$NAME.Dockerfile
+                - {cidir}/containers/{envid}.Dockerfile
               when: manual
               allow_failure: true
             - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
               changes:
                 - {cidir}/gitlab/container-templates.yml
-                - {cidir}/containers/$NAME.Dockerfile
+                - {cidir}/containers/{envid}.Dockerfile
               when: on_success
 
             # upstream+forks: merge requests targeting non-default branches
