@@ -60,6 +60,21 @@ def assert_equal_list(actual, expected, indices, kind):
         raise AssertionError(len_err)
 
 
+class Diff:
+    def __init__(self, diffobj):
+        self._obj = diffobj
+        self.diff = "".join(diffobj)
+
+    def __repr__(self):
+        return f"obj: {repr(self._diffobj)}, str: {self.diff}"
+
+    def __str__(self):
+        return self.diff
+
+    def empty(self):
+        return not bool(str(self))
+
+
 def assert_equal(actual, expected, indices):
     if not isinstance(actual, type(expected)):
         raise AssertionError(format_err_msg(indices, f"expected {type(expected)}, got {type(actual)}"))
