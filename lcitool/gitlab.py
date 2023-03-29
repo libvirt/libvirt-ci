@@ -176,7 +176,7 @@ def container_template(cidir):
         """)
 
 
-def _build_template(template, image, project, cidir):
+def _build_template(template, envid, project, cidir):
     return textwrap.dedent(
         f"""
         #
@@ -198,7 +198,7 @@ def _build_template(template, image, project, cidir):
         # should be logical inverses, such that jobs are mutually exclusive
         #
         {template}_prebuilt_env:
-          image: $CI_REGISTRY/$RUN_UPSTREAM_NAMESPACE/{project}/{image}:latest
+          image: $CI_REGISTRY/$RUN_UPSTREAM_NAMESPACE/{project}/ci-{envid}:latest
           stage: builds
           interruptible: true
           before_script:
@@ -308,14 +308,14 @@ def _build_template(template, image, project, cidir):
 
 def native_build_template(project, cidir):
     return _build_template(".gitlab_native_build_job",
-                           "ci-$NAME",
+                           "$NAME",
                            project,
                            cidir)
 
 
 def cross_build_template(project, cidir):
     return _build_template(".gitlab_cross_build_job",
-                           "ci-$NAME-cross-$CROSS",
+                           "$NAME-cross-$CROSS",
                            project,
                            cidir)
 
