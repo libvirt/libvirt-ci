@@ -124,32 +124,28 @@ class TestEngineOptions:
             ),
             pytest.param(
                 dict(user="root", datadir="/abc"),
-                ["--volume", "/abc:/root/datadir:z", "--workdir", "/root"],
+                ["--volume", "/abc:/root/datadir:z"],
                 id="scratch-directory-root"
             ),
             pytest.param(
                 dict(user=1, datadir="/tmp/src"),
                 [
                     "--volume", "/tmp/src:/home/user/datadir:z",
-                    "--workdir", "/home/user"
                 ],
                 id="scratch-directory-testuser"
             ),
             pytest.param(
-                dict(user=0, script="build"),
-                ["--workdir", "/root"],
+                dict(user=0, script="build"), [],
                 id="script-file-root"
             ),
             pytest.param(
-                dict(user=1, script="build"),
-                ["--workdir", "/home/user"],
+                dict(user=1, script="build"), [],
                 id="script-file-testuser"
             ),
             pytest.param(
                 dict(user=0, datadir="/abc", script="bundle.sh"),
                 [
                     "--volume", "/abc:/root/datadir:z",
-                    "--workdir", "/root"
                 ],
                 id="scratch-directory-script-file-for-root"
             ),
@@ -157,7 +153,6 @@ class TestEngineOptions:
                 dict(user=1, datadir="/tmp/random", script="bundle"),
                 [
                     "--volume", "/tmp/random:/home/user/datadir:z",
-                    "--workdir", "/home/user"
                 ],
                 id="scratch-directory-script-file-for-testuser"
             ),
@@ -166,7 +161,6 @@ class TestEngineOptions:
                 [
                     "--volume", "/abc:/root/datadir:z",
                     "--env=FOO=baz",
-                    "--workdir", "/root"
                 ],
                 id="env-scratch-directory-script-file-for-root"
             ),
@@ -175,7 +169,6 @@ class TestEngineOptions:
                 [
                     "--volume", "/tmp/random:/home/user/datadir:z",
                     "--env=BAR=baz",
-                    "--workdir", "/home/user"
                 ],
                 id="env-scratch-directory-script-file-for-testuser"
             )
@@ -187,8 +180,10 @@ class TestEngineOptions:
         uid, gid, _, workdir = get_pwuid(args.get("user"))[2:6]
         template = [
             "--user", f"{uid}:{gid}",
+            "--workdir", f"{workdir}",
             "--volume", f"{tmp_path}/passwd.copy:/etc/passwd:ro,z",
             "--volume", f"{tmp_path}/group.copy:/etc/group:ro,z",
+            "--volume", f"{tmp_path}/home:{workdir}:z",
             "--ulimit", "nofile=1024:1024",
             "--cap-add", "SYS_PTRACE"
         ]

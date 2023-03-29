@@ -194,6 +194,7 @@ class Container(ABC):
 
         engine_args_ = [
             "--user", user,
+            "--workdir", f"{user_home}",
             "--volume", passwd_mount,
             "--volume", group_mount,
             "--volume", home_mount,
@@ -221,11 +222,6 @@ class Container(ABC):
         if env:
             envs = ["--env=" + i for i in env]
             engine_args_.extend(envs)
-
-        if datadir or script:
-            engine_args_.extend([
-                "--workdir", f"{user_home}",
-            ])
 
         log.debug(f"Container options: {engine_args_}")
         return engine_args_
