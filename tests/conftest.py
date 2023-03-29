@@ -69,6 +69,14 @@ def config(monkeypatch, request):
 
 
 @pytest.fixture
+def assert_equal(request, tmp_path_factory):
+    def _assert_equal(actual, expected):
+        tmp_dir = Path(tmp_path_factory.getbasetemp(), request.node.name)
+        return test_utils._assert_equal(actual, expected, test_tmp_dir=tmp_dir)
+    return _assert_equal
+
+
+@pytest.fixture
 def inventory(monkeypatch, targets, config):
     inventory = Inventory(targets, config)
 
