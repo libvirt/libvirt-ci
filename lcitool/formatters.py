@@ -266,7 +266,7 @@ class BuildEnvFormatter(Formatter):
 
                 commands.extend([
                     "{packaging_command} install -y nosync",
-                    "echo -e '{nosyncsh}' > /usr/bin/nosync",
+                    "printf '{nosyncsh}\\n' > /usr/bin/nosync",
                     "chmod +x /usr/bin/nosync"])
 
             # First we need to run update, then config and install.
@@ -408,7 +408,7 @@ class BuildEnvFormatter(Formatter):
         if not target.cross_arch.startswith("mingw"):
             cross_commands.extend([
                 "mkdir -p /usr/local/share/meson/cross",
-                "echo \"{cross_meson}\" > /usr/local/share/meson/cross/{cross_abi}",
+                "printf \"{cross_meson}\\n\" > /usr/local/share/meson/cross/{cross_abi}",
             ])
 
             cross_meson = self._get_meson_cross(varmap["cross_abi"])
