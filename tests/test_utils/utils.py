@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+import difflib
 import pytest
 import yaml
 
@@ -73,6 +74,38 @@ class Diff:
 
     def empty(self):
         return not bool(str(self))
+
+
+class DiffOperand:
+    def __init__(self, obj):
+        self._obj = obj
+        self._data = self._stringify(obj)
+
+    def __repr__(self):
+        return f"obj: {repr(self._obj)}, str: {self._data})"
+
+    def __str__(self):
+        return self._data
+
+    @staticmethod
+    def _stringify(obj):
+        if isinstance(obj, str):
+            return obj
+
+        if isinstance(obj, Path):
+            with open(obj, 'r') as f:
+                return f.read()
+
+        return yaml.safe_dump(obj)
+
+    def diff(self, other):
+        if not isinstance(other, self.__class__):
+            other = self._stringify(other)
+
+        return Diff(difflib.unified_diff(str(self).splitlines(keepends=True),
+                                         str(other).splitlines(keepends=True),
+                                         fromfile="actual",
+                                         tofile="expected",))
 
 
 def assert_equal(actual, expected, indices):
