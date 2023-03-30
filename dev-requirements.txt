@@ -1,7 +1,4 @@
--r requirements.txt
-
-ansible
-ansible-runner
+-r vm-requirements.txt
 
 flake8
 pytest
