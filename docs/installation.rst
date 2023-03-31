@@ -47,6 +47,17 @@ requires in the VM scenario
 
    $ pip3 install --user -r vm-requirements.txt
 
+Note: In case you plan on installing lcitool itself (refer to `Installing
+lcitool`_), you can install ``vm-requirements.txt`` along with lcitool in a
+single step with:
+
+::
+
+   $ pip3 install .["vm_support"]
+
+where ``vm_support`` denotes the same set of dependencies as extra dependencies
+in a way ``pip`` recognizes for installable packages.
+
 Development dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -63,26 +74,34 @@ In addition, the ``ansible-inventory`` executable needs to be installed.
 Installing lcitool
 ------------------
 
-This is a standard python package, so you can install it either as your local
-user
+Like any other python package, you can install this using pip using one of the
+following ways depending on your preference (run from the git root):
+
+in a Python virtual environment
 
 ::
 
-   $ python3 setup.py install --user
+   $ . <your_virtual_env>/bin/activate
+   (<your_virtual_env>) $ pip install .
+
+as your local user:
+
+::
+
+   $ pip3 install --user .
 
 or system-wide with
 
 ::
 
-   $ sudo python3 setup.py install
+   $ sudo pip3 install .
 
-If you prefer, you can have it installed inside a virtual-env too.
-
-For development purposes you may find convenient to do
+For development purposes you may find convenient to use an editable install
+with pip like this:
 
 ::
 
-   $ python3 setup.py develop --user
+   $ pip3 install -e .
 
 which will create the necessary links to your working directory and so you
 won't need to re-install the lcitool package locally after every code change.
