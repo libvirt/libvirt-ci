@@ -1701,7 +1701,7 @@ mappings:
     apk: py3-libxml2
     pkg: py39-libxml2
     MacOS:
-    OpenSUSE: python3-libxml2-python
+    OpenSUSELeap153: python3-libxml2-python
 
   python3-lxml:
     default: python3-lxml
