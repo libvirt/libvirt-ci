@@ -241,7 +241,6 @@ exec "$@"\n' > /usr/bin/nosync && \
                readline-devel \
                rest-devel \
                rpcgen \
-               rpm \
                rpm-build \
                ruby-devel \
                rubygem-rake \

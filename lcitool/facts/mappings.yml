@@ -1852,7 +1852,7 @@ mappings:
 
   rpm2cpio:
     default: rpm2cpio
-    rpm: rpm
+    rpm:
 
   rpmbuild:
     rpm: rpm-build

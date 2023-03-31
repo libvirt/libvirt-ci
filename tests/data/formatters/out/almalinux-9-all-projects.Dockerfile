@@ -206,7 +206,6 @@ RUN dnf update -y && \
         rdma-core-devel \
         readline-devel \
         rpcgen \
-        rpm \
         rpm-build \
         ruby-devel \
         rubygem-rake \

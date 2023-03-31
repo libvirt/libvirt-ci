@@ -217,7 +217,6 @@ RUN zypper dist-upgrade -y && \
            rdma-core-devel \
            readline-devel \
            rpcgen \
-           rpm \
            rpm-build \
            ruby \
            ruby-devel \

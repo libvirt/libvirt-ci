@@ -193,7 +193,6 @@ native:
 - qemu-img
 - qemu-kvm
 - rpcgen
-- rpm
 - rpm-build
 - ruby-devel
 - rubygem-rake
