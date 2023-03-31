@@ -241,6 +241,11 @@ x86_64-check-opensuse-leap-153:
   variables:
     NAME: opensuse-leap-153
 
+x86_64-check-opensuse-leap-154:
+  extends: .check_container_template
+  variables:
+    NAME: opensuse-leap-154
+
 x86_64-check-opensuse-tumbleweed:
   extends: .check_container_template
   allow_failure: true
