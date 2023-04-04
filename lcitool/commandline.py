@@ -235,7 +235,7 @@ class CommandLine:
         updateparser = subparsers.add_parser(
             "update",
             help="prepare hosts and keep them updated",
-            parents=[verbosityopt, hostsopt, update_projectopt, gitrevopt],
+            parents=[verbosityopt, hostsopt, update_projectopt],
         )
         updateparser.set_defaults(func=Application._action_update)
 

@@ -204,7 +204,7 @@ class Application:
         self._entrypoint_debug(args)
 
         self._execute_playbook("update", args.hosts, args.projects,
-                               args.git_revision, args.data_dir, args.verbose)
+                               None, args.data_dir, args.verbose)
 
     def _action_build(self, args):
         self._entrypoint_debug(args)
