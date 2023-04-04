@@ -111,12 +111,6 @@ class CommandLine:
             help="list of projects to consider (accepts globs)",
         )
 
-        gitrevopt = argparse.ArgumentParser(add_help=False)
-        gitrevopt.add_argument(
-            "-g", "--git-revision",
-            help="git revision to build (remote/branch)",
-        )
-
         containerizedopt = argparse.ArgumentParser(add_help=False)
         containerizedopt.add_argument(
             "-c", "--containerized",
@@ -238,17 +232,6 @@ class CommandLine:
             parents=[verbosityopt, hostsopt, update_projectopt],
         )
         updateparser.set_defaults(func=Application._action_update)
-
-        buildparser = subparsers.add_parser(
-            "build",
-            help="build projects on hosts",
-            parents=[verbosityopt, hostsopt, gitrevopt],
-        )
-        buildparser.add_argument(
-            "projects",
-            help="list of projects to consider (does NOT accept globs)",
-        )
-        buildparser.set_defaults(func=Application._action_build)
 
         hostsparser = subparsers.add_parser(
             "hosts",

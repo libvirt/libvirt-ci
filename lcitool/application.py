@@ -206,20 +206,6 @@ class Application:
         self._execute_playbook("update", args.hosts, args.projects,
                                None, args.data_dir, args.verbose)
 
-    def _action_build(self, args):
-        self._entrypoint_debug(args)
-
-        # we don't keep a dependencies tree for projects, hence pattern
-        # expansion would break the 'build' playbook
-        if args.projects == "all" or "*" in args.projects:
-            raise ApplicationError(
-                "'build' command doesn't support specifying projects by "
-                "either wildcards or the 'all' keyword"
-            )
-
-        self._execute_playbook("build", args.hosts, args.projects,
-                               args.git_revision, args.data_dir, args.verbose)
-
     def _action_variables(self, args):
         self._entrypoint_debug(args)
 
