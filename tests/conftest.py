@@ -1,4 +1,5 @@
 import pytest
+import sys
 
 from pathlib import Path
 
@@ -9,6 +10,7 @@ from lcitool.projects import Projects
 from lcitool.targets import Targets
 from lcitool import util
 
+from test_utils.mocks import libvirt
 import test_utils.utils as test_utils
 
 
@@ -33,6 +35,9 @@ _TARGETS = Targets()
 
 ALL_PROJECTS = sorted(_PROJECTS.names + list(_PROJECTS.internal.keys()))
 ALL_TARGETS = sorted(_TARGETS.targets)
+
+# We need to mock a few modules that we don't need for testing
+sys.modules["libvirt"] = libvirt
 
 
 def monkeypatch_context():
