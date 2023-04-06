@@ -17,6 +17,7 @@ from lcitool.config import ValidationError
     [
         "full.yml",
         "minimal.yml",
+        "minimal_no_root_password.yml",
         "unknown_section.yml",
         "unknown_key.yml",
     ],
@@ -35,6 +36,7 @@ def test_config(assert_equal, config, config_filename):
         "missing_mandatory_section.yml",
         "missing_mandatory_key.yml",
         "missing_gitlab_section_with_gitlab_flavor.yml",
+        "root_password_none.yml",
     ],
 )
 def test_config_invalid(config, config_filename):

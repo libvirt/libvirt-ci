@@ -155,7 +155,7 @@ class Config:
             paths = ", ".join([str(p) for p in self._config_file_paths])
             raise ValidationError(f"Missing or empty configuration file, tried {paths}")
 
-        self._validate_section("install", ["root_password"])
+        self._validate_section("install", [])
 
         flavor = self._values["install"].get("flavor")
         if flavor not in ["test", "gitlab"]:
