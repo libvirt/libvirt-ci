@@ -128,7 +128,7 @@ class Config:
                 self._remove_unknown_keys(user_config[section],
                                           default_config[section].keys())
 
-    def _validate_section(self, section):
+    def _validate_keys(self, section):
         log.debug(f"Validating section='[{section}]'")
 
         # check that all keys have values assigned and of the right type
@@ -144,7 +144,7 @@ class Config:
             paths = ", ".join([str(p) for p in self._config_file_paths])
             raise ValidationError(f"Missing or empty configuration file, tried {paths}")
 
-        self._validate_section("install")
+        self._validate_keys("install")
 
         flavor = self._values["install"].get("flavor")
         if flavor not in ["test", "gitlab"]:
@@ -153,7 +153,7 @@ class Config:
             )
 
         if flavor == "gitlab":
-            self._validate_section("gitlab")
+            self._validate_keys("gitlab")
             secret = self._values["gitlab"]["runner_secret"]
             if secret == "NONE" or secret is None:
                 raise ValidationError(
