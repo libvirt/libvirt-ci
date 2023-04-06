@@ -5,11 +5,14 @@ VM handling
 Configuration
 =============
 
-Before you can start installing or managing machines, you need to create
-``~/.config/lcitool/config.yml``, ideally by copying the
-``config.yml`` template, and set at least the options marked as
-"(mandatory)" depending on the flavor (``test``, ``gitlab``) you wish to
-use with your machines.
+User configuration is read from ``~/.config/lcitool/config.yml``. In case no
+configuration is provided all the defaults are pulled from
+``lcitool/etc/config.yml``. We recommend reading it to get familiar with the
+options and their defaults. We also strongly recommend to set the
+``root_password`` to something else than the default value ``root`` in the user
+configuration file unless you never plan to use use VMs provisioned with the
+default password in a production environment and instead just wish to use
+lcitool to create local throw-away test VMs immediately.
 
 If managing VMs installed locally with libvirt you can use the
 `libvirt NSS plugin <https://libvirt.org/nss.html>`_ to your
