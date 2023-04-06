@@ -52,8 +52,9 @@ class Config:
 
         # lazy evaluation: most lcitool actions actually don't need the config
         if self._values is None:
-            self._values = self._load_config()
-            self._validate()
+            values = self._load_config()
+            self._validate(values)
+            self._values = values
         return self._values
 
     def __init__(self):
@@ -128,33 +129,36 @@ class Config:
                 self._remove_unknown_keys(user_config[section],
                                           default_config[section].keys())
 
-    def _validate_keys(self, section):
-        log.debug(f"Validating section='[{section}]'")
+    def _validate_keys(self, values, pathprefix=""):
+        log.debug(f"Validating section='[{pathprefix}]'")
 
         # check that all keys have values assigned and of the right type
-        for key in self._values[section].keys():
-            if self._values[section][key] is None:
-                raise ValidationError(f"Missing value for '{section}.{key}'")
+        for key, value in values.items():
+            if isinstance(value, dict):
+                self._validate_keys(value, pathprefix + "." + key)
+                continue
 
-            if not isinstance(self._values[section][key], (str, int)):
-                raise ValidationError(f"Invalid type for key '{section}.{key}'")
+            if value is None:
+                raise ValidationError(f"Missing value for '{pathprefix}.{key}'")
 
-    def _validate(self):
-        if self._values is None:
+            if not isinstance(value, (str, int)):
+                raise ValidationError(f"Invalid type for key '{pathprefix}.{key}'")
+
+    def _validate(self, values):
+        if values is None:
             paths = ", ".join([str(p) for p in self._config_file_paths])
             raise ValidationError(f"Missing or empty configuration file, tried {paths}")
 
-        self._validate_keys("install")
+        self._validate_keys(values)
 
-        flavor = self._values["install"].get("flavor")
+        flavor = values["install"].get("flavor")
         if flavor not in ["test", "gitlab"]:
             raise ValidationError(
                 f"Invalid value '{flavor}' for 'install.flavor'"
             )
 
         if flavor == "gitlab":
-            self._validate_keys("gitlab")
-            secret = self._values["gitlab"]["runner_secret"]
+            secret = values["gitlab"]["runner_secret"]
             if secret == "NONE" or secret is None:
                 raise ValidationError(
                     "Invalid value for 'gitlab.runner_secret'"
