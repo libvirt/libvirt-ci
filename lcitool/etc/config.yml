@@ -44,5 +44,5 @@ gitlab:
   # GitLab connection URL
   url: https://gitlab.com
 
-  # GitLab runner registration token. (Mandatory)
-  runner_secret:
+  # GitLab runner registration token.
+  runner_secret: NONE

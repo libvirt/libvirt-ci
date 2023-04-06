@@ -164,4 +164,9 @@ class Config:
             )
 
         if flavor == "gitlab":
-            self._validate_section("gitlab", ["runner_secret"])
+            self._validate_section("gitlab", [])
+            secret = self._values["gitlab"]["runner_secret"]
+            if secret == "NONE" or secret is None:
+                raise ValidationError(
+                    "Invalid value for 'gitlab.runner_secret'"
+                )
