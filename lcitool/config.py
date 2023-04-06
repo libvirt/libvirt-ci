@@ -128,22 +128,11 @@ class Config:
                 self._remove_unknown_keys(user_config[section],
                                           default_config[section].keys())
 
-    def _validate_section(self, section, mandatory_keys):
-        log.debug(f"Validating section='[{section}]' "
-                  f"against keys='{mandatory_keys}'")
-
-        # check that the mandatory keys are present and non-empty
-        for key in mandatory_keys:
-            if self._values.get(section).get(key) is None:
-                raise ValidationError(
-                    f"Missing or empty value for mandatory key "
-                    f"'{section}.{key}'"
-                )
+    def _validate_section(self, section):
+        log.debug(f"Validating section='[{section}]'")
 
         # check that all keys have values assigned and of the right type
         for key in self._values[section].keys():
-
-            # mandatory keys were already checked, so this covers optional keys
             if self._values[section][key] is None:
                 raise ValidationError(f"Missing value for '{section}.{key}'")
 
@@ -155,7 +144,7 @@ class Config:
             paths = ", ".join([str(p) for p in self._config_file_paths])
             raise ValidationError(f"Missing or empty configuration file, tried {paths}")
 
-        self._validate_section("install", [])
+        self._validate_section("install")
 
         flavor = self._values["install"].get("flavor")
         if flavor not in ["test", "gitlab"]:
@@ -164,7 +153,7 @@ class Config:
             )
 
         if flavor == "gitlab":
-            self._validate_section("gitlab", [])
+            self._validate_section("gitlab")
             secret = self._values["gitlab"]["runner_secret"]
             if secret == "NONE" or secret is None:
                 raise ValidationError(

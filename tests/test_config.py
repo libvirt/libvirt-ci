@@ -33,8 +33,6 @@ def test_config(assert_equal, config, config_filename):
     "config_filename",
     [
         "empty.yml",
-        "missing_mandatory_section.yml",
-        "missing_mandatory_key.yml",
         "missing_gitlab_section_with_gitlab_flavor.yml",
         "root_password_none.yml",
     ],
