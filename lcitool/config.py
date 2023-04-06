@@ -92,7 +92,7 @@ class Config:
             raise LoadError(f"'{user_config_path.name}': {e}")
 
         if user_config is None:
-            raise ValidationError(f"'{user_config_path.name}' is empty")
+            user_config = {}
 
         # delete user params we don't recognize
         self._sanitize_values(user_config, default_config)
@@ -145,10 +145,6 @@ class Config:
                 raise ValidationError(f"Invalid type for key '{pathprefix}.{key}'")
 
     def _validate(self, values):
-        if values is None:
-            paths = ", ".join([str(p) for p in self._config_file_paths])
-            raise ValidationError(f"Missing or empty configuration file, tried {paths}")
-
         self._validate_keys(values)
 
         flavor = values["install"].get("flavor")

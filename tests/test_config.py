@@ -15,6 +15,7 @@ from lcitool.config import ValidationError
 @pytest.mark.parametrize(
     "config_filename",
     [
+        "empty.yml",
         "full.yml",
         "minimal.yml",
         "minimal_no_root_password.yml",
@@ -32,7 +33,6 @@ def test_config(assert_equal, config, config_filename):
 @pytest.mark.parametrize(
     "config_filename",
     [
-        "empty.yml",
         "missing_gitlab_section_with_gitlab_flavor.yml",
         "root_password_none.yml",
     ],
