@@ -350,8 +350,13 @@ class Application:
                                                dir=util.get_temp_dir())
         params["tempdir"] = container_tempdir.name
 
-        if not client.image_exists(args.image):
-            print(f"Image '{args.image}' not found in local cache. Build it or pull from registry first.")
+        image = args.image
+        tag = "latest"
+        if ":" in image:
+            image, tag = args.image.split(":")
+
+        if not client.image_exists(image, tag):
+            print(f"Image '{image}:{tag}' not found in local cache. Build it or pull from registry first.")
             return
 
         params["image"] = args.image
