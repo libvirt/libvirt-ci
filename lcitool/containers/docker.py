@@ -53,24 +53,21 @@ class Docker(Container):
         log.debug(f"Deserialized {self.engine} images\n%s", images)
         return images
 
-    def image_exists(self, image_ref):
+    def image_exists(self, image_ref, image_tag):
         """
         Check if image exists in docker.
         :param image_ref: name/id/registry-path of image to check (str).
+        :param image_tag: image tag (str).
 
         :returns: boolean
         """
-
-        image_name, _, image_tag = image_ref.partition(':')
-        if not image_tag:
-            image_tag = "latest"
 
         for img in self._images():
             id = img.get("ID")
             img_repository = img.get("Repository")
             img_tag = img.get("Tag", "latest")
 
-            if id.startswith(image_ref) or (image_name == img_repository and image_tag == img_tag):
+            if id.startswith(image_ref) or (image_ref == img_repository and image_tag == img_tag):
                 return True
 
         return False

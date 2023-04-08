@@ -128,18 +128,16 @@ class Podman(Container):
         log.debug(f"Deserialized {self.engine} images\n%s", images)
         return images
 
-    def image_exists(self, image_ref):
+    def image_exists(self, image_ref, image_tag):
         """
         Check if image exists in podman.
         :param image_ref: name/id/registry-path of image to check (str).
+        :param image_tag: image tag (str).
 
         :returns: boolean
         """
 
-        image_name, _, image_tag = image_ref.partition(':')
-        image_repository, _, image_name = image_name.rpartition('/')
-        if not image_tag:
-            image_tag = "latest"
+        image_repository, _, image_name = image_ref.rpartition('/')
 
         for img in self._images():
             id = img.get("Id")
