@@ -161,6 +161,7 @@ RUN dnf update -y && \
         perl-IO-Interface \
         perl-IO-String \
         perl-Module-Build \
+        perl-Net-OpenSSH \
         perl-Net-SNMP \
         perl-NetAddr-IP \
         perl-Pod-Simple \
@@ -190,6 +191,7 @@ RUN dnf update -y && \
         python3-dbus \
         python3-devel \
         python3-docutils \
+        python3-flake8 \
         python3-gobject \
         python3-libnbd \
         python3-lxml \
@@ -249,13 +251,10 @@ RUN dnf update -y && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
 
-RUN /usr/bin/pip3 install \
-                  flake8 \
-                  pillow
+RUN /usr/bin/pip3 install pillow
 
 RUN cpanm --notest \
           LWP::UserAgent \
-          Net::OpenSSH \
           TAP::Formatter::HTML \
           TAP::Formatter::JUnit \
           TAP::Harness::Archive \

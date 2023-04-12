@@ -359,9 +359,6 @@ mappings:
     apk: py3-flake8
     pkg: py39-flake8
     rpm: python3-flake8
-    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
-    AlmaLinux9:
-    CentOSStream9:
     OpenSUSETumbleweed: python39-flake8
 
   flex:
@@ -1465,9 +1462,6 @@ mappings:
     pkg: p5-Net-OpenSSH
     rpm: perl-Net-OpenSSH
     OpenSUSE:
-    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
-    AlmaLinux9:
-    CentOSStream9:
 
   perl-NetAddr-IP:
     deb: libnetaddr-ip-perl
