@@ -72,7 +72,19 @@ An example of a simple INI inventory:
 Installing local VMs
 ====================
 
-In order to install a local VM with lcitool, run the following:
+Local VMs can be installed using either of the two ways described below:
+
+Installing using an OS tree URL
+-------------------------------
+
+This is the original and most reliable way of installing local VMs based on
+URLs pointing to distro OS trees where kernel, init ramdisk and packages can be
+pulled from. The main advantage of this method is that most modern distros we
+support in this project provide this way of installation with a few exceptions,
+e.g. FreeBSD (please refer to `Installing FreeBSD VMs`_). The main downside is
+that this installation is slow to be done repeatedly just to spin up a few
+instances of the same OS.
+To install a local VM using this way, run:
 
 ::
 
@@ -88,10 +100,64 @@ like this:
 
     lcitool install $host
 
-Refer to the `Ansible inventory`_ and `Managed hosts`_ sections respectively on
-how to use an inventory with lcitool. Note that not all guests can be installed
-using the ways described above, e.g. FreeBSD or Alpine guests. See
-`Installing FreeBSD VMs`_ to know how to add such a host in that case.
+Please refer to the `Ansible inventory`_ and `Managed hosts`_ sections
+respectively on how to use an inventory with lcitool. Note that not all guests
+can be installed using the ways described above, e.g. FreeBSD or Alpine guests.
+See `Installing FreeBSD VMs`_ to know how to add such a host in that case.
+
+
+Installing using vendor cloud-init images
+-----------------------------------------
+
+This way of installing VMs is based on the *osinfo* database which is continuously
+updated by the community to provide all kinds of useful installation related
+information about an OS. One of such information is a URL to the latest distro
+vendor provided cloud-init image. This image is then downloaded directly from
+the vendor, cached locally, and used for future VM instantiations. This makes
+the method significantly faster then the one using URLs, however it comes at a
+cost. Here are a few downsides to using this method, so make sure you evaluate
+them before deciding which install strategy (as we call it) is best for you:
+
+* even though *osinfo*'s database is constantly updating, your host system may
+  either be too old (an LTS release) with no updates apart from security and bug
+  fixes or simply not be scheduled to update the *osinfo* package more than once
+  a release by *osinfo*'s package maintainers on that given distro. If that's the
+  case, the version of *osinfo* database you have may not have all (if any) URLs
+  to the vendor provided cloud-init images of the OS distro you wish to install
+  in a VM. Naturally, installation of such an OS distro in a VM would fail
+  using this method and you can either fall back to the URL-based install
+  mentioned above or you can install the latest *osinfo* database manually
+  yourself.
+
+* some distro vendors don't provide a symbolic link (e.g. Fedora) always
+  pointing to the latest image build. What this means for you is that the image
+  that is pulled from the vendor may not be latest one available or even worse
+  may not even exist anymore because it has since been removed by the vendor,
+  but the link in *osinfo*'s database hasn't been properly updated upstream yet.
+  In either case, if that happens, you need to fall back to the URL-based
+  install.
+
+* vendor provided cloud-init images may not be built on a daily basis, so if
+  you're looking for the latest contents right out of the box without running
+  any additional operations on the VM, you need to use the URL-based install
+  which is guaranteed to always pull the latest contents.
+
+* the locally cached cloud-init images get easily out of sync. Essentially the
+  situation is similar to the previous one with the exception that some vendors
+  provide daily image builds, so if fresh content is more important than speedy
+  VM installs and lower storage footprint of the VM, then you need to fall back
+  to using the URL-based install.
+
+
+To install a local VM using this way, run::
+
+    lcitool install $host --target $target_os --strategy cloud
+
+To force a new download of a new image (potentially a newer one if the vendor
+has refreshed the images since you downloaded your last one), run::
+
+    lcitool install $host --target $target_os --strategy cloud --force
+
 
 Installing FreeBSD VMs
 ----------------------
