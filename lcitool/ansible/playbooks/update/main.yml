@@ -17,6 +17,9 @@
     # depend on packages being installed
     - import_tasks: 'tasks/base.yml'
 
+    # Install common package repositories
+    - import_tasks: 'tasks/repos.yml'
+
     # Install/Remove packages
     - import_tasks: 'tasks/packages.yml'
 
