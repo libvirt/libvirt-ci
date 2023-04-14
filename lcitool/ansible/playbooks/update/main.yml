@@ -20,6 +20,9 @@
     # Install common package repositories
     - import_tasks: 'tasks/repos.yml'
 
+    # Update system
+    - import_tasks: 'tasks/system_update.yml'
+
     # Install/Remove packages
     - import_tasks: 'tasks/packages.yml'
 
