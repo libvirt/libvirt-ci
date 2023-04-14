@@ -62,12 +62,12 @@ class Application:
         log.debug(f"Cmdline args={cli_args}")
 
     def _execute_playbook(self, playbook, hosts_pattern, projects_pattern,
-                          git_revision, data_dir, verbosity=0):
+                          data_dir, verbosity=0):
         from lcitool.ansible_wrapper import AnsibleWrapper, AnsibleWrapperError
 
         log.debug(f"Executing playbook '{playbook}': "
                   f"hosts_pattern={hosts_pattern} "
-                  f"projects_pattern={projects_pattern} gitrev={git_revision}")
+                  f"projects_pattern={projects_pattern}")
 
         base = util.package_resource(__package__, "ansible").as_posix()
         config = Config()
@@ -79,19 +79,6 @@ class Application:
         hosts_expanded = inventory.expand_hosts(hosts_pattern)
         projects_expanded = projects.expand_names(projects_pattern)
 
-        if git_revision is not None:
-            tokens = git_revision.split("/")
-            if len(tokens) < 2:
-                print(f"Missing or invalid git revision '{git_revision}'",
-                      file=sys.stderr)
-                sys.exit(1)
-
-            git_remote = tokens[0]
-            git_branch = "/".join(tokens[1:])
-        else:
-            git_remote = "default"
-            git_branch = "master"
-
         playbook_base = Path(base, "playbooks", playbook)
         group_vars = dict()
 
@@ -99,8 +86,6 @@ class Application:
         extra_vars.update({
             "base": base,
             "selected_projects": projects_expanded,
-            "git_remote": git_remote,
-            "git_branch": git_branch,
         })
 
         log.debug("Preparing Ansible runner environment")
@@ -204,7 +189,7 @@ class Application:
         self._entrypoint_debug(args)
 
         self._execute_playbook("update", args.hosts, args.projects,
-                               None, args.data_dir, args.verbose)
+                               args.data_dir, args.verbose)
 
     def _action_variables(self, args):
         self._entrypoint_debug(args)
