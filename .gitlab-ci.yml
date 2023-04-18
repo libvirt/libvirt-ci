@@ -236,10 +236,10 @@ x86_64-check-fedora-rawhide:
   variables:
     NAME: fedora-rawhide
 
-x86_64-check-opensuse-leap-154:
+x86_64-check-opensuse-leap-15:
   extends: .check_container_template
   variables:
-    NAME: opensuse-leap-154
+    NAME: opensuse-leap-15
 
 x86_64-check-opensuse-tumbleweed:
   extends: .check_container_template

@@ -39,7 +39,7 @@
 #   - CentOS7
 #   - Debian9
 #   - FedoraRawhide
-#   - OpenSUSELeap154
+#   - OpenSUSELeap15
 #   - Ubuntu1804
 #
 # and so on.
@@ -883,7 +883,7 @@ mappings:
     deb: liblzma-dev
     Fedora: xz-static
     OpenSUSE:
-    OpenSUSELeap154: xz-static-devel
+    OpenSUSELeap15: xz-static-devel
     cross-policy-default: foreign
 
   libnfs:
