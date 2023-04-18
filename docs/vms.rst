@@ -285,27 +285,7 @@ globbing. Using the above inventory as an example, running
    $ lcitool update '*fedora*' '*osinfo*'
 
 will update all Fedora guests and get them ready to build libosinfo and related
-projects. Once hosts have been prepared following the steps above, you can use
-``lcitool`` to perform builds as well: for example, running
-
-::
-
-   $ lcitool build '*debian*' libvirt-python
-
-will fetch libvirt-python's ``master`` branch from the upstream repository
-and build it on all Debian hosts.
-
-You can add more git repositories by tweaking the ``git_urls`` dictionary
-defined in ``playbooks/build/jobs/defaults.yml`` and then build arbitrary
-branches out of those with
-
-::
-
-   $ lcitool build -g github/cool-feature all libvirt
-
-Note that unlike other lcitool commands which take projects as input the 'build'
-command doesn't accept the project list specified either as 'all' or with a
-wildcard.
+projects.
 
 
 Useful tips
