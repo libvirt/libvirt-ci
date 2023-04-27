@@ -230,6 +230,11 @@ x86_64-check-fedora-37:
   variables:
     NAME: fedora-37
 
+x86_64-check-fedora-38:
+  extends: .check_container_template
+  variables:
+    NAME: fedora-38
+
 x86_64-check-fedora-rawhide:
   extends: .check_container_template
   allow_failure: true
