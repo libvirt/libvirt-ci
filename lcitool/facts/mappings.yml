@@ -1638,7 +1638,6 @@ mappings:
 
   publican:
     deb: publican
-    Fedora36: publican
 
   pulseaudio:
     apk: pulseaudio-dev
