@@ -4,14 +4,22 @@
   when:
     - packaging.format == 'pkg'
 
+- name: 'Check if {{ ansible_python_package }} is installed'
+  raw: '{{ ansible_python_package }} --version'
+  register: python_installed
+  ignore_errors: true
+
 - name: Bootstrap Ansible
   raw: '{{ packaging.command }} install -y {{ ansible_python_package }}'
   when:
+    - python_installed.rc != 0
     - os.name != 'Alpine'
 
 - block:
     - name: Bootstrap Ansible
       raw: '{{ packaging.command }} add {{ ansible_python_package }}'
+      when:
+        - python_installed.rc != 0
 
     # community repo regex on non-Edge versions
     - set_fact:
