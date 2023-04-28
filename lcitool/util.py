@@ -300,8 +300,17 @@ class DataDir:
        an externally specified data directory.  Used to implement the
        -d option."""
 
+    @property
+    def path(self):
+        if self._path is None:
+            if self._extra_data_dir is not None:
+                self._path = Path(self._extra_data_dir).resolve()
+
+        return self._path
+
     def __init__(self, extra_data_dir=None):
         self._extra_data_dir = extra_data_dir
+        self._path = None
 
     def __repr__(self):
         return f'DataDir({str(self._extra_data_dir)})'
