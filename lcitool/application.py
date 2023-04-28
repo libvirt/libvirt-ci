@@ -82,10 +82,19 @@ class Application:
         playbook_base = Path(base, "playbooks", playbook)
         group_vars = dict()
 
+        user_pre = False
+        if data_dir:
+            ansible_path = Path(data_dir.path, "ansible")
+            if ansible_path.exists():
+                if Path(ansible_path, "pre/tasks/main.yml").exists:
+                    user_pre = True
+
         extra_vars = config.values
         extra_vars.update({
             "base": base,
             "selected_projects": projects_expanded,
+            "user_datadir": str(data_dir.path) if data_dir else None,
+            "user_pre": user_pre,
         })
 
         log.debug("Preparing Ansible runner environment")
