@@ -306,8 +306,11 @@ class DataDir:
     def __repr__(self):
         return f'DataDir({str(self._extra_data_dir)})'
 
+    def __bool__(self):
+        return bool(self._extra_data_dir)
+
     def _search(self, resource_path, *names, internal=False):
-        if not internal and self._extra_data_dir:
+        if self and not internal:
             # The first part of the path is used to keep data files out of
             # the source directory, for example "facts" or "etc".  Remove it
             # when using an external data directory.
