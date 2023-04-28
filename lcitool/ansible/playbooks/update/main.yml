@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Bootstrap
+  hosts: all
   remote_user: root
   gather_facts: no
 
@@ -8,7 +9,8 @@
     # Bootstrap Ansible itself
     - import_tasks: 'tasks/bootstrap.yml'
 
-- hosts: all
+- name: Main
+  hosts: all
   remote_user: root
 
   tasks:
