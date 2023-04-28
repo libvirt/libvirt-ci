@@ -1,3 +1,4 @@
 ---
+- import_playbook: user-pre.yml
 - import_playbook: bootstrap.yml
 - import_playbook: setup.yml
