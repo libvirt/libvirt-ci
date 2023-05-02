@@ -63,7 +63,7 @@ class Application:
 
     def _execute_playbook(self, playbook, hosts_pattern, projects_pattern,
                           data_dir, verbosity=0):
-        from lcitool.ansible_wrapper import AnsibleWrapper, AnsibleWrapperError
+        from lcitool.ansible_wrapper import AnsibleWrapper
 
         log.debug(f"Executing playbook '{playbook}': "
                   f"hosts_pattern={hosts_pattern} "
@@ -108,10 +108,7 @@ class Application:
                                    group_vars=group_vars,
                                    extravars=extra_vars)
         log.debug(f"Running Ansible with playbook '{playbook_base.name}'")
-        try:
-            ansible_runner.run_playbook(limit=hosts_expanded, verbosity=verbosity)
-        except AnsibleWrapperError as ex:
-            raise ApplicationError(ex.message)
+        ansible_runner.run_playbook(limit=hosts_expanded, verbosity=verbosity)
 
     @required_deps('ansible_runner', 'libvirt')
     def _action_hosts(self, args):

@@ -167,7 +167,7 @@ class AnsibleWrapper():
             log.debug(f"Running the Ansible runner cmd='{cmd}'")
             runner.run()
         except ansible_runner.exceptions.AnsibleRunnerException as e:
-            raise ExecutionError(e)
+            raise ExecutionError(str(e))
 
         if runner.status != "successful":
             error = runner.stderr.read()
