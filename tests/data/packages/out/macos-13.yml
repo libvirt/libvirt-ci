@@ -108,6 +108,7 @@ native:
 - lzo
 - make
 - meson
+- mtools
 - ncurses
 - net-snmp
 - nettle

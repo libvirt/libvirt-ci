@@ -172,6 +172,7 @@ packages:
 - modprobe
 - mono
 - monodevelop
+- mtools
 - nano
 - nbd-client
 - nbd-server
@@ -313,6 +314,7 @@ packages:
 - xen
 - xfsprogs
 - xmllint
+- xorriso
 - xsltproc
 - xz
 - yajl

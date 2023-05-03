@@ -86,6 +86,7 @@ native:
 - lua54
 - lzo2
 - meson
+- mtools
 - nano
 - nbd-server
 - nbdkit

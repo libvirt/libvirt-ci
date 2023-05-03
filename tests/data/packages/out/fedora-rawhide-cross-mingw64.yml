@@ -112,6 +112,7 @@ native:
 - meson
 - mono-devel
 - monodevelop
+- mtools
 - nano
 - nbd
 - nbdkit

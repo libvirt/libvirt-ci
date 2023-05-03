@@ -140,6 +140,7 @@ native:
 - make
 - mesa-libgbm-devel
 - meson
+- mtools
 - nano
 - nbdkit
 - ncurses-devel

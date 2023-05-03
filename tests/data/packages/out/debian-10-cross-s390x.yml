@@ -207,6 +207,7 @@ native:
 - lvm2
 - make
 - mount
+- mtools
 - nano
 - nbd-client
 - nbd-server
@@ -275,6 +276,7 @@ native:
 - valgrind
 - vim-nox
 - wget
+- xorriso
 - xsltproc
 - xz-utils
 - zip

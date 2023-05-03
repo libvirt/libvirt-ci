@@ -1237,6 +1237,9 @@ mappings:
   monodevelop:
     Fedora: monodevelop
 
+  mtools:
+    default: mtools
+
   nano:
     default: nano
     MacOS:
@@ -2122,6 +2125,9 @@ mappings:
     default: libxml2
     apk: libxml2-utils
     deb: libxml2-utils
+
+  xorriso:
+    default: xorriso
 
   xsltproc:
     default: libxslt

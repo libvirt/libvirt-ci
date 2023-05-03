@@ -162,6 +162,7 @@ native:
 - make
 - meson
 - mkisofs
+- mtools
 - nano
 - nbd
 - nbdkit
