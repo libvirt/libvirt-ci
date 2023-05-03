@@ -51,7 +51,8 @@ class LibvirtWrapper():
         for dom in doms:
             try:
                 xml = dom.metadata(libvirt.VIR_DOMAIN_METADATA_ELEMENT,
-                                   LCITOOL_XMLNS)
+                                   LCITOOL_XMLNS,
+                                   libvirt.VIR_DOMAIN_AFFECT_CONFIG)
             except libvirt.libvirtError as e:
                 if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN_METADATA:
                     # skip hosts which don't have lcitool's metadata
