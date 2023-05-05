@@ -205,6 +205,11 @@ x86_64-check-debian-10:
   variables:
     NAME: debian-10
 
+x86_64-check-debian-11:
+  extends: .check_container_template
+  variables:
+    NAME: debian-11
+
 x86_64-check-debian-sid:
   extends: .check_container_template
   allow_failure: true
