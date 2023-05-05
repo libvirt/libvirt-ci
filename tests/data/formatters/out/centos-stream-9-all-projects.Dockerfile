@@ -182,6 +182,7 @@ RUN dnf distro-sync -y && \
         perl-generators \
         perl-podlators \
         php-devel \
+        pipewire-devel \
         pixman-devel \
         pkgconfig \
         polkit \

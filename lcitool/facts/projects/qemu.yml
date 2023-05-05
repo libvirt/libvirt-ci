@@ -54,6 +54,7 @@ packages:
  - libjpeg
  - libnfs
  - libnuma
+ - libpipewire-dev
  - libpmem
  - libpng
  - librbd

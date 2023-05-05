@@ -130,6 +130,7 @@ packages:
 - libparted
 - libpcap
 - libpciaccess
+- libpipewire-dev
 - libpmem
 - libpng
 - librbd

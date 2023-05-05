@@ -192,6 +192,7 @@ RUN zypper dist-upgrade -y && \
            perl-YAML \
            perl-base \
            php-devel \
+           pipewire-devel \
            pkgconfig \
            polkit \
            python3-Pillow \

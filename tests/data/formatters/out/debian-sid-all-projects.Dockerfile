@@ -137,6 +137,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       libpciaccess-dev \
                       libpcre2-dev \
                       libperl-dev \
+                      libpipewire-0.3-dev \
                       libpixman-1-dev \
                       libpmem-dev \
                       libpng-dev \

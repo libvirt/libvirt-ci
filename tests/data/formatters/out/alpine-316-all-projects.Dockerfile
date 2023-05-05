@@ -154,6 +154,7 @@ RUN apk update && \
         perl-xml-xpath \
         perl-yaml \
         php81-dev \
+        pipewire-dev \
         pixman-dev \
         pkgconf \
         polkit \

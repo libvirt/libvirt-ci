@@ -212,6 +212,7 @@ exec "$@"\n' > /usr/bin/nosync && \
                perl-generators \
                perl-podlators \
                php-devel \
+               pipewire-devel \
                pixman-devel \
                pkgconfig \
                polkit \

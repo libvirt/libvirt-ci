@@ -181,6 +181,7 @@ RUN dnf update -y && \
         perl-generators \
         perl-podlators \
         php-devel \
+        pipewire-devel \
         pixman-devel \
         pkgconfig \
         polkit \

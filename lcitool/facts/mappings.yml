@@ -935,6 +935,14 @@ mappings:
     rpm: libpciaccess-devel
     cross-policy-default: foreign
 
+  libpipewire-dev:
+    apk: pipewire-dev
+    deb: libpipewire-0.3-dev
+    rpm: pipewire-devel
+    Debian10:
+    Ubuntu2004:
+    cross-policy-default: foreign
+
   libpmem:
     rpm: libpmem-devel
     x86_64-deb: libpmem-dev

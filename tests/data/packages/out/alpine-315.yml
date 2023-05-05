@@ -177,6 +177,7 @@ native:
 - perl-yaml
 - php8-dev
 - php8-pecl-imagick
+- pipewire-dev
 - pixman-dev
 - pkgconf
 - polkit
