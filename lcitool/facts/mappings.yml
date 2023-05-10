@@ -241,6 +241,7 @@ mappings:
     apk: cloud-utils-growpart
     deb: cloud-guest-utils
     rpm: cloud-utils-growpart
+    OpenSUSE: cloud-init
 
   cmocka:
     apk: cmocka-dev

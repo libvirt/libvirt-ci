@@ -30,7 +30,6 @@ native:
 - clang
 - clang-devel
 - cloud-init
-- cloud-utils-growpart
 - codespell
 - cpp
 - cppi
