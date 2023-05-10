@@ -243,11 +243,6 @@ x86_64-check-opensuse-tumbleweed:
   variables:
     NAME: opensuse-tumbleweed
 
-x86_64-check-ubuntu-1804:
-  extends: .check_container_template
-  variables:
-    NAME: ubuntu-1804
-
 x86_64-check-ubuntu-2004:
   extends: .check_container_template
   variables:

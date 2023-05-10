@@ -171,7 +171,6 @@ mappings:
     deb: bsdextrautils
     rpm: util-linux
     Debian10: bsdmainutils
-    Ubuntu1804: bsdmainutils
     Ubuntu2004: bsdmainutils
 
   bzip2:
@@ -376,14 +375,12 @@ mappings:
     deb: libfuse3-dev
     pkg: fusefs-libs3
     rpm: fuse3-devel
-    Ubuntu1804:
     cross-policy-default: foreign
 
   fusermount:
     default: fuse3
     pkg: fusefs-libs3
     MacOS:
-    Ubuntu1804:
 
   g++:
     apk: g++
@@ -494,7 +491,6 @@ mappings:
     OpenSUSE: glusterfs-devel
     AlmaLinux8: glusterfs-api-devel
     CentOSStream8: glusterfs-api-devel
-    Ubuntu1804: glusterfs-common
     cross-policy-default: foreign
 
   gnutls:
@@ -577,7 +573,6 @@ mappings:
     deb: bsdextrautils
     rpm: util-linux
     Debian10: bsdmainutils
-    Ubuntu1804: bsdmainutils
     Ubuntu2004: bsdmainutils
 
   hostname:
@@ -712,7 +707,6 @@ mappings:
     apk: libbpf-dev
     deb: libbpf-dev
     rpm: libbpf-devel
-    Ubuntu1804:
     Ubuntu2004:
     cross-policy-default: foreign
 
@@ -901,7 +895,6 @@ mappings:
     rpm: libnbd-devel
     Debian10:
     Debian11:
-    Ubuntu1804:
     Ubuntu2004:
 
   libnl3:
@@ -1003,7 +996,6 @@ mappings:
     AlmaLinux8: libslirp-devel
     CentOSStream8: libslirp-devel
     Debian10:
-    Ubuntu1804:
     cross-policy-default: foreign
 
   libsoup:
@@ -1087,7 +1079,6 @@ mappings:
     AlmaLinux8: liburing-devel
     CentOSStream8: liburing-devel
     Debian10:
-    Ubuntu1804:
     Ubuntu2004:
     cross-policy-default: foreign
 
@@ -1186,7 +1177,6 @@ mappings:
     rpm: lua-devel
     MacOS: lua
     Debian10: lua5.3
-    Ubuntu1804: lua5.3
     Ubuntu2004: lua5.3
 
   lvm2:
@@ -1216,7 +1206,6 @@ mappings:
   meson:
     default: meson
     Debian10:
-    Ubuntu1804:
     Ubuntu2004:
 
   mkisofs:
@@ -1263,7 +1252,6 @@ mappings:
     default: nbdkit
     apk:
     MacOS:
-    Ubuntu1804:
 
   nbdsh:
     default: python3-libnbd
@@ -1272,7 +1260,6 @@ mappings:
     MacOS:
     OpenSUSE:
     Debian10:
-    Ubuntu1804:
     Ubuntu2004:
 
   ncursesw:
@@ -1287,7 +1274,6 @@ mappings:
     deb: ncat
     rpm: nmap-ncat
     OpenSUSE: ncat
-    Ubuntu1804: netcat-openbsd
 
   netcf:
     apk: netcf-dev
@@ -1295,7 +1281,6 @@ mappings:
     CentOSStream8: netcf-devel
     Debian10: libnetcf-dev
     Debian11: libnetcf-dev
-    Ubuntu1804: libnetcf-dev
     Ubuntu2004: libnetcf-dev
     cross-policy-default: skip
 
