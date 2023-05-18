@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import logging
+import os
 import yaml
 
 import lcitool.install.osinfo as osinfo
@@ -238,6 +239,18 @@ class Image:
                     filepath = fd.name
 
         print()
+
+        # We need to set 0644 permissions on the vendor image so that guestfs
+        # tools can mount the backing chains utilizing with these vendor
+        # images since owner:group permissions are never restored with
+        # libvirt's dynamic ownership on any but the top image in the backing
+        # chain.
+        #
+        # NOTE: we also couldn't have simply used umask when downloading the
+        # vendor image, because the downloaded file is created using
+        # NamedTemporaryFile which for security reasons has hardcoded
+        # permissions 0600
+        os.chmod(filepath, 0o644)
 
         # update missing metadata and dump it
         self._metadata["image"] = filepath
