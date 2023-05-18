@@ -108,7 +108,7 @@ class CommandLine:
         installstrategyopt = argparse.ArgumentParser(add_help=False)
         installstrategyopt.add_argument(
             "--strategy",
-            choices=["url", "cloud"],
+            choices=["url", "cloud", "template"],
             default="url",
             help="where to install from (URL tree, latest cloud image)"
         )
