@@ -176,6 +176,11 @@ class LibvirtStoragePoolObject(LibvirtAbstractObject):
         conn.storagePoolCreateXML(pool_xml)
         return conn.storagePoolLookupByName(name)
 
+    def _create_from_xml(self, name, xmlstr):
+        self.raw.createXML(xmlstr)
+        return LibvirtStorageVolObject(self,
+                                       self.raw.storageVolLookupByName(name))
+
     def create_volume(self, name, capacity, allocation=None, _format="qcow2",
                       units='bytes', owner=None, group=None, mode=None,):
 
@@ -217,7 +222,7 @@ class LibvirtStoragePoolObject(LibvirtAbstractObject):
                     node_el.text = perm_var
 
         volume_xml = ET.tostring(root_el, encoding="UTF-8", method="xml")
-        self.raw.createXML(volume_xml.decode("UTF-8"))
+        return self._create_from_xml(name, volume_xml.decode("UTF-8"))
 
 
 class LibvirtStorageVolObject(LibvirtAbstractObject):
