@@ -73,6 +73,13 @@ class VirtInstall:
         runner = cls(name, facts)
         return cls._from_image(runner, config, image.path)
 
+    @classmethod
+    def from_template_image(cls, name, config, facts, template_path):
+        """ Shortcut constructor for a template image-based installation. """
+
+        runner = cls(name, facts)
+        return cls._from_image(runner, config, Path(template_path))
+
     def __init__(self, name, facts):
         """
         Instantiates the virt-install installer backend.
