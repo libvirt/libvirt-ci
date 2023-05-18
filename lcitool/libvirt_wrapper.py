@@ -166,7 +166,7 @@ class LibvirtPoolObject(LibvirtAbstractObject):
             target_el = ET.SubElement(root_el, "target")
             ET.SubElement(target_el, "format", {"type": _format})
 
-        if any(owner, group, mode):
+        if any([owner, group, mode]):
             target_el = ET.SubElement(root_el, "target")
             perms_el = ET.SubElement(target_el, "permissions")
             for perm_var, perm in [(owner, "owner"),
