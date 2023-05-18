@@ -189,3 +189,20 @@ class LibvirtStoragePoolObject(LibvirtAbstractObject):
 
         volume_xml = ET.tostring(root_el, encoding="UTF-8", method="xml")
         self.raw.createXML(volume_xml.decode("UTF-8"))
+
+
+class LibvirtStorageVolObject(LibvirtAbstractObject):
+
+    def __init__(self, pool, obj):
+        super().__init__(pool._conn, obj)
+        self.pool = pool
+        self.name = obj.name()
+        self.path = obj.path()
+        self._format = None
+
+    @property
+    def format(self):
+        if self._format is None:
+            format_node = self._get_xml_node("target/format")
+            self._format = format_node.attrib["type"]
+        return self._format
