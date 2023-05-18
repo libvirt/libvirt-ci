@@ -98,7 +98,7 @@ class LibvirtWrapper():
     def pool_by_name(self, name):
         try:
             poolobj = self._conn.storagePoolLookupByName(name)
-            return LibvirtPoolObject(poolobj)
+            return LibvirtStoragePoolObject(poolobj)
         except libvirt.libvirtError as e:
             raise LibvirtWrapperError(
                 f"Failed to retrieve storage pool '{name}' info: " + str(e)
@@ -131,7 +131,7 @@ class LibvirtAbstractObject(abc.ABC):
         return root.find(node_name)
 
 
-class LibvirtPoolObject(LibvirtAbstractObject):
+class LibvirtStoragePoolObject(LibvirtAbstractObject):
 
     def __init__(self, obj):
         super().__init__(obj)
