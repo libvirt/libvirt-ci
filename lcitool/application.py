@@ -181,10 +181,10 @@ class Application:
                 )
 
         if args.strategy == "cloud":
-            virt_install = VirtInstall.from_image(name=host,
-                                                  config=config,
-                                                  facts=facts,
-                                                  force_download=args.force)
+            virt_install = VirtInstall.from_vendor_image(name=host,
+                                                         config=config,
+                                                         facts=facts,
+                                                         force_download=args.force)
         else:
             virt_install = VirtInstall.from_url(name=host,
                                                 config=config,

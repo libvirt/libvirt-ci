@@ -54,7 +54,7 @@ class VirtInstall:
         return runner
 
     @classmethod
-    def from_image(cls, name, config, facts, force_download=False):
+    def from_vendor_image(cls, name, config, facts, force_download=False):
         """ Shortcut constructor for a cloud-init image-based installation. """
 
         runner = cls(name, facts)
