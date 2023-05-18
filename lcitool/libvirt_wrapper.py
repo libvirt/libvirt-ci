@@ -182,7 +182,8 @@ class LibvirtStoragePoolObject(LibvirtAbstractObject):
                                        self.raw.storageVolLookupByName(name))
 
     def create_volume(self, name, capacity, allocation=None, _format="qcow2",
-                      units='bytes', owner=None, group=None, mode=None,):
+                      units='bytes', owner=None, group=None, mode=None,
+                      backing_store=None):
 
         import re
         unit_pattern = '^(bytes|B|[K,M,G,T,P,E](iB|B)?)$'
@@ -220,6 +221,35 @@ class LibvirtStoragePoolObject(LibvirtAbstractObject):
                 if perm_var:
                     node_el = ET.SubElement(perms_el, perm)
                     node_el.text = perm_var
+
+        if backing_store:
+            backing_store_path_str = backing_store.as_posix()
+            backingStore_el = ET.SubElement(root_el, "backingStore")
+            path_el = ET.SubElement(backingStore_el, "path")
+            format_el = ET.SubElement(backingStore_el, "format")
+            path_el.text = backing_store_path_str
+
+            volobj = self._volume_by_path(backing_store_path_str)
+            if volobj:
+                format_ = volobj.format
+            else:
+                import uuid
+
+                # We could not locate the backing store in any storage pool.
+                # In order to fill in the backingStore volume data correctly we
+                # need to create a transient pool of type dir which contains
+                # the backingStore file storage volume to let libvirt fetch the
+                # information for us. We'll destroy the pool afterwards.
+
+                pool_dir = backing_store.parent.as_posix()
+                pool_name = "lcitool_" + str(uuid.uuid1())
+                poolobj = self._create_transient_pool(self._conn, pool_name,
+                                                      pool_dir)
+                volobj = self._volume_by_path(backing_store_path_str)
+                format_ = volobj.format
+                poolobj.destroy()
+
+            format_el.attrib["type"] = format_
 
         volume_xml = ET.tostring(root_el, encoding="UTF-8", method="xml")
         return self._create_from_xml(name, volume_xml.decode("UTF-8"))
