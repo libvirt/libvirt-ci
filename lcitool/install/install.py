@@ -57,10 +57,6 @@ class VirtInstall:
     def from_vendor_image(cls, name, config, facts, force_download=False):
         """ Shortcut constructor for a cloud-init image-based installation. """
 
-        runner = cls(name, facts)
-
-        conf_size = config.values["install"]["disk_size"]
-        conf_pool = config.values["install"]["storage_pool"]
         arch = config.values["install"]["arch"]
         target = facts["target"]
 
@@ -73,36 +69,8 @@ class VirtInstall:
         if image.path is None or force_download:
             image.download()
 
-        # Dump the edited cloud-init template for virt-install to use
-        ssh_keypair = util.SSHKeyPair(config.values["install"]["ssh_key"])
-        ssh_pubkey_str = str(ssh_keypair.public_key)
-        cloud_config = CloudConfig(ssh_authorized_keys=[ssh_pubkey_str])
-        with NamedTemporaryFile("w",
-                                prefix="cloud_init_",
-                                suffix=".conf",
-                                dir=util.get_temp_dir(),
-                                delete=False) as fd:
-
-            fd.write(cloud_config.dump())
-            runner.args.extend(["--cloud-init", f"user-data={fd.name}"])
-
-        baseimg_path = image.path.as_posix()
-        disk_arg = (f"size={conf_size},"
-                    f"pool={conf_pool},"
-                    f"backing_store={baseimg_path},"
-                    f"bus=virtio")
-
-        runner.args.extend(["--import",
-                            "--disk", disk_arg])
-        runner.args.extend(runner._get_common_args(config))
-
-        # NOTE: URL installs wait by connecting to a serial console which kills
-        # any automation needs, so we don't want that here and instead always
-        # pass --noautoconsole and set an SSH wait callback.
-        runner.args.append("--noautoconsole")
-        runner._ssh_keypair = ssh_keypair
-        runner._wait_callback = runner._ssh_wait_cb
-        return runner
+        runner = cls(name, facts)
+        return cls._from_image(runner, config, image.path)
 
     def __init__(self, name, facts):
         """
@@ -135,6 +103,43 @@ class VirtInstall:
 
     def __str__(self):
         return " ".join([self._cmd] + self.args)
+
+    @staticmethod
+    def _from_image(runner, config, baseimg_path, **kwargs):
+
+        conf_size = config.values["install"]["disk_size"]
+        conf_pool = config.values["install"]["storage_pool"]
+
+        # Dump the edited cloud-init template for virt-install to use
+        ssh_keypair = util.SSHKeyPair(config.values["install"]["ssh_key"])
+        ssh_pubkey_str = str(ssh_keypair.public_key)
+        cloud_config = CloudConfig(ssh_authorized_keys=[ssh_pubkey_str])
+        with NamedTemporaryFile("w",
+                                prefix="cloud_init_",
+                                suffix=".conf",
+                                dir=util.get_temp_dir(),
+                                delete=False) as fd:
+
+            fd.write(cloud_config.dump())
+            runner.args.extend(["--cloud-init", f"user-data={fd.name}"])
+
+        baseimg_path_str = baseimg_path.as_posix()
+        disk_arg = (f"size={conf_size},"
+                    f"pool={conf_pool},"
+                    f"backing_store={baseimg_path_str},"
+                    f"bus=virtio")
+
+        runner.args.extend(["--import",
+                            "--disk", disk_arg])
+        runner.args.extend(runner._get_common_args(config))
+
+        # NOTE: URL installs wait by connecting to a serial console which kills
+        # any automation needs, so we don't want that here and instead always
+        # pass --noautoconsole and set an SSH wait callback.
+        runner.args.append("--noautoconsole")
+        runner._ssh_keypair = ssh_keypair
+        runner._wait_callback = runner._ssh_wait_cb
+        return runner
 
     @staticmethod
     def _get_common_args(config):
