@@ -135,6 +135,7 @@ class LibvirtPoolObject(LibvirtAbstractObject):
 
     def __init__(self, obj):
         super().__init__(obj)
+        self.name = obj.name()
         self._path = None
 
     @property
