@@ -128,8 +128,7 @@ class LibvirtAbstractObject(abc.ABC):
         if root is None:
             root = self._get_xml_tree()
 
-        nodeelem = root.find(node_name)
-        return nodeelem.text
+        return root.find(node_name)
 
 
 class LibvirtPoolObject(LibvirtAbstractObject):
@@ -141,7 +140,8 @@ class LibvirtPoolObject(LibvirtAbstractObject):
     @property
     def path(self):
         if self._path is None:
-            self._path = self._get_xml_node("target/path")
+            path_node = self._get_xml_node("target/path")
+            self._path = path_node.text
         return Path(self._path)
 
     def create_volume(self, name, capacity, allocation=None, _format=None,
