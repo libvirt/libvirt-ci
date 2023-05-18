@@ -176,5 +176,5 @@ class LibvirtPoolObject(LibvirtAbstractObject):
                     node_el = ET.SubElement(perms_el, perm)
                     node_el.text = perm_var
 
-        volume_xml = ET.dump(root_el)
-        self.raw.createXML(volume_xml)
+        volume_xml = ET.tostring(root_el, encoding="UTF-8", method="xml")
+        self.raw.createXML(volume_xml.decode("UTF-8"))
