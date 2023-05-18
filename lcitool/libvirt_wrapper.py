@@ -144,15 +144,23 @@ class LibvirtPoolObject(LibvirtAbstractObject):
             self._path = path_node.text
         return Path(self._path)
 
-    def create_volume(self, name, capacity, allocation=None, _format=None,
-                      owner=None, group=None, mode=None,):
+    def create_volume(self, name, capacity, allocation=None, _format="qcow2",
+                      units='bytes', owner=None, group=None, mode=None,):
+
+        import re
+        unit_pattern = '^(bytes|B|[K,M,G,T,P,E](iB|B)?)$'
+
+        if not re.match(unit_pattern, units):
+            raise ValueError(
+                f"Invalid value '{units}' passed to 'create_volume().units'"
+            )
 
         # define a base XML template to be updated depending on other params
         volume_xml = textwrap.dedent(
             f"""
             <volume>
-              <name>{name}</target>
-              <capacity>{capacity}</capacity>
+              <name>{name}</name>
+              <capacity unit='{units}'>{capacity}</capacity>
             </volume>
             """)
 
