@@ -73,17 +73,6 @@ class VirtInstall:
         if image.path is None or force_download:
             image.download()
 
-            # Make sure that a symlink to the base image symlink exists
-            # in libvirt pool and that we refresh the pool
-            storage_pool = config.values["install"]["storage_pool"]
-            libvirt_pool = LibvirtWrapper().pool_by_name(storage_pool)
-            try:
-                Path(libvirt_pool.path, image.name).symlink_to(image.path)
-            except FileExistsError:
-                pass
-
-            libvirt_pool.raw.refresh()
-
         # Dump the edited cloud-init template for virt-install to use
         ssh_keypair = util.SSHKeyPair(config.values["install"]["ssh_key"])
         ssh_pubkey_str = str(ssh_keypair.public_key)
