@@ -185,6 +185,11 @@ class Application:
                                                          config=config,
                                                          facts=facts,
                                                          force_download=args.force)
+        elif args.strategy == "template":
+            virt_install = VirtInstall.from_template_image(name=host,
+                                                           config=config,
+                                                           facts=facts,
+                                                           template_path=args.template)
         else:
             virt_install = VirtInstall.from_url(name=host,
                                                 config=config,
