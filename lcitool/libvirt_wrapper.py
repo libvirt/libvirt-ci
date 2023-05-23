@@ -98,7 +98,7 @@ class LibvirtWrapper():
     def pool_by_name(self, name):
         try:
             poolobj = self._conn.storagePoolLookupByName(name)
-            return LibvirtStoragePoolObject(poolobj)
+            return LibvirtStoragePoolObject(self._conn, poolobj)
         except libvirt.libvirtError as e:
             raise LibvirtWrapperError(
                 f"Failed to retrieve storage pool '{name}' info: " + str(e)
@@ -118,7 +118,8 @@ class LibvirtAbstractObject(abc.ABC):
 
     """
 
-    def __init__(self, obj):
+    def __init__(self, conn, obj):
+        self._conn = conn
         self.raw = obj
 
     def _get_xml_tree(self):
@@ -133,8 +134,8 @@ class LibvirtAbstractObject(abc.ABC):
 
 class LibvirtStoragePoolObject(LibvirtAbstractObject):
 
-    def __init__(self, obj):
-        super().__init__(obj)
+    def __init__(self, conn, obj):
+        super().__init__(conn, obj)
         self.name = obj.name()
         self._path = None
         self.raw.refresh()
