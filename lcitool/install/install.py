@@ -4,6 +4,7 @@
 
 import errno
 import logging
+import os
 import subprocess
 
 from pathlib import Path
@@ -110,6 +111,16 @@ class VirtInstall:
         conf_size = config.values["install"]["disk_size"]
         conf_pool = config.values["install"]["storage_pool"]
 
+        # To force user/group permissions on the target volume, we have to
+        # create it ourselves as virt-install doesn't accept file permissions
+        # or mode for the file-based volumes it creates
+        libvirt_pool = LibvirtWrapper().pool_by_name(conf_pool)
+        storage_vol = libvirt_pool.create_volume(runner.name + ".qcow2",
+                                                 conf_size, units="G",
+                                                 owner=str(os.getuid()),
+                                                 group=str(os.getgid()),
+                                                 backing_store=baseimg_path)
+
         # Dump the edited cloud-init template for virt-install to use
         ssh_keypair = util.SSHKeyPair(config.values["install"]["ssh_key"])
         ssh_pubkey_str = str(ssh_keypair.public_key)
@@ -123,12 +134,7 @@ class VirtInstall:
             fd.write(cloud_config.dump())
             runner.args.extend(["--cloud-init", f"user-data={fd.name}"])
 
-        baseimg_path_str = baseimg_path.as_posix()
-        disk_arg = (f"size={conf_size},"
-                    f"pool={conf_pool},"
-                    f"backing_store={baseimg_path_str},"
-                    f"bus=virtio")
-
+        disk_arg = (f"vol={libvirt_pool.name}/{storage_vol.name},bus=virtio")
         runner.args.extend(["--import",
                             "--disk", disk_arg])
         runner.args.extend(runner._get_common_args(config))
