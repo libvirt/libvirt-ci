@@ -9,14 +9,14 @@
   register: python_installed
   ignore_errors: true
 
-- name: Bootstrap Ansible
+- name: 'Install {{ ansible_python_package }}'
   raw: '{{ packaging.command }} install -y {{ ansible_python_package }}'
   when:
     - python_installed.rc != 0
     - os.name != 'Alpine'
 
 - block:
-    - name: Bootstrap Ansible
+    - name: 'Install {{ ansible_python_package }}'
       raw: '{{ packaging.command }} add {{ ansible_python_package }}'
       when:
         - python_installed.rc != 0
@@ -32,8 +32,7 @@
       when: os.version == 'Edge'
 
     # Enable the community repository
-    - name: Bootstrap Ansible
-      replace:
+    - replace:
         path: /etc/apk/repositories
         regexp: '{{ regex }}'
         replace: '\1'
