@@ -121,6 +121,12 @@ class CommandLine:
             help="force download of a new image (only with --strategy=cloud)"
         )
 
+        installfromtemplate = argparse.ArgumentParser(add_help=False)
+        installfromtemplate.add_argument(
+            "--template",
+            help="template image to instantiate (only with --strategy=template)",
+        )
+
         update_projectopt = argparse.ArgumentParser(add_help=False)
         update_projectopt.add_argument(
             "projects",
@@ -244,6 +250,7 @@ class CommandLine:
                 installhostopt,
                 installstrategyopt,
                 installforceopt,
+                installfromtemplate,
             ],
         )
         installparser.set_defaults(func=Application._action_install)
@@ -360,6 +367,15 @@ class CommandLine:
                 log.error("--script is required")
                 sys.exit(1)
 
+    @staticmethod
+    def _validate_install(args):
+        if args.strategy == "template":
+            if not args.template:
+                log.error("--template is required with with --strategy=template")
+                sys.exit(1)
+
+        return
+
     # Main CLI validating method
     def _validate(self, args):
         """
@@ -372,6 +388,9 @@ class CommandLine:
 
         if args.action == "container":
             self._validate_container(args)
+
+        elif args.action == "install":
+            self._validate_install(args)
 
         return args
 
