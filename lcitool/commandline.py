@@ -334,7 +334,28 @@ class CommandLine:
         )
         shell_containerparser.set_defaults(func=Application._action_container_run)
 
-    # Validate "container" args
+    @staticmethod
+    def _validate_container(args):
+        if args.container not in ["build", "run", "shell"]:
+            return
+
+        # Ensure that (--target & --projects) argument are passed with
+        # "build" subcommand.
+        if args.container == "build":
+            if args.projects and args.target:
+                return args
+            else:
+                log.error("--target and --projects are required")
+                sys.exit(1)
+
+        if args.container == "run":
+            # "run" subcommand only requires "--script" argument;
+            # it works with or without "--workload-dir" argument
+            if not args.script:
+                log.error("--script is required")
+                sys.exit(1)
+
+    # Main CLI validating method
     def _validate(self, args):
         """
         Validate command line arguments.
@@ -344,24 +365,8 @@ class CommandLine:
         :return: args.
         """
 
-        if vars(args).get("container") \
-                and args.container in ["build", "run", "shell"]:
-
-            # Ensure that (--target & --projects) argument are passed with
-            # "build" subcommand.
-            if args.container == "build":
-                if args.projects and args.target:
-                    return args
-                else:
-                    log.error("--target and --projects are required")
-                    sys.exit(1)
-
-            if args.container == "run":
-                # "run" subcommand only requires "--script" argument;
-                # it works with or without "--workload-dir" argument
-                if not args.script:
-                    log.error("--script is required")
-                    sys.exit(1)
+        if args.action == "container":
+            self._validate_container(args)
 
         return args
 
