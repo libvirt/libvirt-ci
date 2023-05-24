@@ -118,7 +118,7 @@ class CommandLine:
             "--force",
             default=False,
             action="store_true",
-            help="force download of the image (rewrites the one in cache)"
+            help="force download of a new image (only with --strategy=cloud)"
         )
 
         update_projectopt = argparse.ArgumentParser(add_help=False)
