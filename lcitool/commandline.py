@@ -238,8 +238,13 @@ class CommandLine:
         installparser = subparsers.add_parser(
             "install",
             help="perform unattended host installation",
-            parents=[waitopt, installtargetopt, installhostopt,
-                     installstrategyopt, installforceopt],
+            parents=[
+                waitopt,
+                installtargetopt,
+                installhostopt,
+                installstrategyopt,
+                installforceopt,
+            ],
         )
         installparser.set_defaults(func=Application._action_install)
 
