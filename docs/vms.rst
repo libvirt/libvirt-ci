@@ -158,6 +158,27 @@ has refreshed the images since you downloaded your last one), run::
 
     lcitool install $host --target $target_os --strategy cloud --force
 
+Installing using custom template images
+---------------------------------------
+
+Vendor cloud images are convenient to use because they're stripped down to
+the bare minimum so they don't take long to download, they're publicly
+accessible from potentially multiple mirrors, and they're rebuilt often so you
+should get fresh contents regularly. The problem is that sometimes you need to
+install a bunch of other packages to get your environment going, including some
+complex system configuration. The obvious option is to perform the
+configuration each time you provision a new system backed by the vendor cloud
+image. However, that takes time and it would be better if the provisioning
+could be sped up even more by pre-installing and pre-configuring the vendor
+cloud image to your liking and then use that image as a template.
+
+To install a local VM using your pre-configured template image, run ::
+
+    lcitool install $host --target $target_os --strategy template --template <path to your base image>
+
+Note that in order for the above to work your template image needs to have
+cloud-init enabled as lcitool will provide a minimalistic NoCloud ISO to the
+VM (injecting the public SSH key specified in lcitool's config).
 
 Installing FreeBSD VMs
 ----------------------
