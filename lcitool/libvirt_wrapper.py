@@ -159,6 +159,23 @@ class LibvirtStoragePoolObject(LibvirtAbstractObject):
         if volobj:
             return LibvirtStorageVolObject(self, volobj)
 
+    @staticmethod
+    def _create_transient_pool(conn, name, target):
+        """Creates a transient pool of type 'dir'"""
+
+        pool_xml = textwrap.dedent(
+            f"""
+            <pool type='dir'>
+              <name>{name}</name>
+              <target>
+                <path>{target}</path>
+              </target>
+            </pool>
+            """)
+
+        conn.storagePoolCreateXML(pool_xml)
+        return conn.storagePoolLookupByName(name)
+
     def create_volume(self, name, capacity, allocation=None, _format="qcow2",
                       units='bytes', owner=None, group=None, mode=None,):
 
