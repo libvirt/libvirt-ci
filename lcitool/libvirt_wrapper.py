@@ -147,6 +147,18 @@ class LibvirtStoragePoolObject(LibvirtAbstractObject):
             self._path = path_node.text
         return Path(self._path)
 
+    @staticmethod
+    def _lookup_volume_by_path(conn, path):
+        try:
+            return conn.storageVolLookupByPath(path)
+        except libvirt.libvirtError:
+            return None
+
+    def _volume_by_path(self, path):
+        volobj = self._lookup_volume_by_path(self._conn, path)
+        if volobj:
+            return LibvirtStorageVolObject(self, volobj)
+
     def create_volume(self, name, capacity, allocation=None, _format="qcow2",
                       units='bytes', owner=None, group=None, mode=None,):
 
