@@ -95,6 +95,8 @@ targets:
 
   alpine-317: x86_64
 
+  alpine-318: x86_64
+
   alpine-edge:
     jobs:
       - arch: x86_64
