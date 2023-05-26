@@ -228,7 +228,6 @@ mappings:
     pkg: rust
     rpm: clippy
     OpenSUSE:
-    Alpine315:
     Debian10:
     Debian11:
 
@@ -1594,7 +1593,6 @@ mappings:
     deb: php-dev
     pkg: php74
     rpm: php-devel
-    Alpine315: php8-dev
 
   php-imagick:
     apk: php81-pecl-imagick
@@ -1602,7 +1600,6 @@ mappings:
     pkg: php74-pecl-imagick
     Fedora: php-pecl-imagick
     OpenSUSE: php-imagick
-    Alpine315: php8-pecl-imagick
 
   pixman:
     default: pixman
@@ -1827,14 +1824,6 @@ mappings:
     default: rpcgen
     deb: libc-dev-bin
     pkg:
-    # On Alpine 3.15 both the nfs-utils and rpcgen packages provide the rpcgen
-    # command and they conflict, so we have to choose the superset (nfs-utils).
-    #
-    # This issue has already been addressed in Alpine Edge, but apparently the
-    # fix has not been backported to the stable release.
-    #
-    # https://gitlab.alpinelinux.org/alpine/aports/-/issues/13583
-    Alpine315: nfs-utils
 
   rpm2cpio:
     default: rpm2cpio

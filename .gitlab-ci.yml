@@ -246,15 +246,6 @@ x86_64-check-almalinux-9:
     IMAGE: docker.io/library/almalinux:9
     NAME: almalinux-9
 
-x86_64-check-alpine-315:
-  extends: .check_container_template
-  variables:
-    <<: *apk_dry_run_command
-    IMAGE: docker.io/library/alpine:3.15
-    NAME: alpine-315
-    # wget on Alpine is implemented in Busybox and doesn't have all options
-    CPAN_DRY_RUN_COMMAND: cpanm --scandeps --no-wget
-
 x86_64-check-alpine-316:
   extends: .check_container_template
   variables:
