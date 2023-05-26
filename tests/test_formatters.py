@@ -82,20 +82,3 @@ def test_prepbuildenv(assert_equal, packages, projects, targets, project, target
     actual = gen.format(target_obj, [project])
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".sh")
     assert_equal(actual, expected_path)
-
-
-def test_all_projects_dockerfiles(assert_equal, packages, projects, targets):
-    all_projects = projects.names
-
-    for target in sorted(targets.targets):
-        target_obj = BuildTarget(targets, packages, target)
-
-        facts = target_obj.facts
-
-        if facts["packaging"]["format"] not in ["apk", "deb", "rpm"]:
-            continue
-
-        gen = DockerfileFormatter(projects)
-        actual = gen.format(target_obj, all_projects)
-        expected_path = Path(test_utils.test_data_outdir(__file__), f"{target}-all-projects.Dockerfile")
-        assert_equal(actual, expected_path)

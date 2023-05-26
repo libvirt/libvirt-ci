@@ -28,7 +28,6 @@ stages:
 .job_rules_test_container_changes: &job_rules_test_container_changes
   changes:
     - .gitlab-ci.yml
-    - tests/data/formatters/out/${NAME}-all-projects.Dockerfile
 
 # If pushing to the default branch, then publish the container
 # for future reuse, otherwise just discard it after testing build
