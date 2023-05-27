@@ -210,3 +210,90 @@ class TestEngineOptions:
         assert_equal(
             podman._build_args(**args), template + extra_option + options
         )
+
+
+class TestContainerReference:
+
+    def podman_images(self):
+        return [
+            {
+                "Id": "8df5ae41ea341b6dd71961ff503a3357bd0b65091ccf282c2633ef175007a49c",
+                "Names": ['localhost/foo:tag']
+            },
+            {
+                "Id": "2720e26172a023c7245fd2d59f06452cb3743e3c5a26dd102c6a2294e473cdcd",
+                "Names": ['docker.io/library/alpine:3.15']
+            },
+            {
+                "Id": "a18e665d62d32d78eed320b32dce4bf49b3acf8f402cb936768fdd56cee04746",
+                "Names": ['registry.gitlab.com/libvirt/libvirt/ci-fedora-36:latest']
+            },
+            {
+                "Id": "6110febd7078d4555b6b80c3860554719056f36311f98821b20233b591027957",
+                "Names": ['localhost/bar:latest', 'localhost/foo:latest']
+            }
+        ]
+
+    def docker_images(self):
+        return [
+            {"ID": "a2517b2fbc71", "Repository": "foo", "Tag": "latest"},
+            {"ID": "dd94cb611937", "Repository": "debian", "Tag": "11-slim"},
+            {"ID": "75239e49e899", "Repository": "lcitool.fedora36", "Tag": "latest"}
+        ]
+
+    @pytest.fixture(scope="class", autouse=True)
+    def patch_podman_images(self, monkeypatch_class_scope):
+        monkeypatch_class_scope.setattr(Podman, "_images", self.podman_images)
+
+    @pytest.fixture(scope="class", autouse=True)
+    def patch_docker_images(self, monkeypatch_class_scope):
+        monkeypatch_class_scope.setattr(Docker, "_images", self.docker_images)
+
+    @pytest.mark.parametrize(
+        "args",
+        [
+            pytest.param(["a2517b2", ""], id="image-id"),
+            pytest.param(["debian", "11-slim"], id="name")
+        ]
+    )
+    def test_docker_image_reference(self, args, docker):
+        assert docker.image_exists(*args)
+
+    @pytest.mark.parametrize(
+        "args",
+        [
+            pytest.param(["", ""], id="empty-string"),
+            pytest.param(["invalid", ""], id="invalid-name"),
+            pytest.param(["lcitool.fedora36", ""], id="name"),
+            pytest.param(["foo", "invalid"], id="name-invalid-tag")
+        ]
+    )
+    def test_docker_image_reference_error(self, args, docker):
+        assert docker.image_exists(*args) == False
+
+    @pytest.mark.parametrize(
+        "args",
+        [
+            pytest.param(["alpine", "3.15"], id="name"),
+            pytest.param(["foo", "tag"], id="local-name-tag"),
+            pytest.param(["localhost/foo", "latest"], id="alternative-image-name"),
+            pytest.param(["localhost/bar", "latest"], id="local-registry-name-tag"),
+            pytest.param(
+                ["registry.gitlab.com/libvirt/libvirt/ci-fedora-36", "latest"],
+                id="registry-name-tag"
+            )
+        ]
+    )
+    def test_podman_image_reference(self, args, podman):
+        assert podman.image_exists(*args)
+
+    @pytest.mark.parametrize(
+        "args",
+        [
+            pytest.param(["", ""], id="empty-string"),
+            pytest.param(["ci-fedora-36", ""], id="name"),
+            pytest.param(["alpine", "latest"], id="name-invalid-tag")
+        ]
+    )
+    def test_podman_image_reference_error(self, args, podman):
+        assert podman.image_exists(*args) ==  False
