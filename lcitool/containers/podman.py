@@ -151,7 +151,7 @@ class Podman(Container):
                 # parse `img_repository` just to get "<image_name>:<image_tag>"
                 repository_names = list(map(lambda x: x.split('/')[-1], img_repository))
 
-            if id.startswith(image_ref) or (image_reference in repository_names):
+            if (image_ref and id.startswith(image_ref)) or (image_reference in repository_names):
                 return True
 
         return False

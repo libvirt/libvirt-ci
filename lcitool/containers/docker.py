@@ -67,7 +67,7 @@ class Docker(Container):
             img_repository = img.get("Repository")
             img_tag = img.get("Tag", "latest")
 
-            if id.startswith(image_ref) or (image_ref == img_repository and image_tag == img_tag):
+            if (image_ref and id.startswith(image_ref)) or (image_ref == img_repository and image_tag == img_tag):
                 return True
 
         return False
