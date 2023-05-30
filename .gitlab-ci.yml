@@ -33,7 +33,7 @@ stages:
 # If pushing to the default branch, then publish the container
 # for future reuse, otherwise just discard it after testing build
 .build_container_template:
-  image: docker:stable
+  image: docker:latest
   stage: containers
   interruptible: false
   services:

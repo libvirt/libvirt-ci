@@ -144,7 +144,7 @@ def container_template(cidir):
         # Note: never publish from merge requests since they have non-committed code
         #
         .container_job:
-          image: docker:stable
+          image: docker:latest
           stage: containers
           interruptible: false
           needs: []
