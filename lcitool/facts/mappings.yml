@@ -395,6 +395,7 @@ mappings:
     cross-mips64el-deb: g++-mips64el-linux-gnuabi64
     cross-mipsel-deb: g++-mipsel-linux-gnu
     cross-ppc64le-deb: g++-powerpc64le-linux-gnu
+    cross-riscv64-deb: g++-riscv64-linux-gnu
     cross-s390x-deb: g++-s390x-linux-gnu
     cross-x86_64-deb: g++-x86-64-linux-gnu
     cross-policy-default: foreign
@@ -413,6 +414,7 @@ mappings:
     cross-mips64el-deb: gcc-mips64el-linux-gnuabi64
     cross-mipsel-deb: gcc-mipsel-linux-gnu
     cross-ppc64le-deb: gcc-powerpc64le-linux-gnu
+    cross-riscv64-deb: gcc-riscv64-linux-gnu
     cross-s390x-deb: gcc-s390x-linux-gnu
     cross-x86_64-deb: gcc-x86-64-linux-gnu
     cross-policy-default: foreign
