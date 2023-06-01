@@ -53,6 +53,7 @@ packages:
 - fusermount
 - g++
 - gcc
+- gcc-native
 - gcovr
 - gdb
 - gdk-pixbuf

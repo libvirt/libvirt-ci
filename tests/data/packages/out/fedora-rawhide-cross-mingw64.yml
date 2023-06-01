@@ -70,6 +70,7 @@ native:
 - firewalld-filesystem
 - flex
 - fuse3
+- gcc
 - gcovr
 - gdb
 - genisoimage

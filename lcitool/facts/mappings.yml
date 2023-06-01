@@ -419,6 +419,11 @@ mappings:
     cross-x86_64-deb: gcc-x86-64-linux-gnu
     cross-policy-default: foreign
 
+  gcc-native:
+    default: gcc
+    pkg:
+    MacOS:
+
   gcovr:
     default: gcovr
     pkg:
