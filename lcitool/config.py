@@ -78,20 +78,21 @@ class Config:
 
         user_config_path = None
         for user_config_path in self._config_file_paths:
-            if user_config_path.exists():
-                break
+            if not user_config_path.exists():
+                continue
+
+            user_config_path_str = user_config_path.as_posix()
+            log.debug(f"Loading configuration from '{user_config_path_str}'")
+            try:
+                with open(user_config_path, "r") as fp:
+                    user_config = yaml.safe_load(fp)
+                    if user_config is None:
+                        user_config = {}
+            except Exception as e:
+                raise LoadError(f"'{user_config_path.name}': {e}")
+
+            break
         else:
-            return
-
-        user_config_path_str = user_config_path.as_posix()
-        log.debug(f"Loading configuration from '{user_config_path_str}'")
-        try:
-            with open(user_config_path, "r") as fp:
-                user_config = yaml.safe_load(fp)
-        except Exception as e:
-            raise LoadError(f"'{user_config_path.name}': {e}")
-
-        if user_config is None:
             user_config = {}
 
         # delete user params we don't recognize

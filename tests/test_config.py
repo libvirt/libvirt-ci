@@ -19,6 +19,7 @@ from lcitool.config import ValidationError
         "full.yml",
         "minimal.yml",
         "minimal_no_root_password.yml",
+        "no_config",
         "unknown_section.yml",
         "unknown_key.yml",
     ],

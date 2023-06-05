@@ -1,4 +1,5 @@
 gitlab:
+  runner_secret: NONE
   url: https://gitlab.com
 install:
   arch: x86_64
@@ -9,8 +10,8 @@ install:
   machine: pc
   memory_size: 2
   network: default
-  root_password: foo
-  ssh_key: '~/.ssh/id_rsa.pub'
+  root_password: root
+  ssh_key: ~/.ssh/id_rsa.pub
   storage_pool: default
   vcpus: 2
   virt_type: kvm
