@@ -2,7 +2,7 @@
 os:
   name: 'OpenSUSE'
   version: 'Leap15'
-  libosinfo_id: 'http://opensuse.org/opensuse/15.4'
+  libosinfo_id: 'http://opensuse.org/opensuse/15.5'
 
 packaging:
   format: 'rpm'
@@ -23,7 +23,7 @@ ansible_python_interpreter: /usr/bin/python3
 
 install:
   unattended_scheme: autoyast
-  url: http://download.opensuse.org/distribution/leap/15.4/repo/oss/
+  url: http://download.opensuse.org/distribution/leap/15.5/repo/oss/
 
 containers:
-  base: registry.opensuse.org/opensuse/leap:15.4
+  base: registry.opensuse.org/opensuse/leap:15.5

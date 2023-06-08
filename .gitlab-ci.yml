@@ -331,7 +331,7 @@ x86_64-check-opensuse-leap-15:
   extends: .check_container_template
   variables:
     <<: *zypper_dry_run_command
-    IMAGE: registry.opensuse.org/opensuse/leap:15.4
+    IMAGE: registry.opensuse.org/opensuse/leap:15.5
     NAME: opensuse-leap-15
 
 x86_64-check-opensuse-tumbleweed:
