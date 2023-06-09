@@ -88,6 +88,12 @@ class Inventory():
         def _rec(inventory, group_name):
             for key, subinventory in inventory.items():
                 if key == "hosts":
+                    if (group_name != "ungrouped" and
+                        group_name not in self._targets.targets):
+                        log.info(f"Unsupported target OS group '{group_name}'"
+                                 "found in the inventory, skipping...")
+                        return
+
                     for host_name, host_facts in subinventory.items():
                         log.debug(f"Host '{host_name}' is in group '{group_name}'")
 
