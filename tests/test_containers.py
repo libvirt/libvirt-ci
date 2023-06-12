@@ -8,12 +8,12 @@ from lcitool.containers import ContainerError, Docker, Podman
 
 
 id_mapping = [
-    "--uidmap", "0:1:100",
-    "--uidmap", "100:0:1",
-    "--uidmap", "101:101:5900",
-    "--gidmap", "0:1:100",
-    "--gidmap", "100:0:1",
-    "--gidmap", "101:101:5900"
+    ("--uidmap", "0:1:100"),
+    ("--uidmap", "100:0:1"),
+    ("--uidmap", "101:101:5900"),
+    ("--gidmap", "0:1:100"),
+    ("--gidmap", "100:0:1"),
+    ("--gidmap", "101:101:5900"),
 ]
 
 
@@ -114,23 +114,30 @@ class TestEngineOptions:
             pytest.param({"user": "user"}, [], id="string-testuser"),
             pytest.param(
                 dict(user=0, env=["FOO=bar", "BAR=baz"]),
-                ["--env=FOO=bar", "--env=BAR=baz"],
+                [
+                    ("--env=FOO=bar",),
+                    ("--env=BAR=baz",)
+                ],
                 id="environmental-variable-root"
             ),
             pytest.param(
                 dict(user="user", env=["FOO=baz"]),
-                ["--env=FOO=baz"],
+                [
+                    ("--env=FOO=baz",),
+                ],
                 id="environmental-variable-testuser"
             ),
             pytest.param(
                 dict(user="root", datadir="/abc"),
-                ["--volume", "/abc:/root/datadir:z"],
+                [
+                    ("--volume", "/abc:/root/datadir:z"),
+                ],
                 id="scratch-directory-root"
             ),
             pytest.param(
                 dict(user=1, datadir="/tmp/src"),
                 [
-                    "--volume", "/tmp/src:/home/user/datadir:z",
+                    ("--volume", "/tmp/src:/home/user/datadir:z"),
                 ],
                 id="scratch-directory-testuser"
             ),
@@ -145,30 +152,30 @@ class TestEngineOptions:
             pytest.param(
                 dict(user=0, datadir="/abc", script="bundle.sh"),
                 [
-                    "--volume", "/abc:/root/datadir:z",
+                    ("--volume", "/abc:/root/datadir:z"),
                 ],
                 id="scratch-directory-script-file-for-root"
             ),
             pytest.param(
                 dict(user=1, datadir="/tmp/random", script="bundle"),
                 [
-                    "--volume", "/tmp/random:/home/user/datadir:z",
+                    ("--volume", "/tmp/random:/home/user/datadir:z"),
                 ],
                 id="scratch-directory-script-file-for-testuser"
             ),
             pytest.param(
                 dict(user=0, env=["FOO=baz"], datadir="/abc", script="bundle.sh"),
                 [
-                    "--volume", "/abc:/root/datadir:z",
-                    "--env=FOO=baz",
+                    ("--volume", "/abc:/root/datadir:z"),
+                    ("--env=FOO=baz",),
                 ],
                 id="env-scratch-directory-script-file-for-root"
             ),
             pytest.param(
                 dict(user=1, env=["BAR=baz"], datadir="/tmp/random", script="bundle"),
                 [
-                    "--volume", "/tmp/random:/home/user/datadir:z",
-                    "--env=BAR=baz",
+                    ("--volume", "/tmp/random:/home/user/datadir:z"),
+                    ("--env=BAR=baz",),
                 ],
                 id="env-scratch-directory-script-file-for-testuser"
             )
@@ -179,13 +186,10 @@ class TestEngineOptions:
         args["tempdir"] = tmp_path
         uid, gid, _, workdir = get_pwuid(args.get("user"))[2:6]
         template = [
-            "--user", f"{uid}:{gid}",
-            "--workdir", f"{workdir}",
-            "--volume", f"{tmp_path}/passwd.copy:/etc/passwd:ro,z",
-            "--volume", f"{tmp_path}/group.copy:/etc/group:ro,z",
-            "--volume", f"{tmp_path}/home:{workdir}:z",
-            "--ulimit", "nofile=1024:1024",
-            "--cap-add", "SYS_PTRACE"
+            ("--user", f"{uid}:{gid}"),
+            ("--workdir", f"{workdir}"),
+            ("--ulimit", "nofile=1024:1024"),
+            ("--cap-add", "SYS_PTRACE"),
         ]
 
         extra_option = []
@@ -195,21 +199,28 @@ class TestEngineOptions:
             args["script"] = script_path
 
             extra_option = [
-                "--volume", f"{Path(tmp_path, 'script')}:{workdir}/script:z"
+                ("--volume", f"{Path(tmp_path, 'script')}:{workdir}/script:z")
             ]
 
+        if args.get("user") == 1 or args.get("user") == "user":
+            template.extend([
+                ("--volume", f"{tmp_path}/passwd.copy:/etc/passwd:ro,z"),
+                ("--volume", f"{tmp_path}/group.copy:/etc/group:ro,z"),
+                ("--volume", f"{tmp_path}/home:{workdir}:z"),
+            ])
+
         # test docker options
-        assert_equal(
-            docker._build_args(**args), template + extra_option + options
-        )
+        actual = sorted(docker._build_args(**args))
+        expected = sorted(template + extra_option + options)
+        assert_equal(actual, expected)
 
         if args.get("user") == 1 or args.get("user") == "user":
             options += id_mapping
 
         # test podman options
-        assert_equal(
-            podman._build_args(**args), template + extra_option + options
-        )
+        actual = sorted(podman._build_args(**args))
+        expected = sorted(template + extra_option + options)
+        assert_equal(actual, expected)
 
 
 class TestContainerReference:

@@ -85,12 +85,12 @@ class Podman(Container):
         gid_other_range = max_gid - gid
 
         podman_args_.extend([
-            "--uidmap", f"0:1:{uid}",
-            "--uidmap", f"{uid}:0:1",
-            "--uidmap", f"{uid_other}:{uid_other}:{uid_other_range}",
-            "--gidmap", f"0:1:{gid}",
-            "--gidmap", f"{gid}:0:1",
-            "--gidmap", f"{gid_other}:{gid_other}:{gid_other_range}"
+            ("--uidmap", f"0:1:{uid}"),
+            ("--uidmap", f"{uid}:0:1"),
+            ("--uidmap", f"{uid_other}:{uid_other}:{uid_other_range}"),
+            ("--gidmap", f"0:1:{gid}"),
+            ("--gidmap", f"{gid}:0:1"),
+            ("--gidmap", f"{gid_other}:{gid_other}:{gid_other_range}"),
         ])
         return podman_args_
 

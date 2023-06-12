@@ -150,6 +150,7 @@ class Container(ABC):
         ]
         """
 
+        engine_args = []
         passwd_entry = self._passwd(user)
         user_home = passwd_entry[5]
 
@@ -162,27 +163,39 @@ class Container(ABC):
         #             instead of root:root
         user = f"{uid}:{gid}"
 
-        # We do not directly mount /etc/{passwd,group} as Docker
-        # is liable to mess with SELinux labelling which will
-        # then prevent the host accessing them. And podman cannot
-        # relabel the files due to it running rootless. So
-        # copying them first is safer and less error-prone.
-        passwd = shutil.copy2(
-            "/etc/passwd", Path(tempdir, 'passwd.copy')
-        )
-        group = shutil.copy2(
-            "/etc/group", Path(tempdir, 'group.copy')
-        )
+        if uid != 0:
+            # We mount these only when running as user other than root inside
+            # the container, because standard operations over /etc/passwd and
+            # /etc/group will fail due to the volumes being bind mounted. We
+            # shouldn't need these when run as root.
+            #
+            # We do not directly mount /etc/{passwd,group} as Docker
+            # is liable to mess with SELinux labelling which will
+            # then prevent the host accessing them. And podman cannot
+            # relabel the files due to it running rootless. So
+            # copying them first is safer and less error-prone.
 
-        passwd_mount = f"{passwd}:/etc/passwd:ro,z"
-        group_mount = f"{group}:/etc/group:ro,z"
+            passwd = shutil.copy2(
+                "/etc/passwd", Path(tempdir, 'passwd.copy')
+            )
+            group = shutil.copy2(
+                "/etc/group", Path(tempdir, 'group.copy')
+            )
 
-        # We mount a temporary directory as the user's home in
-        # order to set correct home directory permissions.
-        home = Path(tempdir, "home")
-        home.mkdir(exist_ok=True)
+            passwd_mount = f"{passwd}:/etc/passwd:ro,z"
+            group_mount = f"{group}:/etc/group:ro,z"
 
-        home_mount = f"{home}:{user_home}:z"
+            # We mount a temporary directory as the user's home in
+            # order to set correct home directory permissions.
+            home = Path(tempdir, "home")
+            home.mkdir(exist_ok=True)
+
+            home_mount = f"{home}:{user_home}:z"
+            engine_args.extend([
+                ("--volume", passwd_mount),
+                ("--volume", group_mount),
+                ("--volume", home_mount),
+            ])
 
         # Docker containers can have very large ulimits
         # for nofiles - as much as 1048576. This makes
@@ -190,15 +203,12 @@ class Container(ABC):
         ulimit_files = 1024
         ulimit = f"nofile={ulimit_files}:{ulimit_files}"
 
-        engine_args = [
-            "--user", user,
-            "--workdir", f"{user_home}",
-            "--volume", passwd_mount,
-            "--volume", group_mount,
-            "--volume", home_mount,
-            "--ulimit", ulimit,
-            "--cap-add", "SYS_PTRACE",
-        ]
+        engine_args.extend([
+            ("--user", user),
+            ("--workdir", f"{user_home}"),
+            ("--ulimit", ulimit),
+            ("--cap-add", "SYS_PTRACE"),
+        ])
 
         if script:
             script_file = Path(shutil.copy2(script, Path(tempdir, "script")))
@@ -208,17 +218,17 @@ class Container(ABC):
 
             script_mount = f"{script_file}:{user_home}/script:z"
             engine_args.extend([
-                "--volume", script_mount
+                ("--volume", script_mount)
             ])
 
         if datadir:
             datadir_mount = f"{datadir}:{user_home}/datadir:z"
             engine_args.extend([
-                "--volume", datadir_mount,
+                ("--volume", datadir_mount),
             ])
 
         if env:
-            envs = ["--env=" + i for i in env]
+            envs = [("--env=" + i,) for i in env]
             engine_args.extend(envs)
 
         log.debug(f"Container options: {engine_args}")
@@ -304,7 +314,7 @@ class Container(ABC):
         build_args = self._build_args(
             user, tempdir, env=env, datadir=datadir, script=script
         )
-        cmd_args.extend(build_args)
+        cmd_args.extend([item for tuple_ in build_args for item in tuple_])
 
         cmd = [self.engine, "run"]
         cmd.extend(cmd_args)
