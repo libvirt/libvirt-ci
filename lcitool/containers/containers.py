@@ -190,8 +190,6 @@ class Container(ABC):
         ulimit_files = 1024
         ulimit = f"nofile={ulimit_files}:{ulimit_files}"
 
-        cap_add = "SYS_PTRACE"
-
         engine_args = [
             "--user", user,
             "--workdir", f"{user_home}",
@@ -199,7 +197,7 @@ class Container(ABC):
             "--volume", group_mount,
             "--volume", home_mount,
             "--ulimit", ulimit,
-            "--cap-add", cap_add
+            "--cap-add", "SYS_PTRACE",
         ]
 
         if script:
