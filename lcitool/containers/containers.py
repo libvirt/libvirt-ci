@@ -192,7 +192,7 @@ class Container(ABC):
 
         cap_add = "SYS_PTRACE"
 
-        engine_args_ = [
+        engine_args = [
             "--user", user,
             "--workdir", f"{user_home}",
             "--volume", passwd_mount,
@@ -209,22 +209,22 @@ class Container(ABC):
             script_file.chmod(script_file.stat().st_mode | 0o111)
 
             script_mount = f"{script_file}:{user_home}/script:z"
-            engine_args_.extend([
+            engine_args.extend([
                 "--volume", script_mount
             ])
 
         if datadir:
             datadir_mount = f"{datadir}:{user_home}/datadir:z"
-            engine_args_.extend([
+            engine_args.extend([
                 "--volume", datadir_mount,
             ])
 
         if env:
             envs = ["--env=" + i for i in env]
-            engine_args_.extend(envs)
+            engine_args.extend(envs)
 
-        log.debug(f"Container options: {engine_args_}")
-        return engine_args_
+        log.debug(f"Container options: {engine_args}")
+        return engine_args
 
     def rmi(self, image):
         """
