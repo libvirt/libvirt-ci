@@ -279,6 +279,40 @@ handy as you can go as far as putting the following in your crontab
    0 0 * * * lcitool update all all
 
 
+Injecting software repositories & custom pre-tasks
+--------------------------------------------------
+
+If you wish to use the above procedure with one of the enterprise distros out
+there you'll quickly find out it doesn't work because those don't use publicly
+accessible (or subscription managed) repositories which we could make use of.
+You'll have to inject these using Ansible pre-tasks file which we'll runs very
+early during the bootstrap stage of the ``update`` command before performing
+any update or configuration changes on the target system. First you need to
+create a data directory which you'll pass to lcitool
+
+::
+
+    $ mkdir <lcitool_datadir>
+
+then you'll create a ``<lcitool_datadir>/ansible/pre/tasks/main.yml`` Ansible
+task file containing tasks necessary to enable the base repositories. Finally,
+you need to tell lcitool about this data directory when running the ``update``
+command
+
+::
+
+    $ lcitool --data-dir <lcitool_datadir> update <hosts> <projects>
+
+Note that ``main.yml`` is a regular Ansible tasks file (not a playbook!), so
+you're constrained by what Ansible allows to be in a tasks file. We recommend
+to keep the file as simple as possible by not adding any tasks unrelated to
+software installation or package updates in order to not collide with any
+system configuration changes (e.g. SSH key uploads) lcitool performs as part of
+the ``update`` sequence. If you need more configuration changes you can always
+execute ``ansible-playbook`` yourself after performing ``update`` and that way
+you'll have full control over the expected outcome.
+
+
 Cloud-init
 ==========
 
