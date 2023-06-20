@@ -284,3 +284,5 @@ native:
 - zlib-devel
 - zlib-devel-static
 - zstd
+pypi:
+- build

@@ -183,6 +183,7 @@ native:
 - polkit
 - pulseaudio-dev
 - py3-boto3
+- py3-build
 - py3-dbus
 - py3-docutils
 - py3-flake8

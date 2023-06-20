@@ -287,4 +287,5 @@ native:
 - zlib1g-dev
 - zstd
 pypi:
+- build
 - meson==0.56.0

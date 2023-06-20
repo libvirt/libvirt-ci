@@ -1656,6 +1656,15 @@ mappings:
     pkg: py39-yaml
     rpm: python3-PyYAML
 
+  python3-build:
+    apk: py3-build
+    deb: python3-build
+    pkg: py39-build
+    Fedora: python3-build
+    MacOS: python-build
+    Debian10:
+    Ubuntu2004:
+
   python3-dbus:
     default: python3-dbus
     apk: py3-dbus
@@ -2186,6 +2195,9 @@ pypi_mappings:
 
   python3-boto3:
     default: boto3
+
+  python3-build:
+    default: build
 
   # Several packages need devel header packages that are generally not
   # installed by Linux distros.  Restrict them to MacOS, which is where

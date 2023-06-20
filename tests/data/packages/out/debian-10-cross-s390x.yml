@@ -283,4 +283,5 @@ native:
 - zip
 - zstd
 pypi:
+- build
 - meson==0.56.0

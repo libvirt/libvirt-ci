@@ -263,4 +263,5 @@ native:
 - zlib-static
 - zstd
 pypi:
+- build
 - pillow

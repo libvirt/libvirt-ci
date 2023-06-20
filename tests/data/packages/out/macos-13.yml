@@ -119,6 +119,7 @@ native:
 - perl
 - pixman
 - pkg-config
+- python-build
 - python3
 - qemu
 - readline

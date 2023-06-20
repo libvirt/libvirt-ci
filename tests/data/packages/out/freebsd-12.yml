@@ -137,6 +137,7 @@ native:
 - png
 - polkit
 - py39-boto3
+- py39-build
 - py39-cloud-init
 - py39-dbus
 - py39-docutils
