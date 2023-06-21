@@ -1662,8 +1662,8 @@ mappings:
     pkg: py39-build
     Fedora: python3-build
     MacOS: python-build
+    Ubuntu:
     Debian10:
-    Ubuntu2004:
 
   python3-dbus:
     default: python3-dbus
