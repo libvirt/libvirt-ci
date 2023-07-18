@@ -6,8 +6,9 @@
 
 - name: 'Check if {{ ansible_python_package }} is installed'
   raw: '{{ ansible_python_package }} --version'
-  register: python_installed
   ignore_errors: true
+  changed_when: false
+  register: python_installed
 
 - name: 'Install {{ ansible_python_package }}'
   raw: '{{ packaging.command }} install -y {{ ansible_python_package }}'
