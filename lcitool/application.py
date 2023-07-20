@@ -222,7 +222,7 @@ class Application:
         else:
             formatter = JSONVariablesFormatter(projects)
 
-        target = BuildTarget(targets, packages, args.target, args.cross_arch)
+        target = BuildTarget(targets, packages, args.target, cross_arch=args.cross_arch)
         variables = formatter.format(target,
                                      projects_expanded)
 
@@ -245,7 +245,7 @@ class Application:
         packages = Packages(args.data_dir)
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
-        target = BuildTarget(targets, packages, args.target, args.cross_arch)
+        target = BuildTarget(targets, packages, args.target, cross_arch=args.cross_arch)
 
         dockerfile = DockerfileFormatter(projects,
                                          args.base,
@@ -270,7 +270,7 @@ class Application:
         packages = Packages(args.data_dir)
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
-        target = BuildTarget(targets, packages, args.target, args.cross_arch)
+        target = BuildTarget(targets, packages, args.target, cross_arch=args.cross_arch)
 
         buildenvscript = ShellBuildEnvFormatter(projects).format(target,
                                                                  projects_expanded)
@@ -335,7 +335,7 @@ class Application:
         packages = Packages()
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
-        target = BuildTarget(targets, packages, args.target, args.cross_arch)
+        target = BuildTarget(targets, packages, args.target, cross_arch=args.cross_arch)
 
         _file = None
         file_content = DockerfileFormatter(projects).format(

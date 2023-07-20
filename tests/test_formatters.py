@@ -42,7 +42,7 @@ layer_scenarios = [
 @pytest.mark.parametrize("project,target,arch", scenarios)
 def test_dockerfiles(assert_equal, packages, projects, targets, project, target, arch, request):
     gen = DockerfileFormatter(projects)
-    target_obj = BuildTarget(targets, packages, target, arch)
+    target_obj = BuildTarget(targets, packages, target, cross_arch=arch)
     actual = gen.format(target_obj, [project])
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".Dockerfile")
     assert_equal(actual, expected_path)
@@ -51,7 +51,7 @@ def test_dockerfiles(assert_equal, packages, projects, targets, project, target,
 @pytest.mark.parametrize("project,target,arch,base,layers", layer_scenarios)
 def test_dockerfile_layers(assert_equal, packages, projects, targets, project, target, arch, base, layers, request):
     gen = DockerfileFormatter(projects, base, layers)
-    target_obj = BuildTarget(targets, packages, target, arch)
+    target_obj = BuildTarget(targets, packages, target, cross_arch=arch)
     actual = gen.format(target_obj, [project])
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".Dockerfile")
     assert_equal(actual, expected_path)
@@ -60,7 +60,7 @@ def test_dockerfile_layers(assert_equal, packages, projects, targets, project, t
 @pytest.mark.parametrize("project,target,arch", scenarios)
 def test_variables_shell(assert_equal, packages, projects, targets, project, target, arch, request):
     gen = ShellVariablesFormatter(projects)
-    target_obj = BuildTarget(targets, packages, target, arch)
+    target_obj = BuildTarget(targets, packages, target, cross_arch=arch)
     actual = gen.format(target_obj, [project])
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".vars")
     assert_equal(actual, expected_path)
@@ -69,7 +69,7 @@ def test_variables_shell(assert_equal, packages, projects, targets, project, tar
 @pytest.mark.parametrize("project,target,arch", scenarios)
 def test_variables_json(assert_equal, packages, projects, targets, project, target, arch, request):
     gen = JSONVariablesFormatter(projects)
-    target_obj = BuildTarget(targets, packages, target, arch)
+    target_obj = BuildTarget(targets, packages, target, cross_arch=arch)
     actual = gen.format(target_obj, [project])
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".json")
     assert_equal(actual, expected_path)
@@ -78,7 +78,7 @@ def test_variables_json(assert_equal, packages, projects, targets, project, targ
 @pytest.mark.parametrize("project,target,arch", scenarios)
 def test_prepbuildenv(assert_equal, packages, projects, targets, project, target, arch, request):
     gen = ShellBuildEnvFormatter(projects)
-    target_obj = BuildTarget(targets, packages, target, arch)
+    target_obj = BuildTarget(targets, packages, target, cross_arch=arch)
     actual = gen.format(target_obj, [project])
     expected_path = Path(test_utils.test_data_outdir(__file__), request.node.callspec.id + ".sh")
     assert_equal(actual, expected_path)

@@ -209,8 +209,8 @@ class Manifest:
                 if not dryrun:
                     header = util.generate_file_header(["manifest",
                                                         self.configpath])
-                    payload = formatter.format(BuildTarget(self._targets, self._packages, target, arch),
-                                               wantprojects)
+                    tgt = BuildTarget(self._targets, self._packages, target, "x86_64", arch)
+                    payload = formatter.format(tgt, wantprojects)
                     util.atomic_write(filename, header + payload + "\n")
 
         return generated

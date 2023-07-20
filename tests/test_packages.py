@@ -73,7 +73,7 @@ def test_package_resolution(assert_equal, targets, packages, test_project,
     else:
         outfile = f"{target}-cross-{arch}.yml"
     expected_path = Path(test_utils.test_data_outdir(__file__), outfile)
-    target_obj = BuildTarget(targets, packages, target, arch)
+    target_obj = BuildTarget(targets, packages, target, cross_arch=arch)
     pkgs = test_project.get_packages(target_obj)
     actual = packages_as_dict(pkgs)
 
@@ -98,7 +98,7 @@ def test_resolution_override(targets, test_project):
 )
 def test_unsupported_cross_platform(targets, packages, test_project, target):
     with pytest.raises(ProjectError):
-        target_obj = BuildTarget(targets, packages, target, "s390x")
+        target_obj = BuildTarget(targets, packages, target, cross_arch="s390x")
         test_project.get_packages(target_obj)
 
 
@@ -111,7 +111,7 @@ def test_unsupported_cross_platform(targets, packages, test_project, target):
 )
 def test_cross_platform_arch_mismatch(targets, packages, test_project, target, arch):
     with pytest.raises(ProjectError):
-        target_obj = BuildTarget(targets, packages, target, arch)
+        target_obj = BuildTarget(targets, packages, target, cross_arch=arch)
         test_project.get_packages(target_obj)
 
 
