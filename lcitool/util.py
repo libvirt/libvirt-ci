@@ -122,7 +122,7 @@ def expand_pattern(pattern, iterable, name):
     return matches
 
 
-def get_native_arch():
+def get_host_arch():
     # Same canonicalization as libvirt virArchFromHost
     arch = platform.machine()
     if arch in ["i386", "i486", "i586"]:
