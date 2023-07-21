@@ -56,7 +56,13 @@ single step with:
    $ pip3 install .["vm_support"]
 
 where ``vm_support`` denotes the same set of dependencies as extra dependencies
-in a way ``pip`` recognizes for installable packages.
+in a way ``pip`` recognizes for installable packages. Additionally, for the
+VM use case we require some of the *general* Ansible community modules, so
+**Ansible >= 2.10** along with the corresponding Ansible community collections
+package (often called simply ``ansible``) is required. This is only relevant if
+you install most of your packages from the OS package management software. If
+you use the ``pip`` method no action is needed, it'll do the right thing.
+
 
 Development dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~
