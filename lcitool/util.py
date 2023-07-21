@@ -129,6 +129,8 @@ def get_host_arch():
         arch = "i686"
     if arch == "amd64":
         arch = "x86_64"
+    if arch == "arm64":
+        arch = "aarch64"
     return arch
 
 
