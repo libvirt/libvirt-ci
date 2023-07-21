@@ -146,6 +146,12 @@ class CommandLine:
             help="target architecture for cross compiler",
         )
 
+        hostarchopt = argparse.ArgumentParser(add_help=False)
+        hostarchopt.add_argument(
+            "-a", "--host-arch",
+            help="host architecture of the build system",
+        )
+
         baseopt = argparse.ArgumentParser(add_help=False)
         baseopt.add_argument(
             "-b", "--base",
@@ -284,22 +290,23 @@ class CommandLine:
         variablesparser = subparsers.add_parser(
             "variables",
             help="generate variables",
-            parents=[formatopt, targetopt, update_projectopt, crossarchopt],
+            parents=[formatopt, targetopt, update_projectopt,
+                     hostarchopt, crossarchopt],
         )
         variablesparser.set_defaults(func=Application._action_variables)
 
         dockerfileparser = subparsers.add_parser(
             "dockerfile",
             help="generate Dockerfile",
-            parents=[targetopt, update_projectopt, crossarchopt,
-                     baseopt, layersopt],
+            parents=[targetopt, update_projectopt, hostarchopt,
+                     crossarchopt, baseopt, layersopt],
         )
         dockerfileparser.set_defaults(func=Application._action_dockerfile)
 
         buildenvscriptparser = subparsers.add_parser(
             "buildenvscript",
             help="generate shell script for build environment setup",
-            parents=[targetopt, update_projectopt, crossarchopt],
+            parents=[targetopt, update_projectopt, hostarchopt, crossarchopt],
         )
         buildenvscriptparser.set_defaults(func=Application._action_buildenvscript)
 

@@ -222,13 +222,16 @@ class Application:
         else:
             formatter = JSONVariablesFormatter(projects)
 
-        target = BuildTarget(targets, packages, args.target, cross_arch=args.cross_arch)
+        target = BuildTarget(targets, packages, args.target,
+                             args.host_arch, args.cross_arch)
         variables = formatter.format(target,
                                      projects_expanded)
 
         # No comments in json !
         if args.format != "json":
             cliargv = [args.action]
+            if args.host_arch:
+                cliargv.extend(["--host-arch", args.host_arch])
             if args.cross_arch:
                 cliargv.extend(["--cross-arch", args.cross_arch])
             cliargv.extend([args.target, args.projects])
@@ -245,7 +248,8 @@ class Application:
         packages = Packages(args.data_dir)
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
-        target = BuildTarget(targets, packages, args.target, cross_arch=args.cross_arch)
+        target = BuildTarget(targets, packages, args.target,
+                             args.host_arch, args.cross_arch)
 
         dockerfile = DockerfileFormatter(projects,
                                          args.base,
@@ -256,6 +260,8 @@ class Application:
         if args.base is not None:
             cliargv.extend(["--base", args.base])
         cliargv.extend(["--layers", args.layers])
+        if args.host_arch:
+            cliargv.extend(["--host-arch", args.host_arch])
         if args.cross_arch:
             cliargv.extend(["--cross-arch", args.cross_arch])
         cliargv.extend([args.target, args.projects])
@@ -270,12 +276,15 @@ class Application:
         packages = Packages(args.data_dir)
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
-        target = BuildTarget(targets, packages, args.target, cross_arch=args.cross_arch)
+        target = BuildTarget(targets, packages, args.target,
+                             args.host_arch, args.cross_arch)
 
         buildenvscript = ShellBuildEnvFormatter(projects).format(target,
                                                                  projects_expanded)
 
         cliargv = [args.action]
+        if args.host_arch:
+            cliargv.extend(["--host-arch", args.host_arch])
         if args.cross_arch:
             cliargv.extend(["--cross-arch", args.cross_arch])
         cliargv.extend([args.target, args.projects])
