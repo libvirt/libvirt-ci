@@ -27,7 +27,6 @@
     name: '{{ install.flavor }}'
     group: '{{ install.flavor }}'
     comment: '{{ install.flavor }}'
-    password: '*'
     shell: '{{ paths.bash }}'
 
 - name: '{{ install.flavor }}: Set password'
