@@ -131,6 +131,8 @@ def get_host_arch():
         arch = "x86_64"
     if arch == "arm64":
         arch = "aarch64"
+    if arch not in valid_arches():
+        raise ValueError(f"Unsupported architecture {arch}")
     return arch
 
 
