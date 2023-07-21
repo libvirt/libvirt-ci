@@ -18,7 +18,10 @@
     - os.version == 'Rawhide'
 
 - name: Update installed packages
-  command: '{{ packaging.command }} update --refresh -y'
+  dnf:
+    name: '*'
+    update_cache: true
+    state: latest
   when:
     - os.name == 'Fedora'
     - os.version == 'Rawhide'
