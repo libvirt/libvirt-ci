@@ -42,11 +42,6 @@
     - packaging.format == 'pkg'
 
 - name: Clean up packages after update
-  command: '{{ packaging.command }} mark install "kernel*"'
-  when:
-    - os.name == 'Fedora'
-
-- name: Clean up packages after update
   shell: '{{ packaging.command }} clean packages -y && {{ packaging.command }} autoremove -y'
   when:
     - packaging.format == 'rpm'
