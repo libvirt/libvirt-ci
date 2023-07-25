@@ -1,4 +1,6 @@
 ---
+# During each development cycle Rawhide changes signing keys, so make sure
+# we update them first
 - name: Update GPG keys
   dnf:
     name: fedora-gpg-keys
