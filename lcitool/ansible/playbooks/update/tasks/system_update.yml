@@ -67,6 +67,15 @@
     - packaging.format == 'deb'
 
 - name: Clean up packages after update
-  shell: '{{ packaging.command }} clean -y && {{ packaging.command }} autoremove -y'
+  block:
+    - name: Clean package cache
+      command:
+        cmd: '{{ packaging.command }} clean -y'
+      changed_when: false
+
+    - name: Remove unneeded packages
+      pkgng:
+        name: '*'
+        autoremove: true
   when:
     - packaging.format == 'pkg'
