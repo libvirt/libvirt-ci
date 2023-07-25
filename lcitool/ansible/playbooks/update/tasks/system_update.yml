@@ -55,6 +55,7 @@
 
 - name: Clean up packages after update
   command: '{{ packaging.command }} clean'
+  changed_when: false
   when:
     - os.name == 'OpenSUSE'
 
