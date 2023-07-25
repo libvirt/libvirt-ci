@@ -32,8 +32,23 @@
   when:
     - packaging.format == 'pkg'
 
-- name: Clean up packages after update
-  shell: '{{ packaging.command }} clean packages -y && {{ packaging.command }} autoremove -y'
+- block:
+    - name: Clean up package cache
+      command: '{{ packaging.command }} clean packages -y'
+      changed_when: false
+
+    - name: Clean up packages after update
+      dnf:
+        autoremove: true
+      when:
+        - os.version != 'Rawhide'
+
+    - name: Clean up packages after update
+      command: '{{ packaging.command }} autoremove -y'
+      changed_when: false
+      when:
+        - os.version == 'Rawhide'
+
   when:
     - packaging.format == 'rpm'
     - os.name != 'OpenSUSE'
