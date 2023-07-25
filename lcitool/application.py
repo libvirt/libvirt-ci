@@ -230,7 +230,7 @@ class Application:
         if args.format != "json":
             cliargv = [args.action]
             if args.cross_arch:
-                cliargv.extend(["--cross", args.cross_arch])
+                cliargv.extend(["--cross-arch", args.cross_arch])
             cliargv.extend([args.target, args.projects])
             header = util.generate_file_header(cliargv)
         else:
@@ -257,7 +257,7 @@ class Application:
             cliargv.extend(["--base", args.base])
         cliargv.extend(["--layers", args.layers])
         if args.cross_arch:
-            cliargv.extend(["--cross", args.cross_arch])
+            cliargv.extend(["--cross-arch", args.cross_arch])
         cliargv.extend([args.target, args.projects])
         header = util.generate_file_header(cliargv)
 
@@ -277,7 +277,7 @@ class Application:
 
         cliargv = [args.action]
         if args.cross_arch:
-            cliargv.extend(["--cross", args.cross_arch])
+            cliargv.extend(["--cross-arch", args.cross_arch])
         cliargv.extend([args.target, args.projects])
         header = util.generate_file_header(cliargv)
 
