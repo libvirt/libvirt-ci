@@ -251,6 +251,16 @@ def get_config_dir():
     return Path(config_dir, "lcitool")
 
 
+def get_datadir_inventory(data_dir):
+    if data_dir.path is None or not Path(data_dir.path, "ansible").exists():
+        return None
+
+    # check whether user provided an inventory file via datadir
+    inventory_path = Path(data_dir.path, "ansible/inventory")
+    if inventory_path.exists():
+        return inventory_path
+
+
 def package_resource(package, relpath):
     """
     Backcompatibility helper to retrieve a package resource using importlib
