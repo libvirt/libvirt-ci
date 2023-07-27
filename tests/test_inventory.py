@@ -5,12 +5,21 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import pytest
+import test_utils.utils as test_utils
 
-from lcitool.inventory import InventoryError
+from pathlib import Path
+
+from lcitool.inventory import Inventory, InventoryError
 from lcitool.targets import BuildTarget
 
 
 pytestmark = pytest.mark.filterwarnings("ignore:'pipes' is deprecated:DeprecationWarning")
+
+
+@pytest.fixture
+def inventory(targets, config):
+    inventory_path = Path(test_utils.test_data_indir(__file__), "inventory")
+    return Inventory(targets, config, inventory_path=inventory_path)
 
 
 @pytest.mark.parametrize("host,target,fully_managed", [

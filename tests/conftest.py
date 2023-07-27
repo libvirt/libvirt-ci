@@ -4,7 +4,6 @@ import sys
 from pathlib import Path
 
 from lcitool.config import Config
-from lcitool.inventory import Inventory
 from lcitool.packages import Packages
 from lcitool.projects import Projects
 from lcitool.targets import Targets
@@ -80,15 +79,6 @@ def assert_equal(request, tmp_path_factory):
         tmp_dir = Path(tmp_path_factory.getbasetemp(), request.node.name)
         return test_utils._assert_equal(actual, expected, test_tmp_dir=tmp_dir)
     return _assert_equal
-
-
-@pytest.fixture
-def inventory(monkeypatch, targets, config):
-    inventory = Inventory(targets, config)
-
-    monkeypatch.setattr(inventory, "_get_libvirt_inventory",
-                        lambda: {"all": {"children": {}}})
-    return inventory
 
 
 @pytest.fixture(scope="module")
