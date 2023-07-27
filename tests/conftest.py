@@ -68,11 +68,11 @@ def packages():
     return Packages()
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def projects():
     return _PROJECTS
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def targets():
     return _TARGETS
