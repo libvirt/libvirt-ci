@@ -17,7 +17,7 @@ from lcitool.targets import BuildTarget
 pytestmark = pytest.mark.filterwarnings("ignore:'pipes' is deprecated:DeprecationWarning")
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def inventory(targets):
     config_path = Path(test_utils.test_data_indir(__file__), "config.yml")
     inventory_path = Path(test_utils.test_data_indir(__file__), "inventory")
