@@ -12,6 +12,7 @@ from pathlib import Path
 
 from lcitool.application import Application
 from lcitool.util import DataDir
+from lcitool.util import valid_arches
 
 
 log = logging.getLogger(__name__)
@@ -143,12 +144,14 @@ class CommandLine:
         crossarchopt = argparse.ArgumentParser(add_help=False)
         crossarchopt.add_argument(
             "-x", "--cross-arch",
+            choices=valid_arches(),
             help="target architecture for cross compiler",
         )
 
         hostarchopt = argparse.ArgumentParser(add_help=False)
         hostarchopt.add_argument(
             "-a", "--host-arch",
+            choices=valid_arches(),
             help="host architecture of the build system",
         )
 
