@@ -37,23 +37,28 @@ class Inventory():
     def hosts(self):
         return list(self.host_facts.keys())
 
-    def __init__(self, targets, config):
+    def __init__(self, targets, config, inventory_path=None):
         self._targets = targets
         self._config = config
         self._host_facts = None
         self._ansible_inventory = None
+        self._inventory_path = inventory_path
 
     def _get_ansible_inventory(self):
         from lcitool.ansible_wrapper import AnsibleWrapper, AnsibleWrapperError
 
         inventory_sources = []
-        inventory_path = self._config.get_config_path("inventory")
-        log.debug(f"Using '{inventory_path}' for lcitool inventory")
-        if inventory_path.exists():
-            inventory_sources.append(inventory_path)
+        if self._inventory_path is None:
+            self._inventory_path = self._config.get_config_path("inventory")
 
-        log.debug("Querying libvirt for lcitool hosts")
-        inventory_sources.append(self._get_libvirt_inventory())
+            # we only call into libvirt when we need to use default inventory
+            # sources, i.e. user didn't provide one via datadir
+            log.debug("Querying libvirt for lcitool hosts")
+            inventory_sources.append(self._get_libvirt_inventory())
+
+        if self._inventory_path.exists():
+            log.debug(f"Adding '{self._inventory_path}' to Ansible inventory sources")
+            inventory_sources.append(self._inventory_path)
 
         ansible_runner = AnsibleWrapper()
         ansible_runner.prepare_env(inventories=inventory_sources,

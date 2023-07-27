@@ -72,9 +72,10 @@ class Application:
         base = util.package_resource(__package__, "ansible").as_posix()
         config = Config()
         targets = Targets(data_dir)
-        inventory = Inventory(targets, config)
         packages = Packages(data_dir)
         projects = Projects(data_dir)
+        inventory = Inventory(targets, config,
+                              inventory_path=util.get_datadir_inventory(data_dir))
 
         hosts_expanded = inventory.expand_hosts(hosts_pattern)
         projects_expanded = projects.expand_names(projects_pattern)
@@ -125,7 +126,8 @@ class Application:
 
         config = Config()
         targets = Targets(args.data_dir)
-        inventory = Inventory(targets, config)
+        inventory = Inventory(targets, config,
+                              inventory_path=util.get_datadir_inventory(args.datadir))
         for host in sorted(inventory.hosts):
             print(host)
 
@@ -158,7 +160,8 @@ class Application:
         facts = {}
         config = Config()
         targets = Targets(args.data_dir)
-        inventory = Inventory(targets, config)
+        inventory = Inventory(targets, config,
+                              inventory_path=util.get_datadir_inventory(args.data_dir))
         host = args.host
         target = args.target
 
