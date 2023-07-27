@@ -86,7 +86,7 @@ class Application:
         if data_dir:
             ansible_path = Path(data_dir.path, "ansible")
             if ansible_path.exists():
-                if Path(ansible_path, "pre/tasks/main.yml").exists:
+                if Path(ansible_path, "pre/tasks/main.yml").exists():
                     user_pre = True
 
         extra_vars = config.values
