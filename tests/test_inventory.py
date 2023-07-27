@@ -9,6 +9,7 @@ import test_utils.utils as test_utils
 
 from pathlib import Path
 
+from lcitool.config import Config
 from lcitool.inventory import Inventory, InventoryError
 from lcitool.targets import BuildTarget
 
@@ -17,9 +18,12 @@ pytestmark = pytest.mark.filterwarnings("ignore:'pipes' is deprecated:Deprecatio
 
 
 @pytest.fixture
-def inventory(targets, config):
+def inventory(targets):
+    config_path = Path(test_utils.test_data_indir(__file__), "config.yml")
     inventory_path = Path(test_utils.test_data_indir(__file__), "inventory")
-    return Inventory(targets, config, inventory_path=inventory_path)
+    return Inventory(targets,
+                     Config(path=config_path),
+                     inventory_path=inventory_path)
 
 
 @pytest.mark.parametrize("host,target,fully_managed", [

@@ -57,13 +57,17 @@ class Config:
             self._values = values
         return self._values
 
-    def __init__(self):
+    def __init__(self, path=None):
         self._values = None
-        self._config_file_dir = util.get_config_dir()
-        self._config_file_paths = [
-            self.get_config_path(fname) for fname in
-            ["config.yml", "config.yaml"]
-        ]
+        self._config_file_paths = None
+
+        if path is not None:
+            self._config_file_paths = [Path(path)]
+        else:
+            self._config_file_paths = [
+                Path(util.get_config_dir(), fname) for fname in ["config.yml",
+                                                                 "config.yaml"]
+            ]
 
     def get_config_path(self, *args):
         return Path(self._config_file_dir, *args)

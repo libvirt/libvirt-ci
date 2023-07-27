@@ -9,7 +9,7 @@ import pytest
 import test_utils.utils as test_utils
 
 from pathlib import Path
-from lcitool.config import ValidationError
+from lcitool.config import Config, ValidationError
 
 
 @pytest.mark.parametrize(
@@ -24,10 +24,10 @@ from lcitool.config import ValidationError
         "unknown_key.yml",
     ],
 )
-def test_config(assert_equal, config, config_filename):
+def test_config(assert_equal, config_filename):
     expected_path = Path(test_utils.test_data_outdir(__file__), config_filename)
 
-    actual = config.values
+    actual = Config(path=expected_path).values
     assert_equal(actual, expected_path)
 
 
@@ -38,6 +38,7 @@ def test_config(assert_equal, config, config_filename):
         "root_password_none.yml",
     ],
 )
-def test_config_invalid(config, config_filename):
+def test_config_invalid(config_filename):
     with pytest.raises(ValidationError):
-        config.values
+        path = Path(test_utils.test_data_indir(__file__), config_filename)
+        Config(path=path).values
