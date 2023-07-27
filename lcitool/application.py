@@ -62,7 +62,7 @@ class Application:
         log.debug(f"Cmdline args={cli_args}")
 
     def _execute_playbook(self, playbook, hosts_pattern, projects_pattern,
-                          data_dir, verbosity=0):
+                          config, data_dir, verbosity=0):
         from lcitool.ansible_wrapper import AnsibleWrapper
 
         log.debug(f"Executing playbook '{playbook}': "
@@ -70,7 +70,7 @@ class Application:
                   f"projects_pattern={projects_pattern}")
 
         base = util.package_resource(__package__, "ansible").as_posix()
-        config = Config()
+        config = Config(config)
         targets = Targets(data_dir)
         packages = Packages(data_dir)
         projects = Projects(data_dir)
@@ -124,7 +124,7 @@ class Application:
     def _action_hosts(self, args):
         self._entrypoint_debug(args)
 
-        config = Config()
+        config = Config(args.config.name)
         targets = Targets(args.data_dir)
         inventory = Inventory(targets, config,
                               inventory_path=util.get_datadir_inventory(args.datadir))
@@ -158,7 +158,7 @@ class Application:
         self._entrypoint_debug(args)
 
         facts = {}
-        config = Config()
+        config = Config(args.config.name)
         targets = Targets(args.data_dir)
         inventory = Inventory(targets, config,
                               inventory_path=util.get_datadir_inventory(args.data_dir))
@@ -210,7 +210,7 @@ class Application:
         self._entrypoint_debug(args)
 
         self._execute_playbook("update", args.hosts, args.projects,
-                               args.data_dir, args.verbose)
+                               args.config.name, args.data_dir, args.verbose)
 
     def _action_variables(self, args):
         self._entrypoint_debug(args)

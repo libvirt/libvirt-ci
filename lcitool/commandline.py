@@ -245,6 +245,12 @@ class CommandLine:
             action=DataDirAction,
             help="extra directory for loading data files from")
 
+        self._parser.add_argument(
+            "-c", "--config",
+            type=argparse.FileType('r'),
+            help="absolute path to a configuration file"
+        )
+
         subparsers = self._parser.add_subparsers(metavar="ACTION",
                                                  dest="action")
         subparsers.required = True
