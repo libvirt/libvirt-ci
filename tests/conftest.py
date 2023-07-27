@@ -56,24 +56,6 @@ def monkeypatch_class_scope():
 
 
 @pytest.fixture
-def config(monkeypatch, request):
-    if 'config_filename' in request.fixturenames:
-        config_filename = request.getfixturevalue('config_filename')
-        actual_path = Path(test_utils.test_data_indir(request.module.__file__), config_filename)
-
-        # we have to monkeypatch the '_config_file_paths' attribute, since we don't
-        # support custom inventory paths
-        config = Config()
-        monkeypatch.setattr(config, "_config_file_paths", [actual_path])
-    else:
-        actual_dir = Path(test_utils.test_data_indir(request.module.__file__))
-        monkeypatch.setattr(util, "get_config_dir", lambda: actual_dir)
-        config = Config()
-
-    return config
-
-
-@pytest.fixture
 def assert_equal(request, tmp_path_factory):
     def _assert_equal(actual, expected):
         tmp_dir = Path(tmp_path_factory.getbasetemp(), request.node.name)
