@@ -69,9 +69,6 @@ class Config:
                                                                  "config.yaml"]
             ]
 
-    def get_config_path(self, *args):
-        return Path(self._config_file_dir, *args)
-
     def _load_config(self):
         # Load the template config containing the defaults first, this must
         # always succeed.

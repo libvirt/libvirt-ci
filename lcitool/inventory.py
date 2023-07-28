@@ -6,6 +6,8 @@
 
 import logging
 
+from pathlib import Path
+
 from lcitool import util, LcitoolError
 from lcitool.packages import package_names_by_type
 
@@ -49,7 +51,7 @@ class Inventory():
 
         inventory_sources = []
         if self._inventory_path is None:
-            self._inventory_path = self._config.get_config_path("inventory")
+            self._inventory_path = Path(util.get_config_dir(), "inventory")
 
             # we only call into libvirt when we need to use default inventory
             # sources, i.e. user didn't provide one via datadir
