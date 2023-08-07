@@ -1,4 +1,4 @@
-FROM docker.io/library/debian:10-slim
+FROM docker.io/library/debian:12-slim
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \

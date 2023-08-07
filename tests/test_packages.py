@@ -60,7 +60,7 @@ native_params = [
 ]
 
 cross_params = [
-    pytest.param("debian-10", "s390x", id="debian-10-cross-s390x"),
+    pytest.param("debian-12", "s390x", id="debian-12-cross-s390x"),
     pytest.param("fedora-rawhide", "mingw64", id="fedora-rawhide-cross-mingw64")
 ]
 

@@ -15,22 +15,22 @@ from lcitool.formatters import ShellVariablesFormatter, JSONVariablesFormatter, 
 
 scenarios = [
     # A minimalist application, testing package managers
-    pytest.param("libvirt-go-xml-module", "debian-10", "x86_64", None, id="libvirt-go-xml-module-debian-10"),
+    pytest.param("libvirt-go-xml-module", "debian-12", "x86_64", None, id="libvirt-go-xml-module-debian-12"),
     pytest.param("libvirt-go-xml-module", "almalinux-8", "x86_64", None, id="libvirt-go-xml-module-almalinux-8"),
     pytest.param("libvirt-go-xml-module", "opensuse-leap-15", "x86_64", None, id="libvirt-go-xml-module-opensuse-leap-15"),
     pytest.param("libvirt-go-xml-module", "alpine-edge", "x86_64", None, id="libvirt-go-xml-module-alpine-edge"),
     pytest.param("libvirt-go-xml-module", "opensuse-tumbleweed", "x86_64", None, id="libvirt-go-xml-module-opensuse-tumbleweed"),
 
     # An application using cache symlinks
-    pytest.param("libvirt-go-module", "debian-10", "x86_64", None, id="libvirt-go-debian-10"),
-    pytest.param("libvirt-go-module", "debian-10", "x86_64", "s390x", id="libvirt-go-debian-10-cross-s390x"),
+    pytest.param("libvirt-go-module", "debian-12", "x86_64", None, id="libvirt-go-debian-12"),
+    pytest.param("libvirt-go-module", "debian-12", "x86_64", "s390x", id="libvirt-go-debian-12-cross-s390x"),
     pytest.param("libvirt-go-module", "fedora-rawhide", "x86_64", "mingw64", id="libvirt-go-fedora-rawhide-cross-mingw64"),
     pytest.param("libvirt", "debian-sid", "s390x", None, id="libvirt-debian-sid-s390x"),
 ]
 
 layer_scenarios = [
     # Overriding default base image
-    pytest.param("libvirt-go-module", "debian-10", "x86_64", "s390x", "debian-10-common", "all", id="libvirt-go-debian-10-common-cross-s390x"),
+    pytest.param("libvirt-go-module", "debian-12", "x86_64", "s390x", "debian-12-common", "all", id="libvirt-go-debian-12-common-cross-s390x"),
 
     # Customizing the layers
     pytest.param("libvirt-go-module", "fedora-rawhide", "x86_64", "mingw64", None, "all", id="libvirt-go-fedora-rawhide-cross-mingw64-combined"),
