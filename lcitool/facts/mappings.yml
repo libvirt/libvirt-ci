@@ -169,7 +169,6 @@ mappings:
     apk: util-linux
     deb: bsdextrautils
     rpm: util-linux
-    Debian10: bsdmainutils
     Ubuntu2004: bsdmainutils
 
   bzip2:
@@ -228,7 +227,6 @@ mappings:
     pkg: rust
     rpm: clippy
     OpenSUSE:
-    Debian10:
     Debian11:
 
   cloud-init:
@@ -578,7 +576,6 @@ mappings:
     apk: hexdump
     deb: bsdextrautils
     rpm: util-linux
-    Debian10: bsdmainutils
     Ubuntu2004: bsdmainutils
 
   hostname:
@@ -899,7 +896,6 @@ mappings:
   libnbd:
     deb: libnbd-dev
     rpm: libnbd-devel
-    Debian10:
     Debian11:
     Ubuntu2004:
 
@@ -946,7 +942,6 @@ mappings:
     apk: pipewire-dev
     deb: libpipewire-0.3-dev
     rpm: pipewire-devel
-    Debian10:
     Ubuntu2004:
     cross-policy-default: foreign
 
@@ -1009,7 +1004,6 @@ mappings:
     CentOS:
     AlmaLinux8: libslirp-devel
     CentOSStream8: libslirp-devel
-    Debian10:
     cross-policy-default: foreign
 
   libsoup:
@@ -1092,7 +1086,6 @@ mappings:
     CentOS:
     AlmaLinux8: liburing-devel
     CentOSStream8: liburing-devel
-    Debian10:
     Ubuntu2004:
     cross-policy-default: foreign
 
@@ -1190,7 +1183,6 @@ mappings:
     pkg: lua54
     rpm: lua-devel
     MacOS: lua
-    Debian10: lua5.3
     Ubuntu2004: lua5.3
 
   lvm2:
@@ -1219,7 +1211,6 @@ mappings:
 
   meson:
     default: meson
-    Debian10:
     Ubuntu2004:
 
   mkisofs:
@@ -1273,7 +1264,6 @@ mappings:
     pkg:
     MacOS:
     OpenSUSE:
-    Debian10:
     Ubuntu2004:
 
   ncursesw:
@@ -1293,7 +1283,6 @@ mappings:
     apk: netcf-dev
     AlmaLinux8: netcf-devel
     CentOSStream8: netcf-devel
-    Debian10: libnetcf-dev
     Debian11: libnetcf-dev
     Ubuntu2004: libnetcf-dev
     cross-policy-default: skip
@@ -1663,7 +1652,6 @@ mappings:
     Fedora: python3-build
     MacOS: python-build
     Ubuntu:
-    Debian10:
 
   python3-dbus:
     default: python3-dbus
@@ -2038,7 +2026,6 @@ mappings:
     apk: py3-tomli
     pkg: py39-tomli
     MacOS:
-    Debian10:
     Debian11:
     Ubuntu2004:
 

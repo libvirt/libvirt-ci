@@ -283,13 +283,6 @@ x86_64-check-centos-stream-9:
     IMAGE: quay.io/centos/centos:stream9
     NAME: centos-stream-9
 
-x86_64-check-debian-10:
-  extends: .check_container_template
-  variables:
-    <<: *apt_dry_run_command
-    IMAGE: docker.io/library/debian:10-slim
-    NAME: debian-10
-
 x86_64-check-debian-11:
   extends: .check_container_template
   variables:
