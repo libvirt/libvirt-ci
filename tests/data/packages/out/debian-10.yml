@@ -65,7 +65,7 @@ native:
 - libapparmor-dev
 - libarchive-dev
 - libarchive-tar-perl
-- libasan5
+- libasan6
 - libasound2-dev
 - libattr1-dev
 - libaudit-dev
@@ -221,7 +221,7 @@ native:
 - ocaml-findlib
 - ocaml-nox
 - open-iscsi
-- openjdk-11-jdk-headless
+- openjdk-17-jdk-headless
 - openssh-client
 - osinfo-db-tools
 - perl

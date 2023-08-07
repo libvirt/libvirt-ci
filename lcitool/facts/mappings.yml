@@ -622,7 +622,7 @@ mappings:
 
   java:
     apk: openjdk11-jdk
-    deb: openjdk-11-jdk-headless
+    deb: openjdk-17-jdk-headless
     pkg: openjdk11
     rpm: java-11-openjdk-headless
     MacOS: openjdk
@@ -682,7 +682,7 @@ mappings:
     cross-policy-default: foreign
 
   libasan:
-    deb: libasan5
+    deb: libasan6
     rpm: libasan
     OpenSUSE: libasan6
     mips-deb:
