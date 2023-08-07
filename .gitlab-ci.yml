@@ -297,6 +297,13 @@ x86_64-check-debian-11:
     IMAGE: docker.io/library/debian:11-slim
     NAME: debian-11
 
+x86_64-check-debian-12:
+  extends: .check_container_template
+  variables:
+    <<: *apt_dry_run_command
+    IMAGE: docker.io/library/debian:12-slim
+    NAME: debian-12
+
 x86_64-check-debian-sid:
   extends: .check_container_template
   allow_failure: true
