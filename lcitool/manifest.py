@@ -45,7 +45,7 @@ class Manifest:
             raise ValueError("No project list defined")
 
         projects = self.values["projects"]
-        if type(projects) != list:
+        if not isinstance(projects, list):
             raise ValueError("projects must be a list")
         if len(projects) < 1:
             raise ValueError("at least one project must be listed")
@@ -94,7 +94,7 @@ class Manifest:
         have_containers = False
         have_cirrus = False
         for target, targetinfo in targets.items():
-            if type(targetinfo) == str:
+            if isinstance(targetinfo, str):
                 targets[target] = {"jobs": [{"arch": targetinfo}]}
                 targetinfo = targets[target]
             targetinfo.setdefault("enabled", True)
