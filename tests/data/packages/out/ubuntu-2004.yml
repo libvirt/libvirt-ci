@@ -290,3 +290,4 @@ native:
 pypi:
 - build
 - meson==0.56.0
+- tomli

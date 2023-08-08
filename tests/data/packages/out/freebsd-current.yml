@@ -153,6 +153,7 @@ native:
 - py39-setuptools
 - py39-sphinx
 - py39-sphinx_rtd_theme
+- py39-tomli
 - py39-wheel
 - py39-yaml
 - python3

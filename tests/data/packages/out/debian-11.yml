@@ -292,3 +292,5 @@ native:
 - zip
 - zlib1g-dev
 - zstd
+pypi:
+- tomli

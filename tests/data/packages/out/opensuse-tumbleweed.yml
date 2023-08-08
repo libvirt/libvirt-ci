@@ -231,6 +231,7 @@ native:
 - python3-selinux
 - python3-setuptools
 - python3-sphinx_rtd_theme
+- python3-tomli
 - python3-wheel
 - python39-flake8
 - qemu

@@ -2033,6 +2033,15 @@ mappings:
   texinfo:
     default: texinfo
 
+  python3-tomli:
+    default: python3-tomli
+    apk: py3-tomli
+    pkg: py39-tomli
+    MacOS:
+    Debian10:
+    Debian11:
+    Ubuntu2004:
+
   unzip:
     default: unzip
     pkg:
@@ -2236,6 +2245,9 @@ pypi_mappings:
 
   python3-sphinx-rtd-theme:
     default: sphinx-rtd-theme
+
+  python3-tomli:
+    default: tomli
 
 
 # CPAN mappings work like PyPi mappings, the only difference being that

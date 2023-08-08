@@ -262,6 +262,7 @@ packages:
 - python3-setuptools
 - python3-sphinx
 - python3-sphinx-rtd-theme
+- python3-tomli
 - python3-venv
 - python3-wheel
 - qemu

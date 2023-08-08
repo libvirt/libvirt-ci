@@ -166,3 +166,4 @@ pypi:
 - requests
 - sphinx
 - sphinx-rtd-theme
+- tomli
