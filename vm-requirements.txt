@@ -4,6 +4,7 @@ ansible
 ansible-runner >= 2.1.1
 libvirt-python
 paramiko
+passlib
 PyGObject
 requests
 tqdm
