@@ -16,6 +16,7 @@ native:
 - augeas-lenses
 - autoconf
 - automake
+- awk
 - bash
 - bash-completion
 - bc

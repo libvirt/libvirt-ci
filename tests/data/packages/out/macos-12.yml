@@ -34,6 +34,7 @@ native:
 - augeas
 - autoconf
 - automake
+- awk
 - bash
 - bash-completion
 - bc

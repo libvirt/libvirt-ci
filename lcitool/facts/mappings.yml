@@ -147,6 +147,13 @@ mappings:
     rpm: gettext-devel
     MacOS: gettext
 
+  awk:
+    default: awk
+    apk: busybox
+    deb: original-awk
+    rpm: gawk
+    OpenSUSE: awk
+
   bash:
     default: bash
 

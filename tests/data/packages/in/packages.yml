@@ -8,6 +8,7 @@ packages:
 - autoconf
 - automake
 - autopoint
+- awk
 - bash
 - bash-completion
 - bc

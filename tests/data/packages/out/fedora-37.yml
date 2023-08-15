@@ -47,6 +47,7 @@ native:
 - fuse-devel
 - fuse3
 - fuse3-devel
+- gawk
 - gcc
 - gcc-c++
 - gcovr

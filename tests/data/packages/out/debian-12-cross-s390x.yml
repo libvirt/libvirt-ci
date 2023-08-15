@@ -229,6 +229,7 @@ native:
 - open-iscsi
 - openjdk-17-jdk-headless
 - openssh-client
+- original-awk
 - osinfo-db-tools
 - perl
 - perl-base
