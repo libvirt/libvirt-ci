@@ -7,7 +7,6 @@ native:
 - augeas
 - autoconf
 - automake
-- awk
 - bash
 - bash-completion
 - bison
