@@ -1,13 +1,4 @@
 ---
-- name: Update installed packages
-  package:
-    name: '*'
-    state: latest
-  when:
-    - packaging.format == 'rpm'
-    - not ( os.name == 'Fedora' and
-            os.version == 'Rawhide' )
-
 - name: Update GPG keys
   dnf:
     name: fedora-gpg-keys
@@ -19,13 +10,11 @@
     - os.version == 'Rawhide'
 
 - name: Update installed packages
-  dnf:
+  package:
     name: '*'
-    update_cache: true
     state: latest
   when:
-    - os.name == 'Fedora'
-    - os.version == 'Rawhide'
+    - packaging.format == 'rpm'
 
 - name: Update installed packages
   apt:
