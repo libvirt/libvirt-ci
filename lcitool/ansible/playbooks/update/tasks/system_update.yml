@@ -8,9 +8,10 @@
     - not ( os.name == 'Fedora' and
             os.version == 'Rawhide' )
 
-- name: Update installed packages
-  package:
+- name: Update GPG keys
+  dnf:
     name: fedora-gpg-keys
+    update_cache: true
     state: latest
     disable_gpg_check: yes
   when:
