@@ -1,14 +1,4 @@
 ---
-- name: Enable fedora-rawhide-kernel-nodebug repository
-  template:
-    src: 'templates/fedora-rawhide-kernel-nodebug.repo.j2'
-    dest: /etc/yum.repos.d/fedora-rawhide-kernel-nodebug.repo
-    owner: root
-    group: root
-  when:
-    - os.name == 'Fedora'
-    - os.version == 'Rawhide'
-
 - name: Enable CRB repository
   command: '{{ packaging.command }} config-manager --set-enabled crb -y'
   when:
