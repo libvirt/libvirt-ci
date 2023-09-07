@@ -331,25 +331,24 @@ class Application:
     def _action_container_build(self, args):
         self._entrypoint_debug(args)
 
-        params = {}
-        engine = self._container_handle(args.engine)
-
-        container_tempdir = TemporaryDirectory(prefix="container",
-                                               dir=util.get_temp_dir())
-        params["tempdir"] = container_tempdir.name
-
-        tag = f"lcitool.{args.target}"
-
-        # remove image and prepare to build a new one.
-        engine.rmi(tag)
-
         targets = Targets()
         packages = Packages()
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
         target = BuildTarget(targets, packages, args.target, cross_arch=args.cross_arch)
-
+        params = {}
         _file = None
+        tag = f"lcitool.{args.target}"
+
+        engine = self._container_handle(args.engine)
+
+        # remove image and prepare to build a new one.
+        engine.rmi(tag)
+
+        container_tempdir = TemporaryDirectory(prefix="container",
+                                               dir=util.get_temp_dir())
+        params["tempdir"] = container_tempdir.name
+
         file_content = DockerfileFormatter(projects).format(
             target,
             projects_expanded
