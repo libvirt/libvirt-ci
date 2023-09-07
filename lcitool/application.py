@@ -307,15 +307,15 @@ class Application:
         manifest.generate(args.dry_run)
 
     @staticmethod
-    def _get_client(engine):
-        client = Podman()
+    def _container_handle(engine):
+        handle = Podman()
         if engine == "docker":
-            client = Docker()
+            handle = Docker()
 
-        if client.available is None:
-            raise ApplicationError(f"{client.engine} engine not available")
+        if handle.available is None:
+            raise ApplicationError(f"{handle.engine} engine not available")
 
-        return client
+        return handle
 
     def _action_list_engines(self, args):
         engines = []
@@ -332,7 +332,7 @@ class Application:
         self._entrypoint_debug(args)
 
         params = {}
-        client = self._get_client(args.engine)
+        engine = self._container_handle(args.engine)
 
         container_tempdir = TemporaryDirectory(prefix="container",
                                                dir=util.get_temp_dir())
@@ -341,7 +341,7 @@ class Application:
         tag = f"lcitool.{args.target}"
 
         # remove image and prepare to build a new one.
-        client.rmi(tag)
+        engine.rmi(tag)
 
         targets = Targets()
         packages = Packages()
@@ -362,7 +362,7 @@ class Application:
 
         log.debug(f"Generated Dockerfile copied to {_file}")
 
-        client.build(tag=tag, filepath=_file, **params)
+        engine.build(tag=tag, filepath=_file, **params)
 
         log.debug(f"Generated image tag --> {tag}")
         print(f"Image '{tag}' successfully built.")
@@ -371,7 +371,7 @@ class Application:
         self._entrypoint_debug(args)
 
         params = {}
-        client = self._get_client(args.engine)
+        client = self._container_handle(args.engine)
 
         container_tempdir = TemporaryDirectory(prefix="container",
                                                dir=util.get_temp_dir())
