@@ -360,7 +360,7 @@ class Application:
             fd.write(textwrap.dedent(file_content))
             _file = fd.name
 
-        log.debug(f"Generated dockerfile copied to {_file}")
+        log.debug(f"Generated Dockerfile copied to {_file}")
 
         try:
             client.build(tag=tag, filepath=_file, **params)
