@@ -9,7 +9,7 @@ import shutil
 import logging
 import subprocess
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from pathlib import Path
 
 from lcitool import LcitoolError
@@ -270,6 +270,7 @@ class Container(ABC):
         log.debug(f"{self.engine} images\n%s", img.stdout)
         return img.stdout
 
+    @abstractmethod
     def run(self, image, container_cmd, user, tempdir, env=None,
             datadir=None, script=None, **kwargs):
         """

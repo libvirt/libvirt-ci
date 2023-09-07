@@ -36,6 +36,17 @@ class Docker(Container):
         self._run_exception = DockerRunError
         self._build_exception = DockerBuildError
 
+    def run(self, image, container_cmd, user, tempdir, env=None, datadir=None,
+            script=None, **kwargs):
+        """
+        Prepares and runs the command inside a container.
+
+        See Container.run() for more information.
+        """
+
+        return super().run(image, container_cmd, user, tempdir, env, datadir,
+                           script, **kwargs)
+
     def _images(self):
         """
         Get all container images.

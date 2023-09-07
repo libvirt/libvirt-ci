@@ -36,6 +36,17 @@ class Podman(Container):
         self._run_exception = PodmanRunError
         self._build_exception = PodmanBuildError
 
+    def run(self, image, container_cmd, user, tempdir, env=None, datadir=None,
+            script=None, **kwargs):
+        """
+        Prepares and runs the command inside a container.
+
+        See Container.run() for more information.
+        """
+
+        return super().run(image, container_cmd, user, tempdir, env, datadir,
+                           script, **kwargs)
+
     def _extra_args(self, user):
         """
         Get Podman specific host namespace mapping
