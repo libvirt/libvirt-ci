@@ -282,6 +282,15 @@ class Container(ABC):
         pass
 
     def _run(self, image, container_cmd, engine_extra_args, **kwargs):
+        if ":" in image:
+            image, tag = image.split(":")
+
+        if not self.image_exists(image, tag):
+            raise ContainerError(
+                f"Image '{image}:{tag}' not found in local cache. "
+                "Build it or pull from registry first."
+            )
+
         cmd = [self.engine, "run"] + engine_extra_args
         cmd.extend([image, container_cmd])
 
