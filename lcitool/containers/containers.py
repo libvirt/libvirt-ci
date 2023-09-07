@@ -375,3 +375,22 @@ class Container(ABC):
         log.debug(f"Build command: {cmd}")
         build = self._exec(cmd, check=True, **kwargs)
         return build.returncode
+
+    @abstractmethod
+    def shell(self, image, user, tempdir, env=None, datadir=None, script=None,
+              **kwargs):
+        """
+        Spawns an interactive shell inside the container.
+
+        This method is essentially just a convenience alternative over plain
+        Container.run() with 'container_cmd' being '/bin/sh'. The rest of the
+        arguments bear the exact same semantics.
+        """
+
+        engine_extra_args = ["--rm", "--interactive", "--tty"]
+
+        build_args = self._build_args(
+            user, tempdir, env=env, datadir=datadir, script=script
+        )
+        engine_extra_args.extend([item for tuple_ in build_args for item in tuple_])
+        return self._run(image, "/bin/sh", engine_extra_args, **kwargs)

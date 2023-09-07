@@ -26,6 +26,17 @@ class Podman(Container):
         return super().run(image, container_cmd, user, tempdir, env, datadir,
                            script, **kwargs)
 
+    def shell(self, image, user, tempdir, env=None, datadir=None, script=None,
+              **kwargs):
+        """
+        Spawns an interactive shell inside the container.
+
+        See Container.shell() for more information
+        """
+
+        return super().shell(image, user, tempdir, env, datadir,
+                             script, **kwargs)
+
     def _extra_args(self, user):
         """
         Get Podman specific host namespace mapping
