@@ -281,6 +281,14 @@ class Container(ABC):
     def image_exists(self):
         pass
 
+    def _run(self, image, container_cmd, engine_extra_args, **kwargs):
+        cmd = [self.engine, "run"] + engine_extra_args
+        cmd.extend([image, container_cmd])
+
+        log.debug(f"Run command: {cmd}")
+        run = self._exec(cmd, check=True, **kwargs)
+        return run.returncode
+
     @abstractmethod
     def run(self, image, container_cmd, user, tempdir, env=None,
             datadir=None, script=None, **kwargs):
@@ -321,20 +329,14 @@ class Container(ABC):
         #   --interactive
         #   --tty     Ensure we have ability to Ctrl-C the build
 
-        cmd_args = ["--rm", "--interactive", "--tty"]
+        engine_extra_args = ["--rm", "--interactive", "--tty"]
 
         build_args = self._build_args(
             user, tempdir, env=env, datadir=datadir, script=script
         )
-        cmd_args.extend([item for tuple_ in build_args for item in tuple_])
+        engine_extra_args.extend([item for tuple_ in build_args for item in tuple_])
 
-        cmd = [self.engine, "run"]
-        cmd.extend(cmd_args)
-        cmd.extend([image, container_cmd])
-
-        log.debug(f"Run command: {cmd}")
-        run = self._exec(cmd, check=True, **kwargs)
-        return run.returncode
+        return self._run(image, container_cmd, engine_extra_args, **kwargs)
 
     def build(self, filepath, tempdir, tag, **kwargs):
         """
