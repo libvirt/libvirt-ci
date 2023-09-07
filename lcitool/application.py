@@ -390,19 +390,33 @@ class Application:
 
         return params
 
-    def _action_container_run(self, args):
-        self._entrypoint_debug(args)
+    def _container_run(self, container_params, shell=False):
+        """
+        Call into the container handle object.
 
-        params = self._get_container_run_common_params()
+        :param shell: whether to spawn an interactive shell session
+        :param **kwargs: arguments passed to Container.run()
+        """
+
         container_tempdir = TemporaryDirectory(prefix="container",
                                                dir=util.get_temp_dir())
-        params["tempdir"] = container_tempdir.name
-        params["container_cmd"] = "/bin/sh"
-        if args.container == "run":
-            params["container_cmd"] = "./script"
 
-        client = self._container_handle(args.engine)
-        return client.run(**params)
+        container_params["tempdir"] = container_tempdir.name
+        engine = self._container_handle(self.args.engine)
+        if shell:
+            return engine.shell(**container_params)
+        return engine.run(**container_params)
+
+    def _action_container_run(self, args):
+        self._entrypoint_debug(self.args)
+
+        params = self._get_container_run_common_params()
+
+        if args.container == "shell":
+            return self._container_run(params, shell=True)
+
+        params["container_cmd"] = "./script"
+        return self._container_run(params)
 
     def run(self, args):
         try:
