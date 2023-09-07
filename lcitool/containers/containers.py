@@ -271,6 +271,10 @@ class Container(ABC):
         return img.stdout
 
     @abstractmethod
+    def image_exists(self):
+        pass
+
+    @abstractmethod
     def run(self, image, container_cmd, user, tempdir, env=None,
             datadir=None, script=None, **kwargs):
         """
