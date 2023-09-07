@@ -420,6 +420,7 @@ class Application:
 
     def run(self, args):
         try:
+            self.args = args
             args.func(self, args)
         except LcitoolError as ex:
             print(f"{ex.module_prefix} error:", ex, file=sys.stderr)
