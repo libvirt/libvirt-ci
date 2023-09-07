@@ -366,41 +366,43 @@ class Application:
         log.debug(f"Generated image tag --> {tag}")
         print(f"Image '{tag}' successfully built.")
 
-    def _action_container_run(self, args):
-        self._entrypoint_debug(args)
-
+    def _get_container_run_common_params(self):
         params = {}
-        client = self._container_handle(args.engine)
+        params["image"] = self.args.image
+        params["user"] = self.args.user
+        if self.args.user.isdecimal():
+            params["user"] = int(self.args.user)
 
-        container_tempdir = TemporaryDirectory(prefix="container",
-                                               dir=util.get_temp_dir())
-        params["tempdir"] = container_tempdir.name
+        if self.args.env:
+            params["env"] = self.args.env
 
-        params["image"] = args.image
-        params["user"] = args.user
-        if args.user.isdecimal():
-            params["user"] = int(args.user)
-
-        if args.env:
-            params["env"] = args.env
-
-        if args.workload_dir:
-            workload_dir = Path(args.workload_dir)
+        if self.args.workload_dir:
+            workload_dir = Path(self.args.workload_dir)
             if not workload_dir.is_dir():
                 raise ApplicationError(f"'{workload_dir}' is not a directory")
             params["datadir"] = workload_dir.resolve()
 
-        if args.script:
-            script = Path(args.script)
+        if self.args.script:
+            script = Path(self.args.script)
             if not script.is_file():
                 raise ApplicationError(f"'{script}' is not a file")
             params["script"] = script.resolve()
 
+        return params
+
+    def _action_container_run(self, args):
+        self._entrypoint_debug(args)
+
+        params = self._get_container_run_common_params()
+        container_tempdir = TemporaryDirectory(prefix="container",
+                                               dir=util.get_temp_dir())
+        params["tempdir"] = container_tempdir.name
         params["container_cmd"] = "/bin/sh"
         if args.container == "run":
             params["container_cmd"] = "./script"
 
-        client.run(**params)
+        client = self._container_handle(args.engine)
+        return client.run(**params)
 
     def run(self, args):
         try:
