@@ -411,12 +411,14 @@ class Application:
         self._entrypoint_debug(self.args)
 
         params = self._get_container_run_common_params()
-
-        if args.container == "shell":
-            return self._container_run(params, shell=True)
-
         params["container_cmd"] = "./script"
         return self._container_run(params)
+
+    def _action_container_shell(self, args):
+        self._entrypoint_debug(self.args)
+
+        return self._container_run(self._get_container_run_common_params(),
+                                   shell=True)
 
     def run(self, args):
         try:

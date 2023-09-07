@@ -360,7 +360,7 @@ class CommandLine:
             help="Access to an interactive shell",
             parents=[imageopt, containeropt, engineopt, workload_diropt, scriptopt]
         )
-        shell_containerparser.set_defaults(func=Application._action_container_run)
+        shell_containerparser.set_defaults(func=Application._action_container_shell)
 
     @staticmethod
     def _validate_container(args):

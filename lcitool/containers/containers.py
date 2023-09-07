@@ -336,9 +336,8 @@ class Container(ABC):
         #   --volume  to pass in the cloned git repo & config
         #   --ulimit  lower files limit for performance reasons
         #   --interactive
-        #   --tty     Ensure we have ability to Ctrl-C the build
 
-        engine_extra_args = ["--rm", "--interactive", "--tty"]
+        engine_extra_args = ["--rm", "--interactive"]
 
         build_args = self._build_args(
             user, tempdir, env=env, datadir=datadir, script=script
