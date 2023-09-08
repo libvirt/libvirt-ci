@@ -28,6 +28,7 @@ stages:
 .job_rules_test_container_changes: &job_rules_test_container_changes
   changes:
     - .gitlab-ci.yml
+    - lcitool/facts/mappings.yml
 
 # If pushing to the default branch, then publish the container
 # for future reuse, otherwise just discard it after testing build
