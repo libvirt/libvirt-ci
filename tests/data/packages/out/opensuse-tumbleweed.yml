@@ -147,6 +147,7 @@ native:
 - libvirt-devel
 - libvirt-glib-devel
 - libwsman-devel
+- libxdp-devel
 - libxml2
 - libxml2-devel
 - libxslt

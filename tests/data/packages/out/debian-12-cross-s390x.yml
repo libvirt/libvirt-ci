@@ -91,6 +91,7 @@ cross:
 - libvirt-dev:s390x
 - libvirt-glib-1.0-dev:s390x
 - libvte-2.91-dev:s390x
+- libxdp-dev:s390x
 - libxml2-dev:s390x
 - libxslt1-dev:s390x
 - libyajl-dev:s390x

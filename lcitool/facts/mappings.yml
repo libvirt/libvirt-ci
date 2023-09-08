@@ -1146,6 +1146,16 @@ mappings:
     cross-mingw64-rpm: mingw64-libxml2
     cross-policy-default: foreign
 
+  libxdp:
+    apk: libxdp-dev
+    deb: libxdp-dev
+    rpm: libxdp-devel
+    Debian11:
+    OpenSUSELeap15:
+    Ubuntu2004:
+    Ubuntu2204:
+    cross-policy-default: foreign
+
   libxslt:
     default: libxslt
     apk: libxslt-dev

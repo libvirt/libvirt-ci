@@ -127,6 +127,7 @@ native:
 - libuuid-devel
 - libvirt-devel
 - libwsman-devel
+- libxdp-devel
 - libxml2
 - libxml2-devel
 - libxslt

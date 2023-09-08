@@ -191,6 +191,7 @@ native:
 - libvirt-dev
 - libvirt-glib-1.0-dev
 - libvte-2.91-dev
+- libxdp-dev
 - libxen-dev
 - libxml-twig-perl
 - libxml-writer-perl

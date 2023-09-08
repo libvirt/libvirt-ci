@@ -119,6 +119,7 @@ native:
 - libusb-dev
 - libvirt-dev
 - libvirt-glib-dev
+- libxdp-dev
 - libxml2-dev
 - libxml2-utils
 - libxslt

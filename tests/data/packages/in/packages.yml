@@ -157,6 +157,7 @@ packages:
 - libvdeplug
 - libvirt
 - libvirt-glib
+- libxdp
 - libxml2
 - libxslt
 - libzstd
