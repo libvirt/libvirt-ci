@@ -689,7 +689,7 @@ mappings:
   libasan:
     deb: libasan6
     rpm: libasan
-    OpenSUSE: libasan6
+    OpenSUSE: libasan8
     mips-deb:
     mips64el-deb:
     mipsel-deb:

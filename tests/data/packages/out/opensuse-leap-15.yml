@@ -91,7 +91,7 @@ native:
 - libaio-devel
 - libapparmor-devel
 - libarchive-devel
-- libasan6
+- libasan8
 - libattr-devel
 - libblkid-devel
 - libbpf-devel
