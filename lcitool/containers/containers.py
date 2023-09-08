@@ -25,6 +25,17 @@ class ContainerError(LcitoolError):
         self.message = self.__class__.__name__ + ": " + message
 
 
+class ContainerExecError(ContainerError):
+    """ Thrown whenever an error occurs during container engine execution. """
+
+    def __init__(self, rc, message=None):
+        if message is None:
+            message = f"Process exited with error code {rc}"
+
+        super().__init__(message)
+        self.returncode = rc
+
+
 class Container(ABC):
     """Abstract class for containers"""
 
