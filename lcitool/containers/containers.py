@@ -45,16 +45,12 @@ class Container(ABC):
         else:
             self.engine = self.__class__.__name__.lower()
 
-        self._run_exception = None
-        self._build_exception = None
-
     @staticmethod
-    def _exec(command, _exception=ContainerError, **kwargs):
+    def _exec(command, **kwargs):
         """
         Execute command in a subprocess.run call.
 
         :param command: a list of command to run in the process
-        :param _exception: an instance of ContainerError
         :param **kwargs: arguments passed to subprocess.run()
 
         :returns: an instance of subprocess.CompletedProcess
@@ -64,7 +60,7 @@ class Container(ABC):
             proc = subprocess.run(args=command, encoding="utf-8",
                                   **kwargs)
         except subprocess.CalledProcessError as ex:
-            raise _exception(str(ex.returncode))
+            raise ContainerExecError(ex.returncode, ex.stderr)
 
         return proc
 
@@ -337,9 +333,7 @@ class Container(ABC):
         cmd.extend([image, container_cmd])
 
         log.debug(f"Run command: {cmd}")
-        run = self._exec(cmd,
-                         _exception=self._run_exception,
-                         check=True, **kwargs)
+        run = self._exec(cmd, check=True, **kwargs)
         return run.returncode
 
     def build(self, filepath, tempdir, tag, **kwargs):
@@ -377,7 +371,5 @@ class Container(ABC):
         cmd.extend(cmd_args)
 
         log.debug(f"Build command: {cmd}")
-        build = self._exec(cmd,
-                           _exception=self._build_exception,
-                           check=True, **kwargs)
+        build = self._exec(cmd, check=True, **kwargs)
         return build.returncode
