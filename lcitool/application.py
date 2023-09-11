@@ -19,7 +19,7 @@ from lcitool.projects import Projects
 from lcitool.targets import Targets, BuildTarget
 from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, JSONVariablesFormatter, ShellBuildEnvFormatter
 from lcitool.manifest import Manifest
-from lcitool.containers import Docker, Podman, ContainerError
+from lcitool.containers import Docker, Podman, ContainerExecError
 
 
 log = logging.getLogger(__name__)
@@ -362,10 +362,7 @@ class Application:
 
         log.debug(f"Generated Dockerfile copied to {_file}")
 
-        try:
-            client.build(tag=tag, filepath=_file, **params)
-        except ContainerError as ex:
-            raise ApplicationError(ex.message)
+        client.build(tag=tag, filepath=_file, **params)
 
         log.debug(f"Generated image tag --> {tag}")
         print(f"Image '{tag}' successfully built.")
@@ -413,15 +410,14 @@ class Application:
         if args.container == "run":
             params["container_cmd"] = "./script"
 
-        try:
-            client.run(**params)
-        except ContainerError as ex:
-            raise ApplicationError(ex.message)
+        client.run(**params)
 
     def run(self, args):
         try:
             self.args = args
             args.func(self, args)
+        except ContainerExecError as ex:
+            sys.exit(ex.returncode)
         except LcitoolError as ex:
             print(f"{ex.module_prefix} error:", ex, file=sys.stderr)
             sys.exit(1)
