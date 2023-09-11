@@ -124,7 +124,11 @@ class Application:
     def _action_hosts(self, args):
         self._entrypoint_debug(args)
 
-        config = Config(args.config.name)
+        config_path = None
+        if args.config:
+            config_path = args.config.name
+
+        config = Config(config_path)
         targets = Targets(args.data_dir)
         inventory = Inventory(targets, config,
                               inventory_path=util.get_datadir_inventory(args.datadir))
@@ -158,7 +162,11 @@ class Application:
         self._entrypoint_debug(args)
 
         facts = {}
-        config = Config(args.config.name)
+        config_path = None
+        if args.config:
+            config_path = args.config.name
+
+        config = Config(config_path)
         targets = Targets(args.data_dir)
         inventory = Inventory(targets, config,
                               inventory_path=util.get_datadir_inventory(args.data_dir))
@@ -209,8 +217,12 @@ class Application:
     def _action_update(self, args):
         self._entrypoint_debug(args)
 
+        config_path = None
+        if args.config:
+            config_path = args.config.name
+
         self._execute_playbook("update", args.hosts, args.projects,
-                               args.config.name, args.data_dir, args.verbose)
+                               config_path, args.data_dir, args.verbose)
 
     def _action_variables(self, args):
         self._entrypoint_debug(args)
