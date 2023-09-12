@@ -281,6 +281,7 @@ class Container(ABC):
         pass
 
     def _run(self, image, container_cmd, engine_extra_args, **kwargs):
+        tag = "latest"
         if ":" in image:
             image, tag = image.split(":")
 
