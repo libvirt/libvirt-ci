@@ -21,8 +21,7 @@ class ContainerError(LcitoolError):
     """Global exception type for this module."""
 
     def __init__(self, message):
-        super().__init__(self)
-        self.message = self.__class__.__name__ + ": " + message
+        super().__init__(message, "Container")
 
 
 class ContainerExecError(ContainerError):
