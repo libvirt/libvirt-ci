@@ -131,7 +131,7 @@ class Application:
         config = Config(config_path)
         targets = Targets(args.data_dir)
         inventory = Inventory(targets, config,
-                              inventory_path=util.get_datadir_inventory(args.datadir))
+                              inventory_path=util.get_datadir_inventory(args.data_dir))
         for host in sorted(inventory.hosts):
             print(host)
 
