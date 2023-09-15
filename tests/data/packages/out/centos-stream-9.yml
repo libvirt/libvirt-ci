@@ -239,6 +239,7 @@ native:
 - spice-protocol
 - strace
 - sudo
+- swtpm
 - systemd-devel
 - systemd-rpm-macros
 - systemtap-sdt-devel

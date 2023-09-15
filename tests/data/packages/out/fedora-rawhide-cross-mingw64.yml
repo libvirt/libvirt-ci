@@ -209,6 +209,7 @@ native:
 - spice-protocol
 - strace
 - sudo
+- swtpm
 - systemd-rpm-macros
 - tar
 - tcl-devel

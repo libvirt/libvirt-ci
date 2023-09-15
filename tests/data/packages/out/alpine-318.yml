@@ -229,6 +229,7 @@ native:
 - spice-protocol
 - strace
 - sudo
+- swtpm
 - tar
 - tcl
 - tcpdump

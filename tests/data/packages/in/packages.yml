@@ -297,6 +297,7 @@ packages:
 - ssh-client
 - strace
 - sudo
+- swtpm
 - systemd
 - systemd-rpm-macros
 - tar

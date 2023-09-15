@@ -1990,6 +1990,11 @@ mappings:
     default: sudo
     MacOS:
 
+  swtpm:
+    default: swtpm
+    Debian11:
+    Ubuntu2004:
+
   systemd:
     deb: libsystemd-dev
     rpm: systemd-devel

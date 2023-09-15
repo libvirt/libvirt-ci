@@ -137,6 +137,7 @@ native:
 - sparse
 - spice-gtk
 - spice-protocol
+- swtpm
 - tcl-tk
 - tcpdump
 - tesseract

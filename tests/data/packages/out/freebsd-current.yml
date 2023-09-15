@@ -173,6 +173,7 @@ native:
 - spice-gtk
 - spice-protocol
 - sudo
+- swtpm
 - tcl87
 - tcpdump
 - tesseract

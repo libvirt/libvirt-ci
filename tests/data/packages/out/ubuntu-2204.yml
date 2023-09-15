@@ -273,6 +273,7 @@ native:
 - sparse
 - strace
 - sudo
+- swtpm
 - systemtap-sdt-dev
 - tar
 - tcl-dev
