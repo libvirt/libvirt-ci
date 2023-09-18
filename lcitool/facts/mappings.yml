@@ -1986,6 +1986,10 @@ mappings:
     pkg:
     MacOS:
 
+  sudo:
+    default: sudo
+    MacOS:
+
   systemd:
     deb: libsystemd-dev
     rpm: systemd-devel
@@ -1993,10 +1997,6 @@ mappings:
 
   systemd-rpm-macros:
     rpm: systemd-rpm-macros
-
-  sudo:
-    default: sudo
-    MacOS:
 
   tar:
     default: tar
