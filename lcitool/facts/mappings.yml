@@ -1992,6 +1992,9 @@ mappings:
 
   swtpm:
     default: swtpm
+    # Although in "latest", not in the stable quarterly releases.
+    # Revisit mid-october 2023 after the next quarterly release.
+    FreeBSD:
     Debian11:
     Ubuntu2004:
 
