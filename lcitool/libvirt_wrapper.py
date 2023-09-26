@@ -62,7 +62,7 @@ class LibvirtWrapper():
                     continue
 
                 raise LibvirtWrapperError(
-                    f"Failed to query metadata for '{dom.name}': " + str(e)
+                    f"Failed to query metadata for '{dom.name()}': " + str(e)
                 )
 
             xmltree = ET.fromstring(xml)
