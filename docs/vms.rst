@@ -127,7 +127,21 @@ them before deciding which install strategy (as we call it) is best for you:
   in a VM. Naturally, installation of such an OS distro in a VM would fail
   using this method and you can either fall back to the URL-based install
   mentioned above or you can install the latest *osinfo* database manually
-  yourself.
+  yourself. If you decide to with the latter, there's a few ways of installing
+  a fresh osinfo database on your system:
+
+  * by running ``osinfo-db-import --nightly`` which downloads and installs
+    the latest unofficial automated database build directly from the
+    project's GitLab CI pipeline
+    *Note: your* ``osinfo-db-tools`` *package needs to be new enough to support
+    the* ``--nightly`` *option.*
+
+  * by using the URL to the
+    `Gitlab nightly database build archive <https://gitlab.com/libosinfo/osinfo-db/-/jobs/artifacts/main/raw/osinfo-db-latest.tar.xz?job=publish>`__
+    directly in ``osinfo-db-import <db local archive file | db archive URL>``
+
+  * by building the osinfo-db project locally from source and installing the
+    database that way (**discouraged**)
 
 * some distro vendors don't provide a symbolic link (e.g. Fedora) always
   pointing to the latest image build. What this means for you is that the image
