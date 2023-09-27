@@ -53,9 +53,12 @@ class LibvirtWrapper():
 
         for dom in doms:
             try:
+                domain_metadata_flags = libvirt.VIR_DOMAIN_AFFECT_CONFIG
+                if not dom.isPersistent():
+                    domain_metadata_flags = libvirt.VIR_DOMAIN_AFFECT_LIVE
                 xml = dom.metadata(libvirt.VIR_DOMAIN_METADATA_ELEMENT,
                                    LCITOOL_XMLNS,
-                                   libvirt.VIR_DOMAIN_AFFECT_CONFIG)
+                                   domain_metadata_flags)
             except libvirt.libvirtError as e:
                 if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN_METADATA:
                     # skip hosts which don't have lcitool's metadata
