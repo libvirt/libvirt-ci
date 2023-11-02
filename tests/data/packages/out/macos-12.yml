@@ -124,7 +124,6 @@ native:
 - python3
 - qemu
 - readline
-- rpcgen
 - rpm2cpio
 - ruby
 - rust

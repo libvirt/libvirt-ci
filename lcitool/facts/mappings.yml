@@ -1846,6 +1846,7 @@ mappings:
     default: rpcgen
     deb: libc-dev-bin
     pkg:
+    MacOS:
 
   rpm2cpio:
     default: rpm2cpio
