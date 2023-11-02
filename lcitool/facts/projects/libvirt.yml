@@ -21,6 +21,7 @@ packages:
   - fuse
   - gcc
   - gettext
+  - gettext-native
   - glib2
   - glusterfs
   - gnutls
