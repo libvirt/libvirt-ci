@@ -75,6 +75,7 @@ native:
 - gcovr
 - gdb
 - genisoimage
+- gettext
 - gettext-devel
 - git
 - glib2-devel

@@ -466,6 +466,10 @@ mappings:
     cross-mingw64-rpm: mingw64-gettext
     cross-policy-rpm: foreign
 
+  gettext-native:
+    default: gettext
+    OpenSUSE: gettext-runtime
+
   git:
     default: git
 
