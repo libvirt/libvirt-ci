@@ -5,7 +5,9 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import logging
+from pathlib import Path
 import requests
+from urllib.parse import urlparse
 import yaml
 
 from lcitool import util, LcitoolError
@@ -73,6 +75,46 @@ class Projects:
         files = self._data_dir.list_files("facts/projects/internal", ".yml", internal=True)
         self._internal = self._load_projects_from_files(files)
 
+    def _resolve_remote(self, name):
+        # Pre-defined projects have no "/"
+        if "/" not in name:
+            return name
+
+        # If there's no URI protocol, it is a plain local
+        # file, so turn it into a file:// URL
+        if "://" not in name:
+            name = Path(name).resolve().as_uri()
+
+        try:
+            uri = urlparse(name)
+        except ValueError as ex:
+            raise ProjectError(f"Cannot parse project URL {name}: {ex}")
+
+        if uri.scheme not in ["https", "file"]:
+            raise ProjectError(f"Project {name} must use a 'https' or 'file' URI scheme")
+
+        path = Path(uri.path)
+        if not path.suffix == ".yml":
+            raise ProjectError(f"Project {name} should refer to a project YML file")
+        projname = path.stem
+
+        if projname in self._public:
+            if self._public[projname].url == name:
+                log.debug(f"Project {projname} already loaded from {name}")
+                return projname
+
+            if self._public[projname].url is not None:
+                raise ProjectError(f"Cannot load project {projname} from {name}, already defined with {self._public[projname].url}")
+
+            log.debug(f"Project {projname} loaded from {self._public[projname].path}, overriding")
+
+        if uri.scheme == "file":
+            self._public[name] = Project(self, name, path=uri.path)
+        else:
+            self._public[name] = Project(self, name, url=name)
+
+        return name
+
     def expand_names(self, pattern):
         try:
             return util.expand_pattern(pattern, self.names, "project")
@@ -84,6 +126,7 @@ class Projects:
         packages = {}
 
         for proj in projects:
+            proj = self._resolve_remote(proj)
             try:
                 obj = self.public[proj]
             except KeyError:
