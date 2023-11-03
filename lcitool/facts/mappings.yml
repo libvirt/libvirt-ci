@@ -507,6 +507,15 @@ mappings:
     OpenSUSE: glusterfs-devel
     AlmaLinux8: glusterfs-api-devel
     CentOSStream8: glusterfs-api-devel
+    armv6l-Debian:
+    armv6l-Debian11: libglusterfs-dev
+    armv6l-Debian12: libglusterfs-dev
+    armv7l-Debian:
+    armv7l-Debian11: libglusterfs-dev
+    armv7l-Debian12: libglusterfs-dev
+    i686-Debian:
+    i686-Debian11: libglusterfs-dev
+    i686-Debian12: libglusterfs-dev
     cross-policy-default: foreign
 
   gnutls:
