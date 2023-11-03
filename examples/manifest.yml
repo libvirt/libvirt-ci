@@ -4,7 +4,7 @@
 # needed projects that are build dependencies
 projects:
   - libvirt
-  - libvirt-go-module
+  - https://gitlab.com/libvirt/libvirt-go-module/-/raw/master/ci/lcitool/projects/libvirt-go-module.yml
 
 
 # Whether to generate dockerfiles by default for hosts
