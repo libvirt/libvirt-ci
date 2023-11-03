@@ -325,7 +325,14 @@ class DataDir:
 
         return self._path
 
-    def __init__(self, extra_data_dir=None):
+    def _default():
+        extra = Path("ci", "lcitool")
+        if extra.exists():
+            return extra.as_posix()
+
+        return None
+
+    def __init__(self, extra_data_dir=_default()):
         self._extra_data_dir = extra_data_dir
         self._path = None
 
