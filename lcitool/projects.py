@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import logging
+import requests
 import yaml
 
 from lcitool import util, LcitoolError
@@ -60,7 +61,7 @@ class Projects:
 
         for item in files:
             if item.stem not in projects:
-                projects[item.stem] = Project(self, item.stem, item)
+                projects[item.stem] = Project(self, item.stem, path=item)
 
         return projects
 
@@ -137,23 +138,41 @@ class Project:
             self._generic_packages = self._load_generic_packages()
         return self._generic_packages
 
-    def __init__(self, projects, name, path):
+    def __init__(self, projects, name, path=None, url=None):
         self.projects = projects
         self.name = name
         self.path = path
+        self.url = url
+        if path is None and url is None:
+            raise ProjectError(f"Either 'path' or 'url' must be present for project {name}")
+        if path is not None and url is not None:
+            raise ProjectError(f"Only one of 'path' or 'url' can be present for project {name}")
+
         self._generic_packages = None
         self._target_packages = {}
+
+    def _load_data(self):
+        if self.path is not None:
+            with open(self.path, "r") as fh:
+                return fh.read()
+        else:
+            req = requests.get(self.url, stream=True)
+            return req.content
+
+    @property
+    def location(self):
+        return self.path or self.url
 
     def _load_generic_packages(self):
         log.debug(f"Loading generic package list for project '{self.name}'")
 
         try:
-            with open(self.path, "r") as infile:
-                yaml_packages = yaml.safe_load(infile)
-                return yaml_packages["packages"]
+            data = self._load_data()
+            yaml_packages = yaml.safe_load(data)
+            return yaml_packages["packages"]
         except Exception as ex:
-            log.debug(f"Can't load pacakges for '{self.name}'")
-            raise ProjectError(f"Can't load packages for '{self.name}': {ex}")
+            log.debug(f"Can't load packages for '{self.name}' from '{self.location}'")
+            raise ProjectError(f"Can't load packages for '{self.name} from '{self.location}': {ex}")
 
     def get_packages(self, target):
         osname = target.facts["os"]["name"]
