@@ -67,7 +67,6 @@ packages:
   - python3-docutils
   - qemu-img
   - readline
-  - rpcgen
   - rpmbuild
   - sanlock
   - scrub

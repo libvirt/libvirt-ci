@@ -27,7 +27,6 @@ function install_buildenv() {
             libattr1-dev \
             libaudit-dev \
             libblkid-dev \
-            libc-dev-bin \
             libc6-dev \
             libcap-ng-dev \
             libcurl4-gnutls-dev \
