@@ -106,6 +106,9 @@ def expand_pattern(pattern, iterable, name):
     # of the above
     matches = []
     for partial_pattern in pattern.split(","):
+        if "/" in partial_pattern:
+            matches.append(partial_pattern)
+            continue
 
         partial_matches = []
         for item in iterable:

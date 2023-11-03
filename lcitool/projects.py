@@ -164,7 +164,7 @@ class Project:
         return self.path or self.url
 
     def _load_generic_packages(self):
-        log.debug(f"Loading generic package list for project '{self.name}'")
+        log.debug(f"Loading generic package list for project '{self.name}' from '{self.location}'")
 
         try:
             data = self._load_data()
