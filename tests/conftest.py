@@ -3,11 +3,9 @@ import sys
 
 from pathlib import Path
 
-from lcitool.config import Config
 from lcitool.packages import Packages
 from lcitool.projects import Projects
 from lcitool.targets import Targets
-from lcitool import util
 
 from test_utils.mocks import libvirt, gi
 import test_utils.utils as test_utils
