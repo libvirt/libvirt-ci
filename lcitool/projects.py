@@ -172,7 +172,7 @@ class Project:
             return yaml_packages["packages"]
         except Exception as ex:
             log.debug(f"Can't load packages for '{self.name}' from '{self.location}'")
-            raise ProjectError(f"Can't load packages for '{self.name} from '{self.location}': {ex}")
+            raise ProjectError(f"Can't load packages for '{self.name}' from '{self.location}': {ex}")
 
     def get_packages(self, target):
         osname = target.facts["os"]["name"]
