@@ -65,6 +65,7 @@ packages:
   - portablexdr
   - python3
   - python3-docutils
+  - python3-pytest
   - qemu-img
   - readline
   - rpmbuild
