@@ -71,7 +71,6 @@ function install_buildenv() {
             python3-docutils \
             python3-pytest \
             qemu-utils \
-            scrub \
             sed \
             systemtap-sdt-dev \
             wireshark-dev \

@@ -71,7 +71,6 @@ packages:
   - readline
   - rpmbuild
   - sanlock
-  - scrub
   - sed
   - showmount
   - systemd-rpm-macros
