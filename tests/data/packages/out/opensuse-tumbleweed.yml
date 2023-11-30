@@ -222,6 +222,7 @@ native:
 - python3-dbus-python
 - python3-devel
 - python3-docutils
+- python3-flake8
 - python3-gobject
 - python3-libxml2
 - python3-lxml
@@ -235,7 +236,6 @@ native:
 - python3-sphinx_rtd_theme
 - python3-tomli
 - python3-wheel
-- python39-flake8
 - qemu
 - qemu-tools
 - rdma-core-devel

@@ -363,7 +363,6 @@ mappings:
     apk: py3-flake8
     pkg: py39-flake8
     rpm: python3-flake8
-    OpenSUSETumbleweed: python39-flake8
 
   flex:
     default: flex
