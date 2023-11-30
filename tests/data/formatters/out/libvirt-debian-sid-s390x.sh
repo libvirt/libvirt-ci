@@ -6,6 +6,7 @@ function install_buildenv() {
             augeas-lenses \
             augeas-tools \
             bash-completion \
+            black \
             ca-certificates \
             ccache \
             clang \

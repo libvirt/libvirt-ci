@@ -8,6 +8,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
                       augeas-lenses \
                       augeas-tools \
                       bash-completion \
+                      black \
                       ca-certificates \
                       ccache \
                       clang \

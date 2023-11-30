@@ -4,6 +4,7 @@ packages:
   - augeas
   - augeas-lenses
   - bash-completion
+  - black
   - ccache
   - clang
   - codespell
