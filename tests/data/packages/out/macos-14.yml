@@ -39,6 +39,7 @@ native:
 - bash-completion
 - bc
 - bison
+- black
 - bzip2
 - capstone
 - ccache

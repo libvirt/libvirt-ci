@@ -26,6 +26,7 @@ native:
 - bash-completion
 - bc
 - bison
+- black
 - busybox
 - bzip2
 - bzip2-dev

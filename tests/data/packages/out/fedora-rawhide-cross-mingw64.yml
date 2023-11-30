@@ -173,6 +173,7 @@ native:
 - polkit
 - python3
 - python3-PyYAML
+- python3-black
 - python3-boto3
 - python3-build
 - python3-dbus

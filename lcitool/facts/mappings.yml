@@ -168,6 +168,14 @@ mappings:
   bison:
     default: bison
 
+  black:
+    default: black
+    pkg: py39-black
+    rpm: python3-black
+    AlmaLinux:
+    CentOS:
+    OpenSUSELeap15:
+
   brlapi:
     deb: libbrlapi-dev
     rpm: brlapi-devel
@@ -2212,6 +2220,9 @@ mappings:
 # with the meson package.
 
 pypi_mappings:
+
+  black:
+    default: black
 
   # Dependencies of this in turn need various native
   # devel header packages & toolchains that may not

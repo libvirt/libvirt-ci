@@ -10,6 +10,7 @@ native:
 - bash-completion
 - bc
 - bison
+- black
 - bsdmainutils
 - bzip2
 - ca-certificates

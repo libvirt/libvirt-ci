@@ -218,6 +218,7 @@ native:
 - python3-PyYAML
 - python3-Sphinx
 - python3-base
+- python3-black
 - python3-boto3
 - python3-dbus-python
 - python3-devel

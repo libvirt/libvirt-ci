@@ -13,6 +13,7 @@ packages:
 - bash-completion
 - bc
 - bison
+- black
 - brlapi
 - bzip2
 - bzip2-libs

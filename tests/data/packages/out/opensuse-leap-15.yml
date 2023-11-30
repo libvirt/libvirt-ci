@@ -288,4 +288,5 @@ native:
 - zlib-devel-static
 - zstd
 pypi:
+- black
 - build
