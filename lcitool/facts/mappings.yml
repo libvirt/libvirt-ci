@@ -593,9 +593,10 @@ mappings:
     apk: gtk-vnc-dev
     deb: libgtk-vnc-2.0-dev
     rpm: gtk-vnc2-devel
-    AlmaLinux:
-    CentOS:
     OpenSUSE: gtk-vnc-devel
+    # Temporary limitation until this gets shipped in RHEL-9
+    AlmaLinux9:
+    CentOSStream9:
 
   gzip:
     default: gzip

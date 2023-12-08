@@ -71,6 +71,7 @@ native:
 - grep
 - gtk-doc
 - gtk-update-icon-cache
+- gtk-vnc2-devel
 - gtk3-devel
 - gzip
 - hostname
