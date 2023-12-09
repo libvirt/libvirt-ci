@@ -247,13 +247,6 @@ x86_64-check-almalinux-9:
     IMAGE: docker.io/library/almalinux:9
     NAME: almalinux-9
 
-x86_64-check-alpine-317:
-  extends: .check_container_template
-  variables:
-    <<: *apk_dry_run_command
-    IMAGE: docker.io/library/alpine:3.17
-    NAME: alpine-317
-
 x86_64-check-alpine-318:
   extends: .check_container_template
   variables:
