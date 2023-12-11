@@ -306,13 +306,6 @@ x86_64-check-debian-sid:
     IMAGE: docker.io/library/debian:sid-slim
     NAME: debian-sid
 
-x86_64-check-fedora-37:
-  extends: .check_container_template
-  variables:
-    <<: *dnf_dry_run_command
-    IMAGE: registry.fedoraproject.org/fedora:38
-    NAME: fedora-37
-
 x86_64-check-fedora-38:
   extends: .check_container_template
   variables:
