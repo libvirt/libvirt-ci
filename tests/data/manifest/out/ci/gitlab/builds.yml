@@ -169,21 +169,6 @@ x86_64-freebsd-current:
     UPGRADE_COMMAND: pkg upgrade -y
 
 
-aarch64-macos-12:
-  extends: .cirrus_build_job
-  needs: []
-  allow_failure: false
-  variables:
-    CIRRUS_VM_IMAGE_NAME: ghcr.io/cirruslabs/macos-monterey-base:latest
-    CIRRUS_VM_IMAGE_SELECTOR: image
-    CIRRUS_VM_INSTANCE_TYPE: macos_instance
-    INSTALL_COMMAND: brew install
-    JOB_OPTIONAL: 1
-    NAME: macos-12
-    UPDATE_COMMAND: brew update
-    UPGRADE_COMMAND: brew upgrade
-
-
 aarch64-macos-13:
   extends: .cirrus_build_job
   needs: []
@@ -193,6 +178,21 @@ aarch64-macos-13:
     CIRRUS_VM_IMAGE_SELECTOR: image
     CIRRUS_VM_INSTANCE_TYPE: macos_instance
     INSTALL_COMMAND: brew install
+    JOB_OPTIONAL: 1
     NAME: macos-13
+    UPDATE_COMMAND: brew update
+    UPGRADE_COMMAND: brew upgrade
+
+
+aarch64-macos-14:
+  extends: .cirrus_build_job
+  needs: []
+  allow_failure: false
+  variables:
+    CIRRUS_VM_IMAGE_NAME: ghcr.io/cirruslabs/macos-sonoma-base:latest
+    CIRRUS_VM_IMAGE_SELECTOR: image
+    CIRRUS_VM_INSTANCE_TYPE: macos_instance
+    INSTALL_COMMAND: brew install
+    NAME: macos-14
     UPDATE_COMMAND: brew update
     UPGRADE_COMMAND: brew upgrade
