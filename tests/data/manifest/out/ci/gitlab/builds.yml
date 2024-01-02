@@ -1,25 +1,18 @@
 # Native build jobs
 
-x86_64-centos-stream-9-prebuilt-env:
-  extends: .native_build_job_prebuilt_env
+x86_64-centos-stream-9:
+  extends: .native_build_job
   needs:
     - job: x86_64-centos-stream-9-container
       optional: true
   allow_failure: false
   variables:
     NAME: centos-stream-9
-
-x86_64-centos-stream-9-local-env:
-  extends: .native_build_job_local_env
-  needs: []
-  allow_failure: false
-  variables:
-    IMAGE: quay.io/centos/centos:stream9
-    NAME: centos-stream-9
+    TARGET_BASE_IMAGE: quay.io/centos/centos:stream9
 
 
-x86_64-debian-12-prebuilt-env:
-  extends: .native_build_job_prebuilt_env
+x86_64-debian-12:
+  extends: .native_build_job
   needs:
     - job: x86_64-debian-12-container
       optional: true
@@ -27,19 +20,11 @@ x86_64-debian-12-prebuilt-env:
   variables:
     JOB_OPTIONAL: 1
     NAME: debian-12
-
-x86_64-debian-12-local-env:
-  extends: .native_build_job_local_env
-  needs: []
-  allow_failure: false
-  variables:
-    IMAGE: docker.io/library/debian:12-slim
-    JOB_OPTIONAL: 1
-    NAME: debian-12
+    TARGET_BASE_IMAGE: docker.io/library/debian:12-slim
 
 
-x86_64-fedora-rawhide-prebuilt-env:
-  extends: .native_build_job_prebuilt_env
+x86_64-fedora-rawhide:
+  extends: .native_build_job
   needs:
     - job: x86_64-fedora-rawhide-container
       optional: true
@@ -47,19 +32,11 @@ x86_64-fedora-rawhide-prebuilt-env:
   variables:
     JOB_OPTIONAL: 1
     NAME: fedora-rawhide
-
-x86_64-fedora-rawhide-local-env:
-  extends: .native_build_job_local_env
-  needs: []
-  allow_failure: true
-  variables:
-    IMAGE: registry.fedoraproject.org/fedora:rawhide
-    JOB_OPTIONAL: 1
-    NAME: fedora-rawhide
+    TARGET_BASE_IMAGE: registry.fedoraproject.org/fedora:rawhide
 
 
-x86_64-fedora-rawhide-clang-prebuilt-env:
-  extends: .native_build_job_prebuilt_env
+x86_64-fedora-rawhide-clang:
+  extends: .native_build_job
   needs:
     - job: x86_64-fedora-rawhide-container
       optional: true
@@ -67,22 +44,14 @@ x86_64-fedora-rawhide-clang-prebuilt-env:
   variables:
     CC: clang
     NAME: fedora-rawhide
-
-x86_64-fedora-rawhide-clang-local-env:
-  extends: .native_build_job_local_env
-  needs: []
-  allow_failure: false
-  variables:
-    CC: clang
-    IMAGE: registry.fedoraproject.org/fedora:rawhide
-    NAME: fedora-rawhide
+    TARGET_BASE_IMAGE: registry.fedoraproject.org/fedora:rawhide
 
 
 
 # Cross build jobs
 
-i686-debian-sid-prebuilt-env:
-  extends: .cross_build_job_prebuilt_env
+i686-debian-sid:
+  extends: .cross_build_job
   needs:
     - job: i686-debian-sid-container
       optional: true
@@ -90,20 +59,7 @@ i686-debian-sid-prebuilt-env:
   variables:
     CROSS: i686
     NAME: debian-sid
-  artifacts:
-    expire_in: 2 days
-    paths:
-      - build
-      - scratch
-
-i686-debian-sid-local-env:
-  extends: .cross_build_job_local_env
-  needs: []
-  allow_failure: false
-  variables:
-    CROSS: i686
-    IMAGE: docker.io/library/debian:sid-slim
-    NAME: debian-sid
+    TARGET_BASE_IMAGE: docker.io/library/debian:sid-slim
   artifacts:
     expire_in: 2 days
     paths:
@@ -111,8 +67,8 @@ i686-debian-sid-local-env:
       - scratch
 
 
-ppc64le-debian-sid-prebuilt-env:
-  extends: .cross_build_job_prebuilt_env
+ppc64le-debian-sid:
+  extends: .cross_build_job
   needs:
     - job: ppc64le-debian-sid-container
       optional: true
@@ -121,20 +77,11 @@ ppc64le-debian-sid-prebuilt-env:
     CROSS: ppc64le
     JOB_OPTIONAL: 1
     NAME: debian-sid
-
-ppc64le-debian-sid-local-env:
-  extends: .cross_build_job_local_env
-  needs: []
-  allow_failure: true
-  variables:
-    CROSS: ppc64le
-    IMAGE: docker.io/library/debian:sid-slim
-    JOB_OPTIONAL: 1
-    NAME: debian-sid
+    TARGET_BASE_IMAGE: docker.io/library/debian:sid-slim
 
 
-mingw32-fedora-rawhide-prebuilt-env:
-  extends: .cross_build_job_prebuilt_env
+mingw32-fedora-rawhide:
+  extends: .cross_build_job
   needs:
     - job: mingw32-fedora-rawhide-container
       optional: true
@@ -142,15 +89,7 @@ mingw32-fedora-rawhide-prebuilt-env:
   variables:
     CROSS: mingw32
     NAME: fedora-rawhide
-
-mingw32-fedora-rawhide-local-env:
-  extends: .cross_build_job_local_env
-  needs: []
-  allow_failure: false
-  variables:
-    CROSS: mingw32
-    IMAGE: registry.fedoraproject.org/fedora:rawhide
-    NAME: fedora-rawhide
+    TARGET_BASE_IMAGE: registry.fedoraproject.org/fedora:rawhide
 
 
 # Native cirrus build jobs
