@@ -48,6 +48,15 @@ def test_project(projects):
                    Path(test_utils.test_data_indir(__file__), "packages.yml"))
 
 
+def mock_get_host_arch():
+    return "x86_64"
+
+
+@pytest.fixture(scope="module")
+def mock_arch(monkeypatch_module_scope):
+    monkeypatch_module_scope.setattr(util, "get_host_arch", mock_get_host_arch)
+
+
 def test_verify_all_mappings_and_packages(assert_equal, packages):
     expected_path = Path(test_utils.test_data_indir(__file__), "packages.yml")
     actual = {"packages": sorted(packages.mappings.keys())}
@@ -67,7 +76,7 @@ cross_params = [
 
 @pytest.mark.parametrize("target,arch", native_params + cross_params)
 def test_package_resolution(assert_equal, targets, packages, test_project,
-                            target, arch,):
+                            target, arch, mock_arch):
     if arch is None:
         outfile = f"{target}.yml"
     else:
