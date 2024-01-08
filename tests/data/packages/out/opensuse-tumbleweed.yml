@@ -220,6 +220,7 @@ native:
 - python3-base
 - python3-black
 - python3-boto3
+- python3-build
 - python3-dbus-python
 - python3-devel
 - python3-docutils
@@ -288,5 +289,3 @@ native:
 - zlib-devel
 - zlib-devel-static
 - zstd
-pypi:
-- build

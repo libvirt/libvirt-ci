@@ -1688,9 +1688,15 @@ mappings:
     apk: py3-build
     deb: python3-build
     pkg: py39-build
-    Fedora: python3-build
+    rpm: python3-build
     MacOS: python-build
-    Ubuntu:
+    AlmaLinux8:
+    CentOSStream8:
+    OpenSUSELeap15:
+    Ubuntu2004:
+    # Present but broken for our needs
+    #  https://bugs.launchpad.net/ubuntu/+source/python-build/+bug/1992108
+    Ubuntu2204:
 
   python3-dbus:
     default: python3-dbus
