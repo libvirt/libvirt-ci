@@ -336,6 +336,12 @@ class BuildEnvFormatter(Formatter):
                         "{nosync}{packaging_command} clean all -y",
                     ])
 
+        # If distro forces "pip" to use a venv by default,
+        # then undo that, because our CI env is expected to
+        # have a mix of distro & pip installed pieces
+        if "python3" in varmap["mappings"]:
+            commands.extend(["rm -f /usr/lib*/python3*/EXTERNALLY-MANAGED"])
+
         if not target.cross_arch:
             commands.extend(self._format_commands_pkglist(target))
             commands.extend(self._format_commands_ccache(target, varmap))
