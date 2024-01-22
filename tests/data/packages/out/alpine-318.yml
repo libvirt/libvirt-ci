@@ -177,8 +177,8 @@ native:
 - perl-xml-writer
 - perl-xml-xpath
 - perl-yaml
-- php81-dev
-- php81-pecl-imagick
+- php82-dev
+- php82-pecl-imagick
 - pipewire-dev
 - pixman-dev
 - pkgconf

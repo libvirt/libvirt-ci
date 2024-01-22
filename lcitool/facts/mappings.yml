@@ -1624,17 +1624,19 @@ mappings:
     OpenSUSE:
 
   php:
-    apk: php81-dev
+    apk: php83-dev
     deb: php-dev
     pkg: php74
     rpm: php-devel
+    Alpine318: php82-dev
 
   php-imagick:
-    apk: php81-pecl-imagick
+    apk: php83-pecl-imagick
     deb: php-imagick
     pkg: php74-pecl-imagick
     Fedora: php-pecl-imagick
     OpenSUSE: php-imagick
+    Alpine318: php82-pecl-imagick
 
   pixman:
     default: pixman
