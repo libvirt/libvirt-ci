@@ -160,6 +160,7 @@ mappings:
 
   bash-completion:
     default: bash-completion
+    FedoraRawhide: bash-completion-devel
 
   bc:
     default: bc

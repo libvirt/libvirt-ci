@@ -9,7 +9,7 @@ native:
 - autoconf
 - automake
 - bash
-- bash-completion
+- bash-completion-devel
 - bc
 - bison
 - brlapi-devel
