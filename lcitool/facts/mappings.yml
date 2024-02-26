@@ -160,7 +160,13 @@ mappings:
 
   bash-completion:
     default: bash-completion
-    FedoraRawhide: bash-completion-devel
+    rpm: bash-completion-devel
+    AlmaLinux8: bash-completion
+    AlmaLinux9: bash-completion
+    CentOSStream8: bash-completion
+    CentOSStream9: bash-completion
+    Fedora38: bash-completion
+    Fedora39: bash-completion
 
   bc:
     default: bc
