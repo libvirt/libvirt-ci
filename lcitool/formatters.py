@@ -200,7 +200,7 @@ class BuildEnvFormatter(Formatter):
         facts = target.facts
         commands = []
         if facts["packaging"]["format"] == "apk":
-            commands.extend(["apk list | sort > /packages.txt"])
+            commands.extend(["apk list --installed | sort > /packages.txt"])
         elif facts["packaging"]["format"] == "deb":
             commands.extend([
                 "dpkg-query --showformat '${{Package}}_${{Version}}_${{Architecture}}\\n' --show > /packages.txt"
