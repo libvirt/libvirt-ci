@@ -240,6 +240,7 @@ native:
 - ruby-devel
 - rubygem-rake
 - rust
+- rust-std-static
 - sanlock-devel
 - screen
 - scrub

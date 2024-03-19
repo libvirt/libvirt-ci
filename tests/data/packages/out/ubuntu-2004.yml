@@ -163,6 +163,7 @@ native:
 - libspice-server-dev
 - libssh-dev
 - libssh2-1-dev
+- libstd-rust-dev
 - libsub-uplevel-perl
 - libsystemd-dev
 - libtap-formatter-html-perl

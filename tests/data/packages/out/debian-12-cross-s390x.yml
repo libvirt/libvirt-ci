@@ -78,6 +78,7 @@ cross:
 - libspice-client-gtk-3.0-dev:s390x
 - libssh-gcrypt-dev:s390x
 - libssh2-1-dev:s390x
+- libstd-rust-dev:s390x
 - libsystemd-dev:s390x
 - libtasn1-6-dev:s390x
 - libtirpc-dev:s390x

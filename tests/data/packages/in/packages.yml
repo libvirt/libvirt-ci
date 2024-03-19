@@ -280,6 +280,7 @@ packages:
 - rpmbuild
 - ruby
 - rust
+- rust-std
 - sanlock
 - screen
 - scrub

@@ -1901,6 +1901,15 @@ mappings:
     default: rust
     deb: rustc
 
+  rust-std:
+    apk: rust
+    deb: libstd-rust-dev
+    pkg: rust
+    rpm: rust-std-static
+    MacOS: rust
+    OpenSUSE: rust
+    cross-policy-default: foreign
+
   sanlock:
     deb: libsanlock-dev
     rpm: sanlock-devel
