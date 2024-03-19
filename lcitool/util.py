@@ -197,6 +197,25 @@ def native_arch_to_deb_arch(native_arch):
     return archmap[native_arch]
 
 
+def native_arch_to_rust_target(native_arch):
+    archmap = {
+        "aarch64": "aarch64-unknown-linux-gnu",
+        "armv6l": "armv5te-unknown-linux-gnueabi",
+        "armv7l": "armv7-unknown-linux-gnueabihf",
+        "i686": "i686-unknown-linux-gnu",
+        "mips": "mips-unknown-linux-gnu",
+        "mipsel": "mipsel-unknown-linux-gnu",
+        "mips64el": "mips64el-unknown-linux-gnuabi64",
+        "ppc64le": "powerpc64le-unknown-linux-gnu",
+        "riscv64": "riscv64gc-unknown-linux-gnu",
+        "s390x": "s390x-unknown-linux-gnu",
+        "x86_64": "x86_64-unknown-linux-gnu",
+    }
+    if native_arch not in archmap:
+        raise ValueError(f"Unsupported rust target {native_arch}")
+    return archmap[native_arch]
+
+
 def generate_file_header(cliargv):
     url = "https://gitlab.com/libvirt/libvirt-ci"
 

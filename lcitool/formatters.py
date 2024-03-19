@@ -95,6 +95,7 @@ class Formatter(metaclass=abc.ABCMeta):
             "cross_arch": None,
             "cross_abi": None,
             "cross_arch_deb": None,
+            "cross_rust_target": None,
 
             "mappings": [pkg.mapping for pkg in pkgs.values()],
             "pkgs": package_names["native"],
@@ -110,6 +111,9 @@ class Formatter(metaclass=abc.ABCMeta):
             if target.facts["packaging"]["format"] == "deb":
                 cross_arch_deb = util.native_arch_to_deb_arch(target.cross_arch)
                 varmap["cross_arch_deb"] = cross_arch_deb
+
+            if "rust" in varmap["mappings"]:
+                varmap["cross_rust_target"] = util.native_arch_to_rust_target(varmap["cross_arch"])
 
         log.debug(f"Generated varmap: {varmap}")
         return varmap
@@ -439,6 +443,9 @@ class BuildEnvFormatter(Formatter):
                 env["MESON_OPTS"] = "--cross-file=/usr/share/mingw/toolchain-" + varmap["cross_arch"] + ".meson"
             else:
                 env["MESON_OPTS"] = "--cross-file=" + varmap["cross_abi"]
+
+        if "rust" in varmap["mappings"]:
+            env["RUST_TARGET"] = varmap["cross_rust_target"]
 
         return env
 
