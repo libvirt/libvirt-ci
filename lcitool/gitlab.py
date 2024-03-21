@@ -211,7 +211,7 @@ def _build_template(template, envid, project, cidir):
           variables:
             IMAGE: $CI_REGISTRY/$RUN_UPSTREAM_NAMESPACE/{project}/ci-{envid}:latest
           rules:
-            ### Rules where we expect to use pre-built container images
+            ### PUSH events
 
             # upstream: pushes to the default branch
             - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
@@ -227,28 +227,6 @@ def _build_template(template, envid, project, cidir):
             - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV'
               when: on_success
 
-            # upstream: other web/api/scheduled pipelines targeting the default branch
-            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/ && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
-              when: manual
-              allow_failure: true
-            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/ && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
-              when: on_success
-
-            # upstream+forks: merge requests targeting the default branch, without CI changes
-            - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
-              changes:
-                - {cidir}/gitlab/container-templates.yml
-                - {cidir}/containers/{envid}.Dockerfile
-              when: never
-            - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
-              when: manual
-              allow_failure: true
-            - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
-              when: on_success
-
-
-            ### Rules where we need to use the target base container image
-
             # forks: pushes to branches with pipeline requested
             - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE && $JOB_OPTIONAL'
               when: manual
@@ -260,27 +238,8 @@ def _build_template(template, envid, project, cidir):
               variables:
                 IMAGE: $TARGET_BASE_IMAGE
 
-            # upstream: other web/api/scheduled pipelines targeting non-default branches
-            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/ && $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
-              when: manual
-              allow_failure: true
-              variables:
-                IMAGE: $TARGET_BASE_IMAGE
-            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/ && $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH'
-              when: on_success
-              variables:
-                IMAGE: $TARGET_BASE_IMAGE
 
-            # forks: other web/api/scheduled pipelines
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/ && $JOB_OPTIONAL'
-              when: manual
-              allow_failure: true
-              variables:
-                IMAGE: $TARGET_BASE_IMAGE
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/'
-              when: on_success
-              variables:
-                IMAGE: $TARGET_BASE_IMAGE
+            ### MERGE REQUEST events
 
             # upstream+forks: merge requests targeting the default branch, with CI changes
             - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
@@ -299,6 +258,13 @@ def _build_template(template, envid, project, cidir):
               variables:
                 IMAGE: $TARGET_BASE_IMAGE
 
+            # upstream+forks: merge requests targeting the default branch
+            - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
+            - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
+              when: on_success
+
             # upstream+forks: merge requests targeting non-default branches
             - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
               when: manual
@@ -310,7 +276,40 @@ def _build_template(template, envid, project, cidir):
               variables:
                 IMAGE: $TARGET_BASE_IMAGE
 
-            ### Neither prebuilt or local container images
+
+            ### WEB / API / SCHEDULED events
+
+            # upstream: other web/api/scheduled pipelines targeting the default branch
+            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/ && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
+            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/ && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
+              when: on_success
+
+            # upstream: other web/api/scheduled pipelines targeting non-default branches
+            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/ && $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH && $JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
+              variables:
+                IMAGE: $TARGET_BASE_IMAGE
+            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/ && $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH'
+              when: on_success
+              variables:
+                IMAGE: $TARGET_BASE_IMAGE
+
+            # forks: other web/api/scheduled pipelines on any branches
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/ && $JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
+              variables:
+                IMAGE: $TARGET_BASE_IMAGE
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE =~ /(web|api|schedule)/'
+              when: on_success
+              variables:
+                IMAGE: $TARGET_BASE_IMAGE
+
+
+            ### Catch all unhandled events
 
             # upstream+forks: that's all folks
             - when: never
