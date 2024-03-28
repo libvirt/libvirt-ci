@@ -464,10 +464,8 @@ mappings:
     apk: cdrkit
     deb: genisoimage
     pkg: cdrkit-genisoimage
-    Fedora: genisoimage
+    rpm: genisoimage
     OpenSUSE: mkisofs
-    AlmaLinux8: genisoimage
-    CentOSStream8: genisoimage
 
   gettext:
     default: gettext
@@ -643,11 +641,9 @@ mappings:
     apk: cdrkit
     deb: genisoimage
     pkg: cdrkit
-    Fedora: genisoimage
+    rpm: genisoimage
     MacOS: cdrtools
     OpenSUSE: mkisofs
-    AlmaLinux8: genisoimage
-    CentOSStream8: genisoimage
 
   java:
     apk: openjdk11-jdk

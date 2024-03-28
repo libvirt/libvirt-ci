@@ -55,6 +55,7 @@ native:
 - gcc-c++
 - gdb
 - gdk-pixbuf2-devel
+- genisoimage
 - gettext
 - gettext-devel
 - git
