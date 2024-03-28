@@ -107,6 +107,7 @@ native:
 - libguestfs-devel
 - libjpeg-devel
 - libnbd-devel
+- libnfs-devel
 - libnl3-devel
 - libpcap-devel
 - libpciaccess-devel

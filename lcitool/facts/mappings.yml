@@ -924,9 +924,6 @@ mappings:
     apk: libnfs-dev
     deb: libnfs-dev
     rpm: libnfs-devel
-    # FIXME Drop once EPEL for AlmaLinux 9 / CentOS Stream 9 adds the package
-    AlmaLinux9:
-    CentOSStream9:
     cross-policy-default: foreign
 
   libnbd:
