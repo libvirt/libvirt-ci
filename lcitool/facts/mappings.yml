@@ -766,10 +766,6 @@ mappings:
   libcacard:
     deb: libcacard-dev
     rpm: libcacard-devel
-    AlmaLinux:
-    CentOS:
-    AlmaLinux8: libcacard-devel
-    CentOSStream8: libcacard-devel
     cross-policy-default: foreign
 
   libcap-ng:
@@ -824,10 +820,6 @@ mappings:
     apk: libev-dev
     deb: libev-dev
     rpm: libev-devel
-    AlmaLinux:
-    CentOS:
-    AlmaLinux8: libev-devel
-    CentOSStream8: libev-devel
     cross-policy-default: foreign
 
   libfdt:
@@ -881,11 +873,7 @@ mappings:
   libiscsi:
     deb: libiscsi-dev
     rpm: libiscsi-devel
-    AlmaLinux:
-    CentOS:
     MacOS: libiscsi
-    AlmaLinux8: libiscsi-devel
-    CentOSStream8: libiscsi-devel
     cross-policy-default: foreign
 
   libjemalloc:
@@ -1033,10 +1021,6 @@ mappings:
     apk: libslirp-dev
     deb: libslirp-dev
     rpm: libslirp-devel
-    AlmaLinux:
-    CentOS:
-    AlmaLinux8: libslirp-devel
-    CentOSStream8: libslirp-devel
     cross-policy-default: foreign
 
   libsoup:
@@ -1115,10 +1099,6 @@ mappings:
     apk: liburing-dev
     deb: liburing-dev
     rpm: liburing-devel
-    AlmaLinux:
-    CentOS:
-    AlmaLinux8: liburing-devel
-    CentOSStream8: liburing-devel
     Ubuntu2004:
     cross-policy-default: foreign
 
