@@ -32,6 +32,7 @@ native:
 - cloud-init
 - cloud-utils-growpart
 - cpp
+- ctags
 - cyrus-sasl-devel
 - daxctl-devel
 - dbus-daemon
@@ -220,6 +221,7 @@ native:
 - python3-libxml2
 - python3-lxml
 - python3-numpy
+- python3-pillow
 - python3-pip
 - python3-pytest
 - python3-requests
@@ -276,4 +278,3 @@ native:
 - zstd
 pypi:
 - black
-- pillow

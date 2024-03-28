@@ -292,10 +292,6 @@ mappings:
   ctags:
     default: ctags
     deb: exuberant-ctags
-    AlmaLinux:
-    CentOS:
-    AlmaLinux8: ctags
-    CentOSStream8: ctags
 
   cyrus-sasl:
     apk: cyrus-sasl-dev
@@ -1745,12 +1741,8 @@ mappings:
     default: python3-pillow
     apk: py3-pillow
     pkg: py39-pillow
-    AlmaLinux:
-    CentOS:
     MacOS:
     OpenSUSE: python3-Pillow
-    AlmaLinux8: python3-pillow
-    CentOSStream8: python3-pillow
 
   python3-pip:
     default: python3-pip
