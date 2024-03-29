@@ -43,8 +43,8 @@ stages:
     - docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
   script:
     - docker build --tag ${CI_REGISTRY_IMAGE}/${NAME}:latest containers/${NAME}
-    - if test "${CI_PIPELINE_SOURCE}" = "push" &&
-         test "${CI_COMMIT_REF_NAME}" = "${CI_DEFAULT_BRANCH}";
+    - if test "${CI_COMMIT_REF_NAME}" = "${CI_DEFAULT_BRANCH}" &&
+         ( test "${CI_PIPELINE_SOURCE}" = "push" || test "${RUN_PIPELINE}" = "1" )
       then
           docker push ${CI_REGISTRY_IMAGE}/${NAME}:latest;
       fi
