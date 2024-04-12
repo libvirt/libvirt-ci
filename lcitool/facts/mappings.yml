@@ -167,6 +167,7 @@ mappings:
     CentOSStream9: bash-completion
     Fedora38: bash-completion
     Fedora39: bash-completion
+    Fedora40: bash-completion
 
   bc:
     default: bc
