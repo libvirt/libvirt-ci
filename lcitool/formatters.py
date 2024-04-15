@@ -112,8 +112,8 @@ class Formatter(metaclass=abc.ABCMeta):
                 cross_arch_deb = util.native_arch_to_deb_arch(target.cross_arch)
                 varmap["cross_arch_deb"] = cross_arch_deb
 
-            if "rust" in varmap["mappings"]:
-                varmap["cross_rust_target"] = util.native_arch_to_rust_target(varmap["cross_arch"])
+                if "rust" in varmap["mappings"]:
+                    varmap["cross_rust_target"] = util.native_arch_to_rust_target(varmap["cross_arch"])
 
         log.debug(f"Generated varmap: {varmap}")
         return varmap
@@ -444,7 +444,7 @@ class BuildEnvFormatter(Formatter):
             else:
                 env["MESON_OPTS"] = "--cross-file=" + varmap["cross_abi"]
 
-        if "rust" in varmap["mappings"]:
+        if varmap["cross_rust_target"] is not None:
             env["RUST_TARGET"] = varmap["cross_rust_target"]
 
         return env
