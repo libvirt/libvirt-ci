@@ -165,7 +165,6 @@ mappings:
     AlmaLinux9: bash-completion
     CentOSStream8: bash-completion
     CentOSStream9: bash-completion
-    Fedora38: bash-completion
     Fedora39: bash-completion
     Fedora40: bash-completion
 
