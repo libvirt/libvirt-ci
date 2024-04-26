@@ -192,7 +192,6 @@ mappings:
     apk: util-linux
     deb: bsdextrautils
     rpm: util-linux
-    Ubuntu2004: bsdmainutils
 
   bzip2:
     default: bzip2
@@ -606,7 +605,6 @@ mappings:
     apk: hexdump
     deb: bsdextrautils
     rpm: util-linux
-    Ubuntu2004: bsdmainutils
 
   hostname:
     default: hostname
@@ -738,7 +736,6 @@ mappings:
     apk: libbpf-dev
     deb: libbpf-dev
     rpm: libbpf-devel
-    Ubuntu2004:
     cross-policy-default: foreign
 
   libc:
@@ -910,7 +907,6 @@ mappings:
     deb: libnbd-dev
     rpm: libnbd-devel
     Debian11:
-    Ubuntu2004:
 
   libnl3:
     apk: libnl3-dev
@@ -955,7 +951,6 @@ mappings:
     apk: pipewire-dev
     deb: libpipewire-0.3-dev
     rpm: pipewire-devel
-    Ubuntu2004:
     cross-policy-default: foreign
 
   libpmem:
@@ -1091,7 +1086,6 @@ mappings:
     apk: liburing-dev
     deb: liburing-dev
     rpm: liburing-devel
-    Ubuntu2004:
     cross-policy-default: foreign
 
   libusbx:
@@ -1149,7 +1143,6 @@ mappings:
     rpm: libxdp-devel
     Debian11:
     OpenSUSELeap15:
-    Ubuntu2004:
     Ubuntu2204:
     cross-policy-default: foreign
 
@@ -1198,7 +1191,6 @@ mappings:
     pkg: lua54
     rpm: lua-devel
     MacOS: lua
-    Ubuntu2004: lua5.3
 
   lvm2:
     default: lvm2
@@ -1226,7 +1218,6 @@ mappings:
 
   meson:
     default: meson
-    Ubuntu2004:
 
   mkisofs:
     apk: cdrkit
@@ -1279,7 +1270,6 @@ mappings:
     pkg:
     MacOS:
     OpenSUSE:
-    Ubuntu2004:
 
   ncursesw:
     default: ncurses
@@ -1299,7 +1289,6 @@ mappings:
     AlmaLinux8: netcf-devel
     CentOSStream8: netcf-devel
     Debian11: libnetcf-dev
-    Ubuntu2004: libnetcf-dev
     cross-policy-default: skip
 
   net-snmp:
@@ -1671,7 +1660,6 @@ mappings:
     AlmaLinux8:
     CentOSStream8:
     OpenSUSELeap15:
-    Ubuntu2004:
     # Present but broken for our needs
     #  https://bugs.launchpad.net/ubuntu/+source/python-build/+bug/1992108
     Ubuntu2204:
@@ -2007,7 +1995,6 @@ mappings:
     # Revisit mid-october 2023 after the next quarterly release.
     FreeBSD:
     Debian11:
-    Ubuntu2004:
 
   systemd:
     deb: libsystemd-dev
@@ -2064,7 +2051,6 @@ mappings:
     pkg: py39-tomli
     MacOS:
     Debian11:
-    Ubuntu2004:
 
   unzip:
     default: unzip
