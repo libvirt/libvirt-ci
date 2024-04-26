@@ -165,10 +165,6 @@ targets:
     jobs:
       - arch: x86_64
 
-  ubuntu-2004:
-    jobs:
-      - arch: x86_64
-
   ubuntu-2204:
     jobs:
       - arch: x86_64
@@ -176,3 +172,7 @@ targets:
         allow-failure: true
         variables:
           foo: bar2
+
+  ubuntu-2404:
+    jobs:
+      - arch: x86_64
