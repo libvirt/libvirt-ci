@@ -343,16 +343,16 @@ x86_64-check-opensuse-tumbleweed:
     IMAGE: registry.opensuse.org/opensuse/tumbleweed:latest
     NAME: opensuse-tumbleweed
 
-x86_64-check-ubuntu-2004:
-  extends: .check_container_template
-  variables:
-    <<: *apt_dry_run_command
-    IMAGE: docker.io/library/ubuntu:20.04
-    NAME: ubuntu-2004
-
 x86_64-check-ubuntu-2204:
   extends: .check_container_template
   variables:
     <<: *apt_dry_run_command
     IMAGE: docker.io/library/ubuntu:22.04
     NAME: ubuntu-2204
+
+x86_64-check-ubuntu-2404:
+  extends: .check_container_template
+  variables:
+    <<: *apt_dry_run_command
+    IMAGE: docker.io/library/ubuntu:24.04
+    NAME: ubuntu-2404
