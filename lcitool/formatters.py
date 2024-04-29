@@ -277,8 +277,7 @@ class BuildEnvFormatter(Formatter):
             # For rolling distros, it's preferable to do a distro syncing type
             # of update rather than a regular package update
             if (osname == "Fedora" and osversion == "Rawhide" or
-                osname == "CentOS" and (osversion == "Stream8" or
-                                        osversion == "Stream9")):
+                osname == "CentOS"):
                 commands.extend(["{nosync}{packaging_command} distro-sync -y"])
             elif osname == "OpenSUSE" and osversion == "Tumbleweed":
                 commands.extend(["{nosync}{packaging_command} dist-upgrade -y"])
@@ -300,7 +299,7 @@ class BuildEnvFormatter(Formatter):
                     commands.extend([
                         "{nosync}{packaging_command} config-manager --set-enabled -y crb",
                     ])
-                if osversion in ["8", "Stream8"]:
+                if osversion in ["8"]:
                     commands.extend([
                         "{nosync}{packaging_command} config-manager --set-enabled -y powertools",
                     ])
@@ -308,7 +307,7 @@ class BuildEnvFormatter(Formatter):
                 # Not all of the virt related -devel packages are provided by
                 # virt:rhel module so we have to enable AV repository as well.
                 # CentOS Stream 9 no longer uses modules for virt
-                if osversion in ["8", "Stream8"]:
+                if osversion in ["8"]:
                     commands.extend([
                         "{nosync}{packaging_command} install -y centos-release-advanced-virtualization",
                     ])
@@ -320,7 +319,7 @@ class BuildEnvFormatter(Formatter):
                 ])
 
                 # For CentOS Stream, we want EPEL Next as well
-                if osversion in ["Stream8", "Stream9"]:
+                if osversion in ["Stream9"]:
                     commands.extend([
                         "{nosync}{packaging_command} install -y epel-next-release",
                     ])
