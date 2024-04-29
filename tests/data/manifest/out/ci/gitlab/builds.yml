@@ -40,7 +40,7 @@ x86_64-fedora-rawhide-clang:
   needs:
     - job: x86_64-fedora-rawhide-container
       optional: true
-  allow_failure: false
+  allow_failure: true
   variables:
     CC: clang
     NAME: fedora-rawhide
@@ -55,7 +55,7 @@ i686-debian-sid:
   needs:
     - job: i686-debian-sid-container
       optional: true
-  allow_failure: false
+  allow_failure: true
   variables:
     CROSS: i686
     NAME: debian-sid
@@ -85,7 +85,7 @@ mingw32-fedora-rawhide:
   needs:
     - job: mingw32-fedora-rawhide-container
       optional: true
-  allow_failure: false
+  allow_failure: true
   variables:
     CROSS: mingw32
     NAME: fedora-rawhide
@@ -97,7 +97,7 @@ mingw32-fedora-rawhide:
 x86_64-freebsd-current:
   extends: .cirrus_build_job
   needs: []
-  allow_failure: false
+  allow_failure: true
   variables:
     CIRRUS_VM_IMAGE_NAME: freebsd-14-0-snap
     CIRRUS_VM_IMAGE_SELECTOR: image_family
