@@ -118,7 +118,6 @@ mappings:
     pkg: apache-ant
     rpm: ant-junit
     AlmaLinux8:
-    CentOSStream8:
 
   apparmor:
     deb: libapparmor-dev
@@ -163,7 +162,6 @@ mappings:
     rpm: bash-completion-devel
     AlmaLinux8: bash-completion
     AlmaLinux9: bash-completion
-    CentOSStream8: bash-completion
     CentOSStream9: bash-completion
     Fedora39: bash-completion
     Fedora40: bash-completion
@@ -513,7 +511,6 @@ mappings:
     Fedora: glusterfs-api-devel
     OpenSUSE: glusterfs-devel
     AlmaLinux8: glusterfs-api-devel
-    CentOSStream8: glusterfs-api-devel
     armv6l-Debian:
     armv6l-Debian11: libglusterfs-dev
     armv6l-Debian12: libglusterfs-dev
@@ -681,7 +678,6 @@ mappings:
     default: junit
     MacOS:
     AlmaLinux8:
-    CentOSStream8:
 
   libacl:
     apk: acl-dev
@@ -1287,7 +1283,6 @@ mappings:
   netcf:
     apk: netcf-dev
     AlmaLinux8: netcf-devel
-    CentOSStream8: netcf-devel
     Debian11: libnetcf-dev
     cross-policy-default: skip
 
@@ -1379,7 +1374,6 @@ mappings:
     pkg: perl5
     MacOS: perl
     AlmaLinux8: perl
-    CentOSStream8: perl
 
   perl-App-cpanminus:
     apk: perl-app-cpanminus
@@ -1492,7 +1486,6 @@ mappings:
     MacOS: perl
     OpenSUSE: perl-base
     AlmaLinux8: perl
-    CentOSStream8: perl
 
   perl-TAP-Formatter-HTML:
     deb: libtap-formatter-html-perl
@@ -1658,7 +1651,6 @@ mappings:
     rpm: python3-build
     MacOS: python-build
     AlmaLinux8:
-    CentOSStream8:
     OpenSUSELeap15:
     # Present but broken for our needs
     #  https://bugs.launchpad.net/ubuntu/+source/python-build/+bug/1992108
@@ -1947,7 +1939,6 @@ mappings:
     MacOS: spice-gtk
     OpenSUSE: spice-gtk-devel
     AlmaLinux8: spice-gtk3-devel
-    CentOSStream8: spice-gtk3-devel
     cross-mingw32-rpm: mingw32-spice-gtk3
     cross-mingw64-rpm: mingw64-spice-gtk3
     cross-policy-default: foreign
@@ -1964,7 +1955,6 @@ mappings:
     Fedora: spice-server-devel
     OpenSUSE: libspice-server-devel
     AlmaLinux8: spice-server-devel
-    CentOSStream8: spice-server-devel
     mips-deb:
     s390x-deb:
     cross-policy-default: foreign
@@ -2098,7 +2088,6 @@ mappings:
     deb: libguestfs-tools
     rpm: guestfs-tools
     AlmaLinux8: libguestfs-tools-c
-    CentOSStream8: libguestfs-tools-c
 
   vte:
     default: vte3
