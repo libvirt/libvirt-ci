@@ -92,7 +92,7 @@ def test_package_resolution(assert_equal, targets, packages, test_project,
 def test_resolution_override(targets, test_project):
     datadir = DataDir(Path(test_utils.test_data_dir(__file__), 'override'))
     packages = Packages(datadir)
-    target_obj = BuildTarget(targets, packages, "centos-stream-8")
+    target_obj = BuildTarget(targets, packages, "centos-stream-9")
     pkgs = test_project.get_packages(target_obj)
     assert isinstance(pkgs['meson'], PyPIPackage)
 
