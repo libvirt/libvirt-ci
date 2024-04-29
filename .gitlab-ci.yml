@@ -269,13 +269,6 @@ x86_64-check-alpine-edge:
     IMAGE: docker.io/library/alpine:edge
     NAME: alpine-edge
 
-x86_64-check-centos-stream-8:
-  extends: .check_container_template
-  variables:
-    <<: *dnf_dry_run_command
-    IMAGE: quay.io/centos/centos:stream8
-    NAME: centos-stream-8
-
 x86_64-check-centos-stream-9:
   extends: .check_container_template
   allow_failure: true
