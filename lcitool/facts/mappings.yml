@@ -1265,7 +1265,6 @@ mappings:
     apk:
     pkg:
     MacOS:
-    OpenSUSE:
 
   ncursesw:
     default: ncurses
