@@ -166,6 +166,7 @@ native:
 - libarchive-tar-perl
 - libc-dev-bin
 - libclang-dev
+- libclang-rt-dev
 - libcpan-changes-perl
 - libdigest-perl
 - libdigest-perl-md5-perl

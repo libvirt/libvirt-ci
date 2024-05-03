@@ -27,6 +27,7 @@ native:
 - cloud-init
 - cloud-utils-growpart
 - codespell
+- compiler-rt
 - cpp
 - cppi
 - ctags

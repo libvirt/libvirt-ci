@@ -80,6 +80,7 @@ native:
 - libcap-ng-dev
 - libcapstone-dev
 - libclang-dev
+- libclang-rt-dev
 - libcmocka-dev
 - libconfig-dev
 - libcpan-changes-perl

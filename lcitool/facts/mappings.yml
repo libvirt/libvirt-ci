@@ -764,6 +764,13 @@ mappings:
     deb: libclang-dev
     rpm: clang-devel
 
+  libclang-rt:
+    deb: libclang-rt-dev
+    rpm: compiler-rt
+    OpenSUSE: clang-devel
+    Debian11: libclang-dev
+    Ubuntu2204: libclang-dev
+
   libcmpiutil:
     rpm: libcmpiutil-devel
     AlmaLinux:

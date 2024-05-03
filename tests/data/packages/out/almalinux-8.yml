@@ -30,6 +30,7 @@ native:
 - clippy
 - cloud-init
 - cloud-utils-growpart
+- compiler-rt
 - cpp
 - ctags
 - cyrus-sasl-devel
