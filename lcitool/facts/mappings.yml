@@ -1222,6 +1222,9 @@ mappings:
   meson:
     default: meson
 
+  mingw-w64-tools:
+    cross-mingw64-rpm: mingw-w64-tools
+
   mkisofs:
     apk: cdrkit
     deb: genisoimage

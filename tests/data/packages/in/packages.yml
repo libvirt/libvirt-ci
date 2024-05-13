@@ -175,6 +175,7 @@ packages:
 - make
 - mesa-libgbm
 - meson
+- mingw-w64-tools
 - mkisofs
 - modprobe
 - mono
