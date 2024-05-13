@@ -6,6 +6,7 @@ from pathlib import Path
 from lcitool.packages import Packages
 from lcitool.projects import Projects
 from lcitool.targets import Targets
+from lcitool.util import DataDir
 
 from test_utils.mocks import libvirt, gi
 import test_utils.utils as test_utils
@@ -27,7 +28,7 @@ def pytest_configure(config):
 
 # These needs to be a global in order to compute ALL_PROJECTS and ALL_TARGETS
 # at collection time.  Tests do not access it and use the fixtures below.
-_PROJECTS = Projects()
+_PROJECTS = Projects(DataDir(Path(test_utils.base_data_dir())))
 _TARGETS = Targets()
 
 ALL_PROJECTS = sorted(_PROJECTS.names + list(_PROJECTS.internal.keys()))

@@ -55,7 +55,7 @@ def test_host_target_name(inventory):
 
 def test_group_vars(inventory, targets, packages, projects):
     target = BuildTarget(targets, packages, "fedora-39")
-    group_vars = inventory.get_group_vars(target, projects, ["nbdkit"])
+    group_vars = inventory.get_group_vars(target, projects, ["libvirt"])
     assert "nano" in group_vars["unwanted_packages"]
     assert "python3-libselinux" in group_vars["early_install_packages"]
 
