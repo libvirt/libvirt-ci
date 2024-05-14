@@ -1,4 +1,5 @@
 cross:
+- mingw-w64-tools
 - mingw32-nsis
 - mingw64-SDL2
 - mingw64-SDL2_image

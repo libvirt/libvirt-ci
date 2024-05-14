@@ -1224,6 +1224,7 @@ mappings:
 
   mingw-w64-tools:
     cross-mingw64-rpm: mingw-w64-tools
+    cross-policy-default: foreign
 
   mkisofs:
     apk: cdrkit
