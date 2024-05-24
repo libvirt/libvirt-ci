@@ -603,6 +603,27 @@ class JSONVariablesFormatter(VariablesFormatter):
         return json.dumps(varmap, indent="  ", sort_keys=True)
 
 
+class YamlVariablesFormatter(VariablesFormatter):
+    @staticmethod
+    def _format_variables(varmap):
+        packages = varmap.get('pkgs', []) + varmap.get('cross_pkgs', [])
+        yaml_output = "packages:\n"
+        for pkg in packages:
+            yaml_output += f"  - {pkg}\n"
+        return yaml_output
+
+    def format(self, target, selected_projects):
+        log.debug(f"Generating YAML package list for projects "
+                  f"'{selected_projects} on target {target}")
+
+        try:
+            varmap = self._generator_build_varmap(target, selected_projects)
+        except FormatterError as ex:
+            raise VariablesError(str(ex))
+
+        return self._format_variables(varmap)
+
+
 class ShellBuildEnvFormatter(BuildEnvFormatter):
 
     def __init__(self, inventory, base=None, layers="all"):
