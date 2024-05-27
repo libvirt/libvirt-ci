@@ -246,6 +246,7 @@ native:
 - python3-sphinx_rtd_theme
 - python3-tomli
 - python3-wheel
+- python3-zombie-imp
 - qemu-img
 - qemu-kvm
 - rdma-core-devel

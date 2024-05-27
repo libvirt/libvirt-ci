@@ -1695,6 +1695,10 @@ mappings:
     pkg: py39-gobject3
     rpm: python3-gobject
 
+  python3-imp:
+    Fedora39: python3-zombie-imp
+    Fedora40: python3-zombie-imp
+
   python3-libxml2:
     default: python3-libxml2
     apk: py3-libxml2
