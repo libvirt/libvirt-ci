@@ -63,6 +63,7 @@ native:
 - glibc-devel
 - glibc-langpack-en
 - glibc-static
+- glibc-utils
 - glusterfs-api-devel
 - gnutls-devel
 - gnutls-utils

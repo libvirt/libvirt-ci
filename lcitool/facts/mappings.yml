@@ -742,6 +742,12 @@ mappings:
     cross-mingw64-rpm: mingw64-headers
     cross-policy-default: foreign
 
+  libc-malloc-debug:
+    default:
+    Fedora: glibc-utils
+    Fedora39: glibc
+    cross-policy-default: foreign
+
   libc-static:
     apk: musl-dev
     deb: libc6-dev

@@ -60,6 +60,7 @@ native:
 - git
 - glib2-devel
 - glib2-static
+- glibc
 - glibc-devel
 - glibc-langpack-en
 - glibc-static

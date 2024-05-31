@@ -103,6 +103,7 @@ packages:
 - libblkid
 - libbpf
 - libc
+- libc-malloc-debug
 - libc-static
 - libcacard
 - libcap-ng
