@@ -36,6 +36,7 @@ cross:
 - mingw64-readline
 - mingw64-rest
 - mingw64-spice-gtk3
+- rust-std-static-x86_64-pc-windows-gnu
 native:
 - ant
 - ant-junit

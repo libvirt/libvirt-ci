@@ -1862,6 +1862,8 @@ mappings:
     rpm: rust-std-static
     MacOS: rust
     OpenSUSE: rust
+    cross-mingw32-rpm: rust-std-static-i686-pc-windows-gnu
+    cross-mingw64-rpm: rust-std-static-x86_64-pc-windows-gnu
     cross-policy-default: foreign
 
   sanlock:

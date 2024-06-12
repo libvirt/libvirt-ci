@@ -203,6 +203,8 @@ def native_arch_to_rust_target(native_arch):
         "armv6l": "armv5te-unknown-linux-gnueabi",
         "armv7l": "armv7-unknown-linux-gnueabihf",
         "i686": "i686-unknown-linux-gnu",
+        "mingw32": "i686-pc-windows-gnu",
+        "mingw64": "x86_64-pc-windows-gnu",
         "mips": "mips-unknown-linux-gnu",
         "mipsel": "mipsel-unknown-linux-gnu",
         "mips64el": "mips64el-unknown-linux-gnuabi64",
