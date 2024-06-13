@@ -233,13 +233,6 @@ unittests:
 .zypper_dry_run_command: &zypper_dry_run_command
   DRY_RUN_INSTALL_COMMAND: zypper install -y --dry-run
 
-x86_64-check-almalinux-8:
-  extends: .check_container_template
-  variables:
-    <<: *dnf_dry_run_command
-    IMAGE: docker.io/library/almalinux:8
-    NAME: almalinux-8
-
 x86_64-check-almalinux-9:
   extends: .check_container_template
   variables:

@@ -117,7 +117,6 @@ mappings:
     deb: ant-optional
     pkg: apache-ant
     rpm: ant-junit
-    AlmaLinux8:
 
   apparmor:
     deb: libapparmor-dev
@@ -160,7 +159,6 @@ mappings:
   bash-completion:
     default: bash-completion
     rpm: bash-completion-devel
-    AlmaLinux8: bash-completion
     AlmaLinux9: bash-completion
     CentOSStream9: bash-completion
     Fedora39: bash-completion
@@ -510,7 +508,6 @@ mappings:
     deb: libglusterfs-dev
     Fedora: glusterfs-api-devel
     OpenSUSE: glusterfs-devel
-    AlmaLinux8: glusterfs-api-devel
     armv6l-Debian:
     armv6l-Debian11: libglusterfs-dev
     armv6l-Debian12: libglusterfs-dev
@@ -677,7 +674,6 @@ mappings:
   junit:
     default: junit
     MacOS:
-    AlmaLinux8:
 
   libacl:
     apk: acl-dev
@@ -1134,7 +1130,6 @@ mappings:
     Fedora: libvirt-gobject-devel
     MacOS: libvirt-glib
     OpenSUSE: libvirt-glib-devel
-    AlmaLinux8: libvirt-gobject-devel
     cross-policy-default: foreign
 
   libxml2:
@@ -1298,7 +1293,6 @@ mappings:
 
   netcf:
     apk: netcf-dev
-    AlmaLinux8: netcf-devel
     Debian11: libnetcf-dev
     cross-policy-default: skip
 
@@ -1389,7 +1383,6 @@ mappings:
     apk: perl
     pkg: perl5
     MacOS: perl
-    AlmaLinux8: perl
 
   perl-App-cpanminus:
     apk: perl-app-cpanminus
@@ -1501,7 +1494,6 @@ mappings:
     rpm: perl-Sys-Hostname
     MacOS: perl
     OpenSUSE: perl-base
-    AlmaLinux8: perl
 
   perl-TAP-Formatter-HTML:
     deb: libtap-formatter-html-perl
@@ -1664,7 +1656,6 @@ mappings:
     pkg: py39-build
     rpm: python3-build
     MacOS: python-build
-    AlmaLinux8:
     OpenSUSELeap15:
     # Present but broken for our needs
     #  https://bugs.launchpad.net/ubuntu/+source/python-build/+bug/1992108
@@ -1956,7 +1947,6 @@ mappings:
     Fedora: spice-gtk3-devel
     MacOS: spice-gtk
     OpenSUSE: spice-gtk-devel
-    AlmaLinux8: spice-gtk3-devel
     cross-mingw32-rpm: mingw32-spice-gtk3
     cross-mingw64-rpm: mingw64-spice-gtk3
     cross-policy-default: foreign
@@ -1972,7 +1962,6 @@ mappings:
     pkg: libspice-server
     Fedora: spice-server-devel
     OpenSUSE: libspice-server-devel
-    AlmaLinux8: spice-server-devel
     mips-deb:
     s390x-deb:
     cross-policy-default: foreign
@@ -2105,7 +2094,6 @@ mappings:
   libguestfs-tools:
     deb: libguestfs-tools
     rpm: guestfs-tools
-    AlmaLinux8: libguestfs-tools-c
 
   vte:
     default: vte3

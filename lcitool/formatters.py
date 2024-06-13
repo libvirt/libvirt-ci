@@ -289,32 +289,14 @@ class BuildEnvFormatter(Formatter):
                 # for the original CentOS distro and so the checks below apply
                 # there as well
                 #
-                # Starting with CentOS 8, most -devel packages are shipped in
-                # a separate repository which is not enabled by default. The
-                # name of this repository has changed over time
-                commands.extend([
-                    "{nosync}{packaging_command} install 'dnf-command(config-manager)' -y",
-                ])
-                if osversion in ["9", "Stream9"]:
-                    commands.extend([
-                        "{nosync}{packaging_command} config-manager --set-enabled -y crb",
-                    ])
-                if osversion in ["8"]:
-                    commands.extend([
-                        "{nosync}{packaging_command} config-manager --set-enabled -y powertools",
-                    ])
-
-                # Not all of the virt related -devel packages are provided by
-                # virt:rhel module so we have to enable AV repository as well.
-                # CentOS Stream 9 no longer uses modules for virt
-                if osversion in ["8"]:
-                    commands.extend([
-                        "{nosync}{packaging_command} install -y centos-release-advanced-virtualization",
-                    ])
-
+                # Most -devel packages are shipped in the separate 'crb' repository
+                # which is not enabled by default.
+                #
                 # Some of the packages we need are not part of CentOS proper
                 # and are only available through EPEL
                 commands.extend([
+                    "{nosync}{packaging_command} install 'dnf-command(config-manager)' -y",
+                    "{nosync}{packaging_command} config-manager --set-enabled -y crb",
                     "{nosync}{packaging_command} install -y epel-release",
                 ])
 
