@@ -18,7 +18,7 @@ from lcitool.formatters import ShellBuildEnvFormatter
 scenarios = [
     # A minimalist application, testing package managers
     pytest.param("libvirt-go-xml-module", "debian-12", "x86_64", None, id="libvirt-go-xml-module-debian-12"),
-    pytest.param("libvirt-go-xml-module", "almalinux-8", "x86_64", None, id="libvirt-go-xml-module-almalinux-8"),
+    pytest.param("libvirt-go-xml-module", "almalinux-9", "x86_64", None, id="libvirt-go-xml-module-almalinux-9"),
     pytest.param("libvirt-go-xml-module", "opensuse-leap-15", "x86_64", None, id="libvirt-go-xml-module-opensuse-leap-15"),
     pytest.param("libvirt-go-xml-module", "alpine-edge", "x86_64", None, id="libvirt-go-xml-module-alpine-edge"),
     pytest.param("libvirt-go-xml-module", "opensuse-tumbleweed", "x86_64", None, id="libvirt-go-xml-module-opensuse-tumbleweed"),

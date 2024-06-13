@@ -14,8 +14,8 @@ cli_args = [
     ["--help"],
     ["targets"],
     ["projects"],
-    ["variables", "almalinux-8", "libvirt-go-module"],
-    ["dockerfile", "almalinux-8", "libvirt-go-module"],
+    ["variables", "almalinux-9", "libvirt-go-module"],
+    ["dockerfile", "almalinux-9", "libvirt-go-module"],
     ["manifest", "-n", Path(__file__).parent.parent.joinpath("examples", "manifest.yml")],
     ["container", "engines"]
 ]
