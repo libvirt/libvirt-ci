@@ -38,6 +38,7 @@ native:
 - bash
 - bash-completion
 - bc
+- bindgen
 - bison
 - black
 - bzip2

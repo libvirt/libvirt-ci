@@ -168,6 +168,15 @@ mappings:
     default: bc
     pkg:
 
+  # currently OpenSUSE only packages bindgen in Tumbleweed
+  bindgen:
+    default: bindgen
+    apk: rust-bindgen
+    pkg: rust-bindgen-cli
+    rpm: bindgen-cli
+    OpenSUSELeap15:
+    OpenSUSETumbleweed: rust-bindgen
+
   bison:
     default: bison
 

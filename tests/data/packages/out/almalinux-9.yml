@@ -16,6 +16,7 @@ native:
 - bash
 - bash-completion
 - bc
+- bindgen-cli
 - bison
 - brlapi-devel
 - bzip2

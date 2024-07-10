@@ -165,6 +165,7 @@ native:
 - ruby
 - rubygem-rake
 - rust
+- rust-bindgen-cli
 - screen
 - sdl2
 - sdl2_image
