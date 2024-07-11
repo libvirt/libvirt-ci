@@ -182,7 +182,7 @@ mappings:
 
   black:
     default: black
-    pkg: py39-black
+    pkg: py311-black
     rpm: python3-black
     AlmaLinux:
     CentOS:
@@ -258,7 +258,7 @@ mappings:
 
   cloud-init:
     default: cloud-init
-    pkg: py39-cloud-init
+    pkg: py311-cloud-init
     MacOS:
 
   cloud-init-growpart:
@@ -376,7 +376,7 @@ mappings:
   flake8:
     default: flake8
     apk: py3-flake8
-    pkg: py39-flake8
+    pkg: py311-flake8
     rpm: python3-flake8
 
   flex:
@@ -1656,13 +1656,13 @@ mappings:
   python3-PyYAML:
     apk: py3-yaml
     deb: python3-yaml
-    pkg: py39-yaml
+    pkg: py311-yaml
     rpm: python3-PyYAML
 
   python3-build:
     apk: py3-build
     deb: python3-build
-    pkg: py39-build
+    pkg: py311-build
     rpm: python3-build
     MacOS: python-build
     OpenSUSELeap15:
@@ -1673,14 +1673,14 @@ mappings:
   python3-dbus:
     default: python3-dbus
     apk: py3-dbus
-    pkg: py39-dbus
+    pkg: py311-dbus
     MacOS:
     OpenSUSE: python3-dbus-python
 
   python3-boto3:
     default: python3-boto3
     apk: py3-boto3
-    pkg: py39-boto3
+    pkg: py311-boto3
     MacOS:
 
   python3-devel:
@@ -1692,13 +1692,13 @@ mappings:
   python3-docutils:
     default: python3-docutils
     apk: py3-docutils
-    pkg: py39-docutils
+    pkg: py311-docutils
     MacOS: docutils
 
   python3-gobject:
     apk: py3-gobject3
     deb: python3-gi
-    pkg: py39-gobject3
+    pkg: py311-gobject3
     rpm: python3-gobject
 
   python3-imp:
@@ -1708,19 +1708,19 @@ mappings:
   python3-libxml2:
     default: python3-libxml2
     apk: py3-libxml2
-    pkg: py39-libxml2
+    pkg: py311-libxml2
     MacOS:
 
   python3-lxml:
     default: python3-lxml
     apk: py3-lxml
-    pkg: py39-lxml
+    pkg: py311-lxml
     MacOS:
 
   python3-numpy:
     default: python3-numpy
     apk: py3-numpy
-    pkg: py39-numpy
+    pkg: py311-numpy
     MacOS:
 
   python3-opencv:
@@ -1734,26 +1734,26 @@ mappings:
   python3-pillow:
     default: python3-pillow
     apk: py3-pillow
-    pkg: py39-pillow
+    pkg: py311-pillow
     MacOS:
     OpenSUSE: python3-Pillow
 
   python3-pip:
     default: python3-pip
     apk: py3-pip
-    pkg: py39-pip
+    pkg: py311-pip
     MacOS: python3
 
   python3-pytest:
     default: python3-pytest
     apk: py3-pytest
-    pkg: py39-pytest
+    pkg: py311-pytest
     MacOS:
 
   python3-requests:
     default: python3-requests
     apk: py3-requests
-    pkg: py39-requests
+    pkg: py311-requests
     MacOS:
 
   python3-selinux:
@@ -1767,20 +1767,20 @@ mappings:
   python3-setuptools:
     default: python3-setuptools
     apk: py3-setuptools
-    pkg: py39-setuptools
+    pkg: py311-setuptools
     MacOS: python3
 
   python3-sphinx:
     default: python3-sphinx
     apk: py3-sphinx
-    pkg: py39-sphinx
+    pkg: py311-sphinx
     MacOS:
     OpenSUSE: python3-Sphinx
 
   python3-sphinx-rtd-theme:
     apk: py3-sphinx_rtd_theme
     deb: python3-sphinx-rtd-theme
-    pkg: py39-sphinx_rtd_theme
+    pkg: py311-sphinx_rtd_theme
     rpm: python3-sphinx_rtd_theme
 
   python3-venv:
@@ -1791,7 +1791,7 @@ mappings:
   python3-wheel:
     default: python3-wheel
     apk: py3-wheel
-    pkg: py39-wheel
+    pkg: py311-wheel
     MacOS: python3
 
   qemu:
@@ -2056,7 +2056,7 @@ mappings:
   python3-tomli:
     default: python3-tomli
     apk: py3-tomli
-    pkg: py39-tomli
+    pkg: py311-tomli
     MacOS:
     Debian11:
 
