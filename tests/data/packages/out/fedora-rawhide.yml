@@ -276,6 +276,7 @@ native:
 - systemd-devel
 - systemd-rpm-macros
 - systemtap-sdt-devel
+- systemtap-sdt-dtrace
 - tar
 - tcl-devel
 - tcpdump

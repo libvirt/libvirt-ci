@@ -343,7 +343,13 @@ mappings:
 
   dtrace:
     deb: systemtap-sdt-dev
-    rpm: systemtap-sdt-devel
+    rpm: systemtap-sdt-dtrace
+    OpenSUSE: systemtap-dtrace
+    AlmaLinux9: systemtap-sdt-devel
+    CentOSStream9: systemtap-sdt-devel
+    Fedora39: systemtap-sdt-devel
+    Fedora40: systemtap-sdt-devel
+    OpenSUSELeap15: systemtap-sdt-devel
     cross-policy-default: foreign
 
   dwarves:
@@ -2020,6 +2026,13 @@ mappings:
 
   systemd-rpm-macros:
     rpm: systemd-rpm-macros
+
+  systemtap:
+    deb: systemtap-sdt-dev
+    rpm: systemtap-sdt-devel
+    OpenSUSE: systemtap-headers
+    OpenSUSELeap15: systemtap-sdt-devel
+    cross-policy-default: foreign
 
   tar:
     default: tar

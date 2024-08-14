@@ -309,6 +309,7 @@ packages:
 - swtpm
 - systemd
 - systemd-rpm-macros
+- systemtap
 - tar
 - tc
 - tcl
