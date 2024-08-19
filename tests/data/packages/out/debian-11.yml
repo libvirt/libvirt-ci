@@ -80,6 +80,7 @@ native:
 - libcacard-dev
 - libcap-ng-dev
 - libcapstone-dev
+- libcbor-dev
 - libclang-dev
 - libcmocka-dev
 - libconfig-dev

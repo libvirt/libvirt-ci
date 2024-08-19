@@ -17,6 +17,7 @@ cross:
 - libcacard-dev:s390x
 - libcap-ng-dev:s390x
 - libcapstone-dev:s390x
+- libcbor-dev:s390x
 - libcmocka-dev:s390x
 - libconfig-dev:s390x
 - libcurl4-gnutls-dev:s390x

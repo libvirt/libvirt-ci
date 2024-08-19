@@ -94,6 +94,7 @@ native:
 - libarchive-dev
 - libbpf-dev
 - libcap-ng-dev
+- libcbor-dev
 - libconfig-dev
 - libdrm-dev
 - libepoxy-dev

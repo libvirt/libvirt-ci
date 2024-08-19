@@ -84,6 +84,7 @@ native:
 - json-c
 - json-glib
 - libarchive
+- libcbor
 - libconfig
 - libepoxy
 - libev

@@ -770,6 +770,15 @@ mappings:
     rpm: libcap-ng-devel
     cross-policy-default: foreign
 
+  libcbor:
+    apk: libcbor-dev
+    deb: libcbor-dev
+    rpm: libcbor-devel
+    AlmaLinux:
+    CentOS:
+    MacOS: libcbor
+    cross-policy-default: foreign
+
   libclang:
     apk: clang-dev
     deb: libclang-dev

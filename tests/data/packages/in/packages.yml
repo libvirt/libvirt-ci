@@ -108,6 +108,7 @@ packages:
 - libc-static
 - libcacard
 - libcap-ng
+- libcbor
 - libclang
 - libclang-rt
 - libcmpiutil
