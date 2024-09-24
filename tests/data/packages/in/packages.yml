@@ -246,8 +246,8 @@ packages:
 - php
 - php-imagick
 - pixman
+- pkcheck
 - pkg-config
-- polkit
 - portablexdr
 - publican
 - pulseaudio

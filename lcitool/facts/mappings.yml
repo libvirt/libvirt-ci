@@ -1635,6 +1635,12 @@ mappings:
     cross-mingw64-rpm: mingw64-pixman
     cross-policy-default: foreign
 
+  pkcheck:
+    default: polkit
+    deb: polkitd
+    MacOS:
+    Debian11: policykit-1
+
   pkg-config:
     default: pkgconf
     rpm: pkgconfig
@@ -1642,11 +1648,6 @@ mappings:
     cross-mingw32-rpm: mingw32-pkg-config
     cross-mingw64-rpm: mingw64-pkg-config
     cross-policy-rpm: foreign
-
-  polkit:
-    default: polkit
-    deb: policykit-1
-    MacOS:
 
   portablexdr:
     cross-mingw32-rpm: mingw32-portablexdr

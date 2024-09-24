@@ -240,7 +240,7 @@ native:
 - php-dev
 - php-imagick
 - pkgconf
-- policykit-1
+- polkitd
 - publican
 - python3
 - python3-boto3
