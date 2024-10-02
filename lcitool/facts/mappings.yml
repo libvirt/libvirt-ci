@@ -605,6 +605,8 @@ mappings:
     # Temporary limitation until this gets shipped in RHEL-9
     AlmaLinux9:
     CentOSStream9:
+    cross-mingw32-rpm: mingw32-gtk-vnc2
+    cross-mingw64-rpm: mingw64-gtk-vnc2
     cross-policy-default: foreign
 
   gzip:

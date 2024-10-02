@@ -14,6 +14,7 @@ cross:
 - mingw64-gnutls
 - mingw64-gstreamer1-plugins-bad-free
 - mingw64-gstreamer1-plugins-good
+- mingw64-gtk-vnc2
 - mingw64-gtk3
 - mingw64-headers
 - mingw64-json-glib
@@ -89,7 +90,6 @@ native:
 - grep
 - gtk-doc
 - gtk-update-icon-cache
-- gtk-vnc2-devel
 - guestfs-tools
 - gzip
 - hostname
@@ -108,7 +108,6 @@ native:
 - libcmpiutil-devel
 - libnbd-devel
 - libtool
-- libtorrent-devel
 - libxml2
 - libxslt
 - llvm
@@ -123,7 +122,6 @@ native:
 - nano
 - nbd
 - nbdkit
-- net-snmp-devel
 - net-tools
 - nfs-utils
 - ninja-build
@@ -134,7 +132,6 @@ native:
 - ocamldoc
 - openssh-clients
 - osinfo-db-tools
-- pcre-static
 - perl-App-cpanminus
 - perl-Archive-Tar
 - perl-CPAN-Changes
@@ -212,7 +209,6 @@ native:
 - sed
 - socat
 - sparse
-- spice-protocol
 - strace
 - sudo
 - swtpm
