@@ -605,6 +605,7 @@ mappings:
     # Temporary limitation until this gets shipped in RHEL-9
     AlmaLinux9:
     CentOSStream9:
+    cross-policy-default: foreign
 
   gzip:
     default: gzip
@@ -1093,6 +1094,7 @@ mappings:
     # homebrew has libtorrent-rasterbar, but pkg-config doesn't pick
     # up proper references to compile with boost
     MacOS:
+    cross-policy-default: foreign
 
   libubsan:
     deb: libubsan1
@@ -1324,6 +1326,7 @@ mappings:
     apk: net-snmp-dev
     deb: libsnmp-dev
     rpm: net-snmp-devel
+    cross-policy-default: foreign
 
   net-tools:
     default: net-tools
@@ -1400,6 +1403,7 @@ mappings:
     deb: libpcre2-dev
     rpm: pcre-static
     OpenSUSE: pcre-devel-static
+    cross-policy-default: foreign
 
   perl:
     default: perl-base
@@ -1956,6 +1960,7 @@ mappings:
     deb: libsndio-dev
     pkg: sndio
     OpenSUSE: sndio-devel
+    cross-policy-default: foreign
 
   socat:
     default: socat
@@ -1981,6 +1986,7 @@ mappings:
     default: spice-protocol
     deb: libspice-protocol-dev
     OpenSUSE: spice-protocol-devel
+    cross-policy-default: foreign
 
   spice-server:
     apk: spice-dev
