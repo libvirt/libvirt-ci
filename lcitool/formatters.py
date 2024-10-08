@@ -306,6 +306,14 @@ class BuildEnvFormatter(Formatter):
                         "{nosync}{packaging_command} install -y epel-next-release",
                     ])
 
+            repos = facts["packaging"].get("repos", [])
+            if repos:
+                if osname == "OpenSUSE":
+                    commands.extend(("{nosync}{packaging_command} addrepo -fc " + shlex.quote(x)
+                                     for x in repos))
+                else:
+                    raise FormatterError(f"packaging.repos not supported for {osname}")
+
             commands.extend(["{nosync}{packaging_command} install -y {pkgs}"])
 
             if self._pkgcleanup:

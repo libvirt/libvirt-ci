@@ -7,6 +7,8 @@ os:
 packaging:
   format: 'rpm'
   command: 'zypper'
+  repos:
+    - https://download.opensuse.org/update/leap/15.6/backports/openSUSE:Backports:SLE-15-SP6:Update.repo
 
 paths:
   bash: /bin/bash
