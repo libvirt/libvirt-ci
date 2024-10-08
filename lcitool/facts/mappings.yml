@@ -174,8 +174,7 @@ mappings:
     apk: rust-bindgen
     pkg: rust-bindgen-cli
     rpm: bindgen-cli
-    OpenSUSELeap15:
-    OpenSUSETumbleweed: rust-bindgen
+    OpenSUSE: rust-bindgen
 
   bison:
     default: bison

@@ -246,6 +246,7 @@ native:
 - ruby
 - ruby-devel
 - rust
+- rust-bindgen
 - sanlock-devel
 - screen
 - scrub
