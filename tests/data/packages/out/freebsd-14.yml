@@ -150,13 +150,13 @@ native:
 - py311-pillow
 - py311-pip
 - py311-pytest
+- py311-pyyaml
 - py311-requests
 - py311-setuptools
 - py311-sphinx
 - py311-sphinx_rtd_theme
 - py311-tomli
 - py311-wheel
-- py311-yaml
 - python3
 - qemu
 - readline

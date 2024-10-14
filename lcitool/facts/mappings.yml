@@ -1670,7 +1670,7 @@ mappings:
   python3-PyYAML:
     apk: py3-yaml
     deb: python3-yaml
-    pkg: py311-yaml
+    pkg: py311-pyyaml
     rpm: python3-PyYAML
 
   python3-build:
