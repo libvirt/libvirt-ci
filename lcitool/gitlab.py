@@ -338,6 +338,8 @@ def cirrus_template(cidir):
           image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:latest
           interruptible: true
           needs: []
+          allow_failure:
+            exit_codes: 3
           script:
             - set -o allexport
             - source {cidir}/cirrus/$NAME.vars
