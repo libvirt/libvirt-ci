@@ -111,7 +111,8 @@ x86_64-freebsd-current:
 aarch64-macos-14:
   extends: .cirrus_build_job
   needs: []
-  allow_failure: false
+  allow_failure:
+    exit_codes: 3
   variables:
     CIRRUS_VM_IMAGE_NAME: ghcr.io/cirruslabs/macos-runner:sonoma
     CIRRUS_VM_IMAGE_SELECTOR: image

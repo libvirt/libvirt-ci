@@ -338,8 +338,6 @@ def cirrus_template(cidir):
           image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:latest
           interruptible: true
           needs: []
-          allow_failure:
-            exit_codes: 3
           script:
             - set -o allexport
             - source {cidir}/cirrus/$NAME.vars
@@ -624,7 +622,12 @@ def cirrus_build_job(target, instance_type, image_selector, image_name, arch,
         update_cmd = "pkg update"
     else:
         raise ValueError(f"Unknown package command {pkg_cmd}")
-    allow_failure = str(allow_failure).lower()
+
+    if allow_failure:
+        allow_failure_block = "  allow_failure: true\n"
+    else:
+        allow_failure_block = "  allow_failure:\n    exit_codes: 3\n"
+
     jobvars = merge_vars({
         "NAME": target,
         "CIRRUS_VM_INSTANCE_TYPE": instance_type,
@@ -642,5 +645,4 @@ def cirrus_build_job(target, instance_type, image_selector, image_name, arch,
         {arch}-{target}{suffix}:
           extends: .cirrus_build_job
           needs: []
-          allow_failure: {allow_failure}
-        """) + format_variables(jobvars)
+        """) + allow_failure_block + format_variables(jobvars)
