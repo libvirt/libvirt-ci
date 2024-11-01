@@ -32,8 +32,11 @@ def docs(namespace):
         #  - RUN_PIPELINE - force creation of a CI pipeline when
         #    pushing to a branch in a forked repository. Official
         #    CI pipelines are triggered when merge requests are
-        #    created/updated. Setting this variable to a non-empty
-        #    value allows CI testing prior to opening a merge request.
+        #    created/updated. Setting this variable allows CI
+        #    testing prior to opening a merge request. A value
+        #    of "0" will create the pipeline but leave all jobs
+        #    to be manually started, while "1" will immediately
+        #    run all default jobs.
         #
         #  - RUN_PIPELINE_UPSTREAM_ENV - same semantics as RUN_PIPELINE,
         #    but uses the CI environment (containers) from the upstream project
@@ -59,11 +62,13 @@ def docs(namespace):
         #
         # Aliases can be set for common usage
         #
-        #  $ git config --local alias.push-ci "push -o ci.variable=RUN_PIPELINE=1"
+        #  $ git config --local alias.push-ci "push -o ci.variable=RUN_PIPELINE=0"
+        #  $ git config --local alias.push-ci-now "push -o ci.variable=RUN_PIPELINE=1"
         #
         # Allowing the less verbose invocation
         #
-        #  $ git push-ci
+        #  $ git push-ci     (create pipeline but don't start jobs)
+        #  $ git push-ci-now (create pipeline and start default jobs)
         #
         # Pipeline variables can also be set in the repository
         # pipeline config globally, or set against scheduled pipelines
@@ -221,19 +226,27 @@ def _build_template(template, envid, project, cidir):
               when: on_success
 
             # forks: pushes to a branch when a pipeline run in upstream env is explicitly requested
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV && $JOB_OPTIONAL'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV == "0"'
               when: manual
               allow_failure: true
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV == "1" && $JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV == "1"'
               when: on_success
 
             # forks: pushes to branches with pipeline requested
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE && $JOB_OPTIONAL'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE == "0"'
               when: manual
               allow_failure: true
               variables:
                 IMAGE: $TARGET_BASE_IMAGE
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE == "1" && $JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
+              variables:
+                IMAGE: $TARGET_BASE_IMAGE
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE == "1"'
               when: on_success
               variables:
                 IMAGE: $TARGET_BASE_IMAGE
@@ -358,15 +371,21 @@ def cirrus_template(cidir):
               when: on_success
 
             # forks: pushes to branches with pipeline requested (including pipeline in upstream environment)
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE && $JOB_OPTIONAL'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE == "0"'
               when: manual
               allow_failure: true
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE == "1" && $JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE == "1"'
               when: on_success
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV && $JOB_OPTIONAL'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV == "0"'
               when: manual
               allow_failure: true
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV == "1" && $JOB_OPTIONAL'
+              when: manual
+              allow_failure: true
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV == "1"'
               when: on_success
 
             # upstream+forks: Run pipelines on MR, web, api & scheduled
@@ -400,9 +419,13 @@ def check_dco_job():
               when: on_success
 
             # forks: pushes to branches with pipeline requested (including upstream env pipelines)
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE == "0"'
+              when: manual
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE == "1"'
               when: on_success
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE_UPSTREAM_ENV'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE_UPSTREAM_ENV == "0"'
+              when: manual
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE_UPSTREAM_ENV == "1"'
               when: on_success
 
             # upstream+forks: that's all folks
@@ -426,9 +449,13 @@ def code_fmt_template():
               when: on_success
 
             # forks: pushes to branches with pipeline requested (including upstream env pipelines)
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE == "0"'
+              when: manual
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE == "1"'
               when: on_success
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE_UPSTREAM_ENV'
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE_UPSTREAM_ENV == "0"'
+              when: manual
+            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $RUN_PIPELINE_UPSTREAM_ENV == "1"'
               when: on_success
 
             # upstream+forks: that's all folks
