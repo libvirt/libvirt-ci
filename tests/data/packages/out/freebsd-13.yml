@@ -97,7 +97,7 @@ native:
 - ocaml
 - ocaml-findlib
 - opencv
-- openjdk11
+- openjdk21
 - osinfo-db-tools
 - p5-App-cpanminus
 - p5-CPAN-Changes

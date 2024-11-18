@@ -84,7 +84,7 @@ native:
 - iproute-tc
 - iptables
 - iscsi-initiator-utils
-- java-11-openjdk-headless
+- java-21-openjdk-headless
 - jemalloc-devel
 - jna
 - jq

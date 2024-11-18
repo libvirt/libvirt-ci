@@ -655,11 +655,13 @@ mappings:
     OpenSUSE: mkisofs
 
   java:
-    apk: openjdk11-jdk
-    deb: openjdk-17-jdk-headless
-    pkg: openjdk11
-    rpm: java-11-openjdk-headless
+    apk: openjdk21-jdk
+    deb: openjdk-21-jdk-headless
+    pkg: openjdk21
+    rpm: java-21-openjdk-headless
     MacOS: openjdk
+    Debian11: openjdk-17-jdk-headless
+    Debian12: openjdk-17-jdk-headless
 
   jna:
     default: jna
