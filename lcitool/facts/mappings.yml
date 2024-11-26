@@ -232,6 +232,7 @@ mappings:
 
   ccache:
     default: ccache
+    pkg: ccache4
 
   check:
     default: check
