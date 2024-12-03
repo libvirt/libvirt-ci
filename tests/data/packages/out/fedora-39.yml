@@ -236,6 +236,7 @@ native:
 - python3-gobject
 - python3-libnbd
 - python3-libselinux
+- python3-libvirt
 - python3-libxml2
 - python3-lxml
 - python3-numpy

@@ -1729,6 +1729,14 @@ mappings:
     Fedora39: python3-zombie-imp
     Fedora40: python3-zombie-imp
 
+  python3-libvirt:
+    apk: py3-libvirt
+    deb: python3-libvirt
+    pkg: py311-libvirt
+    rpm: python3-libvirt
+    MacOS: libvirt-python
+    OpenSUSE: python3-libvirt-python
+
   python3-libxml2:
     default: python3-libxml2
     apk: py3-libxml2

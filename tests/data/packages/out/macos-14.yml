@@ -104,6 +104,7 @@ native:
 - libusb
 - libvirt
 - libvirt-glib
+- libvirt-python
 - libxml2
 - libxslt
 - llvm

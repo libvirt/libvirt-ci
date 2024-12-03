@@ -144,6 +144,7 @@ native:
 - py311-docutils
 - py311-flake8
 - py311-gobject3
+- py311-libvirt
 - py311-libxml2
 - py311-lxml
 - py311-numpy
