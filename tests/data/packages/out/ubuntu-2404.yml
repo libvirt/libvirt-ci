@@ -125,6 +125,7 @@ native:
 - libjson-c-dev
 - libjson-glib-dev
 - liblttng-ust-dev
+- liblua5.4-dev
 - liblzma-dev
 - liblzo2-dev
 - libmodule-build-perl
@@ -211,7 +212,6 @@ native:
 - llvm
 - locales
 - lsof
-- lua5.4
 - lvm2
 - make
 - meson

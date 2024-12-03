@@ -1229,8 +1229,8 @@ mappings:
     cross-policy-default: foreign
 
   lua:
-    apk: lua5.4
-    deb: lua5.4
+    apk: lua5.4-dev
+    deb: liblua5.4-dev
     pkg: lua54
     rpm: lua-devel
     MacOS: lua

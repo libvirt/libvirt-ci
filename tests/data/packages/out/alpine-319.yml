@@ -131,7 +131,7 @@ native:
 - llvm
 - lsof
 - lttng-ust-dev
-- lua5.4
+- lua5.4-dev
 - lvm2
 - lvm2-dev
 - lzo-dev

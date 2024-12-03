@@ -188,6 +188,7 @@ native:
 - libio-interface-perl
 - libio-string-perl
 - libjna-java
+- liblua5.4-dev
 - libmodule-build-perl
 - libnbd-dev
 - libnet-openssh-perl
@@ -215,7 +216,6 @@ native:
 - llvm
 - locales
 - lsof
-- lua5.4
 - lvm2
 - make
 - meson
