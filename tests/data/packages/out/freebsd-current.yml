@@ -13,6 +13,7 @@ native:
 - bzip2
 - ca_root_nss
 - capstone4
+- cargo-c
 - ccache4
 - cdrkit
 - cdrkit-genisoimage

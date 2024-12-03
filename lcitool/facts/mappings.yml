@@ -230,6 +230,15 @@ mappings:
     pkg: rust
     MacOS: rust
 
+  cargo-c:
+    default: cargo-c
+    Debian11:
+    Ubuntu2204:
+
+  cargo-rpm-macros:
+    rpm: cargo-rpm-macros
+    OpenSUSE: cargo-packaging
+
   ccache:
     default: ccache
     pkg: ccache4

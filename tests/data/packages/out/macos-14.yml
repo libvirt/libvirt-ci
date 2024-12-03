@@ -43,6 +43,7 @@ native:
 - black
 - bzip2
 - capstone
+- cargo-c
 - ccache
 - cdrtools
 - check

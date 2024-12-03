@@ -33,6 +33,7 @@ native:
 - ca-certificates
 - capstone-dev
 - cargo
+- cargo-c
 - ccache
 - cdrkit
 - ceph-dev

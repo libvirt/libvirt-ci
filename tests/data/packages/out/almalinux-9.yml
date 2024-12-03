@@ -24,6 +24,8 @@ native:
 - ca-certificates
 - capstone-devel
 - cargo
+- cargo-c
+- cargo-rpm-macros
 - ccache
 - check-devel
 - chrony

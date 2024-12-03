@@ -16,6 +16,7 @@ native:
 - bzip2
 - ca-certificates
 - cargo
+- cargo-c
 - ccache
 - check
 - chrony

@@ -21,6 +21,8 @@ packages:
 - ca-certificates
 - capstone
 - cargo
+- cargo-c
+- cargo-rpm-macros
 - ccache
 - check
 - chrony
