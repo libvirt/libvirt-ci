@@ -76,10 +76,12 @@ def docs(namespace):
 
 
 def variables(namespace):
+    namespace_lc = namespace.lower()
     return textwrap.dedent(
         f"""
         variables:
           RUN_UPSTREAM_NAMESPACE: {namespace}
+          CONTAINER_UPSTREAM_NAMESPACE: {namespace_lc}
           FF_SCRIPT_SECTIONS: 1
         """)
 
@@ -214,7 +216,7 @@ def _build_template(template, envid, project, cidir):
               fi
             - cat /packages.txt
           variables:
-            IMAGE: $CI_REGISTRY/$RUN_UPSTREAM_NAMESPACE/{project}/ci-{envid}:latest
+            IMAGE: $CI_REGISTRY/$CONTAINER_UPSTREAM_NAMESPACE/{project}/ci-{envid}:latest
           rules:
             ### PUSH events
 
