@@ -161,7 +161,6 @@ mappings:
     rpm: bash-completion-devel
     AlmaLinux9: bash-completion
     CentOSStream9: bash-completion
-    Fedora39: bash-completion
     Fedora40: bash-completion
 
   bc:
@@ -356,7 +355,6 @@ mappings:
     OpenSUSE: systemtap-dtrace
     AlmaLinux9: systemtap-sdt-devel
     CentOSStream9: systemtap-sdt-devel
-    Fedora39: systemtap-sdt-devel
     Fedora40: systemtap-sdt-devel
     OpenSUSELeap15: systemtap-sdt-devel
     cross-policy-default: foreign
@@ -770,7 +768,6 @@ mappings:
   libc-malloc-debug:
     default:
     Fedora: glibc-utils
-    Fedora39: glibc
     cross-policy-default: foreign
 
   libc-static:
@@ -1734,7 +1731,6 @@ mappings:
     rpm: python3-gobject
 
   python3-imp:
-    Fedora39: python3-zombie-imp
     Fedora40: python3-zombie-imp
 
   python3-libvirt:
