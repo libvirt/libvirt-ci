@@ -82,7 +82,7 @@ cross:
 - libsoup2.4-dev:s390x
 - libspice-client-gtk-3.0-dev:s390x
 - libspice-protocol-dev:s390x
-- libssh-gcrypt-dev:s390x
+- libssh-dev:s390x
 - libssh2-1-dev:s390x
 - libstd-rust-dev:s390x
 - libsystemd-dev:s390x

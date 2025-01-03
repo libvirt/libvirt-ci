@@ -1065,9 +1065,8 @@ mappings:
   libssh:
     default: libssh
     apk: libssh-dev
+    deb: libssh-dev
     rpm: libssh-devel
-    Debian: libssh-gcrypt-dev
-    Ubuntu: libssh-dev
     cross-policy-default: foreign
 
   libssh2:

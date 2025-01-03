@@ -166,7 +166,7 @@ native:
 - libspice-client-gtk-3.0-dev
 - libspice-protocol-dev
 - libspice-server-dev
-- libssh-gcrypt-dev
+- libssh-dev
 - libssh2-1-dev
 - libstd-rust-dev
 - libsub-uplevel-perl
