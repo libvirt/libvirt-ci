@@ -104,7 +104,6 @@ native:
 - p5-CPAN-Changes
 - p5-Digest
 - p5-Digest-MD5
-- p5-ExtUtils-CBuilder
 - p5-File-Slurp
 - p5-IO-Compress
 - p5-IO-Interface

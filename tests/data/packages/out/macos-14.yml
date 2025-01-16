@@ -3,7 +3,6 @@ cpan:
 - CPAN::Changes
 - Digest
 - Digest::MD5
-- ExtUtils::CBuilder
 - File::Slurp
 - IO::Compress::Bzip2
 - IO::Interface

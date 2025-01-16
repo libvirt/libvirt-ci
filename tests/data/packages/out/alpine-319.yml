@@ -2,7 +2,6 @@ cpan:
 - Archive::Tar
 - CPAN::Changes
 - Digest::MD5
-- ExtUtils::CBuilder
 - IO::Compress::Bzip2
 - IO::Interface
 - LWP::UserAgent

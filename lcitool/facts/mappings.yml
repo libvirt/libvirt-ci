@@ -1452,9 +1452,10 @@ mappings:
     rpm: perl-Digest-MD5
 
   perl-ExtUtils-CBuilder:
-    deb: libextutils-cbuilder-perl
-    pkg: p5-ExtUtils-CBuilder
+    default: perl
+    pkg: perl5
     rpm: perl-ExtUtils-CBuilder
+    OpenSUSE: perl
 
   perl-ExtUtils-Embed:
     default: perl
