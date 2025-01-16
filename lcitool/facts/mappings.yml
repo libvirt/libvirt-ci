@@ -1587,6 +1587,7 @@ mappings:
     deb: libtime-hr-perl
     pkg: p5-Time-HiRes
     rpm: perl-Time-HiRes
+    OpenSUSE: perl
 
   perl-XML-Twig:
     apk: perl-xml-twig

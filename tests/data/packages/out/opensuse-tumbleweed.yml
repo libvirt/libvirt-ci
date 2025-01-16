@@ -203,7 +203,6 @@ native:
 - perl-Test-Pod
 - perl-Test-Pod-Coverage
 - perl-Test-Simple
-- perl-Time-HiRes
 - perl-XML-Twig
 - perl-XML-Writer
 - perl-XML-XPath
