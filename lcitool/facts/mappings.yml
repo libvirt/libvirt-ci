@@ -1432,6 +1432,8 @@ mappings:
     deb: libarchive-tar-perl
     pkg: perl5
     rpm: perl-Archive-Tar
+    OpenSUSE: perl
+    OpenSUSELeap15: perl-Archive-Tar
 
   perl-CPAN-Changes:
     deb: libcpan-changes-perl

@@ -188,7 +188,6 @@ native:
 - pcre-devel-static
 - perl
 - perl-App-cpanminus
-- perl-Archive-Tar
 - perl-CPAN-Changes
 - perl-Digest
 - perl-Digest-MD5
