@@ -1559,6 +1559,8 @@ mappings:
     deb: libtest-harness-perl
     pkg: p5-Test-Harness
     rpm: perl-Test-Harness
+    OpenSUSE: perl
+    OpenSUSELeap15: perl-Test-Harness
 
   perl-Test-LWP-UserAgent:
     deb: libtest-lwp-useragent-perl
