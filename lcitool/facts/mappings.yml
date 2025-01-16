@@ -1021,7 +1021,7 @@ mappings:
     cross-policy-default: foreign
 
   librest:
-    apk: rest-dev
+    apk: rest1-dev
     deb: librest-dev
     pkg: rest
     Fedora: rest-devel

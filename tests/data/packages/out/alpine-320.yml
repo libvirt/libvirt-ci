@@ -211,7 +211,7 @@ native:
 - qemu
 - qemu-img
 - readline-dev
-- rest-dev
+- rest1-dev
 - rpcgen
 - rpm2cpio
 - ruby-dev
