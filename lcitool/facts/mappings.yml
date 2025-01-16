@@ -1457,8 +1457,7 @@ mappings:
     rpm: perl-ExtUtils-CBuilder
 
   perl-ExtUtils-Embed:
-    apk: perl
-    deb: perl
+    default: perl
     pkg: perl5
     rpm: perl-ExtUtils-Embed
     OpenSUSE: perl

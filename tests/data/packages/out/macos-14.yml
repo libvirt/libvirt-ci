@@ -4,7 +4,6 @@ cpan:
 - Digest
 - Digest::MD5
 - ExtUtils::CBuilder
-- ExtUtils::Embed
 - File::Slurp
 - IO::Compress::Bzip2
 - IO::Interface
