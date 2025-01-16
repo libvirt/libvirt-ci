@@ -197,7 +197,6 @@ native:
 - perl-Module-Build
 - perl-Net-SNMP
 - perl-NetAddr-IP
-- perl-Pod-Simple
 - perl-Sub-Uplevel
 - perl-Test-Exception
 - perl-Test-Harness

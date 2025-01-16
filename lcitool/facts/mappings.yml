@@ -1519,6 +1519,7 @@ mappings:
     default: perl
     pkg: p5-Pod-Simple
     rpm: perl-Pod-Simple
+    OpenSUSE: perl
 
   perl-Sub-Uplevel:
     apk: perl-sub-uplevel
