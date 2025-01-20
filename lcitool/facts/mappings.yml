@@ -468,7 +468,7 @@ mappings:
 
   gdk-pixbuf:
     apk: gdk-pixbuf-dev
-    deb: libgdk-pixbuf2.0-dev
+    deb: libgdk-pixbuf-2.0-dev
     pkg: gdk-pixbuf2
     rpm: gdk-pixbuf2-devel
     MacOS: gdk-pixbuf

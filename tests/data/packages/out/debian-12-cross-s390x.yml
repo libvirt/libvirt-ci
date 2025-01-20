@@ -32,7 +32,7 @@ cross:
 - libfuse3-dev:s390x
 - libgbm-dev:s390x
 - libgcrypt20-dev:s390x
-- libgdk-pixbuf2.0-dev:s390x
+- libgdk-pixbuf-2.0-dev:s390x
 - libgirepository1.0-dev:s390x
 - libglib2.0-dev:s390x
 - libglusterfs-dev:s390x
