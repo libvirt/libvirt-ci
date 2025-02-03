@@ -1,7 +1,7 @@
 ---
 os:
   name: 'Alpine'
-  version: '319'
+  version: '321'
 
 packaging:
   format: 'apk'
@@ -21,4 +21,4 @@ ansible_python_package: python3
 ansible_python_interpreter: /usr/bin/python3
 
 containers:
-  base: docker.io/library/alpine:3.19
+  base: docker.io/library/alpine:3.21
