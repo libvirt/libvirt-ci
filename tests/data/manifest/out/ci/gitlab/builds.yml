@@ -99,7 +99,7 @@ x86_64-freebsd-current:
   needs: []
   allow_failure: true
   variables:
-    CIRRUS_VM_IMAGE_NAME: freebsd-14-0-snap
+    CIRRUS_VM_IMAGE_NAME: freebsd-15-0-snap
     CIRRUS_VM_IMAGE_SELECTOR: image_family
     CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
     INSTALL_COMMAND: pkg install -y
