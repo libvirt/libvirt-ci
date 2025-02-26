@@ -249,6 +249,7 @@ native:
 - vim
 - virglrenderer-dev
 - vte3-dev
+- vulkan-tools
 - wget
 - which
 - wireshark-dev

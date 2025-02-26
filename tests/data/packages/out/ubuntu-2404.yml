@@ -294,6 +294,7 @@ native:
 - valac
 - valgrind
 - vim-nox
+- vulkan-tools
 - wget
 - wireshark-dev
 - xfslibs-dev

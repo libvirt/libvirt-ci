@@ -294,6 +294,7 @@ native:
 - vim-minimal
 - virglrenderer-devel
 - vte291-devel
+- vulkan-tools
 - wget
 - which
 - wireshark-devel

@@ -2153,6 +2153,9 @@ mappings:
     CentOSStream9:
     cross-policy-default: foreign
 
+  vulkan-tools:
+    default: vulkan-tools
+
   libguestfs-tools:
     deb: libguestfs-tools
     rpm: guestfs-tools

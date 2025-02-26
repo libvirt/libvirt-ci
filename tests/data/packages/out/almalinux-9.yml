@@ -270,6 +270,7 @@ native:
 - valgrind
 - vim-minimal
 - vte291-devel
+- vulkan-tools
 - wget
 - which
 - wireshark-devel

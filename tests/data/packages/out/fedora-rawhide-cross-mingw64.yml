@@ -227,6 +227,7 @@ native:
 - vala
 - valgrind
 - vim-minimal
+- vulkan-tools
 - wget
 - which
 - xorriso

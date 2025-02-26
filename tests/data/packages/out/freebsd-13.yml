@@ -187,6 +187,7 @@ native:
 - vim
 - virglrenderer
 - vte3
+- vulkan-tools
 - wget
 - xorriso
 - yajl

@@ -328,6 +328,7 @@ packages:
 - vim
 - virglrenderer
 - vte
+- vulkan-tools
 - wget
 - which
 - wireshark

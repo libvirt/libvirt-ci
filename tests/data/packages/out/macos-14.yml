@@ -150,6 +150,7 @@ native:
 - vde
 - vim
 - vte3
+- vulkan-tools
 - wget
 - xorriso
 - xz
