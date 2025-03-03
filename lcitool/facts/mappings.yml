@@ -2077,7 +2077,7 @@ mappings:
   tcl:
     default: tcl
     deb: tcl-dev
-    pkg: tcl87
+    pkg: tcl90
     rpm: tcl-devel
     MacOS: tcl-tk
 
