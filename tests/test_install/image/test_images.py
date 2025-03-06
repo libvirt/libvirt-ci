@@ -30,7 +30,7 @@ class MockOSinfoObject:
     """
 
     def __init__(self):
-        self.name = "Debian 11"
+        self.name = "Debian 12"
         self.images = [MockOSinfoImageObject(IMAGE)]
 
 
@@ -66,7 +66,7 @@ def patch_cache_dir(tmp_path_factory, monkeypatch_module_scope):
 @pytest.fixture
 def osinfo_image(scope="module"):
     filepath = Path(test_utils.test_data_indir(__file__, "install/image"),
-                    "debian-11.metadata")
+                    "debian-12.metadata")
 
     with open(filepath) as fd:
         return yaml.safe_load(fd).copy()
@@ -75,7 +75,7 @@ def osinfo_image(scope="module"):
 @pytest.mark.parametrize(
     "target",
     [
-        pytest.param("debian-11", id="non_cached_image"),
+        pytest.param("debian-12", id="non_cached_image"),
         pytest.param("fedora-rawhide", id="cached_image"),
     ]
 )
@@ -127,7 +127,7 @@ def test_get_image_NoImageError(monkeypatch, img_params, osinfo_image, targets):
     don't support.
     """
     global IMAGE
-    target = "debian-11"
+    target = "debian-12"
 
     IMAGE = osinfo_image
     IMAGE.update(img_params)

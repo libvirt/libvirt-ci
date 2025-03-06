@@ -231,7 +231,6 @@ mappings:
 
   cargo-c:
     default: cargo-c
-    Debian11:
     Ubuntu2204:
 
   cargo-rpm-macros:
@@ -262,7 +261,6 @@ mappings:
     pkg: rust
     rpm: clippy
     OpenSUSE:
-    Debian11:
 
   cloud-init:
     default: cloud-init
@@ -531,13 +529,10 @@ mappings:
     Fedora: glusterfs-api-devel
     OpenSUSE: glusterfs-devel
     armv6l-Debian:
-    armv6l-Debian11: libglusterfs-dev
     armv6l-Debian12: libglusterfs-dev
     armv7l-Debian:
-    armv7l-Debian11: libglusterfs-dev
     armv7l-Debian12: libglusterfs-dev
     i686-Debian:
-    i686-Debian11: libglusterfs-dev
     i686-Debian12: libglusterfs-dev
     cross-policy-default: foreign
 
@@ -668,7 +663,6 @@ mappings:
     pkg: openjdk21
     rpm: java-21-openjdk-headless
     MacOS: openjdk
-    Debian11: openjdk-17-jdk-headless
     Debian12: openjdk-17-jdk-headless
 
   jna:
@@ -805,7 +799,6 @@ mappings:
     deb: libclang-rt-dev
     rpm: compiler-rt
     OpenSUSE: clang-devel
-    Debian11: libclang-dev
     Ubuntu2204: libclang-dev
 
   libcmpiutil:
@@ -946,7 +939,6 @@ mappings:
   libnbd:
     deb: libnbd-dev
     rpm: libnbd-devel
-    Debian11:
 
   libnl3:
     apk: libnl3-dev
@@ -1180,7 +1172,6 @@ mappings:
     apk: libxdp-dev
     deb: libxdp-dev
     rpm: libxdp-devel
-    Debian11:
     OpenSUSELeap15:
     Ubuntu2204:
     cross-policy-default: foreign
@@ -1328,7 +1319,6 @@ mappings:
 
   netcf:
     apk: netcf-dev
-    Debian11: libnetcf-dev
     cross-policy-default: skip
 
   net-snmp:
@@ -1659,7 +1649,6 @@ mappings:
     default: polkit
     deb: polkitd
     MacOS:
-    Debian11: policykit-1
 
   pkg-config:
     default: pkgconf
@@ -2046,7 +2035,6 @@ mappings:
     # Although in "latest", not in the stable quarterly releases.
     # Revisit mid-october 2023 after the next quarterly release.
     FreeBSD:
-    Debian11:
 
   systemd:
     deb: libsystemd-dev
@@ -2109,7 +2097,6 @@ mappings:
     apk: py3-tomli
     pkg: py311-tomli
     MacOS:
-    Debian11:
 
   unzip:
     default: unzip
