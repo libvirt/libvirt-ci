@@ -2,7 +2,7 @@
 # the upstream repo default branch. To force a run when pushing
 # to a feature branch use
 #
-#  git push -o ci.variable=RUN_PIPELINEI=1 ...
+#  git push -o ci.variable=RUN_PIPELINE=1 ...
 
 stages:
   - containers
