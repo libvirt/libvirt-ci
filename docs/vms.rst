@@ -368,7 +368,7 @@ are a bunch of manual steps involved. First, you want to install the base OS
 manually rather than use the official qcow2 images, in contrast to the
 suggestion above, because cloud-init requires a specific disk partitioning scheme.
 Best you can do is to look at the official
-`OpenStack guide <https://docs.openstack.org/image-guide/freebsd-image.html>`_
+`OpenStack guide <https://docs.openstack.org/image-guide/create-images-manually-example-freebsd-image.html>`_
 and follow only the installation guide (along with the ``virt-install`` steps
 outlined above).
 
