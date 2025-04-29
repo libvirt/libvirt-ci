@@ -1005,6 +1005,12 @@ mappings:
     apk: ceph-dev
     deb: librbd-dev
     rpm: librbd-devel
+    armv6l-deb:
+    armv6l-Debian12: librbd-dev
+    armv7l-deb:
+    armv7l-Debian12: librbd-dev
+    i686-deb:
+    i686-Debian12: librbd-dev
     cross-policy-default: foreign
 
   librdmacm:
