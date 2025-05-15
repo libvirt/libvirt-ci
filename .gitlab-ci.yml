@@ -285,19 +285,19 @@ x86_64-check-debian-sid:
     IMAGE: docker.io/library/debian:sid-slim
     NAME: debian-sid
 
-x86_64-check-fedora-40:
-  extends: .check_container_template
-  variables:
-    <<: *dnf_dry_run_command
-    IMAGE: registry.fedoraproject.org/fedora:40
-    NAME: fedora-40
-
 x86_64-check-fedora-41:
   extends: .check_container_template
   variables:
     <<: *dnf_dry_run_command
     IMAGE: registry.fedoraproject.org/fedora:41
     NAME: fedora-41
+
+x86_64-check-fedora-42:
+  extends: .check_container_template
+  variables:
+    <<: *dnf_dry_run_command
+    IMAGE: registry.fedoraproject.org/fedora:42
+    NAME: fedora-42
 
 x86_64-check-fedora-rawhide:
   extends: .check_container_template
