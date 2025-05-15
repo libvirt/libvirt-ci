@@ -261,7 +261,6 @@ packages:
 - python3-devel
 - python3-docutils
 - python3-gobject
-- python3-imp
 - python3-libvirt
 - python3-libxml2
 - python3-lxml

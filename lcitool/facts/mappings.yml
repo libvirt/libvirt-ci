@@ -161,7 +161,6 @@ mappings:
     rpm: bash-completion-devel
     AlmaLinux9: bash-completion
     CentOSStream9: bash-completion
-    Fedora40: bash-completion
 
   bc:
     default: bc
@@ -353,7 +352,6 @@ mappings:
     OpenSUSE: systemtap-dtrace
     AlmaLinux9: systemtap-sdt-devel
     CentOSStream9: systemtap-sdt-devel
-    Fedora40: systemtap-sdt-devel
     OpenSUSELeap15: systemtap-sdt-devel
     cross-policy-default: foreign
 
@@ -1730,9 +1728,6 @@ mappings:
     deb: python3-gi
     pkg: py311-gobject3
     rpm: python3-gobject
-
-  python3-imp:
-    Fedora40: python3-zombie-imp
 
   python3-libvirt:
     apk: py3-libvirt
