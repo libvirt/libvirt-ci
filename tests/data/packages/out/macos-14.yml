@@ -124,6 +124,7 @@ native:
 - pixman
 - pkg-config
 - python-build
+- python-packaging
 - python3
 - qemu
 - readline

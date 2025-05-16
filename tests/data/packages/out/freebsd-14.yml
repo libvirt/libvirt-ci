@@ -148,6 +148,7 @@ native:
 - py311-libxml2
 - py311-lxml
 - py311-numpy
+- py311-packaging
 - py311-pillow
 - py311-pip
 - py311-pytest

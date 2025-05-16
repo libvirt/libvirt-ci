@@ -1763,6 +1763,14 @@ mappings:
     CentOS:
     MacOS:
 
+  python3-packaging:
+    apk: py3-packaging
+    deb: python3-packaging
+    pkg: py311-packaging
+    rpm: python3-packaging
+    MacOS: python-packaging
+    OpenSUSE: python3-packaging
+
   python3-pillow:
     default: python3-pillow
     apk: py3-pillow

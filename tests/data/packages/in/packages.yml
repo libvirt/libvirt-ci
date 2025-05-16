@@ -266,6 +266,7 @@ packages:
 - python3-lxml
 - python3-numpy
 - python3-opencv
+- python3-packaging
 - python3-pillow
 - python3-pip
 - python3-pytest
