@@ -85,6 +85,7 @@ stages:
   script:
     - source <(_venv_/bin/python3 bin/lcitool -d /tmp/datadir variables $NAME all_mappings | grep PKGS)
     - set +e
+    - ret=0
     - for pkg in $PKGS;
       do
         echo -n "Checking package '$pkg' ... ";
@@ -97,7 +98,7 @@ stages:
           echo "LAST ERROR:";
           echo "-----------";
           echo -e "$out";
-          exit 1;
+          ret=1;
         fi;
       done
 
@@ -113,7 +114,7 @@ stages:
           echo "LAST ERROR:";
           echo "-----------";
           echo -e "$out";
-          exit 1;
+          ret=1;
         fi;
       done
 
@@ -129,9 +130,16 @@ stages:
           echo "LAST ERROR:";
           echo "-----------";
           echo -e "$out";
-          exit 1;
+          ret=1;
         fi;
       done
+
+    - if [ $ret -ne 0 ];
+      then
+        echo "Some failures occurred. See above";
+        exit $ret;
+      fi;
+
   variables:
     CPAN_DRY_RUN_COMMAND: cpanm --scandeps
   rules:
