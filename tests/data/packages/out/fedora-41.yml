@@ -181,7 +181,7 @@ native:
 - osinfo-db-tools
 - pam-devel
 - parted-devel
-- pcre-static
+- pcre2-static
 - perl-App-cpanminus
 - perl-Archive-Tar
 - perl-CPAN-Changes

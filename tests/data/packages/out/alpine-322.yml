@@ -160,7 +160,7 @@ native:
 - openssh-client
 - osinfo-db-tools
 - parted-dev
-- pcre-dev
+- pcre2-dev
 - perl
 - perl-app-cpanminus
 - perl-dev

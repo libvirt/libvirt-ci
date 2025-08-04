@@ -1405,10 +1405,12 @@ mappings:
     MacOS:
 
   pcre-static:
-    apk: pcre-dev
+    apk: pcre2-dev
     deb: libpcre2-dev
-    rpm: pcre-static
-    OpenSUSE: pcre-devel-static
+    rpm: pcre2-static
+    OpenSUSE: pcre2-devel-static
+    AlmaLinux9: pcre-static
+    CentOSStream9: pcre-static
     cross-policy-default: foreign
 
   perl:
