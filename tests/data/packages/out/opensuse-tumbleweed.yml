@@ -101,7 +101,6 @@ native:
 - libcap-ng-devel
 - libcbor-devel
 - libcmocka-devel
-- libcmpiutil-devel
 - libconfig-devel
 - libcurl-devel
 - libdrm-devel
