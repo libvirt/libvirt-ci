@@ -87,7 +87,6 @@ native:
 - json-glib-devel
 - junit
 - kmod
-- libSDL2-devel
 - libSDL2_image-devel
 - libacl-devel
 - libaio-devel
@@ -252,6 +251,7 @@ native:
 - sanlock-devel
 - screen
 - scrub
+- sdl2-compat-devel
 - sed
 - snappy-devel
 - sndio-devel

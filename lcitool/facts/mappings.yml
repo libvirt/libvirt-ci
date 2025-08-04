@@ -1932,8 +1932,11 @@ mappings:
     default: sdl2
     apk: sdl2-dev
     deb: libsdl2-dev
-    rpm: SDL2-devel
-    OpenSUSE: libSDL2-devel
+    rpm: sdl2-compat-devel
+    AlmaLinux: SDL2-devel
+    CentOS: SDL2-devel
+    Fedora41: SDL2-devel
+    OpenSUSELeap15: libSDL2-devel
     cross-mingw32-rpm: mingw32-SDL2
     cross-mingw64-rpm: mingw64-SDL2
     cross-policy-default: foreign

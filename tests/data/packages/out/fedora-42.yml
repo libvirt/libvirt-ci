@@ -1,5 +1,4 @@
 native:
-- SDL2-devel
 - SDL2_image-devel
 - alsa-lib-devel
 - ant
@@ -267,6 +266,7 @@ native:
 - sanlock-devel
 - screen
 - scrub
+- sdl2-compat-devel
 - sed
 - snappy-devel
 - socat
