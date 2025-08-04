@@ -2184,7 +2184,8 @@ mappings:
     AlmaLinux:
     CentOS:
     aarch64-deb: libxen-dev
-    armv7l-deb: libxen-dev
+    armv7l-Debian:
+    armv7l-Debian12: libxen-dev
     x86_64-deb: libxen-dev
     cross-policy-default: foreign
 
