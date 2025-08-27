@@ -350,6 +350,10 @@ mappings:
     default: dnsmasq
     deb: dnsmasq-base
 
+  dtc:
+    default: dtc
+    deb: device-tree-compiler
+
   dtrace:
     deb: systemtap-sdt-dev
     rpm: systemtap-sdt-dtrace

@@ -29,6 +29,7 @@ native:
 - cpp
 - dbus
 - debianutils
+- device-tree-compiler
 - diffutils
 - dnsmasq-base
 - dwarves

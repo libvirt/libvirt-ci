@@ -43,6 +43,7 @@ native:
 - device-mapper-devel
 - diffutils
 - dnsmasq
+- dtc
 - dwarves
 - e2fsprogs
 - ebtables

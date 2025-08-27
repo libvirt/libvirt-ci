@@ -71,6 +71,7 @@ native:
 - dbus-daemon
 - diffutils
 - dnsmasq
+- dtc
 - dwarves
 - e2fsprogs
 - ebtables

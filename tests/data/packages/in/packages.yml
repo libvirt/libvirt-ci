@@ -45,6 +45,7 @@ packages:
 - diffutils
 - dlfcn
 - dnsmasq
+- dtc
 - dtrace
 - dwarves
 - e2fsprogs

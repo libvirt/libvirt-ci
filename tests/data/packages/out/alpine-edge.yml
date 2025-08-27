@@ -50,6 +50,7 @@ native:
 - dbus
 - diffutils
 - dnsmasq
+- dtc
 - dtc-dev
 - e2fsprogs
 - eudev-dev

@@ -42,6 +42,7 @@ native:
 - device-mapper-multipath-devel
 - diffutils
 - dnsmasq
+- dtc
 - dwarves
 - e2fsprogs
 - ebtables
