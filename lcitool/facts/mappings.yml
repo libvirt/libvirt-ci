@@ -1227,6 +1227,7 @@ mappings:
     pkg: lua54
     rpm: lua-devel
     MacOS: lua
+    OpenSUSETumbleweed: lua54-devel
 
   lvm2:
     default: lvm2

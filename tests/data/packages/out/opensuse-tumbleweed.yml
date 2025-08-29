@@ -158,7 +158,7 @@ native:
 - llvm
 - lsof
 - lttng-ust-devel
-- lua-devel
+- lua54-devel
 - lvm2
 - lzo-devel
 - make
