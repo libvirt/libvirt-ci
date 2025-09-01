@@ -5,6 +5,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import textwrap
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
 
 #
 # The job templates in this file rely on variables in a
@@ -23,7 +25,7 @@ import textwrap
 #
 
 
-def docs(namespace):
+def docs(namespace: str) -> str:
     return textwrap.dedent(
         f"""
         # Variables that can be set to control the behaviour of
@@ -76,7 +78,7 @@ def docs(namespace):
     )
 
 
-def variables(namespace):
+def variables(namespace: str) -> str:
     namespace_lc = namespace.lower()
     return textwrap.dedent(
         f"""
@@ -88,7 +90,7 @@ def variables(namespace):
     )
 
 
-def workflow():
+def workflow() -> str:
     return textwrap.dedent(
         """
         workflow:
@@ -111,7 +113,7 @@ def workflow():
     )
 
 
-def debug():
+def debug() -> str:
     return textwrap.dedent(
         """
         debug:
@@ -128,12 +130,12 @@ def debug():
     )
 
 
-def includes(paths):
+def includes(paths: List[Path]) -> str:
     lines = [f"  - local: '/{path}'" for path in paths]
     return "include:\n" + "\n".join(lines)
 
 
-def format_variables(variables):
+def format_variables(variables: Dict[str, str]) -> str:
     job = []
     for key in sorted(variables.keys()):
         val = variables[key]
@@ -143,7 +145,7 @@ def format_variables(variables):
     return ""
 
 
-def container_template(cidir):
+def container_template(cidir: Path) -> str:
     return textwrap.dedent(
         f"""
         # We want to publish containers with tag 'latest':
@@ -188,7 +190,7 @@ def container_template(cidir):
     )
 
 
-def _build_template(template, envid, project, cidir):
+def _build_template(template: str, envid: str, project: str, cidir: Path) -> str:
     return textwrap.dedent(
         f"""
         #
@@ -337,17 +339,17 @@ def _build_template(template, envid, project, cidir):
     )
 
 
-def native_build_template(project, cidir):
+def native_build_template(project: str, cidir: Path) -> str:
     return _build_template(".gitlab_native_build_job", "$NAME", project, cidir)
 
 
-def cross_build_template(project, cidir):
+def cross_build_template(project: str, cidir: Path) -> str:
     return _build_template(
         ".gitlab_cross_build_job", "$NAME-cross-$CROSS", project, cidir
     )
 
 
-def cirrus_template(cidir):
+def cirrus_template(cidir: Path) -> str:
     return textwrap.dedent(
         f"""
         .cirrus_build_job:
@@ -405,7 +407,7 @@ def cirrus_template(cidir):
     )
 
 
-def check_dco_job():
+def check_dco_job() -> str:
     jobvars = {
         "GIT_DEPTH": "1000",
     }
@@ -442,7 +444,7 @@ def check_dco_job():
     )
 
 
-def code_fmt_template():
+def code_fmt_template() -> str:
     return textwrap.dedent(
         """
         .code_format:
@@ -478,7 +480,7 @@ def code_fmt_template():
     )
 
 
-def cargo_fmt_job():
+def cargo_fmt_job() -> str:
     jobvars = {"NAME": "cargo-fmt", "EXT": "txt"}
     return (
         textwrap.dedent(
@@ -491,7 +493,7 @@ def cargo_fmt_job():
     )
 
 
-def go_fmt_job():
+def go_fmt_job() -> str:
     jobvars = {"NAME": "go-fmt", "EXT": "patch"}
     return (
         textwrap.dedent(
@@ -504,7 +506,7 @@ def go_fmt_job():
     )
 
 
-def clang_format_job():
+def clang_format_job() -> str:
     jobvars = {"NAME": "clang-format", "EXT": "patch"}
     return (
         textwrap.dedent(
@@ -517,7 +519,7 @@ def clang_format_job():
     )
 
 
-def black_job():
+def black_job() -> str:
     jobvars = {"NAME": "black", "EXT": "txt"}
     return (
         textwrap.dedent(
@@ -530,7 +532,7 @@ def black_job():
     )
 
 
-def flake8_job():
+def flake8_job() -> str:
     jobvars = {"NAME": "flake8", "EXT": "txt"}
     return (
         textwrap.dedent(
@@ -543,8 +545,9 @@ def flake8_job():
     )
 
 
-def _container_job(target, arch, image, allow_failure, optional):
-    allow_failure = str(allow_failure).lower()
+def _container_job(
+    target: str, arch: str, image: str, allow_failure: bool, optional: bool
+) -> str:
     jobvars = {
         "NAME": image,
     }
@@ -556,24 +559,26 @@ def _container_job(target, arch, image, allow_failure, optional):
             f"""
         {arch}-{target}-container:
           extends: .container_job
-          allow_failure: {allow_failure}
+          allow_failure: {str(allow_failure).lower()}
         """
         )
         + format_variables(jobvars)
     )
 
 
-def native_container_job(target, allow_failure, optional):
+def native_container_job(target: str, allow_failure: bool, optional: bool) -> str:
     return _container_job(target, "x86_64", f"{target}", allow_failure, optional)
 
 
-def cross_container_job(target, arch, allow_failure, optional):
+def cross_container_job(
+    target: str, arch: str, allow_failure: bool, optional: bool
+) -> str:
     return _container_job(
         target, arch, f"{target}-cross-{arch}", allow_failure, optional
     )
 
 
-def format_artifacts(artifacts):
+def format_artifacts(artifacts: Optional[Dict[str, Union[str, List[str]]]]) -> str:
     if artifacts is None:
         return ""
 
@@ -597,7 +602,7 @@ def format_artifacts(artifacts):
     return section[1:]
 
 
-def merge_vars(system, user):
+def merge_vars(system: Dict[str, str], user: Dict[str, str]) -> Dict[str, str]:
     for key in user.keys():
         if key in system:
             raise ValueError(
@@ -607,10 +612,15 @@ def merge_vars(system, user):
 
 
 def _build_job(
-    target, image, arch, suffix, variables, template, allow_failure, artifacts
-):
-    allow_failure = str(allow_failure).lower()
-
+    target: str,
+    image: str,
+    arch: str,
+    suffix: str,
+    variables: Dict[str, str],
+    template: str,
+    allow_failure: bool,
+    artifacts: Optional[Dict[str, Union[str, List[str]]]],
+) -> str:
     variables["TARGET_BASE_IMAGE"] = image
 
     return (
@@ -621,7 +631,7 @@ def _build_job(
           needs:
             - job: {arch}-{target}-container
               optional: true
-          allow_failure: {allow_failure}
+          allow_failure: {str(allow_failure).lower()}
         """
         )
         + format_variables(variables)
@@ -630,8 +640,15 @@ def _build_job(
 
 
 def native_build_job(
-    target, image, suffix, variables, template, allow_failure, optional, artifacts
-):
+    target: str,
+    image: str,
+    suffix: str,
+    variables: Dict[str, str],
+    template: str,
+    allow_failure: bool,
+    optional: bool,
+    artifacts: None,
+) -> str:
     jobvars = merge_vars(
         {
             "NAME": target,
@@ -647,8 +664,16 @@ def native_build_job(
 
 
 def cross_build_job(
-    target, image, arch, suffix, variables, template, allow_failure, optional, artifacts
-):
+    target: str,
+    image: str,
+    arch: str,
+    suffix: str,
+    variables: Dict[Any, Any],
+    template: str,
+    allow_failure: bool,
+    optional: bool,
+    artifacts: Optional[Dict[str, Union[str, List[str]]]],
+) -> str:
     jobvars = merge_vars({"NAME": target, "CROSS": arch}, variables)
     if optional:
         jobvars["JOB_OPTIONAL"] = "1"
@@ -659,17 +684,17 @@ def cross_build_job(
 
 
 def cirrus_build_job(
-    target,
-    instance_type,
-    image_selector,
-    image_name,
-    arch,
-    pkg_cmd,
-    suffix,
-    variables,
-    allow_failure,
-    optional,
-):
+    target: str,
+    instance_type: str,
+    image_selector: str,
+    image_name: str,
+    arch: str,
+    pkg_cmd: str,
+    suffix: str,
+    variables: Dict[Any, Any],
+    allow_failure: bool,
+    optional: bool,
+) -> str:
     if pkg_cmd == "brew":
         install_cmd = "brew install"
         upgrade_cmd = "brew upgrade"
