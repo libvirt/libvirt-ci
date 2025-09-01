@@ -68,6 +68,7 @@ files = [
   "lcitool/__init__.py",
   "lcitool/ansible_wrapper.py",
   "lcitool/config.py",
+  "lcitool/containers/*.py",
   "lcitool/gitlab.py",
   "lcitool/libvirt_wrapper.py",
   "lcitool/logger.py",

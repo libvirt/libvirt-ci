@@ -13,6 +13,8 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 
 from lcitool import LcitoolError
+from typing import Any, List, Optional, Tuple, Union
+from pwd import struct_passwd
 
 log = logging.getLogger()
 
@@ -20,14 +22,14 @@ log = logging.getLogger()
 class ContainerError(LcitoolError):
     """Global exception type for this module."""
 
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         super().__init__(message, "Container")
 
 
 class ContainerExecError(ContainerError):
     """Thrown whenever an error occurs during container engine execution."""
 
-    def __init__(self, rc, message=None):
+    def __init__(self, rc: int, message: Optional[str] = None) -> None:
         if message is None:
             message = f"Process exited with error code {rc}"
 
@@ -38,14 +40,11 @@ class ContainerExecError(ContainerError):
 class Container(ABC):
     """Abstract class for containers"""
 
-    def __init__(self):
-        if self.__class__ is Container:
-            self.engine = None
-        else:
-            self.engine = self.__class__.__name__.lower()
+    def __init__(self) -> None:
+        self.engine: str = self.__class__.__name__.lower()
 
     @staticmethod
-    def _exec(command, **kwargs):
+    def _exec(command: List[str], **kwargs: Any) -> subprocess.CompletedProcess:
         """
         Execute command in a subprocess.run call.
 
@@ -62,7 +61,7 @@ class Container(ABC):
 
         return proc
 
-    def _check(self):
+    def _check(self) -> bool:
         """
         Checks that engine is available and running. It
         does this by running "{/path/to/engine} version"
@@ -97,7 +96,7 @@ class Container(ABC):
         return not exists.returncode
 
     @property
-    def available(self):
+    def available(self) -> bool:
         """
         Checks whether the container engine is available and ready to use.
 
@@ -107,7 +106,7 @@ class Container(ABC):
         return self._check()
 
     @staticmethod
-    def _passwd(user):
+    def _passwd(user: Optional[Union[int, str]]) -> struct_passwd:
         """
         Get entry from Unix password database
 
@@ -127,7 +126,14 @@ class Container(ABC):
         except KeyError:
             raise ContainerError(f"user, {user} not found")
 
-    def _build_args(self, user, tempdir, env=None, datadir=None, script=None):
+    def _build_args(
+        self,
+        user: Union[int, str],
+        tempdir: Path,
+        env: Optional[List[str]] = None,
+        datadir: Optional[Path] = None,
+        script: Optional[Path] = None,
+    ) -> List[Union[Tuple[str, str], Tuple[str]]]:
         """
         Generate container options.
 
@@ -155,7 +161,7 @@ class Container(ABC):
         ]
         """
 
-        engine_args = []
+        engine_args: List[Union[Tuple[str, str], Tuple[str]]] = []
         passwd_entry = self._passwd(user)
         user_home = passwd_entry[5]
 
@@ -239,7 +245,7 @@ class Container(ABC):
         log.debug(f"Container options: {engine_args}")
         return engine_args
 
-    def rmi(self, image):
+    def rmi(self, image: str) -> bool:
         """
         Remove a container image.
         :param image: name of the image to remove (str).
@@ -254,7 +260,7 @@ class Container(ABC):
         log.debug(proc.stdout.strip())
         return not proc.returncode
 
-    def _images(self):
+    def _images(self) -> str:
         """
         Get all container images.
 
@@ -269,13 +275,19 @@ class Container(ABC):
         cmd.extend(cmd_args)
         img = self._exec(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
         log.debug(f"{self.engine} images\n%s", img.stdout)
-        return img.stdout
+        return str(img.stdout)
 
     @abstractmethod
-    def image_exists(self):
+    def image_exists(self, image_ref: str, image_tag: str) -> bool:
         pass
 
-    def _run(self, image, container_cmd, engine_extra_args, **kwargs):
+    def _run(
+        self,
+        image: str,
+        container_cmd: str,
+        engine_extra_args: List[str],
+        **kwargs: Any,
+    ) -> int:
         tag = "latest"
         if ":" in image:
             image, tag = image.split(":")
@@ -296,15 +308,15 @@ class Container(ABC):
     @abstractmethod
     def run(
         self,
-        image,
-        container_cmd,
-        user,
-        tempdir,
-        env=None,
-        datadir=None,
-        script=None,
-        **kwargs,
-    ):
+        image: str,
+        container_cmd: str,
+        user: Union[int, str],
+        tempdir: Path,
+        env: Optional[List[str]] = None,
+        datadir: Optional[Path] = None,
+        script: Optional[Path] = None,
+        **kwargs: Any,
+    ) -> int:
         """
         Prepares and run the command.
 
@@ -350,7 +362,7 @@ class Container(ABC):
 
         return self._run(image, container_cmd, engine_extra_args, **kwargs)
 
-    def build(self, filepath, tempdir, tag, **kwargs):
+    def build(self, filepath: Path, tempdir: Path, tag: str, **kwargs: Any) -> int:
         """
         Prepares and runs the container engine's build command.
 
@@ -374,7 +386,7 @@ class Container(ABC):
 
         # podman build --pull --tag $TAG --file='container/Dockerfile' .
 
-        cmd_args = ["--pull", "--tag", tag, "--file", filepath, f"{tempdir}"]
+        cmd_args = ["--pull", "--tag", tag, "--file", f"{filepath}", f"{tempdir}"]
 
         cmd = [self.engine, "build"]
         cmd.extend(cmd_args)
@@ -385,8 +397,15 @@ class Container(ABC):
 
     @abstractmethod
     def shell(
-        self, image, user, tempdir, env=None, datadir=None, script=None, **kwargs
-    ):
+        self,
+        image: str,
+        user: Union[int, str],
+        tempdir: Path,
+        env: Optional[List[str]] = None,
+        datadir: Optional[Path] = None,
+        script: Optional[Path] = None,
+        **kwargs: Any,
+    ) -> int:
         """
         Spawns an interactive shell inside the container.
 
@@ -401,4 +420,5 @@ class Container(ABC):
             user, tempdir, env=env, datadir=datadir, script=script
         )
         engine_extra_args.extend([item for tuple_ in build_args for item in tuple_])
+
         return self._run(image, "/bin/sh", engine_extra_args, **kwargs)

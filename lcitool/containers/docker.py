@@ -7,6 +7,9 @@
 import json
 import logging
 
+from typing import Any, Union, Optional, List
+from pathlib import Path
+
 from .containers import Container
 
 log = logging.getLogger()
@@ -17,15 +20,15 @@ class Docker(Container):
 
     def run(
         self,
-        image,
-        container_cmd,
-        user,
-        tempdir,
-        env=None,
-        datadir=None,
-        script=None,
-        **kwargs,
-    ):
+        image: str,
+        container_cmd: str,
+        user: Union[str, int],
+        tempdir: Path,
+        env: Optional[List[str]] = None,
+        datadir: Optional[Path] = None,
+        script: Optional[Path] = None,
+        **kwargs: Any,
+    ) -> int:
         """
         Prepares and runs the command inside a container.
 
@@ -37,8 +40,15 @@ class Docker(Container):
         )
 
     def shell(
-        self, image, user, tempdir, env=None, datadir=None, script=None, **kwargs
-    ):
+        self,
+        image: str,
+        user: Union[int, str],
+        tempdir: Path,
+        env: Optional[List[str]] = None,
+        datadir: Optional[Path] = None,
+        script: Optional[Path] = None,
+        **kwargs: Any,
+    ) -> int:
         """
         Spawns an interactive shell inside the container.
 
@@ -47,7 +57,7 @@ class Docker(Container):
 
         return super().shell(image, user, tempdir, env, datadir, script, **kwargs)
 
-    def _images(self):
+    def _images(self) -> Any:
         """
         Get all container images.
 
@@ -64,7 +74,7 @@ class Docker(Container):
         log.debug(f"Deserialized {self.engine} images\n%s", images)
         return images
 
-    def image_exists(self, image_ref, image_tag):
+    def image_exists(self, image_ref: str, image_tag: str) -> bool:
         """
         Check if image exists in docker.
         :param image_ref: name/id/registry-path of image to check (str).

@@ -8,6 +8,8 @@ import json
 import logging
 
 from .containers import Container
+from typing import Any, List, Optional, Tuple, Union
+from pathlib import Path
 
 log = logging.getLogger()
 
@@ -17,15 +19,15 @@ class Podman(Container):
 
     def run(
         self,
-        image,
-        container_cmd,
-        user,
-        tempdir,
-        env=None,
-        datadir=None,
-        script=None,
-        **kwargs,
-    ):
+        image: str,
+        container_cmd: str,
+        user: Union[int, str],
+        tempdir: Path,
+        env: Optional[List[str]] = None,
+        datadir: Optional[Path] = None,
+        script: Optional[Path] = None,
+        **kwargs: Any,
+    ) -> int:
         """
         Prepares and runs the command inside a container.
 
@@ -37,8 +39,15 @@ class Podman(Container):
         )
 
     def shell(
-        self, image, user, tempdir, env=None, datadir=None, script=None, **kwargs
-    ):
+        self,
+        image: str,
+        user: Union[int, str],
+        tempdir: Path,
+        env: Optional[List[str]] = None,
+        datadir: Optional[Path] = None,
+        script: Optional[Path] = None,
+        **kwargs: Any,
+    ) -> int:
         """
         Spawns an interactive shell inside the container.
 
@@ -47,7 +56,7 @@ class Podman(Container):
 
         return super().shell(image, user, tempdir, env, datadir, script, **kwargs)
 
-    def _extra_args(self, user):
+    def _extra_args(self, user: Optional[Union[int, str]]) -> List[Tuple[str, str]]:
         """
         Get Podman specific host namespace mapping
         :param user: numerical ID (int) or username (str) of the user.
@@ -76,7 +85,7 @@ class Podman(Container):
         # --keep-uid is supported, let's do this in a way that should
         # work for everyone.
 
-        podman_args_ = []
+        podman_args_: List[Tuple[str, str]] = []
 
         _, _, uid, gid, _, _, _ = self._passwd(user)
         if uid == 0:
@@ -107,7 +116,14 @@ class Podman(Container):
         )
         return podman_args_
 
-    def _build_args(self, user, tempdir, env=None, datadir=None, script=None):
+    def _build_args(
+        self,
+        user: Union[int, str],
+        tempdir: Path,
+        env: Optional[List[str]] = None,
+        datadir: Optional[Path] = None,
+        script: Optional[Path] = None,
+    ) -> List[Union[Tuple[str, str], Tuple[str]]]:
         """
         Options for Podman engine.
 
@@ -128,7 +144,7 @@ class Podman(Container):
 
         return args_podman
 
-    def _images(self):
+    def _images(self) -> Any:
         """
         Get all container images.
 
@@ -141,7 +157,7 @@ class Podman(Container):
         log.debug(f"Deserialized {self.engine} images\n%s", images)
         return images
 
-    def image_exists(self, image_ref, image_tag):
+    def image_exists(self, image_ref: str, image_tag: str) -> bool:
         """
         Check if image exists in podman.
         :param image_ref: name/id/registry-path of image to check (str).
