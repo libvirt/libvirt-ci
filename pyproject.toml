@@ -67,6 +67,7 @@ disallow_untyped_defs = true
 files = [
   "lcitool/__init__.py",
   "lcitool/ansible_wrapper.py",
+  "lcitool/config.py",
   "lcitool/gitlab.py",
   "lcitool/logger.py",
   "lcitool/util.py",

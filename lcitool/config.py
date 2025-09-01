@@ -11,6 +11,7 @@ import yaml
 from pathlib import Path
 
 from lcitool import util, LcitoolError
+from typing import Any, Dict, List, Optional
 
 log = logging.getLogger(__name__)
 
@@ -23,14 +24,14 @@ class ConfigError(LcitoolError):
     types.
     """
 
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         super().__init__(message, "Configuration")
 
 
 class LoadError(ConfigError):
     """Thrown when the configuration for lcitool could not be loaded."""
 
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         message_prefix = "Failed to load config: "
         message = message_prefix + message
         super().__init__(message)
@@ -39,27 +40,16 @@ class LoadError(ConfigError):
 class ValidationError(ConfigError):
     """Thrown when the configuration for lcitool could not be validated."""
 
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         message_prefix = "Failed to validate config: "
         message = message_prefix + message
         super().__init__(message)
 
 
 class Config:
-
-    @property
-    def values(self):
-
-        # lazy evaluation: most lcitool actions actually don't need the config
-        if self._values is None:
-            values = self._load_config()
-            self._validate(values)
-            self._values = values
-        return self._values
-
-    def __init__(self, path=None):
-        self._values = None
-        self._config_file_paths = None
+    def __init__(self, path: Optional[Path] = None):
+        self._values: Optional[Dict[str, Dict[str, Any]]] = None
+        self._config_file_paths: List[Path] = []
 
         if path is not None:
             self._config_file_paths = [Path(path)]
@@ -69,7 +59,21 @@ class Config:
                 for fname in ["config.yml", "config.yaml"]
             ]
 
-    def _load_config(self):
+    @property
+    def values(self) -> Dict[str, Dict[str, Any]]:
+        # lazy evaluation: most lcitool actions actually don't need the config
+        if self._values is None:
+            values = self._load_config()
+            self._validate(values)
+            self._values = values
+        return self._values
+
+    def _load_config(
+        self,
+    ) -> Dict[
+        str,
+        Dict[str, Any],
+    ]:
         # Load the template config containing the defaults first, this must
         # always succeed.
         default_config_path = util.package_resource(__package__, "etc/config.yml")
@@ -103,7 +107,7 @@ class Config:
         return values
 
     @staticmethod
-    def _remove_unknown_keys(_dict, known_keys):
+    def _remove_unknown_keys(_dict: Dict[str, Any], known_keys: List[str]) -> None:
         keys = list(_dict.keys())
 
         for k in keys:
@@ -113,7 +117,10 @@ class Config:
                 del _dict[k]
 
     @staticmethod
-    def _merge_config(default_config, user_config):
+    def _merge_config(
+        default_config: Dict[str, Dict[str, Any]],
+        user_config: Dict[str, Dict[str, Any]],
+    ) -> Dict[str, Dict[str, Any]]:
         config = copy.deepcopy(default_config)
         for section in default_config.keys():
             if section in user_config:
@@ -122,16 +129,20 @@ class Config:
                 config[section].update(user_config[section])
         return config
 
-    def _sanitize_values(self, user_config, default_config):
+    def _sanitize_values(
+        self,
+        user_config: Dict[str, Dict[str, Any]],
+        default_config: Dict[str, Dict[str, Any]],
+    ) -> None:
         # remove keys we don't recognize
-        self._remove_unknown_keys(user_config, default_config.keys())
+        self._remove_unknown_keys(user_config, list(default_config.keys()))
         for section in default_config.keys():
             if section in user_config:
                 self._remove_unknown_keys(
-                    user_config[section], default_config[section].keys()
+                    user_config[section], list(default_config[section].keys())
                 )
 
-    def _validate_keys(self, values, pathprefix=""):
+    def _validate_keys(self, values: Dict[str, Any], pathprefix: str = "") -> None:
         log.debug(f"Validating section='[{pathprefix}]'")
 
         # check that all keys have values assigned and of the right type
@@ -146,7 +157,10 @@ class Config:
             if not isinstance(value, (str, int)):
                 raise ValidationError(f"Invalid type for key '{pathprefix}.{key}'")
 
-    def _validate(self, values):
+    def _validate(
+        self,
+        values: Dict[str, Dict[str, Any]],
+    ) -> None:
         self._validate_keys(values)
 
         flavor = values["install"].get("flavor")
