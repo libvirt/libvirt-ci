@@ -66,5 +66,6 @@ warn_unused_configs = true
 disallow_untyped_defs = true
 files = [
   "lcitool/__init__.py",
+  "lcitool/logger.py",
   "lcitool/util.py",
 ]

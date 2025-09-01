@@ -4,7 +4,8 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-from logging import Formatter
+from logging import LogRecord, Formatter
+from typing import Any, Dict
 
 
 class LevelFormatter(Formatter):
@@ -20,7 +21,7 @@ class LevelFormatter(Formatter):
     the parent class.
     """
 
-    def __init__(self, fmt_levels, *args, **kwargs):
+    def __init__(self, fmt_levels: Dict[int, str], *args: Any, **kwargs: Any) -> None:
         """
         Return an instance which handles multiple logging formats.
 
@@ -32,7 +33,7 @@ class LevelFormatter(Formatter):
 
         super().__init__(*args, **kwargs)
 
-    def format(self, record):
+    def format(self, record: LogRecord) -> str:
         """
         Format a log record to the defined logging output.
 
