@@ -4,15 +4,17 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-import ansible_runner
+import ansible_runner  # type: ignore
 import logging
 import shutil
 import yaml
 
+from ansible_runner import Runner
 from pathlib import Path
 from tempfile import TemporaryDirectory, NamedTemporaryFile
 
 from lcitool import util, LcitoolError
+from typing import Any, Dict, List, Optional, Union
 
 log = logging.getLogger(__name__)
 
@@ -24,14 +26,14 @@ class AnsibleWrapperError(LcitoolError):
     types.
     """
 
-    def __init__(self, message):
+    def __init__(self, message: str):
         super().__init__(message, "AnsibleWrapper")
 
 
 class ExecutionError(AnsibleWrapperError):
     """Thrown whenever the Ansible runner failed the execution."""
 
-    def __init__(self, message):
+    def __init__(self, message: str):
         message_prefix = "Ansible execution failed: "
         message = message_prefix + message
         super().__init__(message)
@@ -40,20 +42,20 @@ class ExecutionError(AnsibleWrapperError):
 class EnvironmentError(AnsibleWrapperError):
     """Thrown when preparation of the execution environment failed."""
 
-    def __init__(self, message):
+    def __init__(self, message: str):
         message_prefix = "Failed to prepare the execution environment: "
         message = message_prefix + message
         super().__init__(message)
 
 
 class AnsibleWrapper:
-    def __init__(self):
-        self._tempdir = TemporaryDirectory(
+    def __init__(self) -> None:
+        self._tempdir: TemporaryDirectory = TemporaryDirectory(
             prefix="ansible_runner", dir=util.get_temp_dir()
         )
-        self._private_data_dir = Path(self._tempdir.name)
+        self._private_data_dir: Path = Path(self._tempdir.name)
 
-    def _get_default_params(self):
+    def _get_default_params(self) -> Dict[str, Union[str, Any]]:
         ansible_log_path = Path(util.get_cache_dir(), "ansible.log").as_posix()
         default_params = {
             "private_data_dir": self._private_data_dir,
@@ -75,8 +77,17 @@ class AnsibleWrapper:
         return default_params
 
     def prepare_env(
-        self, playbookdir=None, inventories=None, group_vars=None, extravars=None
-    ):
+        self,
+        playbookdir: None = None,
+        inventories: Optional[List[Union[Path, Dict[str, Any]]]] = None,
+        group_vars: Optional[
+            Dict[
+                str,
+                Any,
+            ]
+        ] = None,
+        extravars: None = None,
+    ) -> None:
         """
         Prepares the Ansible runner execution environment.
 
@@ -121,10 +132,10 @@ class AnsibleWrapper:
             # all the sources, otherwise we'd lose data due to rewriting the
             # impacted files.
             for inventory in inventories:
-                if type(inventory) is dict:
+                if isinstance(inventory, dict):
                     with NamedTemporaryFile("w", dir=dst, delete=False) as fd:
                         yaml.dump(inventory, fd)
-                else:
+                elif isinstance(inventory, Path) or isinstance(inventory, str):
                     if inventory.is_dir():
                         shutil.copytree(inventory, dst, dirs_exist_ok=True)
                     else:
@@ -149,7 +160,7 @@ class AnsibleWrapper:
             with open(dst, "w") as fp:
                 yaml.dump(extravars, fp)
 
-    def _run(self, params, **kwargs):
+    def _run(self, params: Any, **kwargs: Any) -> Runner:
         """
         The actual entry point into the ansible_runner package.
 
@@ -176,7 +187,9 @@ class AnsibleWrapper:
 
         return runner
 
-    def get_inventory(self):
+    def get_inventory(
+        self,
+    ) -> Any:
         """
         Returns a YAML-formatted Ansible inventory populated from all sources.
 
@@ -224,7 +237,9 @@ class AnsibleWrapper:
                 f"Got this from Ansible: {inventory}"
             )
 
-    def run_playbook(self, limit=None, verbosity=0):
+    def run_playbook(
+        self, limit: Optional[List[str]] = None, verbosity: int = 0
+    ) -> Runner:
         """
         :param limit: list of hosts to restrict the playbook execution to
         :param verbosity: verbosity of underlying ansible invocation
