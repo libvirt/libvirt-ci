@@ -9,8 +9,10 @@ import subprocess
 
 from pathlib import Path
 from tempfile import NamedTemporaryFile
+from typing import Any, Dict, List, Optional
 
 from lcitool import util, LcitoolError
+from lcitool.config import Config
 from lcitool.libvirt_wrapper import LibvirtWrapper
 
 from .cloud_init import CloudConfig
@@ -20,12 +22,12 @@ log = logging.getLogger(__name__)
 
 
 class InstallerError(LcitoolError):
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         super().__init__(message, "Installer")
 
 
 class InstallationNotSupported(InstallerError):
-    def __init__(self, target):
+    def __init__(self, target: str) -> None:
         msg = f"Target '{target}' doesn't support installation"
         super().__init__(msg)
 
@@ -33,7 +35,9 @@ class InstallationNotSupported(InstallerError):
 class VirtInstall:
 
     @classmethod
-    def from_url(cls, config, name, facts):
+    def from_url(
+        cls, config: Config, name: str, facts: Dict[str, Any]
+    ) -> "VirtInstall":
         """Shortcut constructor for a URL-based network installation."""
 
         runner = cls(name, facts)
@@ -53,7 +57,13 @@ class VirtInstall:
         return runner
 
     @classmethod
-    def from_vendor_image(cls, name, config, facts, force_download=False):
+    def from_vendor_image(
+        cls,
+        name: str,
+        config: Config,
+        facts: Dict[str, Any],
+        force_download: bool = False,
+    ) -> "VirtInstall":
         """Shortcut constructor for a cloud-init image-based installation."""
 
         arch = config.values["install"]["arch"]
@@ -69,16 +79,20 @@ class VirtInstall:
             image.download()
 
         runner = cls(name, facts)
+        if image.path is None:
+            raise InstallerError(f"Host {name} image path is None")
         return cls._from_image(runner, config, image.path)
 
     @classmethod
-    def from_template_image(cls, name, config, facts, template_path):
+    def from_template_image(
+        cls, name: str, config: Any, facts: Dict[str, Any], template_path: str
+    ) -> "VirtInstall":
         """Shortcut constructor for a template image-based installation."""
 
         runner = cls(name, facts)
         return cls._from_image(runner, config, Path(template_path))
 
-    def __init__(self, name, facts):
+    def __init__(self, name: str, facts: Dict[str, Any]) -> None:
         """
         Instantiates the virt-install installer backend.
 
@@ -88,12 +102,13 @@ class VirtInstall:
         """
 
         self.name = name
-        self.args = []
+        self.args: List[str] = []
         self._facts = facts
         self._cmd = "virt-install"
-        self._ssh_keypair = None
+        self._ssh_keypair: Optional[Any] = None
+        self._wait_callback: Optional[Any] = None
 
-    def __call__(self, wait=False):
+    def __call__(self, wait: bool = False) -> None:
         """
         Kick off the VM installation.
 
@@ -107,11 +122,13 @@ class VirtInstall:
 
         return self.run(wait)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return " ".join([self._cmd] + self.args)
 
     @staticmethod
-    def _from_image(runner, config, baseimg_path, **kwargs):
+    def _from_image(
+        runner: "VirtInstall", config: Config, baseimg_path: Path, **kwargs: Any
+    ) -> "VirtInstall":
 
         conf_size = config.values["install"]["disk_size"]
         conf_pool = config.values["install"]["storage_pool"]
@@ -141,7 +158,10 @@ class VirtInstall:
             delete=False,
         ) as fd:
 
-            fd.write(cloud_config.dump())
+            config_data = cloud_config.dump()
+            if config_data is None:
+                raise InstallerError("Failed to generate cloud-init configuration")
+            fd.write(config_data)
             runner.args.extend(["--cloud-init", f"user-data={fd.name}"])
 
         disk_arg = f"vol={libvirt_pool.name}/{storage_vol.name},bus=virtio"
@@ -157,7 +177,7 @@ class VirtInstall:
         return runner
 
     @staticmethod
-    def _get_common_args(config):
+    def _get_common_args(config: Config) -> List[str]:
 
         # Both memory size and disk size are stored as GiB in the
         # inventory, but virt-install expects the disk size in GiB
@@ -197,7 +217,7 @@ class VirtInstall:
         return args
 
     @staticmethod
-    def _get_unattended_args(facts):
+    def _get_unattended_args(facts: Dict[str, Any]) -> List[str]:
         target = facts["target"]
 
         # Different operating systems require different configuration
@@ -260,12 +280,17 @@ class VirtInstall:
         ]
         return url_args
 
-    def _ssh_wait_cb(self, timeout=60):
+    def _ssh_wait_cb(self, timeout: int = 60) -> None:
         import paramiko
+        from paramiko import PKey
+        from paramiko.client import SSHClient
+
         from socket import EAI_NONAME
         from time import sleep
 
         hostname = self.name
+        if self._ssh_keypair is None:
+            raise InstallerError("SSH keypair not initialized")
         private_key_path = self._ssh_keypair.private_key.path.as_posix()
 
         log.debug(
@@ -276,7 +301,9 @@ class VirtInstall:
         # We're mostly creating throwaway VMs, we don't want nor need to
         # add the VM's hostkey to user's KnownHostKeyFile
         class _IgnorePolicy(paramiko.MissingHostKeyPolicy):
-            def missing_host_key(self, client, hostname, key):
+            def missing_host_key(
+                self, client: SSHClient, hostname: str, key: PKey
+            ) -> None:
                 return
 
         client = paramiko.SSHClient()
@@ -317,7 +344,7 @@ class VirtInstall:
 
         raise InstallerError(f"Failed to connect to {hostname}: timeout reached")
 
-    def run(self, wait=False):
+    def run(self, wait: bool = False) -> None:
         """
         Kick off the VM installation.
 

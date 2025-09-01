@@ -15,12 +15,13 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 
 from lcitool import util, LcitoolError
+from typing import Dict, Optional, Union
 
 log = logging.getLogger(__name__)
 
 
 class ImageError(LcitoolError):
-    def __init__(self, message):
+    def __init__(self, message: str):
         super().__init__(message, "Image")
 
 
@@ -38,19 +39,19 @@ class NoImageError(ImageError):
 
 class Metadata(UserDict):
     @staticmethod
-    def _validate(dict_):
+    def _validate(dict_: Union["Metadata", Dict[str, str]]) -> None:
         schema = set(["target", "image", "url", "arch", "format", "libosinfo_id"])
         actual = set(dict_.keys())
         if actual != schema:
             raise ValueError(actual - schema)
 
-    def load(self, file):
+    def load(self, file: Path) -> "Metadata":
         # load image metadata
         with open(file, "r") as f:
             try:
                 m = yaml.safe_load(f)
             except Exception as ex:
-                raise MetadataLoadError(ex)
+                raise MetadataLoadError(str(ex))
 
             try:
                 self._validate(m)
@@ -63,7 +64,7 @@ class Metadata(UserDict):
             self.update(m)
         return self
 
-    def dump(self, file):
+    def dump(self, file: Path) -> None:
         try:
             self._validate(self)
         except ValueError as e:
@@ -81,31 +82,45 @@ class Metadata(UserDict):
 
 class Images:
     @staticmethod
-    def _get_cache_dir():
+    def _get_cache_dir() -> Path:
         cache_dir = Path(util.get_cache_dir(), "images")
         if not cache_dir.exists():
             cache_dir.mkdir()
         return cache_dir
 
-    def __init__(self):
-        self._cache_dir = self._get_cache_dir()
-        self._osinfodb = osinfo.OSinfoDB()
+    def __init__(self) -> None:
+        self._cache_dir: Path = self._get_cache_dir()
+        self._osinfodb: osinfo.OSinfoDB = osinfo.OSinfoDB()
         self._target_images = self._load(self._cache_dir)
 
-    def get(self, target, facts, arch="x86_64", format_="qcow2"):
+    def get(
+        self,
+        target: str,
+        facts: Dict[str, Union[Dict[str, Union[bool, str]], Dict[str, str], str]],
+        arch: str = "x86_64",
+        format_: str = "qcow2",
+    ) -> "Image":
 
         # self.data is the underlying dict object
         if target in self._target_images:
             return self._target_images[target]
 
+        os_info = facts["os"]
+        if not isinstance(os_info, dict):
+            raise ImageError(f"Expected os facts to be a dict, got {type(os_info)}")
+        libosinfo_id = os_info["libosinfo_id"]
+        if not isinstance(libosinfo_id, str):
+            raise ImageError(
+                f"Expected libosinfo_id to be a string, got {type(libosinfo_id)}"
+            )
         osinfo_img = self._load_osinfo_image_data(
-            self._osinfodb, facts["os"]["libosinfo_id"], arch, format_
+            self._osinfodb, libosinfo_id, arch, format_
         )
         metadata = Metadata(
             target=target,
             arch=arch,
             format=format_,
-            libosinfo_id=facts["os"]["libosinfo_id"],
+            libosinfo_id=libosinfo_id,
             url=osinfo_img.url,
         )
 
@@ -113,8 +128,8 @@ class Images:
         return self._target_images[target]
 
     @staticmethod
-    def _load(dir_):
-        images = {}
+    def _load(dir_: Path) -> Dict[str, "Image"]:
+        images: Dict[str, Image] = {}
 
         # load all image metadata files and store it in the ascending order,
         # i.e. from newest to oldest
@@ -137,8 +152,10 @@ class Images:
         return images
 
     @staticmethod
-    def _load_osinfo_image_data(osinfo_db, libosinfo_id, arch, format_):
-        def _filter_arch_format_cloud_init(osimg):
+    def _load_osinfo_image_data(
+        osinfo_db: osinfo.OSinfoDB, libosinfo_id: str, arch: str, format_: str
+    ) -> osinfo.OSinfoImageObject:
+        def _filter_arch_format_cloud_init(osimg: osinfo.OSinfoImageObject) -> bool:
             if (
                 not osimg.has_cloud_init()
                 or osimg.arch != arch
@@ -159,11 +176,11 @@ class Images:
 
             return False
 
-        osinfo = osinfo_db.get_os_by_id(libosinfo_id)
-        osimages = list(filter(_filter_arch_format_cloud_init, osinfo.images))
+        os = osinfo_db.get_os_by_id(libosinfo_id)
+        osimages = list(filter(_filter_arch_format_cloud_init, os.images))
 
         if not osimages:
-            raise NoImageError(f"No cloud image found for '{osinfo.name}'")
+            raise NoImageError(f"No cloud image found for '{os.name}'")
 
         # usually we'd only get a list consisting of a single image, unless
         # variant images were provided in which case these are going to be
@@ -179,7 +196,7 @@ class Image:
         :ivar metadata: metadata for this image (as dict)
     """
 
-    def __init__(self, metadata, download_dir):
+    def __init__(self, metadata: Metadata, download_dir: Path):
         """
         Instantiates a base image handler.
 
@@ -192,23 +209,23 @@ class Image:
         self._download_dir = download_dir
 
     @property
-    def name(self):
+    def name(self) -> Optional[str]:
         if self.path:
             return self.path.name
         return None
 
     @property
-    def path(self):
+    def path(self) -> Optional[Path]:
         val = self._metadata.get("image")
         if val:
             return Path(val)
         return None
 
     @property
-    def metadata(self):
+    def metadata(self) -> Metadata:
         return self._metadata
 
-    def download(self):
+    def download(self) -> str:
         import requests
         from tqdm import tqdm
 
@@ -257,5 +274,5 @@ class Image:
 
         # update missing metadata and dump it
         self._metadata["image"] = filepath
-        self._metadata.dump(fd.name + ".metadata")
+        self._metadata.dump(Path(fd.name).with_suffix(".metadata"))
         return fd.name

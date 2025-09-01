@@ -1,4 +1,4 @@
-import gi
+import gi  # type: ignore[import-untyped]
 
 gi.require_version("Libosinfo", "1.0")
 
