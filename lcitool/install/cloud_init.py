@@ -9,9 +9,8 @@ import sys
 import yaml
 
 from collections import UserDict
-from pkg_resources import resource_filename
 
-from lcitool import LcitoolError
+from lcitool import util, LcitoolError
 
 log = logging.getLogger(__name__)
 
@@ -34,8 +33,8 @@ class CloudConfig(UserDict):
 
         cloud_config_base = file
         if cloud_config_base is None:
-            cloud_config_base = resource_filename(
-                __name__, "configs/cloud-init.conf.in"
+            cloud_config_base = util.package_resource(
+                __package__, "configs/cloud-init.conf.in"
             )
 
         try:
