@@ -69,6 +69,11 @@ files = [
   "lcitool/ansible_wrapper.py",
   "lcitool/config.py",
   "lcitool/gitlab.py",
+  "lcitool/libvirt_wrapper.py",
   "lcitool/logger.py",
   "lcitool/util.py",
 ]
+
+[[tool.mypy.overrides]]
+module = "libvirt"
+ignore_missing_imports = true
