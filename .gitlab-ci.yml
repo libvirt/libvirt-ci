@@ -213,6 +213,18 @@ flake8:
   script:
     - tox -e lint
 
+mypy:
+  extends: .test_template
+  stage: sanity_checks
+  image: python:3.8-alpine
+  needs: []
+  before_script:
+    - apk update
+    - apk add pkgconf libvirt-dev cairo-dev gcc musl-dev gobject-introspection-dev
+    - python3 -m pip install tox
+  script:
+    - tox -e mypy
+
 unittests:
   extends: .test_template
   stage: sanity_checks

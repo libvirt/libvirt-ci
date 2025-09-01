@@ -37,6 +37,7 @@ We define a couple of test environments for tox:
 * ``lint`` flake8 linter
 * ``py38`` which reflects our minimum requirement for Python 3.8
 * ``py311`` which is supposed to catch early deprecations with latest Python
+* ``mypy``
 
 You can select which test environment tox should execute with
 

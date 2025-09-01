@@ -7,6 +7,6 @@ class LcitoolError(Exception):
     of this type directly anywhere in the code.
     """
 
-    def __init__(self, message, module_prefix="lcitool"):
+    def __init__(self, message: str, module_prefix: str = "lcitool") -> None:
         super().__init__(message)
         self.module_prefix = module_prefix
