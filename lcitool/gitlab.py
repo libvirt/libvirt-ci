@@ -72,7 +72,8 @@ def docs(namespace):
         #
         # Pipeline variables can also be set in the repository
         # pipeline config globally, or set against scheduled pipelines
-        """)
+        """
+    )
 
 
 def variables(namespace):
@@ -83,7 +84,8 @@ def variables(namespace):
           RUN_UPSTREAM_NAMESPACE: {namespace}
           CONTAINER_UPSTREAM_NAMESPACE: {namespace_lc}
           FF_SCRIPT_SECTIONS: 1
-        """)
+        """
+    )
 
 
 def workflow():
@@ -105,7 +107,8 @@ def workflow():
 
             # upstream+forks: Avoid all other pipelines
             - when: never
-        """)
+        """
+    )
 
 
 def debug():
@@ -121,7 +124,8 @@ def debug():
           rules:
             - if: '$RUN_DEBUG'
               when: always
-        """)
+        """
+    )
 
 
 def includes(paths):
@@ -180,7 +184,8 @@ def container_template(cidir):
 
             # upstream+forks: that's all folks
             - when: never
-        """)
+        """
+    )
 
 
 def _build_template(template, envid, project, cidir):
@@ -328,21 +333,18 @@ def _build_template(template, envid, project, cidir):
 
             # upstream+forks: that's all folks
             - when: never
-        """)
+        """
+    )
 
 
 def native_build_template(project, cidir):
-    return _build_template(".gitlab_native_build_job",
-                           "$NAME",
-                           project,
-                           cidir)
+    return _build_template(".gitlab_native_build_job", "$NAME", project, cidir)
 
 
 def cross_build_template(project, cidir):
-    return _build_template(".gitlab_cross_build_job",
-                           "$NAME-cross-$CROSS",
-                           project,
-                           cidir)
+    return _build_template(
+        ".gitlab_cross_build_job", "$NAME-cross-$CROSS", project, cidir
+    )
 
 
 def cirrus_template(cidir):
@@ -399,15 +401,17 @@ def cirrus_template(cidir):
 
             # upstream+forks: that's all folks
             - when: never
-        """)
+        """
+    )
 
 
 def check_dco_job():
     jobvars = {
         "GIT_DEPTH": "1000",
     }
-    return textwrap.dedent(
-        """
+    return (
+        textwrap.dedent(
+            """
         check-dco:
           stage: sanity_checks
           needs: []
@@ -432,7 +436,10 @@ def check_dco_job():
 
             # upstream+forks: that's all folks
             - when: never
-        """) + format_variables(jobvars)
+        """
+        )
+        + format_variables(jobvars)
+    )
 
 
 def code_fmt_template():
@@ -467,67 +474,73 @@ def code_fmt_template():
               - $NAME.$EXT
             expire_in: 1 week
             when: on_failure
-        """)
+        """
+    )
 
 
 def cargo_fmt_job():
-    jobvars = {
-        "NAME": "cargo-fmt",
-        "EXT": "txt"
-    }
-    return textwrap.dedent(
-        """
+    jobvars = {"NAME": "cargo-fmt", "EXT": "txt"}
+    return (
+        textwrap.dedent(
+            """
         cargo-fmt:
           extends: .code_format
-        """) + format_variables(jobvars)
+        """
+        )
+        + format_variables(jobvars)
+    )
 
 
 def go_fmt_job():
-    jobvars = {
-        "NAME": "go-fmt",
-        "EXT": "patch"
-    }
-    return textwrap.dedent(
-        """
+    jobvars = {"NAME": "go-fmt", "EXT": "patch"}
+    return (
+        textwrap.dedent(
+            """
         go-fmt:
           extends: .code_format
-        """) + format_variables(jobvars)
+        """
+        )
+        + format_variables(jobvars)
+    )
 
 
 def clang_format_job():
-    jobvars = {
-        "NAME": "clang-format",
-        "EXT": "patch"
-    }
-    return textwrap.dedent(
-        """
+    jobvars = {"NAME": "clang-format", "EXT": "patch"}
+    return (
+        textwrap.dedent(
+            """
         clang-format:
           extends: .code_format
-        """) + format_variables(jobvars)
+        """
+        )
+        + format_variables(jobvars)
+    )
 
 
 def black_job():
-    jobvars = {
-        "NAME": "black",
-        "EXT": "txt"
-    }
-    return textwrap.dedent(
-        """
+    jobvars = {"NAME": "black", "EXT": "txt"}
+    return (
+        textwrap.dedent(
+            """
         black:
           extends: .code_format
-        """) + format_variables(jobvars)
+        """
+        )
+        + format_variables(jobvars)
+    )
 
 
 def flake8_job():
-    jobvars = {
-        "NAME": "flake8",
-        "EXT": "txt"
-    }
-    return textwrap.dedent(
-        """
+    jobvars = {"NAME": "flake8", "EXT": "txt"}
+    return (
+        textwrap.dedent(
+            """
         flake8:
           extends: .code_format
-        """) + format_variables(jobvars)
+        """
+        )
+        + format_variables(jobvars)
+    )
 
 
 def _container_job(target, arch, image, allow_failure, optional):
@@ -538,28 +551,26 @@ def _container_job(target, arch, image, allow_failure, optional):
     if optional:
         jobvars["JOB_OPTIONAL"] = "1"
 
-    return textwrap.dedent(
-        f"""
+    return (
+        textwrap.dedent(
+            f"""
         {arch}-{target}-container:
           extends: .container_job
           allow_failure: {allow_failure}
-        """) + format_variables(jobvars)
+        """
+        )
+        + format_variables(jobvars)
+    )
 
 
 def native_container_job(target, allow_failure, optional):
-    return _container_job(target,
-                          "x86_64",
-                          f"{target}",
-                          allow_failure,
-                          optional)
+    return _container_job(target, "x86_64", f"{target}", allow_failure, optional)
 
 
 def cross_container_job(target, arch, allow_failure, optional):
-    return _container_job(target,
-                          arch,
-                          f"{target}-cross-{arch}",
-                          allow_failure,
-                          optional)
+    return _container_job(
+        target, arch, f"{target}-cross-{arch}", allow_failure, optional
+    )
 
 
 def format_artifacts(artifacts):
@@ -569,11 +580,20 @@ def format_artifacts(artifacts):
     expire_in = artifacts["expire_in"]
     paths = "\n".join(["      - " + p for p in artifacts["paths"]])
 
-    section = textwrap.indent(textwrap.dedent(f"""
+    section = (
+        textwrap.indent(
+            textwrap.dedent(
+                f"""
             artifacts:
               expire_in: {expire_in}
               paths:
-           """), "  ") + paths + "\n"
+           """
+            ),
+            "  ",
+        )
+        + paths
+        + "\n"
+    )
     return section[1:]
 
 
@@ -581,66 +601,75 @@ def merge_vars(system, user):
     for key in user.keys():
         if key in system:
             raise ValueError(
-                f"""Attempt to override system variable '{key}' in manifest""")
+                f"""Attempt to override system variable '{key}' in manifest"""
+            )
     return {**user, **system}
 
 
-def _build_job(target, image, arch, suffix, variables,
-               template, allow_failure, artifacts):
+def _build_job(
+    target, image, arch, suffix, variables, template, allow_failure, artifacts
+):
     allow_failure = str(allow_failure).lower()
 
     variables["TARGET_BASE_IMAGE"] = image
 
-    return textwrap.dedent(
-        f"""
+    return (
+        textwrap.dedent(
+            f"""
         {arch}-{target}{suffix}:
           extends: {template}
           needs:
             - job: {arch}-{target}-container
               optional: true
           allow_failure: {allow_failure}
-        """) + format_variables(variables) + format_artifacts(artifacts)
+        """
+        )
+        + format_variables(variables)
+        + format_artifacts(artifacts)
+    )
 
 
-def native_build_job(target, image, suffix, variables, template,
-                     allow_failure, optional, artifacts):
-    jobvars = merge_vars({
-        "NAME": target,
-    }, variables)
+def native_build_job(
+    target, image, suffix, variables, template, allow_failure, optional, artifacts
+):
+    jobvars = merge_vars(
+        {
+            "NAME": target,
+        },
+        variables,
+    )
     if optional:
         jobvars["JOB_OPTIONAL"] = "1"
 
-    return _build_job(target,
-                      image,
-                      "x86_64",
-                      suffix,
-                      jobvars,
-                      template,
-                      allow_failure,
-                      artifacts)
+    return _build_job(
+        target, image, "x86_64", suffix, jobvars, template, allow_failure, artifacts
+    )
 
 
-def cross_build_job(target, image, arch, suffix, variables, template,
-                    allow_failure, optional, artifacts):
-    jobvars = merge_vars({
-        "NAME": target,
-        "CROSS": arch
-    }, variables)
+def cross_build_job(
+    target, image, arch, suffix, variables, template, allow_failure, optional, artifacts
+):
+    jobvars = merge_vars({"NAME": target, "CROSS": arch}, variables)
     if optional:
         jobvars["JOB_OPTIONAL"] = "1"
 
-    return _build_job(target,
-                      image,
-                      arch,
-                      suffix,
-                      jobvars,
-                      template,
-                      allow_failure,
-                      artifacts)
+    return _build_job(
+        target, image, arch, suffix, jobvars, template, allow_failure, artifacts
+    )
 
 
-def cirrus_build_job(target, instance_type, image_selector, image_name, arch,
-                     pkg_cmd, suffix, variables, allow_failure, optional):
+def cirrus_build_job(
+    target,
+    instance_type,
+    image_selector,
+    image_name,
+    arch,
+    pkg_cmd,
+    suffix,
+    variables,
+    allow_failure,
+    optional,
+):
     if pkg_cmd == "brew":
         install_cmd = "brew install"
         upgrade_cmd = "brew upgrade"
@@ -657,21 +686,29 @@ def cirrus_build_job(target, instance_type, image_selector, image_name, arch,
     else:
         allow_failure_block = "  allow_failure:\n    exit_codes: 3\n"
 
-    jobvars = merge_vars({
-        "NAME": target,
-        "CIRRUS_VM_INSTANCE_TYPE": instance_type,
-        "CIRRUS_VM_IMAGE_SELECTOR": image_selector,
-        "CIRRUS_VM_IMAGE_NAME": image_name,
-        "UPDATE_COMMAND": update_cmd,
-        "UPGRADE_COMMAND": upgrade_cmd,
-        "INSTALL_COMMAND": install_cmd,
-    }, variables)
+    jobvars = merge_vars(
+        {
+            "NAME": target,
+            "CIRRUS_VM_INSTANCE_TYPE": instance_type,
+            "CIRRUS_VM_IMAGE_SELECTOR": image_selector,
+            "CIRRUS_VM_IMAGE_NAME": image_name,
+            "UPDATE_COMMAND": update_cmd,
+            "UPGRADE_COMMAND": upgrade_cmd,
+            "INSTALL_COMMAND": install_cmd,
+        },
+        variables,
+    )
     if optional:
         jobvars["JOB_OPTIONAL"] = "1"
 
-    return textwrap.dedent(
-        f"""
+    return (
+        textwrap.dedent(
+            f"""
         {arch}-{target}{suffix}:
           extends: .cirrus_build_job
           needs: []
-        """) + allow_failure_block + format_variables(jobvars)
+        """
+        )
+        + allow_failure_block
+        + format_variables(jobvars)
+    )

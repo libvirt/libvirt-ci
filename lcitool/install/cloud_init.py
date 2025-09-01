@@ -22,7 +22,7 @@ class CloudConfigError(LcitoolError):
 
 
 class CloudConfig(UserDict):
-    """ Cloud-config settings abstraction. """
+    """Cloud-config settings abstraction."""
 
     def __init__(self, file=None, **kwargs):
         """
@@ -34,8 +34,9 @@ class CloudConfig(UserDict):
 
         cloud_config_base = file
         if cloud_config_base is None:
-            cloud_config_base = resource_filename(__name__,
-                                                  "configs/cloud-init.conf.in")
+            cloud_config_base = resource_filename(
+                __name__, "configs/cloud-init.conf.in"
+            )
 
         try:
             with open(cloud_config_base, "r") as fd:

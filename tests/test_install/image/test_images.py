@@ -49,24 +49,24 @@ class MockOSinfoDB:
 
 @pytest.fixture(scope="module", autouse=True)
 def patch_osinfodb(monkeypatch_module_scope):
-    monkeypatch_module_scope.setattr("lcitool.install.osinfo.OSinfoDB",
-                                     MockOSinfoDB)
+    monkeypatch_module_scope.setattr("lcitool.install.osinfo.OSinfoDB", MockOSinfoDB)
 
 
 @pytest.fixture(scope="module", autouse=True)
 def patch_cache_dir(tmp_path_factory, monkeypatch_module_scope):
     def mock_cache_dir(self):
-        return Path(test_utils.test_data_indir(__file__, "install/image"),
-                    "cache")
+        return Path(test_utils.test_data_indir(__file__, "install/image"), "cache")
 
-    monkeypatch_module_scope.setattr("lcitool.install.image.Images._get_cache_dir",
-                                     mock_cache_dir)
+    monkeypatch_module_scope.setattr(
+        "lcitool.install.image.Images._get_cache_dir", mock_cache_dir
+    )
 
 
 @pytest.fixture
 def osinfo_image(scope="module"):
-    filepath = Path(test_utils.test_data_indir(__file__, "install/image"),
-                    "debian-12.metadata")
+    filepath = Path(
+        test_utils.test_data_indir(__file__, "install/image"), "debian-12.metadata"
+    )
 
     with open(filepath) as fd:
         return yaml.safe_load(fd).copy()
@@ -77,7 +77,7 @@ def osinfo_image(scope="module"):
     [
         pytest.param("debian-12", id="non_cached_image"),
         pytest.param("fedora-rawhide", id="cached_image"),
-    ]
+    ],
 )
 def test_get_image(assert_equal, target, osinfo_image, targets):
     """
@@ -97,9 +97,9 @@ def test_get_image(assert_equal, target, osinfo_image, targets):
     # test
     img.metadata["image"] = f"{target}.qcow2"
 
-    expected_path = Path(test_utils.test_data_indir(__file__,
-                                                    "install/image"),
-                         f"{target}.metadata")
+    expected_path = Path(
+        test_utils.test_data_indir(__file__, "install/image"), f"{target}.metadata"
+    )
 
     # Metadata is a UserDict subclass, hence we need '.data' for the comparison
     actual = img.metadata.data
@@ -113,13 +113,17 @@ def test_get_image(assert_equal, target, osinfo_image, targets):
             {
                 "variants": ["aws", "openstack"],
                 "cloud_init": True,
-            }, id="invalid_image_variants"),
+            },
+            id="invalid_image_variants",
+        ),
         pytest.param(
             {
                 "variants": ["generic", "nocloud"],
                 "cloud_init": False,
-            }, id="no_cloud_image"),
-    ]
+            },
+            id="no_cloud_image",
+        ),
+    ],
 )
 def test_get_image_NoImageError(monkeypatch, img_params, osinfo_image, targets):
     """

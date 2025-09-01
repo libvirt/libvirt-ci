@@ -17,7 +17,7 @@ from pathlib import Path
     [
         pytest.param("id_ed25519.pub", id="derive_path_from_pubkey"),
         pytest.param("id_ed25519", id="derive_path_from_privkey"),
-    ]
+    ],
 )
 def test_keypair_load(keyname):
     key_path = Path(test_utils.test_data_indir(__file__, "utils"), keyname)
@@ -29,7 +29,7 @@ def test_keypair_load(keyname):
     [
         pytest.param("id_ed25519_noprivkey.pub", id="missing_key_counterpart"),
         pytest.param("foo.pub", id="non_existent_key"),
-    ]
+    ],
 )
 def test_keypair_load_error(keyname):
     key_path = Path(test_utils.test_data_indir(__file__, "utils"), keyname)
@@ -40,13 +40,17 @@ def test_keypair_load_error(keyname):
 @pytest.mark.parametrize(
     "key_path, cls",
     [
-        pytest.param(Path(test_utils.test_data_indir(__file__, "utils"),
-                          "id_ed25519.pub"), SSHPublicKey,
-                     id="public_key"),
-        pytest.param(Path(test_utils.test_data_indir(__file__, "utils"),
-                          "id_ed25519"), SSHPrivateKey,
-                     id="private_key"),
-    ]
+        pytest.param(
+            Path(test_utils.test_data_indir(__file__, "utils"), "id_ed25519.pub"),
+            SSHPublicKey,
+            id="public_key",
+        ),
+        pytest.param(
+            Path(test_utils.test_data_indir(__file__, "utils"), "id_ed25519"),
+            SSHPrivateKey,
+            id="private_key",
+        ),
+    ],
 )
 def test_read_key(assert_equal, key_path, cls):
     if cls is SSHPublicKey:

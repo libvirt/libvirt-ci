@@ -72,7 +72,9 @@ class Projects:
         self._public = self._load_projects_from_files(files)
 
     def _load_internal(self):
-        files = self._data_dir.list_files("facts/projects/internal", ".yml", internal=True)
+        files = self._data_dir.list_files(
+            "facts/projects/internal", ".yml", internal=True
+        )
         self._internal = self._load_projects_from_files(files)
 
     def _resolve_remote(self, name):
@@ -91,7 +93,9 @@ class Projects:
             raise ProjectError(f"Cannot parse project URL {name}: {ex}")
 
         if uri.scheme not in ["https", "file"]:
-            raise ProjectError(f"Project {name} must use a 'https' or 'file' URI scheme")
+            raise ProjectError(
+                f"Project {name} must use a 'https' or 'file' URI scheme"
+            )
 
         path = Path(uri.path)
         if not path.suffix == ".yml":
@@ -104,9 +108,13 @@ class Projects:
                 return projname
 
             if self._public[projname].url is not None:
-                raise ProjectError(f"Cannot load project {projname} from {name}, already defined with {self._public[projname].url}")
+                raise ProjectError(
+                    f"Cannot load project {projname} from {name}, already defined with {self._public[projname].url}"
+                )
 
-            log.debug(f"Project {projname} loaded from {self._public[projname].path}, overriding")
+            log.debug(
+                f"Project {projname} loaded from {self._public[projname].path}, overriding"
+            )
 
         if uri.scheme == "file":
             self._public[name] = Project(self, name, path=uri.path)
@@ -187,9 +195,13 @@ class Project:
         self.path = path
         self.url = url
         if path is None and url is None:
-            raise ProjectError(f"Either 'path' or 'url' must be present for project {name}")
+            raise ProjectError(
+                f"Either 'path' or 'url' must be present for project {name}"
+            )
         if path is not None and url is not None:
-            raise ProjectError(f"Only one of 'path' or 'url' can be present for project {name}")
+            raise ProjectError(
+                f"Only one of 'path' or 'url' can be present for project {name}"
+            )
 
         self._generic_packages = None
         self._target_packages = {}
@@ -207,7 +219,9 @@ class Project:
         return self.path or self.url
 
     def _load_generic_packages(self):
-        log.debug(f"Loading generic package list for project '{self.name}' from '{self.location}'")
+        log.debug(
+            f"Loading generic package list for project '{self.name}' from '{self.location}'"
+        )
 
         try:
             data = self._load_data()
@@ -215,7 +229,9 @@ class Project:
             return yaml_packages["packages"]
         except Exception as ex:
             log.debug(f"Can't load packages for '{self.name}' from '{self.location}'")
-            raise ProjectError(f"Can't load packages for '{self.name}' from '{self.location}': {ex}")
+            raise ProjectError(
+                f"Can't load packages for '{self.name}' from '{self.location}': {ex}"
+            )
 
     def get_packages(self, target):
         osname = target.facts["os"]["name"]
@@ -232,6 +248,7 @@ class Project:
 
         # lazy evaluation + caching of package names for a given distro
         if self._target_packages.get(target_name) is None:
-            self._target_packages[target_name] = self.projects.eval_generic_packages(target,
-                                                                                     self.generic_packages)
+            self._target_packages[target_name] = self.projects.eval_generic_packages(
+                target, self.generic_packages
+            )
         return self._target_packages[target_name]

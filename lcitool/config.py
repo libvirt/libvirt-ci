@@ -65,15 +65,14 @@ class Config:
             self._config_file_paths = [Path(path)]
         else:
             self._config_file_paths = [
-                Path(util.get_config_dir(), fname) for fname in ["config.yml",
-                                                                 "config.yaml"]
+                Path(util.get_config_dir(), fname)
+                for fname in ["config.yml", "config.yaml"]
             ]
 
     def _load_config(self):
         # Load the template config containing the defaults first, this must
         # always succeed.
-        default_config_path = util.package_resource(__package__,
-                                                    "etc/config.yml")
+        default_config_path = util.package_resource(__package__, "etc/config.yml")
         with open(default_config_path, "r") as fp:
             default_config = yaml.safe_load(fp)
 
@@ -128,8 +127,9 @@ class Config:
         self._remove_unknown_keys(user_config, default_config.keys())
         for section in default_config.keys():
             if section in user_config:
-                self._remove_unknown_keys(user_config[section],
-                                          default_config[section].keys())
+                self._remove_unknown_keys(
+                    user_config[section], default_config[section].keys()
+                )
 
     def _validate_keys(self, values, pathprefix=""):
         log.debug(f"Validating section='[{pathprefix}]'")
@@ -151,13 +151,9 @@ class Config:
 
         flavor = values["install"].get("flavor")
         if flavor not in ["test", "gitlab"]:
-            raise ValidationError(
-                f"Invalid value '{flavor}' for 'install.flavor'"
-            )
+            raise ValidationError(f"Invalid value '{flavor}' for 'install.flavor'")
 
         if flavor == "gitlab":
             secret = values["gitlab"]["runner_secret"]
             if secret == "NONE" or secret is None:
-                raise ValidationError(
-                    "Invalid value for 'gitlab.runner_secret'"
-                )
+                raise ValidationError("Invalid value for 'gitlab.runner_secret'")

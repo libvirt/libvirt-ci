@@ -34,15 +34,13 @@ class VirtInstall:
 
     @classmethod
     def from_url(cls, config, name, facts):
-        """ Shortcut constructor for a URL-based network installation. """
+        """Shortcut constructor for a URL-based network installation."""
 
         runner = cls(name, facts)
 
         conf_size = config.values["install"]["disk_size"]
         conf_pool = config.values["install"]["storage_pool"]
-        disk_arg = (f"size={conf_size},"
-                    f"pool={conf_pool},"
-                    f"bus=virtio")
+        disk_arg = f"size={conf_size}," f"pool={conf_pool}," f"bus=virtio"
 
         conf_size = config.values["install"]["disk_size"]
         conf_pool = config.values["install"]["storage_pool"]
@@ -56,7 +54,7 @@ class VirtInstall:
 
     @classmethod
     def from_vendor_image(cls, name, config, facts, force_download=False):
-        """ Shortcut constructor for a cloud-init image-based installation. """
+        """Shortcut constructor for a cloud-init image-based installation."""
 
         arch = config.values["install"]["arch"]
         target = facts["target"]
@@ -75,7 +73,7 @@ class VirtInstall:
 
     @classmethod
     def from_template_image(cls, name, config, facts, template_path):
-        """ Shortcut constructor for a template image-based installation. """
+        """Shortcut constructor for a template image-based installation."""
 
         runner = cls(name, facts)
         return cls._from_image(runner, config, Path(template_path))
@@ -122,28 +120,32 @@ class VirtInstall:
         # create it ourselves as virt-install doesn't accept file permissions
         # or mode for the file-based volumes it creates
         libvirt_pool = LibvirtWrapper().pool_by_name(conf_pool)
-        storage_vol = libvirt_pool.create_volume(runner.name + ".qcow2",
-                                                 conf_size, units="G",
-                                                 owner=str(os.getuid()),
-                                                 group=str(os.getgid()),
-                                                 backing_store=baseimg_path)
+        storage_vol = libvirt_pool.create_volume(
+            runner.name + ".qcow2",
+            conf_size,
+            units="G",
+            owner=str(os.getuid()),
+            group=str(os.getgid()),
+            backing_store=baseimg_path,
+        )
 
         # Dump the edited cloud-init template for virt-install to use
         ssh_keypair = util.SSHKeyPair(config.values["install"]["ssh_key"])
         ssh_pubkey_str = str(ssh_keypair.public_key)
         cloud_config = CloudConfig(ssh_authorized_keys=[ssh_pubkey_str])
-        with NamedTemporaryFile("w",
-                                prefix="cloud_init_",
-                                suffix=".conf",
-                                dir=util.get_temp_dir(),
-                                delete=False) as fd:
+        with NamedTemporaryFile(
+            "w",
+            prefix="cloud_init_",
+            suffix=".conf",
+            dir=util.get_temp_dir(),
+            delete=False,
+        ) as fd:
 
             fd.write(cloud_config.dump())
             runner.args.extend(["--cloud-init", f"user-data={fd.name}"])
 
-        disk_arg = (f"vol={libvirt_pool.name}/{storage_vol.name},bus=virtio")
-        runner.args.extend(["--import",
-                            "--disk", disk_arg])
+        disk_arg = f"vol={libvirt_pool.name}/{storage_vol.name},bus=virtio"
+        runner.args.extend(["--import", "--disk", disk_arg])
         runner.args.extend(runner._get_common_args(config))
 
         # NOTE: URL installs wait by connecting to a serial console which kills
@@ -166,18 +168,30 @@ class VirtInstall:
         network_arg = f"network={conf_network},model=virtio"
 
         args = [
-            "--os-variant", "unknown",
-            "--virt-type", config.values["install"]["virt_type"],
-            "--arch", config.values["install"]["arch"],
-            "--machine", config.values["install"]["machine"],
-            "--cpu", config.values["install"]["cpu_model"],
-            "--vcpus", vcpus_arg,
-            "--memory", memory_arg,
-            "--network", network_arg,
-            "--graphics", "none",
-            "--console", "pty",
-            "--sound", "none",
-            "--rng", "device=/dev/urandom,model=virtio",
+            "--os-variant",
+            "unknown",
+            "--virt-type",
+            config.values["install"]["virt_type"],
+            "--arch",
+            config.values["install"]["arch"],
+            "--machine",
+            config.values["install"]["machine"],
+            "--cpu",
+            config.values["install"]["cpu_model"],
+            "--vcpus",
+            vcpus_arg,
+            "--memory",
+            memory_arg,
+            "--network",
+            network_arg,
+            "--graphics",
+            "none",
+            "--console",
+            "pty",
+            "--sound",
+            "none",
+            "--rng",
+            "device=/dev/urandom,model=virtio",
         ]
 
         return args
@@ -192,7 +206,7 @@ class VirtInstall:
         supported_schemes = {
             "preseed": "preseed.cfg",
             "autoyast": "autoinst.xml",
-            "kickstart": "kickstart.cfg"
+            "kickstart": "kickstart.cfg",
         }
         try:
             unattended_options = {
@@ -210,8 +224,7 @@ class VirtInstall:
 
         # Unattended install scripts are being generated on the fly, based
         # on the templates present in lcitool/install/configs/
-        cfg_path = util.package_resource(__package__,
-                                         f"configs/{install_config}")
+        cfg_path = util.package_resource(__package__, f"configs/{install_config}")
         with open(cfg_path, "r") as template:
             content = template.read()
             for option in unattended_options:
@@ -238,9 +251,12 @@ class VirtInstall:
         ks = install_config
         extra_arg = f"console=ttyS0 inst.ks=file:/{ks} install={conf_url}"
         url_args = [
-            "--location", facts["install"]["url"],
-            "--initrd-inject", initrd_inject,
-            "--extra-args", extra_arg,
+            "--location",
+            facts["install"]["url"],
+            "--initrd-inject",
+            initrd_inject,
+            "--extra-args",
+            extra_arg,
         ]
         return url_args
 
@@ -252,8 +268,10 @@ class VirtInstall:
         hostname = self.name
         private_key_path = self._ssh_keypair.private_key.path.as_posix()
 
-        log.debug(f"Establishing SSH connection: hostname={hostname},"
-                  f"ssh_key={private_key_path}")
+        log.debug(
+            f"Establishing SSH connection: hostname={hostname},"
+            f"ssh_key={private_key_path}"
+        )
 
         # We're mostly creating throwaway VMs, we don't want nor need to
         # add the VM's hostkey to user's KnownHostKeyFile
@@ -271,9 +289,9 @@ class VirtInstall:
         for _ in range(timeout // seconds):
             sleep(seconds)
             try:
-                client.connect(hostname=hostname,
-                               username="root",
-                               key_filename=private_key_path)
+                client.connect(
+                    hostname=hostname, username="root", key_filename=private_key_path
+                )
                 return
 
             except paramiko.ssh_exception.NoValidConnectionsError as ex:
@@ -284,8 +302,10 @@ class VirtInstall:
                 # period
                 for error in ex.errors.values():
                     if isinstance(error, OSError):
-                        if error.errno == errno.EHOSTUNREACH or \
-                           error.errno == errno.ECONNREFUSED:
+                        if (
+                            error.errno == errno.EHOSTUNREACH
+                            or error.errno == errno.ECONNREFUSED
+                        ):
                             break
                 else:
                     raise InstallerError(f"Failed to connect to instance: {ex}")
@@ -325,6 +345,4 @@ class VirtInstall:
             # mark the host XML using XML metadata
             LibvirtWrapper().set_target(self.name, self._facts["target"])
         except Exception as ex:
-            raise InstallerError(
-                f"Failed to install host '{self.name}': {ex}"
-            )
+            raise InstallerError(f"Failed to install host '{self.name}': {ex}")

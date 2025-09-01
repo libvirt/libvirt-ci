@@ -14,7 +14,7 @@ class OSinfoAbstractObject(abc.ABC):
         self.raw = obj
 
 
-class OSinfoDB():
+class OSinfoDB:
     def __init__(self):
         loader = Libosinfo.Loader()
         loader.process_default_path()

@@ -17,8 +17,9 @@ if len(sys.argv) >= 2:
 
 
 def get_default_branch(remote):
-    info = subprocess.check_output(["git", "remote", "show", remote],
-                                   universal_newlines=True)
+    info = subprocess.check_output(
+        ["git", "remote", "show", remote], universal_newlines=True
+    )
     head = "HEAD branch: "
     for line in info.split("\n"):
         offset = line.find(head)
@@ -37,12 +38,15 @@ def get_branch_commits():
     subprocess.check_call(["git", "remote", "add", "check-dco", repourl])
     try:
         main = get_default_branch("check-dco")
-        subprocess.check_call(["git", "fetch", "check-dco", main],
-                              stdout=subprocess.DEVNULL,
-                              stderr=subprocess.DEVNULL)
+        subprocess.check_call(
+            ["git", "fetch", "check-dco", main],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
 
-        ancestor = subprocess.check_output(["git", "merge-base", "check-dco/" + main, "HEAD"],
-                                           universal_newlines=True)
+        ancestor = subprocess.check_output(
+            ["git", "merge-base", "check-dco/" + main, "HEAD"], universal_newlines=True
+        )
         ancestor = ancestor.strip()
 
         return (ancestor, "HEAD")
@@ -51,8 +55,10 @@ def get_branch_commits():
 
 
 def get_mergereq_commits():
-    return (os.environ["CI_MERGE_REQUEST_DIFF_BASE_SHA"],
-            os.environ["CI_MERGE_REQUEST_SOURCE_BRANCH_SHA"])
+    return (
+        os.environ["CI_MERGE_REQUEST_DIFF_BASE_SHA"],
+        os.environ["CI_MERGE_REQUEST_SOURCE_BRANCH_SHA"],
+    )
 
 
 if os.environ.get("CI_PIPELINE_SOURCE", "") == "merge_request_event":
@@ -62,10 +68,14 @@ else:
 
 errors = False
 
-print("\nChecking for 'Signed-off-by: NAME <EMAIL>' on all commits since %s...\n" % ancestor)
+print(
+    "\nChecking for 'Signed-off-by: NAME <EMAIL>' on all commits since %s...\n"
+    % ancestor
+)
 
-log = subprocess.check_output(["git", "log", "--format=%H %s", ancestor + "..." + head],
-                              universal_newlines=True)
+log = subprocess.check_output(
+    ["git", "log", "--format=%H %s", ancestor + "..." + head], universal_newlines=True
+)
 
 if log == "":
     commits = []
@@ -74,8 +84,7 @@ else:
 
 for sha, subject in commits:
 
-    msg = subprocess.check_output(["git", "show", "-s", sha],
-                                  universal_newlines=True)
+    msg = subprocess.check_output(["git", "show", "-s", sha], universal_newlines=True)
     lines = msg.strip().split("\n")
 
     print("🔍 %s %s" % (sha, subject))
@@ -92,7 +101,8 @@ for sha, subject in commits:
         errors = True
 
 if errors:
-    print("""
+    print(
+        """
 
 ❌ ERROR: One or more commits are missing a valid Signed-off-By tag.
 
@@ -113,7 +123,8 @@ To bulk update all commits on current branch "git rebase" can be used:
 
   git rebase -i master -x 'git commit --amend --no-edit -s'
 
-""")
+"""
+    )
 
     sys.exit(1)
 

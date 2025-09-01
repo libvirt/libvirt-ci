@@ -18,7 +18,7 @@ def base_data_dir():
 def test_data_dir(test_name, relative_dir=None):
     if relative_dir is None:
         relative_dir = ""
-    test_stem = Path(test_name).stem[len("test_"):]
+    test_stem = Path(test_name).stem[len("test_") :]
     return Path(base_data_dir(), relative_dir, test_stem)
 
 
@@ -69,7 +69,7 @@ class DiffOperand:
             return obj
 
         if isinstance(obj, Path):
-            with open(obj, 'r') as f:
+            with open(obj, "r") as f:
                 return f.read()
 
         return yaml.safe_dump(obj)
@@ -78,10 +78,14 @@ class DiffOperand:
         if not isinstance(other, self.__class__):
             other = self._stringify(other)
 
-        return Diff(difflib.unified_diff(str(self).splitlines(keepends=True),
-                                         str(other).splitlines(keepends=True),
-                                         fromfile="actual",
-                                         tofile="expected",))
+        return Diff(
+            difflib.unified_diff(
+                str(self).splitlines(keepends=True),
+                str(other).splitlines(keepends=True),
+                fromfile="actual",
+                tofile="expected",
+            )
+        )
 
 
 def _assert_equal(actual, expected, test_tmp_dir):
@@ -89,8 +93,7 @@ def _assert_equal(actual, expected, test_tmp_dir):
     # work with if we need to regenerate the output
     actual = DiffOperand(actual)
 
-    if pytest.custom_args["regenerate_output"] and \
-       isinstance(expected, Path):
+    if pytest.custom_args["regenerate_output"] and isinstance(expected, Path):
 
         # Make sure the target directory exists, since creating the
         # output file would fail otherwise

@@ -15,27 +15,37 @@ log = logging.getLogger()
 class Docker(Container):
     """Docker container class"""
 
-    def run(self, image, container_cmd, user, tempdir, env=None, datadir=None,
-            script=None, **kwargs):
+    def run(
+        self,
+        image,
+        container_cmd,
+        user,
+        tempdir,
+        env=None,
+        datadir=None,
+        script=None,
+        **kwargs,
+    ):
         """
         Prepares and runs the command inside a container.
 
         See Container.run() for more information.
         """
 
-        return super().run(image, container_cmd, user, tempdir, env, datadir,
-                           script, **kwargs)
+        return super().run(
+            image, container_cmd, user, tempdir, env, datadir, script, **kwargs
+        )
 
-    def shell(self, image, user, tempdir, env=None, datadir=None, script=None,
-              **kwargs):
+    def shell(
+        self, image, user, tempdir, env=None, datadir=None, script=None, **kwargs
+    ):
         """
         Spawns an interactive shell inside the container.
 
         See Container.shell() for more information
         """
 
-        return super().shell(image, user, tempdir, env, datadir,
-                             script, **kwargs)
+        return super().shell(image, user, tempdir, env, datadir, script, **kwargs)
 
     def _images(self):
         """
@@ -68,7 +78,9 @@ class Docker(Container):
             img_repository = img.get("Repository")
             img_tag = img.get("Tag", "latest")
 
-            if (image_ref and id.startswith(image_ref)) or (image_ref == img_repository and image_tag == img_tag):
+            if (image_ref and id.startswith(image_ref)) or (
+                image_ref == img_repository and image_tag == img_tag
+            ):
                 return True
 
         return False

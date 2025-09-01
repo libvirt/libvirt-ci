@@ -46,10 +46,11 @@ class EnvironmentError(AnsibleWrapperError):
         super().__init__(message)
 
 
-class AnsibleWrapper():
+class AnsibleWrapper:
     def __init__(self):
-        self._tempdir = TemporaryDirectory(prefix="ansible_runner",
-                                           dir=util.get_temp_dir())
+        self._tempdir = TemporaryDirectory(
+            prefix="ansible_runner", dir=util.get_temp_dir()
+        )
         self._private_data_dir = Path(self._tempdir.name)
 
     def _get_default_params(self):
@@ -62,20 +63,20 @@ class AnsibleWrapper():
                 "ANSIBLE_NOCOWS": "True",
                 "ANSIBLE_LOG_PATH": ansible_log_path,
                 "ANSIBLE_SSH_PIPELINING": "True",
-
                 # Group names officially cannot contain dashes, because those
                 # characters are invalid in Python identifiers and it caused
                 # issues in some Ansible scenarios like using the dot notation,
                 # e.g. groups.group-with-dash. In simple group names like
                 # ours dashes are still perfectly fine, so ignore the warning
                 "ANSIBLE_TRANSFORM_INVALID_GROUP_CHARS": "ignore",
-            }
+            },
         }
 
         return default_params
 
-    def prepare_env(self, playbookdir=None, inventories=None,
-                    group_vars=None, extravars=None):
+    def prepare_env(
+        self, playbookdir=None, inventories=None, group_vars=None, extravars=None
+    ):
         """
         Prepares the Ansible runner execution environment.
 
@@ -134,8 +135,7 @@ class AnsibleWrapper():
             dst_dir.mkdir(parents=True, exist_ok=True)
 
             for group in group_vars:
-                log.debug(f"Dumping group vars for [{group}]: "
-                          f"{group_vars[group]}")
+                log.debug(f"Dumping group vars for [{group}]: " f"{group_vars[group]}")
 
                 dst = Path(dst_dir, group + ".yml")
                 with open(dst, "w") as fp:
@@ -207,10 +207,12 @@ class AnsibleWrapper():
         # we try to parse the returned inventory, so we'll just let the YAML
         # parser fail and hopefully it'll have more details for us.
         try:
-            inventory, _ = query_inventory(action="list",
-                                           inventories=[inventory_path],
-                                           response_format="yaml",
-                                           **params)
+            inventory, _ = query_inventory(
+                action="list",
+                inventories=[inventory_path],
+                response_format="yaml",
+                **params,
+            )
         except ansible_runner.exceptions.AnsibleRunnerException as ex:
             raise ExecutionError(f"ansible-runner failed: {ex}")
 
@@ -235,6 +237,6 @@ class AnsibleWrapper():
         if verbosity:
             params["verbosity"] = verbosity
         if limit:
-            params["limit"] = ','.join(limit)
+            params["limit"] = ",".join(limit)
 
         self._run(params)

@@ -14,7 +14,13 @@ from functools import total_ordering
 from pathlib import Path
 from lcitool import util
 from lcitool.projects import Project, ProjectError
-from lcitool.packages import NativePackage, CrossPackage, PyPIPackage, CPANPackage, Packages
+from lcitool.packages import (
+    NativePackage,
+    CrossPackage,
+    PyPIPackage,
+    CPANPackage,
+    Packages,
+)
 from lcitool.targets import BuildTarget
 from lcitool.util import DataDir
 
@@ -44,8 +50,11 @@ def packages_as_dict(raw_pkgs):
 
 @pytest.fixture
 def test_project(projects):
-    return Project(projects, "packages",
-                   path=Path(test_utils.test_data_indir(__file__), "packages.yml"))
+    return Project(
+        projects,
+        "packages",
+        path=Path(test_utils.test_data_indir(__file__), "packages.yml"),
+    )
 
 
 def mock_get_host_arch():
@@ -64,19 +73,18 @@ def test_verify_all_mappings_and_packages(assert_equal, packages):
     assert_equal(actual, expected_path)
 
 
-native_params = [
-    pytest.param(target, None, id=target) for target in ALL_TARGETS
-]
+native_params = [pytest.param(target, None, id=target) for target in ALL_TARGETS]
 
 cross_params = [
     pytest.param("debian-12", "s390x", id="debian-12-cross-s390x"),
-    pytest.param("fedora-rawhide", "mingw64", id="fedora-rawhide-cross-mingw64")
+    pytest.param("fedora-rawhide", "mingw64", id="fedora-rawhide-cross-mingw64"),
 ]
 
 
 @pytest.mark.parametrize("target,arch", native_params + cross_params)
-def test_package_resolution(assert_equal, targets, packages, test_project,
-                            target, arch, mock_arch):
+def test_package_resolution(
+    assert_equal, targets, packages, test_project, target, arch, mock_arch
+):
     if arch is None:
         outfile = f"{target}.yml"
     else:
@@ -90,15 +98,15 @@ def test_package_resolution(assert_equal, targets, packages, test_project,
 
 
 def test_resolution_override(targets, test_project):
-    datadir = DataDir(Path(test_utils.test_data_dir(__file__), 'override'))
+    datadir = DataDir(Path(test_utils.test_data_dir(__file__), "override"))
     packages = Packages(datadir)
     target_obj = BuildTarget(targets, packages, "centos-stream-9")
     pkgs = test_project.get_packages(target_obj)
-    assert isinstance(pkgs['meson'], PyPIPackage)
+    assert isinstance(pkgs["meson"], PyPIPackage)
 
     actual = packages_as_dict(pkgs)
-    assert 'meson==0.63.2' in actual['pypi']
-    assert 'python38' in actual['native']
+    assert "meson==0.63.2" in actual["pypi"]
+    assert "python38" in actual["native"]
 
 
 @pytest.mark.parametrize(
@@ -125,7 +133,7 @@ def test_cross_platform_arch_mismatch(targets, packages, test_project, target, a
 
 
 @total_ordering
-class MappingKey(namedtuple('MappingKey', ['components', 'priority'])):
+class MappingKey(namedtuple("MappingKey", ["components", "priority"])):
     def __str__(self):
         return "".join(self.components)
 
@@ -133,9 +141,11 @@ class MappingKey(namedtuple('MappingKey', ['components', 'priority'])):
         return hash(self.components)
 
     def __eq__(self, other):
-        return isinstance(other, MappingKey) and \
-            self.priority == other.priority and \
-            self.components == other.components
+        return (
+            isinstance(other, MappingKey)
+            and self.priority == other.priority
+            and self.components == other.components
+        )
 
     def __lt__(self, other):
         if self.priority < other.priority:
@@ -149,14 +159,14 @@ class MappingKey(namedtuple('MappingKey', ['components', 'priority'])):
 def mapping_keys_product(targets):
     basekeys = set()
 
-    basekeys.add(MappingKey(("default", ), 0))
+    basekeys.add(MappingKey(("default",), 0))
     for target, facts in targets.target_facts.items():
         fmt = facts["packaging"]["format"]
         name = facts["os"]["name"]
         ver = facts["os"]["version"]
 
-        basekeys.add(MappingKey((fmt, ), 1))
-        basekeys.add(MappingKey((name, ), 2))
+        basekeys.add(MappingKey((fmt,), 1))
+        basekeys.add(MappingKey((name,), 2))
         basekeys.add(MappingKey((name, ver), 3))
 
     basekeys = [str(x) for x in sorted(basekeys)]

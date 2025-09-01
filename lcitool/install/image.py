@@ -39,15 +39,14 @@ class NoImageError(ImageError):
 class Metadata(UserDict):
     @staticmethod
     def _validate(dict_):
-        schema = set(["target", "image", "url", "arch", "format",
-                      "libosinfo_id"])
+        schema = set(["target", "image", "url", "arch", "format", "libosinfo_id"])
         actual = set(dict_.keys())
         if actual != schema:
             raise ValueError(actual - schema)
 
     def load(self, file):
         # load image metadata
-        with open(file, 'r') as f:
+        with open(file, "r") as f:
             try:
                 m = yaml.safe_load(f)
             except Exception as ex:
@@ -70,20 +69,17 @@ class Metadata(UserDict):
         except ValueError as e:
             invalid_keys = list(e.args)
             raise MetadataValidationError(
-                f"Metadata schema validation failed, "
-                f"violating keys: {invalid_keys}"
+                f"Metadata schema validation failed, " f"violating keys: {invalid_keys}"
             )
-        with open(file, 'w') as fd:
+        with open(file, "w") as fd:
             try:
                 yaml.safe_dump(self.data, fd)
             except Exception as ex:
                 name = file.name
-                raise ImageError(
-                    f"Failed to dump metadata for image '{name}': {ex}"
-                )
+                raise ImageError(f"Failed to dump metadata for image '{name}': {ex}")
 
 
-class Images():
+class Images:
     @staticmethod
     def _get_cache_dir():
         cache_dir = Path(util.get_cache_dir(), "images")
@@ -102,15 +98,16 @@ class Images():
         if target in self._target_images:
             return self._target_images[target]
 
-        osinfo_img = self._load_osinfo_image_data(self._osinfodb,
-                                                  facts["os"]["libosinfo_id"],
-                                                  arch,
-                                                  format_)
-        metadata = Metadata(target=target,
-                            arch=arch,
-                            format=format_,
-                            libosinfo_id=facts["os"]["libosinfo_id"],
-                            url=osinfo_img.url)
+        osinfo_img = self._load_osinfo_image_data(
+            self._osinfodb, facts["os"]["libosinfo_id"], arch, format_
+        )
+        metadata = Metadata(
+            target=target,
+            arch=arch,
+            format=format_,
+            libosinfo_id=facts["os"]["libosinfo_id"],
+            url=osinfo_img.url,
+        )
 
         self._target_images[target] = Image(metadata, self._cache_dir)
         return self._target_images[target]
@@ -121,9 +118,9 @@ class Images():
 
         # load all image metadata files and store it in the ascending order,
         # i.e. from newest to oldest
-        for entry in sorted(dir_.glob("*.metadata"),
-                            reverse=True,
-                            key=lambda x: x.stat().st_mtime):
+        for entry in sorted(
+            dir_.glob("*.metadata"), reverse=True, key=lambda x: x.stat().st_mtime
+        ):
 
             # check if image with the path exists, log warning and skip
             if not Path(dir_, entry.stem).exists():
@@ -142,9 +139,11 @@ class Images():
     @staticmethod
     def _load_osinfo_image_data(osinfo_db, libosinfo_id, arch, format_):
         def _filter_arch_format_cloud_init(osimg):
-            if not osimg.has_cloud_init() or \
-               osimg.arch != arch or \
-               osimg.format != format_:
+            if (
+                not osimg.has_cloud_init()
+                or osimg.arch != arch
+                or osimg.format != format_
+            ):
                 return False
 
             if not osimg.variants:
@@ -220,18 +219,22 @@ class Image:
         log.info(f"Downloading from {url}")
         with requests.get(url, stream=True) as r:
             total_size = int(r.headers.get("content-length", 0))
-            with tqdm(ascii=" #",
-                      total=total_size,
-                      ncols=80,
-                      unit="B",
-                      unit_scale=True,
-                      unit_divisor=1024,) as progress:
+            with tqdm(
+                ascii=" #",
+                total=total_size,
+                ncols=80,
+                unit="B",
+                unit_scale=True,
+                unit_divisor=1024,
+            ) as progress:
 
-                with NamedTemporaryFile("wb",
-                                        prefix=f"{target}_",
-                                        suffix="." + suffix,
-                                        dir=self._download_dir,
-                                        delete=False) as fd:
+                with NamedTemporaryFile(
+                    "wb",
+                    prefix=f"{target}_",
+                    suffix="." + suffix,
+                    dir=self._download_dir,
+                    delete=False,
+                ) as fd:
                     chunk_size = 8 * (1 << 20)
                     for chunk in r.iter_content(chunk_size):
                         how_much = fd.write(chunk)

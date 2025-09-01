@@ -25,7 +25,7 @@ class ContainerError(LcitoolError):
 
 
 class ContainerExecError(ContainerError):
-    """ Thrown whenever an error occurs during container engine execution. """
+    """Thrown whenever an error occurs during container engine execution."""
 
     def __init__(self, rc, message=None):
         if message is None:
@@ -56,8 +56,7 @@ class Container(ABC):
         """
 
         try:
-            proc = subprocess.run(args=command, encoding="utf-8",
-                                  **kwargs)
+            proc = subprocess.run(args=command, encoding="utf-8", **kwargs)
         except subprocess.CalledProcessError as ex:
             raise ContainerExecError(ex.returncode, ex.stderr)
 
@@ -86,9 +85,9 @@ class Container(ABC):
             log.debug(message, f"no\n'{self.engine}' path cannot be found")
             return False
 
-        exists = self._exec([command, "version"],
-                            stdout=subprocess.PIPE,
-                            stderr=subprocess.STDOUT)
+        exists = self._exec(
+            [command, "version"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        )
         if exists.returncode:
             log.debug(message, "no")
         else:
@@ -181,12 +180,8 @@ class Container(ABC):
             # relabel the files due to it running rootless. So
             # copying them first is safer and less error-prone.
 
-            passwd = shutil.copy2(
-                "/etc/passwd", Path(tempdir, 'passwd.copy')
-            )
-            group = shutil.copy2(
-                "/etc/group", Path(tempdir, 'group.copy')
-            )
+            passwd = shutil.copy2("/etc/passwd", Path(tempdir, "passwd.copy"))
+            group = shutil.copy2("/etc/group", Path(tempdir, "group.copy"))
 
             passwd_mount = f"{passwd}:/etc/passwd:ro,z"
             group_mount = f"{group}:/etc/group:ro,z"
@@ -197,11 +192,13 @@ class Container(ABC):
             home.mkdir(exist_ok=True)
 
             home_mount = f"{home}:{user_home}:z"
-            engine_args.extend([
-                ("--volume", passwd_mount),
-                ("--volume", group_mount),
-                ("--volume", home_mount),
-            ])
+            engine_args.extend(
+                [
+                    ("--volume", passwd_mount),
+                    ("--volume", group_mount),
+                    ("--volume", home_mount),
+                ]
+            )
 
         # Docker containers can have very large ulimits
         # for nofiles - as much as 1048576. This makes
@@ -209,12 +206,14 @@ class Container(ABC):
         ulimit_files = 1024
         ulimit = f"nofile={ulimit_files}:{ulimit_files}"
 
-        engine_args.extend([
-            ("--user", user),
-            ("--workdir", f"{user_home}"),
-            ("--ulimit", ulimit),
-            ("--cap-add", "SYS_PTRACE"),
-        ])
+        engine_args.extend(
+            [
+                ("--user", user),
+                ("--workdir", f"{user_home}"),
+                ("--ulimit", ulimit),
+                ("--cap-add", "SYS_PTRACE"),
+            ]
+        )
 
         if script:
             script_file = Path(shutil.copy2(script, Path(tempdir, "script")))
@@ -223,15 +222,15 @@ class Container(ABC):
             script_file.chmod(script_file.stat().st_mode | 0o111)
 
             script_mount = f"{script_file}:{user_home}/script:z"
-            engine_args.extend([
-                ("--volume", script_mount)
-            ])
+            engine_args.extend([("--volume", script_mount)])
 
         if datadir:
             datadir_mount = f"{datadir}:{user_home}/datadir:z"
-            engine_args.extend([
-                ("--volume", datadir_mount),
-            ])
+            engine_args.extend(
+                [
+                    ("--volume", datadir_mount),
+                ]
+            )
 
         if env:
             envs = [("--env=" + i,) for i in env]
@@ -251,9 +250,7 @@ class Container(ABC):
 
         # podman rmi {image}
         cmd = [self.engine, "rmi", image]
-        proc = self._exec(cmd,
-                          stdout=subprocess.PIPE,
-                          stderr=subprocess.STDOUT)
+        proc = self._exec(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         log.debug(proc.stdout.strip())
         return not proc.returncode
 
@@ -270,9 +267,7 @@ class Container(ABC):
         cmd = [self.engine, "images"]
 
         cmd.extend(cmd_args)
-        img = self._exec(cmd,
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.DEVNULL)
+        img = self._exec(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
         log.debug(f"{self.engine} images\n%s", img.stdout)
         return img.stdout
 
@@ -299,8 +294,17 @@ class Container(ABC):
         return run.returncode
 
     @abstractmethod
-    def run(self, image, container_cmd, user, tempdir, env=None,
-            datadir=None, script=None, **kwargs):
+    def run(
+        self,
+        image,
+        container_cmd,
+        user,
+        tempdir,
+        env=None,
+        datadir=None,
+        script=None,
+        **kwargs,
+    ):
         """
         Prepares and run the command.
 
@@ -370,12 +374,7 @@ class Container(ABC):
 
         # podman build --pull --tag $TAG --file='container/Dockerfile' .
 
-        cmd_args = [
-            "--pull",
-            "--tag", tag,
-            "--file", filepath,
-            f"{tempdir}"
-        ]
+        cmd_args = ["--pull", "--tag", tag, "--file", filepath, f"{tempdir}"]
 
         cmd = [self.engine, "build"]
         cmd.extend(cmd_args)
@@ -385,8 +384,9 @@ class Container(ABC):
         return build.returncode
 
     @abstractmethod
-    def shell(self, image, user, tempdir, env=None, datadir=None, script=None,
-              **kwargs):
+    def shell(
+        self, image, user, tempdir, env=None, datadir=None, script=None, **kwargs
+    ):
         """
         Spawns an interactive shell inside the container.
 

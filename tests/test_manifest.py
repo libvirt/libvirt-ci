@@ -36,38 +36,42 @@ def test_generate(assert_equal, targets, packages, projects, monkeypatch):
         unlinks.add(self)
 
     def fake_exists(self):
-        return self in set((
-            Path("ci", "containers"),
-            Path("ci", "cirrus"),
-        ))
+        return self in set(
+            (
+                Path("ci", "containers"),
+                Path("ci", "cirrus"),
+            )
+        )
 
     def fake_glob(self, pattern):
-        files = set((
-            # to be deleted
-            Path("ci", "cirrus", "freebsd-9.vars"),
-            # to be re-written
-            Path("ci", "cirrus", "freebsd-current.vars"),
-            # to be deleted
-            Path("ci", "containers", "almalinux-9.Dockerfile"),
-            # to be re-written
-            Path("ci", "containers", "fedora-rawhide.Dockerfile"),
-        ))
+        files = set(
+            (
+                # to be deleted
+                Path("ci", "cirrus", "freebsd-9.vars"),
+                # to be re-written
+                Path("ci", "cirrus", "freebsd-current.vars"),
+                # to be deleted
+                Path("ci", "containers", "almalinux-9.Dockerfile"),
+                # to be re-written
+                Path("ci", "containers", "fedora-rawhide.Dockerfile"),
+            )
+        )
 
         return filter(lambda f: fnmatch(f.as_posix(), pattern), files)
 
     # Force loading the facts before monkeypatching is enabled
     test_utils.force_load(packages=packages, projects=projects, targets=targets)
 
-    monkeypatch.setattr(util, 'generate_file_header', fake_header)
+    monkeypatch.setattr(util, "generate_file_header", fake_header)
 
     with monkeypatch.context() as m:
         # Stop the manifest generation interacting with the
         # host OS state, capturing its operations
-        m.setattr(util, 'atomic_write', fake_write)
-        m.setattr(Path, 'mkdir', fake_mkdir)
-        m.setattr(Path, 'exists', fake_exists)
-        m.setattr(Path, 'unlink', fake_unlink)
-        m.setattr(Path, 'glob', fake_glob)
+        m.setattr(util, "atomic_write", fake_write)
+        m.setattr(Path, "mkdir", fake_mkdir)
+        m.setattr(Path, "exists", fake_exists)
+        m.setattr(Path, "unlink", fake_unlink)
+        m.setattr(Path, "glob", fake_glob)
 
         with open(manifest_path, "r") as fp:
             manifest = Manifest(targets, packages, projects, fp, quiet=True)
@@ -138,7 +142,13 @@ def test_generate(assert_equal, targets, packages, projects, monkeypatch):
     finally:
         if pytest.custom_args["regenerate_output"]:
             with open(manifest_path, "r") as fp:
-                manifest = Manifest(targets, packages, projects, fp, quiet=True,
-                                    basedir=Path(test_utils.test_data_outdir(__file__)))
+                manifest = Manifest(
+                    targets,
+                    packages,
+                    projects,
+                    fp,
+                    quiet=True,
+                    basedir=Path(test_utils.test_data_outdir(__file__)),
+                )
 
             manifest.generate()

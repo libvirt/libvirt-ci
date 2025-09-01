@@ -14,23 +14,28 @@ from lcitool.inventory import Inventory, InventoryError
 from lcitool.targets import BuildTarget
 
 
-pytestmark = pytest.mark.filterwarnings("ignore:'pipes' is deprecated:DeprecationWarning")
+pytestmark = pytest.mark.filterwarnings(
+    "ignore:'pipes' is deprecated:DeprecationWarning"
+)
 
 
 @pytest.fixture(scope="module")
 def inventory(targets):
     config_path = Path(test_utils.test_data_indir(__file__), "config.yml")
     inventory_path = Path(test_utils.test_data_indir(__file__), "inventory")
-    return Inventory(targets,
-                     Config(path=config_path),
-                     inventory_path=inventory_path)
+    return Inventory(targets, Config(path=config_path), inventory_path=inventory_path)
 
 
-@pytest.mark.parametrize("host,target,fully_managed", [
-    pytest.param("centos-stream-9-1", "centos-stream-9", False, id="centos-stream-9-1"),
-    pytest.param("192.168.1.30", "debian-12", False, id="debian-12"),
-    pytest.param("fedora-test-2", "fedora-41", True, id="fedora-test-2"),
-])
+@pytest.mark.parametrize(
+    "host,target,fully_managed",
+    [
+        pytest.param(
+            "centos-stream-9-1", "centos-stream-9", False, id="centos-stream-9-1"
+        ),
+        pytest.param("192.168.1.30", "debian-12", False, id="debian-12"),
+        pytest.param("fedora-test-2", "fedora-41", True, id="fedora-test-2"),
+    ],
+)
 def test_host_facts(inventory, targets, host, target, fully_managed):
     host_facts = inventory.host_facts[host]
     assert host_facts["target"] == target
@@ -43,7 +48,7 @@ def test_expand_hosts(inventory):
     assert sorted(inventory.expand_hosts("*centos*")) == [
         "centos-stream-9-1",
         "centos-stream-9-2",
-        "some-other-centos-stream-9"
+        "some-other-centos-stream-9",
     ]
     with pytest.raises(InventoryError):
         inventory.expand_hosts("debian-12")

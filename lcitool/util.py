@@ -33,8 +33,9 @@ class SSHKey:
         # resolve user home directory + canonicalize path
         self.path = Path(keypath).expanduser().resolve()
         if not self.path.exists():
-            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT),
-                                    str(self.path))
+            raise FileNotFoundError(
+                errno.ENOENT, os.strerror(errno.ENOENT), str(self.path)
+            )
 
     def __str__(self):
         if self._contents is None:
@@ -335,8 +336,8 @@ def merge_dict(source, dest):
 
 class DataDir:
     """A class that looks for files both under the lcitool sources and in
-       an externally specified data directory.  Used to implement the
-       -d option."""
+    an externally specified data directory.  Used to implement the
+    -d option."""
 
     @property
     def path(self):
@@ -358,7 +359,7 @@ class DataDir:
         self._path = None
 
     def __repr__(self):
-        return f'DataDir({str(self._extra_data_dir)})'
+        return f"DataDir({str(self._extra_data_dir)})"
 
     def __bool__(self):
         return bool(self._extra_data_dir)
@@ -369,7 +370,7 @@ class DataDir:
             # the source directory, for example "facts" or "etc".  Remove it
             # when using an external data directory.
             if "/" in resource_path:
-                user_path = resource_path[resource_path.index("/") + 1:]
+                user_path = resource_path[resource_path.index("/") + 1 :]
             else:
                 user_path = ""
             p = Path(self._extra_data_dir, user_path, *names)
@@ -398,7 +399,7 @@ class DataDir:
 def validate_cross_platform(cross_arch, osname):
     if osname not in ["Debian", "Fedora"]:
         raise ValueError(f"Cannot cross compile on {osname}")
-    if (osname == "Debian" and cross_arch.startswith("mingw")):
+    if osname == "Debian" and cross_arch.startswith("mingw"):
         raise ValueError(f"Cannot cross compile for {cross_arch} on {osname}")
-    if (osname == "Fedora" and not cross_arch.startswith("mingw")):
+    if osname == "Fedora" and not cross_arch.startswith("mingw"):
         raise ValueError(f"Cannot cross compile for {cross_arch} on {osname}")

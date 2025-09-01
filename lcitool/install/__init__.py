@@ -1,4 +1,5 @@
 import gi
+
 gi.require_version("Libosinfo", "1.0")
 
 from .install import VirtInstall, InstallerError

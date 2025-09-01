@@ -8,7 +8,11 @@ import logging
 import yaml
 from pathlib import Path
 
-from lcitool.formatters import DockerfileFormatter, ShellVariablesFormatter, ShellBuildEnvFormatter
+from lcitool.formatters import (
+    DockerfileFormatter,
+    ShellVariablesFormatter,
+    ShellBuildEnvFormatter,
+)
 from lcitool import gitlab, util, LcitoolError
 from lcitool.targets import BuildTarget
 
@@ -24,7 +28,16 @@ class ManifestError(LcitoolError):
 
 class Manifest:
 
-    def __init__(self, targets, packages, projects, configfp, quiet=False, cidir=Path("ci"), basedir=None):
+    def __init__(
+        self,
+        targets,
+        packages,
+        projects,
+        configfp,
+        quiet=False,
+        cidir=Path("ci"),
+        basedir=None,
+    ):
         self._targets = targets
         self._packages = packages
         self._projects = projects
@@ -143,13 +156,17 @@ class Manifest:
 
                 if arch in done:
                     if jobinfo["suffix"] == "":
-                        raise ValueError(f"target {target} duplicate arch {arch} missing suffix")
+                        raise ValueError(
+                            f"target {target} duplicate arch {arch} missing suffix"
+                        )
                 done[arch] = True
 
                 if "cirrus" in facts:
                     ciarch = facts["cirrus"]["arch"]
                     if arch != ciarch:
-                        raise ValueError(f"target {target} only supports {ciarch} architecture")
+                        raise ValueError(
+                            f"target {target} only supports {ciarch} architecture"
+                        )
 
         if not have_containers:
             gitlabinfo["containers"] = False
@@ -207,9 +224,10 @@ class Manifest:
                     print(f"Generating {filename}")
                 generated.append(filename)
                 if not dryrun:
-                    header = util.generate_file_header(["manifest",
-                                                        self.configpath])
-                    tgt = BuildTarget(self._targets, self._packages, target, "x86_64", arch)
+                    header = util.generate_file_header(["manifest", self.configpath])
+                    tgt = BuildTarget(
+                        self._targets, self._packages, target, "x86_64", arch
+                    )
                     payload = formatter.format(tgt, wantprojects)
                     util.atomic_write(filename, header + payload + "\n")
 
@@ -217,21 +235,19 @@ class Manifest:
 
     def _generate_containers(self, dryrun):
         formatter = DockerfileFormatter(self._projects)
-        return self._generate_formatter(dryrun,
-                                        "containers", "Dockerfile",
-                                        formatter, "containers")
+        return self._generate_formatter(
+            dryrun, "containers", "Dockerfile", formatter, "containers"
+        )
 
     def _generate_cirrus(self, dryrun):
         formatter = ShellVariablesFormatter(self._projects)
-        return self._generate_formatter(dryrun,
-                                        "cirrus", "vars",
-                                        formatter, "cirrus")
+        return self._generate_formatter(dryrun, "cirrus", "vars", formatter, "cirrus")
 
     def _generate_buildenv(self, dryrun):
         formatter = ShellBuildEnvFormatter(self._projects)
-        return self._generate_formatter(dryrun,
-                                        "buildenv", "sh",
-                                        formatter, "containers")
+        return self._generate_formatter(
+            dryrun, "buildenv", "sh", formatter, "containers"
+        )
 
     def _clean_files(self, generated, dryrun, subdir, suffix):
         outdir = Path(self.basedir, self.cidir, subdir)
@@ -359,11 +375,13 @@ class Manifest:
                 includes.append(path)
 
         path = Path(self.cidir, "gitlab.yml")
-        content = [gitlab.docs(namespace),
-                   gitlab.variables(namespace),
-                   gitlab.workflow(),
-                   gitlab.debug(),
-                   gitlab.includes(includes)]
+        content = [
+            gitlab.docs(namespace),
+            gitlab.variables(namespace),
+            gitlab.workflow(),
+            gitlab.debug(),
+            gitlab.includes(includes),
+        ]
         self._replace_file(content, path, dryrun)
 
     def _generate_gitlab_container_jobs(self, cross):
@@ -402,10 +420,12 @@ class Manifest:
 
                 if cross:
                     containerbuildjob = gitlab.cross_container_job(
-                        target, arch, allow_failure, optional)
+                        target, arch, allow_failure, optional
+                    )
                 else:
                     containerbuildjob = gitlab.native_container_job(
-                        target, allow_failure, optional)
+                        target, allow_failure, optional
+                    )
                 jobs.append(containerbuildjob)
         return jobs
 
@@ -453,7 +473,8 @@ class Manifest:
                 jobinfo["template"],
                 jobinfo["allow-failure"],
                 not jobinfo["builds"],
-                jobinfo["artifacts"])
+                jobinfo["artifacts"],
+            )
 
         jobs = self._generate_build_jobs("containers", False, jobfunc)
         if len(jobs) > 0:
@@ -471,7 +492,8 @@ class Manifest:
                 jobinfo["template"],
                 jobinfo["allow-failure"],
                 not jobinfo["builds"],
-                jobinfo["artifacts"])
+                jobinfo["artifacts"],
+            )
 
         jobs = self._generate_build_jobs("containers", True, jobfunc)
         if len(jobs) > 0:
@@ -490,7 +512,8 @@ class Manifest:
                 jobinfo["suffix"],
                 jobinfo["variables"],
                 jobinfo["allow-failure"],
-                not jobinfo["builds"])
+                not jobinfo["builds"],
+            )
 
         jobs = self._generate_build_jobs("cirrus", False, jobfunc)
         if len(jobs) > 0:

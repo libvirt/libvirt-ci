@@ -19,7 +19,7 @@ class TargetsError(LcitoolError):
         super().__init__(message, "Targets")
 
 
-class Targets():
+class Targets:
 
     @property
     def target_facts(self):
@@ -41,18 +41,23 @@ class Targets():
 
         actual_osname = target_facts["os"]["name"].lower()
         if not target.startswith(actual_osname + "-"):
-            raise TargetsError(f'OS name "{target_facts["os"]["name"]}" does not match file name {fname}')
-        target = target[len(actual_osname) + 1:]
+            raise TargetsError(
+                f'OS name "{target_facts["os"]["name"]}" does not match file name {fname}'
+            )
+        target = target[len(actual_osname) + 1 :]
 
         actual_version = target_facts["os"]["version"].lower()
         expected_version = target.replace("-", "")
         if expected_version != actual_version:
-            raise TargetsError(f'OS version "{target_facts["os"]["version"]}" does not match version in file name {fname} ({expected_version})')
+            raise TargetsError(
+                f'OS version "{target_facts["os"]["version"]}" does not match version in file name {fname} ({expected_version})'
+            )
 
     def _load_target_facts(self):
         facts = {}
-        all_targets = {item.stem
-                       for item in self._data_dir.list_files("facts/targets", ".yml")}
+        all_targets = {
+            item.stem for item in self._data_dir.list_files("facts/targets", ".yml")
+        }
 
         # first load the shared facts from targets/all.yml
         shared_facts = self._data_dir.merge_facts("facts/targets", "all")

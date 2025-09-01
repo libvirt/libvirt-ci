@@ -21,7 +21,7 @@ class InventoryError(LcitoolError):
         super().__init__(message, "Inventory")
 
 
-class Inventory():
+class Inventory:
 
     @property
     def ansible_inventory(self):
@@ -63,8 +63,9 @@ class Inventory():
             inventory_sources.append(self._inventory_path)
 
         ansible_runner = AnsibleWrapper()
-        ansible_runner.prepare_env(inventories=inventory_sources,
-                                   group_vars=self._targets.target_facts)
+        ansible_runner.prepare_env(
+            inventories=inventory_sources, group_vars=self._targets.target_facts
+        )
 
         log.debug(f"Running ansible-inventory on '{inventory_sources}'")
         try:
@@ -95,10 +96,14 @@ class Inventory():
         def _rec(inventory, group_name):
             for key, subinventory in inventory.items():
                 if key == "hosts":
-                    if (group_name != "ungrouped" and
-                        group_name not in self._targets.targets):
-                        log.info(f"Unsupported target OS group '{group_name}'"
-                                 "found in the inventory, skipping...")
+                    if (
+                        group_name != "ungrouped"
+                        and group_name not in self._targets.targets
+                    ):
+                        log.info(
+                            f"Unsupported target OS group '{group_name}'"
+                            "found in the inventory, skipping..."
+                        )
                         return
 
                     for host_name, host_facts in subinventory.items():

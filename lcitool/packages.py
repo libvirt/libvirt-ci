@@ -137,11 +137,7 @@ class Package(metaclass=abc.ABCMeta):
 
 class CrossPackage(Package):
 
-    def __init__(self,
-                 mappings,
-                 pkg_mapping,
-                 base_keys,
-                 target):
+    def __init__(self, mappings, pkg_mapping, base_keys, target):
         cross_keys = ["cross-" + target.cross_arch + "-" + k for k in base_keys]
 
         if target.facts["packaging"]["format"] == "deb":
@@ -175,11 +171,7 @@ class CrossPackage(Package):
 
 class NativePackage(Package):
 
-    def __init__(self,
-                 mappings,
-                 pkg_mapping,
-                 base_keys,
-                 target):
+    def __init__(self, mappings, pkg_mapping, base_keys, target):
         native_keys = [target.native_arch + "-" + k for k in base_keys] + base_keys
         super().__init__(mappings, pkg_mapping, native_keys, target)
 
@@ -211,7 +203,7 @@ class Packages:
             target.facts["os"]["name"] + target.facts["os"]["version"],
             target.facts["os"]["name"],
             target.facts["packaging"]["format"],
-            "default"
+            "default",
         ]
 
     def _get_cross_policy(self, pkg_mapping, target):
@@ -240,9 +232,11 @@ class Packages:
         return CPANPackage(self.cpan_mappings, pkg_mapping, base_keys, target)
 
     def _get_noncross_package(self, pkg_mapping, target):
-        package_resolvers = [self._get_native_package,
-                             self._get_pypi_package,
-                             self._get_cpan_package]
+        package_resolvers = [
+            self._get_native_package,
+            self._get_pypi_package,
+            self._get_cpan_package,
+        ]
 
         for resolver in package_resolvers:
             try:

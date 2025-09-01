@@ -32,7 +32,7 @@ class LibvirtWrapperError(LcitoolError):
         super().__init__(message, "LibvirtWrapper")
 
 
-class LibvirtWrapper():
+class LibvirtWrapper:
     def __init__(self):
         def nop_error_handler(_T, iterable):
             return None
@@ -56,9 +56,11 @@ class LibvirtWrapper():
                 domain_metadata_flags = libvirt.VIR_DOMAIN_AFFECT_CONFIG
                 if not dom.isPersistent():
                     domain_metadata_flags = libvirt.VIR_DOMAIN_AFFECT_LIVE
-                xml = dom.metadata(libvirt.VIR_DOMAIN_METADATA_ELEMENT,
-                                   LCITOOL_XMLNS,
-                                   domain_metadata_flags)
+                xml = dom.metadata(
+                    libvirt.VIR_DOMAIN_METADATA_ELEMENT,
+                    LCITOOL_XMLNS,
+                    domain_metadata_flags,
+                )
             except libvirt.libvirtError as e:
                 if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN_METADATA:
                     # skip hosts which don't have lcitool's metadata
@@ -85,18 +87,22 @@ class LibvirtWrapper():
             <host>
               <target>{target}</target>
             </host>
-            """)
+            """
+        )
 
         try:
             dom = self._conn.lookupByName(host)
-            dom.setMetadata(libvirt.VIR_DOMAIN_METADATA_ELEMENT,
-                            xml, "lcitool", LCITOOL_XMLNS,
-                            flags=(libvirt.VIR_DOMAIN_AFFECT_CONFIG |
-                                   libvirt.VIR_DOMAIN_AFFECT_LIVE))
-        except libvirt.libvirtError as e:
-            raise LibvirtWrapperError(
-                f"Failed to set metadata for '{host}': " + str(e)
+            dom.setMetadata(
+                libvirt.VIR_DOMAIN_METADATA_ELEMENT,
+                xml,
+                "lcitool",
+                LCITOOL_XMLNS,
+                flags=(
+                    libvirt.VIR_DOMAIN_AFFECT_CONFIG | libvirt.VIR_DOMAIN_AFFECT_LIVE
+                ),
             )
+        except libvirt.libvirtError as e:
+            raise LibvirtWrapperError(f"Failed to set metadata for '{host}': " + str(e))
 
     def pool_by_name(self, name):
         try:
@@ -174,22 +180,32 @@ class LibvirtStoragePoolObject(LibvirtAbstractObject):
                 <path>{target}</path>
               </target>
             </pool>
-            """)
+            """
+        )
 
         conn.storagePoolCreateXML(pool_xml)
         return conn.storagePoolLookupByName(name)
 
     def _create_from_xml(self, name, xmlstr):
         self.raw.createXML(xmlstr)
-        return LibvirtStorageVolObject(self,
-                                       self.raw.storageVolLookupByName(name))
+        return LibvirtStorageVolObject(self, self.raw.storageVolLookupByName(name))
 
-    def create_volume(self, name, capacity, allocation=None, _format="qcow2",
-                      units='bytes', owner=None, group=None, mode=None,
-                      backing_store=None):
+    def create_volume(
+        self,
+        name,
+        capacity,
+        allocation=None,
+        _format="qcow2",
+        units="bytes",
+        owner=None,
+        group=None,
+        mode=None,
+        backing_store=None,
+    ):
 
         import re
-        unit_pattern = '^(bytes|B|[K,M,G,T,P,E](iB|B)?)$'
+
+        unit_pattern = "^(bytes|B|[K,M,G,T,P,E](iB|B)?)$"
 
         if not re.match(unit_pattern, units):
             raise ValueError(
@@ -203,7 +219,8 @@ class LibvirtStoragePoolObject(LibvirtAbstractObject):
               <name>{name}</name>
               <capacity unit='{units}'>{capacity}</capacity>
             </volume>
-            """)
+            """
+        )
 
         root_el = ET.fromstring(volume_xml)
 
@@ -218,9 +235,7 @@ class LibvirtStoragePoolObject(LibvirtAbstractObject):
         if any([owner, group, mode]):
             target_el = ET.SubElement(root_el, "target")
             perms_el = ET.SubElement(target_el, "permissions")
-            for perm_var, perm in [(owner, "owner"),
-                                   (group, "group"),
-                                   (mode, "mode")]:
+            for perm_var, perm in [(owner, "owner"), (group, "group"), (mode, "mode")]:
                 if perm_var:
                     node_el = ET.SubElement(perms_el, perm)
                     node_el.text = perm_var
@@ -246,8 +261,7 @@ class LibvirtStoragePoolObject(LibvirtAbstractObject):
 
                 pool_dir = backing_store.parent.as_posix()
                 pool_name = "lcitool_" + str(uuid.uuid1())
-                poolobj = self._create_transient_pool(self._conn, pool_name,
-                                                      pool_dir)
+                poolobj = self._create_transient_pool(self._conn, pool_name, pool_dir)
                 volobj = self._volume_by_path(backing_store_path_str)
                 format_ = volobj.format
                 poolobj.destroy()
