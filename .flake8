@@ -5,4 +5,6 @@
 # E501 - Line too long
 # W504 - Line break occurred before a binary operator
 # W605 - Invalid escape sequence 'x'
-ignore = E129, E402, E501, W504, W605
+# E203 - whitespace before ':', Black’s style
+# W503 - line break before binary operator, Black’s style
+ignore = E129, E402, E501, W504, W605, E203, W503
