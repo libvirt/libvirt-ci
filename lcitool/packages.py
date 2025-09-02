@@ -41,24 +41,13 @@ import abc
 import logging
 
 from lcitool import util, LcitoolError
-from typing import Optional
+from typing import Dict, List, Optional, TYPE_CHECKING
+from lcitool.util import DataDir
+
+if TYPE_CHECKING:
+    from lcitool.targets import BuildTarget
 
 log = logging.getLogger(__name__)
-
-
-def package_names_by_type(pkgs):
-    if not isinstance(pkgs, dict):
-        return None
-
-    package_names = {}
-    for cls in [NativePackage, CrossPackage, PyPIPackage, CPANPackage]:
-        # This will extract e.g. 'pypi' from PyPIPackage
-        pkg_type = cls.__name__.replace("Package", "").lower()
-
-        names = set([p.name for p in pkgs.values() if isinstance(p, cls)])
-        package_names[pkg_type] = sorted(names)
-
-    return package_names
 
 
 class PackageError(LcitoolError):
@@ -69,7 +58,7 @@ class PackageError(LcitoolError):
     types.
     """
 
-    def __init__(self, message):
+    def __init__(self, message: str):
         super().__init__(message, "Package generic name resolution")
 
 
@@ -100,7 +89,13 @@ class Package(metaclass=abc.ABCMeta):
         :ivar mapping: the generic package name that will resolve to @name
     """
 
-    def __init__(self, mappings, pkg_mapping, keys, target):
+    def __init__(
+        self,
+        mappings: Dict[str, Dict[str, str]],
+        pkg_mapping: str,
+        keys: List[str],
+        target: "BuildTarget",
+    ):
         """
         Initialize the package with a generic package name
 
@@ -108,11 +103,17 @@ class Package(metaclass=abc.ABCMeta):
         """
 
         self.mapping = pkg_mapping
-        self.name = self._eval(mappings, target, keys)
-        if self.name is None:
+        name = self._eval(mappings, target, keys)
+        if name is None:
             raise PackageEval(f"No mapping for '{pkg_mapping}'")
+        self.name = name
 
-    def _eval(self, mappings, target, keys):
+    def _eval(
+        self,
+        mappings: Dict[str, Dict[str, str]],
+        target: "BuildTarget",
+        keys: List[str],
+    ) -> Optional[str]:
         """
         Resolves package mapping to the actual name of the package.
 
@@ -138,7 +139,14 @@ class Package(metaclass=abc.ABCMeta):
 
 class CrossPackage(Package):
 
-    def __init__(self, mappings, pkg_mapping, base_keys, target):
+    def __init__(
+        self,
+        mappings: Dict[str, Dict[str, str]],
+        pkg_mapping: str,
+        base_keys: List[str],
+        target: "BuildTarget",
+    ):
+        assert target.cross_arch is not None
         cross_keys = ["cross-" + target.cross_arch + "-" + k for k in base_keys]
 
         if target.facts["packaging"]["format"] == "deb":
@@ -151,7 +159,12 @@ class CrossPackage(Package):
 
         super().__init__(mappings, pkg_mapping, cross_keys, target)
 
-    def _eval(self, mappings, target, keys):
+    def _eval(
+        self,
+        mappings: Dict[str, Dict[str, str]],
+        target: "BuildTarget",
+        keys: List[str],
+    ) -> Optional[str]:
         pkg_name = super()._eval(mappings, target, keys)
         if pkg_name is None:
             return None
@@ -164,6 +177,7 @@ class CrossPackage(Package):
             # The exception to this is cross-compilers, where we have
             # to install the package for the native architecture in
             # order to be able to build for the foreign architecture
+            assert target.cross_arch is not None
             cross_arch_deb = util.native_arch_to_deb_arch(target.cross_arch)
             if self.mapping not in ["gcc", "g++"]:
                 pkg_name = pkg_name + ":" + cross_arch_deb
@@ -172,7 +186,13 @@ class CrossPackage(Package):
 
 class NativePackage(Package):
 
-    def __init__(self, mappings, pkg_mapping, base_keys, target):
+    def __init__(
+        self,
+        mappings: Dict[str, Dict[str, str]],
+        pkg_mapping: str,
+        base_keys: List[str],
+        target: "BuildTarget",
+    ):
         native_keys = [target.native_arch + "-" + k for k in base_keys] + base_keys
         super().__init__(mappings, pkg_mapping, native_keys, target)
 
@@ -185,6 +205,21 @@ class CPANPackage(Package):
     pass
 
 
+def package_names_by_type(pkgs: Dict[str, Package]) -> Dict[str, List[str]]:
+    if not isinstance(pkgs, dict):
+        return None
+
+    package_names = {}
+    for cls in [NativePackage, CrossPackage, PyPIPackage, CPANPackage]:
+        # This will extract e.g. 'pypi' from PyPIPackage
+        pkg_type = cls.__name__.replace("Package", "").lower()
+
+        names = set([p.name for p in pkgs.values() if isinstance(p, cls)])
+        package_names[pkg_type] = sorted(names)
+
+    return package_names
+
+
 class Packages:
     """
     Database of package mappings.  Package class representing the actual
@@ -192,14 +227,14 @@ class Packages:
 
     """
 
-    def __init__(self, data_dir=util.DataDir()):
+    def __init__(self, data_dir: DataDir = util.DataDir()):
         self._data_dir = data_dir
         self._mappings = None
         self._pypi_mappings = None
         self._cpan_mappings = None
 
     @staticmethod
-    def _base_keys(target):
+    def _base_keys(target: "BuildTarget") -> List[str]:
         return [
             target.facts["os"]["name"] + target.facts["os"]["version"],
             target.facts["os"]["name"],
@@ -207,7 +242,7 @@ class Packages:
             "default",
         ]
 
-    def _get_cross_policy(self, pkg_mapping, target):
+    def _get_cross_policy(self, pkg_mapping: str, target: "BuildTarget") -> str:
         base_keys = self._base_keys(target)
         for k in ["cross-policy-" + k for k in base_keys]:
             if k in self.mappings[pkg_mapping]:
@@ -220,19 +255,23 @@ class Packages:
                 return cross_policy
         return "native"
 
-    def _get_native_package(self, pkg_mapping, target):
+    def _get_native_package(
+        self, pkg_mapping: str, target: "BuildTarget"
+    ) -> NativePackage:
         base_keys = self._base_keys(target)
         return NativePackage(self.mappings, pkg_mapping, base_keys, target)
 
-    def _get_pypi_package(self, pkg_mapping, target):
+    def _get_pypi_package(self, pkg_mapping: str, target: "BuildTarget") -> PyPIPackage:
         base_keys = self._base_keys(target)
         return PyPIPackage(self.pypi_mappings, pkg_mapping, base_keys, target)
 
-    def _get_cpan_package(self, pkg_mapping, target):
+    def _get_cpan_package(self, pkg_mapping: str, target: "BuildTarget") -> CPANPackage:
         base_keys = self._base_keys(target)
         return CPANPackage(self.cpan_mappings, pkg_mapping, base_keys, target)
 
-    def _get_noncross_package(self, pkg_mapping, target):
+    def _get_noncross_package(
+        self, pkg_mapping: str, target: "BuildTarget"
+    ) -> Optional[Package]:
         package_resolvers = [
             self._get_native_package,
             self._get_pypi_package,
@@ -248,7 +287,9 @@ class Packages:
         # This package doesn't exist on the given platform
         return None
 
-    def _get_cross_package(self, pkg_mapping, target):
+    def _get_cross_package(
+        self, pkg_mapping: str, target: "BuildTarget"
+    ) -> Optional[Package]:
 
         # query the cross policy for the mapping to see whether we need
         # a cross- or non-cross version of a package
@@ -269,27 +310,30 @@ class Packages:
         return None
 
     @property
-    def mappings(self):
+    def mappings(self) -> Dict[str, Dict[str, str]]:
         if self._mappings is None:
             self._load_mappings()
 
+        assert self._mappings is not None
         return self._mappings
 
     @property
-    def pypi_mappings(self):
+    def pypi_mappings(self) -> Dict[str, Dict[str, str]]:
         if self._mappings is None:
             self._load_mappings()
 
+        assert self._pypi_mappings is not None
         return self._pypi_mappings
 
     @property
-    def cpan_mappings(self):
+    def cpan_mappings(self) -> Dict[str, Dict[str, str]]:
         if self._mappings is None:
             self._load_mappings()
 
+        assert self._cpan_mappings is not None
         return self._cpan_mappings
 
-    def get_package(self, pkg_mapping, target) -> Optional[Package]:
+    def get_package(self, pkg_mapping: str, target: "BuildTarget") -> Optional[Package]:
         """
         Resolves the generic mapping name and returns a Package instance.
 
@@ -307,7 +351,7 @@ class Packages:
         else:
             return self._get_cross_package(pkg_mapping, target)
 
-    def _load_mappings(self):
+    def _load_mappings(self) -> None:
         try:
             mappings = self._data_dir.merge_facts("facts", "mappings")
             self._mappings = mappings["mappings"]
