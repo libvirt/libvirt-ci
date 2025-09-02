@@ -7,6 +7,7 @@
 import sys
 import logging
 import argparse
+from typing import Any, List, Optional
 
 from pathlib import Path
 
@@ -19,18 +20,34 @@ log = logging.getLogger(__name__)
 
 
 class DataDirAction(argparse.Action):
-    def __init__(self, option_strings, dest, default=DataDir(), nargs=None, **kwargs):
+    def __init__(
+        self,
+        option_strings: List[str],
+        dest: str,
+        default: DataDir = DataDir(),
+        nargs: Optional[Any] = None,
+        **kwargs: Any,
+    ) -> None:
         if nargs is not None:
             raise ValueError("nargs not allowed")
         super().__init__(option_strings, dest, default=default, nargs=1, **kwargs)
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        setattr(namespace, self.dest, DataDir(values[0]))
+    def __call__(
+        self,
+        parser: argparse.ArgumentParser,
+        namespace: argparse.Namespace,
+        values: Any,
+        option_string: Optional[str] = None,
+    ) -> None:
+        if isinstance(values, (list, tuple)) and values:
+            setattr(namespace, self.dest, DataDir(Path(str(values[0]))))
+        elif isinstance(values, str):
+            setattr(namespace, self.dest, DataDir(Path(values)))
 
 
 class CommandLine:
 
-    def __init__(self):
+    def __init__(self) -> None:
         # Common option parsers to inherit from
 
         hostsopt = argparse.ArgumentParser(add_help=False)
@@ -391,7 +408,7 @@ class CommandLine:
         shell_containerparser.set_defaults(func=Application._action_container_shell)
 
     @staticmethod
-    def _validate_container(args):
+    def _validate_container(args: argparse.Namespace) -> None:
         if args.container not in ["build", "run", "shell"]:
             return
 
@@ -399,7 +416,7 @@ class CommandLine:
         # "build" subcommand.
         if args.container == "build":
             if args.projects and args.target:
-                return args
+                pass
             else:
                 log.error("--target and --projects are required")
                 sys.exit(1)
@@ -412,16 +429,14 @@ class CommandLine:
                 sys.exit(1)
 
     @staticmethod
-    def _validate_install(args):
+    def _validate_install(args: argparse.Namespace) -> None:
         if args.strategy == "template":
             if not args.template:
                 log.error("--template is required with with --strategy=template")
                 sys.exit(1)
 
-        return
-
     # Main CLI validating method
-    def _validate(self, args):
+    def _validate(self, args: argparse.Namespace) -> argparse.Namespace:
         """
         Validate command line arguments.
         :param args: argparse.Namespace object which contains
@@ -438,5 +453,5 @@ class CommandLine:
 
         return args
 
-    def parse(self):
+    def parse(self) -> argparse.Namespace:
         return self._validate(self._parser.parse_args())

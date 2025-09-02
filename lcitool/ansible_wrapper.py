@@ -86,7 +86,7 @@ class AnsibleWrapper:
                 Any,
             ]
         ] = None,
-        extravars: None = None,
+        extravars: Optional[Dict[str, Any]] = None,
     ) -> None:
         """
         Prepares the Ansible runner execution environment.

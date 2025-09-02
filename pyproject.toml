@@ -65,20 +65,7 @@ warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 files = [
-  "lcitool/__init__.py",
-  "lcitool/ansible_wrapper.py",
-  "lcitool/config.py",
-  "lcitool/containers/*.py",
-  "lcitool/install/*.py",
-  "lcitool/formatters.py",
-  "lcitool/gitlab.py",
-  "lcitool/inventory.py",
-  "lcitool/libvirt_wrapper.py",
-  "lcitool/logger.py",
-  "lcitool/manifest.py",
-  "lcitool/projects.py",
-  "lcitool/targets.py",
-  "lcitool/util.py",
+  "lcitool/",
 ]
 
 [[tool.mypy.overrides]]

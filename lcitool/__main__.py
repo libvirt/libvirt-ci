@@ -1,5 +1,6 @@
 import sys
 import logging
+from typing import Any
 
 from lcitool.application import Application
 from lcitool.commandline import CommandLine
@@ -7,11 +8,11 @@ from lcitool.logger import LevelFormatter
 
 
 class LcitoolLogger(logging.Logger):
-    def debug(self, *args, **kwargs):
+    def debug(self, *args: Any, **kwargs: Any) -> None:
         super().debug(*args, **kwargs, exc_info=True)
 
 
-def main():
+def main() -> None:
     log_level_formats = {
         logging.DEBUG: "[%(levelname)s] %(module)s:%(funcName)s:%(lineno)d: %(message)s",
         logging.INFO: "[%(levelname)s]: %(message)s",
@@ -40,4 +41,4 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

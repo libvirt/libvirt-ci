@@ -7,12 +7,15 @@
 import logging
 import sys
 import textwrap
+from typing import Any, Callable, Dict, Optional, Union
+import argparse
 
 from pathlib import Path
 from tempfile import TemporaryDirectory, NamedTemporaryFile
 
 from lcitool import util, LcitoolError
 from lcitool.config import Config
+from lcitool.util import DataDir
 from lcitool.inventory import Inventory
 from lcitool.packages import Packages
 from lcitool.projects import Projects
@@ -26,14 +29,15 @@ from lcitool.formatters import (
 from lcitool.formatters import ShellBuildEnvFormatter
 from lcitool.manifest import Manifest
 from lcitool.containers import Docker, Podman, ContainerExecError
+from lcitool.containers.containers import Container
 
 
 log = logging.getLogger(__name__)
 
 
-def required_deps(*deps):
-    def inner_decorator(func):
-        def wrapped(*args, **kwargs):
+def required_deps(*deps: str) -> Callable:
+    def inner_decorator(func: Callable) -> Callable:
+        def wrapped(*args: Any, **kwargs: Any) -> Any:
             cmd = func.__name__[len("_action_") :]
             for dep in deps:
                 try:
@@ -52,18 +56,18 @@ def required_deps(*deps):
 
 
 class ApplicationError(LcitoolError):
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         super().__init__(message, "Application")
 
 
 class Application:
-    def __init__(self):
+    def __init__(self) -> None:
         # make sure the lcitool cache dir exists
         cache_dir_path = util.get_cache_dir()
         cache_dir_path.mkdir(parents=True, exist_ok=True)
 
     @staticmethod
-    def _entrypoint_debug(args):
+    def _entrypoint_debug(args: argparse.Namespace) -> None:
         cli_args = {}
         for arg, val in vars(args).items():
             if arg not in ["func", "debug"]:
@@ -71,8 +75,14 @@ class Application:
         log.debug(f"Cmdline args={cli_args}")
 
     def _execute_playbook(
-        self, playbook, hosts_pattern, projects_pattern, config, data_dir, verbosity=0
-    ):
+        self,
+        playbook: str,
+        hosts_pattern: str,
+        projects_pattern: str,
+        config_path: Optional[Path],
+        data_dir: DataDir,
+        verbosity: int = 0,
+    ) -> None:
         from lcitool.ansible_wrapper import AnsibleWrapper
 
         log.debug(
@@ -82,7 +92,7 @@ class Application:
         )
 
         base = util.package_resource(__package__, "ansible").as_posix()
-        config = Config(config)
+        config = Config(config_path)
         targets = Targets(data_dir)
         packages = Packages(data_dir)
         projects = Projects(data_dir)
@@ -98,12 +108,14 @@ class Application:
 
         user_pre = False
         if data_dir:
+            assert data_dir.path
             ansible_path = Path(data_dir.path, "ansible")
             if ansible_path.exists():
                 if Path(ansible_path, "pre/tasks/main.yml").exists():
                     user_pre = True
 
-        extra_vars = config.values
+        extra_vars: Dict[str, Any] = {}
+        extra_vars.update(config.values)
         extra_vars.update(
             {
                 "base": base,
@@ -130,7 +142,7 @@ class Application:
             )
 
         ansible_runner.prepare_env(
-            playbookdir=playbook_base,
+            playbookdir=None,
             inventories=[inventory.ansible_inventory],
             group_vars=group_vars,
             extravars=extra_vars,
@@ -139,7 +151,7 @@ class Application:
         ansible_runner.run_playbook(limit=hosts_expanded, verbosity=verbosity)
 
     @required_deps("ansible_runner", "libvirt")
-    def _action_hosts(self, args):
+    def _action_hosts(self, args: argparse.Namespace) -> None:
         self._entrypoint_debug(args)
 
         config_path = None
@@ -154,7 +166,7 @@ class Application:
         for host in sorted(inventory.hosts):
             print(host)
 
-    def _action_targets(self, args):
+    def _action_targets(self, args: argparse.Namespace) -> None:
         self._entrypoint_debug(args)
 
         targets = Targets(args.data_dir)
@@ -167,7 +179,7 @@ class Application:
 
             print(target)
 
-    def _action_projects(self, args):
+    def _action_projects(self, args: argparse.Namespace) -> None:
         self._entrypoint_debug(args)
 
         projects = Projects(args.data_dir)
@@ -175,7 +187,7 @@ class Application:
             print(project)
 
     @required_deps("libvirt")
-    def _action_install(self, args):
+    def _action_install(self, args: argparse.Namespace) -> None:
         from lcitool.install import VirtInstall
 
         self._entrypoint_debug(args)
@@ -230,7 +242,7 @@ class Application:
         virt_install(wait=args.wait)
 
     @required_deps("ansible_runner", "libvirt")
-    def _action_update(self, args):
+    def _action_update(self, args: argparse.Namespace) -> None:
         self._entrypoint_debug(args)
 
         config_path = None
@@ -246,7 +258,7 @@ class Application:
             args.verbose,
         )
 
-    def _action_variables(self, args):
+    def _action_variables(self, args: argparse.Namespace) -> None:
         self._entrypoint_debug(args)
 
         targets = Targets(args.data_dir)
@@ -254,6 +266,9 @@ class Application:
         projects = Projects(args.data_dir)
         projects_expanded = projects.expand_names(args.projects)
 
+        formatter: Union[
+            ShellVariablesFormatter, YamlVariablesFormatter, JSONVariablesFormatter
+        ]
         if args.format == "shell":
             formatter = ShellVariablesFormatter(projects)
         elif args.format == "yaml":
@@ -280,7 +295,7 @@ class Application:
 
         print(header + variables)
 
-    def _action_dockerfile(self, args):
+    def _action_dockerfile(self, args: argparse.Namespace) -> None:
         self._entrypoint_debug(args)
 
         targets = Targets(args.data_dir)
@@ -308,7 +323,7 @@ class Application:
 
         print(header + dockerfile)
 
-    def _action_buildenvscript(self, args):
+    def _action_buildenvscript(self, args: argparse.Namespace) -> None:
         self._entrypoint_debug(args)
 
         targets = Targets(args.data_dir)
@@ -333,7 +348,7 @@ class Application:
 
         print(header + buildenvscript)
 
-    def _action_manifest(self, args):
+    def _action_manifest(self, args: argparse.Namespace) -> None:
         base_path = None
         if args.base_dir is not None:
             base_path = Path(args.base_dir)
@@ -347,8 +362,8 @@ class Application:
         manifest.generate(args.dry_run)
 
     @staticmethod
-    def _container_handle(engine):
-        handle = Podman()
+    def _container_handle(engine: str) -> Container:
+        handle: Container = Podman()
         if engine == "docker":
             handle = Docker()
 
@@ -357,7 +372,7 @@ class Application:
 
         return handle
 
-    def _action_list_engines(self, args):
+    def _action_list_engines(self, args: argparse.Namespace) -> None:
         engines = []
         for engine in [Podman(), Docker()]:
             if engine.available:
@@ -368,7 +383,7 @@ class Application:
         else:
             print("No engine available")
 
-    def _action_container_build(self, args):
+    def _action_container_build(self, args: argparse.Namespace) -> None:
         self._entrypoint_debug(args)
 
         targets = Targets()
@@ -397,12 +412,12 @@ class Application:
 
         log.debug(f"Generated Dockerfile copied to {_file}")
 
-        engine.build(tag=tag, filepath=_file, **params)
+        engine.build(tag=tag, filepath=Path(_file), tempdir=Path(params["tempdir"]))
 
         log.debug(f"Generated image tag --> {tag}")
         print(f"Image '{tag}' successfully built.")
 
-    def _get_container_run_common_params(self):
+    def _get_container_run_common_params(self) -> Dict[str, Any]:
         params = {}
         params["image"] = self.args.image
         params["user"] = self.args.user
@@ -426,7 +441,9 @@ class Application:
 
         return params
 
-    def _container_run(self, container_params, shell=False):
+    def _container_run(
+        self, container_params: Dict[str, Any], shell: bool = False
+    ) -> int:
         """
         Call into the container handle object.
 
@@ -444,19 +461,19 @@ class Application:
             return engine.shell(**container_params)
         return engine.run(**container_params)
 
-    def _action_container_run(self, args):
+    def _action_container_run(self, args: argparse.Namespace) -> int:
         self._entrypoint_debug(self.args)
 
         params = self._get_container_run_common_params()
         params["container_cmd"] = "./script"
         return self._container_run(params)
 
-    def _action_container_shell(self, args):
+    def _action_container_shell(self, args: argparse.Namespace) -> int:
         self._entrypoint_debug(self.args)
 
         return self._container_run(self._get_container_run_common_params(), shell=True)
 
-    def run(self, args):
+    def run(self, args: argparse.Namespace) -> None:
         try:
             self.args = args
             args.func(self, args)
