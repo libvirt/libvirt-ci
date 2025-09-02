@@ -143,7 +143,7 @@ stages:
   variables:
     CPAN_DRY_RUN_COMMAND: cpanm --scandeps
   rules:
-    - if: '$LIBVIRT_CI_SKIP_TARGET && $NAME =~ $LIBVIRT_CI_SKIP_TARGET'
+    - if: '$LIBVIRT_CI_SKIP_TARGET && $NAME =~ /$LIBVIRT_CI_SKIP_TARGET/'
       when: never
     - <<: *job_rules_merge_request
       <<: *job_rules_test_container_changes
