@@ -70,6 +70,7 @@ files = [
   "lcitool/config.py",
   "lcitool/containers/*.py",
   "lcitool/install/*.py",
+  "lcitool/formatters.py",
   "lcitool/gitlab.py",
   "lcitool/inventory.py",
   "lcitool/libvirt_wrapper.py",
