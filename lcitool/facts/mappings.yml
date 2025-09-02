@@ -850,6 +850,8 @@ mappings:
     pkg: dtc
     rpm: libfdt-devel
     MacOS: dtc
+    cross-mingw32-rpm: mingw32-libfdt
+    cross-mingw64-rpm: mingw64-libfdt
     cross-policy-default: foreign
 
   libffi:
