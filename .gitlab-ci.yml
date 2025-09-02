@@ -202,7 +202,7 @@ check-dco:
   script:
     - ./containers/check-dco/check-dco.py
 
-flake8:
+linters:
   extends: .test_template
   stage: sanity_checks
   image: python:3.8-alpine
