@@ -75,6 +75,7 @@ files = [
   "lcitool/inventory.py",
   "lcitool/libvirt_wrapper.py",
   "lcitool/logger.py",
+  "lcitool/manifest.py",
   "lcitool/projects.py",
   "lcitool/targets.py",
   "lcitool/util.py",
