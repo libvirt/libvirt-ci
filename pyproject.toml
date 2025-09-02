@@ -73,6 +73,7 @@ files = [
   "lcitool/gitlab.py",
   "lcitool/libvirt_wrapper.py",
   "lcitool/logger.py",
+  "lcitool/targets.py",
   "lcitool/util.py",
 ]
 

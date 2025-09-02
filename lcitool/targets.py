@@ -7,6 +7,12 @@
 import logging
 
 from lcitool import util, LcitoolError
+from lcitool.packages import (
+    Packages,
+    Package,
+)
+from lcitool.util import DataDir
+from typing import Any, Dict, List, Optional
 
 
 log = logging.getLogger(__name__)
@@ -15,28 +21,31 @@ log = logging.getLogger(__name__)
 class TargetsError(LcitoolError):
     """Global exception type for the targets module."""
 
-    def __init__(self, message):
+    def __init__(self, message: str) -> None:
         super().__init__(message, "Targets")
 
 
 class Targets:
 
+    def __init__(self, data_dir: DataDir = util.DataDir()):
+        self._data_dir = data_dir
+        self._target_facts: Optional[Dict[str, Dict[str, Any]]] = None
+
     @property
-    def target_facts(self):
+    def target_facts(self) -> Dict[str, Dict[str, Any]]:
         if self._target_facts is None:
             self._load_target_facts()
+        assert self._target_facts is not None
         return self._target_facts
 
     @property
-    def targets(self):
+    def targets(self) -> List[str]:
         return list(self.target_facts.keys())
 
-    def __init__(self, data_dir=util.DataDir()):
-        self._data_dir = data_dir
-        self._target_facts = None
-
     @staticmethod
-    def _validate_target_facts(target_facts, target):
+    def _validate_target_facts(
+        target_facts: Dict[str, Dict[str, Any]], target: str
+    ) -> None:
         fname = target + ".yml"
 
         actual_osname = target_facts["os"]["name"].lower()
@@ -53,7 +62,7 @@ class Targets:
                 f'OS version "{target_facts["os"]["version"]}" does not match version in file name {fname} ({expected_version})'
             )
 
-    def _load_target_facts(self):
+    def _load_target_facts(self) -> None:
         facts = {}
         all_targets = {
             item.stem for item in self._data_dir.list_files("facts/targets", ".yml")
@@ -85,7 +94,14 @@ class BuildTarget:
         :ivar cross_arch: cross compilation architecture
     """
 
-    def __init__(self, targets, packages, name, native_arch=None, cross_arch=None):
+    def __init__(
+        self,
+        targets: Targets,
+        packages: Packages,
+        name: str,
+        native_arch: Optional[str] = None,
+        cross_arch: Optional[str] = None,
+    ):
         if name not in targets.target_facts:
             raise TargetsError(f"Target not found: {name}")
         if native_arch is None:
@@ -96,11 +112,11 @@ class BuildTarget:
         self.cross_arch = cross_arch
         self.facts = targets.target_facts[self.name]
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.cross_arch:
             return f"{self.name} (cross_arch={self.cross_arch}"
         else:
             return self.name
 
-    def get_package(self, name):
+    def get_package(self, name: str) -> Optional[Package]:
         return self._packages.get_package(name, self)

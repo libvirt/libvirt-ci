@@ -41,6 +41,7 @@ import abc
 import logging
 
 from lcitool import util, LcitoolError
+from typing import Optional
 
 log = logging.getLogger(__name__)
 
@@ -288,7 +289,7 @@ class Packages:
 
         return self._cpan_mappings
 
-    def get_package(self, pkg_mapping, target):
+    def get_package(self, pkg_mapping, target) -> Optional[Package]:
         """
         Resolves the generic mapping name and returns a Package instance.
 
