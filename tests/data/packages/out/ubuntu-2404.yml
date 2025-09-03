@@ -68,7 +68,7 @@ native:
 - libapparmor-dev
 - libarchive-dev
 - libarchive-tar-perl
-- libasan6
+- libasan8
 - libasound2-dev
 - libattr1-dev
 - libaudit-dev

@@ -716,9 +716,11 @@ mappings:
     cross-policy-default: foreign
 
   libasan:
-    deb: libasan6
+    deb: libasan8
     rpm: libasan
     OpenSUSE: libasan8
+    Debian12: libasan6
+    Ubuntu2204: libasan6
     mips-deb:
     mips64el-deb:
     mipsel-deb:
