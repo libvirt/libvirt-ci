@@ -2,8 +2,7 @@
 os:
   name: 'Debian'
   version: '13'
-  # currently "testing", will be new stable sometime in 2025
-  stable: false
+  libosinfo_id: 'http://debian.org/debian/13'
 
 packaging:
   format: 'deb'
@@ -27,4 +26,4 @@ install:
   url: http://deb.debian.org/debian/dists/trixie/main/installer-amd64/
 
 containers:
-  base: docker.io/library/debian:trixie-slim
+  base: docker.io/library/debian:13-slim
