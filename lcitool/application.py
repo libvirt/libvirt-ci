@@ -142,7 +142,7 @@ class Application:
             )
 
         ansible_runner.prepare_env(
-            playbookdir=None,
+            playbookdir=playbook_base,
             inventories=[inventory.ansible_inventory],
             group_vars=group_vars,
             extravars=extra_vars,

@@ -78,7 +78,7 @@ class AnsibleWrapper:
 
     def prepare_env(
         self,
-        playbookdir: None = None,
+        playbookdir: Optional[Path] = None,
         inventories: Optional[List[Union[Path, Dict[str, Any]]]] = None,
         group_vars: Optional[
             Dict[
