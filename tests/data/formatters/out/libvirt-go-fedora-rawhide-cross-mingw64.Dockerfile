@@ -21,8 +21,8 @@ exec "$@"\n' > /usr/bin/nosync && \
     nosync dnf autoremove -y && \
     nosync dnf clean all -y
 
-ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
-ENV LANG "en_US.UTF-8"
+ENV CCACHE_WRAPPERSDIR="/usr/libexec/ccache-wrappers"
+ENV LANG="en_US.UTF-8"
 
 RUN nosync dnf install -y \
                mingw64-gcc \
@@ -34,4 +34,4 @@ RUN nosync dnf install -y \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/x86_64-w64-mingw32-cc && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/x86_64-w64-mingw32-gcc
 
-ENV ABI "x86_64-w64-mingw32"
+ENV ABI="x86_64-w64-mingw32"

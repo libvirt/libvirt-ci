@@ -21,5 +21,5 @@ exec "$@"\n' > /usr/bin/nosync && \
     nosync dnf autoremove -y && \
     nosync dnf clean all -y
 
-ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
-ENV LANG "en_US.UTF-8"
+ENV CCACHE_WRAPPERSDIR="/usr/libexec/ccache-wrappers"
+ENV LANG="en_US.UTF-8"

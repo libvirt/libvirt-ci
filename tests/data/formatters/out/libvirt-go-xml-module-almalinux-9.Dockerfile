@@ -13,4 +13,4 @@ RUN dnf update -y && \
     dnf clean all -y && \
     rpm -qa | sort > /packages.txt
 
-ENV LANG "en_US.UTF-8"
+ENV LANG="en_US.UTF-8"

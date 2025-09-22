@@ -565,7 +565,7 @@ class DockerfileFormatter(BuildEnvFormatter):
         lines = []
         for key in sorted(env.keys()):
             val = env[key]
-            lines.append(f'\nENV {key} "{val}"')
+            lines.append(f'\nENV {key}="{val}"')
         return "".join(lines)
 
     def _format_section_base(self, target: BuildTarget) -> List[str]:

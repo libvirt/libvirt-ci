@@ -8,4 +8,4 @@ RUN apk update && \
         go && \
     apk list --installed | sort > /packages.txt
 
-ENV LANG "en_US.UTF-8"
+ENV LANG="en_US.UTF-8"
