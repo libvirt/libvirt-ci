@@ -290,6 +290,14 @@ x86_64-check-centos-stream-9:
     IMAGE: quay.io/centos/centos:stream9
     NAME: centos-stream-9
 
+x86_64-check-centos-stream-10:
+  extends: .check_container_template
+  allow_failure: true
+  variables:
+    <<: *dnf_dry_run_command
+    IMAGE: quay.io/centos/centos:stream10
+    NAME: centos-stream-10
+
 x86_64-check-debian-12:
   extends: .check_container_template
   variables:
