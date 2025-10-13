@@ -270,7 +270,7 @@ class Project:
             target_name = f"{target_name}"
         else:
             try:
-                util.validate_cross_platform(target.cross_arch, osname)
+                util.validate_cross_platform(target.cross_arch, osname, osversion)
             except ValueError as ex:
                 raise ProjectError(str(ex))
             target_name = f"{target_name}-{target.cross_arch}-cross"

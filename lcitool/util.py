@@ -409,10 +409,18 @@ class DataDir:
         return result
 
 
-def validate_cross_platform(cross_arch: str, osname: str) -> None:
+def validate_cross_platform(cross_arch: str, osname: str, osversion: str) -> None:
     if osname not in ["Debian", "Fedora"]:
         raise ValueError(f"Cannot cross compile on {osname}")
     if osname == "Debian" and cross_arch.startswith("mingw"):
         raise ValueError(f"Cannot cross compile for {cross_arch} on {osname}")
     if osname == "Fedora" and not cross_arch.startswith("mingw"):
         raise ValueError(f"Cannot cross compile for {cross_arch} on {osname}")
+    if (
+        osname == "Debian"
+        and cross_arch == "riscv64"
+        and int(osversion.split(".")[0]) < 13
+    ):
+        raise ValueError(
+            f"Cross compiling for {cross_arch} is not supported on Debian < 13"
+        )
