@@ -5,6 +5,7 @@
         repo_name: 'CRB'
       when:
         - (os.name == 'CentOS' and os.version == 'Stream9') or
+          (os.name == 'CentOS' and os.version == 'Stream10') or
           (os.name == 'AlmaLinux' and os.version == '9')
 
     - name: 'Lookup the {{ repo_name }} repo configuration file'
@@ -36,4 +37,4 @@
     name: epel-next-release
     state: latest
   when:
-    - os.name == 'CentOS'
+    - os.name == 'CentOS' and os.version =='9'
