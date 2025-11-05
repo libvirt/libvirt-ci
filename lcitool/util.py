@@ -419,6 +419,7 @@ def validate_cross_platform(cross_arch: str, osname: str, osversion: str) -> Non
     if (
         osname == "Debian"
         and cross_arch == "riscv64"
+        and osversion != "Sid"
         and int(osversion.split(".")[0]) < 13
     ):
         raise ValueError(
@@ -427,6 +428,7 @@ def validate_cross_platform(cross_arch: str, osname: str, osversion: str) -> Non
     if (
         osname == "Debian"
         and (cross_arch == "mipsel" or cross_arch == "mips64el")
+        and osversion != "Sid"
         and int(osversion.split(".")[0]) > 12
     ):
         raise ValueError(
