@@ -30,6 +30,7 @@ native:
 - cloud-utils-growpart
 - codespell
 - compiler-rt
+- coreutils
 - cpp
 - cppi
 - ctags

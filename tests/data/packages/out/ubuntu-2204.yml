@@ -23,6 +23,7 @@ native:
 - cloud-guest-utils
 - cloud-init
 - codespell
+- coreutils
 - cpanminus
 - cpp
 - dbus

@@ -35,6 +35,7 @@ native:
 - cloud-init
 - cloud-utils-growpart
 - compiler-rt
+- coreutils
 - cpp
 - ctags
 - cyrus-sasl-devel

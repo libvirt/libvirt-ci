@@ -43,6 +43,7 @@ native:
 - cloud-init
 - cloud-utils-growpart
 - cmocka-dev
+- coreutils
 - ctags
 - curl-dev
 - cyrus-sasl-dev

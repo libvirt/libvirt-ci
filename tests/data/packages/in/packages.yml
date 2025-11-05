@@ -33,6 +33,7 @@ packages:
 - cmocka
 - codespell
 - column
+- coreutils
 - cpp
 - cppi
 - ctags

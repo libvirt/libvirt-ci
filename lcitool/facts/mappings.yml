@@ -195,6 +195,10 @@ mappings:
     deb: bsdextrautils
     rpm: util-linux
 
+  coreutils:
+    default: coreutils
+    CentOS: coreutils-single
+
   bzip2:
     default: bzip2
 

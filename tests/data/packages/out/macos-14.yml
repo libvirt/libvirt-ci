@@ -47,6 +47,7 @@ native:
 - check
 - cmocka
 - codespell
+- coreutils
 - cpanminus
 - cppi
 - ctags
