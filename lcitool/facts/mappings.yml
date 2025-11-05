@@ -1957,7 +1957,6 @@ mappings:
     rpm: sdl2-compat-devel
     AlmaLinux: SDL2-devel
     CentOS: SDL2-devel
-    Fedora41: SDL2-devel
     OpenSUSELeap15: libSDL2-devel
     cross-mingw32-rpm: mingw32-SDL2
     cross-mingw64-rpm: mingw64-SDL2
