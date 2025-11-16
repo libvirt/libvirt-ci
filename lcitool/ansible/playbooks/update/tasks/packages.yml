@@ -13,7 +13,7 @@
   pip:
     executable: '{{ paths.pip3 }}'
     name: '{{ pypi_packages }}'
-  when: pypi_packages
+  when: pypi_packages is defined and pypi_packages != []
 
 - name: 'Install CPAN packages'
   cpanm:
