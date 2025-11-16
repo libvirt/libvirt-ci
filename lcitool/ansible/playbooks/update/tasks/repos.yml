@@ -8,14 +8,14 @@
           (os.name == 'CentOS' and os.version == 'Stream10') or
           (os.name == 'AlmaLinux' and os.version == '9')
 
-    - name: 'Lookup the {{ repo_name }} repo configuration file'
+    - name: 'Lookup CRB repo configuration file'
       find:
         paths: '/etc/yum.repos.d/'
         contains: '\[{{ repo_name | lower }}\]'
         file_type: file
       register: repo_files
 
-    - name: 'Enable {{ repo.name }} repository'
+    - name: 'Enable CRB repository'
       community.general.ini_file:
         path: '{{ repo_files.files[0].path }}'
         section: '{{ repo_name | lower }}'
