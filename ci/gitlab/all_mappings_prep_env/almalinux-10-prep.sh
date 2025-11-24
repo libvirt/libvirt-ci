@@ -1,0 +1,1 @@
+centos-stream-10-prep.sh

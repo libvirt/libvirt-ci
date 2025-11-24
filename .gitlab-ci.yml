@@ -260,6 +260,13 @@ x86_64-check-almalinux-9:
     IMAGE: docker.io/library/almalinux:9
     NAME: almalinux-9
 
+x86_64-check-almalinux-10:
+  extends: .check_container_template
+  variables:
+    <<: *dnf_dry_run_command
+    IMAGE: docker.io/library/almalinux:10
+    NAME: almalinux-10
+
 x86_64-check-alpine-321:
   extends: .check_container_template
   variables:
