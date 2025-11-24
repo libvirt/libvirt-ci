@@ -37,6 +37,13 @@ scenarios = [
     ),
     pytest.param(
         "libvirt-go-xml-module",
+        "almalinux-10",
+        "x86_64",
+        None,
+        id="libvirt-go-xml-module-almalinux-10",
+    ),
+    pytest.param(
+        "libvirt-go-xml-module",
         "opensuse-leap-15",
         "x86_64",
         None,

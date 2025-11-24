@@ -16,6 +16,8 @@ cli_args = [
     ["projects"],
     ["variables", "almalinux-9", "libvirt-go-module"],
     ["dockerfile", "almalinux-9", "libvirt-go-module"],
+    ["variables", "almalinux-10", "libvirt-go-module"],
+    ["dockerfile", "almalinux-10", "libvirt-go-module"],
     [
         "manifest",
         "-n",
