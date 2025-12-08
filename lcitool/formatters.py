@@ -357,6 +357,16 @@ class BuildEnvFormatter(Formatter):
                     ]
                 )
 
+                # AlmeLinux has additional repository Devel that ships -devel packages
+                # in addition to CRB
+                if osname == "AlmaLinux":
+                    commands.extend(
+                        [
+                            "{nosync}{packaging_command} install almalinux-release-devel -y",
+                            "{nosync}{packaging_command} config-manager --set-enabled -y devel",
+                        ]
+                    )
+
                 # For CentOS Stream, we want EPEL Next as well
                 if osversion in ["Stream9"]:
                     commands.extend(
