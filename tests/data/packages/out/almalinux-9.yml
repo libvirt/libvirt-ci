@@ -140,6 +140,7 @@ native:
 - libusbx-devel
 - libuuid-devel
 - libvirt-devel
+- libvirt-glib-devel
 - libwsman-devel
 - libxdp-devel
 - libxml2

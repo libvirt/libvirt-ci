@@ -1180,9 +1180,9 @@ mappings:
     apk: libvirt-glib-dev
     deb: libvirt-glib-1.0-dev
     pkg: libvirt-glib
-    Fedora: libvirt-gobject-devel
+    rpm: libvirt-glib-devel
+    CentOS:
     MacOS: libvirt-glib
-    OpenSUSE: libvirt-glib-devel
     cross-policy-default: foreign
 
   libxml2:
