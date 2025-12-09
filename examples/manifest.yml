@@ -96,9 +96,9 @@ targets:
 
   almalinux-10: x86_64
 
-  alpine-321: x86_64
-
   alpine-322: x86_64
+
+  alpine-323: x86_64
 
   alpine-edge:
     jobs:
