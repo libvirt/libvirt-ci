@@ -10,7 +10,7 @@
   ],
   "make": "/usr/bin/make",
   "ninja": "/usr/bin/ninja",
-  "packaging_command": "dnf",
+  "packaging_command": "dnf --quiet",
   "pip3": "/usr/bin/pip3",
   "pkgs": [
     "ca-certificates",

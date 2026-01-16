@@ -1,16 +1,16 @@
 function install_buildenv() {
-    dnf update -y --nogpgcheck fedora-gpg-keys
-    dnf distro-sync -y
-    dnf install -y \
-        ca-certificates \
-        ccache \
-        git \
-        glibc-langpack-en \
-        golang
-    dnf install -y \
-        mingw32-gcc \
-        mingw32-headers \
-        mingw32-pkg-config
+    dnf --quiet update -y --nogpgcheck fedora-gpg-keys
+    dnf --quiet distro-sync -y
+    dnf --quiet install -y \
+                ca-certificates \
+                ccache \
+                git \
+                glibc-langpack-en \
+                golang
+    dnf --quiet install -y \
+                mingw32-gcc \
+                mingw32-headers \
+                mingw32-pkg-config
     rpm -qa | sort > /packages.txt
     mkdir -p /usr/libexec/ccache-wrappers
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/i686-w64-mingw32-cc

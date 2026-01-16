@@ -7,7 +7,7 @@ os:
 
 packaging:
   format: 'rpm'
-  command: 'dnf'
+  command: 'dnf --quiet'
 
 paths:
   bash: /bin/bash

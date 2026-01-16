@@ -1,7 +1,7 @@
 FROM registry.fedoraproject.org/fedora:rawhide
 
-RUN dnf update -y --nogpgcheck fedora-gpg-keys && \
-    dnf install -y nosync && \
+RUN dnf --quiet update -y --nogpgcheck fedora-gpg-keys && \
+    dnf --quiet install -y nosync && \
     printf '#!/bin/sh\n\
 if test -d /usr/lib64\n\
 then\n\
@@ -11,15 +11,15 @@ else\n\
 fi\n\
 exec "$@"\n' > /usr/bin/nosync && \
     chmod +x /usr/bin/nosync && \
-    nosync dnf distro-sync -y && \
-    nosync dnf install -y \
-               ca-certificates \
-               ccache \
-               git \
-               glibc-langpack-en \
-               golang && \
-    nosync dnf autoremove -y && \
-    nosync dnf clean all -y
+    nosync dnf --quiet distro-sync -y && \
+    nosync dnf --quiet install -y \
+                       ca-certificates \
+                       ccache \
+                       git \
+                       glibc-langpack-en \
+                       golang && \
+    nosync dnf --quiet autoremove -y && \
+    nosync dnf --quiet clean all -y
 
 ENV CCACHE_WRAPPERSDIR="/usr/libexec/ccache-wrappers"
 ENV LANG="en_US.UTF-8"
