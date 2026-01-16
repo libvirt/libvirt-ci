@@ -220,8 +220,9 @@ def _build_template(template: str, envid: str, project: str, cidir: Path) -> str
               then
                 source {cidir}/buildenv/{envid}.sh ;
                 install_buildenv ;
+              else
+                cat /packages.txt ;
               fi
-            - cat /packages.txt
           variables:
             IMAGE: $CI_REGISTRY/$CONTAINER_UPSTREAM_NAMESPACE/{project}/ci-{envid}:latest
           rules:
