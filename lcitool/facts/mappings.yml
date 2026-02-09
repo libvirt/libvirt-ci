@@ -166,7 +166,6 @@ mappings:
     default: bc
     pkg:
 
-  # currently OpenSUSE only packages bindgen in Tumbleweed
   bindgen:
     default: bindgen
     apk: rust-bindgen
@@ -301,6 +300,7 @@ mappings:
     Fedora: cppi
     MacOS: cppi
     OpenSUSE: cppi
+    OpenSUSELeap16:
 
   ctags:
     default: ctags
@@ -1249,7 +1249,8 @@ mappings:
     pkg: lua54
     rpm: lua-devel
     MacOS: lua
-    OpenSUSETumbleweed: lua54-devel
+    OpenSUSE: lua54-devel
+    OpenSUSELeap15: lua-devel
 
   lvm2:
     default: lvm2
@@ -1345,6 +1346,7 @@ mappings:
     deb: ncat
     rpm: nmap-ncat
     OpenSUSE: ncat
+    OpenSUSELeap16:
 
   netcf:
     apk: netcf-dev
@@ -1391,6 +1393,7 @@ mappings:
     apk:
     pkg:
     MacOS:
+    OpenSUSELeap16:
 
   ocaml:
     default: ocaml
@@ -1500,6 +1503,7 @@ mappings:
     deb: libio-interface-perl
     pkg: p5-IO-Interface
     rpm: perl-IO-Interface
+    OpenSUSELeap16:
 
   perl-IO-String:
     apk: perl-io-string
@@ -1667,6 +1671,7 @@ mappings:
     pkg: php74-pecl-imagick
     Fedora: php-pecl-imagick
     OpenSUSE: php-imagick
+    OpenSUSELeap16:
 
   pixman:
     default: pixman
@@ -1947,6 +1952,7 @@ mappings:
   sanlock:
     deb: libsanlock-dev
     rpm: sanlock-devel
+    OpenSUSELeap16:
     cross-policy-default: foreign
 
   screen:
@@ -1956,6 +1962,7 @@ mappings:
     default: scrub
     apk:
     pkg: diskscrub
+    OpenSUSELeap16:
 
   sdl2:
     default: sdl2
@@ -1965,6 +1972,7 @@ mappings:
     AlmaLinux: SDL2-devel
     CentOS: SDL2-devel
     OpenSUSELeap15: libSDL2-devel
+    OpenSUSELeap16: libSDL2-devel
     cross-mingw32-rpm: mingw32-SDL2
     cross-mingw64-rpm: mingw64-SDL2
     cross-policy-default: foreign

@@ -356,6 +356,13 @@ x86_64-check-opensuse-leap-15:
     IMAGE: registry.opensuse.org/opensuse/leap:15.6
     NAME: opensuse-leap-15
 
+x86_64-check-opensuse-leap-16:
+  extends: .check_container_template
+  variables:
+    <<: *zypper_dry_run_command
+    IMAGE: registry.opensuse.org/opensuse/leap:16.0
+    NAME: opensuse-leap-16
+
 x86_64-check-opensuse-tumbleweed:
   extends: .check_container_template
   allow_failure: true
