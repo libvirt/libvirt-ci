@@ -129,6 +129,7 @@ native:
 - libseccomp-devel
 - libselinux-devel
 - libslirp-devel
+- libsoup3-devel
 - libssh-devel
 - libssh2-devel
 - libtasn1-devel

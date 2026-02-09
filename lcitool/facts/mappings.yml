@@ -1066,11 +1066,13 @@ mappings:
 
   libsoup:
     default: libsoup
-    apk: libsoup-dev
-    deb: libsoup2.4-dev
-    rpm: libsoup-devel
-    AlmaLinux10:
-    CentOSStream10:
+    apk: libsoup3-dev
+    deb: libsoup-3.0-dev
+    pkg: libsoup3
+    rpm: libsoup3-devel
+    OpenSUSE: libsoup-devel
+    AlmaLinux9: libsoup-devel
+    CentOSStream9: libsoup-devel
     cross-mingw32-rpm: mingw32-libsoup
     cross-mingw64-rpm: mingw64-libsoup
     cross-policy-default: foreign

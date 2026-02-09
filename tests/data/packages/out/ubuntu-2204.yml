@@ -163,7 +163,7 @@ native:
 - libsnappy-dev
 - libsndio-dev
 - libsnmp-dev
-- libsoup2.4-dev
+- libsoup-3.0-dev
 - libspice-client-gtk-3.0-dev
 - libspice-protocol-dev
 - libspice-server-dev

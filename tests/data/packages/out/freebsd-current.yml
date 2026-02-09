@@ -72,7 +72,7 @@ native:
 - libpcap
 - libpciaccess
 - libslirp
-- libsoup
+- libsoup3
 - libspice-server
 - libssh
 - libssh2
