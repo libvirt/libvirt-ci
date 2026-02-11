@@ -704,6 +704,10 @@ def cirrus_build_job(
         install_cmd = "pkg install -y"
         upgrade_cmd = "pkg upgrade -y"
         update_cmd = "pkg update"
+    elif pkg_cmd == "pkg_add":
+        install_cmd = "pkg_add -I"
+        upgrade_cmd = "pkg_add -uI"
+        update_cmd = "true"
     else:
         raise ValueError(f"Unknown package command {pkg_cmd}")
 

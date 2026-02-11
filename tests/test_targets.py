@@ -30,6 +30,7 @@ def test_group_vars(targets, target):
         "fedora": "Fedora",
         "freebsd": "FreeBSD",
         "macos": "MacOS",
+        "openbsd": "OpenBSD",
         "opensuse": "OpenSUSE",
         "ubuntu": "Ubuntu",
     }

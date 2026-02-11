@@ -31,6 +31,7 @@
 #   - Fedora
 #   - FreeBSD
 #   - MacOS
+#   - OpenBSD
 #   - OpenSUSE
 #   - Ubuntu
 #
@@ -105,6 +106,7 @@ mappings:
     deb: libasound2-dev
     rpm: alsa-lib-devel
     MacOS:
+    OpenBSD:
     cross-policy-default: foreign
 
   ant:
@@ -178,10 +180,11 @@ mappings:
 
   black:
     default: black
-    pkg: py311-black
     rpm: python3-black
     AlmaLinux:
     CentOS:
+    FreeBSD: py311-black
+    OpenBSD: py3-black
     OpenSUSELeap15:
 
   brlapi:
@@ -214,15 +217,17 @@ mappings:
 
   ca-certificates:
     default: ca-certificates
-    pkg: ca_root_nss
+    FreeBSD: ca_root_nss
     MacOS:
+    OpenBSD:
 
   capstone:
     apk: capstone-dev
     deb: libcapstone-dev
-    pkg: capstone4
     rpm: capstone-devel
+    FreeBSD: capstone4
     MacOS: capstone
+    OpenBSD: capstone
     OpenSUSE:
     cross-policy-default: foreign
 
@@ -241,7 +246,7 @@ mappings:
 
   ccache:
     default: ccache
-    pkg: ccache4
+    FreeBSD: ccache4
 
   check:
     default: check
@@ -305,6 +310,7 @@ mappings:
   ctags:
     default: ctags
     deb: exuberant-ctags
+    OpenBSD: universal-ctags
 
   cyrus-sasl:
     apk: cyrus-sasl-dev
@@ -340,6 +346,7 @@ mappings:
 
   diffutils:
     default: diffutils
+    OpenBSD: gdiff
 
   dlfcn:
     cross-mingw32-rpm: mingw32-dlfcn
@@ -393,19 +400,22 @@ mappings:
   flake8:
     default: flake8
     apk: py3-flake8
-    pkg: py311-flake8
     rpm: python3-flake8
+    FreeBSD: py311-flake8
+    OpenBSD: py3-flake8
     AlmaLinux10:
     CentOSStream10:
 
   flex:
     default: flex
+    OpenBSD:
 
   fuse:
     apk: fuse-dev
     deb: libfuse-dev
     pkg: fusefs-libs
     rpm: fuse-devel
+    OpenBSD:
     cross-policy-default: foreign
 
   fuse3:
@@ -413,12 +423,14 @@ mappings:
     deb: libfuse3-dev
     pkg: fusefs-libs3
     rpm: fuse3-devel
+    OpenBSD:
     cross-policy-default: foreign
 
   fusermount:
     default: fuse3
     pkg: fusefs-libs3
     MacOS:
+    OpenBSD:
 
   g++:
     apk: g++
@@ -492,6 +504,7 @@ mappings:
 
   gettext:
     default: gettext
+    OpenBSD: gettext-runtime
     OpenSUSE: gettext-runtime
     cross-mingw32-rpm: mingw32-gettext
     cross-mingw64-rpm: mingw64-gettext
@@ -499,6 +512,7 @@ mappings:
 
   gettext-native:
     default: gettext
+    OpenBSD: gettext-runtime
     OpenSUSE: gettext-runtime
 
   git:
@@ -515,6 +529,7 @@ mappings:
     apk: glib-dev
     deb: libglib2.0-dev
     rpm: glib2-devel
+    OpenBSD: glib2
     cross-mingw32-rpm: mingw32-glib2
     cross-mingw64-rpm: mingw64-glib2
     cross-policy-default: foreign
@@ -524,11 +539,13 @@ mappings:
     apk: glib-dev
     deb: libglib2.0-dev
     rpm: glib2-devel
+    OpenBSD: glib2
 
   glib2-static:
     apk: glib-static
     deb: libglib2.0-dev
     rpm: glib2-static
+    OpenBSD:
     OpenSUSE:
     cross-policy-default: foreign
 
@@ -594,6 +611,7 @@ mappings:
     pkg: gtk3
     rpm: gtk3-devel
     MacOS: gtk+3
+    OpenBSD: gtk+3
     cross-mingw32-rpm: mingw32-gtk3
     cross-mingw64-rpm: mingw64-gtk3
     cross-policy-default: foreign
@@ -845,6 +863,7 @@ mappings:
     apk: libepoxy-dev
     deb: libepoxy-dev
     rpm: libepoxy-devel
+    OpenBSD:
     cross-mingw32-rpm: mingw32-libepoxy
     cross-mingw64-rpm: mingw64-libepoxy
     cross-policy-default: foreign
@@ -923,9 +942,10 @@ mappings:
   libjpeg:
     apk: libjpeg-turbo-dev
     deb: libjpeg62-turbo-dev
-    pkg: libjpeg-turbo
     rpm: libjpeg-devel
+    FreeBSD: libjpeg-turbo
     MacOS: jpeg-turbo
+    OpenBSD: jpeg
     OpenSUSE: libjpeg8-devel
     Ubuntu: libjpeg-turbo8-dev
     cross-mingw32-rpm: mingw32-libjpeg-turbo
@@ -1678,6 +1698,7 @@ mappings:
     apk: pixman-dev
     deb: libpixman-1-dev
     rpm: pixman-devel
+    OpenBSD:
     OpenSUSE: libpixman-1-0-devel
     cross-mingw32-rpm: mingw32-pixman
     cross-mingw64-rpm: mingw64-pixman
@@ -1713,6 +1734,7 @@ mappings:
 
   python3:
     default: python3
+    OpenBSD:
     OpenSUSE: python3-base
 
   python3-PyYAML:
