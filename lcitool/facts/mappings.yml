@@ -1842,7 +1842,7 @@ mappings:
     default: python3-setuptools
     apk: py3-setuptools
     pkg: py311-setuptools
-    MacOS: python3
+    MacOS: python-setuptools
 
   python3-sphinx:
     default: python3-sphinx

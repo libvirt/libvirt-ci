@@ -126,6 +126,7 @@ native:
 - pkg-config
 - python-build
 - python-packaging
+- python-setuptools
 - python3
 - qemu
 - readline
