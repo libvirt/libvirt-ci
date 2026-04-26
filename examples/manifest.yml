@@ -179,3 +179,7 @@ targets:
   ubuntu-2404:
     jobs:
       - arch: x86_64
+
+  ubuntu-2604:
+    jobs:
+      - arch: x86_64
