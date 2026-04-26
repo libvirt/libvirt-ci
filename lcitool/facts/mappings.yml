@@ -238,7 +238,6 @@ mappings:
 
   cargo-c:
     default: cargo-c
-    Ubuntu2204:
 
   cargo-rpm-macros:
     rpm: cargo-rpm-macros
@@ -748,7 +747,6 @@ mappings:
     rpm: libasan
     OpenSUSE: libasan8
     Debian12: libasan6
-    Ubuntu2204: libasan6
     mips-deb:
     mips64el-deb:
     mipsel-deb:
@@ -827,7 +825,6 @@ mappings:
     deb: libclang-rt-dev
     rpm: compiler-rt
     OpenSUSE: clang-devel
-    Ubuntu2204: libclang-dev
 
   libcmpiutil:
     rpm: libcmpiutil-devel
@@ -1221,7 +1218,6 @@ mappings:
     deb: libxdp-dev
     rpm: libxdp-devel
     OpenSUSELeap15:
-    Ubuntu2204:
     cross-policy-default: foreign
 
   libxslt:
@@ -1747,9 +1743,6 @@ mappings:
     rpm: python3-build
     MacOS: python-build
     OpenSUSELeap15:
-    # Present but broken for our needs
-    #  https://bugs.launchpad.net/ubuntu/+source/python-build/+bug/1992108
-    Ubuntu2204:
 
   python3-dbus:
     default: python3-dbus
