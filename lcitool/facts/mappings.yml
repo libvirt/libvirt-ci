@@ -1423,11 +1423,8 @@ mappings:
     apk: ocaml-findlib-dev
 
   ocamldoc:
-    default: ocaml
-    apk: ocaml-ocamldoc
-    deb: ocaml-nox
-    rpm: ocamldoc
-    OpenSUSE: ocaml-ocamldoc
+    default: ocaml-ocamldoc
+    deb: ocaml
 
   openwsman:
     rpm: libwsman-devel

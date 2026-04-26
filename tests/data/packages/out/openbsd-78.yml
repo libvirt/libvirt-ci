@@ -92,6 +92,7 @@ native:
 - ninja
 - ocaml
 - ocaml-findlib
+- ocaml-ocamldoc
 - opencv
 - openjdk21
 - osinfo-db-tools

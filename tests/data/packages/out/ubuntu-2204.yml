@@ -228,7 +228,6 @@ native:
 - numad
 - ocaml
 - ocaml-findlib
-- ocaml-nox
 - open-iscsi
 - openjdk-21-jdk-headless
 - openssh-client

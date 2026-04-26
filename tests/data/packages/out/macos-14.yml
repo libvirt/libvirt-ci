@@ -120,6 +120,7 @@ native:
 - ninja
 - ocaml
 - ocaml-findlib
+- ocaml-ocamldoc
 - openjdk
 - perl
 - pixman

@@ -134,7 +134,7 @@ native:
 - numad
 - ocaml
 - ocaml-findlib
-- ocamldoc
+- ocaml-ocamldoc
 - openssh-clients
 - osinfo-db-tools
 - perl-App-cpanminus
