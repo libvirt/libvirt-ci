@@ -166,7 +166,7 @@ Usage examples
           registry.gitlab.com/libvirt/libvirt/ci-debian-11
 
 
-- To run the workload contained in ``$SCRIPT`` file on a *ubuntu-2204* image
+- To run the workload contained in ``$SCRIPT`` file on a *ubuntu-2604* image
   that has ``$DATADIR`` mounted in its home directory with *libvirt-python*
   and *libvirt-go* dependencies installed on it with environment variables,
   ``BAZ=foo``, ``BAR=baz`` using *docker* engine with *root* user.
@@ -176,7 +176,7 @@ Usage examples
   ::
 
       lcitool container build \
-          -p libvirt-python,libvirt-go -t ubuntu-2204 \
+          -p libvirt-python,libvirt-go -t ubuntu-2604 \
           --engine docker
 
   When the image is ready, we can proceed with running the workload
@@ -186,7 +186,7 @@ Usage examples
           --workload-dir $DATADIR --script $SCRIPT \
           --env BAZ=foo --env BAR=baz \
           --engine docker \
-          lcitool.ubuntu-2204
+          lcitool.ubuntu-2604
 
 
 - To access interactive shell with ``$DATADIR`` in the ``PWD`` in an
