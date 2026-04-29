@@ -341,6 +341,13 @@ x86_64-check-fedora-43:
     IMAGE: registry.fedoraproject.org/fedora:43
     NAME: fedora-43
 
+x86_64-check-fedora-44:
+  extends: .check_container_template
+  variables:
+    <<: *dnf_dry_run_command
+    IMAGE: registry.fedoraproject.org/fedora:44
+    NAME: fedora-44
+
 x86_64-check-fedora-rawhide:
   extends: .check_container_template
   allow_failure: true

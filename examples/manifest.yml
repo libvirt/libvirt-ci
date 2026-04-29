@@ -146,6 +146,8 @@ targets:
 
   fedora-43: x86_64
 
+  fedora-44: x86_64
+
   fedora-rawhide:
     jobs:
       - arch: x86_64
