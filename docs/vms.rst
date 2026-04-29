@@ -61,7 +61,7 @@ An example of a simple INI inventory:
     centos-stream-9-2
     some-other-centos-stream-9
 
-    [fedora-35]
+    [fedora-rawhide]
     fedora-test-1
     fedora-test-2   fully_managed=True
 

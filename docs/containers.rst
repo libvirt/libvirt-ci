@@ -40,7 +40,7 @@ This requires ``--target $target_os`` and ``--projects $projects``
 arguments to be passed to the CLI.
 
 **lcitool** is used to generate a *Dockerfile* which is used to build
-an image with tag ``lcitool.$target_os`` e.g ``lcitool.fedora-36``.
+an image with tag ``lcitool.$target_os`` e.g ``lcitool.fedora-rawhide``.
 
 ``$target_os`` is one of the supported target OS platforms and
 ``$projects`` are the supported projects in lcitool.
@@ -125,7 +125,7 @@ Check below for more examples
 Usage examples
 ==============
 
-- To run the workload contained in ``$SCRIPT`` file in a *fedora-36*
+- To run the workload contained in ``$SCRIPT`` file in a *fedora-rawhide*
   image with *libvirt-python* dependencies installed on it with
   environment variable ``BAR=baz`` using *podman* engine with
   user *1000*.
@@ -135,7 +135,7 @@ Usage examples
   ::
 
       lcitool container build \
-          --projects libvirt-python --target fedora-36
+          --projects libvirt-python --target fedora-rawhide
 
   When the image is ready, we can proceed with running the workload
   ::
@@ -143,7 +143,7 @@ Usage examples
       lcitool container run \
           --script $SCRIPT \
           --user 1000 --env BAR=baz \
-          lcitool.fedora-36
+          lcitool.fedora-rawhide
 
 
 - To run the workload contained in the *build* file in an upstream

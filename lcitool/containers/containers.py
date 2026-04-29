@@ -377,7 +377,7 @@ class Container(ABC):
 
         e.g {
                 "filepath": "/path/to/Dockerfile", "tempdir": /path/to/dir,
-                "tag": "lcitool-fedora-36-libvirt-python"
+                "tag": "lcitool-fedora-rawhide-libvirt-python"
             }
 
         :returns: an integer.
