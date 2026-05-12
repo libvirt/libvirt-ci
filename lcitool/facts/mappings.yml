@@ -689,6 +689,7 @@ mappings:
     rpm: java-21-openjdk-headless
     MacOS: openjdk
     Debian12: openjdk-17-jdk-headless
+    Fedora44: java-25-openjdk-headless
 
   jna:
     default: jna
