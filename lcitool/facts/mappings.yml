@@ -683,13 +683,14 @@ mappings:
     OpenSUSE: mkisofs
 
   java:
-    apk: openjdk21-jdk
-    deb: openjdk-21-jdk-headless
-    pkg: openjdk21
-    rpm: java-21-openjdk-headless
+    apk: openjdk25-jdk
+    deb: openjdk-25-jdk-headless
+    pkg: openjdk25
+    rpm: java-25-openjdk-headless
     MacOS: openjdk
+    Alpine322: openjdk21-jdk
     Debian12: openjdk-17-jdk-headless
-    Fedora44: java-25-openjdk-headless
+    OpenSUSELeap15: java-21-openjdk-headless
 
   jna:
     default: jna

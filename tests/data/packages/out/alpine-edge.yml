@@ -158,7 +158,7 @@ native:
 - ocaml-findlib-dev
 - ocaml-ocamldoc
 - open-iscsi
-- openjdk21-jdk
+- openjdk25-jdk
 - openssh-client
 - osinfo-db-tools
 - parted-dev

@@ -232,7 +232,7 @@ native:
 - ocaml
 - ocaml-findlib
 - open-iscsi
-- openjdk-21-jdk-headless
+- openjdk-25-jdk-headless
 - openssh-client
 - original-awk
 - osinfo-db-tools
