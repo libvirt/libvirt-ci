@@ -428,8 +428,7 @@ def validate_cross_platform(cross_arch: str, osname: str, osversion: str) -> Non
     if (
         osname == "Debian"
         and (cross_arch == "mipsel" or cross_arch == "mips64el")
-        and osversion != "Sid"
-        and int(osversion.split(".")[0]) > 12
+        and (osversion == "Sid" or int(osversion.split(".")[0]) > 12)
     ):
         raise ValueError(
             f"Cross compiling for {cross_arch} is not supported on Debian > 12"
