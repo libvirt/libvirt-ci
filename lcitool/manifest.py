@@ -72,11 +72,6 @@ class Manifest:
         containerinfo = self.values["containers"]
         containerinfo.setdefault("enabled", True)
 
-        if "cirrus" not in self.values:
-            self.values["cirrus"] = {}
-        cirrusinfo = self.values["cirrus"]
-        cirrusinfo.setdefault("enabled", True)
-
         if "gitlab" not in self.values:
             self.values["gitlab"] = {}
         gitlabinfo = self.values["gitlab"]
@@ -109,7 +104,6 @@ class Manifest:
         if targets is None:
             targets = self.values["targets"] = {}
         have_containers = False
-        have_cirrus = False
         for target, targetinfo in targets.items():
             if isinstance(targetinfo, str):
                 targets[target] = {"jobs": [{"arch": targetinfo}]}
@@ -127,9 +121,6 @@ class Manifest:
             targetinfo["containers"] = "containers" in facts
             if targetinfo["containers"]:
                 have_containers = True
-            targetinfo["cirrus"] = "cirrus" in facts
-            if targetinfo["cirrus"]:
-                have_cirrus = True
 
             done = {}
             for idx, jobinfo in enumerate(jobsinfo):
@@ -147,7 +138,7 @@ class Manifest:
                     artifacts.setdefault("expire_in", "2 days")
 
                 arch = jobinfo["arch"]
-                if arch == "x86_64" or "cirrus" in facts:
+                if arch == "x86_64":
                     jobinfo.setdefault("cross-build", False)
                 else:
                     jobinfo.setdefault("cross-build", True)
@@ -165,18 +156,9 @@ class Manifest:
                         )
                 done[arch] = True
 
-                if "cirrus" in facts:
-                    ciarch = facts["cirrus"]["arch"]
-                    if arch != ciarch:
-                        raise ValueError(
-                            f"target {target} only supports {ciarch} architecture"
-                        )
-
         if not have_containers:
             gitlabinfo["containers"] = False
-        if not have_containers and not have_cirrus:
             gitlabinfo["builds"] = False
-        gitlabinfo["cirrus"] = have_cirrus
 
     def generate(self, dryrun: bool = False) -> None:
         try:
@@ -187,10 +169,6 @@ class Manifest:
                 self._clean_containers(generated, dryrun)
                 generated = self._generate_buildenv(dryrun)
                 self._clean_buildenv(generated, dryrun)
-
-            if self.values["cirrus"]["enabled"]:
-                generated = self._generate_cirrus(dryrun)
-                self._clean_cirrus(generated, dryrun)
 
             if self.values["gitlab"]["enabled"]:
                 self._generate_gitlab(dryrun)
@@ -252,10 +230,6 @@ class Manifest:
             dryrun, "containers", "Dockerfile", formatter, "containers"
         )
 
-    def _generate_cirrus(self, dryrun: bool) -> List[Path]:
-        formatter = ShellVariablesFormatter(self._projects)
-        return self._generate_formatter(dryrun, "cirrus", "vars", formatter, "cirrus")
-
     def _generate_buildenv(self, dryrun: bool) -> List[Path]:
         formatter = ShellBuildEnvFormatter(self._projects)
         return self._generate_formatter(
@@ -278,9 +252,6 @@ class Manifest:
 
     def _clean_containers(self, generated: List[Path], dryrun: bool) -> None:
         self._clean_files(generated, dryrun, "containers", "Dockerfile")
-
-    def _clean_cirrus(self, generated: List[Path], dryrun: bool) -> None:
-        self._clean_files(generated, dryrun, "cirrus", "vars")
 
     def _clean_buildenv(self, generated: List[Path], dryrun: bool) -> None:
         self._clean_files(generated, dryrun, "buildenv", "sh")
@@ -340,8 +311,6 @@ class Manifest:
             content.append(gitlab.native_build_template(project, self.cidir))
         if have_cross:
             content.append(gitlab.cross_build_template(project, self.cidir))
-        if gitlabinfo["cirrus"]:
-            content.append(gitlab.cirrus_template(self.cidir))
         self._replace_file(content, path, dryrun)
         if len(content) > 0:
             includes.append(path)
@@ -384,7 +353,6 @@ class Manifest:
             content = []
             content.extend(self._generate_gitlab_native_build_jobs())
             content.extend(self._generate_gitlab_cross_build_jobs())
-            content.extend(self._generate_gitlab_cirrus_build_jobs())
             self._replace_file(content, path, dryrun)
             if len(content) > 0:
                 includes.append(path)
@@ -518,24 +486,4 @@ class Manifest:
         jobs = self._generate_build_jobs("containers", True, jobfunc)
         if len(jobs) > 0:
             jobs = ["\n\n# Cross build jobs"] + jobs
-        return jobs
-
-    def _generate_gitlab_cirrus_build_jobs(self) -> List[str]:
-        def jobfunc(target: str, facts: Dict[str, Any], jobinfo: Dict[str, Any]) -> str:
-            return gitlab.cirrus_build_job(
-                target,
-                facts["cirrus"]["instance_type"],
-                facts["cirrus"]["image_selector"],
-                facts["cirrus"]["image_name"],
-                facts["cirrus"]["arch"],
-                facts["packaging"]["command"],
-                jobinfo["suffix"],
-                jobinfo["variables"],
-                jobinfo["allow-failure"],
-                not jobinfo["builds"],
-            )
-
-        jobs = self._generate_build_jobs("cirrus", False, jobfunc)
-        if len(jobs) > 0:
-            jobs = ["\n# Native cirrus build jobs"] + jobs
         return jobs

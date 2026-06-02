@@ -36,12 +36,7 @@ def test_generate(assert_equal, targets, packages, projects, monkeypatch):
         unlinks.add(self)
 
     def fake_exists(self):
-        return self in set(
-            (
-                Path("ci", "containers"),
-                Path("ci", "cirrus"),
-            )
-        )
+        return self in set((Path("ci", "containers"),))
 
     def fake_glob(self, pattern):
         files = set(
@@ -97,7 +92,6 @@ def test_generate(assert_equal, targets, packages, projects, monkeypatch):
         # Verify which directories we expect to be created
         assert_mkdir(Path("ci", "gitlab"))
         assert_mkdir(Path("ci", "containers"))
-        assert_mkdir(Path("ci", "cirrus"))
         assert_mkdir(Path("ci", "buildenv"))
 
         # Verify which files we expect to be deleted

@@ -14,9 +14,6 @@ from typing import Any, Dict, List, Optional, Union
 #
 #  - CI_nnn - standard variables defined by GitLab
 #
-#  - CIRRUS_nnn - variables for controlling Cirrus CI
-#    job integration
-#
 #  - RUN_nnn - variables for a maintainer to set when
 #    triggering a  pipeline
 #
@@ -350,64 +347,6 @@ def cross_build_template(project: str, cidir: Path) -> str:
     )
 
 
-def cirrus_template(cidir: Path) -> str:
-    return textwrap.dedent(
-        f"""
-        .cirrus_build_job:
-          stage: builds
-          image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:latest
-          interruptible: true
-          needs: []
-          script:
-            - set -o allexport
-            - source {cidir}/cirrus/$NAME.vars
-            - set +o allexport
-            - cirrus-vars <{cidir}/cirrus/build.yml >{cidir}/cirrus/$NAME.yml
-            - cat {cidir}/cirrus/$NAME.yml
-            - cirrus-run -v --show-build-log always {cidir}/cirrus/$NAME.yml
-          rules:
-            # upstream+forks: Can't run unless Cirrus is configured
-            - if: '$CIRRUS_GITHUB_REPO == null || $CIRRUS_API_TOKEN == null'
-              when: never
-
-            # upstream: pushes to branches
-            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $JOB_OPTIONAL'
-              when: manual
-              allow_failure: true
-            - if: '$CI_PROJECT_NAMESPACE == $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push"'
-              when: on_success
-
-            # forks: pushes to branches with pipeline requested (including pipeline in upstream environment)
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE == "0"'
-              when: manual
-              allow_failure: true
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE == "1" && $JOB_OPTIONAL'
-              when: manual
-              allow_failure: true
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE == "1"'
-              when: on_success
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV == "0"'
-              when: manual
-              allow_failure: true
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV == "1" && $JOB_OPTIONAL'
-              when: manual
-              allow_failure: true
-            - if: '$CI_PROJECT_NAMESPACE != $RUN_UPSTREAM_NAMESPACE && $CI_PIPELINE_SOURCE == "push" && $RUN_PIPELINE_UPSTREAM_ENV == "1"'
-              when: on_success
-
-            # upstream+forks: Run pipelines on MR, web, api & scheduled
-            - if: '$CI_PIPELINE_SOURCE =~ /(web|api|schedule|merge_request_event)/ && $JOB_OPTIONAL'
-              when: manual
-              allow_failure: true
-            - if: '$CI_PIPELINE_SOURCE =~ /(web|api|schedule|merge_request_event)/'
-              when: on_success
-
-            # upstream+forks: that's all folks
-            - when: never
-        """
-    )
-
-
 def check_dco_job() -> str:
     jobvars = {
         "GIT_DEPTH": "1000",
@@ -681,64 +620,4 @@ def cross_build_job(
 
     return _build_job(
         target, image, arch, suffix, jobvars, template, allow_failure, artifacts
-    )
-
-
-def cirrus_build_job(
-    target: str,
-    instance_type: str,
-    image_selector: str,
-    image_name: str,
-    arch: str,
-    pkg_cmd: str,
-    suffix: str,
-    variables: Dict[Any, Any],
-    allow_failure: bool,
-    optional: bool,
-) -> str:
-    if pkg_cmd == "brew":
-        install_cmd = "brew install"
-        upgrade_cmd = "brew upgrade"
-        update_cmd = "brew update"
-    elif pkg_cmd == "pkg":
-        install_cmd = "pkg install -y"
-        upgrade_cmd = "pkg upgrade -y"
-        update_cmd = "pkg update"
-    elif pkg_cmd == "pkg_add":
-        install_cmd = "pkg_add -I"
-        upgrade_cmd = "pkg_add -uI"
-        update_cmd = "true"
-    else:
-        raise ValueError(f"Unknown package command {pkg_cmd}")
-
-    if allow_failure:
-        allow_failure_block = "  allow_failure: true\n"
-    else:
-        allow_failure_block = "  allow_failure:\n    exit_codes: 3\n"
-
-    jobvars = merge_vars(
-        {
-            "NAME": target,
-            "CIRRUS_VM_INSTANCE_TYPE": instance_type,
-            "CIRRUS_VM_IMAGE_SELECTOR": image_selector,
-            "CIRRUS_VM_IMAGE_NAME": image_name,
-            "UPDATE_COMMAND": update_cmd,
-            "UPGRADE_COMMAND": upgrade_cmd,
-            "INSTALL_COMMAND": install_cmd,
-        },
-        variables,
-    )
-    if optional:
-        jobvars["JOB_OPTIONAL"] = "1"
-
-    return (
-        textwrap.dedent(
-            f"""
-        {arch}-{target}{suffix}:
-          extends: .cirrus_build_job
-          needs: []
-        """
-        )
-        + allow_failure_block
-        + format_variables(jobvars)
     )

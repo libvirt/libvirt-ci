@@ -12,12 +12,6 @@ projects:
 #containers:
 #  enabled: true
 
-# Whether to generate cirrus CI vars files by
-# default for hosts where it is appropriate. Enabled
-# by default
-#cirrus:
-#  enabled: true
-
 # Whether to generate GitLab CI rules. Enabled by
 # default
 gitlab:
@@ -35,7 +29,7 @@ gitlab:
 #  containers: true
 #
 #  # Whether to run app builds by default where
-#  # containers or cirrus-run are present
+#  # containers are present
 #  builds: true
 #
 #  # Common jobs to enable

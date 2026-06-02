@@ -20,9 +20,3 @@ paths:
 
 ansible_python_package: python3
 ansible_python_interpreter: /usr/local/bin/python3
-
-cirrus:
-  instance_type: openbsd_instance
-  image_selector: image_family
-  image_name: openbsd-7-8
-  arch: x86_64
