@@ -181,11 +181,6 @@ flake8-container:
   variables:
     NAME: flake8
 
-cirrus-run-container:
-  extends: .build_container_template
-  variables:
-    NAME: cirrus-run
-
 docker-dind-container:
   extends: .build_container_template
   variables:
