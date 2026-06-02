@@ -90,19 +90,3 @@ mingw32-fedora-rawhide:
     CROSS: mingw32
     NAME: fedora-rawhide
     TARGET_BASE_IMAGE: registry.fedoraproject.org/fedora:rawhide
-
-
-# Native cirrus build jobs
-
-x86_64-freebsd-current:
-  extends: .cirrus_build_job
-  needs: []
-  allow_failure: true
-  variables:
-    CIRRUS_VM_IMAGE_NAME: freebsd-15-0-snap
-    CIRRUS_VM_IMAGE_SELECTOR: image_family
-    CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
-    INSTALL_COMMAND: pkg install -y
-    NAME: freebsd-current
-    UPDATE_COMMAND: pkg update
-    UPGRADE_COMMAND: pkg upgrade -y

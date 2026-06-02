@@ -43,5 +43,3 @@ targets:
         variables:
           CC: clang
       - arch: mingw32
-
-  freebsd-current: x86_64

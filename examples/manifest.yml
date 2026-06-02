@@ -156,12 +156,6 @@ targets:
       - arch: mingw32
       - arch: mingw64
 
-  freebsd-14: x86_64
-
-  freebsd-15: x86_64
-
-  freebsd-current: x86_64
-
   opensuse-leap-15:
     jobs:
       - arch: x86_64

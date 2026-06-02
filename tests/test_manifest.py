@@ -47,10 +47,6 @@ def test_generate(assert_equal, targets, packages, projects, monkeypatch):
         files = set(
             (
                 # to be deleted
-                Path("ci", "cirrus", "freebsd-9.vars"),
-                # to be re-written
-                Path("ci", "cirrus", "freebsd-current.vars"),
-                # to be deleted
                 Path("ci", "containers", "almalinux-9.Dockerfile"),
                 # to be deleted
                 Path("ci", "containers", "almalinux-10.Dockerfile"),
@@ -105,7 +101,6 @@ def test_generate(assert_equal, targets, packages, projects, monkeypatch):
         assert_mkdir(Path("ci", "buildenv"))
 
         # Verify which files we expect to be deleted
-        assert_unlink(Path("ci", "cirrus", "freebsd-9.vars"))
         assert_unlink(Path("ci", "containers", "almalinux-9.Dockerfile"))
         assert_unlink(Path("ci", "containers", "almalinux-10.Dockerfile"))
 
@@ -117,7 +112,6 @@ def test_generate(assert_equal, targets, packages, projects, monkeypatch):
             Path("ci", "gitlab", "build-templates.yml"),
             Path("ci", "gitlab", "builds.yml"),
             Path("ci", "gitlab", "sanity-checks.yml"),
-            Path("ci", "cirrus", "freebsd-current.vars"),
             Path("ci", "containers", "centos-stream-9.Dockerfile"),
             Path("ci", "containers", "fedora-rawhide.Dockerfile"),
             Path("ci", "containers", "fedora-rawhide-cross-mingw32.Dockerfile"),
