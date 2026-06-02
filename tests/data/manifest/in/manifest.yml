@@ -45,5 +45,3 @@ targets:
       - arch: mingw32
 
   freebsd-current: x86_64
-
-  macos-14: aarch64

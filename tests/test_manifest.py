@@ -118,7 +118,6 @@ def test_generate(assert_equal, targets, packages, projects, monkeypatch):
             Path("ci", "gitlab", "builds.yml"),
             Path("ci", "gitlab", "sanity-checks.yml"),
             Path("ci", "cirrus", "freebsd-current.vars"),
-            Path("ci", "cirrus", "macos-14.vars"),
             Path("ci", "containers", "centos-stream-9.Dockerfile"),
             Path("ci", "containers", "fedora-rawhide.Dockerfile"),
             Path("ci", "containers", "fedora-rawhide-cross-mingw32.Dockerfile"),

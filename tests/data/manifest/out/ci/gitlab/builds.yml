@@ -106,18 +106,3 @@ x86_64-freebsd-current:
     NAME: freebsd-current
     UPDATE_COMMAND: pkg update
     UPGRADE_COMMAND: pkg upgrade -y
-
-
-aarch64-macos-14:
-  extends: .cirrus_build_job
-  needs: []
-  allow_failure:
-    exit_codes: 3
-  variables:
-    CIRRUS_VM_IMAGE_NAME: ghcr.io/cirruslabs/macos-runner:sonoma
-    CIRRUS_VM_IMAGE_SELECTOR: image
-    CIRRUS_VM_INSTANCE_TYPE: macos_instance
-    INSTALL_COMMAND: brew install
-    NAME: macos-14
-    UPDATE_COMMAND: brew update
-    UPGRADE_COMMAND: brew upgrade
