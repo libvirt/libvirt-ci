@@ -387,7 +387,12 @@ class BuildEnvFormatter(Formatter):
                 else:
                     raise FormatterError(f"packaging.repos not supported for {osname}")
 
-            commands.extend(["{nosync}{packaging_command} install -y {pkgs}"])
+            if osname == "OpenSUSE":
+                commands.extend(
+                    ["{nosync}{packaging_command} install -y --allow-downgrade {pkgs}"]
+                )
+            else:
+                commands.extend(["{nosync}{packaging_command} install -y {pkgs}"])
 
             if self._pkgcleanup:
                 # openSUSE doesn't seem to have a convenient way to remove all

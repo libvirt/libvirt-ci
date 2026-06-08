@@ -1,6 +1,6 @@
 function install_buildenv() {
     zypper dist-upgrade -y
-    zypper install -y \
+    zypper install -y --allow-downgrade \
            ca-certificates \
            git \
            glibc-locale \
