@@ -1092,8 +1092,8 @@ mappings:
     OpenSUSE: libsoup-devel
     AlmaLinux9: libsoup-devel
     CentOSStream9: libsoup-devel
-    cross-mingw32-rpm: mingw32-libsoup
-    cross-mingw64-rpm: mingw64-libsoup
+    cross-mingw32-rpm: mingw32-libsoup3
+    cross-mingw64-rpm: mingw64-libsoup3
     cross-policy-default: foreign
 
   libssh:

@@ -25,7 +25,7 @@ cross:
 - mingw64-libgovirt
 - mingw64-libjpeg-turbo
 - mingw64-libpng
-- mingw64-libsoup
+- mingw64-libsoup3
 - mingw64-libssh2
 - mingw64-libtasn1
 - mingw64-libvirt
