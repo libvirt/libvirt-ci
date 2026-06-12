@@ -688,7 +688,6 @@ mappings:
     pkg: openjdk25
     rpm: java-25-openjdk-headless
     MacOS: openjdk
-    Alpine322: openjdk21-jdk
     Debian12: openjdk-17-jdk-headless
     OpenSUSELeap15: java-21-openjdk-headless
 
