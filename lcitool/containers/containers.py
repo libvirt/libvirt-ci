@@ -290,7 +290,7 @@ class Container(ABC):
     ) -> int:
         tag = "latest"
         if ":" in image:
-            image, tag = image.split(":")
+            image, tag = image.rsplit(":", 1)
 
         if not self.image_exists(image, tag):
             raise ContainerError(
