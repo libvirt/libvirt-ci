@@ -189,7 +189,7 @@ docker-dind-container:
 check-dco:
   extends: .test_template
   stage: sanity_checks
-  image: python:3.8-alpine
+  image: python:3.9-alpine
   needs: []
   before_script:
     - apk update
@@ -200,7 +200,7 @@ check-dco:
 linters:
   extends: .test_template
   stage: sanity_checks
-  image: python:3.8-alpine
+  image: python:3.9-alpine
   needs: []
   before_script:
     - apk update
@@ -211,7 +211,7 @@ linters:
 mypy:
   extends: .test_template
   stage: sanity_checks
-  image: python:3.8-alpine
+  image: python:3.9-alpine
   needs: []
   before_script:
     - apk update
@@ -223,14 +223,14 @@ mypy:
 unittests:
   extends: .test_template
   stage: sanity_checks
-  image: python:3.8-alpine
+  image: python:3.9-alpine
   needs: []
   before_script:
     - apk update
     - apk add gcc linux-headers libffi-dev musl-dev
     - python3 -m pip install tox
   script:
-    - tox -e py38
+    - tox -e py39
 
 # DNF returns 1 when 'install --assumeno' is used which is undistinguishable
 # from genuine errors, let's install our DNF helper that checks whether the

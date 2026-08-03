@@ -35,7 +35,7 @@ Running specific test environments
 We define a couple of test environments for tox:
 
 * ``lint`` flake8 & black linters
-* ``py38`` which reflects our minimum requirement for Python 3.8
+* ``py39`` which reflects our minimum requirement for Python 3.9
 * ``py311`` which is supposed to catch early deprecations with latest Python
 * ``mypy``
 
@@ -61,7 +61,7 @@ or
 
 ::
 
-    $ tox -e py38 -- --regenerate-output
+    $ tox -e py39 -- --regenerate-output
 
 depending on what tool you prefer for testing and the expected package data
 sets will be updated automatically. You can then just grab the changes and add

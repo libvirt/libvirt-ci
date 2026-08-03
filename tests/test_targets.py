@@ -45,5 +45,5 @@ def test_override():
     targets = Targets(datadir)
     facts = targets.target_facts["centos-stream-9"]
 
-    assert facts["paths"]["pip3"] == "/usr/bin/pip3.8"
-    assert facts["paths"]["python"] == "/usr/bin/python3.8"
+    assert facts["paths"]["pip3"] == "/usr/bin/pip3.9"
+    assert facts["paths"]["python"] == "/usr/bin/python3.9"
