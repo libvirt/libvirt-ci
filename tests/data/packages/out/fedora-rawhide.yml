@@ -227,6 +227,7 @@ native:
 - pkgconfig
 - polkit
 - pulseaudio-libs-devel
+- pyproject-rpm-macros
 - python3
 - python3-PyYAML
 - python3-black

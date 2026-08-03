@@ -1726,6 +1726,10 @@ mappings:
     OpenSUSE: libpulse-devel
     cross-policy-default: foreign
 
+  pyproject-rpm-macros:
+    rpm: pyproject-rpm-macros
+    OpenSUSE:
+
   python3:
     default: python3
     OpenBSD:

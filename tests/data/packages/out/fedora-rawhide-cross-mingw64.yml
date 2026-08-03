@@ -177,6 +177,7 @@ native:
 - php-devel
 - php-pecl-imagick
 - polkit
+- pyproject-rpm-macros
 - python3
 - python3-PyYAML
 - python3-black

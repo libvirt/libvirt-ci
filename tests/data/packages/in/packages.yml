@@ -255,6 +255,7 @@ packages:
 - portablexdr
 - publican
 - pulseaudio
+- pyproject-rpm-macros
 - python3
 - python3-PyYAML
 - python3-boto3
