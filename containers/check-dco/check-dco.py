@@ -8,6 +8,7 @@
 
 import os
 import os.path
+import re
 import sys
 import subprocess
 
@@ -89,11 +90,18 @@ for sha, subject in commits:
 
     print("🔍 %s %s" % (sha, subject))
     sob = False
+    sobre = re.compile(r"""^\s*Signed-off-by:\s*(.*?)\s+<(.*)>\s*""")
     for line in lines:
-        if "Signed-off-by:" in line:
+        m = sobre.match(line)
+        if m is not None:
             sob = True
-            if "localhost" in line:
+            name = m.group(1).strip()
+            email = m.group(2).strip()
+            if email == "" or "localhost" in email:
                 print("    ❌ FAIL: bad email in %s" % line)
+                errors = True
+            if name == "":
+                print("    ❌ FAIL: bad name in %s" % line)
                 errors = True
 
     if not sob:
