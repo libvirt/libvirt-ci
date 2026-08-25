@@ -1809,6 +1809,7 @@ mappings:
     FreeBSD: py312-libxml2
     MacOS:
     OpenBSD:
+    OpenSUSETumbleweed:
 
   python3-lxml:
     default: python3-lxml
