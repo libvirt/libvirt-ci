@@ -183,7 +183,7 @@ mappings:
     rpm: python3-black
     AlmaLinux:
     CentOS:
-    FreeBSD: py311-black
+    FreeBSD: py312-black
     OpenBSD: py3-black
     OpenSUSELeap15:
 
@@ -270,7 +270,7 @@ mappings:
 
   cloud-init:
     default: cloud-init
-    FreeBSD: py311-cloud-init
+    FreeBSD: py312-cloud-init
     MacOS:
     OpenBSD:
 
@@ -401,7 +401,7 @@ mappings:
     default: flake8
     apk: py3-flake8
     rpm: python3-flake8
-    FreeBSD: py311-flake8
+    FreeBSD: py312-flake8
     OpenBSD: py3-flake8
     AlmaLinux10:
     CentOSStream10:
@@ -1740,14 +1740,14 @@ mappings:
     apk: py3-yaml
     deb: python3-yaml
     rpm: python3-PyYAML
-    FreeBSD: py311-pyyaml
+    FreeBSD: py312-pyyaml
     OpenBSD: py3-yaml
 
   python3-build:
     apk: py3-build
     deb: python3-build
     rpm: python3-build
-    FreeBSD: py311-build
+    FreeBSD: py312-build
     MacOS: python-build
     OpenBSD: py3-build
     OpenSUSELeap15:
@@ -1755,7 +1755,7 @@ mappings:
   python3-dbus:
     default: python3-dbus
     apk: py3-dbus
-    FreeBSD: py311-dbus
+    FreeBSD: py312-dbus
     MacOS:
     OpenBSD: py3-dbus
     OpenSUSE: python3-dbus-python
@@ -1763,7 +1763,7 @@ mappings:
   python3-boto3:
     default: python3-boto3
     apk: py3-boto3
-    FreeBSD: py311-boto3
+    FreeBSD: py312-boto3
     MacOS:
     OpenBSD: py3-boto3
 
@@ -1776,7 +1776,7 @@ mappings:
   python3-docutils:
     default: python3-docutils
     apk: py3-docutils
-    FreeBSD: py311-docutils
+    FreeBSD: py312-docutils
     MacOS: docutils
     OpenBSD: py3-docutils
 
@@ -1784,14 +1784,14 @@ mappings:
     apk: py3-gobject3
     deb: python3-gi
     rpm: python3-gobject
-    FreeBSD: py311-gobject3
+    FreeBSD: py312-gobject3
     OpenBSD: py3-gobject3
 
   python3-libvirt:
     apk: py3-libvirt
     deb: python3-libvirt
     rpm: python3-libvirt
-    FreeBSD: py311-libvirt
+    FreeBSD: py312-libvirt
     MacOS: libvirt-python
     OpenBSD: py3-libvirt
     OpenSUSE: python3-libvirt-python
@@ -1799,21 +1799,21 @@ mappings:
   python3-libxml2:
     default: python3-libxml2
     apk: py3-libxml2
-    FreeBSD: py311-libxml2
+    FreeBSD: py312-libxml2
     MacOS:
     OpenBSD:
 
   python3-lxml:
     default: python3-lxml
     apk: py3-lxml
-    FreeBSD: py311-lxml
+    FreeBSD: py312-lxml
     MacOS:
     OpenBSD: py3-lxml
 
   python3-numpy:
     default: python3-numpy
     apk: py3-numpy
-    FreeBSD: py311-numpy
+    FreeBSD: py312-numpy
     MacOS:
     OpenBSD: py3-numpy
 
@@ -1829,7 +1829,7 @@ mappings:
     apk: py3-packaging
     deb: python3-packaging
     rpm: python3-packaging
-    FreeBSD: py311-packaging
+    FreeBSD: py312-packaging
     MacOS: python-packaging
     OpenBSD: py3-packaging
     OpenSUSE: python3-packaging
@@ -1837,7 +1837,7 @@ mappings:
   python3-pillow:
     default: python3-pillow
     apk: py3-pillow
-    FreeBSD: py311-pillow
+    FreeBSD: py312-pillow
     MacOS:
     OpenBSD: py3-pillow
     OpenSUSE: python3-Pillow
@@ -1845,21 +1845,21 @@ mappings:
   python3-pip:
     default: python3-pip
     apk: py3-pip
-    FreeBSD: py311-pip
+    FreeBSD: py312-pip
     MacOS: python3
     OpenBSD: py3-pip
 
   python3-pytest:
     default: python3-pytest
     apk: py3-pytest
-    FreeBSD: py311-pytest
+    FreeBSD: py312-pytest
     MacOS:
     OpenBSD: py3-pytest
 
   python3-requests:
     default: python3-requests
     apk: py3-requests
-    FreeBSD: py311-requests
+    FreeBSD: py312-requests
     MacOS:
     OpenBSD: py3-requests
 
@@ -1874,14 +1874,14 @@ mappings:
   python3-setuptools:
     default: python3-setuptools
     apk: py3-setuptools
-    FreeBSD: py311-setuptools
+    FreeBSD: py312-setuptools
     MacOS: python-setuptools
     OpenBSD: py3-setuptools
 
   python3-sphinx:
     default: python3-sphinx
     apk: py3-sphinx
-    FreeBSD: py311-sphinx
+    FreeBSD: py312-sphinx
     MacOS:
     OpenBSD: py3-sphinx
     OpenSUSE: python3-Sphinx
@@ -1890,7 +1890,7 @@ mappings:
     apk: py3-sphinx_rtd_theme
     deb: python3-sphinx-rtd-theme
     rpm: python3-sphinx_rtd_theme
-    FreeBSD: py311-sphinx_rtd_theme
+    FreeBSD: py312-sphinx_rtd_theme
     OpenBSD: py3-sphinx_rtd_theme
 
   python3-venv:
@@ -1901,7 +1901,7 @@ mappings:
   python3-wheel:
     default: python3-wheel
     apk: py3-wheel
-    FreeBSD: py311-wheel
+    FreeBSD: py312-wheel
     MacOS: python3
     OpenBSD: py3-wheel
 
@@ -2180,7 +2180,7 @@ mappings:
   python3-tomli:
     default: python3-tomli
     apk: py3-tomli
-    FreeBSD: py311-tomli
+    FreeBSD: py312-tomli
     MacOS:
     OpenBSD: py3-tomli
 
