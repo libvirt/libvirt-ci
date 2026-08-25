@@ -84,6 +84,7 @@ native:
 - hostname
 - hwdata
 - icoutils
+- igvm-devel
 - intltool
 - iproute
 - iproute-tc

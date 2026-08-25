@@ -655,6 +655,13 @@ mappings:
   icoutils:
     default: icoutils
 
+  igvm:
+    rpm: igvm-devel
+    AlmaLinux:
+    OpenSUSE:
+    CentOSStream9:
+    cross-policy-default: skip
+
   intltool:
     default: intltool
 
