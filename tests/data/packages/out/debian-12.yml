@@ -160,7 +160,7 @@ native:
 - libsdl2-dev
 - libsdl2-image-dev
 - libseccomp-dev
-- libselinux1-dev
+- libselinux-dev
 - libslirp-dev
 - libsnappy-dev
 - libsndio-dev

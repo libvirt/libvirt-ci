@@ -1079,7 +1079,7 @@ mappings:
 
   libselinux:
     apk: libselinux-dev
-    deb: libselinux1-dev
+    deb: libselinux-dev
     rpm: libselinux-devel
     cross-policy-default: foreign
 
