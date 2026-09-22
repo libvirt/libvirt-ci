@@ -27,3 +27,5 @@ install:
 
 containers:
   base: docker.io/library/debian:sid-slim
+  aarch64: docker.io/aarch64/debian:sid-slim
+  x86_64: docker.io/amd64/debian:sid-slim

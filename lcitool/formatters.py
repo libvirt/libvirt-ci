@@ -580,7 +580,9 @@ class DockerfileFormatter(BuildEnvFormatter):
         if self._base:
             base = self._base
         else:
-            base = target.facts["containers"]["base"]
+            base = target.facts["containers"].get(
+                target.native_arch, target.facts["containers"]["base"]
+            )
         strings.append(f"FROM {base}")
         return strings
 
