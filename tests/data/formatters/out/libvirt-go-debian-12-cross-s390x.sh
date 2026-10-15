@@ -15,7 +15,7 @@ function install_buildenv() {
             python3-wheel
     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen
     dpkg-reconfigure locales
-    /usr/bin/pip3 install dummy==8.1.9
+    PIP_ROOT_USER_ACTION=ignore /usr/bin/pip3 install dummy==8.1.9
     cpanm --notest Dummy==1.8.2
     export DEBIAN_FRONTEND=noninteractive
     dpkg --add-architecture s390x

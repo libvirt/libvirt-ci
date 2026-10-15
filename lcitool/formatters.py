@@ -425,7 +425,13 @@ class BuildEnvFormatter(Formatter):
 
         groups = [commands]
         if varmap["pypi_pkgs"]:
-            groups.append(["{paths_pip3} install {pypi_pkgs}".format(**varmap)])
+            groups.append(
+                [
+                    "PIP_ROOT_USER_ACTION=ignore {paths_pip3} install {pypi_pkgs}".format(
+                        **varmap
+                    )
+                ]
+            )
 
         if varmap["cpan_pkgs"]:
             groups.append(["cpanm --notest {cpan_pkgs}".format(**varmap)])

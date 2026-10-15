@@ -25,7 +25,7 @@ exec "$@"\n' > /usr/bin/nosync && \
     nosync dnf --quiet autoremove -y && \
     nosync dnf --quiet clean all -y
 
-RUN /usr/bin/pip3 install dummy==8.1.9
+RUN PIP_ROOT_USER_ACTION=ignore /usr/bin/pip3 install dummy==8.1.9
 
 RUN cpanm --notest Dummy==1.8.2
 

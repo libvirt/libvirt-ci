@@ -11,7 +11,7 @@ function install_buildenv() {
                 python3-pip \
                 python3-setuptools \
                 python3-wheel
-    /usr/bin/pip3 install dummy==8.1.9
+    PIP_ROOT_USER_ACTION=ignore /usr/bin/pip3 install dummy==8.1.9
     cpanm --notest Dummy==1.8.2
     dnf --quiet install -y \
                 mingw64-gcc \

@@ -20,7 +20,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
     dpkg-reconfigure locales
 
-RUN /usr/bin/pip3 install dummy==8.1.9
+RUN PIP_ROOT_USER_ACTION=ignore /usr/bin/pip3 install dummy==8.1.9
 
 RUN cpanm --notest Dummy==1.8.2
 

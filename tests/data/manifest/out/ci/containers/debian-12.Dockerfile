@@ -26,7 +26,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
 
-RUN /usr/bin/pip3 install dummy==8.1.9
+RUN PIP_ROOT_USER_ACTION=ignore /usr/bin/pip3 install dummy==8.1.9
 
 RUN cpanm --notest Dummy==1.8.2
 
