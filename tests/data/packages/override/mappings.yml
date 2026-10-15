@@ -5,6 +5,20 @@ mappings:
   python3:
     CentOSStream9: python38
 
+  perl-Dummy:
+    default:
+
+  python3-dummy:
+    default:
+
 pypi_mappings:
   meson:
     default: meson==0.63.2
+
+  python3-dummy:
+    default: dummy==8.1.9
+
+cpan_mappings:
+
+  perl-Dummy:
+    default: Dummy==1.8.2

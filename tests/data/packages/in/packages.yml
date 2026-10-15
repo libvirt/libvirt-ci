@@ -217,6 +217,7 @@ packages:
 - perl-CPAN-Changes
 - perl-Digest
 - perl-Digest-MD5
+- perl-Dummy
 - perl-ExtUtils-CBuilder
 - perl-ExtUtils-Embed
 - perl-File-Slurp
@@ -264,6 +265,7 @@ packages:
 - python3-dbus
 - python3-devel
 - python3-docutils
+- python3-dummy
 - python3-gobject
 - python3-libvirt
 - python3-libxml2

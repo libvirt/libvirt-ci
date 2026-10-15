@@ -1,6 +1,8 @@
 {
   "ccache": "/usr/bin/ccache",
-  "cpan_pkgs": [],
+  "cpan_pkgs": [
+    "Dummy==1.8.2"
+  ],
   "cross_pkgs": [],
   "make": "/usr/bin/make",
   "ninja": "/usr/bin/ninja",
@@ -9,13 +11,19 @@
   "pkgs": [
     "ca-certificates",
     "ccache",
+    "cpanminus",
     "gcc",
     "git",
     "golang",
     "libc6-dev",
     "locales",
-    "pkgconf"
+    "pkgconf",
+    "python3-pip",
+    "python3-setuptools",
+    "python3-wheel"
   ],
-  "pypi_pkgs": [],
+  "pypi_pkgs": [
+    "dummy==8.1.9"
+  ],
   "python": "/usr/bin/python3"
 }

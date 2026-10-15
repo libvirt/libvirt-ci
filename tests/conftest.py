@@ -65,7 +65,7 @@ def assert_equal(request, tmp_path_factory):
 
 @pytest.fixture(scope="module")
 def packages():
-    return Packages()
+    return Packages(DataDir(test_utils.base_data_dir()))
 
 
 @pytest.fixture(scope="module")

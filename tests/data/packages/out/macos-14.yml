@@ -3,6 +3,7 @@ cpan:
 - CPAN::Changes
 - Digest
 - Digest::MD5
+- Dummy==1.8.2
 - File::Slurp
 - IO::Compress::Bzip2
 - IO::Interface
@@ -167,6 +168,7 @@ pypi:
 - PyYAML
 - boto3
 - dbus-python
+- dummy==8.1.9
 - libxml2-python3
 - lxml
 - numpy

@@ -17,9 +17,17 @@ exec "$@"\n' > /usr/bin/nosync && \
                        ccache \
                        git \
                        glibc-langpack-en \
-                       golang && \
+                       golang \
+                       perl-App-cpanminus \
+                       python3-pip \
+                       python3-setuptools \
+                       python3-wheel && \
     nosync dnf --quiet autoremove -y && \
     nosync dnf --quiet clean all -y
+
+RUN /usr/bin/pip3 install dummy==8.1.9
+
+RUN cpanm --notest Dummy==1.8.2
 
 ENV CCACHE_WRAPPERSDIR="/usr/libexec/ccache-wrappers"
 ENV LANG="en_US.UTF-8"

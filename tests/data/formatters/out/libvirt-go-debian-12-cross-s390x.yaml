@@ -1,9 +1,13 @@
 packages:
   - ca-certificates
   - ccache
+  - cpanminus
   - git
   - golang
   - locales
   - pkgconf
+  - python3-pip
+  - python3-setuptools
+  - python3-wheel
   - gcc-s390x-linux-gnu
   - libc6-dev:s390x

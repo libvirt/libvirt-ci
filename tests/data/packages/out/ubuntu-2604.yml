@@ -1,3 +1,5 @@
+cpan:
+- Dummy==1.8.2
 native:
 - ant
 - ant-optional
@@ -306,3 +308,5 @@ native:
 - zip
 - zlib1g-dev
 - zstd
+pypi:
+- dummy==8.1.9

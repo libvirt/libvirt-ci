@@ -1,0 +1,15 @@
+mappings:
+  perl-Dummy:
+    default:
+
+  python3-dummy:
+    default:
+
+pypi_mappings:
+  python3-dummy:
+    default: dummy==8.1.9
+
+cpan_mappings:
+
+  perl-Dummy:
+    default: Dummy==1.8.2

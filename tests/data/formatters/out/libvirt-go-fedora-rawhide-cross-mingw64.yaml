@@ -4,6 +4,10 @@ packages:
   - git
   - glibc-langpack-en
   - golang
+  - perl-App-cpanminus
+  - python3-pip
+  - python3-setuptools
+  - python3-wheel
   - mingw64-gcc
   - mingw64-headers
   - mingw64-pkg-config

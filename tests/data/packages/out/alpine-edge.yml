@@ -2,6 +2,7 @@ cpan:
 - Archive::Tar
 - CPAN::Changes
 - Digest::MD5
+- Dummy==1.8.2
 - IO::Compress::Bzip2
 - IO::Interface
 - LWP::UserAgent
@@ -267,3 +268,5 @@ native:
 - zlib-static
 - zstd
 - zstd-dev
+pypi:
+- dummy==8.1.9

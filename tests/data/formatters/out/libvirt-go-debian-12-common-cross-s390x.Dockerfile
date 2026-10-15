@@ -7,14 +7,22 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     eatmydata apt-get install --no-install-recommends -y \
                       ca-certificates \
                       ccache \
+                      cpanminus \
                       git \
                       golang \
                       locales \
-                      pkgconf && \
+                      pkgconf \
+                      python3-pip \
+                      python3-setuptools \
+                      python3-wheel && \
     eatmydata apt-get autoremove -y && \
     eatmydata apt-get autoclean -y && \
     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
     dpkg-reconfigure locales
+
+RUN /usr/bin/pip3 install dummy==8.1.9
+
+RUN cpanm --notest Dummy==1.8.2
 
 ENV CCACHE_WRAPPERSDIR="/usr/libexec/ccache-wrappers"
 ENV LANG="en_US.UTF-8"

@@ -1,3 +1,5 @@
+cpan:
+- Dummy==1.8.2
 native:
 - SDL2_image-devel
 - alsa-lib-devel
@@ -314,3 +316,5 @@ native:
 - zlib-devel
 - zlib-static
 - zstd
+pypi:
+- dummy==8.1.9

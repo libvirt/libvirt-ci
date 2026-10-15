@@ -1,4 +1,5 @@
 cpan:
+- Dummy==1.8.2
 - IO::Compress::Bzip2
 - LWP::UserAgent
 - Net::OpenSSH
@@ -293,3 +294,5 @@ native:
 - zlib-devel
 - zlib-devel-static
 - zstd
+pypi:
+- dummy==8.1.9

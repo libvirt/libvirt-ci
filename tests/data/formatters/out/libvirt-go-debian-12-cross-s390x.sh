@@ -5,12 +5,18 @@ function install_buildenv() {
     apt-get install --no-install-recommends -y \
             ca-certificates \
             ccache \
+            cpanminus \
             git \
             golang \
             locales \
-            pkgconf
+            pkgconf \
+            python3-pip \
+            python3-setuptools \
+            python3-wheel
     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen
     dpkg-reconfigure locales
+    /usr/bin/pip3 install dummy==8.1.9
+    cpanm --notest Dummy==1.8.2
     export DEBIAN_FRONTEND=noninteractive
     dpkg --add-architecture s390x
     apt-get update

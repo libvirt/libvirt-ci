@@ -6,7 +6,13 @@ function install_buildenv() {
                 ccache \
                 git \
                 glibc-langpack-en \
-                golang
+                golang \
+                perl-App-cpanminus \
+                python3-pip \
+                python3-setuptools \
+                python3-wheel
+    /usr/bin/pip3 install dummy==8.1.9
+    cpanm --notest Dummy==1.8.2
     dnf --quiet install -y \
                 mingw64-gcc \
                 mingw64-headers \

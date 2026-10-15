@@ -1,3 +1,5 @@
+cpan:
+- Dummy==1.8.2
 cross:
 - mingw-w64-tools
 - mingw32-nsis
@@ -239,3 +241,5 @@ native:
 - xz
 - zip
 - zstd
+pypi:
+- dummy==8.1.9

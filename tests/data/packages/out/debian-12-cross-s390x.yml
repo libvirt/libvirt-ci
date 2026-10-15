@@ -1,3 +1,5 @@
+cpan:
+- Dummy==1.8.2
 cross:
 - g++-s390x-linux-gnu
 - gcc-s390x-linux-gnu
@@ -303,3 +305,5 @@ native:
 - xz-utils
 - zip
 - zstd
+pypi:
+- dummy==8.1.9

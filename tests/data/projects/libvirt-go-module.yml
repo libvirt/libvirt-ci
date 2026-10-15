@@ -3,4 +3,6 @@ packages:
   - gcc
   - go
   - libc
+  - perl-Dummy
   - pkg-config
+  - python3-dummy

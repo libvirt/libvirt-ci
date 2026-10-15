@@ -1,4 +1,5 @@
 cpan:
+- Dummy==1.8.2
 - LWP::UserAgent
 - TAP::Formatter::HTML
 - TAP::Formatter::JUnit
@@ -290,3 +291,4 @@ native:
 - zstd
 pypi:
 - black
+- dummy==8.1.9
