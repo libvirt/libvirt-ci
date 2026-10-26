@@ -1,0 +1,22 @@
+---
+os:
+  name: 'OpenBSD'
+  version: '80'
+  libosinfo_id: 'http://openbsd.org/openbsd/8.0'
+
+packaging:
+  format: 'pkg'
+  command: 'pkg_add'
+
+paths:
+  bash: /usr/local/bin/bash
+  cc: /usr/bin/cc
+  ccache: /usr/local/bin/ccache
+  make: /usr/local/bin/gmake
+  ninja: /usr/local/bin/ninja
+  pip3: /usr/local/bin/pip3
+  python: /usr/local/bin/python3
+  sudoers: /etc/sudoers
+
+ansible_python_package: python3
+ansible_python_interpreter: /usr/local/bin/python3
